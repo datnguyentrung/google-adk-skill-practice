@@ -7,3 +7,5 @@
 .env
 app/.adk**
 agentops.log
+node_modules**
+package-lock.json
