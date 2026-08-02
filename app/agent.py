@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from app.skills.calculate import calculate_skill
+from app.skills.navigation import navigation_agent
 
 from google.adk.agents import Agent
 from google.adk.skills import load_skill_from_dir
@@ -29,11 +30,15 @@ root_agent = build_agent(
     name="hello_world_agent",
     model="gemini-3.1-flash-lite",
     description=(
-        "A friendly Hello World agent that uses Google ADK Skills to greet users."
+        "A friendly agent that routes greetings, calculations, and urban navigation."
     ),
     instruction=(
         """
         You are the root agent responsible for routing user requests to available skills.
+
+        For any simulated urban navigation request (routes, next steps, wrong
+        turns, getting lost, destination/access/optimization changes), delegate
+        to the navigation_coordinator sub-agent. Do not load navigation/SKILL.md.
 
         For every request:
 
@@ -58,4 +63,5 @@ root_agent = build_agent(
     """
     ),
     tools=[root_skill_toolset],
+    sub_agents=[navigation_agent],
 )

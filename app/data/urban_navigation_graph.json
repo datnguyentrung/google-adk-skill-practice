@@ -1,0 +1,5473 @@
+{
+    "metadata": {
+        "name": "Mạng lưới giao thông khu đô thị mô phỏng",
+        "description": "Dữ liệu mô phỏng dùng để thử nghiệm thuật toán tìm đường",
+        "city": "Hà Nội",
+        "isSimulation": true,
+        "distanceUnit": "meter",
+        "timeUnit": "second",
+        "coordinateSystem": "WGS84"
+    },
+    "nodes": {
+        "N01_01": {
+            "name": "Cổng ra vào Nguyễn Trãi - Quang Trung",
+            "type": "entrance",
+            "lat": 20.99,
+            "lng": 105.79,
+            "level": 0,
+            "description": "Cổng ra vào khu đô thị, gần đường nội bộ có kiểm soát."
+        },
+        "N01_02": {
+            "name": "Ngã ba Nguyễn Trãi - Văn Phú",
+            "type": "intersection",
+            "lat": 20.99,
+            "lng": 105.79145,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N01_03": {
+            "name": "Ngã ba Nguyễn Trãi - Nguyễn Khuyến",
+            "type": "intersection",
+            "lat": 20.99,
+            "lng": 105.7929,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N01_04": {
+            "name": "Ngã ba Nguyễn Trãi - Khuất Duy Tiến",
+            "type": "intersection",
+            "lat": 20.99,
+            "lng": 105.79435,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N01_05": {
+            "name": "Ngã ba Nguyễn Trãi - Phạm Hùng",
+            "type": "intersection",
+            "lat": 20.99,
+            "lng": 105.7958,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N01_06": {
+            "name": "Góc tuyến Nguyễn Trãi - Nguyễn Xiển",
+            "type": "intersection",
+            "lat": 20.99,
+            "lng": 105.79725,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N02_01": {
+            "name": "Ngã ba Trần Phú - Quang Trung",
+            "type": "intersection",
+            "lat": 20.99125,
+            "lng": 105.79,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N02_02": {
+            "name": "Điểm quay đầu Trần Phú - Văn Phú",
+            "type": "u_turn",
+            "lat": 20.99125,
+            "lng": 105.79145,
+            "level": 0,
+            "description": "Điểm được phép quay đầu trong mạng mô phỏng."
+        },
+        "N02_03": {
+            "name": "Ngã tư Trần Phú - Nguyễn Khuyến",
+            "type": "intersection",
+            "lat": 20.99125,
+            "lng": 105.7929,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N02_04": {
+            "name": "Ngã tư Trần Phú - Khuất Duy Tiến",
+            "type": "intersection",
+            "lat": 20.99125,
+            "lng": 105.79435,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N02_05": {
+            "name": "Ngã tư Trần Phú - Phạm Hùng",
+            "type": "intersection",
+            "lat": 20.99125,
+            "lng": 105.7958,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N02_06": {
+            "name": "Ngã ba Trần Phú - Nguyễn Xiển",
+            "type": "intersection",
+            "lat": 20.99125,
+            "lng": 105.79725,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N03_01": {
+            "name": "Ngã ba Lê Văn Lương - Quang Trung",
+            "type": "intersection",
+            "lat": 20.9925,
+            "lng": 105.79,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N03_02": {
+            "name": "Ngã tư Lê Văn Lương - Văn Phú",
+            "type": "intersection",
+            "lat": 20.9925,
+            "lng": 105.79145,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N03_03": {
+            "name": "Ngã tư Lê Văn Lương - Nguyễn Khuyến",
+            "type": "intersection",
+            "lat": 20.9925,
+            "lng": 105.7929,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N03_04": {
+            "name": "Ngã tư Lê Văn Lương - Khuất Duy Tiến",
+            "type": "intersection",
+            "lat": 20.9925,
+            "lng": 105.79435,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N03_05": {
+            "name": "Bãi đỗ xe gần Lê Văn Lương - Phạm Hùng",
+            "type": "parking",
+            "lat": 20.9925,
+            "lng": 105.7958,
+            "level": 0,
+            "description": "Điểm vào bãi đỗ xe trong khu đô thị."
+        },
+        "N03_06": {
+            "name": "Ngã ba Lê Văn Lương - Nguyễn Xiển",
+            "type": "intersection",
+            "lat": 20.9925,
+            "lng": 105.79725,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N04_01": {
+            "name": "Ngã ba Tố Hữu - Quang Trung",
+            "type": "intersection",
+            "lat": 20.99375,
+            "lng": 105.79,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N04_02": {
+            "name": "Ngã tư Tố Hữu - Văn Phú",
+            "type": "intersection",
+            "lat": 20.99375,
+            "lng": 105.79145,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N04_03": {
+            "name": "Ngã tư Tố Hữu - Nguyễn Khuyến",
+            "type": "intersection",
+            "lat": 20.99375,
+            "lng": 105.7929,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N04_04": {
+            "name": "Ngã năm Tố Hữu - Khuất Duy Tiến mô phỏng",
+            "type": "intersection",
+            "lat": 20.99375,
+            "lng": 105.79435,
+            "level": 0,
+            "description": "Giao lộ nhiều hơn bốn nhánh để thử thuật toán sinh chỉ dẫn."
+        },
+        "N04_05": {
+            "name": "Ngã tư Tố Hữu - Phạm Hùng",
+            "type": "intersection",
+            "lat": 20.99375,
+            "lng": 105.7958,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N04_06": {
+            "name": "Lối vào tòa nhà tại Tố Hữu - Nguyễn Xiển",
+            "type": "building",
+            "lat": 20.99375,
+            "lng": 105.79725,
+            "level": 0,
+            "description": "Lối vào tòa nhà hoặc điểm đón trả khách."
+        },
+        "N05_01": {
+            "name": "Ngã ba Nguyễn Tuân - Quang Trung",
+            "type": "intersection",
+            "lat": 20.995,
+            "lng": 105.79,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N05_02": {
+            "name": "Bãi đỗ xe gần Nguyễn Tuân - Văn Phú",
+            "type": "parking",
+            "lat": 20.995,
+            "lng": 105.79145,
+            "level": 0,
+            "description": "Điểm vào bãi đỗ xe trong khu đô thị."
+        },
+        "N05_03": {
+            "name": "Lối vào tòa nhà tại Nguyễn Tuân - Nguyễn Khuyến",
+            "type": "building",
+            "lat": 20.995,
+            "lng": 105.7929,
+            "level": 0,
+            "description": "Lối vào tòa nhà hoặc điểm đón trả khách."
+        },
+        "N05_04": {
+            "name": "Ngã tư Nguyễn Tuân - Khuất Duy Tiến",
+            "type": "intersection",
+            "lat": 20.995,
+            "lng": 105.79435,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N05_05": {
+            "name": "Điểm quay đầu Nguyễn Tuân - Phạm Hùng",
+            "type": "u_turn",
+            "lat": 20.995,
+            "lng": 105.7958,
+            "level": 0,
+            "description": "Điểm được phép quay đầu trong mạng mô phỏng."
+        },
+        "N05_06": {
+            "name": "Ngã ba Nguyễn Tuân - Nguyễn Xiển",
+            "type": "intersection",
+            "lat": 20.995,
+            "lng": 105.79725,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N06_01": {
+            "name": "Góc tuyến Hoàng Minh Giám - Quang Trung",
+            "type": "intersection",
+            "lat": 20.99625,
+            "lng": 105.79,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N06_02": {
+            "name": "Ngã ba Hoàng Minh Giám - Văn Phú",
+            "type": "intersection",
+            "lat": 20.99625,
+            "lng": 105.79145,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N06_03": {
+            "name": "Ngã ba Hoàng Minh Giám - Nguyễn Khuyến",
+            "type": "intersection",
+            "lat": 20.99625,
+            "lng": 105.7929,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N06_04": {
+            "name": "Ngã ba Hoàng Minh Giám - Khuất Duy Tiến",
+            "type": "intersection",
+            "lat": 20.99625,
+            "lng": 105.79435,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N06_05": {
+            "name": "Ngã ba Hoàng Minh Giám - Phạm Hùng",
+            "type": "intersection",
+            "lat": 20.99625,
+            "lng": 105.7958,
+            "level": 0,
+            "description": "Nút giao mô phỏng dùng để kiểm tra rẽ trái, rẽ phải, đi thẳng và chọn tuyến."
+        },
+        "N06_06": {
+            "name": "Cổng ra vào Hoàng Minh Giám - Nguyễn Xiển",
+            "type": "entrance",
+            "lat": 20.99625,
+            "lng": 105.79725,
+            "level": 0,
+            "description": "Cổng ra vào khu đô thị, gần đường nội bộ có kiểm soát."
+        },
+        "GT01": {
+            "name": "Cổng kiểm soát nội bộ số 1",
+            "type": "entrance",
+            "lat": 20.98955,
+            "lng": 105.78955,
+            "level": 0,
+            "description": "Cổng ra vào khu đô thị, gần đường nội bộ có kiểm soát."
+        },
+        "GT02": {
+            "name": "Cổng kiểm soát nội bộ số 2",
+            "type": "entrance",
+            "lat": 20.99675,
+            "lng": 105.798,
+            "level": 0,
+            "description": "Cổng ra vào khu đô thị, gần đường nội bộ có kiểm soát."
+        },
+        "PU01": {
+            "name": "Điểm đón trả khách tại Trần Duy Hưng",
+            "type": "building",
+            "lat": 20.99145,
+            "lng": 105.7981,
+            "level": 0,
+            "description": "Lối vào tòa nhà hoặc điểm đón trả khách."
+        },
+        "DE01": {
+            "name": "Ngõ cụt gần Nguyễn Tuân",
+            "type": "dead_end",
+            "lat": 20.99,
+            "lng": 105.7968,
+            "level": 0,
+            "description": "Node cuối ngõ cụt, chỉ có cạnh quay trở lại node trước đó."
+        },
+        "DE02": {
+            "name": "Ngõ cụt gần Văn Phú",
+            "type": "dead_end",
+            "lat": 20.99625,
+            "lng": 105.79335,
+            "level": 0,
+            "description": "Node cuối ngõ cụt, chỉ có cạnh quay trở lại node trước đó."
+        },
+        "DE03": {
+            "name": "Ngõ cụt gần Quang Trung",
+            "type": "dead_end",
+            "lat": 20.99205,
+            "lng": 105.79,
+            "level": 0,
+            "description": "Node cuối ngõ cụt, chỉ có cạnh quay trở lại node trước đó."
+        },
+        "DE04": {
+            "name": "Ngõ cụt gần Vũ Trọng Phụng",
+            "type": "dead_end",
+            "lat": 20.9967,
+            "lng": 105.79725,
+            "level": 0,
+            "description": "Node cuối ngõ cụt, chỉ có cạnh quay trở lại node trước đó."
+        },
+        "DE05": {
+            "name": "Nhánh cụt tại ngã năm Tố Hữu",
+            "type": "dead_end",
+            "lat": 20.994068,
+            "lng": 105.794668,
+            "level": 0,
+            "description": "Node cuối ngõ cụt, chỉ có cạnh quay trở lại node trước đó."
+        },
+        "R1_A": {
+            "name": "Vòng xuyến Nguyễn Trãi - nhánh A",
+            "type": "roundabout",
+            "lat": 20.994,
+            "lng": 105.79455,
+            "level": 0,
+            "description": "Node thuộc vòng xuyến một chiều trong mạng mô phỏng."
+        },
+        "R1_B": {
+            "name": "Vòng xuyến Nguyễn Trãi - nhánh B",
+            "type": "roundabout",
+            "lat": 20.99375,
+            "lng": 105.7948,
+            "level": 0,
+            "description": "Node thuộc vòng xuyến một chiều trong mạng mô phỏng."
+        },
+        "R1_C": {
+            "name": "Vòng xuyến Nguyễn Trãi - nhánh C",
+            "type": "roundabout",
+            "lat": 20.9935,
+            "lng": 105.79455,
+            "level": 0,
+            "description": "Node thuộc vòng xuyến một chiều trong mạng mô phỏng."
+        },
+        "R1_D": {
+            "name": "Vòng xuyến Nguyễn Trãi - nhánh D",
+            "type": "roundabout",
+            "lat": 20.99375,
+            "lng": 105.7943,
+            "level": 0,
+            "description": "Node thuộc vòng xuyến một chiều trong mạng mô phỏng."
+        },
+        "R2_A": {
+            "name": "Vòng xuyến Văn Phú - nhánh A",
+            "type": "roundabout",
+            "lat": 20.99625,
+            "lng": 105.7922,
+            "level": 0,
+            "description": "Node thuộc vòng xuyến một chiều trong mạng mô phỏng."
+        },
+        "R2_B": {
+            "name": "Vòng xuyến Văn Phú - nhánh B",
+            "type": "roundabout",
+            "lat": 20.996,
+            "lng": 105.79245,
+            "level": 0,
+            "description": "Node thuộc vòng xuyến một chiều trong mạng mô phỏng."
+        },
+        "R2_C": {
+            "name": "Vòng xuyến Văn Phú - nhánh C",
+            "type": "roundabout",
+            "lat": 20.99575,
+            "lng": 105.7922,
+            "level": 0,
+            "description": "Node thuộc vòng xuyến một chiều trong mạng mô phỏng."
+        },
+        "R2_D": {
+            "name": "Vòng xuyến Văn Phú - nhánh D",
+            "type": "roundabout",
+            "lat": 20.996,
+            "lng": 105.79195,
+            "level": 0,
+            "description": "Node thuộc vòng xuyến một chiều trong mạng mô phỏng."
+        },
+        "BR1_A": {
+            "name": "Đầu cầu vượt Vành đai 3 mô phỏng",
+            "type": "bridge",
+            "lat": 20.994,
+            "lng": 105.79725,
+            "level": 1,
+            "description": "Điểm thuộc cầu vượt; có thể cắt tọa độ với đường mặt đất nhưng không tự nối."
+        },
+        "BR1_B": {
+            "name": "Cuối cầu vượt Vành đai 3 mô phỏng",
+            "type": "bridge",
+            "lat": 20.995,
+            "lng": 105.79745,
+            "level": 1,
+            "description": "Điểm thuộc cầu vượt; có thể cắt tọa độ với đường mặt đất nhưng không tự nối."
+        },
+        "BR2_A": {
+            "name": "Đầu cầu vượt Lê Trọng Tấn mô phỏng",
+            "type": "bridge",
+            "lat": 20.9958,
+            "lng": 105.79435,
+            "level": 1,
+            "description": "Điểm thuộc cầu vượt; có thể cắt tọa độ với đường mặt đất nhưng không tự nối."
+        },
+        "BR2_B": {
+            "name": "Cuối cầu vượt Lê Trọng Tấn mô phỏng",
+            "type": "bridge",
+            "lat": 20.9968,
+            "lng": 105.79455,
+            "level": 1,
+            "description": "Điểm thuộc cầu vượt; có thể cắt tọa độ với đường mặt đất nhưng không tự nối."
+        },
+        "TU1_A": {
+            "name": "Cửa vào hầm chui Khuất Duy Tiến mô phỏng",
+            "type": "tunnel",
+            "lat": 20.99375,
+            "lng": 105.79435,
+            "level": -1,
+            "description": "Điểm thuộc hầm chui; không nối trực tiếp với đường phía trên nếu không có lối lên xuống."
+        },
+        "TU1_B": {
+            "name": "Cửa ra hầm chui Khuất Duy Tiến mô phỏng",
+            "type": "tunnel",
+            "lat": 20.99465,
+            "lng": 105.7945,
+            "level": -1,
+            "description": "Điểm thuộc hầm chui; không nối trực tiếp với đường phía trên nếu không có lối lên xuống."
+        },
+        "TU2_A": {
+            "name": "Cửa vào hầm chui Nguyễn Xiển mô phỏng",
+            "type": "tunnel",
+            "lat": 20.99545,
+            "lng": 105.79725,
+            "level": -1,
+            "description": "Điểm thuộc hầm chui; không nối trực tiếp với đường phía trên nếu không có lối lên xuống."
+        },
+        "TU2_B": {
+            "name": "Cửa ra hầm chui Nguyễn Xiển mô phỏng",
+            "type": "tunnel",
+            "lat": 20.99635,
+            "lng": 105.7974,
+            "level": -1,
+            "description": "Điểm thuộc hầm chui; không nối trực tiếp với đường phía trên nếu không có lối lên xuống."
+        }
+    },
+    "graph": {
+        "N01_01": [
+            {
+                "id": "EDGE_001",
+                "to": "N01_02",
+                "roadName": "Nguyễn Trãi",
+                "distance": 220,
+                "time": 16,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Cổng ra vào Nguyễn Trãi - Quang Trung hướng tới Ngã ba Nguyễn Trãi - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_058",
+                "to": "N02_01",
+                "roadName": "Quang Trung",
+                "distance": 206,
+                "time": 31,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Quang Trung.",
+                    "landmark": "Mốc nhận biết: Cổng ra vào Nguyễn Trãi - Quang Trung hướng tới Ngã ba Trần Phú - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_118",
+                "to": "GT01",
+                "roadName": "Nguyễn Trãi",
+                "distance": 135,
+                "time": 35,
+                "heading": 225,
+                "oneWay": false,
+                "roadType": "service",
+                "maxSpeed": 20,
+                "status": "restricted",
+                "access": [
+                    "service_vehicle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi, cần quyền truy cập hoặc qua cổng kiểm soát.",
+                    "landmark": "Mốc nhận biết: Cổng ra vào Nguyễn Trãi - Quang Trung hướng tới Cổng kiểm soát nội bộ số 1."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": true
+                }
+            }
+        ],
+        "N01_02": [
+            {
+                "id": "EDGE_002",
+                "to": "N01_01",
+                "roadName": "Nguyễn Trãi",
+                "distance": 220,
+                "time": 16,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Trãi - Văn Phú hướng tới Cổng ra vào Nguyễn Trãi - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_003",
+                "to": "N01_03",
+                "roadName": "Nguyễn Trãi",
+                "distance": 240,
+                "time": 17,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Trãi - Văn Phú hướng tới Ngã ba Nguyễn Trãi - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_068",
+                "to": "N02_02",
+                "roadName": "Văn Phú",
+                "distance": 224,
+                "time": 34,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Trãi - Văn Phú hướng tới Điểm quay đầu Trần Phú - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N01_03": [
+            {
+                "id": "EDGE_004",
+                "to": "N01_02",
+                "roadName": "Nguyễn Trãi",
+                "distance": 240,
+                "time": 17,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Trãi - Nguyễn Khuyến hướng tới Ngã ba Nguyễn Trãi - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_005",
+                "to": "N01_04",
+                "roadName": "Nguyễn Trãi",
+                "distance": 180,
+                "time": 13,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Trãi - Nguyễn Khuyến hướng tới Ngã ba Nguyễn Trãi - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_078",
+                "to": "N02_03",
+                "roadName": "Nguyễn Khuyến",
+                "distance": 242,
+                "time": 36,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Khuyến.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Trãi - Nguyễn Khuyến hướng tới Ngã tư Trần Phú - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N01_04": [
+            {
+                "id": "EDGE_006",
+                "to": "N01_03",
+                "roadName": "Nguyễn Trãi",
+                "distance": 180,
+                "time": 13,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Trãi - Khuất Duy Tiến hướng tới Ngã ba Nguyễn Trãi - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_007",
+                "to": "N01_05",
+                "roadName": "Nguyễn Trãi",
+                "distance": 200,
+                "time": 14,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Trãi - Khuất Duy Tiến hướng tới Ngã ba Nguyễn Trãi - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_088",
+                "to": "N02_04",
+                "roadName": "Khuất Duy Tiến",
+                "distance": 170,
+                "time": 14,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Khuất Duy Tiến.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Trãi - Khuất Duy Tiến hướng tới Ngã tư Trần Phú - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N01_05": [
+            {
+                "id": "EDGE_008",
+                "to": "N01_04",
+                "roadName": "Nguyễn Trãi",
+                "distance": 200,
+                "time": 14,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Trãi - Phạm Hùng hướng tới Ngã ba Nguyễn Trãi - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_009",
+                "to": "N01_06",
+                "roadName": "Nguyễn Trãi",
+                "distance": 220,
+                "time": 16,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Trãi - Phạm Hùng hướng tới Góc tuyến Nguyễn Trãi - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_098",
+                "to": "N02_05",
+                "roadName": "Phạm Hùng",
+                "distance": 188,
+                "time": 15,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Phạm Hùng.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Trãi - Phạm Hùng hướng tới Ngã tư Trần Phú - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N01_06": [
+            {
+                "id": "EDGE_010",
+                "to": "N01_05",
+                "roadName": "Nguyễn Trãi",
+                "distance": 220,
+                "time": 16,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Góc tuyến Nguyễn Trãi - Nguyễn Xiển hướng tới Ngã ba Nguyễn Trãi - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_108",
+                "to": "N02_06",
+                "roadName": "Nguyễn Xiển",
+                "distance": 206,
+                "time": 16,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Xiển.",
+                    "landmark": "Mốc nhận biết: Góc tuyến Nguyễn Trãi - Nguyễn Xiển hướng tới Ngã ba Trần Phú - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_126",
+                "to": "DE01",
+                "roadName": "Nguyễn Tuân",
+                "distance": 95,
+                "time": 58,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "alley",
+                "maxSpeed": 10,
+                "status": "open",
+                "access": [
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Tuân.",
+                    "landmark": "Mốc nhận biết: Góc tuyến Nguyễn Trãi - Nguyễn Xiển hướng tới Ngõ cụt gần Nguyễn Tuân."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N02_01": [
+            {
+                "id": "EDGE_011",
+                "to": "N02_02",
+                "roadName": "Trần Phú",
+                "distance": 240,
+                "time": 17,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Trần Phú.",
+                    "landmark": "Mốc nhận biết: Ngã ba Trần Phú - Quang Trung hướng tới Điểm quay đầu Trần Phú - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_059",
+                "to": "N01_01",
+                "roadName": "Quang Trung",
+                "distance": 206,
+                "time": 31,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Quang Trung.",
+                    "landmark": "Mốc nhận biết: Ngã ba Trần Phú - Quang Trung hướng tới Cổng ra vào Nguyễn Trãi - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_060",
+                "to": "N03_01",
+                "roadName": "Quang Trung",
+                "distance": 224,
+                "time": 34,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Quang Trung.",
+                    "landmark": "Mốc nhận biết: Ngã ba Trần Phú - Quang Trung hướng tới Ngã ba Lê Văn Lương - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N02_02": [
+            {
+                "id": "EDGE_012",
+                "to": "N02_01",
+                "roadName": "Trần Phú",
+                "distance": 240,
+                "time": 17,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Trần Phú.",
+                    "landmark": "Mốc nhận biết: Điểm quay đầu Trần Phú - Văn Phú hướng tới Ngã ba Trần Phú - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_013",
+                "to": "N02_03",
+                "roadName": "Trần Phú",
+                "distance": 180,
+                "time": 13,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Trần Phú.",
+                    "landmark": "Mốc nhận biết: Điểm quay đầu Trần Phú - Văn Phú hướng tới Ngã tư Trần Phú - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_069",
+                "to": "N01_02",
+                "roadName": "Văn Phú",
+                "distance": 224,
+                "time": 34,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Điểm quay đầu Trần Phú - Văn Phú hướng tới Ngã ba Nguyễn Trãi - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_070",
+                "to": "N03_02",
+                "roadName": "Văn Phú",
+                "distance": 242,
+                "time": 36,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Điểm quay đầu Trần Phú - Văn Phú hướng tới Ngã tư Lê Văn Lương - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N02_03": [
+            {
+                "id": "EDGE_014",
+                "to": "N02_02",
+                "roadName": "Trần Phú",
+                "distance": 180,
+                "time": 13,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Trần Phú.",
+                    "landmark": "Mốc nhận biết: Ngã tư Trần Phú - Nguyễn Khuyến hướng tới Điểm quay đầu Trần Phú - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_015",
+                "to": "N02_04",
+                "roadName": "Trần Phú",
+                "distance": 200,
+                "time": 14,
+                "heading": 90,
+                "oneWay": true,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Trần Phú.",
+                    "landmark": "Mốc nhận biết: Ngã tư Trần Phú - Nguyễn Khuyến hướng tới Ngã tư Trần Phú - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_079",
+                "to": "N01_03",
+                "roadName": "Nguyễn Khuyến",
+                "distance": 242,
+                "time": 36,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Khuyến.",
+                    "landmark": "Mốc nhận biết: Ngã tư Trần Phú - Nguyễn Khuyến hướng tới Ngã ba Nguyễn Trãi - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_080",
+                "to": "N03_03",
+                "roadName": "Nguyễn Khuyến",
+                "distance": 170,
+                "time": 26,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Khuyến.",
+                    "landmark": "Mốc nhận biết: Ngã tư Trần Phú - Nguyễn Khuyến hướng tới Ngã tư Lê Văn Lương - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N02_04": [
+            {
+                "id": "EDGE_016",
+                "to": "N02_05",
+                "roadName": "Trần Phú",
+                "distance": 220,
+                "time": 16,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Trần Phú.",
+                    "landmark": "Mốc nhận biết: Ngã tư Trần Phú - Khuất Duy Tiến hướng tới Ngã tư Trần Phú - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_089",
+                "to": "N01_04",
+                "roadName": "Khuất Duy Tiến",
+                "distance": 170,
+                "time": 14,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Khuất Duy Tiến.",
+                    "landmark": "Mốc nhận biết: Ngã tư Trần Phú - Khuất Duy Tiến hướng tới Ngã ba Nguyễn Trãi - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_090",
+                "to": "N03_04",
+                "roadName": "Khuất Duy Tiến",
+                "distance": 188,
+                "time": 15,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Khuất Duy Tiến.",
+                    "landmark": "Mốc nhận biết: Ngã tư Trần Phú - Khuất Duy Tiến hướng tới Ngã tư Lê Văn Lương - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N02_05": [
+            {
+                "id": "EDGE_017",
+                "to": "N02_04",
+                "roadName": "Trần Phú",
+                "distance": 220,
+                "time": 16,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Trần Phú.",
+                    "landmark": "Mốc nhận biết: Ngã tư Trần Phú - Phạm Hùng hướng tới Ngã tư Trần Phú - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_018",
+                "to": "N02_06",
+                "roadName": "Trần Phú",
+                "distance": 330,
+                "time": 20,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 60,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Trần Phú.",
+                    "landmark": "Mốc nhận biết: Ngã tư Trần Phú - Phạm Hùng hướng tới Ngã ba Trần Phú - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_099",
+                "to": "N01_05",
+                "roadName": "Phạm Hùng",
+                "distance": 188,
+                "time": 15,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Phạm Hùng.",
+                    "landmark": "Mốc nhận biết: Ngã tư Trần Phú - Phạm Hùng hướng tới Ngã ba Nguyễn Trãi - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_100",
+                "to": "N03_05",
+                "roadName": "Phạm Hùng",
+                "distance": 206,
+                "time": 16,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Phạm Hùng.",
+                    "landmark": "Mốc nhận biết: Ngã tư Trần Phú - Phạm Hùng hướng tới Bãi đỗ xe gần Lê Văn Lương - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N02_06": [
+            {
+                "id": "EDGE_019",
+                "to": "N02_05",
+                "roadName": "Trần Phú",
+                "distance": 330,
+                "time": 20,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 60,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Trần Phú.",
+                    "landmark": "Mốc nhận biết: Ngã ba Trần Phú - Nguyễn Xiển hướng tới Ngã tư Trần Phú - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_109",
+                "to": "N01_06",
+                "roadName": "Nguyễn Xiển",
+                "distance": 206,
+                "time": 16,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Xiển.",
+                    "landmark": "Mốc nhận biết: Ngã ba Trần Phú - Nguyễn Xiển hướng tới Góc tuyến Nguyễn Trãi - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_110",
+                "to": "N03_06",
+                "roadName": "Nguyễn Xiển",
+                "distance": 110,
+                "time": 165,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "pedestrian",
+                "maxSpeed": 6,
+                "status": "restricted",
+                "access": [
+                    "pedestrian",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi bộ theo lối dành riêng cho người đi bộ trên Nguyễn Xiển.",
+                    "landmark": "Mốc nhận biết: Ngã ba Trần Phú - Nguyễn Xiển hướng tới Ngã ba Lê Văn Lương - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_124",
+                "to": "PU01",
+                "roadName": "Trần Duy Hưng",
+                "distance": 85,
+                "time": 28,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "service",
+                "maxSpeed": 15,
+                "status": "restricted",
+                "access": [
+                    "car",
+                    "service_vehicle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Trần Duy Hưng, cần quyền truy cập hoặc qua cổng kiểm soát.",
+                    "landmark": "Mốc nhận biết: Ngã ba Trần Phú - Nguyễn Xiển hướng tới Điểm đón trả khách tại Trần Duy Hưng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": true
+                }
+            }
+        ],
+        "N03_01": [
+            {
+                "id": "EDGE_020",
+                "to": "N03_02",
+                "roadName": "Lê Văn Lương",
+                "distance": 180,
+                "time": 13,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Lê Văn Lương.",
+                    "landmark": "Mốc nhận biết: Ngã ba Lê Văn Lương - Quang Trung hướng tới Ngã tư Lê Văn Lương - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_061",
+                "to": "N02_01",
+                "roadName": "Quang Trung",
+                "distance": 224,
+                "time": 34,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Quang Trung.",
+                    "landmark": "Mốc nhận biết: Ngã ba Lê Văn Lương - Quang Trung hướng tới Ngã ba Trần Phú - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_062",
+                "to": "N04_01",
+                "roadName": "Quang Trung",
+                "distance": 242,
+                "time": 36,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Quang Trung.",
+                    "landmark": "Mốc nhận biết: Ngã ba Lê Văn Lương - Quang Trung hướng tới Ngã ba Tố Hữu - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_130",
+                "to": "DE03",
+                "roadName": "Quang Trung",
+                "distance": 80,
+                "time": 49,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "alley",
+                "maxSpeed": 10,
+                "status": "open",
+                "access": [
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Quang Trung.",
+                    "landmark": "Mốc nhận biết: Ngã ba Lê Văn Lương - Quang Trung hướng tới Ngõ cụt gần Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N03_02": [
+            {
+                "id": "EDGE_021",
+                "to": "N03_01",
+                "roadName": "Lê Văn Lương",
+                "distance": 180,
+                "time": 13,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Lê Văn Lương.",
+                    "landmark": "Mốc nhận biết: Ngã tư Lê Văn Lương - Văn Phú hướng tới Ngã ba Lê Văn Lương - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_022",
+                "to": "N03_03",
+                "roadName": "Lê Văn Lương",
+                "distance": 200,
+                "time": 14,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Lê Văn Lương, lưu ý cấm rẽ trái tại nút giao.",
+                    "landmark": "Mốc nhận biết: Ngã tư Lê Văn Lương - Văn Phú hướng tới Ngã tư Lê Văn Lương - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": true,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_071",
+                "to": "N02_02",
+                "roadName": "Văn Phú",
+                "distance": 242,
+                "time": 36,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Ngã tư Lê Văn Lương - Văn Phú hướng tới Điểm quay đầu Trần Phú - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_072",
+                "to": "N04_02",
+                "roadName": "Văn Phú",
+                "distance": 170,
+                "time": 26,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Ngã tư Lê Văn Lương - Văn Phú hướng tới Ngã tư Tố Hữu - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N03_03": [
+            {
+                "id": "EDGE_023",
+                "to": "N03_02",
+                "roadName": "Lê Văn Lương",
+                "distance": 200,
+                "time": 14,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Lê Văn Lương.",
+                    "landmark": "Mốc nhận biết: Ngã tư Lê Văn Lương - Nguyễn Khuyến hướng tới Ngã tư Lê Văn Lương - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_024",
+                "to": "N03_04",
+                "roadName": "Lê Văn Lương",
+                "distance": 220,
+                "time": 16,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Lê Văn Lương.",
+                    "landmark": "Mốc nhận biết: Ngã tư Lê Văn Lương - Nguyễn Khuyến hướng tới Ngã tư Lê Văn Lương - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_081",
+                "to": "N02_03",
+                "roadName": "Nguyễn Khuyến",
+                "distance": 170,
+                "time": 26,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Khuyến.",
+                    "landmark": "Mốc nhận biết: Ngã tư Lê Văn Lương - Nguyễn Khuyến hướng tới Ngã tư Trần Phú - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_082",
+                "to": "N04_03",
+                "roadName": "Nguyễn Khuyến",
+                "distance": 188,
+                "time": 28,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Khuyến.",
+                    "landmark": "Mốc nhận biết: Ngã tư Lê Văn Lương - Nguyễn Khuyến hướng tới Ngã tư Tố Hữu - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N03_04": [
+            {
+                "id": "EDGE_025",
+                "to": "N03_03",
+                "roadName": "Lê Văn Lương",
+                "distance": 220,
+                "time": 16,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Lê Văn Lương.",
+                    "landmark": "Mốc nhận biết: Ngã tư Lê Văn Lương - Khuất Duy Tiến hướng tới Ngã tư Lê Văn Lương - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_026",
+                "to": "N03_05",
+                "roadName": "Lê Văn Lương",
+                "distance": 240,
+                "time": 17,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Lê Văn Lương.",
+                    "landmark": "Mốc nhận biết: Ngã tư Lê Văn Lương - Khuất Duy Tiến hướng tới Bãi đỗ xe gần Lê Văn Lương - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_091",
+                "to": "N02_04",
+                "roadName": "Khuất Duy Tiến",
+                "distance": 188,
+                "time": 15,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Khuất Duy Tiến.",
+                    "landmark": "Mốc nhận biết: Ngã tư Lê Văn Lương - Khuất Duy Tiến hướng tới Ngã tư Trần Phú - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_092",
+                "to": "N04_04",
+                "roadName": "Khuất Duy Tiến",
+                "distance": 206,
+                "time": 41,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "closed",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đoạn đường trên Khuất Duy Tiến đang tạm đóng, không sử dụng cho tuyến đường.",
+                    "landmark": "Mốc nhận biết: Ngã tư Lê Văn Lương - Khuất Duy Tiến hướng tới Ngã năm Tố Hữu - Khuất Duy Tiến mô phỏng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N03_05": [
+            {
+                "id": "EDGE_027",
+                "to": "N03_04",
+                "roadName": "Lê Văn Lương",
+                "distance": 240,
+                "time": 17,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Lê Văn Lương.",
+                    "landmark": "Mốc nhận biết: Bãi đỗ xe gần Lê Văn Lương - Phạm Hùng hướng tới Ngã tư Lê Văn Lương - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_028",
+                "to": "N03_06",
+                "roadName": "Lê Văn Lương",
+                "distance": 180,
+                "time": 13,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Lê Văn Lương.",
+                    "landmark": "Mốc nhận biết: Bãi đỗ xe gần Lê Văn Lương - Phạm Hùng hướng tới Ngã ba Lê Văn Lương - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_101",
+                "to": "N02_05",
+                "roadName": "Phạm Hùng",
+                "distance": 206,
+                "time": 16,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Phạm Hùng.",
+                    "landmark": "Mốc nhận biết: Bãi đỗ xe gần Lê Văn Lương - Phạm Hùng hướng tới Ngã tư Trần Phú - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_102",
+                "to": "N04_05",
+                "roadName": "Phạm Hùng",
+                "distance": 224,
+                "time": 18,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Phạm Hùng.",
+                    "landmark": "Mốc nhận biết: Bãi đỗ xe gần Lê Văn Lương - Phạm Hùng hướng tới Ngã tư Tố Hữu - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N03_06": [
+            {
+                "id": "EDGE_029",
+                "to": "N03_05",
+                "roadName": "Lê Văn Lương",
+                "distance": 180,
+                "time": 13,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Lê Văn Lương.",
+                    "landmark": "Mốc nhận biết: Ngã ba Lê Văn Lương - Nguyễn Xiển hướng tới Bãi đỗ xe gần Lê Văn Lương - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_111",
+                "to": "N02_06",
+                "roadName": "Nguyễn Xiển",
+                "distance": 110,
+                "time": 165,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "pedestrian",
+                "maxSpeed": 6,
+                "status": "restricted",
+                "access": [
+                    "pedestrian",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi bộ theo lối dành riêng cho người đi bộ trên Nguyễn Xiển.",
+                    "landmark": "Mốc nhận biết: Ngã ba Lê Văn Lương - Nguyễn Xiển hướng tới Ngã ba Trần Phú - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_112",
+                "to": "N04_06",
+                "roadName": "Nguyễn Xiển",
+                "distance": 242,
+                "time": 19,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Xiển.",
+                    "landmark": "Mốc nhận biết: Ngã ba Lê Văn Lương - Nguyễn Xiển hướng tới Lối vào tòa nhà tại Tố Hữu - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N04_01": [
+            {
+                "id": "EDGE_030",
+                "to": "N04_02",
+                "roadName": "Tố Hữu",
+                "distance": 200,
+                "time": 14,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Tố Hữu.",
+                    "landmark": "Mốc nhận biết: Ngã ba Tố Hữu - Quang Trung hướng tới Ngã tư Tố Hữu - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_063",
+                "to": "N03_01",
+                "roadName": "Quang Trung",
+                "distance": 242,
+                "time": 36,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Quang Trung.",
+                    "landmark": "Mốc nhận biết: Ngã ba Tố Hữu - Quang Trung hướng tới Ngã ba Lê Văn Lương - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_064",
+                "to": "N05_01",
+                "roadName": "Quang Trung",
+                "distance": 170,
+                "time": 26,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Quang Trung.",
+                    "landmark": "Mốc nhận biết: Ngã ba Tố Hữu - Quang Trung hướng tới Ngã ba Nguyễn Tuân - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N04_02": [
+            {
+                "id": "EDGE_031",
+                "to": "N04_01",
+                "roadName": "Tố Hữu",
+                "distance": 200,
+                "time": 14,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Tố Hữu.",
+                    "landmark": "Mốc nhận biết: Ngã tư Tố Hữu - Văn Phú hướng tới Ngã ba Tố Hữu - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_032",
+                "to": "N04_03",
+                "roadName": "Tố Hữu",
+                "distance": 220,
+                "time": 16,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Tố Hữu.",
+                    "landmark": "Mốc nhận biết: Ngã tư Tố Hữu - Văn Phú hướng tới Ngã tư Tố Hữu - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_073",
+                "to": "N03_02",
+                "roadName": "Văn Phú",
+                "distance": 170,
+                "time": 26,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Ngã tư Tố Hữu - Văn Phú hướng tới Ngã tư Lê Văn Lương - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_074",
+                "to": "N05_02",
+                "roadName": "Văn Phú",
+                "distance": 188,
+                "time": 28,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Ngã tư Tố Hữu - Văn Phú hướng tới Bãi đỗ xe gần Nguyễn Tuân - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N04_03": [
+            {
+                "id": "EDGE_033",
+                "to": "N04_02",
+                "roadName": "Tố Hữu",
+                "distance": 220,
+                "time": 16,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Tố Hữu.",
+                    "landmark": "Mốc nhận biết: Ngã tư Tố Hữu - Nguyễn Khuyến hướng tới Ngã tư Tố Hữu - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_034",
+                "to": "N04_04",
+                "roadName": "Tố Hữu",
+                "distance": 240,
+                "time": 17,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Tố Hữu.",
+                    "landmark": "Mốc nhận biết: Ngã tư Tố Hữu - Nguyễn Khuyến hướng tới Ngã năm Tố Hữu - Khuất Duy Tiến mô phỏng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_083",
+                "to": "N03_03",
+                "roadName": "Nguyễn Khuyến",
+                "distance": 188,
+                "time": 28,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Khuyến.",
+                    "landmark": "Mốc nhận biết: Ngã tư Tố Hữu - Nguyễn Khuyến hướng tới Ngã tư Lê Văn Lương - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_084",
+                "to": "N05_03",
+                "roadName": "Nguyễn Khuyến",
+                "distance": 206,
+                "time": 31,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Khuyến, lưu ý cấm rẽ phải tại nút giao.",
+                    "landmark": "Mốc nhận biết: Ngã tư Tố Hữu - Nguyễn Khuyến hướng tới Lối vào tòa nhà tại Nguyễn Tuân - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": true,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_140",
+                "to": "R1_A",
+                "roadName": "Nguyễn Trãi",
+                "distance": 95,
+                "time": 11,
+                "heading": 90,
+                "oneWay": true,
+                "roadType": "main",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Ngã tư Tố Hữu - Nguyễn Khuyến hướng tới Vòng xuyến Nguyễn Trãi - nhánh A."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N04_04": [
+            {
+                "id": "EDGE_035",
+                "to": "N04_03",
+                "roadName": "Tố Hữu",
+                "distance": 240,
+                "time": 17,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Tố Hữu.",
+                    "landmark": "Mốc nhận biết: Ngã năm Tố Hữu - Khuất Duy Tiến mô phỏng hướng tới Ngã tư Tố Hữu - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_036",
+                "to": "N04_05",
+                "roadName": "Tố Hữu",
+                "distance": 180,
+                "time": 13,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Tố Hữu.",
+                    "landmark": "Mốc nhận biết: Ngã năm Tố Hữu - Khuất Duy Tiến mô phỏng hướng tới Ngã tư Tố Hữu - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_093",
+                "to": "N03_04",
+                "roadName": "Khuất Duy Tiến",
+                "distance": 206,
+                "time": 41,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "closed",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đoạn đường trên Khuất Duy Tiến đang tạm đóng, không sử dụng cho tuyến đường.",
+                    "landmark": "Mốc nhận biết: Ngã năm Tố Hữu - Khuất Duy Tiến mô phỏng hướng tới Ngã tư Lê Văn Lương - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_094",
+                "to": "N05_04",
+                "roadName": "Khuất Duy Tiến",
+                "distance": 224,
+                "time": 18,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Khuất Duy Tiến.",
+                    "landmark": "Mốc nhận biết: Ngã năm Tố Hữu - Khuất Duy Tiến mô phỏng hướng tới Ngã tư Nguyễn Tuân - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_134",
+                "to": "DE05",
+                "roadName": "Tố Hữu",
+                "distance": 70,
+                "time": 43,
+                "heading": 45,
+                "oneWay": false,
+                "roadType": "alley",
+                "maxSpeed": 10,
+                "status": "open",
+                "access": [
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Tố Hữu.",
+                    "landmark": "Mốc nhận biết: Ngã năm Tố Hữu - Khuất Duy Tiến mô phỏng hướng tới Nhánh cụt tại ngã năm Tố Hữu."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N04_05": [
+            {
+                "id": "EDGE_037",
+                "to": "N04_04",
+                "roadName": "Tố Hữu",
+                "distance": 180,
+                "time": 13,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Tố Hữu.",
+                    "landmark": "Mốc nhận biết: Ngã tư Tố Hữu - Phạm Hùng hướng tới Ngã năm Tố Hữu - Khuất Duy Tiến mô phỏng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_038",
+                "to": "N04_06",
+                "roadName": "Tố Hữu",
+                "distance": 200,
+                "time": 14,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Tố Hữu, lưu ý cấm rẽ phải tại nút giao.",
+                    "landmark": "Mốc nhận biết: Ngã tư Tố Hữu - Phạm Hùng hướng tới Lối vào tòa nhà tại Tố Hữu - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": true,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_103",
+                "to": "N03_05",
+                "roadName": "Phạm Hùng",
+                "distance": 224,
+                "time": 18,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Phạm Hùng.",
+                    "landmark": "Mốc nhận biết: Ngã tư Tố Hữu - Phạm Hùng hướng tới Bãi đỗ xe gần Lê Văn Lương - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_104",
+                "to": "N05_05",
+                "roadName": "Phạm Hùng",
+                "distance": 242,
+                "time": 19,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Phạm Hùng.",
+                    "landmark": "Mốc nhận biết: Ngã tư Tố Hữu - Phạm Hùng hướng tới Điểm quay đầu Nguyễn Tuân - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_142",
+                "to": "R1_C",
+                "roadName": "Nguyễn Trãi",
+                "distance": 90,
+                "time": 11,
+                "heading": 270,
+                "oneWay": true,
+                "roadType": "main",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Ngã tư Tố Hữu - Phạm Hùng hướng tới Vòng xuyến Nguyễn Trãi - nhánh C."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N04_06": [
+            {
+                "id": "EDGE_039",
+                "to": "N04_05",
+                "roadName": "Tố Hữu",
+                "distance": 200,
+                "time": 14,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Tố Hữu.",
+                    "landmark": "Mốc nhận biết: Lối vào tòa nhà tại Tố Hữu - Nguyễn Xiển hướng tới Ngã tư Tố Hữu - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_113",
+                "to": "N03_06",
+                "roadName": "Nguyễn Xiển",
+                "distance": 242,
+                "time": 19,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Xiển.",
+                    "landmark": "Mốc nhận biết: Lối vào tòa nhà tại Tố Hữu - Nguyễn Xiển hướng tới Ngã ba Lê Văn Lương - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_114",
+                "to": "N05_06",
+                "roadName": "Nguyễn Xiển",
+                "distance": 170,
+                "time": 14,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Xiển.",
+                    "landmark": "Mốc nhận biết: Lối vào tòa nhà tại Tố Hữu - Nguyễn Xiển hướng tới Ngã ba Nguyễn Tuân - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_122",
+                "to": "N05_06",
+                "roadName": "Nguyễn Xiển",
+                "distance": 75,
+                "time": 54,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "pedestrian",
+                "maxSpeed": 5,
+                "status": "restricted",
+                "access": [
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi bộ theo lối dành riêng cho người đi bộ trên Nguyễn Xiển.",
+                    "landmark": "Mốc nhận biết: Lối vào tòa nhà tại Tố Hữu - Nguyễn Xiển hướng tới Ngã ba Nguyễn Tuân - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N05_01": [
+            {
+                "id": "EDGE_040",
+                "to": "N05_02",
+                "roadName": "Nguyễn Tuân",
+                "distance": 220,
+                "time": 33,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Tuân.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Tuân - Quang Trung hướng tới Bãi đỗ xe gần Nguyễn Tuân - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_065",
+                "to": "N04_01",
+                "roadName": "Quang Trung",
+                "distance": 170,
+                "time": 26,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Quang Trung.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Tuân - Quang Trung hướng tới Ngã ba Tố Hữu - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_066",
+                "to": "N06_01",
+                "roadName": "Quang Trung",
+                "distance": 188,
+                "time": 28,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Quang Trung.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Tuân - Quang Trung hướng tới Góc tuyến Hoàng Minh Giám - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N05_02": [
+            {
+                "id": "EDGE_041",
+                "to": "N05_01",
+                "roadName": "Nguyễn Tuân",
+                "distance": 220,
+                "time": 33,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Tuân.",
+                    "landmark": "Mốc nhận biết: Bãi đỗ xe gần Nguyễn Tuân - Văn Phú hướng tới Ngã ba Nguyễn Tuân - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_042",
+                "to": "N05_03",
+                "roadName": "Nguyễn Tuân",
+                "distance": 240,
+                "time": 36,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Tuân.",
+                    "landmark": "Mốc nhận biết: Bãi đỗ xe gần Nguyễn Tuân - Văn Phú hướng tới Lối vào tòa nhà tại Nguyễn Tuân - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_075",
+                "to": "N04_02",
+                "roadName": "Văn Phú",
+                "distance": 188,
+                "time": 28,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Bãi đỗ xe gần Nguyễn Tuân - Văn Phú hướng tới Ngã tư Tố Hữu - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_076",
+                "to": "N06_02",
+                "roadName": "Văn Phú",
+                "distance": 206,
+                "time": 31,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Bãi đỗ xe gần Nguyễn Tuân - Văn Phú hướng tới Ngã ba Hoàng Minh Giám - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N05_03": [
+            {
+                "id": "EDGE_043",
+                "to": "N05_02",
+                "roadName": "Nguyễn Tuân",
+                "distance": 240,
+                "time": 36,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Tuân.",
+                    "landmark": "Mốc nhận biết: Lối vào tòa nhà tại Nguyễn Tuân - Nguyễn Khuyến hướng tới Bãi đỗ xe gần Nguyễn Tuân - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_044",
+                "to": "N05_04",
+                "roadName": "Nguyễn Tuân",
+                "distance": 90,
+                "time": 46,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "alley",
+                "maxSpeed": 12,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Tuân.",
+                    "landmark": "Mốc nhận biết: Lối vào tòa nhà tại Nguyễn Tuân - Nguyễn Khuyến hướng tới Ngã tư Nguyễn Tuân - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_085",
+                "to": "N04_03",
+                "roadName": "Nguyễn Khuyến",
+                "distance": 206,
+                "time": 31,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Khuyến.",
+                    "landmark": "Mốc nhận biết: Lối vào tòa nhà tại Nguyễn Tuân - Nguyễn Khuyến hướng tới Ngã tư Tố Hữu - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_086",
+                "to": "N06_03",
+                "roadName": "Nguyễn Khuyến",
+                "distance": 224,
+                "time": 34,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Khuyến.",
+                    "landmark": "Mốc nhận biết: Lối vào tòa nhà tại Nguyễn Tuân - Nguyễn Khuyến hướng tới Ngã ba Hoàng Minh Giám - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N05_04": [
+            {
+                "id": "EDGE_045",
+                "to": "N05_03",
+                "roadName": "Nguyễn Tuân",
+                "distance": 90,
+                "time": 46,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "alley",
+                "maxSpeed": 12,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Tuân.",
+                    "landmark": "Mốc nhận biết: Ngã tư Nguyễn Tuân - Khuất Duy Tiến hướng tới Lối vào tòa nhà tại Nguyễn Tuân - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_046",
+                "to": "N05_05",
+                "roadName": "Nguyễn Tuân",
+                "distance": 200,
+                "time": 30,
+                "heading": 90,
+                "oneWay": true,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Tuân.",
+                    "landmark": "Mốc nhận biết: Ngã tư Nguyễn Tuân - Khuất Duy Tiến hướng tới Điểm quay đầu Nguyễn Tuân - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_095",
+                "to": "N04_04",
+                "roadName": "Khuất Duy Tiến",
+                "distance": 224,
+                "time": 18,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Khuất Duy Tiến.",
+                    "landmark": "Mốc nhận biết: Ngã tư Nguyễn Tuân - Khuất Duy Tiến hướng tới Ngã năm Tố Hữu - Khuất Duy Tiến mô phỏng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_096",
+                "to": "N06_04",
+                "roadName": "Khuất Duy Tiến",
+                "distance": 242,
+                "time": 19,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Khuất Duy Tiến.",
+                    "landmark": "Mốc nhận biết: Ngã tư Nguyễn Tuân - Khuất Duy Tiến hướng tới Ngã ba Hoàng Minh Giám - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N05_05": [
+            {
+                "id": "EDGE_047",
+                "to": "N05_06",
+                "roadName": "Nguyễn Tuân",
+                "distance": 220,
+                "time": 33,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Tuân.",
+                    "landmark": "Mốc nhận biết: Điểm quay đầu Nguyễn Tuân - Phạm Hùng hướng tới Ngã ba Nguyễn Tuân - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_105",
+                "to": "N04_05",
+                "roadName": "Phạm Hùng",
+                "distance": 242,
+                "time": 19,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Phạm Hùng.",
+                    "landmark": "Mốc nhận biết: Điểm quay đầu Nguyễn Tuân - Phạm Hùng hướng tới Ngã tư Tố Hữu - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_106",
+                "to": "N06_05",
+                "roadName": "Phạm Hùng",
+                "distance": 170,
+                "time": 14,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Phạm Hùng.",
+                    "landmark": "Mốc nhận biết: Điểm quay đầu Nguyễn Tuân - Phạm Hùng hướng tới Ngã ba Hoàng Minh Giám - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N05_06": [
+            {
+                "id": "EDGE_048",
+                "to": "N05_05",
+                "roadName": "Nguyễn Tuân",
+                "distance": 220,
+                "time": 33,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Tuân, không được quay đầu tại nút này.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Tuân - Nguyễn Xiển hướng tới Điểm quay đầu Nguyễn Tuân - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": true,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_115",
+                "to": "N04_06",
+                "roadName": "Nguyễn Xiển",
+                "distance": 170,
+                "time": 14,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Xiển.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Tuân - Nguyễn Xiển hướng tới Lối vào tòa nhà tại Tố Hữu - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_116",
+                "to": "N06_06",
+                "roadName": "Nguyễn Xiển",
+                "distance": 188,
+                "time": 38,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "closed",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đoạn đường trên Nguyễn Xiển đang tạm đóng, không sử dụng cho tuyến đường.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Tuân - Nguyễn Xiển hướng tới Cổng ra vào Hoàng Minh Giám - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": true,
+                    "noRightTurn": false,
+                    "noUTurn": true,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_123",
+                "to": "N04_06",
+                "roadName": "Nguyễn Xiển",
+                "distance": 75,
+                "time": 54,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "pedestrian",
+                "maxSpeed": 5,
+                "status": "restricted",
+                "access": [
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi bộ theo lối dành riêng cho người đi bộ trên Nguyễn Xiển.",
+                    "landmark": "Mốc nhận biết: Ngã ba Nguyễn Tuân - Nguyễn Xiển hướng tới Lối vào tòa nhà tại Tố Hữu - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N06_01": [
+            {
+                "id": "EDGE_049",
+                "to": "N06_02",
+                "roadName": "Hoàng Minh Giám",
+                "distance": 240,
+                "time": 36,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Hoàng Minh Giám.",
+                    "landmark": "Mốc nhận biết: Góc tuyến Hoàng Minh Giám - Quang Trung hướng tới Ngã ba Hoàng Minh Giám - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_067",
+                "to": "N05_01",
+                "roadName": "Quang Trung",
+                "distance": 188,
+                "time": 28,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Quang Trung.",
+                    "landmark": "Mốc nhận biết: Góc tuyến Hoàng Minh Giám - Quang Trung hướng tới Ngã ba Nguyễn Tuân - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N06_02": [
+            {
+                "id": "EDGE_050",
+                "to": "N06_01",
+                "roadName": "Hoàng Minh Giám",
+                "distance": 240,
+                "time": 36,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Hoàng Minh Giám.",
+                    "landmark": "Mốc nhận biết: Ngã ba Hoàng Minh Giám - Văn Phú hướng tới Góc tuyến Hoàng Minh Giám - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_051",
+                "to": "N06_03",
+                "roadName": "Hoàng Minh Giám",
+                "distance": 180,
+                "time": 27,
+                "heading": 90,
+                "oneWay": true,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Hoàng Minh Giám.",
+                    "landmark": "Mốc nhận biết: Ngã ba Hoàng Minh Giám - Văn Phú hướng tới Ngã ba Hoàng Minh Giám - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_077",
+                "to": "N05_02",
+                "roadName": "Văn Phú",
+                "distance": 206,
+                "time": 31,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Ngã ba Hoàng Minh Giám - Văn Phú hướng tới Bãi đỗ xe gần Nguyễn Tuân - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_148",
+                "to": "R2_A",
+                "roadName": "Văn Phú",
+                "distance": 95,
+                "time": 11,
+                "heading": 90,
+                "oneWay": true,
+                "roadType": "main",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Ngã ba Hoàng Minh Giám - Văn Phú hướng tới Vòng xuyến Văn Phú - nhánh A."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N06_03": [
+            {
+                "id": "EDGE_052",
+                "to": "N06_04",
+                "roadName": "Hoàng Minh Giám",
+                "distance": 200,
+                "time": 30,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Hoàng Minh Giám.",
+                    "landmark": "Mốc nhận biết: Ngã ba Hoàng Minh Giám - Nguyễn Khuyến hướng tới Ngã ba Hoàng Minh Giám - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_087",
+                "to": "N05_03",
+                "roadName": "Nguyễn Khuyến",
+                "distance": 224,
+                "time": 34,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Khuyến.",
+                    "landmark": "Mốc nhận biết: Ngã ba Hoàng Minh Giám - Nguyễn Khuyến hướng tới Lối vào tòa nhà tại Nguyễn Tuân - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_128",
+                "to": "DE02",
+                "roadName": "Văn Phú",
+                "distance": 120,
+                "time": 73,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "alley",
+                "maxSpeed": 10,
+                "status": "open",
+                "access": [
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Ngã ba Hoàng Minh Giám - Nguyễn Khuyến hướng tới Ngõ cụt gần Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_150",
+                "to": "R2_C",
+                "roadName": "Văn Phú",
+                "distance": 90,
+                "time": 11,
+                "heading": 270,
+                "oneWay": true,
+                "roadType": "main",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Ngã ba Hoàng Minh Giám - Nguyễn Khuyến hướng tới Vòng xuyến Văn Phú - nhánh C."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N06_04": [
+            {
+                "id": "EDGE_053",
+                "to": "N06_03",
+                "roadName": "Hoàng Minh Giám",
+                "distance": 200,
+                "time": 30,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Hoàng Minh Giám.",
+                    "landmark": "Mốc nhận biết: Ngã ba Hoàng Minh Giám - Khuất Duy Tiến hướng tới Ngã ba Hoàng Minh Giám - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_054",
+                "to": "N06_05",
+                "roadName": "Hoàng Minh Giám",
+                "distance": 220,
+                "time": 33,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi thẳng theo Hoàng Minh Giám, không rẽ tại nút này.",
+                    "landmark": "Mốc nhận biết: Ngã ba Hoàng Minh Giám - Khuất Duy Tiến hướng tới Ngã ba Hoàng Minh Giám - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": true,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_097",
+                "to": "N05_04",
+                "roadName": "Khuất Duy Tiến",
+                "distance": 242,
+                "time": 19,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Khuất Duy Tiến.",
+                    "landmark": "Mốc nhận biết: Ngã ba Hoàng Minh Giám - Khuất Duy Tiến hướng tới Ngã tư Nguyễn Tuân - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N06_05": [
+            {
+                "id": "EDGE_055",
+                "to": "N06_04",
+                "roadName": "Hoàng Minh Giám",
+                "distance": 220,
+                "time": 33,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Hoàng Minh Giám.",
+                    "landmark": "Mốc nhận biết: Ngã ba Hoàng Minh Giám - Phạm Hùng hướng tới Ngã ba Hoàng Minh Giám - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_056",
+                "to": "N06_06",
+                "roadName": "Hoàng Minh Giám",
+                "distance": 240,
+                "time": 36,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Hoàng Minh Giám.",
+                    "landmark": "Mốc nhận biết: Ngã ba Hoàng Minh Giám - Phạm Hùng hướng tới Cổng ra vào Hoàng Minh Giám - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_107",
+                "to": "N05_05",
+                "roadName": "Phạm Hùng",
+                "distance": 170,
+                "time": 14,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Phạm Hùng.",
+                    "landmark": "Mốc nhận biết: Ngã ba Hoàng Minh Giám - Phạm Hùng hướng tới Điểm quay đầu Nguyễn Tuân - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "N06_06": [
+            {
+                "id": "EDGE_057",
+                "to": "N06_05",
+                "roadName": "Hoàng Minh Giám",
+                "distance": 240,
+                "time": 36,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "residential",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Hoàng Minh Giám.",
+                    "landmark": "Mốc nhận biết: Cổng ra vào Hoàng Minh Giám - Nguyễn Xiển hướng tới Ngã ba Hoàng Minh Giám - Phạm Hùng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_117",
+                "to": "N05_06",
+                "roadName": "Nguyễn Xiển",
+                "distance": 188,
+                "time": 38,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "main",
+                "maxSpeed": 45,
+                "status": "closed",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đoạn đường trên Nguyễn Xiển đang tạm đóng, không sử dụng cho tuyến đường.",
+                    "landmark": "Mốc nhận biết: Cổng ra vào Hoàng Minh Giám - Nguyễn Xiển hướng tới Ngã ba Nguyễn Tuân - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_120",
+                "to": "GT02",
+                "roadName": "Hoàng Minh Giám",
+                "distance": 135,
+                "time": 35,
+                "heading": 45,
+                "oneWay": false,
+                "roadType": "service",
+                "maxSpeed": 20,
+                "status": "restricted",
+                "access": [
+                    "service_vehicle"
+                ],
+                "toll": true,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Hoàng Minh Giám, cần quyền truy cập hoặc qua cổng kiểm soát.",
+                    "landmark": "Mốc nhận biết: Cổng ra vào Hoàng Minh Giám - Nguyễn Xiển hướng tới Cổng kiểm soát nội bộ số 2."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": true
+                }
+            },
+            {
+                "id": "EDGE_132",
+                "to": "DE04",
+                "roadName": "Vũ Trọng Phụng",
+                "distance": 105,
+                "time": 64,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "alley",
+                "maxSpeed": 10,
+                "status": "open",
+                "access": [
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Vũ Trọng Phụng.",
+                    "landmark": "Mốc nhận biết: Cổng ra vào Hoàng Minh Giám - Nguyễn Xiển hướng tới Ngõ cụt gần Vũ Trọng Phụng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "GT01": [
+            {
+                "id": "EDGE_119",
+                "to": "N01_01",
+                "roadName": "Nguyễn Trãi",
+                "distance": 135,
+                "time": 35,
+                "heading": 45,
+                "oneWay": false,
+                "roadType": "service",
+                "maxSpeed": 20,
+                "status": "restricted",
+                "access": [
+                    "service_vehicle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi, cần quyền truy cập hoặc qua cổng kiểm soát.",
+                    "landmark": "Mốc nhận biết: Cổng kiểm soát nội bộ số 1 hướng tới Cổng ra vào Nguyễn Trãi - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": true
+                }
+            }
+        ],
+        "GT02": [
+            {
+                "id": "EDGE_121",
+                "to": "N06_06",
+                "roadName": "Hoàng Minh Giám",
+                "distance": 135,
+                "time": 35,
+                "heading": 225,
+                "oneWay": false,
+                "roadType": "service",
+                "maxSpeed": 20,
+                "status": "restricted",
+                "access": [
+                    "service_vehicle"
+                ],
+                "toll": true,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Hoàng Minh Giám, cần quyền truy cập hoặc qua cổng kiểm soát.",
+                    "landmark": "Mốc nhận biết: Cổng kiểm soát nội bộ số 2 hướng tới Cổng ra vào Hoàng Minh Giám - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": true
+                }
+            }
+        ],
+        "PU01": [
+            {
+                "id": "EDGE_125",
+                "to": "N02_06",
+                "roadName": "Trần Duy Hưng",
+                "distance": 85,
+                "time": 28,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "service",
+                "maxSpeed": 15,
+                "status": "restricted",
+                "access": [
+                    "car",
+                    "service_vehicle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Trần Duy Hưng, cần quyền truy cập hoặc qua cổng kiểm soát.",
+                    "landmark": "Mốc nhận biết: Điểm đón trả khách tại Trần Duy Hưng hướng tới Ngã ba Trần Phú - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": true
+                }
+            }
+        ],
+        "DE01": [
+            {
+                "id": "EDGE_127",
+                "to": "N01_06",
+                "roadName": "Nguyễn Tuân",
+                "distance": 95,
+                "time": 58,
+                "heading": 90,
+                "oneWay": false,
+                "roadType": "alley",
+                "maxSpeed": 10,
+                "status": "open",
+                "access": [
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Tuân.",
+                    "landmark": "Mốc nhận biết: Ngõ cụt gần Nguyễn Tuân hướng tới Góc tuyến Nguyễn Trãi - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "DE02": [
+            {
+                "id": "EDGE_129",
+                "to": "N06_03",
+                "roadName": "Văn Phú",
+                "distance": 120,
+                "time": 73,
+                "heading": 270,
+                "oneWay": false,
+                "roadType": "alley",
+                "maxSpeed": 10,
+                "status": "open",
+                "access": [
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Ngõ cụt gần Văn Phú hướng tới Ngã ba Hoàng Minh Giám - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "DE03": [
+            {
+                "id": "EDGE_131",
+                "to": "N03_01",
+                "roadName": "Quang Trung",
+                "distance": 80,
+                "time": 49,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "alley",
+                "maxSpeed": 10,
+                "status": "open",
+                "access": [
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Quang Trung.",
+                    "landmark": "Mốc nhận biết: Ngõ cụt gần Quang Trung hướng tới Ngã ba Lê Văn Lương - Quang Trung."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "DE04": [
+            {
+                "id": "EDGE_133",
+                "to": "N06_06",
+                "roadName": "Vũ Trọng Phụng",
+                "distance": 105,
+                "time": 64,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "alley",
+                "maxSpeed": 10,
+                "status": "open",
+                "access": [
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Vũ Trọng Phụng.",
+                    "landmark": "Mốc nhận biết: Ngõ cụt gần Vũ Trọng Phụng hướng tới Cổng ra vào Hoàng Minh Giám - Nguyễn Xiển."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "DE05": [
+            {
+                "id": "EDGE_135",
+                "to": "N04_04",
+                "roadName": "Tố Hữu",
+                "distance": 70,
+                "time": 43,
+                "heading": 225,
+                "oneWay": false,
+                "roadType": "alley",
+                "maxSpeed": 10,
+                "status": "open",
+                "access": [
+                    "motorbike",
+                    "bicycle",
+                    "pedestrian"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Tố Hữu.",
+                    "landmark": "Mốc nhận biết: Nhánh cụt tại ngã năm Tố Hữu hướng tới Ngã năm Tố Hữu - Khuất Duy Tiến mô phỏng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "R1_A": [
+            {
+                "id": "EDGE_136",
+                "to": "R1_B",
+                "roadName": "Nguyễn Trãi",
+                "distance": 62,
+                "time": 11,
+                "heading": 90,
+                "oneWay": true,
+                "roadType": "roundabout",
+                "maxSpeed": 25,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo vòng xuyến một chiều trên Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Vòng xuyến Nguyễn Trãi - nhánh A hướng tới Vòng xuyến Nguyễn Trãi - nhánh B."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "R1_B": [
+            {
+                "id": "EDGE_137",
+                "to": "R1_C",
+                "roadName": "Nguyễn Trãi",
+                "distance": 62,
+                "time": 11,
+                "heading": 180,
+                "oneWay": true,
+                "roadType": "roundabout",
+                "maxSpeed": 25,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo vòng xuyến một chiều trên Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Vòng xuyến Nguyễn Trãi - nhánh B hướng tới Vòng xuyến Nguyễn Trãi - nhánh C."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_141",
+                "to": "N03_04",
+                "roadName": "Nguyễn Trãi",
+                "distance": 95,
+                "time": 11,
+                "heading": 0,
+                "oneWay": true,
+                "roadType": "main",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Vòng xuyến Nguyễn Trãi - nhánh B hướng tới Ngã tư Lê Văn Lương - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "R1_C": [
+            {
+                "id": "EDGE_138",
+                "to": "R1_D",
+                "roadName": "Nguyễn Trãi",
+                "distance": 62,
+                "time": 11,
+                "heading": 270,
+                "oneWay": true,
+                "roadType": "roundabout",
+                "maxSpeed": 25,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo vòng xuyến một chiều trên Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Vòng xuyến Nguyễn Trãi - nhánh C hướng tới Vòng xuyến Nguyễn Trãi - nhánh D."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "R1_D": [
+            {
+                "id": "EDGE_139",
+                "to": "R1_A",
+                "roadName": "Nguyễn Trãi",
+                "distance": 62,
+                "time": 11,
+                "heading": 0,
+                "oneWay": true,
+                "roadType": "roundabout",
+                "maxSpeed": 25,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo vòng xuyến một chiều trên Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Vòng xuyến Nguyễn Trãi - nhánh D hướng tới Vòng xuyến Nguyễn Trãi - nhánh A."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_143",
+                "to": "N05_04",
+                "roadName": "Nguyễn Trãi",
+                "distance": 90,
+                "time": 11,
+                "heading": 180,
+                "oneWay": true,
+                "roadType": "main",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Nguyễn Trãi.",
+                    "landmark": "Mốc nhận biết: Vòng xuyến Nguyễn Trãi - nhánh D hướng tới Ngã tư Nguyễn Tuân - Khuất Duy Tiến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "R2_A": [
+            {
+                "id": "EDGE_144",
+                "to": "R2_B",
+                "roadName": "Văn Phú",
+                "distance": 62,
+                "time": 11,
+                "heading": 90,
+                "oneWay": true,
+                "roadType": "roundabout",
+                "maxSpeed": 25,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo vòng xuyến một chiều trên Văn Phú.",
+                    "landmark": "Mốc nhận biết: Vòng xuyến Văn Phú - nhánh A hướng tới Vòng xuyến Văn Phú - nhánh B."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "R2_B": [
+            {
+                "id": "EDGE_145",
+                "to": "R2_C",
+                "roadName": "Văn Phú",
+                "distance": 62,
+                "time": 11,
+                "heading": 180,
+                "oneWay": true,
+                "roadType": "roundabout",
+                "maxSpeed": 25,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo vòng xuyến một chiều trên Văn Phú.",
+                    "landmark": "Mốc nhận biết: Vòng xuyến Văn Phú - nhánh B hướng tới Vòng xuyến Văn Phú - nhánh C."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_149",
+                "to": "N05_03",
+                "roadName": "Văn Phú",
+                "distance": 95,
+                "time": 11,
+                "heading": 0,
+                "oneWay": true,
+                "roadType": "main",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Vòng xuyến Văn Phú - nhánh B hướng tới Lối vào tòa nhà tại Nguyễn Tuân - Nguyễn Khuyến."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "R2_C": [
+            {
+                "id": "EDGE_146",
+                "to": "R2_D",
+                "roadName": "Văn Phú",
+                "distance": 62,
+                "time": 11,
+                "heading": 270,
+                "oneWay": true,
+                "roadType": "roundabout",
+                "maxSpeed": 25,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo vòng xuyến một chiều trên Văn Phú.",
+                    "landmark": "Mốc nhận biết: Vòng xuyến Văn Phú - nhánh C hướng tới Vòng xuyến Văn Phú - nhánh D."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "R2_D": [
+            {
+                "id": "EDGE_147",
+                "to": "R2_A",
+                "roadName": "Văn Phú",
+                "distance": 62,
+                "time": 11,
+                "heading": 0,
+                "oneWay": true,
+                "roadType": "roundabout",
+                "maxSpeed": 25,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo vòng xuyến một chiều trên Văn Phú.",
+                    "landmark": "Mốc nhận biết: Vòng xuyến Văn Phú - nhánh D hướng tới Vòng xuyến Văn Phú - nhánh A."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            },
+            {
+                "id": "EDGE_151",
+                "to": "N05_02",
+                "roadName": "Văn Phú",
+                "distance": 90,
+                "time": 11,
+                "heading": 180,
+                "oneWay": true,
+                "roadType": "main",
+                "maxSpeed": 30,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike",
+                    "bicycle"
+                ],
+                "toll": false,
+                "level": 0,
+                "instructions": {
+                    "default": "Đi theo Văn Phú.",
+                    "landmark": "Mốc nhận biết: Vòng xuyến Văn Phú - nhánh D hướng tới Bãi đỗ xe gần Nguyễn Tuân - Văn Phú."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "BR1_A": [
+            {
+                "id": "EDGE_152",
+                "to": "BR1_B",
+                "roadName": "Vành đai 3",
+                "distance": 420,
+                "time": 30,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "bridge",
+                "maxSpeed": 60,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike"
+                ],
+                "toll": false,
+                "level": 1,
+                "instructions": {
+                    "default": "Đi qua cầu vượt trên Vành đai 3.",
+                    "landmark": "Mốc nhận biết: Đầu cầu vượt Vành đai 3 mô phỏng hướng tới Cuối cầu vượt Vành đai 3 mô phỏng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "BR1_B": [
+            {
+                "id": "EDGE_153",
+                "to": "BR1_A",
+                "roadName": "Vành đai 3",
+                "distance": 420,
+                "time": 30,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "bridge",
+                "maxSpeed": 60,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike"
+                ],
+                "toll": false,
+                "level": 1,
+                "instructions": {
+                    "default": "Đi qua cầu vượt trên Vành đai 3.",
+                    "landmark": "Mốc nhận biết: Cuối cầu vượt Vành đai 3 mô phỏng hướng tới Đầu cầu vượt Vành đai 3 mô phỏng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "BR2_A": [
+            {
+                "id": "EDGE_154",
+                "to": "BR2_B",
+                "roadName": "Lê Trọng Tấn",
+                "distance": 420,
+                "time": 30,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "bridge",
+                "maxSpeed": 60,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike"
+                ],
+                "toll": false,
+                "level": 1,
+                "instructions": {
+                    "default": "Đi qua cầu vượt trên Lê Trọng Tấn.",
+                    "landmark": "Mốc nhận biết: Đầu cầu vượt Lê Trọng Tấn mô phỏng hướng tới Cuối cầu vượt Lê Trọng Tấn mô phỏng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "BR2_B": [
+            {
+                "id": "EDGE_155",
+                "to": "BR2_A",
+                "roadName": "Lê Trọng Tấn",
+                "distance": 420,
+                "time": 30,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "bridge",
+                "maxSpeed": 60,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike"
+                ],
+                "toll": false,
+                "level": 1,
+                "instructions": {
+                    "default": "Đi qua cầu vượt trên Lê Trọng Tấn.",
+                    "landmark": "Mốc nhận biết: Cuối cầu vượt Lê Trọng Tấn mô phỏng hướng tới Đầu cầu vượt Lê Trọng Tấn mô phỏng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "TU1_A": [
+            {
+                "id": "EDGE_156",
+                "to": "TU1_B",
+                "roadName": "Khuất Duy Tiến",
+                "distance": 360,
+                "time": 31,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "tunnel",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike"
+                ],
+                "toll": false,
+                "level": -1,
+                "instructions": {
+                    "default": "Đi qua hầm chui trên Khuất Duy Tiến.",
+                    "landmark": "Mốc nhận biết: Cửa vào hầm chui Khuất Duy Tiến mô phỏng hướng tới Cửa ra hầm chui Khuất Duy Tiến mô phỏng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "TU1_B": [
+            {
+                "id": "EDGE_157",
+                "to": "TU1_A",
+                "roadName": "Khuất Duy Tiến",
+                "distance": 360,
+                "time": 31,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "tunnel",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike"
+                ],
+                "toll": false,
+                "level": -1,
+                "instructions": {
+                    "default": "Đi qua hầm chui trên Khuất Duy Tiến.",
+                    "landmark": "Mốc nhận biết: Cửa ra hầm chui Khuất Duy Tiến mô phỏng hướng tới Cửa vào hầm chui Khuất Duy Tiến mô phỏng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "TU2_A": [
+            {
+                "id": "EDGE_158",
+                "to": "TU2_B",
+                "roadName": "Nguyễn Xiển",
+                "distance": 360,
+                "time": 31,
+                "heading": 0,
+                "oneWay": false,
+                "roadType": "tunnel",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike"
+                ],
+                "toll": false,
+                "level": -1,
+                "instructions": {
+                    "default": "Đi qua hầm chui trên Nguyễn Xiển.",
+                    "landmark": "Mốc nhận biết: Cửa vào hầm chui Nguyễn Xiển mô phỏng hướng tới Cửa ra hầm chui Nguyễn Xiển mô phỏng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ],
+        "TU2_B": [
+            {
+                "id": "EDGE_159",
+                "to": "TU2_A",
+                "roadName": "Nguyễn Xiển",
+                "distance": 360,
+                "time": 31,
+                "heading": 180,
+                "oneWay": false,
+                "roadType": "tunnel",
+                "maxSpeed": 50,
+                "status": "open",
+                "access": [
+                    "car",
+                    "motorbike"
+                ],
+                "toll": false,
+                "level": -1,
+                "instructions": {
+                    "default": "Đi qua hầm chui trên Nguyễn Xiển.",
+                    "landmark": "Mốc nhận biết: Cửa ra hầm chui Nguyễn Xiển mô phỏng hướng tới Cửa vào hầm chui Nguyễn Xiển mô phỏng."
+                },
+                "restrictions": {
+                    "noLeftTurn": false,
+                    "noRightTurn": false,
+                    "noUTurn": false,
+                    "straightOnly": false,
+                    "requiresPermission": false
+                }
+            }
+        ]
+    }
+}
