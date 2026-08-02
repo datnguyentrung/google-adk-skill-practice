@@ -10,19 +10,26 @@ They are intentionally reusable across:
 - navigation skill state
 """
 
-# from __future__ import annotations
-
-from app.core.enums import NodeType, RoadType, EdgeStatus, AccessMode, OptimizationMode, TurnDirection, NavigationScenario
-
-from typing import Any, Literal, TypeAlias
+from typing import Literal, TypeAlias
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from app.core.enums import (
+    AccessMode,
+    EdgeStatus,
+    NavigationScenario,
+    NodeType,
+    OptimizationMode,
+    RoadType,
+    TurnDirection,
+)
 
 NodeId: TypeAlias = str
 EdgeId: TypeAlias = str
 RouteId: TypeAlias = str
 Level: TypeAlias = Literal[-1, 0, 1]
+LocationTargetType: TypeAlias = Literal["auto", "node", "road"]
+
 
 class SchemaBaseModel(BaseModel):
     """Base model for graph/navigation schemas."""
@@ -51,6 +58,7 @@ class GraphNode(SchemaBaseModel):
     lng: float
     level: Level
     description: str
+
 
 class EdgeInstructions(SchemaBaseModel):
     default: str
@@ -124,12 +132,14 @@ class NavigationGraph(SchemaBaseModel):
 
         return self
 
+
 class LocationRef(SchemaBaseModel):
     """A flexible location reference supplied by the user or system."""
 
     node_id: NodeId | None = Field(default=None, alias="nodeId")
     name: str | None = None
     road_name: str | None = Field(default=None, alias="roadName")
+    target_type: LocationTargetType = Field(default="auto", alias="targetType")
     lat: float | None = None
     lng: float | None = None
     heading: int | None = Field(default=None, ge=0, le=359)
@@ -150,6 +160,7 @@ class ResolvedLocation(SchemaBaseModel):
 class RouteCost(SchemaBaseModel):
     distance: float = Field(gt=0)
     time: float = Field(gt=0)
+
 
 class RouteStep(SchemaBaseModel):
     index: int = Field(ge=0)
@@ -176,7 +187,9 @@ class RouteCandidate(SchemaBaseModel):
     steps: list[RouteStep]
     warnings: list[str] = Field(default_factory=list)
     blocked_edge_ids: list[EdgeId] = Field(default_factory=list, alias="blockedEdgeIds")
-    restricted_edge_ids: list[EdgeId] = Field(default_factory=list, alias="restrictedEdgeIds")
+    restricted_edge_ids: list[EdgeId] = Field(
+        default_factory=list, alias="restrictedEdgeIds"
+    )
     toll_edge_ids: list[EdgeId] = Field(default_factory=list, alias="tollEdgeIds")
 
 
@@ -184,7 +197,9 @@ class OffRouteInfo(SchemaBaseModel):
     is_off_route: bool = Field(alias="isOffRoute")
     nearest_node_id: NodeId | None = Field(default=None, alias="nearestNodeId")
     expected_node_id: NodeId | None = Field(default=None, alias="expectedNodeId")
-    distance_from_route: float | None = Field(default=None, ge=0, alias="distanceFromRoute")
+    distance_from_route: float | None = Field(
+        default=None, ge=0, alias="distanceFromRoute"
+    )
     reason: str | None = None
 
 
@@ -232,16 +247,80 @@ class NavigationRequest(SchemaBaseModel):
     is_wrong_or_lost: bool = Field(default=False, alias="isWrongOrLost")
     asks_next_step: bool = Field(default=False, alias="asksNextStep")
 
+
+class ExtractionBaseModel(BaseModel):
+    """Gemini-compatible schema base for ADK structured extraction."""
+
+    model_config = ConfigDict(
+        populate_by_name=True,
+        str_strip_whitespace=True,
+    )
+
+
+class LocationExtractionOutput(ExtractionBaseModel):
+    """Location fields produced by the intent extraction LLM."""
+
+    node_id: NodeId | None = Field(default=None, alias="nodeId")
+    name: str | None = None
+    road_name: str | None = Field(default=None, alias="roadName")
+    target_type: LocationTargetType = Field(default="auto", alias="targetType")
+    raw_text: str | None = Field(default=None, alias="rawText")
+
+    def to_location_ref(self) -> LocationRef | None:
+        if not any((self.node_id, self.name, self.road_name, self.raw_text)):
+            return None
+        return LocationRef(
+            nodeId=self.node_id,
+            name=self.name,
+            roadName=self.road_name,
+            targetType=self.target_type,
+            rawText=self.raw_text,
+        )
+
+
+class NavigationExtractionOutput(ExtractionBaseModel):
+    """ADK output_schema for extracting navigation intent from user text."""
+
+    user_message: str | None = Field(default=None, alias="userMessage")
+    start: LocationExtractionOutput | None = None
+    destination: LocationExtractionOutput | None = None
+    current_position: LocationExtractionOutput | None = Field(
+        default=None, alias="currentPosition"
+    )
+    access: list[AccessMode] | None = None
+    optimization: OptimizationMode | None = None
+    is_wrong_or_lost: bool = Field(default=False, alias="isWrongOrLost")
+    asks_next_step: bool = Field(default=False, alias="asksNextStep")
+
+    def to_navigation_request(self, *, fallback_message: str) -> NavigationRequest:
+        return NavigationRequest(
+            userMessage=self.user_message or fallback_message,
+            start=self.start,
+            destination=self.destination,
+            currentPosition=self.current_position,
+            access=self.access,
+            optimization=self.optimization,
+            isWrongOrLost=self.is_wrong_or_lost,
+            asksNextStep=self.asks_next_step,
+        )
+
+
 class FindRouteRequest(SchemaBaseModel):
     start: LocationRef
     end: LocationRef
     optimization: OptimizationMode = "fastest_time"
     access: list[AccessMode] = Field(default_factory=lambda: ["car", "motorbike"])
     current_position: LocationRef | None = Field(default=None, alias="currentPosition")
-    current_heading: int | None = Field(default=None, ge=0, le=359, alias="currentHeading")
+    current_heading: int | None = Field(
+        default=None, ge=0, le=359, alias="currentHeading"
+    )
     previous_route_id: str | None = Field(default=None, alias="previousRouteId")
-    previous_step_index: int | None = Field(default=None, ge=0, alias="previousStepIndex")
-    prefer_continue_current_route: bool = Field(default=False, alias="preferContinueCurrentRoute")
+    previous_step_index: int | None = Field(
+        default=None, ge=0, alias="previousStepIndex"
+    )
+    prefer_continue_current_route: bool = Field(
+        default=False, alias="preferContinueCurrentRoute"
+    )
     max_alternatives: int = Field(default=2, ge=0, le=5, alias="maxAlternatives")
     avoid_closed: bool = Field(default=True, alias="avoidClosed")
     allow_restricted: bool = Field(default=False, alias="allowRestricted")
@@ -269,9 +348,12 @@ class RenderNavigationRequest(SchemaBaseModel):
     dynamic_prompt: str = Field(alias="dynamicPrompt")
     route: RouteCandidate | None = None
     alternatives: list[RouteCandidate] = Field(default_factory=list)
-    navigation_state: NavigationState | None = Field(default=None, alias="navigationState")
+    navigation_state: NavigationState | None = Field(
+        default=None, alias="navigationState"
+    )
     user_message: str | None = Field(default=None, alias="userMessage")
     locale: str = "vi-VN"
+
 
 class RenderNavigationResponse(SchemaBaseModel):
     success: bool
@@ -292,13 +374,16 @@ class GraphLoadResult(SchemaBaseModel):
     edge_count: int = Field(default=0, ge=0, alias="edgeCount")
     error_message: str | None = Field(default=None, alias="errorMessage")
 
+
 def count_edges(graph: GraphAdjacencyList) -> int:
     """Return the total number of directed edges in an adjacency list."""
 
     return sum(len(edges) for edges in graph.values())
 
 
-def build_graph_load_result(graph: NavigationGraph, path: str | None = None) -> GraphLoadResult:
+def build_graph_load_result(
+    graph: NavigationGraph, path: str | None = None
+) -> GraphLoadResult:
     """Create a reusable successful load result for a validated graph."""
 
     return GraphLoadResult(
@@ -316,14 +401,17 @@ __all__ = [
     "EdgeRestrictions",
     "FindRouteRequest",
     "FindRouteResponse",
+    "LocationExtractionOutput",
     "GraphAdjacencyList",
     "GraphEdge",
     "GraphLoadResult",
     "GraphMetadata",
     "GraphNode",
     "Level",
+    "LocationTargetType",
     "LocationRef",
     "NavigationGraph",
+    "NavigationExtractionOutput",
     "NavigationState",
     "NodeId",
     "NodeMap",
@@ -353,6 +441,8 @@ for _model in (
     RouteCandidate,
     OffRouteInfo,
     NavigationState,
+    LocationExtractionOutput,
+    NavigationExtractionOutput,
     FindRouteRequest,
     FindRouteResponse,
     RenderNavigationRequest,

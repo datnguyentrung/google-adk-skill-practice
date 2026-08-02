@@ -1,4 +1,4 @@
-from __future__ import annotations
+
 
 from typing import Any, Optional
 
@@ -120,4 +120,3 @@ def set_agentops_llm_usage_from_response(
         model=model,
         provider=provider,
     )
-

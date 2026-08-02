@@ -1,6 +1,6 @@
 """Persist session state changes through a Google ADK session service."""
 
-from __future__ import annotations
+
 
 import time
 from collections.abc import Mapping
