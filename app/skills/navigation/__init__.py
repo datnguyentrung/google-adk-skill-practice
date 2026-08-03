@@ -1,17 +1,5 @@
-"""Navigation skill exports."""
+"""Navigation skill export."""
 
-from app.skills.navigation.helper.build_prompt import build_navigation_dynamic_prompt
-from app.skills.navigation.navigation import (
-    EXTRACTION_OUTPUT_KEY,
-    STATE_KEY,
-    NavigationCoordinatorAgent,
-    navigation_agent,
-)
+from app.skills.navigation.navigation import navigation_skill
 
-__all__ = [
-    "EXTRACTION_OUTPUT_KEY",
-    "STATE_KEY",
-    "NavigationCoordinatorAgent",
-    "build_navigation_dynamic_prompt",
-    "navigation_agent",
-]
+__all__ = ["navigation_skill"]

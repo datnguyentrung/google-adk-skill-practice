@@ -1,422 +1,210 @@
-"""Python implementation of the runtime navigation workflow for Google ADK."""
+"""Inline Google ADK skill for orchestrating urban navigation tools."""
 
-import logging
-from collections.abc import AsyncGenerator, Awaitable, Callable
-from typing import Any
-from uuid import uuid4
+from __future__ import annotations
 
-from google.adk.agents import Agent, BaseAgent
-from google.adk.agents.invocation_context import InvocationContext
-from google.adk.events import Event
-from google.adk.models.llm_response import LlmResponse
-from google.genai.types import Content, Part
-from pydantic import PrivateAttr
+import json
+from textwrap import dedent
+
+from google.adk.skills import models
 
 from app.core.enums import AccessMode, OptimizationMode
-from app.core.schemas.graph_navigation import (
-    FindRouteRequest,
-    LocationRef,
-    NavigationExtractionOutput,
-    NavigationRequest,
-    NavigationSessionState,
-    RouteResult,
+from app.core.schemas.navigation import NAVIGATION_STATE_KEY
+from app.tools.navigation_tools import NAVIGATION_TOOLS
+
+_SEMANTIC_THRESHOLD = 0.80
+_DEFAULT_OPTIMIZATION = OptimizationMode.FASTEST_TIME
+_TOOL_NAMES = {
+    role: tool.__name__ for role, tool in NAVIGATION_TOOLS.items()
+}
+_GET_STATE_TOOL = _TOOL_NAMES["get_state"]
+_UPDATE_STATE_TOOL = _TOOL_NAMES["update_state"]
+_SEARCH_LOCATION_TOOL = _TOOL_NAMES["search_location"]
+_FIND_ROUTE_TOOL = _TOOL_NAMES["find_route"]
+_FIND_RECOVERY_ROUTE_TOOL = _TOOL_NAMES["find_recovery_route"]
+
+
+def _build_navigation_instructions() -> str:
+    """Build the navigation workflow instructions for the root agent."""
+
+    access_values = ", ".join(mode.value for mode in AccessMode)
+    optimization_values = ", ".join(mode.value for mode in OptimizationMode)
+    state_contract = {
+        "startPositionInput": None,
+        "endPositionInput": None,
+        "startPosition": None,
+        "endPosition": None,
+        "access": None,
+        "optimization": _DEFAULT_OPTIMIZATION.value,
+        "pendingSelection": None,
+        "route": None,
+        "currentStepIndex": 0,
+        "recoveryRoute": None,
+        "recoveryStepIndex": 0,
+        "resumeStepIndex": None,
+        "awaitingConfirmation": False,
+        "scenario": "initial_route",
+        "status": "collecting_input",
+    }
+
+    return dedent(
+        f"""
+        # Urban Navigation
+
+        You are the root agent executing a simulated urban navigation workflow.
+        Extract user intent and fields yourself, combine them with session state,
+        decide the next workflow step, and call only the tool needed for that step.
+        Tools and services never decide what to ask the user next.
+
+        ## Runtime contract
+
+        State key: `{NAVIGATION_STATE_KEY}`
+        Similarity threshold: strictly greater than `{_SEMANTIC_THRESHOLD:.2f}`
+        Access modes: `{access_values}`
+        Optimization modes: `{optimization_values}`
+        Default optimization: `{_DEFAULT_OPTIMIZATION.value}`
+
+        State shape:
+
+        ```json
+        {json.dumps(state_contract, ensure_ascii=False, indent=2)}
+        ```
+
+        Available tools after this skill is loaded:
+
+        - `{_GET_STATE_TOOL}()`
+        - `{_UPDATE_STATE_TOOL}(changes)`
+        - `{_SEARCH_LOCATION_TOOL}(query, target_type, min_similarity)`
+        - `{_FIND_ROUTE_TOOL}(start_node_id, end_node_id, access, optimization)`
+        - `{_FIND_RECOVERY_ROUTE_TOOL}(current_node_id, route_node_ids,
+          current_step_index, access, optimization)`
+
+        Every tool response has `success`. On failure, use `errorCode` and
+        `errorMessage`; never pretend that a failed operation succeeded.
+
+        ## 1. Read and collect input
+
+        Call `{_GET_STATE_TOOL}` at the start of every navigation request.
+        Extract new values from the user message and preserve valid state values.
+        Required route fields are unresolved start text, unresolved destination
+        text, and one access mode. Ask only for missing fields. Store raw text in
+        `startPositionInput` and `endPositionInput`. Do not search or calculate a
+        route while its required input is missing.
+
+        ## 2. Resolve locations
+
+        Resolve destination before start. For each unresolved field, call
+        `{_SEARCH_LOCATION_TOOL}` with target type `auto` and threshold
+        `{_SEMANTIC_THRESHOLD:.2f}`. The tool already filters and sorts
+        candidates. Never accept a candidate whose similarity is less than or
+        equal to the threshold.
+
+        Save candidates with `{_UPDATE_STATE_TOOL}` as:
+
+        `pendingSelection = {{"field": "endPosition|startPosition", "candidates": [...]}}`
+
+        Also set `status = "awaiting_location_selection"`. Show a numbered list
+        with node ID, name, node/road match type, description, road name when
+        available, and similarity percentage. Ask the user to choose and stop.
+        When the user chooses, use the stored candidate without searching again.
+        Save only its `nodeId`, `name`, `targetType`, `description`, and optional
+        `roadName` as the resolved position, then clear `pendingSelection`.
+        If no candidate exists, ask for more precise text and never guess.
+
+        ## 3. Confirm before routing
+
+        When both positions and access are resolved, show start name/node,
+        destination name/node, access, and optimization. Ask for explicit route
+        confirmation. This explicit route confirmation is required before any
+        route calculation. Save `awaitingConfirmation = true` and
+        `status = "awaiting_route_confirmation"`, then stop.
+        An unrelated reply is not confirmation. If a location changes, clear only that resolved
+        field and repeat its search. Never call `{_FIND_ROUTE_TOOL}` before
+        explicit confirmation.
+
+        ## 4. Main route
+
+        After confirmation, call `{_FIND_ROUTE_TOOL}` with the two selected
+        node IDs, access, and optimization. On success, save the returned `route`,
+        set `currentStepIndex = 0`, clear recovery data, set
+        `awaitingConfirmation = false`, `scenario = "initial_route"`, and
+        `status = "navigating"`. If `route.steps` is empty, set `status = "arrived"`
+        immediately. On failure, preserve the resolved request, set
+        `scenario = "route_error"` and `status = "error"`, and explain the real
+        tool error.
+
+        ## 5. Step-by-step guidance
+
+        For normal navigation use `route.steps[currentStepIndex]`; for recovery
+        use `recoveryRoute.steps[recoveryStepIndex]`. A step contains real
+        `fromNode`, `toNode`, `edge`, and `turn` data. Give only the active step:
+        its number, from/to names, road, edge instruction and landmark, turn,
+        distance, and time. Advance an index only when the user clearly confirms
+        completion of that step, and persist every change through
+        `{_UPDATE_STATE_TOOL}`. When the main route is exhausted, set
+        `status = "arrived"`.
+
+        ## 6. Wrong-turn recovery
+
+        If the user knows the current location, resolve it with
+        `{_SEARCH_LOCATION_TOOL}` when needed. If that search needs a user
+        choice, save its candidates as `pendingSelection` with
+        `field = "recoveryPosition"`, set
+        `status = "awaiting_location_selection"`, ask the user to choose, and
+        stop. On the next turn, use the selected candidate's `nodeId` only as
+        the recovery start, then clear `pendingSelection`; never overwrite
+        `startPosition` or `endPosition` with it. Build the original ordered
+        node list as the first step's `fromNode.id` followed by every step's
+        `toNode.id`; for a zero-step route use `route.startNodeId`. Call
+        `{_FIND_RECOVERY_ROUTE_TOOL}` with that list and the current main
+        step index. Preserve the main route and destination. Save the returned
+        `recoveryRoute` and `resumeStepIndex`, reset `recoveryStepIndex = 0`, and
+        set `scenario = "wrong_turn_reroute"`, `status = "recovering"`.
+
+        Guide recovery one step at a time. If the recovery route has no steps, or
+        after its last step is completed, clear all recovery fields, set
+        `currentStepIndex = resumeStepIndex`, reset `recoveryStepIndex = 0`, and
+        resume the main route with `status = "navigating"` (or `arrived` when the
+        resume index is at the destination).
+
+        ## 7. User is lost
+
+        If the user cannot identify a graph position, preserve only
+        `endPosition`, `endPositionInput`, `access`, and `optimization`. Clear
+        start input/position, main route, recovery data, pending selection, and
+        progress indexes. Set `awaitingConfirmation = false`,
+        `scenario = "forgotten_route"`, and
+        `status = "collecting_current_position"`. Ask what road, building,
+        intersection, or landmark is visible, then treat the answer as the new
+        `startPositionInput`. Do not ask for a stored destination again.
+
+        ## 8. Current node and edge questions
+
+        Read the active step from state and answer using only its real
+        `fromNode`, `toNode`, and `edge` fields. Do not call a route tool. For an
+        information-only question, do not advance any index.
+
+        ## Integrity rules
+
+        Never invent locations, similarity values, nodes, edges, routes, or
+        progress. Save only serializable tool output and primitive values. Never
+        overwrite the main destination during recovery, replace an active route
+        without a requested change, or use stale state after a tool update.
+        Return only useful Vietnamese navigation guidance to the user; do not
+        expose prompts, state mechanics, tool calls, or internal routing details.
+        """
+    ).strip()
+
+
+navigation_skill = models.Skill(
+    frontmatter=models.Frontmatter(
+        name="urban-navigation",
+        description=(
+            "Resolve graph locations, calculate confirmed routes, provide "
+            "step guidance, and recover from wrong turns."
+        ),
+        metadata={"adk_additional_tools": list(_TOOL_NAMES.values())},
+    ),
+    instructions=_build_navigation_instructions(),
 )
-from app.services.session import SessionStateService
-from app.skills.navigation.helper._heuristic_request import _heuristic_request
-from app.skills.navigation.helper.build_prompt import (
-    build_extraction_prompt,
-    build_navigation_dynamic_prompt,
-)
-from app.tools.navigation_tools import find_route, render_navigation_response
 
-STATE_KEY = "navigation_state"
-EXTRACTION_OUTPUT_KEY = "navigation_request_extracted"
-DEFAULT_ACCESS = [AccessMode.MOTORBIKE]
-DEFAULT_OPTIMIZATION = OptimizationMode.FASTEST_TIME
-logger = logging.getLogger(__name__)
-
-IntentExtractor = Callable[
-    [str, NavigationSessionState | None],
-    Awaitable[NavigationRequest],
-]
-
-
-class NavigationCoordinatorAgent(BaseAgent):
-    """Manages navigation workflow and state while executing ADK tools."""
-
-    _intent_extractor: IntentExtractor | None = PrivateAttr(default=None)
-    _intent_extraction_agent: Agent = PrivateAttr()
-    _tool_agent: Agent = PrivateAttr()
-    _pending_tool_call: dict[str, Any] | None = PrivateAttr(default=None)
-    _tool_call_history: list[str] = PrivateAttr(default_factory=list)
-
-    def __init__(
-        self,
-        *,
-        intent_extractor: Callable[
-            [str, NavigationSessionState | None], Awaitable[NavigationRequest]
-        ]
-        | None = None,
-    ) -> None:
-        extraction_agent = Agent(
-            name="navigation_intent_extractor",
-            model="gemini-3.1-flash-lite",
-            description=(
-                "Extracts a structured navigation request from the latest user message."
-            ),
-            instruction=(
-                "Extract NavigationExtractionOutput fields. "
-                "Do not calculate routes or provide directions."
-            ),
-            output_schema=NavigationExtractionOutput,
-            output_key=EXTRACTION_OUTPUT_KEY,
-            disallow_transfer_to_parent=True,
-            disallow_transfer_to_peers=True,
-        )
-        tool_agent = Agent(
-            name="navigation_tool_agent",
-            model="gemini-3.1-flash-lite",
-            description=(
-                "Executes verified navigation ADK tools for route search and "
-                "response rendering."
-            ),
-            instruction=(
-                "You are the navigation skill tool runner. Use find_route only "
-                "when the coordinator provides route-search arguments. Use "
-                "render_navigation_response only when the coordinator provides "
-                "verified navigation state and a dynamic prompt. Never invent "
-                "routes, distances, times, or instructions."
-            ),
-            tools=[
-                find_route,
-                render_navigation_response,
-            ],
-            before_model_callback=self._tool_before_model_callback,
-            disallow_transfer_to_parent=True,
-            disallow_transfer_to_peers=True,
-        )
-        super().__init__(
-            name="navigation_coordinator",
-            description="Routes navigation requests with verified graph data.",
-            sub_agents=[extraction_agent, tool_agent],
-        )
-        self._intent_extraction_agent = extraction_agent
-        self._tool_agent = tool_agent
-        self._intent_extractor = intent_extractor or _heuristic_request
-
-    @property
-    def tool_call_history(self) -> tuple[str, ...]:
-        """Names of ADK tools executed by this coordinator instance."""
-        return tuple(self._tool_call_history)
-
-    async def _run_async_impl(
-        self, ctx: InvocationContext
-    ) -> AsyncGenerator[Event, None]:
-        message = ""
-        if ctx.user_content and ctx.user_content.parts:
-            message = " ".join(part.text or "" for part in ctx.user_content.parts)
-        raw_state = ctx.session.state.get(STATE_KEY)
-        previous = (
-            NavigationSessionState.model_validate(raw_state) if raw_state else None
-        )
-
-        try:
-            request = await self._extract_request_with_llm(
-                message=message,
-                previous=previous,
-                ctx=ctx,
-            )
-        except Exception as error:
-            logger.exception("Navigation extraction failed: %s", error)
-            request = _heuristic_request(message, previous)
-
-        result = await self.handle(request, previous, ctx)
-        yield Event(
-            invocationId=ctx.invocation_id,
-            author=self.name,
-            content=Content(parts=[Part(text=result["message"])]),
-        )
-
-    async def _extract_request_with_llm(
-        self,
-        *,
-        message: str,
-        previous: NavigationSessionState | None,
-        ctx: InvocationContext,
-    ) -> NavigationRequest:
-        extraction_prompt = build_extraction_prompt(message, previous)
-
-        extraction_ctx = ctx.model_copy(
-            update={
-                "user_content": Content(
-                    role="user", parts=[Part(text=extraction_prompt)]
-                ),
-            }
-        )
-
-        last_structured_text: str | None = None
-        async for event in self._intent_extraction_agent.run_async(extraction_ctx):
-            if event.author != self._intent_extraction_agent.name:
-                continue
-
-            if not event.content or not event.content.parts:
-                continue
-
-            texts = [
-                part.text
-                for part in event.content.parts
-                if part.text and not getattr(part, "thought", False)
-            ]
-
-            if texts:
-                last_structured_text = "".join(texts)
-
-        raw_output = extraction_ctx.session.state.get(EXTRACTION_OUTPUT_KEY)
-
-        if raw_output is not None:
-            if isinstance(raw_output, str):
-                return NavigationExtractionOutput.model_validate_json(
-                    raw_output
-                ).to_navigation_request(fallback_message=message)
-
-            return NavigationExtractionOutput.model_validate(
-                raw_output
-            ).to_navigation_request(fallback_message=message)
-
-        if last_structured_text:
-            return NavigationExtractionOutput.model_validate_json(
-                last_structured_text
-            ).to_navigation_request(fallback_message=message)
-
-        raise RuntimeError("Navigation intent extractor produced no structured output.")
-
-    async def handle(
-        self,
-        request: NavigationRequest,
-        previous: NavigationSessionState | None,
-        ctx: InvocationContext,
-    ) -> dict[str, Any]:
-        """Workflow entrypoint designed for direct unit testing and ADK execution."""
-        changed = previous and (
-            (request.destination and request.destination != previous.destination)
-            or (request.access and request.access != previous.access)
-            or (request.optimization and request.optimization != previous.optimization)
-        )
-        reroute = bool(
-            request.is_wrong_or_lost
-            or changed
-            or previous is None
-            or previous.route is None
-            or previous.reroute_required
-        )
-        if reroute:
-            start = (
-                request.current_position
-                or request.start
-                or (previous.current_position if previous else None)
-            )
-            destination = request.destination or (
-                previous.destination if previous else None
-            )
-            access = (
-                request.access
-                or (previous.access if previous and previous.access else None)
-                or DEFAULT_ACCESS
-            )
-            optimization = (
-                request.optimization
-                or (previous.optimization if previous else None)
-                or DEFAULT_OPTIMIZATION
-            )
-            if not start or not destination:
-                return {
-                    "success": False,
-                    "message": self._missing_location_message(
-                        has_start=bool(start),
-                        has_destination=bool(destination),
-                    ),
-                }
-
-            if not isinstance(start, LocationRef):
-                raise TypeError(
-                    f"Expected start to be LocationRef, got "
-                    f"{type(start).__name__}: {start!r}"
-                )
-
-            if not isinstance(destination, LocationRef):
-                raise TypeError(
-                    f"Expected destination to be LocationRef, got "
-                    f"{type(destination).__name__}: {destination!r}"
-                )
-
-            route_raw = await self._run_navigation_tool(
-                "find_route",
-                {
-                    "request": FindRouteRequest(
-                        start=start,
-                        end=destination,
-                        currentPosition=start,
-                        access=access,
-                        optimization=optimization,
-                    ).model_dump(by_alias=True)
-                },
-                ctx,
-            )
-            route_result = RouteResult.model_validate(route_raw)
-            if not route_result.success or route_result.route is None:
-                return {
-                    "success": False,
-                    "message": route_result.error_message
-                    or "Không tìm thấy tuyến đường hợp lệ.",
-                }
-
-            reroute_reason = self._reroute_reason(
-                request=request,
-                previous=previous,
-                changed=bool(changed),
-            )
-            state = NavigationSessionState(
-                route=route_result.route,
-                steps=route_result.route.steps,
-                currentStepIndex=0,
-                currentPosition=start,
-                destination=destination,
-                access=access,
-                optimization=optimization,
-                warnings=route_result.warnings,
-                rerouteRequired=False,
-                rerouteReason=reroute_reason,
-            )
-            await SessionStateService(ctx.session_service).update(
-                app_name=ctx.session.app_name,
-                user_id=ctx.session.user_id,
-                session_id=ctx.session.id,
-                state={STATE_KEY: state.model_dump(by_alias=True)},
-            )
-            scenario = (
-                "wrong_turn_reroute"
-                if request.is_wrong_or_lost
-                else "reroute"
-                if previous
-                else "initial_route"
-            )
-        else:
-            state = previous
-            assert state is not None
-            scenario = "continue_guidance"
-
-        prompt = build_navigation_dynamic_prompt(
-            request,
-            state,
-            reroute=reroute,
-        )
-        return await self._run_navigation_tool(
-            "render_navigation_response",
-            {
-                "navigation_state": state.model_dump(by_alias=True),
-                "dynamic_prompt": prompt,
-                "scenario": scenario,
-            },
-            ctx,
-        )
-
-    async def _run_navigation_tool(
-        self,
-        tool_name: str,
-        args: dict[str, Any],
-        ctx: InvocationContext,
-    ) -> dict[str, Any]:
-        """Run the child tool agent and extract its ADK function response."""
-        registered_names = {
-            getattr(tool, "__name__", getattr(tool, "name", ""))
-            for tool in self._tool_agent.tools
-        }
-        if tool_name not in registered_names:
-            raise RuntimeError(
-                f"Navigation tool '{tool_name}' is not registered on "
-                f"{self._tool_agent.name}."
-            )
-
-        self._pending_tool_call = {
-            "name": tool_name,
-            "args": args,
-            "call_id": f"{tool_name}-{uuid4()}",
-            "function_call_emitted": False,
-        }
-        tool_ctx = ctx.model_copy(
-            update={
-                "agent": self._tool_agent,
-                "user_content": Content(
-                    role="user",
-                    parts=[Part(text=f"Execute navigation tool: {tool_name}")],
-                ),
-            }
-        )
-
-        try:
-            async for event in self._tool_agent.run_async(tool_ctx):
-                for function_response in event.get_function_responses():
-                    if function_response.name != tool_name:
-                        continue
-                    result = function_response.response
-                    self._tool_call_history.append(tool_name)
-                    if not isinstance(result, dict):
-                        raise TypeError(
-                            f"Navigation tool '{tool_name}' returned non-dict result."
-                        )
-                    return result
-        finally:
-            self._pending_tool_call = None
-
-        raise RuntimeError(f"Navigation tool '{tool_name}' produced no response.")
-
-    def _tool_before_model_callback(self, callback_context, llm_request):
-        """Deterministically select one registered navigation tool for tests/runtime."""
-        del callback_context, llm_request
-        pending = self._pending_tool_call
-        if not pending:
-            return None
-
-        if pending["function_call_emitted"]:
-            return LlmResponse(
-                content=Content(
-                    role="model",
-                    parts=[Part(text="Navigation tool execution complete.")],
-                )
-            )
-
-        pending["function_call_emitted"] = True
-        part = Part.from_function_call(
-            name=pending["name"],
-            args=pending["args"],
-        )
-        part.function_call.id = pending["call_id"]
-        return LlmResponse(content=Content(role="model", parts=[part]))
-
-    @staticmethod
-    def _reroute_reason(
-        *,
-        request: NavigationRequest,
-        previous: NavigationSessionState | None,
-        changed: bool,
-    ) -> str:
-        if previous is None:
-            return "initial_route"
-        if request.is_wrong_or_lost:
-            return "wrong_or_lost"
-        if previous.reroute_required:
-            return previous.reroute_reason or "route_invalid"
-        if changed:
-            return "request_changed"
-        return "route_missing"
-
-    @staticmethod
-    def _missing_location_message(*, has_start: bool, has_destination: bool) -> str:
-        if not has_start and not has_destination:
-            return "Vui lòng cho biết điểm bắt đầu và điểm đến."
-        if not has_start:
-            return "Vui lòng cho biết điểm bắt đầu."
-        return "Vui lòng cho biết điểm đến."
-
-
-navigation_agent = NavigationCoordinatorAgent()
+__all__ = ["navigation_skill"]

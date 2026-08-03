@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from app.skills.calculate import calculate_skill
-from app.skills.navigation import navigation_agent
+from app.skills.navigation import navigation_skill
 
 from google.adk.agents import Agent
 from google.adk.skills import load_skill_from_dir
@@ -10,6 +10,7 @@ from app.services.agent_ops.adk_instrumentation import AgentOpsSkillToolset
 from app.services.agent_ops.adk_instrumentation import build_agent
 
 from app.tools.calculate_tool import calculate, prepare_calculation
+from app.tools.navigation_tools import NAVIGATION_TOOLS
 
 BASE_DIR = Path(__file__).resolve().parent
 SKILLS_DIR = BASE_DIR / "skills"
@@ -18,10 +19,11 @@ hello_world_skill = load_skill_from_dir(SKILLS_DIR / "hello-world")
 
 
 root_skill_toolset = AgentOpsSkillToolset(
-    skills=[hello_world_skill, calculate_skill],
+    skills=[hello_world_skill, calculate_skill, navigation_skill],
     additional_tools=[
         prepare_calculation,
         calculate,
+        *NAVIGATION_TOOLS.values(),
     ],
 )
 
@@ -36,9 +38,10 @@ root_agent = build_agent(
         """
         You are the root agent responsible for routing user requests to available skills.
 
-        For any simulated urban navigation request (routes, next steps, wrong
-        turns, getting lost, destination/access/optimization changes), delegate
-        to the navigation_coordinator sub-agent. Do not load navigation/SKILL.md.
+        For simulated urban navigation requests, load the urban-navigation
+        skill and follow its workflow in this agent. Extract fields from the
+        current message, combine them with navigation session state, and call
+        only the tool required for the next workflow step.
 
         For every request:
 
@@ -63,5 +66,4 @@ root_agent = build_agent(
     """
     ),
     tools=[root_skill_toolset],
-    sub_agents=[navigation_agent],
 )
