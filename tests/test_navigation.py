@@ -1,7 +1,9 @@
 import asyncio
 import inspect
+from pathlib import Path
 from types import SimpleNamespace
 
+from google.adk.skills import load_skill_from_dir
 from google.adk.agents.invocation_context import (
     InvocationContext,
     new_invocation_context_id,
@@ -26,6 +28,7 @@ from app.tools.navigation_tools import (
 )
 
 NAVIGATION_TOOL_NAMES = {tool.__name__ for tool in NAVIGATION_TOOLS.values()}
+NAVIGATION_SKILL_DIR = Path(__file__).parents[1] / "app" / "skills" / "navigation"
 
 
 def _tool_context() -> SimpleNamespace:
@@ -607,10 +610,22 @@ def test_navigation_service_loads_one_validated_graph():
 
 
 def test_navigation_skill_declares_flow_and_exact_dynamic_tools():
+    raw_skill = load_skill_from_dir(NAVIGATION_SKILL_DIR)
+    assert raw_skill.name == "navigation"
+    assert "$state_contract" in raw_skill.instructions
+    assert raw_skill.instructions != navigation_skill.instructions
+
     metadata = navigation_skill.frontmatter.metadata
     assert set(metadata["adk_additional_tools"]) == NAVIGATION_TOOL_NAMES
 
     instructions = navigation_skill.instructions
+    assert NAVIGATION_STATE_KEY in instructions
+    assert "Similarity threshold: strictly greater than `0.80`" in instructions
+    assert "Default optimization: `fastest_time`" in instructions
+    assert "find_recovery_route" in instructions
+    assert '"startPositionInput": null' in instructions
+    assert "$" not in instructions
+
     required_rules = [
         "Ask only for missing fields",
         "Resolve destination before start",

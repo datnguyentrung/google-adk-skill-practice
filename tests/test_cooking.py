@@ -1,8 +1,10 @@
 import asyncio
 import inspect
 from copy import deepcopy
+from pathlib import Path
 from types import SimpleNamespace
 
+from google.adk.skills import load_skill_from_dir
 from google.adk.agents.invocation_context import (
     InvocationContext,
     new_invocation_context_id,
@@ -26,6 +28,7 @@ from app.tools.cooking_tools import (
 )
 
 COOKING_TOOL_NAMES = {tool.__name__ for tool in COOKING_TOOLS.values()}
+COOKING_SKILL_DIR = Path(__file__).parents[1] / "app" / "skills" / "cooking"
 SOTO_AYAM_ID = "fcc8cd75-4b29-443b-afe5-271825cf95c7"
 
 
@@ -329,9 +332,20 @@ def test_tool_sequence_supports_selection_cooking_issue_and_completion():
 
 
 def test_cooking_skill_declares_workflow_and_exact_dynamic_tools():
+    raw_skill = load_skill_from_dir(COOKING_SKILL_DIR)
+    assert raw_skill.name == "cooking"
+    assert "$state_contract" in raw_skill.instructions
+    assert raw_skill.instructions != cooking_skill.instructions
+
     assert set(cooking_skill.frontmatter.metadata["adk_additional_tools"]) == (
         COOKING_TOOL_NAMES
     )
+    assert COOKING_STATE_KEY in cooking_skill.instructions
+    assert "Default search size: `5`" in cooking_skill.instructions
+    assert "get_cooking_state" in cooking_skill.instructions
+    assert '"dishNameInput": null' in cooking_skill.instructions
+    assert "$" not in cooking_skill.instructions
+
     required_rules = [
         "start of every cooking request",
         "Do not search again",
