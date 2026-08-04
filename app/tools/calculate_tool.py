@@ -2,7 +2,6 @@ import ast
 import operator
 from typing import Union
 
-
 Number = Union[int, float]
 
 _OPERATORS = {
@@ -22,6 +21,13 @@ OPERATOR_DESCRIPTIONS = {
     "/": "Divide the left operand by the right operand.",
     "**": "Raise the left operand to the power of the right operand.",
 }
+
+
+def get_calculate_tools():
+    return [
+        prepare_calculation,
+        calculate,
+    ]
 
 
 CALCULATE_PROMPT_TEMPLATE = """

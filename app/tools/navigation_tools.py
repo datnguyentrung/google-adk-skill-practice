@@ -4,12 +4,17 @@ import json
 from typing import Any
 
 from google.adk.tools import ToolContext
+
 from app.core.enums import AccessMode, OptimizationMode
 from app.core.schemas.navigation import NAVIGATION_STATE_KEY, NavigationState
 from app.services.navigation import NavigationService
 from app.services.navigation.location_resolver import LocationTargetType
 
 _navigation_service = NavigationService()
+
+
+def get_navigation_tools():
+    return list(NAVIGATION_TOOLS.values())
 
 
 def get_navigation_state(tool_context: ToolContext) -> dict[str, Any]:
@@ -148,9 +153,7 @@ def find_recovery_route(
 
 def _read_navigation_state(tool_context: ToolContext) -> NavigationState:
     raw_state = tool_context.state.get(NAVIGATION_STATE_KEY)
-    return NavigationState.model_validate(
-        raw_state if raw_state is not None else {}
-    )
+    return NavigationState.model_validate(raw_state if raw_state is not None else {})
 
 
 def _canonical_state_changes(changes: dict[str, Any]) -> dict[str, Any]:
