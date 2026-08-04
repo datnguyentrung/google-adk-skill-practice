@@ -5,7 +5,7 @@ from typing import Literal, TypeAlias
 from pydantic import Field, model_validator
 
 from app.core.enums import AccessMode, EdgeStatus, NodeType, RoadType
-from app.core.schemas.navigation.base import SchemaBaseModel
+from app.core.schemas.base import SchemaBaseModel
 
 NodeId: TypeAlias = str
 EdgeId: TypeAlias = str

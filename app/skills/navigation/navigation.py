@@ -13,9 +13,7 @@ from app.tools.navigation_tools import NAVIGATION_TOOLS
 
 _SEMANTIC_THRESHOLD = 0.80
 _DEFAULT_OPTIMIZATION = OptimizationMode.FASTEST_TIME
-_TOOL_NAMES = {
-    role: tool.__name__ for role, tool in NAVIGATION_TOOLS.items()
-}
+_TOOL_NAMES = {role: tool.__name__ for role, tool in NAVIGATION_TOOLS.items()}
 _GET_STATE_TOOL = _TOOL_NAMES["get_state"]
 _UPDATE_STATE_TOOL = _TOOL_NAMES["update_state"]
 _SEARCH_LOCATION_TOOL = _TOOL_NAMES["search_location"]
@@ -197,7 +195,7 @@ def _build_navigation_instructions() -> str:
 
 navigation_skill = models.Skill(
     frontmatter=models.Frontmatter(
-        name="urban-navigation",
+        name="navigation",
         description=(
             "Resolve graph locations, calculate confirmed routes, provide "
             "step guidance, and recover from wrong turns."

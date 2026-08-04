@@ -1,0 +1,461 @@
+{
+    "data": [
+        {
+            "id": "8c691e9b-c961-4d6d-9b27-37e076309a5d",
+            "name": "Restorative Chicken Soup with Bone Marrow Balls",
+            "description": "A deeply comforting, golden chicken broth teeming with tender vegetables and rich, melt-in-your-mouth bone marrow dumplings. This Passover-friendly, gluten-free variation provides a luxurious twist on a beloved traditional staple.",
+            "category": "Soup",
+            "cuisine": "Jewish",
+            "difficulty": "Intermediate",
+            "tags": [
+                "Jewish",
+                "Chicken",
+                "Chicken Soup",
+                "Vegetables",
+                "Dinner",
+                "Lunch",
+                "Appetizer",
+                "Spring",
+                "Dairy-Free",
+                "Gluten-Free",
+                "Nut-Free",
+                "Passover",
+                "Comfort Food"
+            ],
+            "meta": {
+                "active_time": "PT45M",
+                "passive_time": "PT2H30M",
+                "total_time": "PT3H15M",
+                "overnight_required": false,
+                "yields": "6 generous servings",
+                "yield_count": 6,
+                "serving_size_g": 450
+            },
+            "dietary": {
+                "flags": [
+                    "Dairy-Free",
+                    "Gluten-Free",
+                    "Nut-Free"
+                ],
+                "not_suitable_for": []
+            },
+            "nutrition_summary": {
+                "calories": 788.82,
+                "protein_g": 63.89,
+                "carbohydrates_g": 31.85,
+                "fat_g": 45.19
+            }
+        },
+        {
+            "id": "55b20b5a-74bb-4011-8548-db18605961b8",
+            "name": "Comforting Chicken Soup with Marrow Balls",
+            "description": "A restorative, golden chicken broth infused with aromatic winter root vegetables, paired with delicate and savory beef marrow dumplings. This traditional combination offers profound depth of flavor and a deeply satisfying texture.",
+            "category": "Soup",
+            "cuisine": "Jewish",
+            "difficulty": "Intermediate",
+            "tags": [
+                "Jewish",
+                "Chicken",
+                "Chicken Soup",
+                "Vegetables",
+                "Dinner",
+                "Lunch",
+                "Appetizer",
+                "Spring",
+                "Passover",
+                "Comfort Food",
+                "Traditional"
+            ],
+            "meta": {
+                "active_time": "PT45M",
+                "passive_time": "PT2H30M",
+                "total_time": "PT3H15M",
+                "overnight_required": false,
+                "yields": "6 servings",
+                "yield_count": 6,
+                "serving_size_g": 450
+            },
+            "dietary": {
+                "flags": [
+                    "Dairy-Free",
+                    "Gluten-Free",
+                    "Nut-Free"
+                ],
+                "not_suitable_for": [
+                    "Vegetarians",
+                    "Vegans"
+                ]
+            },
+            "nutrition_summary": {
+                "calories": 1518.27,
+                "protein_g": 59.11,
+                "carbohydrates_g": 66.94,
+                "fat_g": 113.07
+            }
+        },
+        {
+            "id": "fcc8cd75-4b29-443b-afe5-271825cf95c7",
+            "name": "Soto Ayam",
+            "description": "A deeply aromatic and comforting Indonesian chicken soup, infused with fresh turmeric, ginger, and lemongrass. Served over rice noodles with soft-boiled eggs, fresh herbs, and crispy fried shallots.",
+            "category": "Soup",
+            "cuisine": "Indonesian",
+            "difficulty": "Intermediate",
+            "tags": [
+                "Asian",
+                "Chicken",
+                "Chicken Soup",
+                "Dinner",
+                "Main Course",
+                "Winter",
+                "Comfort Food",
+                "Indonesian"
+            ],
+            "meta": {
+                "active_time": "PT30M",
+                "passive_time": "PT1H",
+                "total_time": "PT1H30M",
+                "overnight_required": false,
+                "yields": "4 generous bowls",
+                "yield_count": 4,
+                "serving_size_g": 700
+            },
+            "dietary": {
+                "flags": [
+                    "Gluten-Free",
+                    "Dairy-Free",
+                    "Nut-Free"
+                ],
+                "not_suitable_for": []
+            },
+            "nutrition_summary": {
+                "calories": 894.51,
+                "protein_g": 52.73,
+                "carbohydrates_g": 51.15,
+                "fat_g": 53.04
+            }
+        },
+        {
+            "id": "c1e0a315-f775-482e-83aa-8149aed63781",
+            "name": "Classic One Pot Chicken Soup",
+            "description": "A golden, deeply savory chicken soup made from scratch with bone-in chicken, sweet root vegetables, and fresh herbs. This restorative broth is clear, rich in collagen, and deeply comforting.",
+            "category": "Main Course",
+            "cuisine": "American",
+            "difficulty": "Intermediate",
+            "tags": [
+                "one pot",
+                "chicken",
+                "chicken soup",
+                "main course",
+                "comfort food",
+                "batch cooking",
+                "foundational"
+            ],
+            "meta": {
+                "active_time": "PT30M",
+                "passive_time": "PT2H",
+                "total_time": "PT2H30M",
+                "overnight_required": false,
+                "yields": "6 servings",
+                "yield_count": 6,
+                "serving_size_g": 400
+            },
+            "dietary": {
+                "flags": [
+                    "Gluten-Free",
+                    "Dairy-Free",
+                    "Egg-Free",
+                    "Nut-Free",
+                    "Soy-Free",
+                    "Paleo",
+                    "Whole30"
+                ],
+                "not_suitable_for": []
+            },
+            "nutrition_summary": {
+                "calories": 678.07,
+                "protein_g": 54.76,
+                "carbohydrates_g": 16.16,
+                "fat_g": 42.91
+            }
+        },
+        {
+            "id": "196eeb34-5727-416d-acfc-5dab17cfe743",
+            "name": "Classic Greek Avgolemono Soup With Orzo",
+            "description": "A velvety, comforting Greek chicken soup thickened with a frothy emulsion of eggs and fresh lemon juice. Suspended with tender orzo pasta, it balances rich, savory chicken broth with a bright, citrusy zing.",
+            "category": "Soup",
+            "cuisine": "Greek",
+            "difficulty": "Easy",
+            "tags": [
+                "Greek",
+                "Soup",
+                "Egg",
+                "Lemon",
+                "Easy",
+                "Comfort Food",
+                "One Pot"
+            ],
+            "meta": {
+                "active_time": "PT15M",
+                "passive_time": "PT15M",
+                "total_time": "PT30M",
+                "overnight_required": false,
+                "yields": "4 servings",
+                "yield_count": 4,
+                "serving_size_g": 350
+            },
+            "dietary": {
+                "flags": [
+                    "Dairy-Free",
+                    "Nut-Free",
+                    "Peanut-Free",
+                    "Soy-Free"
+                ],
+                "not_suitable_for": [
+                    "Individuals with severe raw egg sensitivities if not heated to full pasteurization",
+                    "Gluten intolerant individuals"
+                ]
+            },
+            "nutrition_summary": {
+                "calories": 246.09,
+                "protein_g": 17.45,
+                "carbohydrates_g": 24.77,
+                "fat_g": 8.3
+            }
+        },
+        {
+            "id": "f84a9846-49ef-4d24-a579-cf14eb546cc5",
+            "name": "Jamaican Chicken Soup With Spinners",
+            "description": "A deeply comforting, hearty Caribbean soup featuring tender bone-in chicken, vibrant root vegetables, chewy flour dumplings known as spinners, and the unmistakable fruity warmth of a whole, unbroken Scotch bonnet pepper.",
+            "category": "Soup",
+            "cuisine": "Jamaican",
+            "difficulty": "Intermediate",
+            "tags": [
+                "Caribbean",
+                "Jamaican",
+                "Chicken",
+                "Soup",
+                "Comfort Food",
+                "One-Pot",
+                "Traditional"
+            ],
+            "meta": {
+                "active_time": "PT30M",
+                "passive_time": "PT1H",
+                "total_time": "PT1H30M",
+                "overnight_required": false,
+                "yields": "6 generous servings",
+                "yield_count": 6,
+                "serving_size_g": 450
+            },
+            "dietary": {
+                "flags": [
+                    "Dairy-Free",
+                    "Egg-Free",
+                    "Nut-Free",
+                    "Peanut-Free",
+                    "Soy-Free"
+                ],
+                "not_suitable_for": [
+                    "Individuals sensitive to nightshades or spicy foods",
+                    "Infants and young toddlers due to potential spice and choking hazards"
+                ]
+            },
+            "nutrition_summary": {
+                "calories": 525.65,
+                "protein_g": 28.38,
+                "carbohydrates_g": 51.81,
+                "fat_g": 23.36
+            }
+        },
+        {
+            "id": "f3735820-6a0f-42f8-82ec-4f32321e12db",
+            "name": "Sopa de Pollo con Fideos",
+            "description": "A comforting, rustic Mexican chicken soup characterized by thin noodles that are toasted golden brown before simmering. The broth is infused with a roasted tomato base and finished with bright, textural garnishes like creamy avocado and salty cheese.",
+            "category": "Soup",
+            "cuisine": "Mexican",
+            "difficulty": "Intermediate",
+            "tags": [
+                "Mexican",
+                "Chicken",
+                "Chicken Soup",
+                "Tomato",
+                "Main Course",
+                "Comfort Food",
+                "One Pot"
+            ],
+            "meta": {
+                "active_time": "PT30M",
+                "passive_time": "PT25M",
+                "total_time": "PT55M",
+                "overnight_required": false,
+                "yields": "4 servings",
+                "yield_count": 4,
+                "serving_size_g": 450
+            },
+            "dietary": {
+                "flags": [
+                    "Nut-Free",
+                    "Peanut-Free",
+                    "Soy-Free"
+                ],
+                "not_suitable_for": []
+            },
+            "nutrition_summary": {
+                "calories": 442.99,
+                "protein_g": 34.97,
+                "carbohydrates_g": 33.49,
+                "fat_g": 19.59
+            }
+        },
+        {
+            "id": "8dde73f1-318a-4da0-92c5-b49ad6858fbf",
+            "name": "Spring Chicken Miso Soup",
+            "description": "A clear chicken soup flavored with miso and tamari, served with buckwheat noodles, sugar snap peas, and leeks.",
+            "category": "Soup",
+            "cuisine": "Japanese",
+            "difficulty": "Intermediate",
+            "tags": [
+                "Chicken Soup",
+                "Miso",
+                "Soba",
+                "Spring Vegetables"
+            ],
+            "meta": {
+                "active_time": "PT25M",
+                "passive_time": "PT35M",
+                "total_time": "PT1H",
+                "overnight_required": false,
+                "yields": "6 servings",
+                "yield_count": 6,
+                "serving_size_g": 588
+            },
+            "dietary": {
+                "flags": [
+                    "Dairy-Free",
+                    "Nut-Free"
+                ],
+                "not_suitable_for": []
+            },
+            "nutrition_summary": {
+                "calories": 414.39,
+                "protein_g": 24.49,
+                "carbohydrates_g": 24.75,
+                "fat_g": 24.8
+            }
+        },
+        {
+            "id": "a4d870c6-58dd-4436-85d3-8112b260dc5d",
+            "name": "Slow Cooker Chicken Soup",
+            "description": "A comforting chicken soup featuring tender shredded thighs in a savory, herb-infused broth finished with a touch of cream.",
+            "category": "Soup",
+            "cuisine": "American",
+            "difficulty": "Easy",
+            "tags": [
+                "Slow Cooker",
+                "Chicken",
+                "Soup",
+                "Comfort Food"
+            ],
+            "meta": {
+                "active_time": "PT25M",
+                "passive_time": "PT4H15M",
+                "total_time": "PT4H40M",
+                "overnight_required": false,
+                "yields": "4 servings",
+                "yield_count": 4,
+                "serving_size_g": 530
+            },
+            "dietary": {
+                "flags": [],
+                "not_suitable_for": []
+            },
+            "nutrition_summary": {
+                "calories": 691.91,
+                "protein_g": 34.29,
+                "carbohydrates_g": 47.85,
+                "fat_g": 40.12
+            }
+        },
+        {
+            "id": "ec68f7ae-f462-4835-afd7-2f34584fe183",
+            "name": "Mexican Chicken and Chickpea Soup",
+            "description": "Smoky Mexican chicken soup with tender shredded chicken, chickpeas, and zucchini in a clear broth. Finished with fresh avocado and lime for a bright, balanced flavor profile.",
+            "category": "Soup",
+            "cuisine": "Mexican",
+            "difficulty": "Easy",
+            "tags": [
+                "Mexican",
+                "Chicken",
+                "Soup",
+                "Healthy"
+            ],
+            "meta": {
+                "active_time": "PT15M",
+                "passive_time": "PT30M",
+                "total_time": "PT45M",
+                "overnight_required": false,
+                "yields": "6 servings",
+                "yield_count": 6,
+                "serving_size_g": 490
+            },
+            "dietary": {
+                "flags": [
+                    "Dairy-Free",
+                    "Gluten-Free",
+                    "Nut-Free",
+                    "Egg-Free",
+                    "Soy-Free"
+                ],
+                "not_suitable_for": []
+            },
+            "nutrition_summary": {
+                "calories": 329.43,
+                "protein_g": 22.06,
+                "carbohydrates_g": 32.04,
+                "fat_g": 13.1
+            }
+        },
+        {
+            "id": "0ca75e5b-f921-4543-a639-8e50c23cf7c2",
+            "name": "Matzo Ball Chicken Soup",
+            "description": "Rich golden chicken broth with aromatic root vegetables, served with tender shredded meat and light, herb-infused matzo balls.",
+            "category": "Soup",
+            "cuisine": "Jewish",
+            "difficulty": "Intermediate",
+            "tags": [
+                "Classic",
+                "Comfort Food",
+                "Jewish",
+                "Holiday"
+            ],
+            "meta": {
+                "active_time": "PT55M",
+                "passive_time": "P1DT2H40M",
+                "total_time": "P1DT3H35M",
+                "overnight_required": true,
+                "yields": "4 servings",
+                "yield_count": 4,
+                "serving_size_g": 550
+            },
+            "dietary": {
+                "flags": [
+                    "Dairy-Free",
+                    "Nut-Free"
+                ],
+                "not_suitable_for": []
+            },
+            "nutrition_summary": {
+                "calories": 1214.04,
+                "protein_g": 100.34,
+                "carbohydrates_g": 91.45,
+                "fat_g": 47.47
+            }
+        }
+    ],
+    "meta": {
+        "total": 11,
+        "page": 1,
+        "per_page": 20,
+        "total_capped": false
+    }
+}

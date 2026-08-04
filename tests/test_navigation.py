@@ -25,9 +25,7 @@ from app.tools.navigation_tools import (
     update_navigation_state,
 )
 
-NAVIGATION_TOOL_NAMES = {
-    tool.__name__ for tool in NAVIGATION_TOOLS.values()
-}
+NAVIGATION_TOOL_NAMES = {tool.__name__ for tool in NAVIGATION_TOOLS.values()}
 
 
 def _tool_context() -> SimpleNamespace:
@@ -67,9 +65,7 @@ def _edge(
 
 def _graph(adjacency: dict[str, list[dict]]) -> NavigationGraph:
     node_ids = set(adjacency)
-    node_ids.update(
-        edge["to"] for edges in adjacency.values() for edge in edges
-    )
+    node_ids.update(edge["to"] for edges in adjacency.values() for edge in edges)
     complete_adjacency = {
         node_id: adjacency.get(node_id, []) for node_id in sorted(node_ids)
     }
@@ -207,10 +203,7 @@ def test_search_locations_uses_strict_threshold_and_validates_input():
         search_locations("N01_01", "building", 0.8)["errorCode"]
         == "INVALID_TARGET_TYPE"
     )
-    assert (
-        search_locations("N01_01", "node", 1.1)["errorCode"]
-        == "INVALID_SIMILARITY"
-    )
+    assert search_locations("N01_01", "node", 1.1)["errorCode"] == "INVALID_SIMILARITY"
 
 
 def test_search_locations_does_not_round_a_score_down_to_the_threshold(
@@ -671,9 +664,7 @@ def test_root_agent_activates_navigation_tools_only_after_skill_load():
             app_name="test",
             user_id="user",
             session_id="session",
-            state={
-                f"_adk_activated_skill_{root_agent.name}": ["urban-navigation"]
-            },
+            state={f"_adk_activated_skill_{root_agent.name}": ["navigation"]},
         )
         invocation_context = InvocationContext(
             session_service=session_service,
@@ -692,4 +683,4 @@ def test_root_agent_activates_navigation_tools_only_after_skill_load():
 
     asyncio.run(run())
     assert root_agent.sub_agents == []
-    assert "urban-navigation" in {skill.name for skill in root_skill_toolset.skills}
+    assert "navigation" in {skill.name for skill in root_skill_toolset.skills}

@@ -5,7 +5,7 @@ from typing import Any, Literal
 from pydantic import Field
 
 from app.core.enums import AccessMode, NavigationScenario, OptimizationMode
-from app.core.schemas.navigation.base import SchemaBaseModel
+from app.core.schemas.base import SchemaBaseModel
 
 NAVIGATION_STATE_KEY = "navigation"
 

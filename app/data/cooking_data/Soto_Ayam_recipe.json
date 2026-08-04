@@ -1,0 +1,500 @@
+{
+    "data": {
+        "id": "fcc8cd75-4b29-443b-afe5-271825cf95c7",
+        "name": "Soto Ayam",
+        "description": "A deeply aromatic and comforting Indonesian chicken soup, infused with fresh turmeric, ginger, and lemongrass. Served over rice noodles with soft-boiled eggs, fresh herbs, and crispy fried shallots.",
+        "category": "Soup",
+        "cuisine": "Indonesian",
+        "difficulty": "Intermediate",
+        "tags": [
+            "Asian",
+            "Chicken",
+            "Chicken Soup",
+            "Dinner",
+            "Main Course",
+            "Winter",
+            "Comfort Food",
+            "Indonesian"
+        ],
+        "meta": {
+            "active_time": "PT30M",
+            "passive_time": "PT1H",
+            "total_time": "PT1H30M",
+            "overnight_required": false,
+            "yields": "4 generous bowls",
+            "yield_count": 4,
+            "serving_size_g": 700
+        },
+        "dietary": {
+            "flags": [
+                "Gluten-Free",
+                "Dairy-Free",
+                "Nut-Free"
+            ],
+            "not_suitable_for": []
+        },
+        "storage": {
+            "refrigerator": {
+                "notes": "Store broth and garnishes in separate airtight containers. Noodles do not keep well in the broth.",
+                "duration": "P4D"
+            },
+            "freezer": {
+                "notes": "Freeze the broth and shredded chicken only. Do not freeze boiled eggs, noodles, or fresh vegetables.",
+                "duration": "P3M"
+            },
+            "reheating": "Reheat broth on the stovetop until boiling, then pour over chilled garnishes and noodles in serving bowls.",
+            "does_not_keep": false
+        },
+        "equipment": [
+            {
+                "name": "Food processor",
+                "required": true,
+                "alternative": "Mortar and pestle"
+            },
+            {
+                "name": "Large heavy-bottomed pot",
+                "required": true,
+                "alternative": null
+            },
+            {
+                "name": "Small saucepan",
+                "required": true,
+                "alternative": null
+            },
+            {
+                "name": "Slotted spoon",
+                "required": true,
+                "alternative": null
+            },
+            {
+                "name": "Two cutting boards",
+                "required": true,
+                "alternative": "One board, washed thoroughly between raw meat and vegetables"
+            }
+        ],
+        "ingredients": [
+            {
+                "group_name": "Spice Paste (Bumbu)",
+                "items": [
+                    {
+                        "name": "shallots",
+                        "quantity": 100,
+                        "unit": "g",
+                        "preparation": "roughly chopped",
+                        "notes": null,
+                        "substitutions": [],
+                        "ingredient_id": "fdfc0723-3dbf-44af-b667-f5e4bd6005a8",
+                        "nutrition_source": "USDA FoodData Central"
+                    },
+                    {
+                        "name": "garlic",
+                        "quantity": 25,
+                        "unit": "g",
+                        "preparation": "peeled",
+                        "notes": null,
+                        "substitutions": [],
+                        "ingredient_id": "30109e1e-d8e8-4f76-a6f4-82ac5b071fde",
+                        "nutrition_source": "USDA FoodData Central"
+                    },
+                    {
+                        "name": "fresh turmeric",
+                        "quantity": 15,
+                        "unit": "g",
+                        "preparation": "peeled and roughly chopped",
+                        "notes": null,
+                        "substitutions": [
+                            "5g turmeric powder"
+                        ],
+                        "ingredient_id": "1ee1ad9b-8638-45be-82a4-683925a61d05",
+                        "nutrition_source": "USDA FoodData Central"
+                    },
+                    {
+                        "name": "fresh ginger",
+                        "quantity": 15,
+                        "unit": "g",
+                        "preparation": "peeled and roughly chopped",
+                        "notes": null,
+                        "substitutions": [],
+                        "ingredient_id": "d57750c1-f582-4793-8aea-40d9d3ac3677",
+                        "nutrition_source": "USDA FoodData Central"
+                    },
+                    {
+                        "name": "coriander seeds",
+                        "quantity": 4,
+                        "unit": "g",
+                        "preparation": "toasted",
+                        "notes": null,
+                        "substitutions": [],
+                        "ingredient_id": "225e04a2-508a-4752-ac80-1f8437a6c970",
+                        "nutrition_source": "USDA FoodData Central"
+                    },
+                    {
+                        "name": "vegetable oil",
+                        "quantity": 30,
+                        "unit": "ml",
+                        "preparation": null,
+                        "notes": null,
+                        "substitutions": [],
+                        "ingredient_id": "a0f5fd8e-28e3-46ca-9b60-49060768c107",
+                        "nutrition_source": "Aggregated Public Data"
+                    }
+                ]
+            },
+            {
+                "group_name": "Broth and Chicken",
+                "items": [
+                    {
+                        "name": "whole chicken legs",
+                        "quantity": 1000,
+                        "unit": "g",
+                        "preparation": "bone-in, skin-on",
+                        "notes": null,
+                        "substitutions": [],
+                        "ingredient_id": "200cd611-ecfb-4f41-8cd9-f44b9cb2784c",
+                        "nutrition_source": "USDA FoodData Central"
+                    },
+                    {
+                        "name": "water",
+                        "quantity": 2000,
+                        "unit": "ml",
+                        "preparation": null,
+                        "notes": null,
+                        "substitutions": [],
+                        "ingredient_id": "52e7e8d1-3737-410a-8018-22d0b768cbd5",
+                        "nutrition_source": "Aggregated Public Data"
+                    },
+                    {
+                        "name": "lemongrass",
+                        "quantity": 2,
+                        "unit": null,
+                        "preparation": "bruised and tied in knots",
+                        "notes": "about 40g",
+                        "substitutions": [],
+                        "ingredient_id": "76ba728d-d8c8-46f5-a879-98c3eefd20b6",
+                        "nutrition_source": "USDA FoodData Central"
+                    },
+                    {
+                        "name": "makrut lime leaves",
+                        "quantity": 4,
+                        "unit": null,
+                        "preparation": "torn slightly to release oils",
+                        "notes": "about 2g",
+                        "substitutions": [],
+                        "ingredient_id": "961b7f37-c919-4505-8f5d-f0d679a146dd",
+                        "nutrition_source": "Aggregated Public Data"
+                    },
+                    {
+                        "name": "salt",
+                        "quantity": 15,
+                        "unit": "g",
+                        "preparation": "plus extra to taste",
+                        "notes": null,
+                        "substitutions": [],
+                        "ingredient_id": "2631739c-2de4-4389-a6e3-ed3d06d0406f",
+                        "nutrition_source": "USDA FoodData Central"
+                    },
+                    {
+                        "name": "sugar",
+                        "quantity": 5,
+                        "unit": "g",
+                        "preparation": null,
+                        "notes": null,
+                        "substitutions": [],
+                        "ingredient_id": "8ae7f905-b311-4f45-9527-5e3840369506",
+                        "nutrition_source": "USDA FoodData Central"
+                    }
+                ]
+            },
+            {
+                "group_name": "Noodles and Garnishes",
+                "items": [
+                    {
+                        "name": "rice vermicelli noodles",
+                        "quantity": 150,
+                        "unit": "g",
+                        "preparation": "dried",
+                        "notes": null,
+                        "substitutions": [],
+                        "ingredient_id": "9f0e8ac0-732e-404a-ada2-c29791e7d269",
+                        "nutrition_source": "USDA FoodData Central"
+                    },
+                    {
+                        "name": "eggs",
+                        "quantity": 4,
+                        "unit": null,
+                        "preparation": "whole",
+                        "notes": "about 200g total",
+                        "substitutions": [],
+                        "ingredient_id": "312649b9-51fd-4715-89b3-e3c2833752a0",
+                        "nutrition_source": "Aggregated Public Data"
+                    },
+                    {
+                        "name": "green cabbage",
+                        "quantity": 100,
+                        "unit": "g",
+                        "preparation": "finely shredded",
+                        "notes": null,
+                        "substitutions": [],
+                        "ingredient_id": "56b28b77-6754-4d1f-aaa0-0e99b7ef7931",
+                        "nutrition_source": "USDA FoodData Central"
+                    },
+                    {
+                        "name": "mung bean sprouts",
+                        "quantity": 100,
+                        "unit": "g",
+                        "preparation": "rinsed and drained",
+                        "notes": null,
+                        "substitutions": [],
+                        "ingredient_id": "6d29b2fe-d48e-4143-b38e-919c67febaea",
+                        "nutrition_source": "USDA FoodData Central"
+                    },
+                    {
+                        "name": "fresh cilantro",
+                        "quantity": 10,
+                        "unit": "g",
+                        "preparation": "roughly chopped",
+                        "notes": null,
+                        "substitutions": [],
+                        "ingredient_id": "90d50243-5217-4e50-836c-b2f624e2b58b",
+                        "nutrition_source": "USDA FoodData Central"
+                    },
+                    {
+                        "name": "crispy fried shallots",
+                        "quantity": 20,
+                        "unit": "g",
+                        "preparation": "store-bought or homemade",
+                        "notes": null,
+                        "substitutions": [],
+                        "ingredient_id": "fdfc0723-3dbf-44af-b667-f5e4bd6005a8",
+                        "nutrition_source": "USDA FoodData Central"
+                    },
+                    {
+                        "name": "lime",
+                        "quantity": 2,
+                        "unit": null,
+                        "preparation": "cut into wedges",
+                        "notes": "about 100g total",
+                        "substitutions": [],
+                        "ingredient_id": "d3d2677e-fe02-4404-add0-29d73df7e921",
+                        "nutrition_source": "USDA FoodData Central"
+                    }
+                ]
+            }
+        ],
+        "instructions": [
+            {
+                "step_number": 1,
+                "phase": "prep",
+                "text": "Place shallots, garlic, turmeric, ginger, coriander seeds, and vegetable oil in a food processor. Blend until a smooth paste forms. If necessary, add a splash of water to help the blades catch.",
+                "structured": {
+                    "action": "BLEND",
+                    "temperature": null,
+                    "duration": "PT3M",
+                    "doneness_cues": {
+                        "visual": "A vibrant, smooth yellow paste with no large chunks",
+                        "tactile": "Slightly oily and wet"
+                    }
+                },
+                "tips": []
+            },
+            {
+                "step_number": 2,
+                "phase": "cook",
+                "text": "Transfer the spice paste to a large heavy-bottomed pot over medium heat. Cook, stirring constantly, until the raw smell of garlic dissipates, the color deepens, and the oil begins to separate from the solids.",
+                "structured": {
+                    "action": "SAUTÉ",
+                    "temperature": null,
+                    "duration": "PT8M",
+                    "doneness_cues": {
+                        "visual": "Oil separates and pools slightly at the edges",
+                        "tactile": "Paste sticks less to the pan"
+                    }
+                },
+                "tips": []
+            },
+            {
+                "step_number": 3,
+                "phase": "cook",
+                "text": "Add the bruised lemongrass, makrut lime leaves, chicken legs, water, salt, and sugar to the pot. Stir gently to incorporate the spice paste into the liquid and bring to a rolling boil.",
+                "structured": {
+                    "action": "BOIL",
+                    "temperature": {
+                        "celsius": 100,
+                        "fahrenheit": 212
+                    },
+                    "duration": "PT10M",
+                    "doneness_cues": null
+                },
+                "tips": []
+            },
+            {
+                "step_number": 4,
+                "phase": "cook",
+                "text": "Reduce the heat to low. Partially cover the pot and simmer gently. Periodically skim off any scum or foam that rises to the surface to ensure a clean broth. Cook until the chicken is tender and reaches a safe internal temperature of 74°C/165°F.",
+                "structured": {
+                    "action": "SIMMER",
+                    "temperature": null,
+                    "duration": "PT45M",
+                    "doneness_cues": {
+                        "visual": "Broth is clear yellow, not cloudy with foam",
+                        "tactile": "Chicken meat begins to pull away from the bone"
+                    }
+                },
+                "tips": [
+                    "Avoid a rapid boil during this stage, as it will emulsify fats into the liquid and result in a cloudy broth."
+                ]
+            },
+            {
+                "step_number": 5,
+                "phase": "prep",
+                "text": "Carefully remove the chicken legs using a slotted spoon and transfer them to a clean cutting board to cool slightly. Once cool enough to handle, discard the skin and bones, and shred the meat into bite-sized pieces. Set aside.",
+                "structured": {
+                    "action": "SHRED",
+                    "temperature": null,
+                    "duration": "PT10M",
+                    "doneness_cues": {
+                        "visual": "Meat is torn into distinct strands",
+                        "tactile": null
+                    }
+                },
+                "tips": [
+                    "Always use a clean cutting board for cooked chicken to avoid cross-contamination from any surfaces that touched raw meat.",
+                    "For deeper flavor, return the discarded chicken bones to the broth and simmer for an additional 30 minutes."
+                ]
+            },
+            {
+                "step_number": 6,
+                "phase": "prep",
+                "text": "While the chicken cools, prepare the rice vermicelli by pouring boiling water over the noodles in a heatproof bowl. Let them sit until tender, then drain thoroughly and rinse with cold water to stop the cooking process.",
+                "structured": {
+                    "action": "DRAIN",
+                    "temperature": null,
+                    "duration": "PT5M",
+                    "doneness_cues": {
+                        "visual": "Noodles are bright white and opaque",
+                        "tactile": "Soft and pliable with a slight chew"
+                    }
+                },
+                "tips": []
+            },
+            {
+                "step_number": 7,
+                "phase": "cook",
+                "text": "Boil the eggs in a small saucepan of water. For a firm white and a slightly jammy yolk, cook for 7 minutes. Transfer immediately to an ice bath, peel, and cut in half lengthwise.",
+                "structured": {
+                    "action": "BOIL",
+                    "temperature": {
+                        "celsius": 100,
+                        "fahrenheit": 212
+                    },
+                    "duration": "PT7M",
+                    "doneness_cues": null
+                },
+                "tips": []
+            },
+            {
+                "step_number": 8,
+                "phase": "assemble",
+                "text": "Divide the drained rice vermicelli, shredded green cabbage, mung bean sprouts, and shredded chicken evenly among four deep serving bowls.",
+                "structured": {
+                    "action": "ASSEMBLE",
+                    "temperature": null,
+                    "duration": "PT2M",
+                    "doneness_cues": null
+                },
+                "tips": []
+            },
+            {
+                "step_number": 9,
+                "phase": "finish",
+                "text": "Bring the broth back to a simmer. Taste and adjust seasoning, keeping in mind the plain noodles will dilute the flavor slightly. Ladle the boiling broth generously over the arranged ingredients. Top with the halved boiled eggs, chopped cilantro, and crispy fried shallots. Serve immediately with lime wedges on the side.",
+                "structured": {
+                    "action": "SERVE",
+                    "temperature": null,
+                    "duration": "PT2M",
+                    "doneness_cues": null
+                },
+                "tips": []
+            }
+        ],
+        "troubleshooting": [
+            {
+                "symptom": "Broth tastes flat or overly raw",
+                "likely_cause": "The spice paste (bumbu) was not sautéed long enough to mellow the aromatics and release their essential oils.",
+                "prevention": "Ensure you cook the paste over medium heat until the color deepens and the oil distinctly pools away from the solid paste.",
+                "fix": "Simmer the soup for an additional 20 to 30 minutes to help the harsh raw flavors soften."
+            },
+            {
+                "symptom": "Broth is very cloudy and greasy",
+                "likely_cause": "The soup was boiled vigorously rather than simmered, causing fats and impurities to emulsify into the liquid.",
+                "prevention": "Maintain a gentle simmer and skim the surface frequently during the first 15 minutes of cooking.",
+                "fix": "Let the broth rest off the heat so fats float to the top, then skim carefully. The cloudy appearance is cosmetic and will not ruin the flavor."
+            }
+        ],
+        "chef_notes": [
+            "Fresh turmeric stains heavily; wear gloves or handle carefully, and wash your food processor immediately after blending the bumbu.",
+            "Ensure you use separate cutting boards for the raw chicken and fresh garnishes to maintain strict food safety and prevent cross-contamination.",
+            "For a pristine, restaurant-quality clear broth, blanch the raw chicken legs in boiling water for 3 minutes, rinse them under cold water, and then add them to the sautéed base.",
+            "Adjust the final seasoning of the broth after shredding the chicken. The starches and residual water from the noodles and vegetables will significantly dilute the perceived saltiness in the bowl."
+        ],
+        "cultural_context": "Soto Ayam is a beloved staple found across the Indonesian archipelago, ubiquitous in street food carts (kaki lima) and fine dining establishments alike. Its vibrant yellow hue comes from fresh turmeric, symbolizing warmth and vitality, while the diverse array of fresh, contrasting garnishes allows diners to interactively customize each bowl to their precise taste preferences.",
+        "nutrition": {
+            "per_serving": {
+                "calories": 894.51,
+                "protein_g": 52.73,
+                "carbohydrates_g": 51.15,
+                "fat_g": 53.04,
+                "saturated_fat_g": 13.76,
+                "trans_fat_g": 0.17,
+                "monounsaturated_fat_g": 18.63,
+                "polyunsaturated_fat_g": 9.52,
+                "fiber_g": 4.89,
+                "sugar_g": 6.36,
+                "sodium_mg": 1831.6,
+                "cholesterol_mg": 418.5,
+                "potassium_mg": 1012.68,
+                "calcium_mg": 134.32,
+                "iron_mg": 6.96,
+                "magnesium_mg": 100.01,
+                "phosphorus_mg": 623.82,
+                "zinc_mg": 5.44,
+                "vitamin_a_mcg": 160.43,
+                "vitamin_c_mg": 25.94,
+                "vitamin_d_mcg": 1.25,
+                "vitamin_e_mg": 1.49,
+                "vitamin_k_mcg": 41.91,
+                "vitamin_b6_mg": 1.16,
+                "vitamin_b12_mcg": 1.85,
+                "thiamin_mg": 0.3,
+                "riboflavin_mg": 0.67,
+                "niacin_mg": 12.58,
+                "folate_mcg": 83.23,
+                "water_g": 819.04,
+                "alcohol_g": null,
+                "caffeine_mg": null
+            },
+            "sources": [
+                "Aggregated Public Data",
+                "USDA FoodData Central"
+            ]
+        }
+    },
+    "usage": {
+        "monthly_remaining": 49,
+        "monthly_limit": 50,
+        "daily_remaining": 49,
+        "daily_limit": 50,
+        "plan_key": "free",
+        "plan_name": "Evaluation",
+        "period_type": "evaluation",
+        "detail_used": 1,
+        "detail_limit": 50,
+        "detail_remaining": 49,
+        "generation_used": 0,
+        "generation_limit": 1,
+        "generation_remaining": 1,
+        "generation_overage_remaining": 0,
+        "reset_at": null,
+        "upgrade_url": "https://recipe-api.com/pricing"
+    }
+}

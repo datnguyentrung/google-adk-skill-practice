@@ -1,6 +1,6 @@
 """Minimal schemas for the navigation graph and session state."""
 
-from app.core.schemas.navigation.base import SchemaBaseModel
+from app.core.schemas.base import SchemaBaseModel
 from app.core.schemas.navigation.graph import (
     EdgeId,
     EdgeInstructions,

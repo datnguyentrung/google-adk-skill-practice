@@ -16,16 +16,21 @@ SKILL_REGISTRY: dict[str, SkillSpec] = {
         skill_path="app.skills.calculate:calculate_skill",
         tools_path="app.tools.calculate_tool:get_calculate_tools",
     ),
-    "urban-navigation": SkillSpec(
-        code="urban-navigation",
+    "navigation": SkillSpec(
+        code="navigation",
         skill_path="app.skills.navigation:navigation_skill",
         tools_path="app.tools.navigation_tools:get_navigation_tools",
     ),
-    "hello-world": SkillSpec(
-        code="hello-world",
-        skill_path="app.skills.hello-world:hello_world_skill",
-        tools_path="app.tools.hello_world_tool:get_hello_world_tools",
+    "cooking": SkillSpec(
+        code="cooking",
+        skill_path="app.skills.cooking:cooking_skill",
+        tools_path="app.tools.cooking_tools:get_cooking_tools",
     ),
+    # "hello-world": SkillSpec(
+    #     code="hello-world",
+    #     skill_path="app.skills.hello-world:hello_world_skill",
+    #     tools_path="app.tools.hello_world_tool:get_hello_world_tools",
+    # ),
 }
 
 

@@ -1,11 +1,11 @@
 """Search graph nodes by node names, identifiers, and connected roads."""
 
 import re
-import unicodedata
 from difflib import SequenceMatcher
 from typing import Literal
 
 from app.core.schemas.navigation import NavigationGraph
+from app.services.text_search import normalize_text
 
 LocationTargetType = Literal["auto", "node", "road"]
 
@@ -25,7 +25,7 @@ class LocationResolver:
     ) -> list[dict[str, object]]:
         """Return unique node candidates scoring above the requested threshold."""
 
-        normalized_query = self._normalize(query)
+        normalized_query = normalize_text(query)
         normalized_road_query = self._normalize_road(query)
         candidates: list[dict[str, object]] = []
 
@@ -36,8 +36,8 @@ class LocationResolver:
 
             if target_type in {"auto", "node"}:
                 best_score = max(
-                    self._similarity(normalized_query, self._normalize(node_id)),
-                    self._similarity(normalized_query, self._normalize(node.name)),
+                    self._similarity(normalized_query, normalize_text(node_id)),
+                    self._similarity(normalized_query, normalize_text(node.name)),
                 )
 
             if target_type in {"auto", "road"} and normalized_road_query:
@@ -85,24 +85,12 @@ class LocationResolver:
 
     @classmethod
     def _normalize_road(cls, value: str) -> str:
-        normalized = cls._normalize(value)
+        normalized = normalize_text(value)
         return re.sub(
             r"^(?:tuyen duong|duong|pho|ngo|hem|tuyen)\s+",
             "",
             normalized,
         ).strip()
-
-    @staticmethod
-    def _normalize(value: str) -> str:
-        decomposed = unicodedata.normalize("NFD", value)
-        without_marks = "".join(
-            character
-            for character in decomposed
-            if unicodedata.category(character) != "Mn"
-        )
-        return " ".join(
-            without_marks.replace("đ", "d").replace("Đ", "D").casefold().split()
-        )
 
     @staticmethod
     def _similarity(needle: str, haystack: str) -> float:

@@ -35,14 +35,14 @@ def create_root_agent(
         name="hello_world_agent",
         model="gemini-3.1-flash-lite",
         description=(
-            "A friendly agent that routes greetings, calculations, and urban navigation."
+            "A friendly agent that routes calculations, urban navigation, and cooking."
         ),
         instruction=ROOT_AGENT_PROMPT_PATH.read_text(encoding="utf-8"),
         tools=[selected_skill_toolset],
     )
 
 
-#
 root_agent = create_root_agent(
-    selected_skill_codes=["calculate", "navigation", "hello-world"]
+    selected_skill_codes=["calculate", "navigation", "cooking"]
 )
+root_skill_toolset = root_agent.tools[0]
