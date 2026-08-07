@@ -1,0 +1,186 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\LOAN\\RealEstateLoans\\Mortgages.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/",
+  "summary": {
+    "nodes": 7,
+    "edges": 1,
+    "properties": 1,
+    "triples": 102
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Documents/"
+  ],
+  "classes": [
+    {
+      "name": "closed-end mortgage loan",
+      "technicalName": "fibo-loan-reln-mtg:ClosedEndMortgageLoan",
+      "localName": "ClosedEndMortgageLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/ClosedEndMortgageLoan",
+      "label": "closed-end mortgage loan",
+      "definition": "loan secured by real estate with no ability for the borrower to receive additional funds under the loan at a later date",
+      "parents": [
+        "fibo-loan-ln-ln:ClosedEndCredit",
+        "loan secured by real estate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "closed-end reverse mortgage",
+      "technicalName": "fibo-loan-reln-mtg:ClosedEndReverseMortgage",
+      "localName": "ClosedEndReverseMortgage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/ClosedEndReverseMortgage",
+      "label": "closed-end reverse mortgage",
+      "definition": "reverse mortgage that provides a lump sum payment to the borrower at closing, with no ability for the borrower to receive additional funds under the mortgage at a later date",
+      "parents": [
+        "closed-end mortgage loan",
+        "reverse mortgage loan"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan secured by real estate",
+      "technicalName": "fibo-loan-reln-mtg:LoanSecuredByRealEstate",
+      "localName": "LoanSecuredByRealEstate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/LoanSecuredByRealEstate",
+      "label": "loan secured by real estate",
+      "definition": "loan that, at origination, is secured wholly or substantially by a lien or liens on real property for which the lien or liens are central to the extension of the credit - that is, the borrower would not have been extended credit in the same amount or on terms as favorable without the lien or liens on real property",
+      "parents": [
+        "fibo-loan-ln-ln:CollateralizedLoan"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:SecurityAgreement",
+          "qualifier": null
+        },
+        {
+          "property": "has initial funding date",
+          "operator": "some",
+          "value": "fibo-fbc-pas-caa:TransactionDate",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:UseOfProceedsProvision",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:DisclosureProvision",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-dae-dbt:isCollateralizedBy",
+          "operator": "some",
+          "value": "fibo-fnd-plc-rp:RealProperty",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "mortgage",
+      "technicalName": "fibo-loan-reln-mtg:Mortgage",
+      "localName": "Mortgage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/Mortgage",
+      "label": "mortgage",
+      "definition": "grant of financial interest in real property to a party that is not an owner of that real property and is recorded by a registration authority",
+      "parents": [
+        "fibo-fbc-dae-dbt:SecurityAgreement"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isCollateralizedBy",
+          "operator": "some",
+          "value": "fibo-fnd-plc-rp:RealProperty",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "open-end mortgage loan",
+      "technicalName": "fibo-loan-reln-mtg:OpenEndMortgageLoan",
+      "localName": "OpenEndMortgageLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/OpenEndMortgageLoan",
+      "label": "open-end mortgage loan",
+      "definition": "loan secured by real estate with a provision that the outstanding loan amount may be increased upon mutual agreement of the lender and the borrower",
+      "parents": [
+        "fibo-loan-ln-ln:OpenEndCredit",
+        "loan secured by real estate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "open-end reverse mortgage",
+      "technicalName": "fibo-loan-reln-mtg:OpenEndReverseMortgage",
+      "localName": "OpenEndReverseMortgage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/OpenEndReverseMortgage",
+      "label": "open-end reverse mortgage",
+      "definition": "reverse mortgage structured like a home equity line of credit in that it provides the borrower with additional funds after closing (either as fixed monthly payments, under a line of credit, or both)",
+      "parents": [
+        "open-end mortgage loan",
+        "reverse mortgage loan"
+      ],
+      "rules": []
+    },
+    {
+      "name": "reverse mortgage loan",
+      "technicalName": "fibo-loan-reln-mtg:ReverseMortgageLoan",
+      "localName": "ReverseMortgageLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/ReverseMortgageLoan",
+      "label": "reverse mortgage loan",
+      "definition": "loan secured by real estate that pays money to the borrower against a set principal limit based on the value of existing equity in the underlying collateral",
+      "parents": [
+        "loan secured by real estate"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:hasCreditLimit",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryAmount",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has initial funding date",
+      "technicalName": "fibo-loan-reln-mtg:hasInitialFundingDate",
+      "localName": "hasInitialFundingDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/hasInitialFundingDate",
+      "label": "has initial funding date",
+      "definition": "relates a mortgage to the date on which the contract is consummated, officially creating the obligations therein",
+      "domain": [],
+      "range": []
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "is ARM convertible",
+      "technicalName": "fibo-loan-reln-mtg:isARMConvertible",
+      "localName": "isARMConvertible",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/isARMConvertible",
+      "label": "is ARM convertible",
+      "definition": "indicates whether or not the loan can be converted into an adjustable-rate mortgage contract (ARM)",
+      "domain": [
+        "loan secured by real estate"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

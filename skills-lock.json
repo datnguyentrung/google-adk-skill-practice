@@ -12,6 +12,12 @@
       "sourceType": "github",
       "skillPath": "skills/google-agents-cli-adk-code/SKILL.md",
       "computedHash": "df02ff1a94322c4e361d65c9dd27e1635ae3583ae99b9ddeba43f6960ac2166b"
+    },
+    "ontology": {
+      "source": "sundial-org/awesome-openclaw-skills",
+      "sourceType": "github",
+      "skillPath": "skills/ontology/SKILL.md",
+      "computedHash": "f2c7a17aa00f8571b5ff94411c14bb277e4b7f04cdff768ad6aea9ca1727a1ba"
     }
   }
 }

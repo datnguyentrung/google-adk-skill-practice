@@ -1,17 +1,12 @@
-from google.adk.skills import models
+---
+name: calculate
+description: Evaluates arithmetic expressions using the calculate tool.
+metadata:
+  adk_additional_tools:
+    - prepare_calculation
+    - calculate
+---
 
-calculate_skill = models.Skill(
-    frontmatter=models.Frontmatter(
-        name="calculate",
-        description=("Evaluates arithmetic expressions using the calculate tool."),
-        metadata={
-            "adk_additional_tools": [
-                "prepare_calculation",
-                "calculate",
-            ],
-        },
-    ),
-    instructions="""
 Use this skill for binary arithmetic calculation requests.
 
 Follow this workflow exactly:
@@ -55,5 +50,3 @@ Follow this workflow exactly:
 
 12. Do not expose skill loading, routing, dynamic prompt construction,
     or internal tool execution in the final response.
-""",
-)

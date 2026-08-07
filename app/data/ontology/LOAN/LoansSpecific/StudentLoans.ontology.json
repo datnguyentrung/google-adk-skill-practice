@@ -1,0 +1,72 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\LOAN\\LoansSpecific\\StudentLoans.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/StudentLoans/",
+  "summary": {
+    "nodes": 3,
+    "edges": 0,
+    "properties": 0,
+    "triples": 38
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "private student loan",
+      "technicalName": "fibo-loan-spc-stu:PrivateStudentLoan",
+      "localName": "PrivateStudentLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/StudentLoans/PrivateStudentLoan",
+      "label": "private student loan",
+      "definition": "student loan that is not considered a government-backed / regulated loan",
+      "parents": [
+        "regulated student loan",
+        "student loan"
+      ],
+      "rules": []
+    },
+    {
+      "name": "regulated student loan",
+      "technicalName": "fibo-loan-spc-stu:RegulatedStudentLoan",
+      "localName": "RegulatedStudentLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/StudentLoans/RegulatedStudentLoan",
+      "label": "regulated student loan",
+      "definition": "student loan (1) whose lender is a government agency or instrumentality, and/or (2) that is treated uniquely due to tax regulations",
+      "parents": [
+        "student loan"
+      ],
+      "rules": []
+    },
+    {
+      "name": "student loan",
+      "technicalName": "fibo-loan-spc-stu:StudentLoan",
+      "localName": "StudentLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/StudentLoans/StudentLoan",
+      "label": "student loan",
+      "definition": "loan provided for the purposes of education, allowing students and parents/guardians to borrow money for college",
+      "parents": [
+        "fibo-loan-ln-ln:Loan"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:hasBorrower",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-be-le-lp:LegallyCompetentNaturalPerson",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

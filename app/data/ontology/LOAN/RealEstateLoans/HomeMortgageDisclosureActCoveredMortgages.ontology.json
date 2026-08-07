@@ -1,0 +1,217 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\LOAN\\RealEstateLoans\\HomeMortgageDisclosureActCoveredMortgages.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/HomeMortgageDisclosureActCoveredMortgages/",
+  "summary": {
+    "nodes": 9,
+    "edges": 1,
+    "properties": 0,
+    "triples": 160
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/Analytics/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "construction type",
+      "technicalName": "fibo-loan-reln-hmda:ConstructionType",
+      "localName": "ConstructionType",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/HomeMortgageDisclosureActCoveredMortgages/ConstructionType",
+      "label": "construction type",
+      "definition": "particular kind of construction",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "ethnicity",
+      "technicalName": "fibo-loan-reln-hmda:Ethnicity",
+      "localName": "Ethnicity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/HomeMortgageDisclosureActCoveredMortgages/Ethnicity",
+      "label": "ethnicity",
+      "definition": "category based on a cultural factors, including nationality, regional culture, ancestry, and language",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-be-le-lp:LegallyCompetentNaturalPerson",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "HMDA covered loan contract",
+      "technicalName": "fibo-loan-reln-hmda:HMDA-CoveredLoanContract",
+      "localName": "HMDA-CoveredLoanContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/HomeMortgageDisclosureActCoveredMortgages/HMDA-CoveredLoanContract",
+      "label": "HMDA covered loan contract",
+      "definition": "a closed-end mortgage loan or open-end line of credit that is not an excluded transaction for HMDA reporting under US section 1003.3(c) of the Revised Home Mortgage Disclosure Act of 2015",
+      "parents": [
+        "fibo-loan-reln-mtg:LoanSecuredByRealEstate"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "how submitted",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "HMDA disposition",
+      "technicalName": "fibo-loan-reln-hmda:HMDA-Disposition",
+      "localName": "HMDA-Disposition",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/HomeMortgageDisclosureActCoveredMortgages/HMDA-Disposition",
+      "label": "HMDA disposition",
+      "definition": "a type of action taken regarding an application for a HMDA covered loan",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "HMDA pre-approval request",
+      "technicalName": "fibo-loan-reln-hmda:HMDA-PreApprovalRequest",
+      "localName": "HMDA-PreApprovalRequest",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/HomeMortgageDisclosureActCoveredMortgages/HMDA-PreApprovalRequest",
+      "label": "HMDA pre-approval request",
+      "definition": "a request for pre-approval of a home purchase loan up to a certain amount, and subject to certain non-credit related conditions",
+      "parents": [
+        "fibo-loan-ln-app:PreApprovalRequest"
+      ],
+      "rules": []
+    },
+    {
+      "name": "HMDA report",
+      "technicalName": "fibo-loan-reln-hmda:HMDA-Report",
+      "localName": "HMDA-Report",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/HomeMortgageDisclosureActCoveredMortgages/HMDA-Report",
+      "label": "HMDA report",
+      "definition": "a report prepared to satisfy HMDA regulatory reporting requirements as described US section 1003.3(c) of the Revised Home Mortgage Disclosure Act of 2015",
+      "parents": [
+        "fibo-fnd-arr-rep:Report"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasNumberOfEntries",
+          "operator": "some",
+          "value": "xsd:positiveInteger",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-rep:isSubmittedTo",
+          "operator": "some",
+          "value": "cmns-rga:RegulatoryAgency",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-rep:isSubmittedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "how submitted",
+      "technicalName": "fibo-loan-reln-hmda:HowSubmitted",
+      "localName": "HowSubmitted",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/HomeMortgageDisclosureActCoveredMortgages/HowSubmitted",
+      "label": "how submitted",
+      "definition": "category indicating whether the applicant or borrower submitted the application for the covered loan directly to the reporting financial institution",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "race",
+      "technicalName": "fibo-loan-reln-hmda:Race",
+      "localName": "Race",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/HomeMortgageDisclosureActCoveredMortgages/Race",
+      "label": "race",
+      "definition": "a category based on a person's physical characteristics, such as bone structure and skin, hair, or eye color",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-be-le-lp:LegallyCompetentNaturalPerson",
+          "qualifier": null
+        },
+        {
+          "property": "skos:broaderTransitive",
+          "operator": "some",
+          "value": "race",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "universal loan identifier",
+      "technicalName": "fibo-loan-reln-hmda:UniversalLoanIdentifier",
+      "localName": "UniversalLoanIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/HomeMortgageDisclosureActCoveredMortgages/UniversalLoanIdentifier",
+      "label": "universal loan identifier",
+      "definition": "unique identifier given to unequivocally identify a specific loan secured by real estate",
+      "parents": [
+        "fibo-fbc-fi-fi:FinancialInstrumentIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-loan-reln-mtg:LoanSecuredByRealEstate"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lei:LegalEntityIdentifier"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "HMDA disposition date",
+      "technicalName": "fibo-loan-reln-hmda:hasHMDA-DispositionDate",
+      "localName": "hasHMDA-DispositionDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/HomeMortgageDisclosureActCoveredMortgages/hasHMDA-DispositionDate",
+      "label": "HMDA disposition date",
+      "definition": "the date associated with the HMDA Disposition for a HMDA Covered Loan",
+      "domain": [],
+      "range": []
+    }
+  ],
+  "attributes": []
+}

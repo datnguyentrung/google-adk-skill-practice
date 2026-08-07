@@ -1,0 +1,447 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\LOAN\\LoansGeneral\\LoansRegulatory.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/",
+  "summary": {
+    "nodes": 24,
+    "edges": 2,
+    "properties": 2,
+    "triples": 177
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/"
+  ],
+  "classes": [
+    {
+      "name": "borrower data protection requirement",
+      "technicalName": "fibo-loan-ln-reg:BorrowerDataProtectionRequirement",
+      "localName": "BorrowerDataProtectionRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/BorrowerDataProtectionRequirement",
+      "label": "borrower data protection requirement",
+      "definition": null,
+      "parents": [
+        "data protection requirement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "consumer credit reference agency",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "borrower disclosure requirement",
+      "technicalName": "fibo-loan-ln-reg:BorrowerDisclosureRequirement",
+      "localName": "BorrowerDisclosureRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/BorrowerDisclosureRequirement",
+      "label": "borrower disclosure requirement",
+      "definition": null,
+      "parents": [
+        "disclosure requirement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "fibo-loan-ln-app:BorrowerAssessment",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:confers",
+          "operator": "some",
+          "value": "product disclosure right",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "borrower right",
+      "technicalName": "fibo-loan-ln-reg:BorrowerRight",
+      "localName": "BorrowerRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/BorrowerRight",
+      "label": "borrower right",
+      "definition": null,
+      "parents": [
+        "consumer right"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consumer credit equal treatment requirement",
+      "technicalName": "fibo-loan-ln-reg:ConsumerCreditEqualTreatmentRequirement",
+      "localName": "ConsumerCreditEqualTreatmentRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ConsumerCreditEqualTreatmentRequirement",
+      "label": "consumer credit equal treatment requirement",
+      "definition": null,
+      "parents": [
+        "consumer credit requirement"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:confers",
+          "operator": "some",
+          "value": "equal treatment right",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "consumer credit protection law",
+      "technicalName": "fibo-loan-ln-reg:ConsumerCreditProtectionLaw",
+      "localName": "ConsumerCreditProtectionLaw",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ConsumerCreditProtectionLaw",
+      "label": "consumer credit protection law",
+      "definition": null,
+      "parents": [
+        "consumer protection law"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consumer credit reference agency",
+      "technicalName": "fibo-loan-ln-reg:ConsumerCreditReferenceAgency",
+      "localName": "ConsumerCreditReferenceAgency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ConsumerCreditReferenceAgency",
+      "label": "consumer credit reference agency",
+      "definition": "Applicable regulations: vary by jurisdiciton. for example, only being allowed ot divulge actual judgements against a party, but not things that are not substantiated by judgements. For example, slow payments which are not covered by some judgement against the party. There will be different regulatory requirments about: 1. What the CR Agency can hold 2. Who they can divulge it to 3. What information they must provide the borrower at his/her request Some of the third thing there is covered in the EU the Data Protection Directive and local acts that implement this.",
+      "parents": [
+        "cmns-org:FormalOrganization"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consumer credit requirement",
+      "technicalName": "fibo-loan-ln-reg:ConsumerCreditRequirement",
+      "localName": "ConsumerCreditRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ConsumerCreditRequirement",
+      "label": "consumer credit requirement",
+      "definition": "Requirement set out on the lender about how they must treat the appliction to a loan",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalObligation"
+      ],
+      "rules": [
+        {
+          "property": "overseen by",
+          "operator": "some",
+          "value": "consumer protection agency",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:confers",
+          "operator": "some",
+          "value": "consumer right",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "consumer protection agency",
+      "technicalName": "fibo-loan-ln-reg:ConsumerProtectionAgency",
+      "localName": "ConsumerProtectionAgency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ConsumerProtectionAgency",
+      "label": "consumer protection agency",
+      "definition": "Some agency tasked with regulating consumer protection in some jurisdiction.",
+      "parents": [
+        "cmns-rga:RegulatoryAgency"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consumer protection law",
+      "technicalName": "fibo-loan-ln-reg:ConsumerProtectionLaw",
+      "localName": "ConsumerProtectionLaw",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ConsumerProtectionLaw",
+      "label": "consumer protection law",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-law-cor:StatuteLaw"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consumer right",
+      "technicalName": "fibo-loan-ln-reg:ConsumerRight",
+      "localName": "ConsumerRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ConsumerRight",
+      "label": "consumer right",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-law-lcap:LegalRight"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit reference agency requirements",
+      "technicalName": "fibo-loan-ln-reg:CreditReferenceAgencyRequirements",
+      "localName": "CreditReferenceAgencyRequirements",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/CreditReferenceAgencyRequirements",
+      "label": "credit reference agency requirements",
+      "definition": "REquirements other than data protection, governing what a credit reference agency can or cannot do.",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "data protection requirement",
+      "technicalName": "fibo-loan-ln-reg:DataProtectionRequirement",
+      "localName": "DataProtectionRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/DataProtectionRequirement",
+      "label": "data protection requirement",
+      "definition": "Requirements defining how data about individuals is held. Example is the EU DA directive and laws, which make the data the property of the individual that data is about. Covers - what information i sheld - who information can be divulged to. - the individual's rights in respect of that information Privacy regulations cover most of this. EU defines \"Personal Data\" and \"Sensitive Personal Data\". For credit reference agencies the latter would be covered. More detail about whether they can divulge facts which are not subject to formal judgements etc.",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalObligation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "disclosure requirement",
+      "technicalName": "fibo-loan-ln-reg:DisclosureRequirement",
+      "localName": "DisclosureRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/DisclosureRequirement",
+      "label": "disclosure requirement",
+      "definition": "Requirement for disclosure to borrowers or potential borrowers. There are two kinds of disclosure requirement: 1. Disclosure about the information held on the borrower 2. Disclsure about the product.",
+      "parents": [
+        "consumer credit requirement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "equal treatment right",
+      "technicalName": "fibo-loan-ln-reg:EqualTreatmentRight",
+      "localName": "EqualTreatmentRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/EqualTreatmentRight",
+      "label": "equal treatment right",
+      "definition": "The right to equal treatment under the law.",
+      "parents": [
+        "borrower right"
+      ],
+      "rules": []
+    },
+    {
+      "name": "good faith estimate",
+      "technicalName": "fibo-loan-ln-reg:GoodFaithEstimate",
+      "localName": "GoodFaithEstimate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/GoodFaithEstimate",
+      "label": "good faith estimate",
+      "definition": "GFE - representation by the lender on the costs and implications of settlement (early termination) of the loan.",
+      "parents": [
+        "loan product representations"
+      ],
+      "rules": []
+    },
+    {
+      "name": "information right",
+      "technicalName": "fibo-loan-ln-reg:InformationRight",
+      "localName": "InformationRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/InformationRight",
+      "label": "information right",
+      "definition": "The right to some information in some context, for example when purchasing some product. The right to full and fair disclosure of",
+      "parents": [
+        "borrower right"
+      ],
+      "rules": []
+    },
+    {
+      "name": "lender right",
+      "technicalName": "fibo-loan-ln-reg:LenderRight",
+      "localName": "LenderRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/LenderRight",
+      "label": "lender right",
+      "definition": "Rights on the lender to protect them against loss. furthe rNtoes: Logically, considering the two parties, they both have protecxtion mechanisms. so while the lender has protecxtion mechanisms through mortgage insurance, and the consumer has protextion mechanisms such as good faith estimates. also the agencies (see Consumer Protection Agency), an instance of which is the CFPB in the US (just set up). Lender rights are: - expressed in the Contract Consumer protection develops becaues the contract is written by the potential Lender. So the rights are introcued to rectify the imbalance between the two parties. Same goes for insurance. consumer protection laws (governe dby the relevant consumer protection agency. So the lender protexts itself as it writes th contract AND does the things it needs to do to protext itself, but on the approval process, and with later instruments such as insurance. Interestingly., it is the Borrower who pays for this by paying for credit reports etc. So the borrower protects itself by other mechanisms. Caveat emptor - displaced by regulation (the buyer is protected by regulation). Uberimae Fidae - in the utmost good faith. Mortgage Insurance is an additional means of mitigating the risk, that the lended may have., so if the information assessed is not accurate, or if the borrower's situation changes for the worse. then the risk rating may go down. So the Mortgage Insurance is a further strategy which mitigates any shortfall in the Lender Righrs that you may have - ie someone guarantees. In the US you can also avoid that by having paid a deposit. PIMI: Principal, Interst and Morgage Insurance. So the Borrower pays towards the MI, esxcept if they have paid a given amount as deposit. there are 2 types of MI: 1. protects the lender in the event of borrower degault 2. Insurance for \"Incapacity to pay the mortage\" (these can be bought off the shelf - can combine health, unemployment etc.). - this is the Borrower mitigating their own risk. Prevents foreclosure. Similar to general sickness etc. Where the lender charges for MI, the cost is passed onto the Borrower. e.g. if there is a % valuation (e.g. 70% in Aus, 80% in US for example) then no insurance is required.",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalRight"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan product representations",
+      "technicalName": "fibo-loan-ln-reg:LoanProductRepresentations",
+      "localName": "LoanProductRepresentations",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/LoanProductRepresentations",
+      "label": "loan product representations",
+      "definition": "Representations about the loan product and the appropriateness of this for the borrower.",
+      "parents": [
+        "fibo-fnd-agr-ctr:Representation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan regulatory requirement",
+      "technicalName": "fibo-loan-ln-reg:LoanRegulatoryRequirement",
+      "localName": "LoanRegulatoryRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/LoanRegulatoryRequirement",
+      "label": "loan regulatory requirement",
+      "definition": "A regulatory requirement defined in regulations by a comsumer credit act or other legislation.",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalObligation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:regulates",
+          "operator": "some",
+          "value": "fibo-loan-ln-ln:Loan",
+          "qualifier": null
+        },
+        {
+          "property": "administered by",
+          "operator": "some",
+          "value": "cmns-rga:RegulatoryAgency",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isMandatedBy",
+          "operator": "some",
+          "value": "consumer credit protection law",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "product disclosure requirement",
+      "technicalName": "fibo-loan-ln-reg:ProductDisclosureRequirement",
+      "localName": "ProductDisclosureRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ProductDisclosureRequirement",
+      "label": "product disclosure requirement",
+      "definition": "A requirement governing what representations can be made about a product, as it affects the consumer.",
+      "parents": [
+        "disclosure requirement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "loan product representations",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "good faith estimate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "product disclosure right",
+      "technicalName": "fibo-loan-ln-reg:ProductDisclosureRight",
+      "localName": "ProductDisclosureRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ProductDisclosureRight",
+      "label": "product disclosure right",
+      "definition": "The right to information about products at the point of purchasing these.",
+      "parents": [
+        "information right"
+      ],
+      "rules": []
+    },
+    {
+      "name": "reg b",
+      "technicalName": "fibo-loan-ln-reg:RegB",
+      "localName": "RegB",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/RegB",
+      "label": "reg b",
+      "definition": "US regulation concerning \"Equal credit opportunity act\" Electronic delivery of disclosures",
+      "parents": [
+        "consumer credit equal treatment requirement",
+        "disclosure requirement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "reg z",
+      "technicalName": "fibo-loan-ln-reg:RegZ",
+      "localName": "RegZ",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/RegZ",
+      "label": "reg z",
+      "definition": "US Fed regulation \"Truth in Lending Act\" uniform standards for electronic delivery of disclosures",
+      "parents": [
+        "product disclosure requirement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "right of credit record correction",
+      "technicalName": "fibo-loan-ln-reg:RightOfCreditRecordCorrection",
+      "localName": "RightOfCreditRecordCorrection",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/RightOfCreditRecordCorrection",
+      "label": "right of credit record correction",
+      "definition": "The right to have a credit record corrected.",
+      "parents": [
+        "credit reference agency requirements"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "administered by",
+      "technicalName": "fibo-loan-ln-reg:administeredBy",
+      "localName": "administeredBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/administeredBy",
+      "label": "administered by",
+      "definition": null,
+      "domain": [
+        "loan regulatory requirement"
+      ],
+      "range": [
+        "cmns-rga:RegulatoryAgency"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "overseen by",
+      "technicalName": "fibo-loan-ln-reg:overseenBy",
+      "localName": "overseenBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/overseenBy",
+      "label": "overseen by",
+      "definition": null,
+      "domain": [
+        "consumer credit requirement"
+      ],
+      "range": [
+        "consumer protection agency"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "requirement act reference",
+      "technicalName": "fibo-loan-ln-reg:requirementActReference",
+      "localName": "requirementActReference",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/requirementActReference",
+      "label": "requirement act reference",
+      "definition": null,
+      "domain": [
+        "loan regulatory requirement"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "requirement section and paragraph",
+      "technicalName": "fibo-loan-ln-reg:requirementSectionAndParagraph",
+      "localName": "requirementSectionAndParagraph",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/requirementSectionAndParagraph",
+      "label": "requirement section and paragraph",
+      "definition": null,
+      "domain": [
+        "loan regulatory requirement"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    }
+  ]
+}

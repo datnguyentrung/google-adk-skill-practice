@@ -1,0 +1,303 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\LOAN\\RealEstateLoans\\MortgageOrigination.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/",
+  "summary": {
+    "nodes": 14,
+    "edges": 4,
+    "properties": 2,
+    "triples": 351
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "amortization type",
+      "technicalName": "fibo-loan-reln-org:AmortizationType",
+      "localName": "AmortizationType",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/AmortizationType",
+      "label": "amortization type",
+      "definition": "classifier of amortization algorithms",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "automated system",
+      "technicalName": "fibo-loan-reln-org:AutomatedSystem",
+      "localName": "AutomatedSystem",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/AutomatedSystem",
+      "label": "automated system",
+      "definition": "system that reduces or eliminates the need for human involvement in order to complete a task",
+      "parents": [
+        "cmns-col:Arrangement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "automated underwriting system",
+      "technicalName": "fibo-loan-reln-org:AutomatedUnderwritingSystem",
+      "localName": "AutomatedUnderwritingSystem",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/AutomatedUnderwritingSystem",
+      "label": "automated underwriting system",
+      "definition": "software system that collects the information necessary to approve a loan application and supports a mortgage lender's analysis of a new loan application",
+      "parents": [
+        "automated system"
+      ],
+      "rules": []
+    },
+    {
+      "name": "cash-out status",
+      "technicalName": "fibo-loan-reln-org:CashOutStatus",
+      "localName": "CashOutStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/CashOutStatus",
+      "label": "cash-out status",
+      "definition": "classifier indicating the extent to which funds are released to the borrower on a new loan origination that refinances an existing loan",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "charge category",
+      "technicalName": "fibo-loan-reln-org:ChargeCategory",
+      "localName": "ChargeCategory",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/ChargeCategory",
+      "label": "charge category",
+      "definition": "Examples include closing costs, interest, taxes, and other service-related fees.",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "dwelling capacity",
+      "technicalName": "fibo-loan-reln-org:DwellingCapacity",
+      "localName": "DwellingCapacity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/DwellingCapacity",
+      "label": "dwelling capacity",
+      "definition": "classifier indicating how many dwellings some property has",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "government-sponsored loan",
+      "technicalName": "fibo-loan-reln-org:GovernmentSponsoredLoan",
+      "localName": "GovernmentSponsoredLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/GovernmentSponsoredLoan",
+      "label": "government-sponsored loan",
+      "definition": null,
+      "parents": [
+        "fibo-loan-reln-mtg:LoanSecuredByRealEstate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "manufactured home legal classification",
+      "technicalName": "fibo-loan-reln-org:ManufacturedHomeLegalClassification",
+      "localName": "ManufacturedHomeLegalClassification",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/ManufacturedHomeLegalClassification",
+      "label": "manufactured home legal classification",
+      "definition": "category indicating whether the covered loan is secured by a manufactured home only or with land as well",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "mortgage indemnity guarantee",
+      "technicalName": "fibo-loan-reln-org:MortgageIndemnityGuarantee",
+      "localName": "MortgageIndemnityGuarantee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/MortgageIndemnityGuarantee",
+      "label": "mortgage indemnity guarantee",
+      "definition": "insurance-backed guarantee that protects lenders if the mortgage repayments cease for some reason, perhaps due to death or a homeowner being made redundant at work",
+      "parents": [
+        "fibo-fbc-dae-gty:InsuranceBackedGuaranty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isExemplifiedBy",
+          "operator": "some",
+          "value": "mortgage indemnity insurance policy",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-dae-gty:isGuaranteedBy",
+          "operator": "some",
+          "value": "mortgage indemnity guarantor",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "mortgage indemnity guarantor",
+      "technicalName": "fibo-loan-reln-org:MortgageIndemnityGuarantor",
+      "localName": "MortgageIndemnityGuarantor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/MortgageIndemnityGuarantor",
+      "label": "mortgage indemnity guarantor",
+      "definition": "guarantor and insurer that provides mortgage insurance in the form of a mortgage indemnity guarantee (MIG)",
+      "parents": [
+        "fibo-fbc-dae-gty:Guarantor",
+        "fibo-fbc-dae-gty:Insurer"
+      ],
+      "rules": []
+    },
+    {
+      "name": "mortgage indemnity insurance policy",
+      "technicalName": "fibo-loan-reln-org:MortgageIndemnityInsurancePolicy",
+      "localName": "MortgageIndemnityInsurancePolicy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/MortgageIndemnityInsurancePolicy",
+      "label": "mortgage indemnity insurance policy",
+      "definition": "insurance policy providing the mortgage indemnity guarantee",
+      "parents": [
+        "fibo-fbc-dae-gty:InsurancePolicy"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidenceFor",
+          "operator": "some",
+          "value": "mortgage indemnity guarantee",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "mortgage loan purpose",
+      "technicalName": "fibo-loan-reln-org:MortgageLoanPurpose",
+      "localName": "MortgageLoanPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/MortgageLoanPurpose",
+      "label": "mortgage loan purpose",
+      "definition": "the purpose for which mortgage loan proceeds will be used, such as real property purchase, dwelling construction, or loan refinancing",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "Nationwide Mortgage Licensing System and Registry Identifier",
+      "technicalName": "fibo-loan-reln-org:NMLSR-ID",
+      "localName": "NMLSR-ID",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/NMLSR-ID",
+      "label": "Nationwide Mortgage Licensing System and Registry Identifier",
+      "definition": "the number permanently assigned by the Nationwide Mortgage Licensing System and Registry (NMLS) for each company, branch, and individual that maintains a single account on NMLS.",
+      "parents": [
+        "fibo-fnd-law-lcap:LicenseIdentifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "property usage",
+      "technicalName": "fibo-loan-reln-org:PropertyUsage",
+      "localName": "PropertyUsage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/PropertyUsage",
+      "label": "property usage",
+      "definition": "a category indicating the manner in which the borrower intends to utilize the property",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "assumes",
+      "technicalName": "fibo-loan-reln-org:assumes",
+      "localName": "assumes",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/assumes",
+      "label": "assumes",
+      "definition": "relates a new mortgage loan contract to a previous one made to a different borrower for the same property. The new contract is created via a legally binding process where the new borrower assumes the terms of the previous loan contract",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has originating service provider",
+      "technicalName": "fibo-loan-reln-org:hasOriginatingServiceProvider",
+      "localName": "hasOriginatingServiceProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/hasOriginatingServiceProvider",
+      "label": "has originating service provider",
+      "definition": "relates something, typically a loan contract, to the service provider responsible for originated the loan",
+      "domain": [],
+      "range": [
+        "anonymous restriction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has originator person",
+      "technicalName": "fibo-loan-reln-org:hasOriginatorPerson",
+      "localName": "hasOriginatorPerson",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/hasOriginatorPerson",
+      "label": "has originator person",
+      "definition": "relates something, typically a loan, to a person that initially originates or creates it",
+      "domain": [],
+      "range": [
+        "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is lien on",
+      "technicalName": "fibo-loan-reln-org:isLienOn",
+      "localName": "isLienOn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/isLienOn",
+      "label": "is lien on",
+      "definition": null,
+      "domain": [],
+      "range": []
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has number of affordable dwelling units",
+      "technicalName": "fibo-loan-reln-org:hasNumberOfAffordableDwellingUnits",
+      "localName": "hasNumberOfAffordableDwellingUnits",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/hasNumberOfAffordableDwellingUnits",
+      "label": "has number of affordable dwelling units",
+      "definition": "relates real estate to the number of dwelling units it contains that are income-restricted under Federal, State, or local affordable housing programs.",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has number of dwelling units",
+      "technicalName": "fibo-loan-reln-org:hasNumberOfDwellingUnits",
+      "localName": "hasNumberOfDwellingUnits",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/hasNumberOfDwellingUnits",
+      "label": "has number of dwelling units",
+      "definition": "relates real estate to the number of dwelling units it contains",
+      "domain": [],
+      "range": []
+    }
+  ]
+}

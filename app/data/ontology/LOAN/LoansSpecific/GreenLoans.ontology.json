@@ -1,0 +1,618 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\LOAN\\LoansSpecific\\GreenLoans.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/",
+  "summary": {
+    "nodes": 21,
+    "edges": 2,
+    "properties": 0,
+    "triples": 372
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/Analytics/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/CommercialLoans/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/ContextualIdentifiers/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Locations/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/",
+    "https://www.omg.org/spec/Commons/SitesAndFacilities/"
+  ],
+  "classes": [
+    {
+      "name": "assessment boundary",
+      "technicalName": "fibo-loan-spc-grn:AssessmentBoundary",
+      "localName": "AssessmentBoundary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/AssessmentBoundary",
+      "label": "assessment boundary",
+      "definition": "defined scope, limits, and criteria used to determine what is included or excluded in an evaluation, analysis, or measurement of environmental impacts, sustainability performance, or related objectives",
+      "parents": [
+        "cmns-cxtdsg:Context",
+        "cmns-doc:Specification"
+      ],
+      "rules": [
+        {
+          "property": "has spatial boundary",
+          "operator": "some",
+          "value": "cmns-loc:GeographicRegion",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:involves",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-sfc:Site"
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-sfc:Facility"
+        },
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-rga:Jurisdiction"
+        }
+      ]
+    },
+    {
+      "name": "environmental program",
+      "technicalName": "fibo-loan-spc-grn:EnvironmentalProgram",
+      "localName": "EnvironmentalProgram",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/EnvironmentalProgram",
+      "label": "environmental program",
+      "definition": "broad scale initiative, activity, or investment aimed at improving environmental sustainability, reducing ecological harm, or addressing environmental challenges",
+      "parents": [
+        "fibo-fnd-gao-obj:Program"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:isCharacterizedBy",
+          "operator": "some",
+          "value": "sustainability key performance indicator",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "environmental project"
+        }
+      ]
+    },
+    {
+      "name": "environmental project",
+      "technicalName": "fibo-loan-spc-grn:EnvironmentalProject",
+      "localName": "EnvironmentalProject",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/EnvironmentalProject",
+      "label": "environmental project",
+      "definition": "specific initiative, activity, or investment aimed at improving environmental sustainability, reducing ecological harm, or addressing environmental challenges",
+      "parents": [
+        "fibo-fnd-gao-obj:Project"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:isCharacterizedBy",
+          "operator": "some",
+          "value": "sustainability key performance indicator",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasSchedule",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:MilestoneSchedule",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "environmental program"
+        },
+        {
+          "property": "has assessment boundary",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "assessment boundary"
+        }
+      ]
+    },
+    {
+      "name": "green loan",
+      "technicalName": "fibo-loan-spc-grn:GreenLoan",
+      "localName": "GreenLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/GreenLoan",
+      "label": "green loan",
+      "definition": "credit agreement and/or contingent facility (such as a bonding line, guarantee line or letter of credit) made available exclusively to finance, re-finance or guarantee, in whole or in part, new and/or existing eligible green projects that are aligned to the four core components of the Green Loan Principles (GLP)",
+      "parents": [
+        "fibo-fbc-dae-dbt:CreditAgreementRepaidPeriodically"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "green project use of proceeds provision",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:DisclosureProvision",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasSchedule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-agr-ctr:MilestoneSchedule"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasMilestoneProvision",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-agr-ctr:ContractMilestone"
+        }
+      ]
+    },
+    {
+      "name": "green project",
+      "technicalName": "fibo-loan-spc-grn:GreenProject",
+      "localName": "GreenProject",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/GreenProject",
+      "label": "green project",
+      "definition": "project that contributes to environmental sustainability by addressing climate change, conserving natural resources, reducing pollution, or promoting ecological balance",
+      "parents": [
+        "environmental project"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "some",
+          "value": "green project use of proceeds provision",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "green project use of proceeds provision",
+      "technicalName": "fibo-loan-spc-grn:GreenProjectUseOfProceedsProvision",
+      "localName": "GreenProjectUseOfProceedsProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/GreenProjectUseOfProceedsProvision",
+      "label": "green project use of proceeds provision",
+      "definition": "use of proceeds provision specifying that funds obtained through financing, such as through a credit agreement, offering, warrant, or other instrument are intended to be used for Green Projects (including other related and supporting expenditures, including research and development)",
+      "parents": [
+        "fibo-fnd-agr-ctr:UseOfProceedsProvision"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "green project",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "observed indicator value",
+      "technicalName": "fibo-loan-spc-grn:ObservedIndicatorValue",
+      "localName": "ObservedIndicatorValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/ObservedIndicatorValue",
+      "label": "observed indicator value",
+      "definition": "observation (measurement) of a key performance indicator measured at specific date and time",
+      "parents": [
+        "fibo-fnd-dt-fd:DatedCollectionConstituent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasQuantityValue",
+          "operator": "some",
+          "value": "cmns-qtu:ScalarQuantityValue",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "observed indicator value structure",
+      "technicalName": "fibo-loan-spc-grn:ObservedIndicatorValueStructure",
+      "localName": "ObservedIndicatorValueStructure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/ObservedIndicatorValueStructure",
+      "label": "observed indicator value structure",
+      "definition": "collection of observations for some key performance indicator measured over a specified window of time",
+      "parents": [
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasDatePeriod",
+          "operator": "some",
+          "value": "fibo-fnd-dt-fd:CalculationPeriod",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "observed indicator value",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "sustainability business objective",
+      "technicalName": "fibo-loan-spc-grn:SustainabilityBusinessObjective",
+      "localName": "SustainabilityBusinessObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/SustainabilityBusinessObjective",
+      "label": "sustainability business objective",
+      "definition": "objective related to improving the sustainability profile of the business",
+      "parents": [
+        "fibo-fnd-gao-obj:BusinessObjective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "sustainability business strategy",
+      "technicalName": "fibo-loan-spc-grn:SustainabilityBusinessStrategy",
+      "localName": "SustainabilityBusinessStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/SustainabilityBusinessStrategy",
+      "label": "sustainability business strategy",
+      "definition": "strategy for achieving specific business objectives related to sustainability (from an environmental and/or social and/or governance (ESG) perspective)",
+      "parents": [
+        "fibo-fnd-gao-obj:BusinessStrategy"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:isCharacterizedBy",
+          "operator": "some",
+          "value": "sustainability key performance indicator",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "some",
+          "value": "sustainability business objective",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidencedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "sustainability performance target"
+        }
+      ]
+    },
+    {
+      "name": "sustainability key performance indicator",
+      "technicalName": "fibo-loan-spc-grn:SustainabilityKeyPerformanceIndicator",
+      "localName": "SustainabilityKeyPerformanceIndicator",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/SustainabilityKeyPerformanceIndicator",
+      "label": "sustainability key performance indicator",
+      "definition": "measurable performance indicator that is sustainability specific",
+      "parents": [
+        "fibo-fnd-utl-alx:KeyPerformanceIndicator"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasTargetValue",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "sustainability performance target"
+        },
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "sustainability key performance indicator identifier"
+        },
+        {
+          "property": "fibo-fnd-utl-alx:hasObservedValue",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "observed indicator value structure"
+        }
+      ]
+    },
+    {
+      "name": "sustainability key performance indicator identifier",
+      "technicalName": "fibo-loan-spc-grn:SustainabilityKeyPerformanceIndicatorIdentifier",
+      "localName": "SustainabilityKeyPerformanceIndicatorIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/SustainabilityKeyPerformanceIndicatorIdentifier",
+      "label": "sustainability key performance indicator identifier",
+      "definition": "sequence of characters uniquely identifying a specific sustainability-related key performance indicator",
+      "parents": [
+        "cmns-cxtid:ContextualIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "sustainability key performance indicator",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "sustainability-linked loan",
+      "technicalName": "fibo-loan-spc-grn:SustainabilityLinkedLoan",
+      "localName": "SustainabilityLinkedLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/SustainabilityLinkedLoan",
+      "label": "sustainability-linked loan",
+      "definition": "credit agreement and/or contingent facility (such as a bonding line, guarantee line or letter of credit) for which the economic characteristics can vary depending on whether the borrower achieves ambitious, material and quantifiable predetermined sustainability performance objectives aligned with Sustainability-Linked Loan Principles (SSLP)",
+      "parents": [
+        "fibo-fbc-dae-dbt:CreditAgreementRepaidPeriodically",
+        "fibo-loan-spc-com:CommercialLoan"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasStrategy",
+          "operator": "some",
+          "value": "sustainability business strategy",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:DisclosureProvision",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasSchedule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-agr-ctr:MilestoneSchedule"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasMilestoneProvision",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-agr-ctr:ContractMilestone"
+        }
+      ]
+    },
+    {
+      "name": "sustainability performance target",
+      "technicalName": "fibo-loan-spc-grn:SustainabilityPerformanceTarget",
+      "localName": "SustainabilityPerformanceTarget",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/SustainabilityPerformanceTarget",
+      "label": "sustainability performance target",
+      "definition": "collection of quantitative target values used to calibrate the level of achievement a borrower makes with respect to a key performance indicator, by date, including, but not limited to, the methodology used to calculate its value at any point over the lifetime of a loan",
+      "parents": [
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasDatePeriod",
+          "operator": "some",
+          "value": "fibo-fnd-dt-fd:CalculationPeriod",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "target indicator value",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-utl-alx:isCalculatedViaMethodology",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "sustainability performance target identifier"
+        }
+      ]
+    },
+    {
+      "name": "sustainability performance target identifier",
+      "technicalName": "fibo-loan-spc-grn:SustainabilityPerformanceTargetIdentifier",
+      "localName": "SustainabilityPerformanceTargetIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/SustainabilityPerformanceTargetIdentifier",
+      "label": "sustainability performance target identifier",
+      "definition": "sequence of characters uniquely identifying a specific sustainability-related performance target",
+      "parents": [
+        "cmns-cxtid:ContextualIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "sustainability performance target",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "sustainability structuring agent",
+      "technicalName": "fibo-loan-spc-grn:SustainabilityStructuringAgent",
+      "localName": "SustainabilityStructuringAgent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/SustainabilityStructuringAgent",
+      "label": "sustainability structuring agent",
+      "definition": "financial institution appointed to help design, implement, and monitor the sustainability aspects of a syndicated green loan",
+      "parents": [
+        "fibo-be-fct-fct:SyndicateMember"
+      ],
+      "rules": []
+    },
+    {
+      "name": "target indicator value",
+      "technicalName": "fibo-loan-spc-grn:TargetIndicatorValue",
+      "localName": "TargetIndicatorValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/TargetIndicatorValue",
+      "label": "target indicator value",
+      "definition": "target value for a key performance indicator as of a specific date and time",
+      "parents": [
+        "fibo-fnd-dt-fd:DatedCollectionConstituent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasQuantityValue",
+          "operator": "some",
+          "value": "cmns-qtu:ScalarQuantityValue",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "transition loan",
+      "technicalName": "fibo-loan-spc-grn:TransitionLoan",
+      "localName": "TransitionLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/TransitionLoan",
+      "label": "transition loan",
+      "definition": "credit agreement and/or contingent facility (such as a bonding line, guarantee line or letter of credit) designed to help a business or organization shift from carbon-intensive or environmentally harmful practices to more sustainable and environmentally friendly operations",
+      "parents": [
+        "fibo-fbc-dae-dbt:CreditAgreementRepaidPeriodically",
+        "fibo-loan-spc-com:CommercialLoan"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasStrategy",
+          "operator": "some",
+          "value": "transition strategy",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "transition use of proceeds provision",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:DisclosureProvision",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasSchedule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-agr-ctr:MilestoneSchedule"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasMilestoneProvision",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-agr-ctr:ContractMilestone"
+        }
+      ]
+    },
+    {
+      "name": "transition project",
+      "technicalName": "fibo-loan-spc-grn:TransitionProject",
+      "localName": "TransitionProject",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/TransitionProject",
+      "label": "transition project",
+      "definition": "project that supports broad, sector-specific efforts to reduce environmental impact",
+      "parents": [
+        "environmental project"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "some",
+          "value": "transition use of proceeds provision",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "transition strategy",
+      "technicalName": "fibo-loan-spc-grn:TransitionStrategy",
+      "localName": "TransitionStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/TransitionStrategy",
+      "label": "transition strategy",
+      "definition": "strategy for achieving specific business objectives related to sustainability in the context of long-term decarbonization or sustainability transitions",
+      "parents": [
+        "fibo-fnd-gao-obj:BusinessStrategy"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:isCharacterizedBy",
+          "operator": "some",
+          "value": "sustainability key performance indicator",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "some",
+          "value": "sustainability business objective",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidencedBy",
+          "operator": "some",
+          "value": "sustainability performance target",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "transition use of proceeds provision",
+      "technicalName": "fibo-loan-spc-grn:TransitionUseOfProceedsProvision",
+      "localName": "TransitionUseOfProceedsProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/TransitionUseOfProceedsProvision",
+      "label": "transition use of proceeds provision",
+      "definition": "use of proceeds provision specifying that funds obtained through financing, such as through a credit agreement, offering, warrant, or other instrument are intended to be used to fund specific projects, investments, or operational changes that support a company's transition toward sustainability",
+      "parents": [
+        "fibo-fnd-agr-ctr:UseOfProceedsProvision"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "transition project",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has assessment boundary",
+      "technicalName": "fibo-loan-spc-grn:hasAssessmentBoundary",
+      "localName": "hasAssessmentBoundary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/hasAssessmentBoundary",
+      "label": "has assessment boundary",
+      "definition": "indicates the scope, limits, and context for an environmental or sustainability project",
+      "domain": [],
+      "range": [
+        "assessment boundary"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has spatial boundary",
+      "technicalName": "fibo-loan-spc-grn:hasSpatialBoundary",
+      "localName": "hasSpatialBoundary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/GreenLoans/hasSpatialBoundary",
+      "label": "has spatial boundary",
+      "definition": "specifies a geographic region included in an environmental or sustainability assessment, which may cover a specific site, facility, region, or the global operations of a company or project",
+      "domain": [],
+      "range": [
+        "cmns-loc:GeographicRegion"
+      ]
+    }
+  ],
+  "attributes": []
+}

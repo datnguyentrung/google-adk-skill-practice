@@ -1,0 +1,98 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\LOAN\\RealEstateLoans\\ConstructionLoans.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/ConstructionLoans/",
+  "summary": {
+    "nodes": 1,
+    "edges": 3,
+    "properties": 0,
+    "triples": 65
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/"
+  ],
+  "classes": [
+    {
+      "name": "construction loan",
+      "technicalName": "fibo-loan-reln-cnst:ConstructionLoan",
+      "localName": "ConstructionLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/ConstructionLoans/ConstructionLoan",
+      "label": "construction loan",
+      "definition": "loan covering construction and development costs, secured by a mortgage on the property financed",
+      "parents": [
+        "fibo-fbc-dae-dbt:CreditFacility",
+        "fibo-fnd-agr-ctr:MasterAgreement",
+        "fibo-loan-ln-ln:CollateralizedLoan"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isCollateralizedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-plc-rp:RealProperty"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasMilestoneProvision",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-agr-ctr:ContractMilestone"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has maximum allowed balance",
+      "technicalName": "fibo-loan-reln-cnst:hasMaximumAllowedBalance",
+      "localName": "hasMaximumAllowedBalance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/ConstructionLoans/hasMaximumAllowedBalance",
+      "label": "has maximum allowed balance",
+      "definition": "maximum balance that may be outstanding at any time, below the credit limit, for loans with flexible re-draw facilities",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has maximum anticipated balance",
+      "technicalName": "fibo-loan-reln-cnst:hasMaximumAnticipatedBalance",
+      "localName": "hasMaximumAnticipatedBalance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/ConstructionLoans/hasMaximumAnticipatedBalance",
+      "label": "has maximum anticipated balance",
+      "definition": "maximum balance the borrower believes they might need, below the credit limit, for planning purposes, for loans with flexible re-draw facilities",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has milestone maximum drawdown amount",
+      "technicalName": "fibo-loan-reln-cnst:hasMilestoneMaximumDrawdownAmount",
+      "localName": "hasMilestoneMaximumDrawdownAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/ConstructionLoans/hasMilestoneMaximumDrawdownAmount",
+      "label": "has milestone maximum drawdown amount",
+      "definition": "maximum amount of the loan that can be drawn by the borrower on completion of the milestone",
+      "domain": [
+        "fibo-fnd-agr-ctr:ContractMilestone"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    }
+  ],
+  "attributes": []
+}

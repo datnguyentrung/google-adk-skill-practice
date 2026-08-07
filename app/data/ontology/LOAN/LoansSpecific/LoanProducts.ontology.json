@@ -1,0 +1,343 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\LOAN\\LoansSpecific\\LoanProducts.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/",
+  "summary": {
+    "nodes": 18,
+    "edges": 2,
+    "properties": 0,
+    "triples": 184
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/ClassificationSchemes/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/MortgageOrigination/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/"
+  ],
+  "classes": [
+    {
+      "name": "auto loan purpose",
+      "technicalName": "fibo-loan-spc-prod:AutoLoanPurpose",
+      "localName": "AutoLoanPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/AutoLoanPurpose",
+      "label": "auto loan purpose",
+      "definition": null,
+      "parents": [
+        "loan purpose"
+      ],
+      "rules": []
+    },
+    {
+      "name": "bridging loan purpose",
+      "technicalName": "fibo-loan-spc-prod:BridgingLoanPurpose",
+      "localName": "BridgingLoanPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/BridgingLoanPurpose",
+      "label": "bridging loan purpose",
+      "definition": null,
+      "parents": [
+        "loan purpose"
+      ],
+      "rules": []
+    },
+    {
+      "name": "construction loan purpose",
+      "technicalName": "fibo-loan-spc-prod:ConstructionLoanPurpose",
+      "localName": "ConstructionLoanPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/ConstructionLoanPurpose",
+      "label": "construction loan purpose",
+      "definition": null,
+      "parents": [
+        "loan purpose"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit card receivable purpose",
+      "technicalName": "fibo-loan-spc-prod:CreditCardReceivablePurpose",
+      "localName": "CreditCardReceivablePurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/CreditCardReceivablePurpose",
+      "label": "credit card receivable purpose",
+      "definition": null,
+      "parents": [
+        "loan purpose"
+      ],
+      "rules": []
+    },
+    {
+      "name": "home equity loan purpose",
+      "technicalName": "fibo-loan-spc-prod:HomeEquityLoanPurpose",
+      "localName": "HomeEquityLoanPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/HomeEquityLoanPurpose",
+      "label": "home equity loan purpose",
+      "definition": null,
+      "parents": [
+        "loan purpose"
+      ],
+      "rules": []
+    },
+    {
+      "name": "line item",
+      "technicalName": "fibo-loan-spc-prod:LineItem",
+      "localName": "LineItem",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/LineItem",
+      "label": "line item",
+      "definition": "description of a product or service including its unit cost, number of units and total cost",
+      "parents": [
+        "cmns-col:Constituent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-loan-ln-ln:hasCost",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryAmount",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-qtu:hasNumericValue",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "has unit cost",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "loan market category",
+      "technicalName": "fibo-loan-spc-prod:LoanMarketCategory",
+      "localName": "LoanMarketCategory",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/LoanMarketCategory",
+      "label": "loan market category",
+      "definition": "category indicating the market domain in which the loan product is offered",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan product",
+      "technicalName": "fibo-loan-spc-prod:LoanProduct",
+      "localName": "LoanProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/LoanProduct",
+      "label": "loan product",
+      "definition": "financial product that is realized as a loan that a party may acquire from a lending institution with specific characteristics and terms",
+      "parents": [
+        "fibo-fbc-dae-dbt:CreditFacility",
+        "fibo-fbc-pas-fpas:FinancialProduct"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isExemplifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-loan-ln-ln:Loan"
+        },
+        {
+          "property": "has preconditions",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-agr-ctr:ConditionPrecedent"
+        },
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-dae-dbt:Collateral"
+        }
+      ]
+    },
+    {
+      "name": "loan product disclosure right",
+      "technicalName": "fibo-loan-spc-prod:LoanProductDisclosureRight",
+      "localName": "LoanProductDisclosureRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/LoanProductDisclosureRight",
+      "label": "loan product disclosure right",
+      "definition": "Right to fair representation of the facts about Loan products before entrering into agreements for same.",
+      "parents": [
+        "fibo-loan-ln-reg:ProductDisclosureRight"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan offering",
+      "technicalName": "fibo-loan-spc-prod:LoanProductOffering",
+      "localName": "LoanProductOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/LoanProductOffering",
+      "label": "loan offering",
+      "definition": "offering related to a loan product that may be a tailored to particular circumstances, aimed at a group of borrowers or individual borrower",
+      "parents": [
+        "fibo-fbc-pas-fpas:Offering"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "loan product",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "line item"
+        }
+      ]
+    },
+    {
+      "name": "loan purpose",
+      "technicalName": "fibo-loan-spc-prod:LoanPurpose",
+      "localName": "LoanPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/LoanPurpose",
+      "label": "loan purpose",
+      "definition": "A selection of different types of loan purpose, being the purpose for which and manner in which loan (credit) draw-down amounts are to be used. This shows the purpose for which credit is to be used, and implies certain kinds of fact that relate to that specific type of loan e.g. mortgages. These are also identified as tranche types in tranches of a credit facility.",
+      "parents": [
+        "fibo-fnd-gao-obj:Objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "mortgage product",
+      "technicalName": "fibo-loan-spc-prod:MortgageProduct",
+      "localName": "MortgageProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/MortgageProduct",
+      "label": "mortgage product",
+      "definition": null,
+      "parents": [
+        "loan product"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isExemplifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-loan-reln-mtg:LoanSecuredByRealEstate"
+        }
+      ]
+    },
+    {
+      "name": "motorhome loan purpose",
+      "technicalName": "fibo-loan-spc-prod:MotorhomeLoanPurpose",
+      "localName": "MotorhomeLoanPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/MotorhomeLoanPurpose",
+      "label": "motorhome loan purpose",
+      "definition": null,
+      "parents": [
+        "loan purpose"
+      ],
+      "rules": []
+    },
+    {
+      "name": "ordinary loan purpose",
+      "technicalName": "fibo-loan-spc-prod:OrdinaryLoanPurpose",
+      "localName": "OrdinaryLoanPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/OrdinaryLoanPurpose",
+      "label": "ordinary loan purpose",
+      "definition": null,
+      "parents": [
+        "loan purpose"
+      ],
+      "rules": []
+    },
+    {
+      "name": "overdraft facility purpose",
+      "technicalName": "fibo-loan-spc-prod:OverdraftFacilityPurpose",
+      "localName": "OverdraftFacilityPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/OverdraftFacilityPurpose",
+      "label": "overdraft facility purpose",
+      "definition": null,
+      "parents": [
+        "loan purpose"
+      ],
+      "rules": []
+    },
+    {
+      "name": "residential houseboat loan purpose",
+      "technicalName": "fibo-loan-spc-prod:ResidentialHouseboatLoanPurpose",
+      "localName": "ResidentialHouseboatLoanPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/ResidentialHouseboatLoanPurpose",
+      "label": "residential houseboat loan purpose",
+      "definition": null,
+      "parents": [
+        "loan purpose"
+      ],
+      "rules": []
+    },
+    {
+      "name": "student loan purpose",
+      "technicalName": "fibo-loan-spc-prod:StudentLoanPurpose",
+      "localName": "StudentLoanPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/StudentLoanPurpose",
+      "label": "student loan purpose",
+      "definition": null,
+      "parents": [
+        "loan purpose"
+      ],
+      "rules": []
+    },
+    {
+      "name": "working capital purpose",
+      "technicalName": "fibo-loan-spc-prod:WorkingCapitalPurpose",
+      "localName": "WorkingCapitalPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/WorkingCapitalPurpose",
+      "label": "working capital purpose",
+      "definition": null,
+      "parents": [
+        "loan purpose"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has preconditions",
+      "technicalName": "fibo-loan-spc-prod:hasPreconditions",
+      "localName": "hasPreconditions",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/hasPreconditions",
+      "label": "has preconditions",
+      "definition": null,
+      "domain": [
+        "loan product"
+      ],
+      "range": [
+        "fibo-fnd-agr-ctr:ConditionPrecedent"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has unit cost",
+      "technicalName": "fibo-loan-spc-prod:hasUnitCost",
+      "localName": "hasUnitCost",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/LoanProducts/hasUnitCost",
+      "label": "has unit cost",
+      "definition": "relates an item to its unit cost",
+      "domain": [],
+      "range": []
+    }
+  ],
+  "attributes": []
+}

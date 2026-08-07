@@ -1,0 +1,273 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\LOAN\\LoansGeneral\\LoanEvents.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/",
+  "summary": {
+    "nodes": 8,
+    "edges": 5,
+    "properties": 2,
+    "triples": 111
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/PaymentsAndSchedules/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/"
+  ],
+  "classes": [
+    {
+      "name": "collateral valuation",
+      "technicalName": "fibo-loan-ln-ev:CollateralValuation",
+      "localName": "CollateralValuation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/CollateralValuation",
+      "label": "collateral valuation",
+      "definition": "assessment activity resulting in the valuation of real property as collateral",
+      "parents": [
+        "fibo-fnd-arr-asmt:AssessmentActivity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "fibo-fnd-arr-asmt:Appraiser",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:evaluates",
+          "operator": "only",
+          "value": "fibo-fbc-dae-dbt:Collateral",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "court judgment",
+      "technicalName": "fibo-loan-ln-ev:CourtJudgment",
+      "localName": "CourtJudgment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/CourtJudgment",
+      "label": "court judgment",
+      "definition": "decision by a court or other tribunal that resolves a controversy and determines the rights and obligations of the parties",
+      "parents": [
+        "legal proceeding"
+      ],
+      "rules": [
+        {
+          "property": "is delivered by",
+          "operator": "some",
+          "value": "fibo-fnd-law-cor:CourtOfLaw",
+          "qualifier": null
+        },
+        {
+          "property": "has judgement amount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "legal proceeding",
+      "technicalName": "fibo-loan-ln-ev:LegalProceeding",
+      "localName": "LegalProceeding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/LegalProceeding",
+      "label": "legal proceeding",
+      "definition": "legal step or action taken at the direction of, or by the authority of, a court or agency",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "is against",
+          "operator": "some",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "loan default proceeding",
+      "technicalName": "fibo-loan-ln-ev:LoanDefaultProceeding",
+      "localName": "LoanDefaultProceeding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/LoanDefaultProceeding",
+      "label": "loan default proceeding",
+      "definition": "[no definition] Further Review This is typically part of mortgagte servicing. THere would typically be a whole department dealing with this. Dealing with default, helping borrowers make payment Collections Default admin Foreclosure Reselling All dealt with by several sub departments. This requires subject matter experts in this area. 1. scoping Identify default as a possible state. This hands off to other business processes. Once you get into the default scenario we are talking about a proces that is going to fall into place over a period of time. The bank works out what to do with the default scenario, e.g. whether it restructures, forecloses, seeks restitution from the security (collateral). It does nto help us to understand the structure of the loan, rather tha consequences of the loan. If we were to further explore the default detail we would bring in other SMEs. And we would have to model a process flow. 1.1 impact on the pool of an MBS Loan Default Proceeding (special ase of legal thing) is an aspect of Default Management / Administratoin. there is also the State of the Loan. Sale / something / fulfilment / fiunduing / approved = servicing mode. Something happens (non payment) =&gt; Default Grace Period followed by negotiation. Some threshold whereby after a given amount of delinquency it needs to go into some other process moving towards foreclosure. Do State Diagram. Stages of loan.",
+      "parents": [
+        "legal proceeding"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan paid in full",
+      "technicalName": "fibo-loan-ln-ev:LoanPaidInFull",
+      "localName": "LoanPaidInFull",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/LoanPaidInFull",
+      "label": "loan paid in full",
+      "definition": null,
+      "parents": [
+        "loan phase"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan phase",
+      "technicalName": "fibo-loan-ln-ev:LoanPhase",
+      "localName": "LoanPhase",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/LoanPhase",
+      "label": "loan phase",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStage"
+      ],
+      "rules": []
+    },
+    {
+      "name": "prepayment",
+      "technicalName": "fibo-loan-ln-ev:Prepayment",
+      "localName": "Prepayment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/Prepayment",
+      "label": "prepayment",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-pas-psch:Payment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "repayment phase",
+      "technicalName": "fibo-loan-ln-ev:RepaymentPhase",
+      "localName": "RepaymentPhase",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/RepaymentPhase",
+      "label": "repayment phase",
+      "definition": null,
+      "parents": [
+        "loan phase"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has default amount",
+      "technicalName": "fibo-loan-ln-ev:hasDefaultAmount",
+      "localName": "hasDefaultAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/hasDefaultAmount",
+      "label": "has default amount",
+      "definition": "amount before the application of sale proceeds and recoveries",
+      "domain": [
+        "loan default proceeding"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "disbursement date",
+      "technicalName": "fibo-loan-ln-ev:hasDisbursementDate",
+      "localName": "hasDisbursementDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/hasDisbursementDate",
+      "label": "disbursement date",
+      "definition": null,
+      "domain": [
+        "fibo-loan-ln-ln:Loan"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has judgement amount",
+      "technicalName": "fibo-loan-ln-ev:hasJudgementAmount",
+      "localName": "hasJudgementAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/hasJudgementAmount",
+      "label": "has judgement amount",
+      "definition": "Undefined PoC SDM Notes: Total value of CCJs or equivalent recorded against the primary borrower that were satisfied / unsatsified (at time of underwriting ) is computed by selecting the satisfaction code value of interest and aggregating against all borrower CC Judgements &lt;/p&gt;",
+      "domain": [
+        "court judgment"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is against",
+      "technicalName": "fibo-loan-ln-ev:isAgainst",
+      "localName": "isAgainst",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/isAgainst",
+      "label": "is against",
+      "definition": null,
+      "domain": [
+        "legal proceeding"
+      ],
+      "range": [
+        "cmns-org:LegalPerson"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is delivered by",
+      "technicalName": "fibo-loan-ln-ev:isDeliveredBy",
+      "localName": "isDeliveredBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/isDeliveredBy",
+      "label": "is delivered by",
+      "definition": null,
+      "domain": [
+        "court judgment"
+      ],
+      "range": [
+        "fibo-fnd-law-cor:CourtOfLaw"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "in default",
+      "technicalName": "fibo-loan-ln-ev:inDefault",
+      "localName": "inDefault",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/inDefault",
+      "label": "in default",
+      "definition": "Whether the loan is in default.",
+      "domain": [
+        "fibo-loan-ln-ln:Loan"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is deferred",
+      "technicalName": "fibo-loan-ln-ev:isDeferred",
+      "localName": "isDeferred",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/isDeferred",
+      "label": "is deferred",
+      "definition": null,
+      "domain": [
+        "fibo-loan-ln-ln:Loan"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

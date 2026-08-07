@@ -1,5 +1,6 @@
 """Google ADK skill for orchestrating urban navigation tools."""
 
+from app.tools.navigation_tools import get_navigation_tools
 import json
 from pathlib import Path
 
@@ -57,6 +58,9 @@ def _build_navigation_substitutions() -> dict[str, str]:
         "find_recovery_route_tool": _FIND_RECOVERY_ROUTE_TOOL,
     }
 
+def get_tools() -> list:
+    """Return all Python tools available to the navigation skill."""
+    return list(get_navigation_tools())
 
 navigation_skill = load_rendered_skill_from_dir(
     _SKILL_DIR,

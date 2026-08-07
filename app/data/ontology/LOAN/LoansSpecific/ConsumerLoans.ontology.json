@@ -1,0 +1,109 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\LOAN\\LoansSpecific\\ConsumerLoans.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/ConsumerLoans/",
+  "summary": {
+    "nodes": 5,
+    "edges": 0,
+    "properties": 0,
+    "triples": 70
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "consumer loan",
+      "technicalName": "fibo-loan-spc-cns:ConsumerLoan",
+      "localName": "ConsumerLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/ConsumerLoans/ConsumerLoan",
+      "label": "consumer loan",
+      "definition": "loan to one or more individuals for household, family, or other personal expenditures, excluding mortgages and student loans",
+      "parents": [
+        "fibo-loan-ln-ln:Loan"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:hasBorrower",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-be-le-lp:LegallyCompetentNaturalPerson",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "home equity line of credit",
+      "technicalName": "fibo-loan-spc-cns:HomeEquityLineOfCredit",
+      "localName": "HomeEquityLineOfCredit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/ConsumerLoans/HomeEquityLineOfCredit",
+      "label": "home equity line of credit",
+      "definition": "line of credit granted to a homeowner secured by the equity value in a borrower's home or other property",
+      "parents": [
+        "fibo-fbc-dae-dbt:RevolvingLineOfCredit",
+        "secured consumer loan",
+        "fibo-loan-reln-mtg:LoanSecuredByRealEstate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "motor vehicle loan",
+      "technicalName": "fibo-loan-spc-cns:MotorVehicleLoan",
+      "localName": "MotorVehicleLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/ConsumerLoans/MotorVehicleLoan",
+      "label": "motor vehicle loan",
+      "definition": "collateralized, simple-interest loan that is repaid in monthly installments over a period of typically three to five years, for the purpose of purchasing a vehicle",
+      "parents": [
+        "fibo-loan-ln-ln:CollateralizedLoan",
+        "secured consumer loan"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isCollateralizedBy",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:PhysicalCollateral",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "secured consumer loan",
+      "technicalName": "fibo-loan-spc-cns:SecuredConsumerLoan",
+      "localName": "SecuredConsumerLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/ConsumerLoans/SecuredConsumerLoan",
+      "label": "secured consumer loan",
+      "definition": "loan to one or more individuals for household, family, or other personal expenditures in which the borrower pledges some asset via a security agreement as collateral for the loan, or that is secured via third-party guarantee",
+      "parents": [
+        "fibo-loan-ln-ln:SecuredLoan",
+        "consumer loan"
+      ],
+      "rules": []
+    },
+    {
+      "name": "unsecured consumer loan",
+      "technicalName": "fibo-loan-spc-cns:UnsecuredConsumerLoan",
+      "localName": "UnsecuredConsumerLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/ConsumerLoans/UnsecuredConsumerLoan",
+      "label": "unsecured consumer loan",
+      "definition": "loan to one or more individuals for household, family, or other personal expenditures granted based on the strength of the borrower's credit history or reputation in the community",
+      "parents": [
+        "fibo-loan-ln-ln:UnsecuredLoan",
+        "consumer loan"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

@@ -1,5 +1,6 @@
 """Cooking skill instructions for the root agent."""
 
+from app.tools.cooking_tools import get_cooking_tools
 import json
 from pathlib import Path
 
@@ -42,5 +43,8 @@ cooking_skill = load_rendered_skill_from_dir(
     _build_cooking_substitutions(),
 )
 
+def get_tools() -> list:
+    """Return all Python tools available to the cooking skill."""
+    return list(get_cooking_tools())
 
 __all__ = ["cooking_skill"]

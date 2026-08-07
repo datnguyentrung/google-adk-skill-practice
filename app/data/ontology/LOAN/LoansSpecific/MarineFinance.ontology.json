@@ -1,0 +1,94 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\LOAN\\LoansSpecific\\MarineFinance.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/MarineFinance/",
+  "summary": {
+    "nodes": 1,
+    "edges": 1,
+    "properties": 3,
+    "triples": 35
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/"
+  ],
+  "classes": [
+    {
+      "name": "marine finance",
+      "technicalName": "fibo-loan-spc-mar:MarineFinancing",
+      "localName": "MarineFinancing",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/MarineFinance/MarineFinancing",
+      "label": "marine finance",
+      "definition": "A loan for the purchase of a boat or other vessel.",
+      "parents": [
+        "fibo-loan-ln-ln:Loan"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "percentage advanced",
+      "technicalName": "fibo-loan-spc-mar:percentageAdvanced",
+      "localName": "percentageAdvanced",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/MarineFinance/percentageAdvanced",
+      "label": "percentage advanced",
+      "definition": "The percentage of the purchase price advanced as the loan.",
+      "domain": [
+        "marine finance"
+      ],
+      "range": [
+        "cmns-qtu:Percentage"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "boat held as chattel",
+      "technicalName": "fibo-loan-spc-mar:boatHeldAsChattel",
+      "localName": "boatHeldAsChattel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/MarineFinance/boatHeldAsChattel",
+      "label": "boat held as chattel",
+      "definition": "Whether the vessel is to be held in ownership as a form of chattel by the lender during the period of the loan.",
+      "domain": [
+        "marine finance"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "moored at",
+      "technicalName": "fibo-loan-spc-mar:mooredAt",
+      "localName": "mooredAt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/MarineFinance/mooredAt",
+      "label": "moored at",
+      "definition": "Textual description (name etc.) of where the vessel is to be moored if it has a permanent mooring place.",
+      "domain": [
+        "marine finance"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "residential",
+      "technicalName": "fibo-loan-spc-mar:residential",
+      "localName": "residential",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/MarineFinance/residential",
+      "label": "residential",
+      "definition": "Whether the boat is intended to be used and is legally able to be used as a place of residence.",
+      "domain": [
+        "marine finance"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}
