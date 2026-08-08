@@ -13,8 +13,11 @@ except ModuleNotFoundError:
     sys.path.insert(0, str(repo_root))
     from app.services.rdf.rdf_inspector import inspect
 
-FIBO_LOAN_DIR = Path(__file__).resolve().parents[2] / "data" / "fibo" / "LOAN"
-ONTOLOGY_LOAN_DIR = Path(__file__).resolve().parents[2] / "data" / "ontology" / "LOAN"
+# FIBO_LOAN_DIR = Path(__file__).resolve().parents[2] / "data" / "fibo" / "LOAN"
+# ONTOLOGY_LOAN_DIR = Path(__file__).resolve().parents[2] / "data" / "ontology" / "LOAN"
+
+FIBO_LOAN_DIR = Path(__file__).resolve().parents[2] / "data" / "fibo"
+ONTOLOGY_LOAN_DIR = Path(__file__).resolve().parents[2] / "data" / "ontology"
 
 
 def resolve_directory(path: Path | str | None, default: Path) -> Path:
@@ -69,7 +72,9 @@ def export_folder(
             continue
 
         data = inspect(input_file, rdf_format, base, include_all, lang)
-        output_path = output_path_for(input_file, resolved_input_dir, resolved_output_dir)
+        output_path = output_path_for(
+            input_file, resolved_input_dir, resolved_output_dir
+        )
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(
             json.dumps(data, ensure_ascii=False, indent=2),

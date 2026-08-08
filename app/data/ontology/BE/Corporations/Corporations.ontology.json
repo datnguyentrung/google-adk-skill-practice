@@ -1,0 +1,144 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\Corporations\\Corporations.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/",
+  "summary": {
+    "nodes": 7,
+    "edges": 3,
+    "properties": 1,
+    "triples": 67
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/"
+  ],
+  "classes": [
+    {
+      "name": "fibo-be-corp-corp:BoardAgreement",
+      "technicalName": "fibo-be-corp-corp:BoardAgreement",
+      "localName": "BoardAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/BoardAgreement",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-corp-corp:JointStockCompany",
+      "technicalName": "fibo-be-corp-corp:JointStockCompany",
+      "localName": "JointStockCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/JointStockCompany",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-corp-corp:PrivatelyHeldCompany",
+      "technicalName": "fibo-be-corp-corp:PrivatelyHeldCompany",
+      "localName": "PrivatelyHeldCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/PrivatelyHeldCompany",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-corp-corp:PubliclyHeldCompany",
+      "technicalName": "fibo-be-corp-corp:PubliclyHeldCompany",
+      "localName": "PubliclyHeldCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/PubliclyHeldCompany",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-corp-corp:RegistrationIdentifier",
+      "technicalName": "fibo-be-corp-corp:RegistrationIdentifier",
+      "localName": "RegistrationIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/RegistrationIdentifier",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-corp-corp:RegistrationIdentifierScheme",
+      "technicalName": "fibo-be-corp-corp:RegistrationIdentifierScheme",
+      "localName": "RegistrationIdentifierScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/RegistrationIdentifierScheme",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-corp-corp:ReligiousCorporation",
+      "technicalName": "fibo-be-corp-corp:ReligiousCorporation",
+      "localName": "ReligiousCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/ReligiousCorporation",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "fibo-be-corp-corp:hasDateOfIncorporation",
+      "technicalName": "fibo-be-corp-corp:hasDateOfIncorporation",
+      "localName": "hasDateOfIncorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/hasDateOfIncorporation",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-corp-corp:hasDateOfRegistration",
+      "technicalName": "fibo-be-corp-corp:hasDateOfRegistration",
+      "localName": "hasDateOfRegistration",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/hasDateOfRegistration",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-corp-corp:hasIssuedCapital",
+      "technicalName": "fibo-be-corp-corp:hasIssuedCapital",
+      "localName": "hasIssuedCapital",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/hasIssuedCapital",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "fibo-be-corp-corp:hasSharesAuthorized",
+      "technicalName": "fibo-be-corp-corp:hasSharesAuthorized",
+      "localName": "hasSharesAuthorized",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/hasSharesAuthorized",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    }
+  ]
+}

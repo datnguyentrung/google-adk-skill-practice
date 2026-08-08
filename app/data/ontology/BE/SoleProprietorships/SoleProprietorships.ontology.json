@@ -1,0 +1,87 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\SoleProprietorships\\SoleProprietorships.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/SoleProprietorships/SoleProprietorships/",
+  "summary": {
+    "nodes": 2,
+    "edges": 0,
+    "properties": 0,
+    "triples": 61
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/OwnershipAndControl/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "sole proprietor",
+      "technicalName": "fibo-be-sps-sps:SoleProprietor",
+      "localName": "SoleProprietor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/SoleProprietorships/SoleProprietorships/SoleProprietor",
+      "label": "sole proprietor",
+      "definition": "party that owns a business, has the rights to all profits from that business and is considered a single entity (unincorporated) together with that business for tax and liability purposes",
+      "parents": [
+        "fibo-be-oac-opty:EntityOwner"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-oac:ownsAndControls",
+          "operator": "some",
+          "value": "sole proprietorship",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-oac-opty:hasInvestmentEntity",
+          "operator": "some",
+          "value": "sole proprietorship",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    },
+    {
+      "name": "sole proprietorship",
+      "technicalName": "fibo-be-sps-sps:SoleProprietorship",
+      "localName": "SoleProprietorship",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/SoleProprietorships/SoleProprietorships/SoleProprietorship",
+      "label": "sole proprietorship",
+      "definition": "unincorporated business owned by a single person",
+      "parents": [
+        "fibo-be-le-lp:BusinessEntity",
+        "cmns-org:LegalPerson"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-law-lcap:hasCapacity",
+          "operator": "some",
+          "value": "fibo-fnd-law-lcap:LiabilityCapacity",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-oac:isOwnedAndControlledBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

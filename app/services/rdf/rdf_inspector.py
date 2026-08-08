@@ -6,6 +6,7 @@ import re
 from pathlib import Path
 from typing import Any
 
+# pyrefly: ignore [missing-import]
 from rdflib import BNode, Graph, Literal, URIRef
 from rdflib.namespace import OWL, RDF, RDFS, SKOS
 

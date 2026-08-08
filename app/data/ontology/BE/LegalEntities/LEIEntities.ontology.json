@@ -1,0 +1,443 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\LegalEntities\\LEIEntities.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/",
+  "summary": {
+    "nodes": 12,
+    "edges": 7,
+    "properties": 5,
+    "triples": 332
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/",
+    "https://www.omg.org/spec/Commons/TextDatatype/"
+  ],
+  "classes": [
+    {
+      "name": "accounting framework",
+      "technicalName": "fibo-be-le-lei:AccountingFramework",
+      "localName": "AccountingFramework",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/AccountingFramework",
+      "label": "accounting framework",
+      "definition": "framework, including policies, methods, rules, and processes, used to measure, recognize, present, and disclose the information appearing in an entity's financial statements, and, from a legal ownership perspective, that is applied for accounting consolidation determination",
+      "parents": [
+        "relationship qualifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contractually capable entity",
+      "technicalName": "fibo-be-le-lei:ContractuallyCapableEntity",
+      "localName": "ContractuallyCapableEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/ContractuallyCapableEntity",
+      "label": "contractually capable entity",
+      "definition": "a unique entity that is legally or financially responsible for the performance of financial transactions, or has the legal right in its jurisdiction to enter independently into legal contracts, regardless of whether it is incorporated or constituted in some other way (e.g. trust, partnership, contractual). This excludes natural persons, but includes governmental organizations and supranationals.",
+      "parents": [
+        "cmns-pts:AgentRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:LegalEntity"
+        }
+      ]
+    },
+    {
+      "name": "entity legal form",
+      "technicalName": "fibo-be-le-lei:EntityLegalForm",
+      "localName": "EntityLegalForm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/EntityLegalForm",
+      "label": "entity legal form",
+      "definition": "a classifier for a legal entity that indicates the nature of that entity as defined from a legal or regulatory perspective, in the jurisdiction in which it was established",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "entity legal form scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:hasTextualName",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        },
+        {
+          "property": "has transliterated name",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        },
+        {
+          "property": "has transliterated legal form abbreviation",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        },
+        {
+          "property": "has legal form abbreviation",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        }
+      ]
+    },
+    {
+      "name": "entity legal form identifier",
+      "technicalName": "fibo-be-le-lei:EntityLegalFormIdentifier",
+      "localName": "EntityLegalFormIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/EntityLegalFormIdentifier",
+      "label": "entity legal form identifier",
+      "definition": "code that denotes an entity legal form as defined in ISO 20275",
+      "parents": [
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "entity legal form scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:denotes",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "entity legal form"
+        }
+      ]
+    },
+    {
+      "name": "entity legal form scheme",
+      "technicalName": "fibo-be-le-lei:EntityLegalFormScheme",
+      "localName": "EntityLegalFormScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/EntityLegalFormScheme",
+      "label": "entity legal form scheme",
+      "definition": "scheme that specifies the elements of the codes for entity legal forms, such as those that are sanctioned in a given jurisdiction as defined in ISO 20725",
+      "parents": [
+        "cmns-cls:ClassificationScheme",
+        "cmns-cds:CodeSet"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "entity legal form identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "LEI registered entity",
+      "technicalName": "fibo-be-le-lei:LEIRegisteredEntity",
+      "localName": "LEIRegisteredEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/LEIRegisteredEntity",
+      "label": "LEI registered entity",
+      "definition": "a legal person that has registered for and is identified by a legal entity identifier",
+      "parents": [
+        "cmns-org:LegalPerson"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "some",
+          "value": "legal entity identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "legal entity identifier",
+      "technicalName": "fibo-be-le-lei:LegalEntityIdentifier",
+      "localName": "LegalEntityIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/LegalEntityIdentifier",
+      "label": "legal entity identifier",
+      "definition": "an organization identifier that uniquely identifies a legal person as defined in ISO 17442",
+      "parents": [
+        "cmns-org:OrganizationIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "legal entity identifier scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:LegalPerson"
+        }
+      ]
+    },
+    {
+      "name": "legal entity identifier scheme",
+      "technicalName": "fibo-be-le-lei:LegalEntityIdentifierScheme",
+      "localName": "LegalEntityIdentifierScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/LegalEntityIdentifierScheme",
+      "label": "legal entity identifier scheme",
+      "definition": "a scheme that specifies the elements of an unambiguous legal entity identifier (LEI) scheme to identify the legal entities relevant to any financial transaction",
+      "parents": [
+        "cmns-org:OrganizationIdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "legal entity identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "relationship period qualifier",
+      "technicalName": "fibo-be-le-lei:RelationshipPeriodQualifier",
+      "localName": "RelationshipPeriodQualifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/RelationshipPeriodQualifier",
+      "label": "relationship period qualifier",
+      "definition": "a classifier that qualifies something about the reporting period specified, such as that the date period reflects an accounting or document filing period",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "relationship qualifier",
+      "technicalName": "fibo-be-le-lei:RelationshipQualifier",
+      "localName": "RelationshipQualifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/RelationshipQualifier",
+      "label": "relationship qualifier",
+      "definition": "a classifier that qualifies something about the relationship between consolidated entities during the reporting period, such as the accounting framework used",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "relationship record",
+      "technicalName": "fibo-be-le-lei:RelationshipRecord",
+      "localName": "RelationshipRecord",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/RelationshipRecord",
+      "label": "relationship record",
+      "definition": "a record describing relationships between legal entities",
+      "parents": [
+        "cmns-col:Constituent"
+      ],
+      "rules": [
+        {
+          "property": "is quantified by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:isQualifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "relationship qualifier"
+        }
+      ]
+    },
+    {
+      "name": "relationship status",
+      "technicalName": "fibo-be-le-lei:RelationshipStatus",
+      "localName": "RelationshipStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/RelationshipStatus",
+      "label": "relationship status",
+      "definition": "a classifier that specifies the status of the relationship between consolidated entities during the reporting period (active or inactive)",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has legal address",
+      "technicalName": "fibo-be-le-lei:hasLegalAddress",
+      "localName": "hasLegalAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasLegalAddress",
+      "label": "has legal address",
+      "definition": "indicates the legal address for the entity, in the jurisdiction in which the entity is established, used for registration purposes with respect to obtaining an LEI",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "fibo-fnd-plc-adr:ConventionalStreetAddress"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has legal form",
+      "technicalName": "fibo-be-le-lei:hasLegalForm",
+      "localName": "hasLegalForm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasLegalForm",
+      "label": "has legal form",
+      "definition": "indicates the nature of the entity as defined from a legal or regulatory perspective in a given jurisdiction",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "entity legal form"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is consolidated by",
+      "technicalName": "fibo-be-le-lei:isConsolidatedBy",
+      "localName": "isConsolidatedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isConsolidatedBy",
+      "label": "is consolidated by",
+      "definition": "indicates the entity considered the 'end node' or consolidating entity (parent) from an ISO 17442 perspective",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is consolidation of",
+      "technicalName": "fibo-be-le-lei:isConsolidationOf",
+      "localName": "isConsolidationOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isConsolidationOf",
+      "label": "is consolidation of",
+      "definition": "indicates the entity considered the 'start node' or consolidated entity from an ISO 17442 perspective",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is directly consolidated by",
+      "technicalName": "fibo-be-le-lei:isDirectlyConsolidatedBy",
+      "localName": "isDirectlyConsolidatedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isDirectlyConsolidatedBy",
+      "label": "is directly consolidated by",
+      "definition": "indicates that the entity considered the 'end node' or consolidating entity (parent) fully consolidates the accounting of the 'start node' (child) per the accounting rules specified, and is the closest consolidating entity to that child in any applicable ownership hierarchy",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is an international branch of",
+      "technicalName": "fibo-be-le-lei:isInternationalBranchOf",
+      "localName": "isInternationalBranchOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isInternationalBranchOf",
+      "label": "is an international branch of",
+      "definition": "indicates that the entity considered the 'start node' or consolidated entity (child) is an international subsidiary of the 'end node' (parent) in the jurisdiction of the child",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is ultimately consolidated by",
+      "technicalName": "fibo-be-le-lei:isUltimatelyConsolidatedBy",
+      "localName": "isUltimatelyConsolidatedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isUltimatelyConsolidatedBy",
+      "label": "is ultimately consolidated by",
+      "definition": "indicates that the entity considered the 'end node' or consolidating entity (parent) fully consolidates the accounting of the 'start node' (child) per the accounting rules specified, and is the most distant consolidating entity to that child in any applicable ownership hierarchy",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has legal form abbreviation",
+      "technicalName": "fibo-be-le-lei:hasLegalFormAbbreviation",
+      "localName": "hasLegalFormAbbreviation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasLegalFormAbbreviation",
+      "label": "has legal form abbreviation",
+      "definition": "the precise abbreviation for the entity legal form as defined in the jurisdiction in which it is registered, for example LLC, LLP, Ltd, PLC, Corp.",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has ownership percentage",
+      "technicalName": "fibo-be-le-lei:hasOwnershipPercentage",
+      "localName": "hasOwnershipPercentage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasOwnershipPercentage",
+      "label": "has ownership percentage",
+      "definition": "the percentage ownership interest in the owned entity owned by owning entity, if known",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has transliterated legal form abbreviation",
+      "technicalName": "fibo-be-le-lei:hasTransliteratedLegalFormAbbreviation",
+      "localName": "hasTransliteratedLegalFormAbbreviation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasTransliteratedLegalFormAbbreviation",
+      "label": "has transliterated legal form abbreviation",
+      "definition": "a transliterated (i.e., in Latin or Romanized ASCII) representation of the abbreviation for the entity legal form",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has transliterated name",
+      "technicalName": "fibo-be-le-lei:hasTransliteratedName",
+      "localName": "hasTransliteratedName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasTransliteratedName",
+      "label": "has transliterated name",
+      "definition": "a transliterated (i.e., in Latin or Romanized ASCII) representation of a name for the entity",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "is quantified by",
+      "technicalName": "fibo-be-le-lei:isQuantifiedBy",
+      "localName": "isQuantifiedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isQuantifiedBy",
+      "label": "is quantified by",
+      "definition": "indicates that something is limited to or conditional due to some rate or other statistical value",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    }
+  ]
+}

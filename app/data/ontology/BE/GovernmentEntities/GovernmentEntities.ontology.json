@@ -1,0 +1,652 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\GovernmentEntities\\GovernmentEntities.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/",
+  "summary": {
+    "nodes": 26,
+    "edges": 6,
+    "properties": 0,
+    "triples": 381
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/BusinessAuthorizations/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Locations/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "branch of government",
+      "technicalName": "fibo-be-ge-ge:BranchOfGovernment",
+      "localName": "BranchOfGovernment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/BranchOfGovernment",
+      "label": "branch of government",
+      "definition": "division of the government of a state, with separate and independent powers and areas of responsibility so that the powers of one branch are not in conflict with the powers associated with the other branches",
+      "parents": [
+        "government body"
+      ],
+      "rules": []
+    },
+    {
+      "name": "devolved government",
+      "technicalName": "fibo-be-ge-ge:DevolvedGovernment",
+      "localName": "DevolvedGovernment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/DevolvedGovernment",
+      "label": "devolved government",
+      "definition": "government and the politicians that that run a subnational territory with powers that may be temporary and reversible, ultimately residing with the central government",
+      "parents": [
+        "government"
+      ],
+      "rules": []
+    },
+    {
+      "name": "executive branch",
+      "technicalName": "fibo-be-ge-ge:ExecutiveBranch",
+      "localName": "ExecutiveBranch",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/ExecutiveBranch",
+      "label": "executive branch",
+      "definition": "the branch of government that is authorized and responsible for the daily administration of the government",
+      "parents": [
+        "branch of government"
+      ],
+      "rules": []
+    },
+    {
+      "name": "federal government",
+      "technicalName": "fibo-be-ge-ge:FederalGovernment",
+      "localName": "FederalGovernment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/FederalGovernment",
+      "label": "federal government",
+      "definition": "union of states under a central government distinct from the individual governments of the separate states",
+      "parents": [
+        "national government"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "cmns-loc:FederalState",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rga:governs",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-loc:FederalCapitalArea"
+        }
+      ]
+    },
+    {
+      "name": "federated sovereignty",
+      "technicalName": "fibo-be-ge-ge:FederatedSovereignty",
+      "localName": "FederatedSovereignty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/FederatedSovereignty",
+      "label": "federated sovereignty",
+      "definition": "polity characterized by a union of partially self-governing states or regions under a central (federal) government",
+      "parents": [
+        "sovereign state"
+      ],
+      "rules": [
+        {
+          "property": "is represented by",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "federal government"
+        },
+        {
+          "property": "is represented by",
+          "operator": "some",
+          "value": "regional government",
+          "qualifier": null
+        },
+        {
+          "property": "has shared sovereignty over",
+          "operator": "some",
+          "value": "cmns-loc:FederalState",
+          "qualifier": null
+        },
+        {
+          "property": "has full sovereignty over",
+          "operator": "some",
+          "value": "cmns-loc:Country",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "government",
+      "technicalName": "fibo-be-ge-ge:Government",
+      "localName": "Government",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/Government",
+      "label": "government",
+      "definition": "system by which a state or community is controlled",
+      "parents": [
+        "fibo-be-fct-fct:FunctionalEntity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "cmns-loc:GeopoliticalEntity",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        }
+      ]
+    },
+    {
+      "name": "government agency",
+      "technicalName": "fibo-be-ge-ge:GovernmentAgency",
+      "localName": "GovernmentAgency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/GovernmentAgency",
+      "label": "government agency",
+      "definition": "permanent or semi-permanent organization, often an appointed commission, in the machinery of government that is responsible for the oversight and administration of specific functions",
+      "parents": [
+        "government body"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "government appointee"
+        }
+      ]
+    },
+    {
+      "name": "government appointee",
+      "technicalName": "fibo-be-ge-ge:GovernmentAppointee",
+      "localName": "GovernmentAppointee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/GovernmentAppointee",
+      "label": "government appointee",
+      "definition": "individual designated by government decree to lead, or participate in some capacity in a government body",
+      "parents": [
+        "government official",
+        "fibo-be-oac-exec:Executive"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "cmns-org:isDesignatedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "government body"
+        }
+      ]
+    },
+    {
+      "name": "government body",
+      "technicalName": "fibo-be-ge-ge:GovernmentBody",
+      "localName": "GovernmentBody",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/GovernmentBody",
+      "label": "government body",
+      "definition": "formal organization that is an agency, instrumentality, or other body of a supranational, national, federal, state, or local government, including certain multijurisdictional agencies and departments that carry out the business of government",
+      "parents": [
+        "cmns-org:FormalOrganization"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-le-lp:PublicPurpose"
+        }
+      ]
+    },
+    {
+      "name": "government department",
+      "technicalName": "fibo-be-ge-ge:GovernmentDepartment",
+      "localName": "GovernmentDepartment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/GovernmentDepartment",
+      "label": "government department",
+      "definition": "specialized organization responsible for a sector of government public administration",
+      "parents": [
+        "government body"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "government minister"
+        }
+      ]
+    },
+    {
+      "name": "government minister",
+      "technicalName": "fibo-be-ge-ge:GovernmentMinister",
+      "localName": "GovernmentMinister",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/GovernmentMinister",
+      "label": "government minister",
+      "definition": "government official that is an executive, who is either appointed or elected to a high office in the government",
+      "parents": [
+        "government official",
+        "fibo-be-oac-exec:Executive"
+      ],
+      "rules": []
+    },
+    {
+      "name": "government official",
+      "technicalName": "fibo-be-ge-ge:GovernmentOfficial",
+      "localName": "GovernmentOfficial",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/GovernmentOfficial",
+      "label": "government official",
+      "definition": "person elected or appointed to administer some aspect of a government",
+      "parents": [
+        "cmns-bauth:ResponsibleParty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "government body"
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    },
+    {
+      "name": "instrumentality",
+      "technicalName": "fibo-be-ge-ge:Instrumentality",
+      "localName": "Instrumentality",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/Instrumentality",
+      "label": "instrumentality",
+      "definition": "organization that serves a public purpose and is closely tied to a government, but is not a government agency",
+      "parents": [
+        "government body",
+        "cmns-org:LegalEntity"
+      ],
+      "rules": [
+        {
+          "property": "is an instrument of",
+          "operator": "some",
+          "value": "government",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isMandatedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-law-cor:StatuteLaw"
+        }
+      ]
+    },
+    {
+      "name": "judiciary",
+      "technicalName": "fibo-be-ge-ge:Judiciary",
+      "localName": "Judiciary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/Judiciary",
+      "label": "judiciary",
+      "definition": "branch of government that comprises the system of courts that interprets and applies the law in the name of the supranational, national, federal, or regional government, depending on its jurisdiction",
+      "parents": [
+        "branch of government"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasPart",
+          "operator": "some",
+          "value": "fibo-fnd-law-cor:CourtOfLaw",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "legislature",
+      "technicalName": "fibo-be-ge-ge:Legislature",
+      "localName": "Legislature",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/Legislature",
+      "label": "legislature",
+      "definition": "the law-making body of a political unit, usually a national government, that has power to enact, amend, and repeal public policy",
+      "parents": [
+        "branch of government"
+      ],
+      "rules": []
+    },
+    {
+      "name": "municipal entity",
+      "technicalName": "fibo-be-ge-ge:MunicipalEntity",
+      "localName": "MunicipalEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/MunicipalEntity",
+      "label": "municipal entity",
+      "definition": "polity that typically represents a city, township, or other administrative subdivision having corporate status and powers of self-government or jurisdiction",
+      "parents": [
+        "polity"
+      ],
+      "rules": [
+        {
+          "property": "is represented by",
+          "operator": "some",
+          "value": "municipal government",
+          "qualifier": null
+        },
+        {
+          "property": "has sovereignty over",
+          "operator": "some",
+          "value": "cmns-loc:Municipality",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "municipal government",
+      "technicalName": "fibo-be-ge-ge:MunicipalGovernment",
+      "localName": "MunicipalGovernment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/MunicipalGovernment",
+      "label": "municipal government",
+      "definition": "regional government of a city, township, or other administrative subdivision",
+      "parents": [
+        "government"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "cmns-loc:Municipality",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "national government",
+      "technicalName": "fibo-be-ge-ge:NationalGovernment",
+      "localName": "NationalGovernment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/NationalGovernment",
+      "label": "national government",
+      "definition": "government and the politicians that that run a country as a whole (as opposed to local government)",
+      "parents": [
+        "government"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "cmns-loc:Country",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "polity",
+      "technicalName": "fibo-be-ge-ge:Polity",
+      "localName": "Polity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/Polity",
+      "label": "polity",
+      "definition": "legal person that is a supranational entity, crown, state, or subordinate civil authority, such as a province, prefecture, county, municipality, city, or district representing the people of that entity",
+      "parents": [
+        "government body",
+        "cmns-org:LegalPerson"
+      ],
+      "rules": [
+        {
+          "property": "is represented by",
+          "operator": "some",
+          "value": "government",
+          "qualifier": null
+        },
+        {
+          "property": "has sovereignty over",
+          "operator": "some",
+          "value": "cmns-loc:GeopoliticalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "regional government",
+      "technicalName": "fibo-be-ge-ge:RegionalGovernment",
+      "localName": "RegionalGovernment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/RegionalGovernment",
+      "label": "regional government",
+      "definition": "administrative body for a geographic area, such as a county, smaller town, or other similar community",
+      "parents": [
+        "government"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "cmns-loc:GeopoliticalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "regional sovereignty",
+      "technicalName": "fibo-be-ge-ge:RegionalSovereignty",
+      "localName": "RegionalSovereignty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/RegionalSovereignty",
+      "label": "regional sovereignty",
+      "definition": "legal person that corresponds to an administrative division, administrative unit, administrative entity or country subdivision (or, sometimes, geopolitical division or subnational entity), that has the capacity to incur debt, issue contracts, and enter into relations with other similar entities",
+      "parents": [
+        "polity"
+      ],
+      "rules": [
+        {
+          "property": "is represented by",
+          "operator": "some",
+          "value": "regional government",
+          "qualifier": null
+        },
+        {
+          "property": "has shared sovereignty over",
+          "operator": "some",
+          "value": "cmns-loc:GeopoliticalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "sovereign state",
+      "technicalName": "fibo-be-ge-ge:SovereignState",
+      "localName": "SovereignState",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/SovereignState",
+      "label": "sovereign state",
+      "definition": "non-physical juridical entity that is represented by one centralized government that has sovereignty over a geographic area",
+      "parents": [
+        "polity"
+      ],
+      "rules": [
+        {
+          "property": "is represented by",
+          "operator": "some",
+          "value": "national government",
+          "qualifier": null
+        },
+        {
+          "property": "has full sovereignty over",
+          "operator": "some",
+          "value": "cmns-loc:Country",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "supranational entity",
+      "technicalName": "fibo-be-ge-ge:SupranationalEntity",
+      "localName": "SupranationalEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/SupranationalEntity",
+      "label": "supranational entity",
+      "definition": "governmental or non-governmental entity that is established by international law or treaty or incorporated at an international level",
+      "parents": [
+        "polity"
+      ],
+      "rules": [
+        {
+          "property": "is represented by",
+          "operator": "some",
+          "value": "government body",
+          "qualifier": null
+        },
+        {
+          "property": "has shared sovereignty over",
+          "operator": "some",
+          "value": "cmns-loc:Country",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "tribal area",
+      "technicalName": "fibo-be-ge-ge:TribalArea",
+      "localName": "TribalArea",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/TribalArea",
+      "label": "tribal area",
+      "definition": "designation for geographic region administered by a group of indigenous people rather than by a sovereign state or regional governmental entity",
+      "parents": [
+        "cmns-loc:GeopoliticalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tribal entity",
+      "technicalName": "fibo-be-ge-ge:TribalEntity",
+      "localName": "TribalEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/TribalEntity",
+      "label": "tribal entity",
+      "definition": "legal entity that represents fundamental unit of sovereign tribal (indigenous) government",
+      "parents": [
+        "polity"
+      ],
+      "rules": [
+        {
+          "property": "is represented by",
+          "operator": "some",
+          "value": "tribal government",
+          "qualifier": null
+        },
+        {
+          "property": "has shared sovereignty over",
+          "operator": "some",
+          "value": "tribal area",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "tribal government",
+      "technicalName": "fibo-be-ge-ge:TribalGovernment",
+      "localName": "TribalGovernment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/TribalGovernment",
+      "label": "tribal government",
+      "definition": "government representing a group of indigenous people that has legal authority to govern those people, including authority to legislate the existence of tribal entities",
+      "parents": [
+        "government"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "tribal area",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has full sovereignty over",
+      "technicalName": "fibo-be-ge-ge:hasFullSovereigntyOver",
+      "localName": "hasFullSovereigntyOver",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/hasFullSovereigntyOver",
+      "label": "has full sovereignty over",
+      "definition": "relates a polity to a geopolitical entity where the polity has absolute, supreme and ultimate dominion and authority of a political state subject to no higher power, expressed within its territory in full self-government and in complete freedom from any outside influence",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has shared sovereignty over",
+      "technicalName": "fibo-be-ge-ge:hasSharedSovereigntyOver",
+      "localName": "hasSharedSovereigntyOver",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/hasSharedSovereigntyOver",
+      "label": "has shared sovereignty over",
+      "definition": "relates a polity to a geopolitical entity where the polity exercises shared dominion and authority of a political state",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has sovereignty over",
+      "technicalName": "fibo-be-ge-ge:hasSovereigntyOver",
+      "localName": "hasSovereigntyOver",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/hasSovereigntyOver",
+      "label": "has sovereignty over",
+      "definition": "relates a polity to a geopolitical entity where the polity exercises dominion and authority of a political state",
+      "domain": [
+        "polity"
+      ],
+      "range": [
+        "cmns-loc:GeopoliticalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is elected by",
+      "technicalName": "fibo-be-ge-ge:isElectedBy",
+      "localName": "isElectedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/isElectedBy",
+      "label": "is elected by",
+      "definition": "identifies an official or government chosen to hold office by voting",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is an instrument of",
+      "technicalName": "fibo-be-ge-ge:isInstrumentOf",
+      "localName": "isInstrumentOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/isInstrumentOf",
+      "label": "is an instrument of",
+      "definition": "relates an instrumentality of some government to the government that it supports",
+      "domain": [
+        "instrumentality"
+      ],
+      "range": [
+        "government"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is represented by",
+      "technicalName": "fibo-be-ge-ge:isRepresentedBy",
+      "localName": "isRepresentedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/isRepresentedBy",
+      "label": "is represented by",
+      "definition": "relates a system of governance to its chosen representatives",
+      "domain": [],
+      "range": []
+    }
+  ],
+  "attributes": []
+}

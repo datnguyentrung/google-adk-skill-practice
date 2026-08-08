@@ -1,0 +1,236 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\LegalEntities\\LegalPersons.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+  "summary": {
+    "nodes": 12,
+    "edges": 1,
+    "properties": 0,
+    "triples": 172
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "business entity",
+      "technicalName": "fibo-be-le-lp:BusinessEntity",
+      "localName": "BusinessEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/BusinessEntity",
+      "label": "business entity",
+      "definition": "entity that is formed and administered as per commercial law in order to engage in business activities",
+      "parents": [
+        "cmns-org:FormalOrganization"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:holds",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-law-lcap:License"
+        },
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-gao-obj:BusinessObjective"
+        }
+      ]
+    },
+    {
+      "name": "business license",
+      "technicalName": "fibo-be-le-lp:BusinessLicense",
+      "localName": "BusinessLicense",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/BusinessLicense",
+      "label": "business license",
+      "definition": "license that allows the holder to conduct business or carry out a specific profession within some jurisdiction for some period of time",
+      "parents": [
+        "fibo-fnd-law-lcap:License"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isRecognizedIn",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "business entity"
+        }
+      ]
+    },
+    {
+      "name": "chartered legal person",
+      "technicalName": "fibo-be-le-lp:CharteredLegalPerson",
+      "localName": "CharteredLegalPerson",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/CharteredLegalPerson",
+      "label": "chartered legal person",
+      "definition": "a legal person created by a royal charter or decree",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "legally competent natural person",
+      "technicalName": "fibo-be-le-lp:LegallyCompetentNaturalPerson",
+      "localName": "LegallyCompetentNaturalPerson",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/LegallyCompetentNaturalPerson",
+      "label": "legally competent natural person",
+      "definition": "person who is considered competent, under the circumstances, to enter into a contract, conduct business, or participate in other activities that generally require the mental ability to understand problems and make decisions on his or her own behalf",
+      "parents": [
+        "fibo-fnd-aap-ppl:Person",
+        "cmns-org:LegalPerson"
+      ],
+      "rules": []
+    },
+    {
+      "name": "not for profit objective",
+      "technicalName": "fibo-be-le-lp:NotForProfitObjective",
+      "localName": "NotForProfitObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/NotForProfitObjective",
+      "label": "not for profit objective",
+      "definition": "objective that reflects the charitable, educational, religious, humanitarian, public services, or other not for profit goals of an organization",
+      "parents": [
+        "fibo-fnd-gao-obj:Objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "power of attorney",
+      "technicalName": "fibo-be-le-lp:PowerOfAttorney",
+      "localName": "PowerOfAttorney",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/PowerOfAttorney",
+      "label": "power of attorney",
+      "definition": "legal authorization given by one party (the principal) to another (the agent or attorney-in-fact) to perform certain acts on the principal's behalf",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalCapacity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-law-lcap:isConferredOn",
+          "operator": "some",
+          "value": "legally competent natural person",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasEffectiveDate",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        }
+      ]
+    },
+    {
+      "name": "profit objective",
+      "technicalName": "fibo-be-le-lp:ProfitObjective",
+      "localName": "ProfitObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/ProfitObjective",
+      "label": "profit objective",
+      "definition": "objective that reflects pursuit of a financial benefit that may be realized when the amount of revenue gained from a business activity exceeds the expenses, costs and taxes needed to sustain that activity",
+      "parents": [
+        "fibo-fnd-gao-obj:BusinessObjective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "public purpose",
+      "technicalName": "fibo-be-le-lp:PublicPurpose",
+      "localName": "PublicPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/PublicPurpose",
+      "label": "public purpose",
+      "definition": "objective that reflects values generally thought to be shared by and that is intended to benefit the populace as a whole",
+      "parents": [
+        "fibo-fnd-gao-obj:Objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "religious objective",
+      "technicalName": "fibo-be-le-lp:ReligiousObjective",
+      "localName": "ReligiousObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/ReligiousObjective",
+      "label": "religious objective",
+      "definition": "not-for-profit objective that reflects the religious goals of an organization",
+      "parents": [
+        "not for profit objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fonds commun de placement",
+      "technicalName": "fibo-be-le-lp:SpecialPurposeVehicle",
+      "localName": "SpecialPurposeVehicle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/SpecialPurposeVehicle",
+      "label": "fonds commun de placement",
+      "definition": "legal entity created to fulfill narrow, specific, and frequently temporary objectives",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": [
+        {
+          "property": "has intended liquidation date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        }
+      ]
+    },
+    {
+      "name": "statutory body",
+      "technicalName": "fibo-be-le-lp:StatutoryBody",
+      "localName": "StatutoryBody",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/StatutoryBody",
+      "label": "statutory body",
+      "definition": "legal entity established by a government to consider evidence and make judgements in some field of activity",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "variable interest entity",
+      "technicalName": "fibo-be-le-lp:VariableInterestEntity",
+      "localName": "VariableInterestEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/VariableInterestEntity",
+      "label": "variable interest entity",
+      "definition": "legal entity whose shareholders are entitled to a percentage of a named company's profits via a private contract",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has intended liquidation date",
+      "technicalName": "fibo-be-le-lp:hasIntendedLiquidationDate",
+      "localName": "hasIntendedLiquidationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/hasIntendedLiquidationDate",
+      "label": "has intended liquidation date",
+      "definition": "links an agreement, contract, or legal entity to a date on which it is scheduled to be sold",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    }
+  ],
+  "attributes": []
+}

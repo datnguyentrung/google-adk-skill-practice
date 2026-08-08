@@ -1,0 +1,316 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\Partnerships\\Partnerships.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/",
+  "summary": {
+    "nodes": 9,
+    "edges": 4,
+    "properties": 0,
+    "triples": 187
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "general partner",
+      "technicalName": "fibo-be-ptr-ptr:GeneralPartner",
+      "localName": "GeneralPartner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/GeneralPartner",
+      "label": "general partner",
+      "definition": "partner and part-owner that is responsible for managing the day to day operations of the partnership and that may be jointly and severally liable for the obligations of the partnership",
+      "parents": [
+        "fibo-be-oac-cpty:DeJureControllingInterestParty",
+        "partner"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-law-lcap:hasCapacity",
+          "operator": "some",
+          "value": "fibo-fnd-law-lcap:LiabilityCapacity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "general partnership",
+      "technicalName": "fibo-be-ptr-ptr:GeneralPartnership",
+      "localName": "GeneralPartnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/GeneralPartnership",
+      "label": "general partnership",
+      "definition": "partnership that has at least two general partners that agree to share in all assets, profits, and financial and legal liabilities of the business",
+      "parents": [
+        "partnership"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "minQualified",
+          "value": "2",
+          "qualifier": "general partner"
+        },
+        {
+          "property": "has general partner",
+          "operator": "some",
+          "value": "general partner",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "limited liability limited partnership",
+      "technicalName": "fibo-be-ptr-ptr:LimitedLiabilityLimitedPartnership",
+      "localName": "LimitedLiabilityLimitedPartnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/LimitedLiabilityLimitedPartnership",
+      "label": "limited liability limited partnership",
+      "definition": "limited partnership that consists of one or more general partners who are liable for the obligations of the entity as well as one or more protected limited liability partners",
+      "parents": [
+        "limited partnership"
+      ],
+      "rules": []
+    },
+    {
+      "name": "limited liability partnership",
+      "technicalName": "fibo-be-ptr-ptr:LimitedLiabilityPartnership",
+      "localName": "LimitedLiabilityPartnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/LimitedLiabilityPartnership",
+      "label": "limited liability partnership",
+      "definition": "partnership that has general partners but provides its individual partners some level of protection against personal liability for certain partnership liabilities",
+      "parents": [
+        "partnership"
+      ],
+      "rules": [
+        {
+          "property": "has general partner",
+          "operator": "some",
+          "value": "general partner",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "limited partner",
+      "technicalName": "fibo-be-ptr-ptr:LimitedPartner",
+      "localName": "LimitedPartner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/LimitedPartner",
+      "label": "limited partner",
+      "definition": "partner whose liabilities are limited to the extent of their investment or guarantees and that has no involvement in the day to day operations of the partnership",
+      "parents": [
+        "partner"
+      ],
+      "rules": []
+    },
+    {
+      "name": "limited partnership",
+      "technicalName": "fibo-be-ptr-ptr:LimitedPartnership",
+      "localName": "LimitedPartnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/LimitedPartnership",
+      "label": "limited partnership",
+      "definition": "partnership that has at least one general partner and at least one limited partner",
+      "parents": [
+        "partnership"
+      ],
+      "rules": [
+        {
+          "property": "has limited partner",
+          "operator": "some",
+          "value": "limited partner",
+          "qualifier": null
+        },
+        {
+          "property": "has general partner",
+          "operator": "some",
+          "value": "general partner",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "partner",
+      "technicalName": "fibo-be-ptr-ptr:Partner",
+      "localName": "Partner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/Partner",
+      "label": "partner",
+      "definition": "co-owner, member, and agent of a partnership whose participation level, including proportional liabilities and share in the profit / loss of the business is specified in a partnership agreement",
+      "parents": [
+        "fibo-be-oac-opty:ConstitutionalOwner",
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "partnership agreement",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "some",
+          "value": "partnership",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:LegalPerson"
+        }
+      ]
+    },
+    {
+      "name": "partnership",
+      "technicalName": "fibo-be-ptr-ptr:Partnership",
+      "localName": "Partnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/Partnership",
+      "label": "partnership",
+      "definition": "association of two or more legal persons to carry on as co-owners a business for profit",
+      "parents": [
+        "fibo-be-le-lp:BusinessEntity",
+        "cmns-org:LegalEntity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "some",
+          "value": "partnership agreement",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "partner",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-le-lp:ProfitObjective"
+        }
+      ]
+    },
+    {
+      "name": "partnership agreement",
+      "technicalName": "fibo-be-ptr-ptr:PartnershipAgreement",
+      "localName": "PartnershipAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/PartnershipAgreement",
+      "label": "partnership agreement",
+      "definition": "contract between partners in a partnership that establishes the terms and conditions of the relationship between the partners",
+      "parents": [
+        "fibo-be-le-fbo:OrganizationCoveringAgreement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "partner",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has general partner",
+      "technicalName": "fibo-be-ptr-ptr:hasGeneralPartner",
+      "localName": "hasGeneralPartner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/hasGeneralPartner",
+      "label": "has general partner",
+      "definition": "indicates an actor that has some measure of control over the partnership",
+      "domain": [
+        "partnership"
+      ],
+      "range": [
+        "general partner"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has limited partner",
+      "technicalName": "fibo-be-ptr-ptr:hasLimitedPartner",
+      "localName": "hasLimitedPartner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/hasLimitedPartner",
+      "label": "has limited partner",
+      "definition": "indicates an actor that may have some measure of influence over the partnership",
+      "domain": [
+        "partnership"
+      ],
+      "range": [
+        "limited partner"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is general partner of",
+      "technicalName": "fibo-be-ptr-ptr:isGeneralPartnerOf",
+      "localName": "isGeneralPartnerOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/isGeneralPartnerOf",
+      "label": "is general partner of",
+      "definition": "indicates the organization that the general partner manages",
+      "domain": [
+        "general partner"
+      ],
+      "range": [
+        "partnership"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is limited partner of",
+      "technicalName": "fibo-be-ptr-ptr:isLimitedPartnerOf",
+      "localName": "isLimitedPartnerOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/isLimitedPartnerOf",
+      "label": "is limited partner of",
+      "definition": "indicates the organization that the limited partner participates in",
+      "domain": [
+        "limited partner"
+      ],
+      "range": [
+        "partnership"
+      ]
+    }
+  ],
+  "attributes": []
+}

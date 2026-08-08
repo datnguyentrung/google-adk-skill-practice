@@ -1,0 +1,805 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\OwnershipAndControl\\Executives.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/",
+  "summary": {
+    "nodes": 27,
+    "edges": 21,
+    "properties": 0,
+    "triples": 441
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/BusinessAuthorizations/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "articles of incorporation",
+      "technicalName": "fibo-be-oac-exec:ArticlesOfIncorporation",
+      "localName": "ArticlesOfIncorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/ArticlesOfIncorporation",
+      "label": "articles of incorporation",
+      "definition": "contract that establishes a new corporation or, when amended, adjusts the legal basis for the corporation, and outlines basic information about the corporation, including the type of business, and a description of the business' operational characteristics",
+      "parents": [
+        "fibo-be-le-cb:InstrumentOfIncorporation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "auditor",
+      "technicalName": "fibo-be-oac-exec:Auditor",
+      "localName": "Auditor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/Auditor",
+      "label": "auditor",
+      "definition": "party qualified and authorized to review and verify the accuracy of financial records and ensure that companies comply with tax laws",
+      "parents": [
+        "cmns-bauth:AuthorizedParty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-oac-exec:Authorization",
+      "technicalName": "fibo-be-oac-exec:Authorization",
+      "localName": "Authorization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/Authorization",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "authorized individual",
+      "technicalName": "fibo-be-oac-exec:AuthorizedIndividual",
+      "localName": "AuthorizedIndividual",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/AuthorizedIndividual",
+      "label": "authorized individual",
+      "definition": "role of an individual that has been given the responsibility to act on behalf of another party under some set of guidelines",
+      "parents": [
+        "cmns-bauth:ResponsibleParty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    },
+    {
+      "name": "fibo-be-oac-exec:AuthorizedParty",
+      "technicalName": "fibo-be-oac-exec:AuthorizedParty",
+      "localName": "AuthorizedParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/AuthorizedParty",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-oac-exec:AuthorizingParty",
+      "technicalName": "fibo-be-oac-exec:AuthorizingParty",
+      "localName": "AuthorizingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/AuthorizingParty",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "board capacity",
+      "technicalName": "fibo-be-oac-exec:BoardCapacity",
+      "localName": "BoardCapacity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/BoardCapacity",
+      "label": "board capacity",
+      "definition": "authority to act in a fiduciary capacity with respect to the organization, including but not limited to determining and executing corporate policy",
+      "parents": [
+        "fibo-fnd-law-lcap:DelegatedLegalAuthority"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-law-lcap:isConferredOn",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "board member",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "company law"
+        }
+      ]
+    },
+    {
+      "name": "board composition control",
+      "technicalName": "fibo-be-oac-exec:BoardCompositionControl",
+      "localName": "BoardCompositionControl",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/BoardCompositionControl",
+      "label": "board composition control",
+      "definition": "situation in which a voting shareholder, entity owner, or some other party in the case of a not-for-profit organization, appoints and/or nominates someone to the board of directors of an organization for some period of time",
+      "parents": [
+        "fibo-fnd-oac-ctl:Control"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-ctl:involvesControlledThing",
+          "operator": "some",
+          "value": "board member",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-ctl:hasPartyInControl",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        }
+      ]
+    },
+    {
+      "name": "board member",
+      "technicalName": "fibo-be-oac-exec:BoardMember",
+      "localName": "BoardMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/BoardMember",
+      "label": "board member",
+      "definition": "party that has fiduciary responsibility with respect to the organization, including but not limited to determining and executing corporate policy",
+      "parents": [
+        "cmns-bauth:LegallyDelegatedAuthority",
+        "cmns-bauth:ResponsibleParty",
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "fibo-be-le-cb:BoardAgreement",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "board of directors",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "board membership",
+      "technicalName": "fibo-be-oac-exec:BoardMembership",
+      "localName": "BoardMembership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/BoardMembership",
+      "label": "board membership",
+      "definition": "situation relating an individual member of the board of directors to the organization",
+      "parents": [
+        "fibo-fnd-oac-ctl:Control"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-ctl:involvesControlledThing",
+          "operator": "some",
+          "value": "fibo-be-oac-cpty:ControlledParty",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-ctl:hasPartyInControl",
+          "operator": "some",
+          "value": "board member",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "board of directors",
+      "technicalName": "fibo-be-oac-exec:BoardOfDirectors",
+      "localName": "BoardOfDirectors",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/BoardOfDirectors",
+      "label": "board of directors",
+      "definition": "group of people comprising the governing body of an organization that has the authority to set organizational strategy and policies as well as to select and, to some degree manage, leadership",
+      "parents": [
+        "fibo-be-oac-cpty:EntityControllingParty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "board member",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-law-lcap:hasCapacity",
+          "operator": "some",
+          "value": "board capacity",
+          "qualifier": null
+        },
+        {
+          "property": "nominates",
+          "operator": "some",
+          "value": "corporate officer",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "bylaws",
+      "technicalName": "fibo-be-oac-exec:Bylaws",
+      "localName": "Bylaws",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/Bylaws",
+      "label": "bylaws",
+      "definition": "written rules for conduct of a corporation, association, partnership or any organization",
+      "parents": [
+        "fibo-fnd-law-cor:Law"
+      ],
+      "rules": []
+    },
+    {
+      "name": "chief executive officer",
+      "technicalName": "fibo-be-oac-exec:ChiefExecutiveOfficer",
+      "localName": "ChiefExecutiveOfficer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/ChiefExecutiveOfficer",
+      "label": "chief executive officer",
+      "definition": "top corporate officer responsible for an organization's overall operations and performance",
+      "parents": [
+        "corporate officer",
+        "executive board member",
+        "principal party"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:manages",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "chief financial officer",
+      "technicalName": "fibo-be-oac-exec:ChiefFinancialOfficer",
+      "localName": "ChiefFinancialOfficer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/ChiefFinancialOfficer",
+      "label": "chief financial officer",
+      "definition": "senior-most corporate officer responsible for financial control and planning for an organization or project",
+      "parents": [
+        "corporate officer"
+      ],
+      "rules": []
+    },
+    {
+      "name": "company law",
+      "technicalName": "fibo-be-oac-exec:CompanyLaw",
+      "localName": "CompanyLaw",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/CompanyLaw",
+      "label": "company law",
+      "definition": "legislation under which the formation, registration or incorporation, governance, and dissolution of a firm is administered and controlled",
+      "parents": [
+        "fibo-fnd-law-cor:StatuteLaw"
+      ],
+      "rules": []
+    },
+    {
+      "name": "company secretary",
+      "technicalName": "fibo-be-oac-exec:CompanySecretary",
+      "localName": "CompanySecretary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/CompanySecretary",
+      "label": "company secretary",
+      "definition": "corporate officer appointed by the directors of an organization, responsible for ensuring compliance with legal obligations related to corporate governance",
+      "parents": [
+        "corporate officer"
+      ],
+      "rules": []
+    },
+    {
+      "name": "controlling nominee",
+      "technicalName": "fibo-be-oac-exec:ControllingNominee",
+      "localName": "ControllingNominee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/ControllingNominee",
+      "label": "controlling nominee",
+      "definition": "party that holds legal title to an asset (e.g., stocks, bonds, or property) on behalf of the beneficial owner",
+      "parents": [
+        "cmns-bauth:LegallyDelegatedAuthority"
+      ],
+      "rules": [
+        {
+          "property": "cmns-bauth:hasDelegatedControlOf",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:Asset",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "corporate bylaws",
+      "technicalName": "fibo-be-oac-exec:CorporateBylaws",
+      "localName": "CorporateBylaws",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/CorporateBylaws",
+      "label": "corporate bylaws",
+      "definition": "written rules for conduct of a corporation, adopted by the board of directors",
+      "parents": [
+        "bylaws"
+      ],
+      "rules": [
+        {
+          "property": "fibo-be-le-cb:hasSharesAuthorized",
+          "operator": "some",
+          "value": "xsd:nonNegativeInteger",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "corporate officer",
+      "technicalName": "fibo-be-oac-exec:CorporateOfficer",
+      "localName": "CorporateOfficer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/CorporateOfficer",
+      "label": "corporate officer",
+      "definition": "high-level management executive of a corporation or other organization, hired by the board of directors or the business owner(s), charged with certain operational responsibilities, and who has the authority to act on behalf of the organization, including the authority to enter into contracts on behalf of the organization",
+      "parents": [
+        "executive",
+        "signatory",
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": []
+    },
+    {
+      "name": "executive",
+      "technicalName": "fibo-be-oac-exec:Executive",
+      "localName": "Executive",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/Executive",
+      "label": "executive",
+      "definition": "person appointed and given the responsibility to manage the affairs of an organization and the authority to make decisions within specified role-specific boundaries",
+      "parents": [
+        "cmns-bauth:LegallyDelegatedAuthority"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    },
+    {
+      "name": "executive board member",
+      "technicalName": "fibo-be-oac-exec:ExecutiveBoardMember",
+      "localName": "ExecutiveBoardMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/ExecutiveBoardMember",
+      "label": "executive board member",
+      "definition": "member of a board of directors that is also an employee of the organization",
+      "parents": [
+        "board member",
+        "fibo-fnd-org-fm:Employee"
+      ],
+      "rules": []
+    },
+    {
+      "name": "external auditor",
+      "technicalName": "fibo-be-oac-exec:ExternalAuditor",
+      "localName": "ExternalAuditor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/ExternalAuditor",
+      "label": "external auditor",
+      "definition": "independent party qualified and authorized to examine and report on the accuracy of financial records and ensure that companies comply with tax laws",
+      "parents": [
+        "auditor"
+      ],
+      "rules": []
+    },
+    {
+      "name": "internal auditor",
+      "technicalName": "fibo-be-oac-exec:InternalAuditor",
+      "localName": "InternalAuditor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/InternalAuditor",
+      "label": "internal auditor",
+      "definition": "employee who is qualified and authorized to review and verify the accuracy of financial records and evaluate internal controls and compliance",
+      "parents": [
+        "auditor",
+        "fibo-fnd-org-fm:Employee"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-oac-exec:LegallyDelegatedAuthority",
+      "technicalName": "fibo-be-oac-exec:LegallyDelegatedAuthority",
+      "localName": "LegallyDelegatedAuthority",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/LegallyDelegatedAuthority",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "non-executive board member",
+      "technicalName": "fibo-be-oac-exec:NonExecutiveBoardMember",
+      "localName": "NonExecutiveBoardMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/NonExecutiveBoardMember",
+      "label": "non-executive board member",
+      "definition": "member of the board of directors of an organization that has no executive responsibilities towards the running of that organization",
+      "parents": [
+        "board member"
+      ],
+      "rules": []
+    },
+    {
+      "name": "principal party",
+      "technicalName": "fibo-be-oac-exec:PrincipalParty",
+      "localName": "PrincipalParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/PrincipalParty",
+      "label": "principal party",
+      "definition": "controlling party that is responsible for the management of daily business operations of an organization",
+      "parents": [
+        "signatory",
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": []
+    },
+    {
+      "name": "signatory",
+      "technicalName": "fibo-be-oac-exec:Signatory",
+      "localName": "Signatory",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/Signatory",
+      "label": "signatory",
+      "definition": "responsible party authorized to sign agreements on behalf of themselves, another person, or an organization",
+      "parents": [
+        "authorized individual",
+        "cmns-bauth:LegallyDelegatedAuthority"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-law-lcap:hasCapacity",
+          "operator": "some",
+          "value": "fibo-fnd-law-lcap:SignatoryCapacity",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:authorizes",
+      "technicalName": "fibo-be-oac-exec:authorizes",
+      "localName": "authorizes",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/authorizes",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:authorizesThrough",
+      "technicalName": "fibo-be-oac-exec:authorizesThrough",
+      "localName": "authorizesThrough",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/authorizesThrough",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:delegatesControlTo",
+      "technicalName": "fibo-be-oac-exec:delegatesControlTo",
+      "localName": "delegatesControlTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/delegatesControlTo",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "designates signatory",
+      "technicalName": "fibo-be-oac-exec:designatesSignatory",
+      "localName": "designatesSignatory",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/designatesSignatory",
+      "label": "designates signatory",
+      "definition": "authorizes to sign agreements, access accounts and/or perform other similar tasks",
+      "domain": [],
+      "range": [
+        "signatory"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "elects",
+      "technicalName": "fibo-be-oac-exec:elects",
+      "localName": "elects",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/elects",
+      "label": "elects",
+      "definition": "chooses someone, or a group of individuals, to hold office or some other position by voting",
+      "domain": [
+        "cmns-pts:PartyRole"
+      ],
+      "range": [
+        "cmns-pts:PartyRole"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:hasAuthorizedParty",
+      "technicalName": "fibo-be-oac-exec:hasAuthorizedParty",
+      "localName": "hasAuthorizedParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasAuthorizedParty",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:hasAuthorizingParty",
+      "technicalName": "fibo-be-oac-exec:hasAuthorizingParty",
+      "localName": "hasAuthorizingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasAuthorizingParty",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has corporate officer",
+      "technicalName": "fibo-be-oac-exec:hasCorporateOfficer",
+      "localName": "hasCorporateOfficer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasCorporateOfficer",
+      "label": "has corporate officer",
+      "definition": "indicates an officer of the organization",
+      "domain": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ],
+      "range": [
+        "corporate officer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:hasDelegatedControlOf",
+      "technicalName": "fibo-be-oac-exec:hasDelegatedControlOf",
+      "localName": "hasDelegatedControlOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasDelegatedControlOf",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has director",
+      "technicalName": "fibo-be-oac-exec:hasDirector",
+      "localName": "hasDirector",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasDirector",
+      "label": "has director",
+      "definition": "indicates a member of the board of directors of the organization",
+      "domain": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ],
+      "range": [
+        "board member"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has principal managing party",
+      "technicalName": "fibo-be-oac-exec:hasPrincipalManagingParty",
+      "localName": "hasPrincipalManagingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasPrincipalManagingParty",
+      "label": "has principal managing party",
+      "definition": "indicates a controlling party that is responsible for the management of daily business operations",
+      "domain": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ],
+      "range": [
+        "principal party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has responsibility",
+      "technicalName": "fibo-be-oac-exec:hasResponsibility",
+      "localName": "hasResponsibility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasResponsibility",
+      "label": "has responsibility",
+      "definition": "specifies a commitment or obligation that an independent party has",
+      "domain": [
+        "cmns-pts:Party"
+      ],
+      "range": [
+        "fibo-fnd-law-lcap:Duty"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:hasResponsibleParty",
+      "technicalName": "fibo-be-oac-exec:hasResponsibleParty",
+      "localName": "hasResponsibleParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasResponsibleParty",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has signing authority for",
+      "technicalName": "fibo-be-oac-exec:hasSigningAuthorityFor",
+      "localName": "hasSigningAuthorityFor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasSigningAuthorityFor",
+      "label": "has signing authority for",
+      "definition": "indicates the party for which a signatory has the ability to sign agreements, access accounts and perform related tasks",
+      "domain": [
+        "signatory"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has vested in it",
+      "technicalName": "fibo-be-oac-exec:hasVestedInIt",
+      "localName": "hasVestedInIt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasVestedInIt",
+      "label": "has vested in it",
+      "definition": "indicates the delegated legal authority that is vested in the controlling party",
+      "domain": [
+        "cmns-bauth:LegallyDelegatedAuthority"
+      ],
+      "range": [
+        "fibo-fnd-law-lcap:DelegatedLegalAuthority"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:isAuthorizedBy",
+      "technicalName": "fibo-be-oac-exec:isAuthorizedBy",
+      "localName": "isAuthorizedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/isAuthorizedBy",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:isAuthorizedThrough",
+      "technicalName": "fibo-be-oac-exec:isAuthorizedThrough",
+      "localName": "isAuthorizedThrough",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/isAuthorizedThrough",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is director of",
+      "technicalName": "fibo-be-oac-exec:isDirectorOf",
+      "localName": "isDirectorOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/isDirectorOf",
+      "label": "is director of",
+      "definition": "indicates the organization that the board member oversees",
+      "domain": [
+        "board member"
+      ],
+      "range": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is officer of",
+      "technicalName": "fibo-be-oac-exec:isOfficerOf",
+      "localName": "isOfficerOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/isOfficerOf",
+      "label": "is officer of",
+      "definition": "indicates the organization that the person has some authority over and managerial responsibility for",
+      "domain": [
+        "corporate officer"
+      ],
+      "range": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is principal party of",
+      "technicalName": "fibo-be-oac-exec:isPrincipalPartyOf",
+      "localName": "isPrincipalPartyOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/isPrincipalPartyOf",
+      "label": "is principal party of",
+      "definition": "identifies a legal entity (controlled party) over which a principal has some measure of control",
+      "domain": [
+        "principal party"
+      ],
+      "range": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "nominates",
+      "technicalName": "fibo-be-oac-exec:nominates",
+      "localName": "nominates",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/nominates",
+      "label": "nominates",
+      "definition": "appoints or proposes for appointment to an office or place",
+      "domain": [
+        "cmns-pts:PartyRole"
+      ],
+      "range": [
+        "cmns-pts:PartyRole"
+      ]
+    }
+  ],
+  "attributes": []
+}

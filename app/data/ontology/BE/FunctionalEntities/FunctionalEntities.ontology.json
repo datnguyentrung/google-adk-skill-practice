@@ -1,0 +1,271 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\FunctionalEntities\\FunctionalEntities.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/",
+  "summary": {
+    "nodes": 11,
+    "edges": 0,
+    "properties": 1,
+    "triples": 177
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/ClassificationSchemes/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "association",
+      "technicalName": "fibo-be-fct-fct:Association",
+      "localName": "Association",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/Association",
+      "label": "association",
+      "definition": "not-for-profit organization that is owned by and acts on behalf of its members",
+      "parents": [
+        "fibo-be-le-fbo:NotForProfitOrganization"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cooperative society"
+        }
+      ]
+    },
+    {
+      "name": "cooperative society",
+      "technicalName": "fibo-be-fct-fct:CooperativeSociety",
+      "localName": "CooperativeSociety",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/CooperativeSociety",
+      "label": "cooperative society",
+      "definition": "organization owned by and operated for the benefit of those using its services",
+      "parents": [
+        "functional business entity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "family office",
+      "technicalName": "fibo-be-fct-fct:FamilyOffice",
+      "localName": "FamilyOffice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/FamilyOffice",
+      "label": "family office",
+      "definition": "organization that assumes the day-to-day administration and management of a family's affairs",
+      "parents": [
+        "functional business entity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "functional business entity",
+      "technicalName": "fibo-be-fct-fct:FunctionalBusinessEntity",
+      "localName": "FunctionalBusinessEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/FunctionalBusinessEntity",
+      "label": "functional business entity",
+      "definition": "functional entity defined in terms of the nature of the commercial activity it conducts",
+      "parents": [
+        "functional entity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-org:FormalOrganization"
+        }
+      ]
+    },
+    {
+      "name": "functional entity",
+      "technicalName": "fibo-be-fct-fct:FunctionalEntity",
+      "localName": "FunctionalEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/FunctionalEntity",
+      "label": "functional entity",
+      "definition": "party defined in terms of a function they or it performs",
+      "parents": [
+        "cmns-rlcmp:FunctionalRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-pts:Party"
+        }
+      ]
+    },
+    {
+      "name": "merchant",
+      "technicalName": "fibo-be-fct-fct:Merchant",
+      "localName": "Merchant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/Merchant",
+      "label": "merchant",
+      "definition": "party engaged in the purchase and sales of goods produced by others for profit",
+      "parents": [
+        "functional business entity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "some",
+          "value": "merchant identifier",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "merchant category code",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "merchant category code",
+      "technicalName": "fibo-be-fct-fct:MerchantCategoryCode",
+      "localName": "MerchantCategoryCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/MerchantCategoryCode",
+      "label": "merchant category code",
+      "definition": "code used internationally to classify a merchant",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier",
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "merchant",
+          "qualifier": null
+        },
+        {
+          "property": "has merchant category description",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "merchant category code scheme"
+        }
+      ]
+    },
+    {
+      "name": "merchant category code scheme",
+      "technicalName": "fibo-be-fct-fct:MerchantCategoryCodeScheme",
+      "localName": "MerchantCategoryCodeScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/MerchantCategoryCodeScheme",
+      "label": "merchant category code scheme",
+      "definition": "scheme defining a set of codes for classifying merchant services",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "merchant category code",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "merchant identifier",
+      "technicalName": "fibo-be-fct-fct:MerchantIdentifier",
+      "localName": "MerchantIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/MerchantIdentifier",
+      "label": "merchant identifier",
+      "definition": "unique identifier for a merchant that is used, for example, for transaction interchange purposes",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "merchant"
+        }
+      ]
+    },
+    {
+      "name": "syndicate",
+      "technicalName": "fibo-be-fct-fct:Syndicate",
+      "localName": "Syndicate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/Syndicate",
+      "label": "syndicate",
+      "definition": "temporary, self-organizing group of people, companies, corporations or entities organized as an alliance whose purpose is to transact some specific business, or to pursue or promote a shared interest",
+      "parents": [
+        "cmns-org:Organization"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "cmns-pts:Party",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "syndicate member",
+      "technicalName": "fibo-be-fct-fct:SyndicateMember",
+      "localName": "SyndicateMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/SyndicateMember",
+      "label": "syndicate member",
+      "definition": "role of an individual or organization that is a member of an alliance set up to pool resources and share risk with respect to a large transaction",
+      "parents": [
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "only",
+          "value": "syndicate",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has merchant category description",
+      "technicalName": "fibo-be-fct-fct:hasMerchantCategoryDescription",
+      "localName": "hasMerchantCategoryDescription",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/hasMerchantCategoryDescription",
+      "label": "has merchant category description",
+      "definition": "provides a text description of the sector to which the code applies",
+      "domain": [
+        "merchant category code"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    }
+  ]
+}

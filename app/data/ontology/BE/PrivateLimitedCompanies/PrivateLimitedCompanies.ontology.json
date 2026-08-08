@@ -1,0 +1,210 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\PrivateLimitedCompanies\\PrivateLimitedCompanies.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/",
+  "summary": {
+    "nodes": 7,
+    "edges": 2,
+    "properties": 0,
+    "triples": 119
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "limited liability company",
+      "technicalName": "fibo-be-plc-plc:LimitedLiabilityCompany",
+      "localName": "LimitedLiabilityCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/LimitedLiabilityCompany",
+      "label": "limited liability company",
+      "definition": "private limited company that combines the pass through taxation of a sole proprietorship or partnership with the limited liability of a corporation",
+      "parents": [
+        "private company with limited liability"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-oac-cpty:hasControllingOrganizationMember",
+          "operator": "some",
+          "value": "limited liability company member",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "has managing member",
+          "operator": "some",
+          "value": "managing member",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "limited liability company member",
+      "technicalName": "fibo-be-plc-plc:LimitedLiabilityCompanyMember",
+      "localName": "LimitedLiabilityCompanyMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/LimitedLiabilityCompanyMember",
+      "label": "limited liability company member",
+      "definition": "owner of an interest in a limited liability company",
+      "parents": [
+        "fibo-be-oac-cpty:DeJureControllingInterestParty",
+        "fibo-be-oac-cpty:EntityControllingParty",
+        "fibo-be-oac-opty:EntityOwner",
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "some",
+          "value": "limited liability company",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        },
+        {
+          "property": "fibo-be-oac-cpty:isControllingMemberOf",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "limited liability company",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "limited liability company taxed as a corporation",
+      "technicalName": "fibo-be-plc-plc:LimitedLiabilityCompanyTaxedAsACorporation",
+      "localName": "LimitedLiabilityCompanyTaxedAsACorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/LimitedLiabilityCompanyTaxedAsACorporation",
+      "label": "limited liability company taxed as a corporation",
+      "definition": "limited liability company that has elected to have corporate tax status",
+      "parents": [
+        "limited liability company"
+      ],
+      "rules": []
+    },
+    {
+      "name": "manager-managed limited liability company",
+      "technicalName": "fibo-be-plc-plc:ManagerManagedLimitedLiabilityCompany",
+      "localName": "ManagerManagedLimitedLiabilityCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/ManagerManagedLimitedLiabilityCompany",
+      "label": "manager-managed limited liability company",
+      "definition": "limited liability company in which the members appoint one or more managers to handle the daily operations and administrative responsibilities of the organization",
+      "parents": [
+        "limited liability company"
+      ],
+      "rules": []
+    },
+    {
+      "name": "managing member",
+      "technicalName": "fibo-be-plc-plc:ManagingMember",
+      "localName": "ManagingMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/ManagingMember",
+      "label": "managing member",
+      "definition": "owner of an interest in a limited liability company who also runs the day-to-day business operations",
+      "parents": [
+        "fibo-be-oac-exec:PrincipalParty",
+        "limited liability company member"
+      ],
+      "rules": [
+        {
+          "property": "is managing member of",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "limited liability company",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "private company with limited liability",
+      "technicalName": "fibo-be-plc-plc:PrivateCompanyWithLimitedLiability",
+      "localName": "PrivateCompanyWithLimitedLiability",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/PrivateCompanyWithLimitedLiability",
+      "label": "private company with limited liability",
+      "definition": "hybrid business entity having characteristics of both a corporation and a partnership or sole proprietorship (depending on how many owners there are)",
+      "parents": [
+        "fibo-be-le-lp:BusinessEntity",
+        "cmns-org:LegalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "private limited company",
+      "technicalName": "fibo-be-plc-plc:PrivateLimitedCompany",
+      "localName": "PrivateLimitedCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/PrivateLimitedCompany",
+      "label": "private limited company",
+      "definition": "private limited company whose shareholders' liability is limited to the capital they originally invested",
+      "parents": [
+        "private company with limited liability"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has managing member",
+      "technicalName": "fibo-be-plc-plc:hasManagingMember",
+      "localName": "hasManagingMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/hasManagingMember",
+      "label": "has managing member",
+      "definition": "indicates a managing member in a controlling role of a limited liability company that has responsibility for the day-to-day business operations",
+      "domain": [],
+      "range": [
+        "managing member"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is managing member of",
+      "technicalName": "fibo-be-plc-plc:isManagingMemberOf",
+      "localName": "isManagingMemberOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/isManagingMemberOf",
+      "label": "is managing member of",
+      "definition": "indicates the controlled limited liability company that the managing member runs",
+      "domain": [
+        "managing member"
+      ],
+      "range": []
+    }
+  ],
+  "attributes": []
+}

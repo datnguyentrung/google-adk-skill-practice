@@ -1,0 +1,307 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\Trusts\\Trusts.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/",
+  "summary": {
+    "nodes": 10,
+    "edges": 2,
+    "properties": 0,
+    "triples": 178
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/BusinessAuthorizations/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "irrevocable trust",
+      "technicalName": "fibo-be-tr-tr:IrrevocableTrust",
+      "localName": "IrrevocableTrust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/IrrevocableTrust",
+      "label": "irrevocable trust",
+      "definition": "trust that cannot be modified, amended or terminated except under certain legal circumstances and typically not without the permission of the grantor's named beneficiary or beneficiaries",
+      "parents": [
+        "trust"
+      ],
+      "rules": []
+    },
+    {
+      "name": "living trust",
+      "technicalName": "fibo-be-tr-tr:LivingTrust",
+      "localName": "LivingTrust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/LivingTrust",
+      "label": "living trust",
+      "definition": "trust created during an individual's lifetime where a designated person, the trustee, is given responsibility for managing that individual's assets for the benefit of the eventual beneficiary",
+      "parents": [
+        "trust"
+      ],
+      "rules": []
+    },
+    {
+      "name": "revocable trust",
+      "technicalName": "fibo-be-tr-tr:RevocableTrust",
+      "localName": "RevocableTrust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/RevocableTrust",
+      "label": "revocable trust",
+      "definition": "trust in which legal ownership of the trust property is transferred to the trustee, but the trustor retains full power to revoke, modify or amend the trust",
+      "parents": [
+        "trust"
+      ],
+      "rules": []
+    },
+    {
+      "name": "testamentary trust",
+      "technicalName": "fibo-be-tr-tr:TestamentaryTrust",
+      "localName": "TestamentaryTrust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/TestamentaryTrust",
+      "label": "testamentary trust",
+      "definition": "trust established in accordance with the instructions contained in a last will and testament",
+      "parents": [
+        "irrevocable trust"
+      ],
+      "rules": []
+    },
+    {
+      "name": "trust",
+      "technicalName": "fibo-be-tr-tr:Trust",
+      "localName": "Trust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/Trust",
+      "label": "trust",
+      "definition": "fiduciary relationship and legal entity in which one party, known as a trustor, gives another party, the trustee, the right to hold title to and manage assets for the benefit of a third party, the beneficiary",
+      "parents": [
+        "fibo-be-le-lp:BusinessEntity",
+        "cmns-org:LegalEntity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "trustor",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "trustee",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "trust beneficiary",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "trust agreement"
+        }
+      ]
+    },
+    {
+      "name": "trust agreement",
+      "technicalName": "fibo-be-tr-tr:TrustAgreement",
+      "localName": "TrustAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/TrustAgreement",
+      "label": "trust agreement",
+      "definition": "formal agreement that establishes a trust, whereby the trustor(s) gives the trustee(s) the responsibility to hold and manage assets for the beneficiary(ies)",
+      "parents": [
+        "fibo-be-le-fbo:OrganizationCoveringAgreement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "trustor",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "trustee",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "trust beneficiary",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trust beneficiary",
+      "technicalName": "fibo-be-tr-tr:TrustBeneficiary",
+      "localName": "TrustBeneficiary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/TrustBeneficiary",
+      "label": "trust beneficiary",
+      "definition": "party for whose interest (benefit) an annuity, assignment (such as a letter of credit), contract, insurance policy, judgment, promise, trust, will, etc., is made",
+      "parents": [
+        "fibo-fnd-agr-agr:Beneficiary"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "only",
+          "value": "trust agreement",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trust fund manager",
+      "technicalName": "fibo-be-tr-tr:TrustFundManager",
+      "localName": "TrustFundManager",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/TrustFundManager",
+      "label": "trust fund manager",
+      "definition": "party empowered to act on behalf of the trustee to manage the assets of the trust",
+      "parents": [
+        "cmns-bauth:LegallyDelegatedAuthority"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:manages",
+          "operator": "only",
+          "value": "trust",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trustee",
+      "technicalName": "fibo-be-tr-tr:Trustee",
+      "localName": "Trustee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/Trustee",
+      "label": "trustee",
+      "definition": "party that holds and manages assets for the benefit of another",
+      "parents": [
+        "cmns-bauth:LegallyDelegatedAuthority",
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "trust agreement"
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:manages",
+          "operator": "only",
+          "value": "trust",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "only",
+          "value": "trust",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trustor",
+      "technicalName": "fibo-be-tr-tr:Trustor",
+      "localName": "Trustor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/Trustor",
+      "label": "trustor",
+      "definition": "party that establishes a trust and places property under the protection and management of one or more trustees for the benefit of at least one beneficiary",
+      "parents": [
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "trust agreement"
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "cmns-pts:Party",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has trustee",
+      "technicalName": "fibo-be-tr-tr:hasTrustee",
+      "localName": "hasTrustee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/hasTrustee",
+      "label": "has trustee",
+      "definition": "links a trust to a named trustee",
+      "domain": [
+        "trust"
+      ],
+      "range": [
+        "trustee"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is trustee of",
+      "technicalName": "fibo-be-tr-tr:isTrusteeOf",
+      "localName": "isTrusteeOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/isTrusteeOf",
+      "label": "is trustee of",
+      "definition": "identifies the trust over which a trustee has some measure of control",
+      "domain": [
+        "trustee"
+      ],
+      "range": [
+        "trust"
+      ]
+    }
+  ],
+  "attributes": []
+}

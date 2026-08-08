@@ -1,0 +1,198 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\OwnershipAndControl\\CorporateOwnership.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/",
+  "summary": {
+    "nodes": 6,
+    "edges": 2,
+    "properties": 1,
+    "triples": 132
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/RegistrationAuthorities/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "beneficial owner",
+      "technicalName": "fibo-be-oac-cown:BeneficialOwner",
+      "localName": "BeneficialOwner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/BeneficialOwner",
+      "label": "beneficial owner",
+      "definition": "party that enjoys the benefits of ownership (such as receipt of income) of something even though its ownership (title) may be in the name of another party (called a nominee or registered owner)",
+      "parents": [
+        "fibo-fnd-oac-own:Owner"
+      ],
+      "rules": [
+        {
+          "property": "is beneficial owner of",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:Asset",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    },
+    {
+      "name": "beneficial ownership",
+      "technicalName": "fibo-be-oac-cown:BeneficialOwnership",
+      "localName": "BeneficialOwnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/BeneficialOwnership",
+      "label": "beneficial ownership",
+      "definition": "situation linking party that enjoys the benefits of ownership (such as receipt of income) of something even though its ownership (title) may be in the name of another party (called a nominee or registered owner) to the asset that they own",
+      "parents": [
+        "fibo-fnd-oac-own:Ownership"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-own:hasOwningParty",
+          "operator": "some",
+          "value": "beneficial owner",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-own:hasOwnedAsset",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:Asset",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "purchase lot",
+      "technicalName": "fibo-be-oac-cown:PurchaseLot",
+      "localName": "PurchaseLot",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/PurchaseLot",
+      "label": "purchase lot",
+      "definition": "financial asset that is a block of securities or other financial assets bought in one transaction on a given date at a specific price",
+      "parents": [
+        "fibo-fnd-oac-own:FinancialAsset"
+      ],
+      "rules": [
+        {
+          "property": "consists of number of units",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    },
+    {
+      "name": "shareholder",
+      "technicalName": "fibo-be-oac-cown:Shareholder",
+      "localName": "Shareholder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/Shareholder",
+      "label": "shareholder",
+      "definition": "party that owns shares in and has rights and responsibilities with respect to some asset, provided in exchange for investment",
+      "parents": [
+        "fibo-be-oac-opty:ConstitutionalOwner",
+        "fibo-fnd-agr-ctr:Counterparty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "shareholding",
+      "technicalName": "fibo-be-oac-cown:Shareholding",
+      "localName": "Shareholding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/Shareholding",
+      "label": "shareholding",
+      "definition": "ownership interest in the equity of a company, represented by shares that confer financial rights and governance privileges",
+      "parents": [
+        "fibo-fnd-oac-own:FinancialAsset"
+      ],
+      "rules": [
+        {
+          "property": "consists of number of units",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    },
+    {
+      "name": "tax lot",
+      "technicalName": "fibo-be-oac-cown:TaxLot",
+      "localName": "TaxLot",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/TaxLot",
+      "label": "tax lot",
+      "definition": "financial asset that is a block of securities or other financial assets with a distinct cost basis for tax reporting purposes",
+      "parents": [
+        "fibo-fnd-oac-own:FinancialAsset"
+      ],
+      "rules": [
+        {
+          "property": "consists of number of units",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has beneficial owner",
+      "technicalName": "fibo-be-oac-cown:hasBeneficialOwner",
+      "localName": "hasBeneficialOwner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/hasBeneficialOwner",
+      "label": "has beneficial owner",
+      "definition": "indicates the party that retains rights in the asset they own in a beneficial ownership situation",
+      "domain": [
+        "fibo-fnd-oac-own:Asset"
+      ],
+      "range": [
+        "beneficial owner"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is beneficial owner of",
+      "technicalName": "fibo-be-oac-cown:isBeneficialOwnerOf",
+      "localName": "isBeneficialOwnerOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/isBeneficialOwnerOf",
+      "label": "is beneficial owner of",
+      "definition": "indicates an asset in which the beneficial owner holds rights (typically voting rights, management rights, etc.) in a beneficial ownership situation",
+      "domain": [
+        "beneficial owner"
+      ],
+      "range": [
+        "fibo-fnd-oac-own:Asset"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "consists of number of units",
+      "technicalName": "fibo-be-oac-cown:consistsOfNumberOfUnits",
+      "localName": "consistsOfNumberOfUnits",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/consistsOfNumberOfUnits",
+      "label": "consists of number of units",
+      "definition": "indicates the number of units of",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    }
+  ]
+}

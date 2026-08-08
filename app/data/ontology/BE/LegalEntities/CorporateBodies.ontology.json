@@ -1,0 +1,398 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\LegalEntities\\CorporateBodies.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/",
+  "summary": {
+    "nodes": 15,
+    "edges": 5,
+    "properties": 1,
+    "triples": 223
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/"
+  ],
+  "classes": [
+    {
+      "name": "benefit corporation",
+      "technicalName": "fibo-be-le-cb:BenefitCorporation",
+      "localName": "BenefitCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/BenefitCorporation",
+      "label": "benefit corporation",
+      "definition": "not-for-profit corporation set up under specific state legislation, typically to provide some social benefit, without an obligation to maximize shareholder return",
+      "parents": [
+        "not-for-profit corporation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "board agreement",
+      "technicalName": "fibo-be-le-cb:BoardAgreement",
+      "localName": "BoardAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/BoardAgreement",
+      "label": "board agreement",
+      "definition": "formal, legally binding agreement between members of the Board of Directors of the organization",
+      "parents": [
+        "fibo-be-le-fbo:OrganizationCoveringAgreement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "common interest development corporation",
+      "technicalName": "fibo-be-le-cb:CommonInterestDevelopmentCorporation",
+      "localName": "CommonInterestDevelopmentCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/CommonInterestDevelopmentCorporation",
+      "label": "common interest development corporation",
+      "definition": "not-for-profit corporation set up under specific state legislation as a business entity for homeowners' associations",
+      "parents": [
+        "not-for-profit corporation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "corporation",
+      "technicalName": "fibo-be-le-cb:Corporation",
+      "localName": "Corporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/Corporation",
+      "label": "corporation",
+      "definition": "formal organization that is a legal entity (artificial person) distinct from its owners, created under the jurisdiction of the laws of a state or nation",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:hasLegalName",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "is incorporated in",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-rga:Jurisdiction"
+        },
+        {
+          "property": "is constituted by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "instrument of incorporation"
+        }
+      ]
+    },
+    {
+      "name": "for profit corporation",
+      "technicalName": "fibo-be-le-cb:ForProfitCorporation",
+      "localName": "ForProfitCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/ForProfitCorporation",
+      "label": "for profit corporation",
+      "definition": "corporation whose objective is to make money, i.e., to ensure realization of a financial benefit such that the amount of revenue gained from a business activity exceeds the expenses, costs and taxes needed to sustain that activity",
+      "parents": [
+        "corporation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-le-lp:ProfitObjective"
+        }
+      ]
+    },
+    {
+      "name": "incorporation guarantee",
+      "technicalName": "fibo-be-le-cb:IncorporationGuarantee",
+      "localName": "IncorporationGuarantee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/IncorporationGuarantee",
+      "label": "incorporation guarantee",
+      "definition": "guarantee that is part of the financial basis by which some legal entity is incorporated",
+      "parents": [
+        "fibo-fnd-law-cor:Constitution"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-acc-cur:hasNotionalAmount",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "exactly",
+          "value": "1",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "instrument of incorporation",
+      "technicalName": "fibo-be-le-cb:InstrumentOfIncorporation",
+      "localName": "InstrumentOfIncorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/InstrumentOfIncorporation",
+      "label": "instrument of incorporation",
+      "definition": "memorandum and articles of association by which some legal entity is established",
+      "parents": [
+        "fibo-fnd-law-cor:Constitution"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-rga:Jurisdiction"
+        }
+      ]
+    },
+    {
+      "name": "joint stock company",
+      "technicalName": "fibo-be-le-cb:JointStockCompany",
+      "localName": "JointStockCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/JointStockCompany",
+      "label": "joint stock company",
+      "definition": "for-profit, unincorporated business that has some characteristics of a corporation and some features of a partnership, with ownership interests represented by shares of stock",
+      "parents": [
+        "fibo-be-le-lp:BusinessEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "not-for-profit corporation",
+      "technicalName": "fibo-be-le-cb:NotForProfitCorporation",
+      "localName": "NotForProfitCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/NotForProfitCorporation",
+      "label": "not-for-profit corporation",
+      "definition": "corporation approved by its jurisdictional oversight and tax authorities as operating for educational, charitable, social, religious, civic or humanitarian purposes",
+      "parents": [
+        "corporation",
+        "fibo-be-le-fbo:NotForProfitOrganization"
+      ],
+      "rules": []
+    },
+    {
+      "name": "privately held company",
+      "technicalName": "fibo-be-le-cb:PrivatelyHeldCompany",
+      "localName": "PrivatelyHeldCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/PrivatelyHeldCompany",
+      "label": "privately held company",
+      "definition": "corporation whose issued shares are all held by a family or a small group of investors and, therefore, cannot be bought by the public",
+      "parents": [
+        "stock corporation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "publicly held company",
+      "technicalName": "fibo-be-le-cb:PubliclyHeldCompany",
+      "localName": "PubliclyHeldCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/PubliclyHeldCompany",
+      "label": "publicly held company",
+      "definition": "corporation whose shares are traded and held publicly",
+      "parents": [
+        "stock corporation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "registration identifier",
+      "technicalName": "fibo-be-le-cb:RegistrationIdentifier",
+      "localName": "RegistrationIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/RegistrationIdentifier",
+      "label": "registration identifier",
+      "definition": "identifier that is officially allocated to an organization at the time of registration, typically in a jurisdiction in which said organization is organized or registered and used in that jurisdiction to identify the organization",
+      "parents": [
+        "cmns-org:OrganizationIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "registration identifier scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:FormalOrganization"
+        },
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-rga:Jurisdiction"
+        }
+      ]
+    },
+    {
+      "name": "registration identifier scheme",
+      "technicalName": "fibo-be-le-cb:RegistrationIdentifierScheme",
+      "localName": "RegistrationIdentifierScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/RegistrationIdentifierScheme",
+      "label": "registration identifier scheme",
+      "definition": "scheme that defines the registration identifier per the issuing registration authority",
+      "parents": [
+        "cmns-org:OrganizationIdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "registration identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "religious corporation",
+      "technicalName": "fibo-be-le-cb:ReligiousCorporation",
+      "localName": "ReligiousCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/ReligiousCorporation",
+      "label": "religious corporation",
+      "definition": "not-for-profit corporation whose objective is specific to some fundamental set of beliefs and practices generally agreed upon by a number of people, and that is incorporated under the law",
+      "parents": [
+        "not-for-profit corporation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "some",
+          "value": "fibo-be-le-lp:ReligiousObjective",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "stock corporation",
+      "technicalName": "fibo-be-le-cb:StockCorporation",
+      "localName": "StockCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/StockCorporation",
+      "label": "stock corporation",
+      "definition": "corporation that has shareholders, each of whom receives a portion of the ownership of the corporation through shares of stock",
+      "parents": [
+        "corporation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "some",
+          "value": "board agreement",
+          "qualifier": null
+        },
+        {
+          "property": "has date of incorporation",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "has issued capital",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "has date of registration",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has date of incorporation",
+      "technicalName": "fibo-be-le-cb:hasDateOfIncorporation",
+      "localName": "hasDateOfIncorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/hasDateOfIncorporation",
+      "label": "has date of incorporation",
+      "definition": "indicates the formal date of incorporation as stated in filing documents",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has date of registration",
+      "technicalName": "fibo-be-le-cb:hasDateOfRegistration",
+      "localName": "hasDateOfRegistration",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/hasDateOfRegistration",
+      "label": "has date of registration",
+      "definition": "indicates the date on which the corporation has registered in some jurisdiction for regulatory and / or for tax purposes",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has issued capital",
+      "technicalName": "fibo-be-le-cb:hasIssuedCapital",
+      "localName": "hasIssuedCapital",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/hasIssuedCapital",
+      "label": "has issued capital",
+      "definition": "indicates the aggregate value of all shares held by shareholders",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is constituted by",
+      "technicalName": "fibo-be-le-cb:isConstitutedBy",
+      "localName": "isConstitutedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/isConstitutedBy",
+      "label": "is constituted by",
+      "definition": "the instrument by which an entity is incorporated",
+      "domain": [
+        "corporation"
+      ],
+      "range": [
+        "fibo-fnd-law-cor:Constitution"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is incorporated in",
+      "technicalName": "fibo-be-le-cb:isIncorporatedIn",
+      "localName": "isIncorporatedIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/isIncorporatedIn",
+      "label": "is incorporated in",
+      "definition": "the legal jurisdiction under which the legal entity is incorporated",
+      "domain": [
+        "corporation"
+      ],
+      "range": [
+        "cmns-rga:Jurisdiction"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has shares authorized",
+      "technicalName": "fibo-be-le-cb:hasSharesAuthorized",
+      "localName": "hasSharesAuthorized",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/hasSharesAuthorized",
+      "label": "has shares authorized",
+      "definition": "indicates the maximum number of shares that are permitted to be issued, as established by the board of directors",
+      "domain": [],
+      "range": [
+        "xsd:nonNegativeInteger"
+      ]
+    }
+  ]
+}

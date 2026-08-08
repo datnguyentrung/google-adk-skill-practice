@@ -1,0 +1,343 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\OwnershipAndControl\\CorporateControl.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/",
+  "summary": {
+    "nodes": 11,
+    "edges": 10,
+    "properties": 0,
+    "triples": 182
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "affiliate",
+      "technicalName": "fibo-be-oac-cctl:Affiliate",
+      "localName": "Affiliate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/Affiliate",
+      "label": "affiliate",
+      "definition": "party that is related to a legal entity, directly, or indirectly through one or more intermediaries, and controls, or is controlled by, or is under common control with that entity, typically determined by the degree of ownership",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "is affiliate of",
+          "operator": "some",
+          "value": "affiliate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "affiliation",
+      "technicalName": "fibo-be-oac-cctl:Affiliation",
+      "localName": "Affiliation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/Affiliation",
+      "label": "affiliation",
+      "definition": "situation in which a controlled party is affiliated with a controlling party for some period of time",
+      "parents": [
+        "fibo-fnd-oac-ctl:Control"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasUndergoer",
+          "operator": "some",
+          "value": "controlled affiliate",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:hasActor",
+          "operator": "some",
+          "value": "controlling affiliate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "controlled affiliate",
+      "technicalName": "fibo-be-oac-cctl:ControlledAffiliate",
+      "localName": "ControlledAffiliate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/ControlledAffiliate",
+      "label": "controlled affiliate",
+      "definition": "controlled party in an affiliation situation",
+      "parents": [
+        "fibo-be-oac-cpty:ControlledParty",
+        "affiliate"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "cmns-org:LegalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "controlling affiliate",
+      "technicalName": "fibo-be-oac-cctl:ControllingAffiliate",
+      "localName": "ControllingAffiliate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/ControllingAffiliate",
+      "label": "controlling affiliate",
+      "definition": "controlling party in an affiliation situation",
+      "parents": [
+        "fibo-be-oac-cpty:MajorityControllingParty",
+        "affiliate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "domestic ultimate parent",
+      "technicalName": "fibo-be-oac-cctl:DomesticUltimateParent",
+      "localName": "DomesticUltimateParent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/DomesticUltimateParent",
+      "label": "domestic ultimate parent",
+      "definition": "party that is recognized as the ultimate parent of a given organization within the country or jurisdiction of incorporation or organization",
+      "parents": [
+        "total controlling interest party"
+      ],
+      "rules": []
+    },
+    {
+      "name": "global ultimate parent",
+      "technicalName": "fibo-be-oac-cctl:GlobalUltimateParent",
+      "localName": "GlobalUltimateParent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/GlobalUltimateParent",
+      "label": "global ultimate parent",
+      "definition": "party that is recognized as the ultimate parent of a given organization world-wide",
+      "parents": [
+        "total controlling interest party"
+      ],
+      "rules": []
+    },
+    {
+      "name": "joint venture partner",
+      "technicalName": "fibo-be-oac-cctl:JointVenturePartner",
+      "localName": "JointVenturePartner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/JointVenturePartner",
+      "label": "joint venture partner",
+      "definition": "party that shares capital, technology, human resources, risks, and benefits of an entity under shared control",
+      "parents": [
+        "fibo-be-oac-cpty:EntityControllingParty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-ctl:isControllingPartyOf",
+          "operator": "some",
+          "value": "fibo-be-le-fbo:JointVenture",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "significant shareholder",
+      "technicalName": "fibo-be-oac-cctl:SignificantShareholder",
+      "localName": "SignificantShareholder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/SignificantShareholder",
+      "label": "significant shareholder",
+      "definition": "party that owns a significant voting stake in an organization that is less than 50 percent but greater than some threshold",
+      "parents": [
+        "voting shareholder"
+      ],
+      "rules": []
+    },
+    {
+      "name": "subsidiary",
+      "technicalName": "fibo-be-oac-cctl:Subsidiary",
+      "localName": "Subsidiary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/Subsidiary",
+      "label": "subsidiary",
+      "definition": "legal entity that is entirely or majority owned and controlled by another legal entity",
+      "parents": [
+        "controlled affiliate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "total controlling interest party",
+      "technicalName": "fibo-be-oac-cctl:TotalControllingInterestParty",
+      "localName": "TotalControllingInterestParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/TotalControllingInterestParty",
+      "label": "total controlling interest party",
+      "definition": "voting shareholder that owns 100 percent of the voting shares in some legal entity",
+      "parents": [
+        "fibo-be-oac-cpty:TotalOwner",
+        "significant shareholder"
+      ],
+      "rules": []
+    },
+    {
+      "name": "voting shareholder",
+      "technicalName": "fibo-be-oac-cctl:VotingShareholder",
+      "localName": "VotingShareholder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/VotingShareholder",
+      "label": "voting shareholder",
+      "definition": "shareholder whose shares confer the right to vote in corporate elections, including the right to elect directors at annual or special meetings, and to express their views to corporate management and directors on significant issues that may affect the value of those shares",
+      "parents": [
+        "fibo-be-oac-cpty:DeJureControllingInterestParty",
+        "fibo-be-oac-cown:Shareholder"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has affiliate",
+      "technicalName": "fibo-be-oac-cctl:hasAffiliate",
+      "localName": "hasAffiliate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/hasAffiliate",
+      "label": "has affiliate",
+      "definition": "has a party which directly, or indirectly through one or more intermediaries, controls, or is controlled by, or is under common control with the company",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "affiliate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has controlling affiliate",
+      "technicalName": "fibo-be-oac-cctl:hasControllingAffiliate",
+      "localName": "hasControllingAffiliate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/hasControllingAffiliate",
+      "label": "has controlling affiliate",
+      "definition": "is directly, or indirectly through one or more intermediaries, controlled by",
+      "domain": [
+        "controlled affiliate"
+      ],
+      "range": [
+        "controlling affiliate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has domestic ultimate parent",
+      "technicalName": "fibo-be-oac-cctl:hasDomesticUltimateParent",
+      "localName": "hasDomesticUltimateParent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/hasDomesticUltimateParent",
+      "label": "has domestic ultimate parent",
+      "definition": "relates an organization to another recognized as its ultimate parent, within its country or jurisdiction of incorporation, if it has one",
+      "domain": [],
+      "range": [
+        "domestic ultimate parent"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has global ultimate parent",
+      "technicalName": "fibo-be-oac-cctl:hasGlobalUltimateParent",
+      "localName": "hasGlobalUltimateParent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/hasGlobalUltimateParent",
+      "label": "has global ultimate parent",
+      "definition": "relates an organization to another recognized as its ultimate parent, if it has one",
+      "domain": [],
+      "range": [
+        "global ultimate parent"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has subsidiary",
+      "technicalName": "fibo-be-oac-cctl:hasSubsidiary",
+      "localName": "hasSubsidiary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/hasSubsidiary",
+      "label": "has subsidiary",
+      "definition": "relates a legal entity to another organization that it owns at least 50 percent of",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "subsidiary"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is affiliate of",
+      "technicalName": "fibo-be-oac-cctl:isAffiliateOf",
+      "localName": "isAffiliateOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/isAffiliateOf",
+      "label": "is affiliate of",
+      "definition": "relates a party which directly, or indirectly through one or more intermediaries, controls, or is controlled by, or is under common control by another party to that party",
+      "domain": [
+        "affiliate"
+      ],
+      "range": [
+        "affiliate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is controlling affiliate of",
+      "technicalName": "fibo-be-oac-cctl:isControllingAffiliateOf",
+      "localName": "isControllingAffiliateOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/isControllingAffiliateOf",
+      "label": "is controlling affiliate of",
+      "definition": "controls directly, or indirectly through one or more intermediaries",
+      "domain": [
+        "controlling affiliate"
+      ],
+      "range": [
+        "controlled affiliate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is parent company of",
+      "technicalName": "fibo-be-oac-cctl:isParentCompanyOf",
+      "localName": "isParentCompanyOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/isParentCompanyOf",
+      "label": "is parent company of",
+      "definition": "indicates a controlled affiliate that it owns at least 50 percent of",
+      "domain": [
+        "controlling affiliate"
+      ],
+      "range": [
+        "subsidiary"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is subsidiary of",
+      "technicalName": "fibo-be-oac-cctl:isSubsidiaryOf",
+      "localName": "isSubsidiaryOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/isSubsidiaryOf",
+      "label": "is subsidiary of",
+      "definition": "is controlled directly, or indirectly through one or more intermediaries and owned at least 50 percent by",
+      "domain": [
+        "subsidiary"
+      ],
+      "range": [
+        "controlling affiliate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is wholly owned by",
+      "technicalName": "fibo-be-oac-cctl:isWhollyOwnedBy",
+      "localName": "isWhollyOwnedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/isWhollyOwnedBy",
+      "label": "is wholly owned by",
+      "definition": "relates a legal entity to a party that has 100 percent ownership and control over it",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "total controlling interest party"
+      ]
+    }
+  ],
+  "attributes": []
+}

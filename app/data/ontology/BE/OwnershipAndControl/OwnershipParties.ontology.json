@@ -1,0 +1,323 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\OwnershipAndControl\\OwnershipParties.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/",
+  "summary": {
+    "nodes": 10,
+    "edges": 7,
+    "properties": 0,
+    "triples": 216
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/"
+  ],
+  "classes": [
+    {
+      "name": "constitutional owner",
+      "technicalName": "fibo-be-oac-opty:ConstitutionalOwner",
+      "localName": "ConstitutionalOwner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/ConstitutionalOwner",
+      "label": "constitutional owner",
+      "definition": "entity owner that holds an equity stake in said entity, in the form of shareholders' equity",
+      "parents": [
+        "entity owner"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:holds",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:ShareholdersEquity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "controlling equity",
+      "technicalName": "fibo-be-oac-opty:ControllingEquity",
+      "localName": "ControllingEquity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/ControllingEquity",
+      "label": "controlling equity",
+      "definition": "shareholders's equity that formally confers control in the entity, either by law or as explicitly stated in a corresponding equity instrument",
+      "parents": [
+        "fibo-fnd-oac-own:ShareholdersEquity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:confers",
+          "operator": "only",
+          "value": "fibo-fnd-oac-ctl:DeJureControl",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "direct consolidation",
+      "technicalName": "fibo-be-oac-opty:DirectConsolidation",
+      "localName": "DirectConsolidation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/DirectConsolidation",
+      "label": "direct consolidation",
+      "definition": "direct ownership of an entity recorded as accounting consolidation",
+      "parents": [
+        "entity ownership"
+      ],
+      "rules": []
+    },
+    {
+      "name": "entity owner",
+      "technicalName": "fibo-be-oac-opty:EntityOwner",
+      "localName": "EntityOwner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/EntityOwner",
+      "label": "entity owner",
+      "definition": "owner (person, group of people, or other business entity) that owns, or holds an ownership interest in, a formal business organization",
+      "parents": [
+        "fibo-fnd-oac-own:Owner"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:holds",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:OwnersEquity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "entity ownership",
+      "technicalName": "fibo-be-oac-opty:EntityOwnership",
+      "localName": "EntityOwnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/EntityOwnership",
+      "label": "entity ownership",
+      "definition": "ownership by some party of an interest in some non-governmental formal organization",
+      "parents": [
+        "fibo-fnd-oac-own:Ownership"
+      ],
+      "rules": [
+        {
+          "property": "has owning entity",
+          "operator": "some",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        },
+        {
+          "property": "has owned entity",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lei:RelationshipStatus"
+        },
+        {
+          "property": "fibo-be-le-lei:hasOwnershipPercentage",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:isQualifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-le-lei:RelationshipQualifier"
+        }
+      ]
+    },
+    {
+      "name": "foreign branch ownership",
+      "technicalName": "fibo-be-oac-opty:ForeignBranchOwnership",
+      "localName": "ForeignBranchOwnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/ForeignBranchOwnership",
+      "label": "foreign branch ownership",
+      "definition": "ownership by some party of some formal organization or organizational sub-unit that is a foreign affiliate and legally part of the owning entity",
+      "parents": [
+        "entity ownership"
+      ],
+      "rules": []
+    },
+    {
+      "name": "investment equity",
+      "technicalName": "fibo-be-oac-opty:InvestmentEquity",
+      "localName": "InvestmentEquity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/InvestmentEquity",
+      "label": "investment equity",
+      "definition": "equity that represents an ownership interest in some entity, but may or may not take the form of shareholders's equity",
+      "parents": [
+        "fibo-fnd-oac-own:OwnersEquity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isHeldBy",
+          "operator": "some",
+          "value": "investor",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "investor",
+      "technicalName": "fibo-be-oac-opty:Investor",
+      "localName": "Investor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/Investor",
+      "label": "investor",
+      "definition": "party that owns some stake in some organization by way of investment",
+      "parents": [
+        "entity owner",
+        "fibo-fnd-agr-ctr:ContractParty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:holds",
+          "operator": "some",
+          "value": "investment equity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "investor contract",
+      "technicalName": "fibo-be-oac-opty:InvestorContract",
+      "localName": "InvestorContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/InvestorContract",
+      "label": "investor contract",
+      "definition": "Contract setting out the terms under which some investor invests in the entity and setting out the rights which are conferred on that investor.",
+      "parents": [
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:definesTermsFor",
+          "operator": "some",
+          "value": "investment equity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ultimate ownership",
+      "technicalName": "fibo-be-oac-opty:UltimateConsolidation",
+      "localName": "UltimateConsolidation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/UltimateConsolidation",
+      "label": "ultimate ownership",
+      "definition": "highest-level (top, end) ancestral ownership, evidenced by accounting consolidation, by some party of some other legal entity",
+      "parents": [
+        "entity ownership"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "guarantees",
+      "technicalName": "fibo-be-oac-opty:guarantees",
+      "localName": "guarantees",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/guarantees",
+      "label": "guarantees",
+      "definition": "provides a formal assurance or promise, esp. that certain conditions shall be fulfilled relating to a product, service, or transaction",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has direct ownership",
+      "technicalName": "fibo-be-oac-opty:hasDirectOwnership",
+      "localName": "hasDirectOwnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/hasDirectOwnership",
+      "label": "has direct ownership",
+      "definition": "relates a formal organization to the situation in which it is owned directly by another entity",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "entity ownership"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has direct owning entity",
+      "technicalName": "fibo-be-oac-opty:hasDirectOwningEntity",
+      "localName": "hasDirectOwningEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/hasDirectOwningEntity",
+      "label": "has direct owning entity",
+      "definition": "relates a formal organization to a direct legal person / owner",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has investment entity",
+      "technicalName": "fibo-be-oac-opty:hasInvestmentEntity",
+      "localName": "hasInvestmentEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/hasInvestmentEntity",
+      "label": "has investment entity",
+      "definition": "relates a legal person to a directly owned formal organization or subsidiary, depending on the percent ownership interest",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has investment ownership",
+      "technicalName": "fibo-be-oac-opty:hasInvestmentOwnership",
+      "localName": "hasInvestmentOwnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/hasInvestmentOwnership",
+      "label": "has investment ownership",
+      "definition": "relates a legal person to the context in which it owns a formal organization",
+      "domain": [
+        "cmns-org:LegalPerson"
+      ],
+      "range": [
+        "entity ownership"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has owned entity",
+      "technicalName": "fibo-be-oac-opty:hasOwnedEntity",
+      "localName": "hasOwnedEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/hasOwnedEntity",
+      "label": "has owned entity",
+      "definition": "indicates a formal organization, including potentially a sole proprietorship, that is owned by a legal person",
+      "domain": [
+        "entity ownership"
+      ],
+      "range": [
+        "anonymous restriction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has owning entity",
+      "technicalName": "fibo-be-oac-opty:hasOwningEntity",
+      "localName": "hasOwningEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/hasOwningEntity",
+      "label": "has owning entity",
+      "definition": "indicates a party that owns a formal organization",
+      "domain": [
+        "entity ownership"
+      ],
+      "range": [
+        "cmns-org:LegalPerson"
+      ]
+    }
+  ],
+  "attributes": []
+}

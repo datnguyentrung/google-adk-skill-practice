@@ -1,0 +1,206 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BE\\FunctionalEntities\\Publishers.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/",
+  "summary": {
+    "nodes": 11,
+    "edges": 3,
+    "properties": 0,
+    "triples": 98
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "API-first market data provider",
+      "technicalName": "fibo-be-fct-pub:APIFirstMarketDataProvider",
+      "localName": "APIFirstMarketDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/APIFirstMarketDataProvider",
+      "label": "API-first market data provider",
+      "definition": "market data provider that delivers financial information primarily through programmatic interfaces, offering real-time or historical data via APIs for automated consumption",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "alternative data provider",
+      "technicalName": "fibo-be-fct-pub:AlternativeDataProvider",
+      "localName": "AlternativeDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/AlternativeDataProvider",
+      "label": "alternative data provider",
+      "definition": "market data provider that supplies non-traditional datasets derived from sources such as web activity, sentiment analysis, geospatial signals, or other alternative information channels",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "crypto and digital-asset data provider",
+      "technicalName": "fibo-be-fct-pub:CryptoDigitalAssetDataProvider",
+      "localName": "CryptoDigitalAssetDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/CryptoDigitalAssetDataProvider",
+      "label": "crypto and digital-asset data provider",
+      "definition": "market data provider that supplies pricing, reference data, and analytics for digital tokens and crypto-assets",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "derivatives and volatility data provider",
+      "technicalName": "fibo-be-fct-pub:DerivativesVolatilityDataProvider",
+      "localName": "DerivativesVolatilityDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/DerivativesVolatilityDataProvider",
+      "label": "derivatives and volatility data provider",
+      "definition": "market data provider that supplies pricing, implied-volatility surfaces, and analytics for derivatives, including options, futures, and structured products",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exchange-sourced data provider",
+      "technicalName": "fibo-be-fct-pub:ExchangeSourcedDataProvider",
+      "localName": "ExchangeSourcedDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/ExchangeSourcedDataProvider",
+      "label": "exchange-sourced data provider",
+      "definition": "market data provider that distributes financial information originating directly from trading venues, including order-book data, trades, quotes, and venue-specific reference data",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fixed income specialist provider",
+      "technicalName": "fibo-be-fct-pub:FixedIncomeSpecialistProvider",
+      "localName": "FixedIncomeSpecialistProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/FixedIncomeSpecialistProvider",
+      "label": "fixed income specialist provider",
+      "definition": "market data provider that focuses on pricing, reference data, and analytics for fixed-income instruments such as bonds, credit products, and money-market securities",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "institutional market data provider",
+      "technicalName": "fibo-be-fct-pub:InstitutionalMarketDataProvider",
+      "localName": "InstitutionalMarketDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/InstitutionalMarketDataProvider",
+      "label": "institutional market data provider",
+      "definition": "market data provider that supplies multi-asset financial information, analytics, and reference data to financial institutions such as banks, asset managers, and trading firms",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "market data provider",
+      "technicalName": "fibo-be-fct-pub:MarketDataProvider",
+      "localName": "MarketDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/MarketDataProvider",
+      "label": "market data provider",
+      "definition": "publisher that supplies financial information, reference data, analytics, or related datasets used in financial markets",
+      "parents": [
+        "publisher"
+      ],
+      "rules": []
+    },
+    {
+      "name": "publication",
+      "technicalName": "fibo-be-fct-pub:Publication",
+      "localName": "Publication",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/Publication",
+      "label": "publication",
+      "definition": "document offered for general distribution and usually produced in multiple copies",
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "publisher",
+      "technicalName": "fibo-be-fct-pub:Publisher",
+      "localName": "Publisher",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/Publisher",
+      "label": "publisher",
+      "definition": "role of person(s) or organization(s) responsible for the printing or distribution of an item, whether in digital or print (physical) form",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-pts:Party"
+        }
+      ]
+    },
+    {
+      "name": "reference data specialist provider",
+      "technicalName": "fibo-be-fct-pub:ReferenceDataSpecialistProvider",
+      "localName": "ReferenceDataSpecialistProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/ReferenceDataSpecialistProvider",
+      "label": "reference data specialist provider",
+      "definition": "market data provider that focuses on authoritative reference data, including corporate actions, instrument identifiers, classifications, and entity information aligned with ISO standards",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has publisher",
+      "technicalName": "fibo-be-fct-pub:hasPublisher",
+      "localName": "hasPublisher",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/hasPublisher",
+      "label": "has publisher",
+      "definition": "indicates the party in the role of issuing the information",
+      "domain": [
+        "publication"
+      ],
+      "range": [
+        "publisher"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is published by",
+      "technicalName": "fibo-be-fct-pub:isPublishedBy",
+      "localName": "isPublishedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/isPublishedBy",
+      "label": "is published by",
+      "definition": "identifies the independent party (i.e., the individual or organization) that disseminates the material",
+      "domain": [
+        "publication"
+      ],
+      "range": [
+        "cmns-pts:Party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "publishes",
+      "technicalName": "fibo-be-fct-pub:publishes",
+      "localName": "publishes",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/publishes",
+      "label": "publishes",
+      "definition": "prepares and issues material for public consumption",
+      "domain": [
+        "publisher"
+      ],
+      "range": [
+        "publication"
+      ]
+    }
+  ],
+  "attributes": []
+}
