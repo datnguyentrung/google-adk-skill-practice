@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 from typing import Any
 
@@ -30,6 +31,20 @@ def resolve_output_path(path: Path | str | None = None) -> Path:
     resolved = resolved if resolved.is_absolute() else resolved.resolve()
     resolved.parent.mkdir(parents=True, exist_ok=True)
     return resolved
+
+
+def is_merged_ontology_file(path: Path) -> bool:
+    """Identify generated aggregate ontology files that should not be inputs."""
+
+    return path.name.lower().startswith("all")
+
+
+def folder_output_path(folder: Path) -> Path:
+    """Build the generated aggregate path for one ontology folder."""
+
+    words = re.findall(r"[A-Z]+(?=[A-Z][a-z]|\b)|[A-Z]?[a-z]+|\d+", folder.name)
+    folder_name = "_".join(word.lower() for word in words) or folder.name.lower()
+    return folder / f"all_{folder_name}.ontology.json"
 
 
 def dedupe_key(item: Any) -> tuple[str, str] | None:
@@ -61,22 +76,36 @@ def append_unique(items: list[Any], item: Any, seen: set[tuple[str, str]]) -> No
 
 
 def ontology_files(input_dir: Path, output_path: Path | None = None) -> list[Path]:
-    """Find ontology JSON files recursively, excluding the merged output file."""
+    """Find direct ontology JSON inputs, excluding generated aggregate files."""
 
     resolved_output_path = output_path.resolve() if output_path else None
     files = []
-    for file_path in sorted(input_dir.rglob("*.ontology.json")):
+    for file_path in sorted(input_dir.glob("*.ontology.json")):
+        if is_merged_ontology_file(file_path):
+            continue
         if resolved_output_path and file_path.resolve() == resolved_output_path:
             continue
         files.append(file_path)
     return files
 
 
+def ontology_folders(root_dir: Path) -> list[Path]:
+    """Find folders that contain direct ontology JSON source files."""
+
+    folders = [root_dir]
+    folders.extend(path for path in root_dir.rglob("*") if path.is_dir())
+    return [
+        folder
+        for folder in sorted(folders)
+        if ontology_files(folder, folder_output_path(folder))
+    ]
+
+
 def load_all_ontologies(
     input_dir: Path | str | None = None,
     output_path: Path | str | None = None,
 ) -> dict[str, Any]:
-    """Load and merge every ontology JSON file under the input directory."""
+    """Load and merge ontology JSON files directly under the input directory."""
 
     resolved_input_dir = resolve_directory(input_dir)
     resolved_output_path = resolve_output_path(output_path)
@@ -124,6 +153,25 @@ def write_merged_ontology(
     return resolved_output_path, merged
 
 
+def write_merged_ontology_folders(
+    root_dir: Path | str | None = None,
+) -> list[dict[str, Any]]:
+    """Merge each ontology folder under a root into an in-folder output file."""
+
+    resolved_root_dir = resolve_directory(root_dir)
+    results = []
+    for folder in ontology_folders(resolved_root_dir):
+        output_path, data = write_merged_ontology(folder_output_path(folder), folder)
+        results.append(
+            {
+                "folder": str(folder),
+                "output": str(output_path),
+                "summary": data["summary"],
+            }
+        )
+    return results
+
+
 def print_merge_report(output_path: Path, data: dict[str, Any]) -> None:
     """Print a concise report for the merged ontology output."""
 
@@ -140,6 +188,20 @@ def print_merge_report(output_path: Path, data: dict[str, Any]) -> None:
     )
 
 
+def print_folder_merge_report(results: list[dict[str, Any]]) -> None:
+    """Print a concise report for folder-by-folder ontology merges."""
+
+    print("RDF ontology folder merge complete")
+    print(f"Folders merged: {len(results)}")
+    for item in results:
+        summary = item["summary"]
+        print(
+            f"- {item['output']} from {summary['sourceFiles']} files "
+            f"({summary['classes']} classes, {summary['edges']} edges, "
+            f"{summary['attributes']} attributes)"
+        )
+
+
 def main() -> None:
     """Run the ontology JSON merge CLI."""
 
@@ -153,16 +215,27 @@ def main() -> None:
     parser.add_argument(
         "--output",
         type=Path,
-        default=DEFAULT_OUTPUT_PATH,
-        help="Merged JSON output file. Defaults to app/data/ontology/all.ontology.json.",
+        default=None,
+        help=(
+            "Merged JSON output file for single-folder mode. When omitted, "
+            "each ontology folder is merged into its own all_<folder>.ontology.json."
+        ),
     )
     args = parser.parse_args()
 
-    output_path, data = write_merged_ontology(args.output, args.input_dir)
-    print_merge_report(output_path, data)
+    if args.output:
+        output_path, data = write_merged_ontology(args.output, args.input_dir)
+        print_merge_report(output_path, data)
+        return
+
+    results = write_merged_ontology_folders(args.input_dir)
+    print_folder_merge_report(results)
 
 
-LOAN_GENERAL = load_all_ontologies()
+LOAN_GENERAL = load_all_ontologies(
+    BASE_DIR / "LOAN",
+    BASE_DIR / "LOAN" / "all_loan.ontology.json",
+)
 
 
 if __name__ == "__main__":
