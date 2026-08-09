@@ -1,0 +1,17 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\EXMP\\Securities",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\EXMP\\Securities\\EquitiesExamples.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\EXMP\\Securities\\EquityIndexExamples.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\EXMP\\Securities\\IRSwapExamples.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 3,
+    "classes": 0,
+    "edges": 0,
+    "attributes": 0
+  },
+  "classes": [],
+  "edges": [],
+  "attributes": []
+}

@@ -1,0 +1,347 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Arrangements\\Reporting.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/",
+  "summary": {
+    "nodes": 6,
+    "edges": 12,
+    "properties": 0,
+    "triples": 178
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/"
+  ],
+  "classes": [
+    {
+      "name": "report",
+      "technicalName": "fibo-fnd-arr-rep:Report",
+      "localName": "Report",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/Report",
+      "label": "report",
+      "definition": "document that provides a structured description of something, prepared on ad hoc, periodic, recurring, regular, or as required basis",
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "reporting party",
+          "qualifier": null
+        },
+        {
+          "property": "is reported to",
+          "operator": "some",
+          "value": "cmns-pts:PartyRole",
+          "qualifier": null
+        },
+        {
+          "property": "is submitted to",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-pts:PartyRole"
+        },
+        {
+          "property": "has report date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "has report date time",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:DateTime"
+        },
+        {
+          "property": "fibo-fnd-arr-doc:hasReportingPeriod",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:DatePeriod"
+        },
+        {
+          "property": "is submitted by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "submitter"
+        }
+      ]
+    },
+    {
+      "name": "reporting party",
+      "technicalName": "fibo-fnd-arr-rep:ReportingParty",
+      "localName": "ReportingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/ReportingParty",
+      "label": "reporting party",
+      "definition": "party providing a report, typically in response to some contractual, legal, regulatory or other business requirement",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:provides",
+          "operator": "some",
+          "value": "report",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "request",
+      "technicalName": "fibo-fnd-arr-rep:Request",
+      "localName": "Request",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/Request",
+      "label": "request",
+      "definition": "event in which some party asks another party for something at some point in time",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "some",
+          "value": "request activity",
+          "qualifier": null
+        },
+        {
+          "property": "is requested of",
+          "operator": "some",
+          "value": "cmns-pts:PartyRole",
+          "qualifier": null
+        },
+        {
+          "property": "is requested by",
+          "operator": "some",
+          "value": "requester",
+          "qualifier": null
+        },
+        {
+          "property": "has request date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "has request date time",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:DateTime"
+        }
+      ]
+    },
+    {
+      "name": "request activity",
+      "technicalName": "fibo-fnd-arr-rep:RequestActivity",
+      "localName": "RequestActivity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/RequestActivity",
+      "label": "request activity",
+      "definition": "activity in which some party asks another party for something or to do something",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": [
+        {
+          "property": "requests",
+          "operator": "some",
+          "value": "owl:Thing",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "requester",
+      "technicalName": "fibo-fnd-arr-rep:Requester",
+      "localName": "Requester",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/Requester",
+      "label": "requester",
+      "definition": "party that asks for something",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": []
+    },
+    {
+      "name": "submitter",
+      "technicalName": "fibo-fnd-arr-rep:Submitter",
+      "localName": "Submitter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/Submitter",
+      "label": "submitter",
+      "definition": "party presenting something, such as a regulatory report",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "submits",
+          "operator": "some",
+          "value": "report",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has report date",
+      "technicalName": "fibo-fnd-arr-rep:hasReportDate",
+      "localName": "hasReportDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/hasReportDate",
+      "label": "has report date",
+      "definition": "date on which a report was issued",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has report date time",
+      "technicalName": "fibo-fnd-arr-rep:hasReportDateTime",
+      "localName": "hasReportDateTime",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/hasReportDateTime",
+      "label": "has report date time",
+      "definition": "date and time at which a report was issued",
+      "domain": [],
+      "range": [
+        "cmns-dt:DateTime"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has request date",
+      "technicalName": "fibo-fnd-arr-rep:hasRequestDate",
+      "localName": "hasRequestDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/hasRequestDate",
+      "label": "has request date",
+      "definition": "date on which a request was made",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has request date time",
+      "technicalName": "fibo-fnd-arr-rep:hasRequestDateTime",
+      "localName": "hasRequestDateTime",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/hasRequestDateTime",
+      "label": "has request date time",
+      "definition": "date and time at which a request was made",
+      "domain": [],
+      "range": [
+        "cmns-dt:DateTime"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is reported to",
+      "technicalName": "fibo-fnd-arr-rep:isReportedTo",
+      "localName": "isReportedTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/isReportedTo",
+      "label": "is reported to",
+      "definition": "indicates the party to which something is reported",
+      "domain": [],
+      "range": [
+        "cmns-pts:PartyRole"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is requested by",
+      "technicalName": "fibo-fnd-arr-rep:isRequestedBy",
+      "localName": "isRequestedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/isRequestedBy",
+      "label": "is requested by",
+      "definition": "indicates the party that asks for something",
+      "domain": [],
+      "range": [
+        "requester"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is requested of",
+      "technicalName": "fibo-fnd-arr-rep:isRequestedOf",
+      "localName": "isRequestedOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/isRequestedOf",
+      "label": "is requested of",
+      "definition": "indicates the party that is asked for something",
+      "domain": [],
+      "range": [
+        "cmns-pts:PartyRole"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is submitted by",
+      "technicalName": "fibo-fnd-arr-rep:isSubmittedBy",
+      "localName": "isSubmittedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/isSubmittedBy",
+      "label": "is submitted by",
+      "definition": "indicates the party that submits something",
+      "domain": [],
+      "range": [
+        "submitter"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is submitted to",
+      "technicalName": "fibo-fnd-arr-rep:isSubmittedTo",
+      "localName": "isSubmittedTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/isSubmittedTo",
+      "label": "is submitted to",
+      "definition": "indicates the party to which something is submitted",
+      "domain": [],
+      "range": [
+        "cmns-pts:PartyRole"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "reports on",
+      "technicalName": "fibo-fnd-arr-rep:reportsOn",
+      "localName": "reportsOn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/reportsOn",
+      "label": "reports on",
+      "definition": "indicates a subject matter, observation(s), assessment(s), focus or other topic of a report",
+      "domain": [
+        "report"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "requests",
+      "technicalName": "fibo-fnd-arr-rep:requests",
+      "localName": "requests",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/requests",
+      "label": "requests",
+      "definition": "asks for something",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "submits",
+      "technicalName": "fibo-fnd-arr-rep:submits",
+      "localName": "submits",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/submits",
+      "label": "submits",
+      "definition": "presents something (a proposal, application, report, or other document) for consideration or review",
+      "domain": [
+        "submitter"
+      ],
+      "range": []
+    }
+  ],
+  "attributes": []
+}

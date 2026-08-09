@@ -1,0 +1,16 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\EXMP",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\EXMP\\LegalEntities\\all_legal_entities.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\EXMP\\Securities\\all_securities.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 2,
+    "classes": 0,
+    "edges": 0,
+    "attributes": 0
+  },
+  "classes": [],
+  "edges": [],
+  "attributes": []
+}

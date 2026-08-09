@@ -1,0 +1,92 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Securities\\NorthAmericanSecurities\\USSecuritiesRestrictions.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/NorthAmericanSecurities/USSecuritiesRestrictions/",
+  "summary": {
+    "nodes": 1,
+    "edges": 0,
+    "properties": 3,
+    "triples": 130
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/NorthAmericanJurisdiction/USGovernmentEntitiesAndJurisdictions/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Locations/"
+  ],
+  "classes": [
+    {
+      "name": "blue sky law",
+      "technicalName": "fibo-sec-sec-usrst:BlueSkyLaw",
+      "localName": "BlueSkyLaw",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/NorthAmericanSecurities/USSecuritiesRestrictions/BlueSkyLaw",
+      "label": "blue sky law",
+      "definition": "state-level securities regulation, designed to protect investors against securities fraud that require issuers to be registered and to disclose details of their offerings",
+      "parents": [
+        "fibo-sec-sec-rst:SecuritiesRegulation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-loc:GeographicRegion"
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "is Employee Retirement Income Security Act conformant",
+      "technicalName": "fibo-sec-sec-usrst:isEmployeeRetirementIncomeSecurityActConformant",
+      "localName": "isEmployeeRetirementIncomeSecurityActConformant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/NorthAmericanSecurities/USSecuritiesRestrictions/isEmployeeRetirementIncomeSecurityActConformant",
+      "label": "is Employee Retirement Income Security Act conformant",
+      "definition": "indicates whether the security conforms to the Employee Retirement Income Security Act (ERISA) of 1974, a federal outline for regulating employee benefit plans, including healthcare plans sponsored and/or insured by an employer",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is Federal Deposit Insurance Corporation insured",
+      "technicalName": "fibo-sec-sec-usrst:isFederalDepositInsuranceCorporationInsured",
+      "localName": "isFederalDepositInsuranceCorporationInsured",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/NorthAmericanSecurities/USSecuritiesRestrictions/isFederalDepositInsuranceCorporationInsured",
+      "label": "is Federal Deposit Insurance Corporation insured",
+      "definition": "indicates whether the security is covered by Federal Deposit Insurance Corporation (FDIC) insurance",
+      "domain": [
+        "fibo-fbc-pas-caa:NonTransactionDepositAccount"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is subject to Federal Reserve Board Regulation T",
+      "technicalName": "fibo-sec-sec-usrst:isSubjectToFederalReserveBoardRegulationT",
+      "localName": "isSubjectToFederalReserveBoardRegulationT",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/NorthAmericanSecurities/USSecuritiesRestrictions/isSubjectToFederalReserveBoardRegulationT",
+      "label": "is subject to Federal Reserve Board Regulation T",
+      "definition": "indicates whether a given cash or margin account is subject to Federal Reserve Board (FRB) margin requirements",
+      "domain": [
+        "fibo-fbc-pas-caa:Account"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,664 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\DatesAndTimes\\FinancialDates.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+  "summary": {
+    "nodes": 20,
+    "edges": 14,
+    "properties": 7,
+    "triples": 401
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/"
+  ],
+  "classes": [
+    {
+      "name": "ad hoc schedule",
+      "technicalName": "fibo-fnd-dt-fd:AdHocSchedule",
+      "localName": "AdHocSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/AdHocSchedule",
+      "label": "ad hoc schedule",
+      "definition": "schedule consisting of some number of individual events that are not necessarily recurring",
+      "parents": [
+        "schedule"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "ad hoc schedule entry",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ad hoc schedule entry",
+      "technicalName": "fibo-fnd-dt-fd:AdHocScheduleEntry",
+      "localName": "AdHocScheduleEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/AdHocScheduleEntry",
+      "label": "ad hoc schedule entry",
+      "definition": "entry, including a date or date and time, among multiple non-regularly-recurring entries in a schedule",
+      "parents": [
+        "dated collection constituent"
+      ],
+      "rules": []
+    },
+    {
+      "name": "age",
+      "technicalName": "fibo-fnd-dt-fd:Age",
+      "localName": "Age",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/Age",
+      "label": "age",
+      "definition": "length of time that something or someone has been alive or existed",
+      "parents": [
+        "cmns-dt:Duration"
+      ],
+      "rules": [
+        {
+          "property": "has as-of date",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "anchor date",
+      "technicalName": "fibo-fnd-dt-fd:AnchorDate",
+      "localName": "AnchorDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/AnchorDate",
+      "label": "anchor date",
+      "definition": "fixed reference point within a series or timeline",
+      "parents": [
+        "cmns-dt:ExplicitDate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "business calendar",
+      "technicalName": "fibo-fnd-dt-fd:BusinessCalendar",
+      "localName": "BusinessCalendar",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/BusinessCalendar",
+      "label": "business calendar",
+      "definition": "schedule and communications tool used to manage meetings, plan events, and coordinate activities within and/or across organizations",
+      "parents": [
+        "schedule"
+      ],
+      "rules": []
+    },
+    {
+      "name": "calculated date",
+      "technicalName": "fibo-fnd-dt-fd:CalculatedDate",
+      "localName": "CalculatedDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/CalculatedDate",
+      "label": "calculated date",
+      "definition": "date that is or will be determined based on some formula",
+      "parents": [
+        "cmns-dt:Date"
+      ],
+      "rules": []
+    },
+    {
+      "name": "calculation period",
+      "technicalName": "fibo-fnd-dt-fd:CalculationPeriod",
+      "localName": "CalculationPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/CalculationPeriod",
+      "label": "calculation period",
+      "definition": "explicit period from the start to the end of a specific interval or range within which a computational process or operation occurs",
+      "parents": [
+        "cmns-dt:ExplicitDatePeriod"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasDuration",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "calculation period length"
+        }
+      ]
+    },
+    {
+      "name": "calculation period length",
+      "technicalName": "fibo-fnd-dt-fd:CalculationPeriodLength",
+      "localName": "CalculationPeriodLength",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/CalculationPeriodLength",
+      "label": "calculation period length",
+      "definition": "explicit number of days from the adjusted effective or start date to the adjusted termination or end date calculated in accordance with the applicable day count fraction",
+      "parents": [
+        "cmns-dt:ExplicitDuration"
+      ],
+      "rules": []
+    },
+    {
+      "name": "calendar period",
+      "technicalName": "fibo-fnd-dt-fd:CalendarPeriod",
+      "localName": "CalendarPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/CalendarPeriod",
+      "label": "calendar period",
+      "definition": "time interval that occurs within a system that fixes the beginning and length of a segment of the year with respect to that system",
+      "parents": [
+        "cmns-dt:TimeInterval"
+      ],
+      "rules": []
+    },
+    {
+      "name": "calendar-specified interval",
+      "technicalName": "fibo-fnd-dt-fd:CalendarSpecifiedInterval",
+      "localName": "CalendarSpecifiedInterval",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/CalendarSpecifiedInterval",
+      "label": "calendar-specified interval",
+      "definition": "recurrence interval that is defined as the nth day of some calendar period (such as a calendar month), and a time direction (forward from the beginning of the month, or backwards from the end)",
+      "parents": [
+        "recurrence interval"
+      ],
+      "rules": [
+        {
+          "property": "has ordinal number",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:integer"
+        },
+        {
+          "property": "has time direction",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "time direction"
+        },
+        {
+          "property": "has calendar period",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "calendar period"
+        }
+      ]
+    },
+    {
+      "name": "dated collection constituent",
+      "technicalName": "fibo-fnd-dt-fd:DatedCollectionConstituent",
+      "localName": "DatedCollectionConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/DatedCollectionConstituent",
+      "label": "dated collection constituent",
+      "definition": "element of a collection that is associated with a date and time",
+      "parents": [
+        "cmns-col:Constituent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasObservedDateTime",
+          "operator": "some",
+          "value": "cmns-dt:CombinedDateTime",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "dated structured collection",
+      "technicalName": "fibo-fnd-dt-fd:DatedStructuredCollection",
+      "localName": "DatedStructuredCollection",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/DatedStructuredCollection",
+      "label": "dated structured collection",
+      "definition": "structured collection whose elements are required to have a date and time",
+      "parents": [
+        "cmns-col:StructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "dated collection constituent",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "explicit recurrence interval",
+      "technicalName": "fibo-fnd-dt-fd:ExplicitRecurrenceInterval",
+      "localName": "ExplicitRecurrenceInterval",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/ExplicitRecurrenceInterval",
+      "label": "explicit recurrence interval",
+      "definition": "recurrence interval defined via an explicit duration",
+      "parents": [
+        "recurrence interval"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasDurationValue",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "recurrence interval",
+      "technicalName": "fibo-fnd-dt-fd:RecurrenceInterval",
+      "localName": "RecurrenceInterval",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/RecurrenceInterval",
+      "label": "recurrence interval",
+      "definition": "time interval that is consistent between elements of a regular schedule",
+      "parents": [
+        "cmns-dt:TimeInterval"
+      ],
+      "rules": []
+    },
+    {
+      "name": "regular schedule",
+      "technicalName": "fibo-fnd-dt-fd:RegularSchedule",
+      "localName": "RegularSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/RegularSchedule",
+      "label": "regular schedule",
+      "definition": "schedule whose time intervals recur regularly",
+      "parents": [
+        "schedule",
+        "cmns-col:StructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasStartDate",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "has recurrence interval",
+          "operator": "some",
+          "value": "recurrence interval",
+          "qualifier": null
+        },
+        {
+          "property": "has count",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:positiveInteger"
+        },
+        {
+          "property": "has initial stub",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "schedule stub"
+        },
+        {
+          "property": "has final stub",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "schedule stub"
+        },
+        {
+          "property": "has anchor date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anchor date"
+        }
+      ]
+    },
+    {
+      "name": "relative date",
+      "technicalName": "fibo-fnd-dt-fd:RelativeDate",
+      "localName": "RelativeDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/RelativeDate",
+      "label": "relative date",
+      "definition": "calculated date that is some duration before or after another date",
+      "parents": [
+        "calculated date"
+      ],
+      "rules": [
+        {
+          "property": "has relative duration",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "is relative to",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Date"
+        }
+      ]
+    },
+    {
+      "name": "schedule",
+      "technicalName": "fibo-fnd-dt-fd:Schedule",
+      "localName": "Schedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/Schedule",
+      "label": "schedule",
+      "definition": "collection of events, observations, or other occurrences and the associated dates and/or times when they will be done",
+      "parents": [
+        "cmns-col:Collection"
+      ],
+      "rules": [
+        {
+          "property": "has overall period",
+          "operator": "some",
+          "value": "cmns-dt:DatePeriod",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "schedule stub",
+      "technicalName": "fibo-fnd-dt-fd:ScheduleStub",
+      "localName": "ScheduleStub",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/ScheduleStub",
+      "label": "schedule stub",
+      "definition": "date period before the start of the recurring part of a schedule or after the end of the recurring part, which may be associated with a specific occurrence kind",
+      "parents": [
+        "cmns-col:Collection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasDatePeriod",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:DatePeriod"
+        }
+      ]
+    },
+    {
+      "name": "specified date",
+      "technicalName": "fibo-fnd-dt-fd:SpecifiedDate",
+      "localName": "SpecifiedDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/SpecifiedDate",
+      "label": "specified date",
+      "definition": "calculated date that is defined by a rule that is captured as a string by the 'hasDateSpecification' property",
+      "parents": [
+        "calculated date"
+      ],
+      "rules": [
+        {
+          "property": "has date specification",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "time direction",
+      "technicalName": "fibo-fnd-dt-fd:TimeDirection",
+      "localName": "TimeDirection",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/TimeDirection",
+      "label": "time direction",
+      "definition": "enumeration that indicates whether a calendar-specified date is figured from the start or the end of a calendar period",
+      "parents": [
+        "cmns-dt:TemporalEntity"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has age",
+      "technicalName": "fibo-fnd-dt-fd:hasAge",
+      "localName": "hasAge",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasAge",
+      "label": "has age",
+      "definition": "relates something to the length of time it has existed",
+      "domain": [],
+      "range": [
+        "cmns-dt:Duration"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has anchor date",
+      "technicalName": "fibo-fnd-dt-fd:hasAnchorDate",
+      "localName": "hasAnchorDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasAnchorDate",
+      "label": "has anchor date",
+      "definition": "specifies a fixed reference point within a series or timeline",
+      "domain": [],
+      "range": [
+        "anchor date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has as-of date",
+      "technicalName": "fibo-fnd-dt-fd:hasAsOfDate",
+      "localName": "hasAsOfDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasAsOfDate",
+      "label": "has as-of date",
+      "definition": "relates something to the date on which it is accurate or valid (e.g. a credit report has an asOfDate that means the date when the information was drawn)",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has calendar period",
+      "technicalName": "fibo-fnd-dt-fd:hasCalendarPeriod",
+      "localName": "hasCalendarPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasCalendarPeriod",
+      "label": "has calendar period",
+      "definition": "identifies a period of time used in computing a calendar-specified date, such as a calendar week, calendar month, calendar quarter, or calendar year",
+      "domain": [],
+      "range": [
+        "calendar period"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has date added",
+      "technicalName": "fibo-fnd-dt-fd:hasDateAdded",
+      "localName": "hasDateAdded",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasDateAdded",
+      "label": "has date added",
+      "definition": "indicates the date something was included in something else",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has date received",
+      "technicalName": "fibo-fnd-dt-fd:hasDateReceived",
+      "localName": "hasDateReceived",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasDateReceived",
+      "label": "has date received",
+      "definition": "relates something to the date it arrived or was delivered, e.g., a loan application request",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has final stub",
+      "technicalName": "fibo-fnd-dt-fd:hasFinalStub",
+      "localName": "hasFinalStub",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasFinalStub",
+      "label": "has final stub",
+      "definition": "identifies any special period at the end of a regular schedule",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has initial stub",
+      "technicalName": "fibo-fnd-dt-fd:hasInitialStub",
+      "localName": "hasInitialStub",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasInitialStub",
+      "label": "has initial stub",
+      "definition": "identifies any special period at the start of a regular schedule",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has overall period",
+      "technicalName": "fibo-fnd-dt-fd:hasOverallPeriod",
+      "localName": "hasOverallPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasOverallPeriod",
+      "label": "has overall period",
+      "definition": "identifies a date period that includes all the dates of a schedule, including any schedule stubs",
+      "domain": [
+        "schedule"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has recurrence interval",
+      "technicalName": "fibo-fnd-dt-fd:hasRecurrenceInterval",
+      "localName": "hasRecurrenceInterval",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasRecurrenceInterval",
+      "label": "has recurrence interval",
+      "definition": "indicates the frequency with which some event or publication occurs",
+      "domain": [],
+      "range": [
+        "recurrence interval"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has schedule",
+      "technicalName": "fibo-fnd-dt-fd:hasSchedule",
+      "localName": "hasSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasSchedule",
+      "label": "has schedule",
+      "definition": "indicates a schedule for something",
+      "domain": [],
+      "range": [
+        "schedule"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has stub",
+      "technicalName": "fibo-fnd-dt-fd:hasStub",
+      "localName": "hasStub",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasStub",
+      "label": "has stub",
+      "definition": "links an abbreviated period at the start or end of some schedule to the overall schedule",
+      "domain": [
+        "regular schedule"
+      ],
+      "range": [
+        "schedule stub"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has time direction",
+      "technicalName": "fibo-fnd-dt-fd:hasTimeDirection",
+      "localName": "hasTimeDirection",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasTimeDirection",
+      "label": "has time direction",
+      "definition": "indicates whether a calendar-specified date is figured from the beginning or end of a calendar period",
+      "domain": [],
+      "range": [
+        "time direction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is relative to",
+      "technicalName": "fibo-fnd-dt-fd:isRelativeTo",
+      "localName": "isRelativeTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/isRelativeTo",
+      "label": "is relative to",
+      "definition": "identifies a specific date that a relative date or relative date period references",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has acquisition date",
+      "technicalName": "fibo-fnd-dt-fd:hasAcquisitionDate",
+      "localName": "hasAcquisitionDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasAcquisitionDate",
+      "label": "has acquisition date",
+      "definition": "links an asset or owner/controller/controllee to the date or date and time of purchase",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has closing date time",
+      "technicalName": "fibo-fnd-dt-fd:hasClosingDateTime",
+      "localName": "hasClosingDateTime",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasClosingDateTime",
+      "label": "has closing date time",
+      "definition": "the day and time at which something closes",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has count",
+      "technicalName": "fibo-fnd-dt-fd:hasCount",
+      "localName": "hasCount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasCount",
+      "label": "has count",
+      "definition": "specifies the total number of things in a collection, such as the number of entries in a regular schedule",
+      "domain": [],
+      "range": [
+        "xsd:positiveInteger"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has date specification",
+      "technicalName": "fibo-fnd-dt-fd:hasDateSpecification",
+      "localName": "hasDateSpecification",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasDateSpecification",
+      "label": "has date specification",
+      "definition": "rule that specifies how a specified date is computed",
+      "domain": [
+        "specified date"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has opening date time",
+      "technicalName": "fibo-fnd-dt-fd:hasOpeningDateTime",
+      "localName": "hasOpeningDateTime",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasOpeningDateTime",
+      "label": "has opening date time",
+      "definition": "the day and time at which something opens",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has ordinal number",
+      "technicalName": "fibo-fnd-dt-fd:hasOrdinalNumber",
+      "localName": "hasOrdinalNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasOrdinalNumber",
+      "label": "has ordinal number",
+      "definition": "specifies a number designating place in an ordered sequence, i.e., 1st, 2nd, 3rd, etc.",
+      "domain": [],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has relative duration",
+      "technicalName": "fibo-fnd-dt-fd:hasRelativeDuration",
+      "localName": "hasRelativeDuration",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/hasRelativeDuration",
+      "label": "has relative duration",
+      "definition": "duration between two explicit dates",
+      "domain": [],
+      "range": [
+        "xsd:string"
+      ]
+    }
+  ]
+}

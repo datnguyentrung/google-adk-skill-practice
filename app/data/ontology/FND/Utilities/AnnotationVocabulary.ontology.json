@@ -1,0 +1,42 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Utilities\\AnnotationVocabulary.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+  "summary": {
+    "nodes": 2,
+    "edges": 0,
+    "properties": 0,
+    "triples": 65
+  },
+  "imports": [
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/"
+  ],
+  "classes": [
+    {
+      "name": "maturity level",
+      "technicalName": "fibo-fnd-utl-av:MaturityLevel",
+      "localName": "MaturityLevel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/MaturityLevel",
+      "label": "maturity level",
+      "definition": "classifier used to indicate the state of an artifact with respect to its development lifecycle",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "module",
+      "technicalName": "fibo-fnd-utl-av:Module",
+      "localName": "Module",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/Module",
+      "label": "module",
+      "definition": "classifier used to indicate a category used to modularize something based on principles of the model driven architecture methodology (MDA), including but not limited to separation of concerns, coherence, and establishing clear logical boundaries in order to increase reusability and maintainability",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

@@ -1,0 +1,842 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BP\\SecuritiesIssuance\\IssuanceProcess.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/",
+  "summary": {
+    "nodes": 25,
+    "edges": 17,
+    "properties": 8,
+    "triples": 337
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/",
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceDocuments/",
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/MuniIssuance/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/PaymentsAndSchedules/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/"
+  ],
+  "classes": [
+    {
+      "name": "allotment information",
+      "technicalName": "fibo-bp-iss-prc:AllotmentInformation",
+      "localName": "AllotmentInformation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/AllotmentInformation",
+      "label": "allotment information",
+      "definition": "Information about the allotment of quantities of the issue to different subscribers. This relates a single instrument allotment against the subscription amounts allotted to each Subscriber.",
+      "parents": [
+        "traded instrument issuance process information"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "subscription closing information",
+          "qualifier": null
+        },
+        {
+          "property": "describes allotment of",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "announcement",
+      "technicalName": "fibo-bp-iss-prc:Announcement",
+      "localName": "Announcement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/Announcement",
+      "label": "announcement",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-dbti:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-bp-iss-muni:offeringRequestor",
+          "operator": "some",
+          "value": "potential issuer",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "competitive sale method",
+      "technicalName": "fibo-bp-iss-prc:CompetitiveSaleMethod",
+      "localName": "CompetitiveSaleMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/CompetitiveSaleMethod",
+      "label": "competitive sale method",
+      "definition": "No definition",
+      "parents": [
+        "security offering sale method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "issuance process activity",
+      "technicalName": "fibo-bp-iss-prc:IssuanceProcessActivity",
+      "localName": "IssuanceProcessActivity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/IssuanceProcessActivity",
+      "label": "issuance process activity",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": []
+    },
+    {
+      "name": "issuance programme",
+      "technicalName": "fibo-bp-iss-prc:IssuanceProgramme",
+      "localName": "IssuanceProgramme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/IssuanceProgramme",
+      "label": "issuance programme",
+      "definition": "A series of issuances over time.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-sec-sec-iss:SecuritiesOffering",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "issue subscription information",
+      "technicalName": "fibo-bp-iss-prc:IssueSubscriptionInformation",
+      "localName": "IssueSubscriptionInformation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/IssueSubscriptionInformation",
+      "label": "issue subscription information",
+      "definition": "Information relating to the subscription of the issue.",
+      "parents": [
+        "traded instrument issuance process information"
+      ],
+      "rules": []
+    },
+    {
+      "name": "issued security issue information",
+      "technicalName": "fibo-bp-iss-prc:IssuedSecurityIssueInformation",
+      "localName": "IssuedSecurityIssueInformation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/IssuedSecurityIssueInformation",
+      "label": "issued security issue information",
+      "definition": "FIBIM: \"Elements relating to issue preparation/bringing to market (also known as primary market or Initial Public Offering (IPO) issuance) through to issue date.\"",
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:isAbout",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "has partially paid issuance schedule",
+          "operator": "only",
+          "value": "fibo-fnd-pas-psch:PaymentSchedule",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "negotiated sale method",
+      "technicalName": "fibo-bp-iss-prc:NegotiatedSaleMethod",
+      "localName": "NegotiatedSaleMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/NegotiatedSaleMethod",
+      "label": "negotiated sale method",
+      "definition": "No definition",
+      "parents": [
+        "security offering sale method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "offering",
+      "technicalName": "fibo-bp-iss-prc:OfferingProcess",
+      "localName": "OfferingProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/OfferingProcess",
+      "label": "offering",
+      "definition": "The process step of offering a security for issue. This is the making available of a new securities issue through an underwriting.",
+      "parents": [
+        "fibo-bp-iss-dbti:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-bp-iss-muni:givesRiseTo",
+          "operator": "some",
+          "value": "issued security issue information",
+          "qualifier": null
+        },
+        {
+          "property": "required to make eligible",
+          "operator": "some",
+          "value": "fibo-sec-sec-iss:OfferingDocument",
+          "qualifier": null
+        },
+        {
+          "property": "has sale method",
+          "operator": "some",
+          "value": "security offering sale method",
+          "qualifier": null
+        },
+        {
+          "property": "has distribution type",
+          "operator": "some",
+          "value": "security offering distribution method",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "potential issuer",
+      "technicalName": "fibo-bp-iss-prc:PotentialIssuer",
+      "localName": "PotentialIssuer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/PotentialIssuer",
+      "label": "potential issuer",
+      "definition": null,
+      "parents": [
+        "securities issuance process actor"
+      ],
+      "rules": [
+        {
+          "property": "is potential issuer",
+          "operator": "some",
+          "value": "securities issuance process",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "potential underwriter",
+      "technicalName": "fibo-bp-iss-prc:PotentialUnderwriter",
+      "localName": "PotentialUnderwriter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/PotentialUnderwriter",
+      "label": "potential underwriter",
+      "definition": "The entity which will become the underwriter for an issue. Term origin:MBS PoC Reviews",
+      "parents": [
+        "securities issuance process actor"
+      ],
+      "rules": []
+    },
+    {
+      "name": "primary identifier issuer",
+      "technicalName": "fibo-bp-iss-prc:PrimaryIdentifierIssuer",
+      "localName": "PrimaryIdentifierIssuer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/PrimaryIdentifierIssuer",
+      "label": "primary identifier issuer",
+      "definition": "The party which formally issues the primary security identifier to the security. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractThirdParty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "primary security offering distribution",
+      "technicalName": "fibo-bp-iss-prc:PrimarySecurityOfferingDistribution",
+      "localName": "PrimarySecurityOfferingDistribution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/PrimarySecurityOfferingDistribution",
+      "label": "primary security offering distribution",
+      "definition": "The original sale of a company's securities, in which the proceeds from the sale are received directly by the company.",
+      "parents": [
+        "security offering distribution method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "registration information",
+      "technicalName": "fibo-bp-iss-prc:RegistrationInformation",
+      "localName": "RegistrationInformation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/RegistrationInformation",
+      "label": "registration information",
+      "definition": "Information relating to the registration of a registered security.",
+      "parents": [
+        "traded instrument issuance process information"
+      ],
+      "rules": []
+    },
+    {
+      "name": "secondary security offering distribution",
+      "technicalName": "fibo-bp-iss-prc:SecondarySecurityOfferingDistribution",
+      "localName": "SecondarySecurityOfferingDistribution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/SecondarySecurityOfferingDistribution",
+      "label": "secondary security offering distribution",
+      "definition": "An Offering of a security which has been previously issued.",
+      "parents": [
+        "security offering distribution method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities issuance process",
+      "technicalName": "fibo-bp-iss-prc:SecuritiesIssuanceProcess",
+      "localName": "SecuritiesIssuanceProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/SecuritiesIssuanceProcess",
+      "label": "securities issuance process",
+      "definition": "The process by which a financial security is issued.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:produces",
+          "operator": "some",
+          "value": "traded instrument issuance process information",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-bp-iss-muni:subscriber.1",
+          "operator": "some",
+          "value": "subscriber",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-bp-iss-muni:hasPotentialIssuer",
+          "operator": "some",
+          "value": "potential issuer",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-bp-iss-muni:hasIssuanceGuarantor",
+          "operator": "some",
+          "value": "security issuance guarantor",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "securities issuance process actor",
+      "technicalName": "fibo-bp-iss-prc:SecuritiesIssuanceProcessActor",
+      "localName": "SecuritiesIssuanceProcessActor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/SecuritiesIssuanceProcessActor",
+      "label": "securities issuance process actor",
+      "definition": null,
+      "parents": [
+        "cmns-pts:AgentRole"
+      ],
+      "rules": []
+    },
+    {
+      "name": "security issuance guarantor",
+      "technicalName": "fibo-bp-iss-prc:SecurityIssuanceGuarantor",
+      "localName": "SecurityIssuanceGuarantor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/SecurityIssuanceGuarantor",
+      "label": "security issuance guarantor",
+      "definition": null,
+      "parents": [
+        "securities issuance process actor"
+      ],
+      "rules": [
+        {
+          "property": "is issuance guarantor",
+          "operator": "some",
+          "value": "securities issuance process",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "security offering distribution method",
+      "technicalName": "fibo-bp-iss-prc:SecurityOfferingDistributionMethod",
+      "localName": "SecurityOfferingDistributionMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/SecurityOfferingDistributionMethod",
+      "label": "security offering distribution method",
+      "definition": "The distribution type of a securities Offering.",
+      "parents": [
+        "fibo-fnd-gao-obj:DistributionStrategy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "security offering sale method",
+      "technicalName": "fibo-bp-iss-prc:SecurityOfferingSaleMethod",
+      "localName": "SecurityOfferingSaleMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/SecurityOfferingSaleMethod",
+      "label": "security offering sale method",
+      "definition": "Method for sale of a new security offering.",
+      "parents": [
+        "fibo-fnd-gao-obj:SalesStrategy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "subscriber",
+      "technicalName": "fibo-bp-iss-prc:Subscriber",
+      "localName": "Subscriber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/Subscriber",
+      "label": "subscriber",
+      "definition": null,
+      "parents": [
+        "cmns-pts:AgentRole"
+      ],
+      "rules": [
+        {
+          "property": "fibo-bp-iss-muni:subscribesTo",
+          "operator": "some",
+          "value": "fibo-bp-iss-muni:SecuritiesUnderwritingIssuanceProcess",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "subscription closing information",
+      "technicalName": "fibo-bp-iss-prc:SubscriptionClosingInformation",
+      "localName": "SubscriptionClosingInformation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/SubscriptionClosingInformation",
+      "label": "subscription closing information",
+      "definition": null,
+      "parents": [
+        "traded instrument issuance process information"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "subscriber",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "traded instrument issuance process information",
+      "technicalName": "fibo-bp-iss-prc:TradedInstrumentIssuanceProcessInformation",
+      "localName": "TradedInstrumentIssuanceProcessInformation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/TradedInstrumentIssuanceProcessInformation",
+      "label": "traded instrument issuance process information",
+      "definition": "Information on one Security issue, arising from the Issuance Process. Note that one Issuance Process (Offering) may relate to more than on Issue, which itself may be the issue of more than one Traded Security.",
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isPartOf",
+          "operator": "some",
+          "value": "issued security issue information",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "underwriter takedown",
+      "technicalName": "fibo-bp-iss-prc:UnderwriterTakedown",
+      "localName": "UnderwriterTakedown",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/UnderwriterTakedown",
+      "label": "underwriter takedown",
+      "definition": "Infomation on Takedown quantity of the security handled by the underwriter (that will be brought into DTC).",
+      "parents": [
+        "underwriting process details"
+      ],
+      "rules": [
+        {
+          "property": "taken down by",
+          "operator": "some",
+          "value": "fibo-bp-iss-dbti:MuniIssueUnderwriter",
+          "qualifier": null
+        },
+        {
+          "property": "underwriter takedown shares",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "xsd:integer"
+        }
+      ]
+    },
+    {
+      "name": "underwriting process details",
+      "technicalName": "fibo-bp-iss-prc:UnderwritingProcessDetails",
+      "localName": "UnderwritingProcessDetails",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/UnderwritingProcessDetails",
+      "label": "underwriting process details",
+      "definition": "Information specific to the Underwriting of the Issue.",
+      "parents": [
+        "traded instrument issuance process information"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "actual closing date",
+      "technicalName": "fibo-bp-iss-prc:actualClosingDate",
+      "localName": "actualClosingDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/actualClosingDate",
+      "label": "actual closing date",
+      "definition": "The Closing Date for the Issue, recorded after the event.",
+      "domain": [
+        "issued security issue information"
+      ],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "announcement date",
+      "technicalName": "fibo-bp-iss-prc:announcementDate",
+      "localName": "announcementDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/announcementDate",
+      "label": "announcement date",
+      "definition": "Date/time, as announced by the issuer, at which the securities were to be issued and subsequently were issued.",
+      "domain": [
+        "issued security issue information"
+      ],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "describes allotment of",
+      "technicalName": "fibo-bp-iss-prc:describesAllotmentOf",
+      "localName": "describesAllotmentOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/describesAllotmentOf",
+      "label": "describes allotment of",
+      "definition": null,
+      "domain": [
+        "allotment information"
+      ],
+      "range": [
+        "fibo-fbc-fi-fi:Security"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "expected closing date",
+      "technicalName": "fibo-bp-iss-prc:expectedClosingDate",
+      "localName": "expectedClosingDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/expectedClosingDate",
+      "label": "expected closing date",
+      "definition": "The date on which the transfer of positions to underwriters is expected to take place. This date is provided by underwriters as part of an announcement.",
+      "domain": [
+        "offering"
+      ],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "final state described in",
+      "technicalName": "fibo-bp-iss-prc:finalStateDescribedIn",
+      "localName": "finalStateDescribedIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/finalStateDescribedIn",
+      "label": "final state described in",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-iss:SecuritiesOffering"
+      ],
+      "range": [
+        "fibo-bp-iss-doc:FinalProspectus"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "first trade date",
+      "technicalName": "fibo-bp-iss-prc:firstTradeDate",
+      "localName": "firstTradeDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/firstTradeDate",
+      "label": "first trade date",
+      "definition": "The date of the first trade of the security in the secondary market.",
+      "domain": [
+        "issued security issue information"
+      ],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "first trade date and time",
+      "technicalName": "fibo-bp-iss-prc:firstTradeDateAndTime",
+      "localName": "firstTradeDateAndTime",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/firstTradeDateAndTime",
+      "label": "first trade date and time",
+      "definition": "First Date and Time a trade may be executed for this security. All times in Eastern Time Zone only. NOTE: This is a date in the future tense at the time of the Offering.",
+      "domain": [
+        "offering"
+      ],
+      "range": [
+        "cmns-dt:DateTime"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "first trade settlement date",
+      "technicalName": "fibo-bp-iss-prc:firstTradeSettlementDate",
+      "localName": "firstTradeSettlementDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/firstTradeSettlementDate",
+      "label": "first trade settlement date",
+      "definition": "The date the Issuer and Underwriter exchange money for bonds.",
+      "domain": [
+        "issued security issue information"
+      ],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "formal award date and time",
+      "technicalName": "fibo-bp-iss-prc:formalAwardDateAndTime",
+      "localName": "formalAwardDateAndTime",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/formalAwardDateAndTime",
+      "label": "formal award date and time",
+      "definition": "Date and time the issuer formally accepts a bid for Competitive Issues or, the Date and Time the Bond Purchase Agreement is executed for Negotiated Issues. Time Zone: Include in date/time data or add a term for it?",
+      "domain": [
+        "offering"
+      ],
+      "range": [
+        "cmns-dt:DateTime"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has distribution type",
+      "technicalName": "fibo-bp-iss-prc:hasDistributionType",
+      "localName": "hasDistributionType",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/hasDistributionType",
+      "label": "has distribution type",
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has partially paid issuance schedule",
+      "technicalName": "fibo-bp-iss-prc:hasPartiallyPaidIssuanceSchedule",
+      "localName": "hasPartiallyPaidIssuanceSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/hasPartiallyPaidIssuanceSchedule",
+      "label": "has partially paid issuance schedule",
+      "definition": "Partially paid issue: Schedule of partial payments and dates.",
+      "domain": [
+        "issued security issue information"
+      ],
+      "range": [
+        "fibo-fnd-pas-psch:PaymentSchedule"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has sale method",
+      "technicalName": "fibo-bp-iss-prc:hasSaleMethod",
+      "localName": "hasSaleMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/hasSaleMethod",
+      "label": "has sale method",
+      "definition": "Sale Method of the security.",
+      "domain": [
+        "offering"
+      ],
+      "range": [
+        "security offering sale method"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is issuance guarantor",
+      "technicalName": "fibo-bp-iss-prc:isIssuanceGuarantor",
+      "localName": "isIssuanceGuarantor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/isIssuanceGuarantor",
+      "label": "is issuance guarantor",
+      "definition": null,
+      "domain": [
+        "security issuance guarantor"
+      ],
+      "range": [
+        "securities issuance process"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is potential issuer",
+      "technicalName": "fibo-bp-iss-prc:isPotentialIssuer",
+      "localName": "isPotentialIssuer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/isPotentialIssuer",
+      "label": "is potential issuer",
+      "definition": null,
+      "domain": [
+        "potential issuer"
+      ],
+      "range": [
+        "securities issuance process"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "required to make eligible",
+      "technicalName": "fibo-bp-iss-prc:requiredToMakeEligible",
+      "localName": "requiredToMakeEligible",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/requiredToMakeEligible",
+      "label": "required to make eligible",
+      "definition": null,
+      "domain": [
+        "offering"
+      ],
+      "range": [
+        "fibo-sec-sec-iss:OfferingDocument"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "subscription period",
+      "technicalName": "fibo-bp-iss-prc:subscriptionPeriod",
+      "localName": "subscriptionPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/subscriptionPeriod",
+      "label": "subscription period",
+      "definition": "Period during which the security can be subscribed to.",
+      "domain": [
+        "issue subscription information"
+      ],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "taken down by",
+      "technicalName": "fibo-bp-iss-prc:takenDownBy",
+      "localName": "takenDownBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/takenDownBy",
+      "label": "taken down by",
+      "definition": null,
+      "domain": [
+        "underwriter takedown"
+      ],
+      "range": [
+        "fibo-bp-iss-dbti:MuniIssueUnderwriter"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "issue nominal number of units",
+      "technicalName": "fibo-bp-iss-prc:issueNominalNumberOfUnits",
+      "localName": "issueNominalNumberOfUnits",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/issueNominalNumberOfUnits",
+      "label": "issue nominal number of units",
+      "definition": "Total original quantity of securities issued.",
+      "domain": [
+        "issued security issue information"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "issue offering units",
+      "technicalName": "fibo-bp-iss-prc:issueOfferingUnits",
+      "localName": "issueOfferingUnits",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/issueOfferingUnits",
+      "label": "issue offering units",
+      "definition": "Quantity of all securities that is offered in an equity or Corporate Bond issue.",
+      "domain": [
+        "fibo-sec-sec-iss:SecuritiesOffering"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "minimum issue subscription",
+      "technicalName": "fibo-bp-iss-prc:minimumIssueSubscription",
+      "localName": "minimumIssueSubscription",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/minimumIssueSubscription",
+      "label": "minimum issue subscription",
+      "definition": "Minimum or incremental denomination required for the transfer or change of ownership of a security.",
+      "domain": [
+        "issue subscription information"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "series",
+      "technicalName": "fibo-bp-iss-prc:offerIssueSeries",
+      "localName": "offerIssueSeries",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/offerIssueSeries",
+      "label": "series",
+      "definition": "Uniquely identified collection of securities within an Issue with same Expected Closing Date. The text gives the Series Identifier within the Issuance process. There may be one or more Series within one Issue.",
+      "domain": [
+        "fibo-sec-sec-iss:SecuritiesOffering"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "over alloted",
+      "technicalName": "fibo-bp-iss-prc:overAlloted",
+      "localName": "overAlloted",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/overAlloted",
+      "label": "over alloted",
+      "definition": "Whether the subscriber has been over-alloted the requested number of units. REVIEW: Not seen in data terms but implied elsewhere.",
+      "domain": [
+        "subscription closing information"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "series",
+      "technicalName": "fibo-bp-iss-prc:series",
+      "localName": "series",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/series",
+      "label": "series",
+      "definition": "Series identification for the individual Traded Financial Security.",
+      "domain": [
+        "issued security issue information"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "subscription amount",
+      "technicalName": "fibo-bp-iss-prc:subscriptionAmount",
+      "localName": "subscriptionAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/subscriptionAmount",
+      "label": "subscription amount",
+      "definition": "Number of units of the issue that an individual subscriber is allocated.",
+      "domain": [
+        "subscription closing information"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "underwriter takedown shares",
+      "technicalName": "fibo-bp-iss-prc:underwriterTakedownShares",
+      "localName": "underwriterTakedownShares",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/underwriterTakedownShares",
+      "label": "underwriter takedown shares",
+      "definition": "Takedown quantity of the security handled by the underwriter (that will be brought into DTC).",
+      "domain": [
+        "underwriter takedown"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    }
+  ]
+}

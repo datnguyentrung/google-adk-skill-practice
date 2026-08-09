@@ -1,0 +1,630 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BP\\SecuritiesIssuance\\DebtIssuance.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/",
+  "summary": {
+    "nodes": 35,
+    "edges": 5,
+    "properties": 1,
+    "triples": 253
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/",
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/MuniIssuance/",
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/Bonds/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/"
+  ],
+  "classes": [
+    {
+      "name": "a b s securitization process",
+      "technicalName": "fibo-bp-iss-dbti:ABSSecuritizationProcess",
+      "localName": "ABSSecuritizationProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/ABSSecuritizationProcess",
+      "label": "a b s securitization process",
+      "definition": null,
+      "parents": [
+        "pool backed security securitization process"
+      ],
+      "rules": []
+    },
+    {
+      "name": "advance refunding",
+      "technicalName": "fibo-bp-iss-dbti:AdvancedRefunding",
+      "localName": "AdvancedRefunding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/AdvancedRefunding",
+      "label": "advance refunding",
+      "definition": "refunding in which bond issuance in which new bonds are sold at a lower rate than outstanding ones",
+      "parents": [
+        "refunding purpose"
+      ],
+      "rules": []
+    },
+    {
+      "name": "asset pool creation process",
+      "technicalName": "fibo-bp-iss-dbti:AssetPoolCreationProcess",
+      "localName": "AssetPoolCreationProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/AssetPoolCreationProcess",
+      "label": "asset pool creation process",
+      "definition": null,
+      "parents": [],
+      "rules": [
+        {
+          "property": "cmns-dt:precedes",
+          "operator": "some",
+          "value": "debt securitization process",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "bond issuance programme",
+      "technicalName": "fibo-bp-iss-dbti:BondIssuanceProgramme",
+      "localName": "BondIssuanceProgramme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/BondIssuanceProgramme",
+      "label": "bond issuance programme",
+      "definition": "a debt issuance programe under which an entity may, from time to time, issue bonds under the terms and conditions specified in the base prospectus for that programme",
+      "parents": [
+        "debt issuance programme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "bond offering",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "bond offering",
+      "technicalName": "fibo-bp-iss-dbti:BondOffering",
+      "localName": "BondOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/BondOffering",
+      "label": "bond offering",
+      "definition": "a debt offering of one or more bonds, as all or part of an issuance programme",
+      "parents": [
+        "fibo-sec-dbt-dbti:DebtOffering"
+      ],
+      "rules": []
+    },
+    {
+      "name": "bond offering with warrant",
+      "technicalName": "fibo-bp-iss-dbti:BondOfferingWithWarrant",
+      "localName": "BondOfferingWithWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/BondOfferingWithWarrant",
+      "label": "bond offering with warrant",
+      "definition": "a bond offering where the issue includes a warrant; Further notes: ISO 10962 CFI definition is A bond that is issued together with one or more warrant(s) attached as part of the offer, the warrant(s) granting the holder the right to purchase a designated security, often the common stock of the issuer of the debt, at a specified price. Review notes: This need not be any specific type of bond. The warrant is used as a sweetener to encourage people to subscribe to a new bond issue. The Bond and the Warrant trade together as a unit (called \"Bond Unit\").",
+      "parents": [
+        "bond offering"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "c d o securitization process",
+      "technicalName": "fibo-bp-iss-dbti:CDOSecuritizationProcess",
+      "localName": "CDOSecuritizationProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/CDOSecuritizationProcess",
+      "label": "c d o securitization process",
+      "definition": null,
+      "parents": [
+        "debt securitization process"
+      ],
+      "rules": []
+    },
+    {
+      "name": "completed debts pool",
+      "technicalName": "fibo-bp-iss-dbti:CompletedDebtsPool",
+      "localName": "CompletedDebtsPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/CompletedDebtsPool",
+      "label": "completed debts pool",
+      "definition": null,
+      "parents": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "in issuance",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit card pool creation process",
+      "technicalName": "fibo-bp-iss-dbti:CreditCardPoolCreationProcess",
+      "localName": "CreditCardPoolCreationProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/CreditCardPoolCreationProcess",
+      "label": "credit card pool creation process",
+      "definition": null,
+      "parents": [
+        "retail asset pool creation process"
+      ],
+      "rules": []
+    },
+    {
+      "name": "debt instrument pool creation process",
+      "technicalName": "fibo-bp-iss-dbti:DebtInstrumentPoolCreationProcess",
+      "localName": "DebtInstrumentPoolCreationProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/DebtInstrumentPoolCreationProcess",
+      "label": "debt instrument pool creation process",
+      "definition": null,
+      "parents": [
+        "asset pool creation process"
+      ],
+      "rules": []
+    },
+    {
+      "name": "debt issuance process information",
+      "technicalName": "fibo-bp-iss-dbti:DebtIssuanceProcessInformation",
+      "localName": "DebtIssuanceProcessInformation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/DebtIssuanceProcessInformation",
+      "label": "debt issuance process information",
+      "definition": "information specific to the issuance of a debt security",
+      "parents": [
+        "fibo-bp-iss-prc:TradedInstrumentIssuanceProcessInformation"
+      ],
+      "rules": [
+        {
+          "property": "has debt issuance purpose",
+          "operator": "some",
+          "value": "debt issuance purpose",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "debt issuance programme",
+      "technicalName": "fibo-bp-iss-dbti:DebtIssuanceProgramme",
+      "localName": "DebtIssuanceProgramme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/DebtIssuanceProgramme",
+      "label": "debt issuance programme",
+      "definition": "a series of debt security issuances over time",
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProgramme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-sec-dbt-dbti:DebtOffering",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "debt issuance purpose",
+      "technicalName": "fibo-bp-iss-dbti:DebtIssuancePurpose",
+      "localName": "DebtIssuancePurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/DebtIssuancePurpose",
+      "label": "debt issuance purpose",
+      "definition": "purpose for the issuance of a debt security; also defines processes to be followed in some instances",
+      "parents": [
+        "fibo-fnd-gao-obj:Objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "debt securitization process",
+      "technicalName": "fibo-bp-iss-dbti:DebtSecuritizationProcess",
+      "localName": "DebtSecuritizationProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/DebtSecuritizationProcess",
+      "label": "debt securitization process",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:SecuritiesIssuanceProcess"
+      ],
+      "rules": []
+    },
+    {
+      "name": "home equity line of credit pool creation process",
+      "technicalName": "fibo-bp-iss-dbti:HomeEquityLineOfCreditPoolCreationProcess",
+      "localName": "HomeEquityLineOfCreditPoolCreationProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/HomeEquityLineOfCreditPoolCreationProcess",
+      "label": "home equity line of credit pool creation process",
+      "definition": null,
+      "parents": [
+        "retail asset pool creation process"
+      ],
+      "rules": []
+    },
+    {
+      "name": "in assembly",
+      "technicalName": "fibo-bp-iss-dbti:InAssembly",
+      "localName": "InAssembly",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/InAssembly",
+      "label": "in assembly",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-pmbs:PoolLifecycleStateSelection"
+      ],
+      "rules": []
+    },
+    {
+      "name": "in assembly debts pool",
+      "technicalName": "fibo-bp-iss-dbti:InAssemblyDebtsPool",
+      "localName": "InAssemblyDebtsPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/InAssemblyDebtsPool",
+      "label": "in assembly debts pool",
+      "definition": null,
+      "parents": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "in assembly",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "in issuance",
+      "technicalName": "fibo-bp-iss-dbti:InIssuance",
+      "localName": "InIssuance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/InIssuance",
+      "label": "in issuance",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-pmbs:PoolLifecycleStateSelection"
+      ],
+      "rules": []
+    },
+    {
+      "name": "issuance process activity",
+      "technicalName": "fibo-bp-iss-dbti:IssuanceProcessActivity",
+      "localName": "IssuanceProcessActivity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/IssuanceProcessActivity",
+      "label": "issuance process activity",
+      "definition": "An activity within the process of securities issuance.",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "issued",
+      "technicalName": "fibo-bp-iss-dbti:Issued",
+      "localName": "Issued",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/Issued",
+      "label": "issued",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-pmbs:PoolLifecycleStateSelection"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan pool creation process",
+      "technicalName": "fibo-bp-iss-dbti:LoanPoolCreationProcess",
+      "localName": "LoanPoolCreationProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/LoanPoolCreationProcess",
+      "label": "loan pool creation process",
+      "definition": null,
+      "parents": [
+        "retail asset pool creation process"
+      ],
+      "rules": []
+    },
+    {
+      "name": "m t n registration",
+      "technicalName": "fibo-bp-iss-dbti:MTNRegistration",
+      "localName": "MTNRegistration",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/MTNRegistration",
+      "label": "m t n registration",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-muni:Registration"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:isAbout",
+          "operator": "some",
+          "value": "medium term note issuance programme",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "medium term note issuance programme",
+      "technicalName": "fibo-bp-iss-dbti:MediumTermNoteIssuanceProgramme",
+      "localName": "MediumTermNoteIssuanceProgramme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/MediumTermNoteIssuanceProgramme",
+      "label": "medium term note issuance programme",
+      "definition": "a program of offerings of medium term notes; a set of issues where the maturity is defined after the rest of the terms have been registered with some authority; these are registered up front so that then the company wants to borrow more money they don't have to go through the registration period but have the facility up front to issue another security.",
+      "parents": [
+        "bond issuance programme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "medium term note offering",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "medium term note offering",
+      "technicalName": "fibo-bp-iss-dbti:MediumTermNoteOffering",
+      "localName": "MediumTermNoteOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/MediumTermNoteOffering",
+      "label": "medium term note offering",
+      "definition": null,
+      "parents": [
+        "bond offering"
+      ],
+      "rules": []
+    },
+    {
+      "name": "muni issue underwriter",
+      "technicalName": "fibo-bp-iss-dbti:MuniIssueUnderwriter",
+      "localName": "MuniIssueUnderwriter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/MuniIssueUnderwriter",
+      "label": "muni issue underwriter",
+      "definition": "The party which agrees to buy any certificates that are not bought by investors Term origin:DTCC",
+      "parents": [
+        "fibo-sec-sec-iss:SecurityUnderwriter"
+      ],
+      "rules": []
+    },
+    {
+      "name": "new money purpose",
+      "technicalName": "fibo-bp-iss-dbti:NewMoneyPurpose",
+      "localName": "NewMoneyPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/NewMoneyPurpose",
+      "label": "new money purpose",
+      "definition": "securities issued to raise funds for a new project or purpose",
+      "parents": [
+        "debt issuance purpose"
+      ],
+      "rules": []
+    },
+    {
+      "name": "not yet issued",
+      "technicalName": "fibo-bp-iss-dbti:NotYetIssued",
+      "localName": "NotYetIssued",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/NotYetIssued",
+      "label": "not yet issued",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-pmbs:PoolLifecycleStateSelection"
+      ],
+      "rules": []
+    },
+    {
+      "name": "not yet issued debts pool",
+      "technicalName": "fibo-bp-iss-dbti:NotYetIssuedDebtsPool",
+      "localName": "NotYetIssuedDebtsPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/NotYetIssuedDebtsPool",
+      "label": "not yet issued debts pool",
+      "definition": null,
+      "parents": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "not yet issued",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pool backed security securitization process",
+      "technicalName": "fibo-bp-iss-dbti:PoolBackedSecuritySecuritizationProcess",
+      "localName": "PoolBackedSecuritySecuritizationProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/PoolBackedSecuritySecuritizationProcess",
+      "label": "pool backed security securitization process",
+      "definition": null,
+      "parents": [
+        "debt securitization process"
+      ],
+      "rules": []
+    },
+    {
+      "name": "pool backed security securitization process actor",
+      "technicalName": "fibo-bp-iss-dbti:PoolBackedSecuritySecuritizationProcessActor",
+      "localName": "PoolBackedSecuritySecuritizationProcessActor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/PoolBackedSecuritySecuritizationProcessActor",
+      "label": "pool backed security securitization process actor",
+      "definition": null,
+      "parents": [
+        "securitization process actor"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:evaluates",
+          "operator": "some",
+          "value": "fibo-bp-iss-prc:IssuanceProcessActivity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "refunding purpose",
+      "technicalName": "fibo-bp-iss-dbti:RefundingPurpose",
+      "localName": "RefundingPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/RefundingPurpose",
+      "label": "refunding purpose",
+      "definition": "a procedure whereby an issuer refinances outstanding bonds by issuing new bonds",
+      "parents": [
+        "debt issuance purpose"
+      ],
+      "rules": []
+    },
+    {
+      "name": "remarketing purpose",
+      "technicalName": "fibo-bp-iss-dbti:RemarketingPurpose",
+      "localName": "RemarketingPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/RemarketingPurpose",
+      "label": "remarketing purpose",
+      "definition": "the process of reselling securities to the public that have been tendered for purchase by the previous owners thereof",
+      "parents": [
+        "debt issuance purpose"
+      ],
+      "rules": []
+    },
+    {
+      "name": "retail asset pool creation process",
+      "technicalName": "fibo-bp-iss-dbti:RetailAssetPoolCreationProcess",
+      "localName": "RetailAssetPoolCreationProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/RetailAssetPoolCreationProcess",
+      "label": "retail asset pool creation process",
+      "definition": "The process by which pools of assets are created. These may then be used in the issue of securities based on those asset pools as underlying.",
+      "parents": [
+        "asset pool creation process"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:precedes",
+          "operator": "some",
+          "value": "pool backed security securitization process",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isProducedBy",
+          "operator": "some",
+          "value": "fibo-sec-sec-pls:DebtPool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "securitization process actor",
+      "technicalName": "fibo-bp-iss-dbti:SecuritizationProcessActor",
+      "localName": "SecuritizationProcessActor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/SecuritizationProcessActor",
+      "label": "securitization process actor",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:SecuritiesIssuanceProcessActor"
+      ],
+      "rules": []
+    },
+    {
+      "name": "underwriter takedown for debt",
+      "technicalName": "fibo-bp-iss-dbti:UnderwriterTakedownForDebt",
+      "localName": "UnderwriterTakedownForDebt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/UnderwriterTakedownForDebt",
+      "label": "underwriter takedown for debt",
+      "definition": "information on takedown quantity of the debt security handled by the underwriter (that will be brought into DTC)",
+      "parents": [
+        "fibo-bp-iss-prc:UnderwriterTakedown"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "announces",
+      "technicalName": "fibo-bp-iss-dbti:announces",
+      "localName": "announces",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/announces",
+      "label": "announces",
+      "definition": "The issue of one or more securities that the announcement pertains to.",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has debt issuance purpose",
+      "technicalName": "fibo-bp-iss-dbti:hasDebtIssuancePurpose",
+      "localName": "hasDebtIssuancePurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/hasDebtIssuancePurpose",
+      "label": "has debt issuance purpose",
+      "definition": null,
+      "domain": [
+        "debt issuance process information"
+      ],
+      "range": [
+        "debt issuance purpose"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has original issue discount",
+      "technicalName": "fibo-bp-iss-dbti:hasOriginalIssueDiscount",
+      "localName": "hasOriginalIssueDiscount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/hasOriginalIssueDiscount",
+      "label": "has original issue discount",
+      "definition": "discount from par value at the time a bond or other debt instrument is issued",
+      "domain": [
+        "bond offering"
+      ],
+      "range": [
+        "cmns-qtu:Percentage"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "results in",
+      "technicalName": "fibo-bp-iss-dbti:resultsIn",
+      "localName": "resultsIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/resultsIn",
+      "label": "results in",
+      "definition": null,
+      "domain": [],
+      "range": [
+        "fibo-bp-iss-pmbs:PotentialTranchedIssueUnderwriter"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "underwriter takedown amount",
+      "technicalName": "fibo-bp-iss-dbti:underwriterTakedownAmount",
+      "localName": "underwriterTakedownAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/underwriterTakedownAmount",
+      "label": "underwriter takedown amount",
+      "definition": "Takedown amount of the security handled by the underwriter(that will be brought into DTC).",
+      "domain": [
+        "underwriter takedown for debt"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "is bank qualified",
+      "technicalName": "fibo-bp-iss-dbti:isBankQualified",
+      "localName": "isBankQualified",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/isBankQualified",
+      "label": "is bank qualified",
+      "definition": "designation given to a public purpose bond offering by the issuer if it reasonably expects to issue in the calendar year of such offering no more than $10 million par amount of bonds of the type required to be included in making such calculation under the Internal Revenue Code.  When purchased by a commercial bank for its portfolio, the bank may receive an 80% tax deduction for the interest cost of carry for the issue.  A bond that is bank qualified is also known as a qualified tax-exempt obligation.",
+      "domain": [
+        "bond offering"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

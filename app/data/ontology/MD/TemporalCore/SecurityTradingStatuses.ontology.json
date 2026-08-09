@@ -1,0 +1,175 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\MD\\TemporalCore\\SecurityTradingStatuses.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/",
+  "summary": {
+    "nodes": 11,
+    "edges": 0,
+    "properties": 0,
+    "triples": 71
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/"
+  ],
+  "classes": [
+    {
+      "name": "active",
+      "technicalName": "fibo-md-temx-trs:Active",
+      "localName": "Active",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/Active",
+      "label": "active",
+      "definition": "Security is actively traded",
+      "parents": [
+        "security trading status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "actively trading",
+      "technicalName": "fibo-md-temx-trs:ActivelyTrading",
+      "localName": "ActivelyTrading",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/ActivelyTrading",
+      "label": "actively trading",
+      "definition": "Security is actively traded on the exchange or trading facility",
+      "parents": [
+        "exchange security trading status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exchange security trading status",
+      "technicalName": "fibo-md-temx-trs:ExchangeSecurityTradingStatus",
+      "localName": "ExchangeSecurityTradingStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/ExchangeSecurityTradingStatus",
+      "label": "exchange security trading status",
+      "definition": "trading status of a listed security on a given trading exchange",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStatus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-sec-sec-lst:Listing",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "inactive",
+      "technicalName": "fibo-md-temx-trs:Inactive",
+      "localName": "Inactive",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/Inactive",
+      "label": "inactive",
+      "definition": null,
+      "parents": [
+        "security trading status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "issued",
+      "technicalName": "fibo-md-temx-trs:Issued",
+      "localName": "Issued",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/Issued",
+      "label": "issued",
+      "definition": "The security has been issued into the secondary market.",
+      "parents": [
+        "security lifecycle status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "security lifecycle status",
+      "technicalName": "fibo-md-temx-trs:SecurityLifecycleStatus",
+      "localName": "SecurityLifecycleStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/SecurityLifecycleStatus",
+      "label": "security lifecycle status",
+      "definition": "status of a security within its lifecycle",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStatus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "security trading status",
+      "technicalName": "fibo-md-temx-trs:SecurityTradingStatus",
+      "localName": "SecurityTradingStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/SecurityTradingStatus",
+      "label": "security trading status",
+      "definition": "status of the security in terms of whether it is trading or not, and any special considerations relating to trading",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStatus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trading halted",
+      "technicalName": "fibo-md-temx-trs:TradingHalted",
+      "localName": "TradingHalted",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/TradingHalted",
+      "label": "trading halted",
+      "definition": null,
+      "parents": [
+        "exchange security trading status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "when distributed",
+      "technicalName": "fibo-md-temx-trs:WhenDistributed",
+      "localName": "WhenDistributed",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/WhenDistributed",
+      "label": "when distributed",
+      "definition": "Used to refer to a security that trades after the date of issue but before the time at which the certificates are delivered",
+      "parents": [
+        "security lifecycle status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "when issued",
+      "technicalName": "fibo-md-temx-trs:WhenIssued",
+      "localName": "WhenIssued",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/WhenIssued",
+      "label": "when issued",
+      "definition": "When Issued or Gray Market trading is when a security is traded ahead of the date at which it is to be issued.",
+      "parents": [
+        "security lifecycle status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "worthless",
+      "technicalName": "fibo-md-temx-trs:Worthless",
+      "localName": "Worthless",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/Worthless",
+      "label": "worthless",
+      "definition": "Announcement by the regulator that the security has become worthless.",
+      "parents": [
+        "security lifecycle status"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

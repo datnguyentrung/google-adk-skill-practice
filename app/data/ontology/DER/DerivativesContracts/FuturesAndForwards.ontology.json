@@ -1,0 +1,539 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\DER\\DerivativesContracts\\FuturesAndForwards.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/",
+  "summary": {
+    "nodes": 19,
+    "edges": 2,
+    "properties": 2,
+    "triples": 317
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/SecurityBasedDerivatives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/InstrumentPricing/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/Markets/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/Bonds/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/TradedShortTermDebt/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "basket future",
+      "technicalName": "fibo-der-drc-ff:BasketFuture",
+      "localName": "BasketFuture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/BasketFuture",
+      "label": "basket future",
+      "definition": "futures contract whose underlying asset is a basket of securities and/or indices",
+      "parents": [
+        "financial future"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-sec-bsk:MixedBasket",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "bond future",
+      "technicalName": "fibo-der-drc-ff:BondFuture",
+      "localName": "BondFuture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/BondFuture",
+      "label": "bond future",
+      "definition": "futures contract whose underlying asset is at least one bond",
+      "parents": [
+        "debt instrument future"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-dbt-bnd:Bond",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "currency future",
+      "technicalName": "fibo-der-drc-ff:CurrencyFuture",
+      "localName": "CurrencyFuture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/CurrencyFuture",
+      "label": "currency future",
+      "definition": "futures contract whose underlying asset is an agreement to exchange a specified amount of one currency for another at some point in the future based on pricing stated in the contract",
+      "parents": [
+        "financial future"
+      ],
+      "rules": []
+    },
+    {
+      "name": "debt instrument future",
+      "technicalName": "fibo-der-drc-ff:DebtInstrumentFuture",
+      "localName": "DebtInstrumentFuture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/DebtInstrumentFuture",
+      "label": "debt instrument future",
+      "definition": "futures contract whose underlying asset is at least one debt instrument",
+      "parents": [
+        "financial future",
+        "fibo-der-sbd-sbd:DebtInstrumentDerivative"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:DebtInstrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "dividend adjustment period",
+      "technicalName": "fibo-der-drc-ff:DividendAdjustmentPeriod",
+      "localName": "DividendAdjustmentPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/DividendAdjustmentPeriod",
+      "label": "dividend adjustment period",
+      "definition": "date period used to calculate the difference, if any between an anticipated dividend and the actual dividend distributed in that period",
+      "parents": [
+        "cmns-dt:DatePeriod"
+      ],
+      "rules": []
+    },
+    {
+      "name": "dividend future",
+      "technicalName": "fibo-der-drc-ff:DividendFuture",
+      "localName": "DividendFuture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/DividendFuture",
+      "label": "dividend future",
+      "definition": "futures contract whose underlying asset is at least one stock dividend",
+      "parents": [
+        "financial future",
+        "fibo-der-sbd-sbd:EquityDerivative"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:ListedShare",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "equity forward",
+      "technicalName": "fibo-der-drc-ff:EquityForward",
+      "localName": "EquityForward",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/EquityForward",
+      "label": "equity forward",
+      "definition": "forward contract to buy or sell the underlying equity stock, equity index, basket of equity stock, equity futures contract, or equity option at a specified future date at the price specified at the outset of the contract",
+      "parents": [
+        "forward"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "fibo-fbc-pas-fpas:SettlementTerms",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "has method of adjustment",
+          "operator": "some",
+          "value": "forward contract adjustment method",
+          "qualifier": null
+        },
+        {
+          "property": "has dividend adjustment period",
+          "operator": "some",
+          "value": "dividend adjustment period",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "equity future",
+      "technicalName": "fibo-der-drc-ff:EquityFuture",
+      "localName": "EquityFuture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/EquityFuture",
+      "label": "equity future",
+      "definition": "futures contract whose underlying asset is at least one equity security, specifically a publicly issued and traded share",
+      "parents": [
+        "financial future",
+        "fibo-der-sbd-sbd:EquityDerivative"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:ListedShare",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "financial future",
+      "technicalName": "fibo-der-drc-ff:FinancialFuture",
+      "localName": "FinancialFuture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/FinancialFuture",
+      "label": "financial future",
+      "definition": "futures contract based on underlying assets excluding commodities",
+      "parents": [
+        "fibo-fbc-fi-fi:Future"
+      ],
+      "rules": []
+    },
+    {
+      "name": "forward",
+      "technicalName": "fibo-der-drc-ff:Forward",
+      "localName": "Forward",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/Forward",
+      "label": "forward",
+      "definition": "derivative instrument that is privately negotiated between parties to buy the underlier at a specified future date at the price specified in the contract",
+      "parents": [
+        "fibo-der-drc-bsc:OverTheCounterDerivativeInstrument",
+        "fibo-fbc-fi-fi:DerivativeInstrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "forward contract adjustment method",
+      "technicalName": "fibo-der-drc-ff:ForwardContractAdjustmentMethod",
+      "localName": "ForwardContractAdjustmentMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/ForwardContractAdjustmentMethod",
+      "label": "forward contract adjustment method",
+      "definition": "method by which adjustments will be made to the contract should one or more of a number of extraordinary events occur",
+      "parents": [
+        "fibo-fnd-gao-obj:Strategy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "future on future",
+      "technicalName": "fibo-der-drc-ff:FutureOnFuture",
+      "localName": "FutureOnFuture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/FutureOnFuture",
+      "label": "future on future",
+      "definition": "futures contract whose underlying asset is at least one (other) futures contract",
+      "parents": [
+        "financial future"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Future",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "future on option",
+      "technicalName": "fibo-der-drc-ff:FutureOnOption",
+      "localName": "FutureOnOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/FutureOnOption",
+      "label": "future on option",
+      "definition": "futures contract whose underlying asset is at least one option contract",
+      "parents": [
+        "financial future"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Option",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "future on swap",
+      "technicalName": "fibo-der-drc-ff:FutureOnSwap",
+      "localName": "FutureOnSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/FutureOnSwap",
+      "label": "future on swap",
+      "definition": "futures contract whose underlying asset is at least one swap contract",
+      "parents": [
+        "financial future"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-der-drc-swp:Swap",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "index future",
+      "technicalName": "fibo-der-drc-ff:IndexFuture",
+      "localName": "IndexFuture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/IndexFuture",
+      "label": "index future",
+      "definition": "futures contract whose underlying asset is at least one reference index or economic indicator",
+      "parents": [
+        "financial future"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "interest rate future",
+      "technicalName": "fibo-der-drc-ff:InterestRateFuture",
+      "localName": "InterestRateFuture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/InterestRateFuture",
+      "label": "interest rate future",
+      "definition": "futures contract with an interest-bearing instrument as the underlying asset",
+      "parents": [
+        "financial future"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "money market future",
+      "technicalName": "fibo-der-drc-ff:MoneyMarketFuture",
+      "localName": "MoneyMarketFuture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/MoneyMarketFuture",
+      "label": "money market future",
+      "definition": "futures contract with a money market instrument as the underlying asset",
+      "parents": [
+        "debt instrument future"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-dbt-tstd:MoneyMarketInstrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "standardized futures listing terms",
+      "technicalName": "fibo-der-drc-ff:StandardizedFuturesListingTerms",
+      "localName": "StandardizedFuturesListingTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/StandardizedFuturesListingTerms",
+      "label": "standardized futures listing terms",
+      "definition": "contract terms established by a derivatives exchange that apply to any listing of a futures contract on that exchange.",
+      "parents": [
+        "fibo-der-drc-bsc:DerivativeTerms",
+        "fibo-fbc-fi-fi:StandardizedTerms"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-sec-sec-lst:Listing",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-fct-pub:hasPublisher",
+          "operator": "some",
+          "value": "fibo-fbc-fct-mkt:DesignatedContractMarket",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "standardized futures terms",
+      "technicalName": "fibo-der-drc-ff:StandardizedFuturesTerms",
+      "localName": "StandardizedFuturesTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/StandardizedFuturesTerms",
+      "label": "standardized futures terms",
+      "definition": "contract terms established by a derivatives exchange that apply to any futures contract traded on that exchange",
+      "parents": [
+        "fibo-der-drc-bsc:DerivativeTerms",
+        "fibo-fbc-fi-fi:StandardizedTerms"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:specifies",
+          "operator": "some",
+          "value": "fibo-fbc-pas-fpas:SettlementTerms",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Future",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has dividend adjustment period",
+      "technicalName": "fibo-der-drc-ff:hasDividendAdjustmentPeriod",
+      "localName": "hasDividendAdjustmentPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/hasDividendAdjustmentPeriod",
+      "label": "has dividend adjustment period",
+      "definition": "indicates at least one date period used to calculate the deviation between an anticipated/expected dividend and the actual dividend issued during that period",
+      "domain": [
+        "equity forward"
+      ],
+      "range": [
+        "dividend adjustment period"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has method of adjustment",
+      "technicalName": "fibo-der-drc-ff:hasMethodOfAdjustment",
+      "localName": "hasMethodOfAdjustment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/hasMethodOfAdjustment",
+      "label": "has method of adjustment",
+      "definition": "indicates the method used to address any changes to the contract based on events that occur over the contract lifecycle",
+      "domain": [
+        "equity forward"
+      ],
+      "range": [
+        "forward contract adjustment method"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has conversion factor",
+      "technicalName": "fibo-der-drc-ff:hasConversionFactor",
+      "localName": "hasConversionFactor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/hasConversionFactor",
+      "label": "has conversion factor",
+      "definition": "indicates the price of the delivered bond/note ($1 par value) to yield a fixed rate. The conversion factor is used to calculate a final delivery price.",
+      "domain": [
+        "bond future"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has multiple",
+      "technicalName": "fibo-der-drc-ff:hasMultiple",
+      "localName": "hasMultiple",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/hasMultiple",
+      "label": "has multiple",
+      "definition": "indicates the multiple for determining the price of the futures contract in relation to the underlying index rate",
+      "domain": [
+        "index future"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    }
+  ]
+}

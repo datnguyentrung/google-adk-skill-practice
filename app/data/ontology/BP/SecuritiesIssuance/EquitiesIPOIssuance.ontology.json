@@ -1,0 +1,573 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BP\\SecuritiesIssuance\\EquitiesIPOIssuance.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/",
+  "summary": {
+    "nodes": 34,
+    "edges": 4,
+    "properties": 0,
+    "triples": 195
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceDocuments/",
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/Markets/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegistrationAuthorities/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "agree basis for allocation",
+      "technicalName": "fibo-bp-iss-ipo:AgreeBasisForAllocation",
+      "localName": "AgreeBasisForAllocation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/AgreeBasisForAllocation",
+      "label": "agree basis for allocation",
+      "definition": null,
+      "parents": [
+        "initial public offering process step"
+      ],
+      "rules": []
+    },
+    {
+      "name": "allocation",
+      "technicalName": "fibo-bp-iss-ipo:Allocation",
+      "localName": "Allocation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/Allocation",
+      "label": "allocation",
+      "definition": null,
+      "parents": [
+        "initial public offering process step"
+      ],
+      "rules": []
+    },
+    {
+      "name": "allocation basis details",
+      "technicalName": "fibo-bp-iss-ipo:AllocationBasisDetails",
+      "localName": "AllocationBasisDetails",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/AllocationBasisDetails",
+      "label": "allocation basis details",
+      "definition": null,
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "allocation details",
+      "technicalName": "fibo-bp-iss-ipo:AllocationDetails",
+      "localName": "AllocationDetails",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/AllocationDetails",
+      "label": "allocation details",
+      "definition": null,
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "announce equity issue",
+      "technicalName": "fibo-bp-iss-ipo:AnnounceEquityIssue",
+      "localName": "AnnounceEquityIssue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/AnnounceEquityIssue",
+      "label": "announce equity issue",
+      "definition": null,
+      "parents": [
+        "initial public offering process step"
+      ],
+      "rules": []
+    },
+    {
+      "name": "application for shares",
+      "technicalName": "fibo-bp-iss-ipo:ApplicationForShares",
+      "localName": "ApplicationForShares",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/ApplicationForShares",
+      "label": "application for shares",
+      "definition": null,
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "appoint advisors",
+      "technicalName": "fibo-bp-iss-ipo:AppointAdvisors",
+      "localName": "AppointAdvisors",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/AppointAdvisors",
+      "label": "appoint advisors",
+      "definition": null,
+      "parents": [
+        "initial public offering process step"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Issuer",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:designates",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "approve for flotation",
+      "technicalName": "fibo-bp-iss-ipo:ApproveForFlotation",
+      "localName": "ApproveForFlotation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/ApproveForFlotation",
+      "label": "approve for flotation",
+      "definition": null,
+      "parents": [
+        "initial public offering process step"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "fibo-fbc-fct-mkt:Exchange",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "corporate broker",
+      "technicalName": "fibo-bp-iss-ipo:CorporateBroker",
+      "localName": "CorporateBroker",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/CorporateBroker",
+      "label": "corporate broker",
+      "definition": null,
+      "parents": [
+        "fibo-fbc-pas-fpas:Broker"
+      ],
+      "rules": []
+    },
+    {
+      "name": "equity announcement",
+      "technicalName": "fibo-bp-iss-ipo:EquityAnnouncement",
+      "localName": "EquityAnnouncement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/EquityAnnouncement",
+      "label": "equity announcement",
+      "definition": null,
+      "parents": [
+        "cmns-doc:Notice"
+      ],
+      "rules": []
+    },
+    {
+      "name": "filing details",
+      "technicalName": "fibo-bp-iss-ipo:FilingDetails",
+      "localName": "FilingDetails",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/FilingDetails",
+      "label": "filing details",
+      "definition": null,
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "formal approval for listing and trading",
+      "technicalName": "fibo-bp-iss-ipo:FormalApprovalForListingAndTrading",
+      "localName": "FormalApprovalForListingAndTrading",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/FormalApprovalForListingAndTrading",
+      "label": "formal approval for listing and trading",
+      "definition": null,
+      "parents": [
+        "initial public offering process step"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "fibo-fbc-fct-mkt:Exchange",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "i p o full prospectus",
+      "technicalName": "fibo-bp-iss-ipo:IPOFullProspectus",
+      "localName": "IPOFullProspectus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/IPOFullProspectus",
+      "label": "i p o full prospectus",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-doc:FinalProspectus"
+      ],
+      "rules": []
+    },
+    {
+      "name": "i p o preliminary prospectus",
+      "technicalName": "fibo-bp-iss-ipo:IPOPreliminaryProspectus",
+      "localName": "IPOPreliminaryProspectus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/IPOPreliminaryProspectus",
+      "label": "i p o preliminary prospectus",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-doc:PreliminaryProspectus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:precedes",
+          "operator": "some",
+          "value": "i p o full prospectus",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "i p o process",
+      "technicalName": "fibo-bp-iss-ipo:IPOProcess",
+      "localName": "IPOProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/IPOProcess",
+      "label": "i p o process",
+      "definition": null,
+      "parents": [],
+      "rules": [
+        {
+          "property": "cmns-dt:hasDatePeriod",
+          "operator": "some",
+          "value": "cmns-dt:DatePeriod",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "i p o settlement details",
+      "technicalName": "fibo-bp-iss-ipo:IPOSettlementDetails",
+      "localName": "IPOSettlementDetails",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/IPOSettlementDetails",
+      "label": "i p o settlement details",
+      "definition": null,
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "indication of interest",
+      "technicalName": "fibo-bp-iss-ipo:IndicationOfInterest",
+      "localName": "IndicationOfInterest",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/IndicationOfInterest",
+      "label": "indication of interest",
+      "definition": null,
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "initial public offering process step",
+      "technicalName": "fibo-bp-iss-ipo:InitialPublicOfferingProcessStep",
+      "localName": "InitialPublicOfferingProcessStep",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/InitialPublicOfferingProcessStep",
+      "label": "initial public offering process step",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "i p o process",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "marketing of share issue",
+      "technicalName": "fibo-bp-iss-ipo:MarketingOfShareIssue",
+      "localName": "MarketingOfShareIssue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/MarketingOfShareIssue",
+      "label": "marketing of share issue",
+      "definition": null,
+      "parents": [
+        "initial public offering process step"
+      ],
+      "rules": []
+    },
+    {
+      "name": "notice of allocation",
+      "technicalName": "fibo-bp-iss-ipo:NoticeOfAllocation",
+      "localName": "NoticeOfAllocation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/NoticeOfAllocation",
+      "label": "notice of allocation",
+      "definition": null,
+      "parents": [
+        "initial public offering process step"
+      ],
+      "rules": []
+    },
+    {
+      "name": "potential share underwriter",
+      "technicalName": "fibo-bp-iss-ipo:PotentialShareUnderwriter",
+      "localName": "PotentialShareUnderwriter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/PotentialShareUnderwriter",
+      "label": "potential share underwriter",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:PotentialUnderwriter"
+      ],
+      "rules": []
+    },
+    {
+      "name": "publish initial prospectus",
+      "technicalName": "fibo-bp-iss-ipo:PublishInitialProspectus",
+      "localName": "PublishInitialProspectus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/PublishInitialProspectus",
+      "label": "publish initial prospectus",
+      "definition": null,
+      "parents": [
+        "initial public offering process step"
+      ],
+      "rules": []
+    },
+    {
+      "name": "purchase price",
+      "technicalName": "fibo-bp-iss-ipo:PurchasePrice",
+      "localName": "PurchasePrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/PurchasePrice",
+      "label": "purchase price",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryPrice"
+      ],
+      "rules": []
+    },
+    {
+      "name": "purchase unallocated stock",
+      "technicalName": "fibo-bp-iss-ipo:PurchaseUnallocatedStock",
+      "localName": "PurchaseUnallocatedStock",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/PurchaseUnallocatedStock",
+      "label": "purchase unallocated stock",
+      "definition": null,
+      "parents": [
+        "initial public offering process step"
+      ],
+      "rules": []
+    },
+    {
+      "name": "receive applications",
+      "technicalName": "fibo-bp-iss-ipo:ReceiveApplications",
+      "localName": "ReceiveApplications",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/ReceiveApplications",
+      "label": "receive applications",
+      "definition": null,
+      "parents": [
+        "initial public offering process step"
+      ],
+      "rules": []
+    },
+    {
+      "name": "register with regulatory authority",
+      "technicalName": "fibo-bp-iss-ipo:RegisterWithRegulatoryAuthority",
+      "localName": "RegisterWithRegulatoryAuthority",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/RegisterWithRegulatoryAuthority",
+      "label": "register with regulatory authority",
+      "definition": null,
+      "parents": [
+        "initial public offering process step"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "fibo-fbc-fct-mkt:Exchange",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "registration statement document",
+      "technicalName": "fibo-bp-iss-ipo:RegistrationStatementDocument",
+      "localName": "RegistrationStatementDocument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/RegistrationStatementDocument",
+      "label": "registration statement document",
+      "definition": null,
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "reporting accountant",
+      "technicalName": "fibo-bp-iss-ipo:ReportingAccountant",
+      "localName": "ReportingAccountant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/ReportingAccountant",
+      "label": "reporting accountant",
+      "definition": null,
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": []
+    },
+    {
+      "name": "set price",
+      "technicalName": "fibo-bp-iss-ipo:SetPrice",
+      "localName": "SetPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/SetPrice",
+      "label": "set price",
+      "definition": null,
+      "parents": [
+        "initial public offering process step"
+      ],
+      "rules": []
+    },
+    {
+      "name": "settlement of allocated shares",
+      "technicalName": "fibo-bp-iss-ipo:SettlementOfAllocatedShares",
+      "localName": "SettlementOfAllocatedShares",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/SettlementOfAllocatedShares",
+      "label": "settlement of allocated shares",
+      "definition": null,
+      "parents": [
+        "initial public offering process step"
+      ],
+      "rules": []
+    },
+    {
+      "name": "share register",
+      "technicalName": "fibo-bp-iss-ipo:ShareRegister",
+      "localName": "ShareRegister",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/ShareRegister",
+      "label": "share register",
+      "definition": null,
+      "parents": [
+        "cmns-ra:Registry"
+      ],
+      "rules": []
+    },
+    {
+      "name": "sponsor",
+      "technicalName": "fibo-bp-iss-ipo:Sponsor",
+      "localName": "Sponsor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/Sponsor",
+      "label": "sponsor",
+      "definition": null,
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "may be",
+          "operator": "some",
+          "value": "corporate broker",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "syndicate member",
+      "technicalName": "fibo-bp-iss-ipo:SyndicateMember",
+      "localName": "SyndicateMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/SyndicateMember",
+      "label": "syndicate member",
+      "definition": null,
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": []
+    },
+    {
+      "name": "underwriting",
+      "technicalName": "fibo-bp-iss-ipo:Underwriting",
+      "localName": "Underwriting",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/Underwriting",
+      "label": "underwriting",
+      "definition": null,
+      "parents": [],
+      "rules": [
+        {
+          "property": "syndicate member",
+          "operator": "some",
+          "value": "syndicate member",
+          "qualifier": null
+        },
+        {
+          "property": "share underwriter",
+          "operator": "some",
+          "value": "potential share underwriter",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "lead",
+      "technicalName": "fibo-bp-iss-ipo:lead",
+      "localName": "lead",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/lead",
+      "label": "lead",
+      "definition": null,
+      "domain": [
+        "appoint advisors"
+      ],
+      "range": [
+        "sponsor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "may be",
+      "technicalName": "fibo-bp-iss-ipo:mayBe",
+      "localName": "mayBe",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/mayBe",
+      "label": "may be",
+      "definition": null,
+      "domain": [
+        "sponsor"
+      ],
+      "range": [
+        "corporate broker"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "share underwriter",
+      "technicalName": "fibo-bp-iss-ipo:shareUnderwriter",
+      "localName": "shareUnderwriter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/shareUnderwriter",
+      "label": "share underwriter",
+      "definition": null,
+      "domain": [
+        "underwriting"
+      ],
+      "range": [
+        "potential share underwriter"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "syndicate member",
+      "technicalName": "fibo-bp-iss-ipo:syndicateMember",
+      "localName": "syndicateMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/EquitiesIPOIssuance/syndicateMember",
+      "label": "syndicate member",
+      "definition": null,
+      "domain": [
+        "underwriting"
+      ],
+      "range": [
+        "syndicate member"
+      ]
+    }
+  ],
+  "attributes": []
+}

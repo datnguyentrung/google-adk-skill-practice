@@ -1,0 +1,3009 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FBC\\DebtAndEquities",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FBC\\DebtAndEquities\\CreditEvents.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FBC\\DebtAndEquities\\CreditRatings.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FBC\\DebtAndEquities\\Debt.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FBC\\DebtAndEquities\\Guaranty.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 4,
+    "classes": 114,
+    "edges": 50,
+    "attributes": 4
+  },
+  "classes": [
+    {
+      "name": "bankruptcy",
+      "technicalName": "fibo-fbc-dae-cre:Bankruptcy",
+      "localName": "Bankruptcy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/Bankruptcy",
+      "label": "bankruptcy",
+      "definition": "credit event involving a change in state or condition in which a party becomes insolvent",
+      "parents": [
+        "entity-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit event",
+      "technicalName": "fibo-fbc-dae-cre:CreditEvent",
+      "localName": "CreditEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/CreditEvent",
+      "label": "credit event",
+      "definition": "event signifying a sudden change in credit standing, such as bankruptcy or a violation of a bond indenture or loan agreement, that raises doubts about the party's ability to meet current or future obligations",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": []
+    },
+    {
+      "name": "cross default provision",
+      "technicalName": "fibo-fbc-dae-cre:CrossDefaultProvision",
+      "localName": "CrossDefaultProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/CrossDefaultProvision",
+      "label": "cross default provision",
+      "definition": "contract provision that triggers a default under one contract if the borrower defaults on another related obligation",
+      "parents": [
+        "fibo-fnd-agr-ctr:ConditionPrecedent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:CreditAgreement",
+          "qualifier": null
+        },
+        {
+          "property": "has default threshold amount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "default event",
+      "technicalName": "fibo-fbc-dae-cre:DefaultEvent",
+      "localName": "DefaultEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/DefaultEvent",
+      "label": "default event",
+      "definition": "credit event representing a failure to meet a contractual obligation, such as failure to repay a debt including interest or principal on a loan or security",
+      "parents": [
+        "obligation-specific credit event"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-agr-ctr:BreachOfCovenant"
+        }
+      ]
+    },
+    {
+      "name": "distressed ratings downgrade",
+      "technicalName": "fibo-fbc-dae-cre:DistressedRatingsDowngrade",
+      "localName": "DistressedRatingsDowngrade",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/DistressedRatingsDowngrade",
+      "label": "distressed ratings downgrade",
+      "definition": "credit event triggered when the credit rating of an obligation is downgraded to a distressed debt level",
+      "parents": [
+        "downgrade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "downgrade",
+      "technicalName": "fibo-fbc-dae-cre:Downgrade",
+      "localName": "Downgrade",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/Downgrade",
+      "label": "downgrade",
+      "definition": "credit event triggered when the credit rating of a party or obligation is lowered",
+      "parents": [
+        "credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "entity-specific credit event",
+      "technicalName": "fibo-fbc-dae-cre:EntitySpecificCreditEvent",
+      "localName": "EntitySpecificCreditEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/EntitySpecificCreditEvent",
+      "label": "entity-specific credit event",
+      "definition": "credit event that applies to a given legal person",
+      "parents": [
+        "credit event"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "failure to pay",
+      "technicalName": "fibo-fbc-dae-cre:FailureToPay",
+      "localName": "FailureToPay",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/FailureToPay",
+      "label": "failure to pay",
+      "definition": "default event that is triggered following any applicable grace period in which a payment obligation is missed",
+      "parents": [
+        "default event"
+      ],
+      "rules": [
+        {
+          "property": "has grace period",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:DatePeriod"
+        }
+      ]
+    },
+    {
+      "name": "failure to pay interest",
+      "technicalName": "fibo-fbc-dae-cre:FailureToPayInterest",
+      "localName": "FailureToPayInterest",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/FailureToPayInterest",
+      "label": "failure to pay interest",
+      "definition": "default event that where either an expected interest payment is missed altogether or the amount paid is less than the required amount",
+      "parents": [
+        "failure to pay"
+      ],
+      "rules": []
+    },
+    {
+      "name": "failure to pay principal",
+      "technicalName": "fibo-fbc-dae-cre:FailureToPayPrincipal",
+      "localName": "FailureToPayPrincipal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/FailureToPayPrincipal",
+      "label": "failure to pay principal",
+      "definition": "default event that where either an expected principal payment is missed altogether or the amount paid is less than the required amount",
+      "parents": [
+        "failure to pay"
+      ],
+      "rules": []
+    },
+    {
+      "name": "filing for bankruptcy",
+      "technicalName": "fibo-fbc-dae-cre:FilingForBankruptcy",
+      "localName": "FilingForBankruptcy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/FilingForBankruptcy",
+      "label": "filing for bankruptcy",
+      "definition": "credit event that involves a request to a court to be recognized as bankrupt",
+      "parents": [
+        "entity-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "hard credit event",
+      "technicalName": "fibo-fbc-dae-cre:HardCreditEvent",
+      "localName": "HardCreditEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/HardCreditEvent",
+      "label": "hard credit event",
+      "definition": "default event that is not repairable",
+      "parents": [
+        "default event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "installment default",
+      "technicalName": "fibo-fbc-dae-cre:InstallmentDefault",
+      "localName": "InstallmentDefault",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/InstallmentDefault",
+      "label": "installment default",
+      "definition": "default event involving non-payment of several installment payments as scheduled in the terms of the agreement, or non-payment of a call by the beneficial owner",
+      "parents": [
+        "default event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interest obligation in light of default",
+      "technicalName": "fibo-fbc-dae-cre:InterestObligationInLightOfDefault",
+      "localName": "InterestObligationInLightOfDefault",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/InterestObligationInLightOfDefault",
+      "label": "interest obligation in light of default",
+      "definition": "obligation in respect of default(s) in the performance of any payment obligation",
+      "parents": [
+        "fibo-fnd-law-lcap:ContingentObligation",
+        "fibo-fnd-law-lcap:ContractualObligation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isMandatedBy",
+          "operator": "some",
+          "value": "fibo-fnd-pas-psch:PaymentObligation",
+          "qualifier": null
+        },
+        {
+          "property": "is default interest applicable",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "xsd:boolean"
+        },
+        {
+          "property": "has default interest compounding basis",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:DatePeriod"
+        }
+      ]
+    },
+    {
+      "name": "maturity extension",
+      "technicalName": "fibo-fbc-dae-cre:MaturityExtension",
+      "localName": "MaturityExtension",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/MaturityExtension",
+      "label": "maturity extension",
+      "definition": "credit event involving extension of payments beyond the original maturity date of the obligation",
+      "parents": [
+        "obligation-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "moratorium",
+      "technicalName": "fibo-fbc-dae-cre:Moratorium",
+      "localName": "Moratorium",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/Moratorium",
+      "label": "moratorium",
+      "definition": "entity-specific credit event involving a temporary suspension of payments until related issues are resolved",
+      "parents": [
+        "entity-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "obligation acceleration",
+      "technicalName": "fibo-fbc-dae-cre:ObligationAcceleration",
+      "localName": "ObligationAcceleration",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/ObligationAcceleration",
+      "label": "obligation acceleration",
+      "definition": "credit event triggered when one or more reference obligations become immediately due and payable as a result of a default or covenant breach on the reference entity's other debt instruments, subject to a materiality threshold",
+      "parents": [
+        "obligation-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "obligation default",
+      "technicalName": "fibo-fbc-dae-cre:ObligationDefault",
+      "localName": "ObligationDefault",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/ObligationDefault",
+      "label": "obligation default",
+      "definition": "credit event triggered as a result of an obligation-specific default",
+      "parents": [
+        "default event",
+        "obligation-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "obligation restructuring",
+      "technicalName": "fibo-fbc-dae-cre:ObligationRestructuring",
+      "localName": "ObligationRestructuring",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/ObligationRestructuring",
+      "label": "obligation restructuring",
+      "definition": "credit event that materially impacts an obligation, such as an interest rate reduction, principal reduction, deferral of interest or principal, change in priority ranking, or change in currency or composition of payment",
+      "parents": [
+        "obligation-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "obligation-specific credit event",
+      "technicalName": "fibo-fbc-dae-cre:ObligationSpecificCreditEvent",
+      "localName": "ObligationSpecificCreditEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/ObligationSpecificCreditEvent",
+      "label": "obligation-specific credit event",
+      "definition": "credit event that relates to an individual credit agreement or debt instrument (reference obligation)",
+      "parents": [
+        "credit event"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:CreditAgreement",
+          "qualifier": null
+        },
+        {
+          "property": "has default threshold amount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "repudiation",
+      "technicalName": "fibo-fbc-dae-cre:Repudiation",
+      "localName": "Repudiation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/Repudiation",
+      "label": "repudiation",
+      "definition": "credit event involving the refusal to honor the terms of a contract",
+      "parents": [
+        "obligation-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "soft credit event",
+      "technicalName": "fibo-fbc-dae-cre:SoftCreditEvent",
+      "localName": "SoftCreditEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/SoftCreditEvent",
+      "label": "soft credit event",
+      "definition": "default event that is repairable",
+      "parents": [
+        "default event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "write-down",
+      "technicalName": "fibo-fbc-dae-cre:WriteDown",
+      "localName": "WriteDown",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/WriteDown",
+      "label": "write-down",
+      "definition": "obligation-specific credit event whereby the book value of the obligation, such as the outstanding principal amount, is reduced",
+      "parents": [
+        "obligation-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit inquiry",
+      "technicalName": "fibo-fbc-dae-crt:CreditInquiry",
+      "localName": "CreditInquiry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditInquiry",
+      "label": "credit inquiry",
+      "definition": "request from a lender to a credit repository to obtain information regarding a prospective borrower's creditworthiness",
+      "parents": [
+        "fibo-fnd-arr-rep:RequestActivity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "credit inquiry type",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-rep:isRequestedOf",
+          "operator": "some",
+          "value": "credit rating agency",
+          "qualifier": null
+        },
+        {
+          "property": "concerns party",
+          "operator": "some",
+          "value": "cmns-pts:Party",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit inquiry type",
+      "technicalName": "fibo-fbc-dae-crt:CreditInquiryType",
+      "localName": "CreditInquiryType",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditInquiryType",
+      "label": "credit inquiry type",
+      "definition": "classifier indicating whether a credit inquiry is a result of a borrower's direct authorization or by some indirect means",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit message",
+      "technicalName": "fibo-fbc-dae-crt:CreditMessage",
+      "localName": "CreditMessage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditMessage",
+      "label": "credit message",
+      "definition": "notice on a credit report to alert a reviewer of special or exceptional information",
+      "parents": [
+        "cmns-doc:Notice"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "credit message type",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit message type",
+      "technicalName": "fibo-fbc-dae-crt:CreditMessageType",
+      "localName": "CreditMessageType",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditMessageType",
+      "label": "credit message type",
+      "definition": "classifier that categorizes credit messages",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit quality",
+      "technicalName": "fibo-fbc-dae-crt:CreditQuality",
+      "localName": "CreditQuality",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditQuality",
+      "label": "credit quality",
+      "definition": "classifier for borrowers, rates, or holdings in the lending market with respect to the quality of the credit",
+      "parents": [
+        "fibo-fnd-arr-rt:RatingScore"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit rating",
+      "technicalName": "fibo-fbc-dae-crt:CreditRating",
+      "localName": "CreditRating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditRating",
+      "label": "credit rating",
+      "definition": "assessment of creditworthiness of a borrower generally or with respect to a particular debt or financial obligation",
+      "parents": [
+        "fibo-fnd-arr-rt:Rating"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "credit rating agency",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-qtu:isDerivedFrom",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit rating model"
+        }
+      ]
+    },
+    {
+      "name": "credit rating agency",
+      "technicalName": "fibo-fbc-dae-crt:CreditRatingAgency",
+      "localName": "CreditRatingAgency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditRatingAgency",
+      "label": "credit rating agency",
+      "definition": "rating agency that publishes reports assessing the creditworthiness of a borrower or legal entity, either generally or with respect to a specific obligation",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider",
+        "fibo-fnd-arr-rt:RatingAgency"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:manages",
+          "operator": "some",
+          "value": "credit rating scale",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:issues",
+          "operator": "some",
+          "value": "credit rating",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit rating model",
+      "technicalName": "fibo-fbc-dae-crt:CreditRatingModel",
+      "localName": "CreditRatingModel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditRatingModel",
+      "label": "credit rating model",
+      "definition": "algorithm for computing a credit rating",
+      "parents": [
+        "cmns-qtu:Expression"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTextualName",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "credit score model type",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:produces",
+          "operator": "some",
+          "value": "fibo-fnd-arr-rt:RatingScore",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit score model type",
+      "technicalName": "fibo-fbc-dae-crt:CreditRatingModelType",
+      "localName": "CreditRatingModelType",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditRatingModelType",
+      "label": "credit score model type",
+      "definition": "a type corresonding to a family of credit scoring algorithms sharing common characteristics",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit rating scale",
+      "technicalName": "fibo-fbc-dae-crt:CreditRatingScale",
+      "localName": "CreditRatingScale",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditRatingScale",
+      "label": "credit rating scale",
+      "definition": "rating scale for assigning a credit rating to individual, entity, or instrument, including defining a set of codes or numeric scores and indicating how an assessment that is assigned a score based on that scale means",
+      "parents": [
+        "fibo-fnd-arr-rt:RatingScale"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "some",
+          "value": "credit rating agency",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit report",
+      "technicalName": "fibo-fbc-dae-crt:CreditReport",
+      "localName": "CreditReport",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditReport",
+      "label": "credit report",
+      "definition": "report describing the creditworthiness and related credit attributes of a borrower",
+      "parents": [
+        "fibo-fnd-arr-rt:RatingReport"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-fd:hasAsOfDate",
+          "operator": "some",
+          "value": "cmns-dt:Date",
+          "qualifier": null
+        },
+        {
+          "property": "has coverage period",
+          "operator": "some",
+          "value": "cmns-dt:DatePeriod",
+          "qualifier": null
+        },
+        {
+          "property": "concerns party",
+          "operator": "some",
+          "value": "cmns-pts:Party",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-doc:hasDataSource",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "credit rating agency",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-id:Identifier"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit tradeline"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit report product"
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit report category"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isProducedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit rating agency"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit rating"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit message"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit inquiry"
+        }
+      ]
+    },
+    {
+      "name": "credit report category",
+      "technicalName": "fibo-fbc-dae-crt:CreditReportCategory",
+      "localName": "CreditReportCategory",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditReportCategory",
+      "label": "credit report category",
+      "definition": "classifier for credit reports, often available from multiple vendors",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit report product",
+      "technicalName": "fibo-fbc-dae-crt:CreditReportProduct",
+      "localName": "CreditReportProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditReportProduct",
+      "label": "credit report product",
+      "definition": "branded credit report offered in the marketplace",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialProduct",
+        "fibo-fnd-pas-pas:OffTheShelfProduct"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isProducedBy",
+          "operator": "some",
+          "value": "credit rating agency",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit tradeline",
+      "technicalName": "fibo-fbc-dae-crt:CreditTradeline",
+      "localName": "CreditTradeline",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditTradeline",
+      "label": "credit tradeline",
+      "definition": "report derived from the transaction history of a credit account",
+      "parents": [
+        "fibo-fnd-arr-rep:Report"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:isDerivedFrom",
+          "operator": "some",
+          "value": "fibo-fbc-pas-caa:Account",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "some",
+          "value": "credit report",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit watch direction",
+      "technicalName": "fibo-fbc-dae-crt:CreditWatchDirection",
+      "localName": "CreditWatchDirection",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditWatchDirection",
+      "label": "credit watch direction",
+      "definition": null,
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit watch outlook",
+      "technicalName": "fibo-fbc-dae-crt:CreditWatchOutlook",
+      "localName": "CreditWatchOutlook",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditWatchOutlook",
+      "label": "credit watch outlook",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-arr-rt:Rating"
+      ],
+      "rules": []
+    },
+    {
+      "name": "instrument credit rating",
+      "technicalName": "fibo-fbc-dae-crt:InstrumentCreditRating",
+      "localName": "InstrumentCreditRating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/InstrumentCreditRating",
+      "label": "instrument credit rating",
+      "definition": "investment credit rating that provides an opinion of creditworthiness of an instrument, typically with some relationship to the creditworthiness of the issuer(s)",
+      "parents": [
+        "investment credit rating"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-rt:rates",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:FinancialInstrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "investment credit rating",
+      "technicalName": "fibo-fbc-dae-crt:InvestmentCreditRating",
+      "localName": "InvestmentCreditRating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/InvestmentCreditRating",
+      "label": "investment credit rating",
+      "definition": "credit rating that provides an opinion of creditworthiness of an investment, including but not limited to an instrument or organization",
+      "parents": [
+        "credit rating"
+      ],
+      "rules": []
+    },
+    {
+      "name": "organization credit rating",
+      "technicalName": "fibo-fbc-dae-crt:OrganizationCreditRating",
+      "localName": "OrganizationCreditRating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/OrganizationCreditRating",
+      "label": "organization credit rating",
+      "definition": "credit rating that provides an opinion of creditworthiness of an organization",
+      "parents": [
+        "credit rating"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-rt:rates",
+          "operator": "some",
+          "value": "cmns-org:FormalOrganization",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "short term credit rating",
+      "technicalName": "fibo-fbc-dae-crt:ShortTermCreditRating",
+      "localName": "ShortTermCreditRating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/ShortTermCreditRating",
+      "label": "short term credit rating",
+      "definition": "credit rating that provides an opinion of the probability of an individual or organization going into default within a year",
+      "parents": [
+        "investment credit rating"
+      ],
+      "rules": []
+    },
+    {
+      "name": "accrual",
+      "technicalName": "fibo-fbc-dae-dbt:Accrual",
+      "localName": "Accrual",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/Accrual",
+      "label": "accrual",
+      "definition": "the process of accumulating interest or other income that has been earned but not paid",
+      "parents": [
+        "cmns-rlcmp:Role"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "interest"
+        }
+      ]
+    },
+    {
+      "name": "accrued interest",
+      "technicalName": "fibo-fbc-dae-dbt:AccruedInterest",
+      "localName": "AccruedInterest",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/AccruedInterest",
+      "label": "accrued interest",
+      "definition": "amount of interest that has been incurred, as of a specific date, on a loan or other financial obligation but has not yet been paid out",
+      "parents": [
+        "interest"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-fd:hasAsOfDate",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "amortization",
+      "technicalName": "fibo-fbc-dae-dbt:Amortization",
+      "localName": "Amortization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/Amortization",
+      "label": "amortization",
+      "definition": "the process of reduction of debt or other costs through periodic charges to assets or liabilities, such as through principal payments on mortgages",
+      "parents": [
+        "cmns-rlcmp:Role"
+      ],
+      "rules": [
+        {
+          "property": "is amortization of",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "debt"
+        }
+      ]
+    },
+    {
+      "name": "amortization schedule",
+      "technicalName": "fibo-fbc-dae-dbt:AmortizationSchedule",
+      "localName": "AmortizationSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/AmortizationSchedule",
+      "label": "amortization schedule",
+      "definition": "schedule of periodic payments (repayment installments) that specify changes in the balance of the debt over time",
+      "parents": [
+        "projected contract event schedule",
+        "fibo-fnd-pas-psch:PaymentSchedule"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:embodies",
+          "operator": "some",
+          "value": "amortization",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "principal payment schedule"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "interest payment schedule"
+        }
+      ]
+    },
+    {
+      "name": "borrower",
+      "technicalName": "fibo-fbc-dae-dbt:Borrower",
+      "localName": "Borrower",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/Borrower",
+      "label": "borrower",
+      "definition": "party to a credit agreement that is obligated to repay the amount borrowed (principal) with interest and other fees according to the terms of the instrument",
+      "parents": [
+        "debtor",
+        "fibo-fnd-agr-ctr:ContractParty",
+        "fibo-fnd-pas-pas:Customer"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "credit agreement",
+          "qualifier": null
+        },
+        {
+          "property": "owes",
+          "operator": "some",
+          "value": "debt",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "borrower identification scheme",
+      "technicalName": "fibo-fbc-dae-dbt:BorrowerIdentificationScheme",
+      "localName": "BorrowerIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/BorrowerIdentificationScheme",
+      "label": "borrower identification scheme",
+      "definition": "system for allocating identifiers to borrowers",
+      "parents": [
+        "fibo-fnd-pty-pty:PartyRoleIdentificationScheme"
+      ],
+      "rules": []
+    },
+    {
+      "name": "borrower identifier",
+      "technicalName": "fibo-fbc-dae-dbt:BorrowerIdentifier",
+      "localName": "BorrowerIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/BorrowerIdentifier",
+      "label": "borrower identifier",
+      "definition": "sequence of characters, capable of uniquely identifying a borrower",
+      "parents": [
+        "fibo-fnd-pty-pty:PartyRoleIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "borrower identification scheme"
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "borrower"
+        }
+      ]
+    },
+    {
+      "name": "borrowing capacity",
+      "technicalName": "fibo-fbc-dae-dbt:BorrowingCapacity",
+      "localName": "BorrowingCapacity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/BorrowingCapacity",
+      "label": "borrowing capacity",
+      "definition": "upper bound on the total amount of money that a lender believes a party has the ability to repay an obligation when due, as of some point in time",
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-asmt:hasDateOfAssessment",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDate",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidencedBy",
+          "operator": "some",
+          "value": "fibo-fnd-arr-asmt:AssessmentReport",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "capital lease",
+      "technicalName": "fibo-fbc-dae-dbt:CapitalLease",
+      "localName": "CapitalLease",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/CapitalLease",
+      "label": "capital lease",
+      "definition": "lease that must be reflected on an organization's balance sheet as an asset and as a corresponding liability",
+      "parents": [
+        "lease"
+      ],
+      "rules": []
+    },
+    {
+      "name": "collateral",
+      "technicalName": "fibo-fbc-dae-dbt:Collateral",
+      "localName": "Collateral",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/Collateral",
+      "label": "collateral",
+      "definition": "something pledged as security to ensure fulfillment of an obligation to another party, to lend money, extend credit, or provision securities",
+      "parents": [
+        "cmns-pts:Undergoer"
+      ],
+      "rules": [
+        {
+          "property": "is collateralization of",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-oac-own:Asset"
+        }
+      ]
+    },
+    {
+      "name": "collateral value as of date",
+      "technicalName": "fibo-fbc-dae-dbt:CollateralValueAsOfDate",
+      "localName": "CollateralValueAsOfDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/CollateralValueAsOfDate",
+      "label": "collateral value as of date",
+      "definition": "appraised value of the collateral for an obligation as of a given date",
+      "parents": [
+        "fibo-fnd-arr-asmt:AppraisedValue"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-asmt:isEstimatedValueOf",
+          "operator": "some",
+          "value": "collateral",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-asmt:hasDateOfAssessment",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "committed credit facility",
+      "technicalName": "fibo-fbc-dae-dbt:CommittedCreditFacility",
+      "localName": "CommittedCreditFacility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/CommittedCreditFacility",
+      "label": "committed credit facility",
+      "definition": "credit facility that is a confirmed source of financing for the borrower, as long as the borrower meets the conditions of the agreement",
+      "parents": [
+        "credit facility"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "committed sub-facility"
+        }
+      ]
+    },
+    {
+      "name": "committed sub-facility",
+      "technicalName": "fibo-fbc-dae-dbt:CommittedSubFacility",
+      "localName": "CommittedSubFacility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/CommittedSubFacility",
+      "label": "committed sub-facility",
+      "definition": "contractually committed portion of a credit facility that is available to the borrower and may be associated with some specific collateral",
+      "parents": [
+        "sub-facility"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isConstituentOf",
+          "operator": "some",
+          "value": "committed credit facility",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit agreement",
+      "technicalName": "fibo-fbc-dae-dbt:CreditAgreement",
+      "localName": "CreditAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/CreditAgreement",
+      "label": "credit agreement",
+      "definition": "contractual agreement in which a debtor receives something of value and typically agrees to repay the creditor by some date in the future, in some form (e.g., cash, securities, etc.), generally with interest",
+      "parents": [
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "debt terms",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractParty",
+          "operator": "some",
+          "value": "debtor",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractParty",
+          "operator": "some",
+          "value": "creditor",
+          "qualifier": null
+        },
+        {
+          "property": "has maturity date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "has initial exchange date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-agr-ctr:UseOfProceedsProvision"
+        },
+        {
+          "property": "fibo-fnd-acc-cur:hasCurrency",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:Currency"
+        },
+        {
+          "property": "is collateralized by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "collateral"
+        }
+      ]
+    },
+    {
+      "name": "credit agreement repaid at maturity",
+      "technicalName": "fibo-fbc-dae-dbt:CreditAgreementRepaidAtMaturity",
+      "localName": "CreditAgreementRepaidAtMaturity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/CreditAgreementRepaidAtMaturity",
+      "label": "credit agreement repaid at maturity",
+      "definition": "credit agreement in which accrued interest may be periodically repaid or paid at maturity, but principal is paid at maturity",
+      "parents": [
+        "credit agreement"
+      ],
+      "rules": [
+        {
+          "property": "has maturity date",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit agreement repaid periodically",
+      "technicalName": "fibo-fbc-dae-dbt:CreditAgreementRepaidPeriodically",
+      "localName": "CreditAgreementRepaidPeriodically",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/CreditAgreementRepaidPeriodically",
+      "label": "credit agreement repaid periodically",
+      "definition": "credit agreement in which the principal and accrued interest may be periodically repaid or exchanged",
+      "parents": [
+        "credit agreement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit enhancement agreement",
+      "technicalName": "fibo-fbc-dae-dbt:CreditEnhancementAgreement",
+      "localName": "CreditEnhancementAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/CreditEnhancementAgreement",
+      "label": "credit enhancement agreement",
+      "definition": "collateral agreement that governs the exchange of collateral between parties to mitigate counterparty credit risk",
+      "parents": [
+        "fibo-fnd-agr-ctr:CollateralAgreement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:ContractPrincipal",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasBeneficiary",
+          "operator": "some",
+          "value": "credit enhancement beneficiary",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit enhancement beneficiary",
+      "technicalName": "fibo-fbc-dae-dbt:CreditEnhancementBeneficiary",
+      "localName": "CreditEnhancementBeneficiary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/CreditEnhancementBeneficiary",
+      "label": "credit enhancement beneficiary",
+      "definition": "party that benefits from the collateral or guarantee established under the agreement, i.e., that is protected against counterparty credit risk because the collateral or guarantee serves as security for the obligation(s) owed to them",
+      "parents": [
+        "fibo-fnd-agr-agr:Beneficiary",
+        "fibo-fnd-agr-ctr:Counterparty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit enhancement agreement"
+        }
+      ]
+    },
+    {
+      "name": "credit facility",
+      "technicalName": "fibo-fbc-dae-dbt:CreditFacility",
+      "localName": "CreditFacility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/CreditFacility",
+      "label": "credit facility",
+      "definition": "credit agreement that allows the borrower to periodically take out money over an extended period of time rather than reapplying for a loan every time they need funds",
+      "parents": [
+        "credit agreement repaid periodically"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-acc-cur:hasMonetaryAmount",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryAmount",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-agr-ctr:ConditionPrecedent"
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "sub-facility"
+        }
+      ]
+    },
+    {
+      "name": "creditor",
+      "technicalName": "fibo-fbc-dae-dbt:Creditor",
+      "localName": "Creditor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/Creditor",
+      "label": "creditor",
+      "definition": "a party to whom an obligation, such as an amount of money, or good, or performance of some service exists",
+      "parents": [
+        "fibo-fnd-agr-agr:Obligee"
+      ],
+      "rules": [
+        {
+          "property": "is owed",
+          "operator": "some",
+          "value": "debt",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "day-count convention",
+      "technicalName": "fibo-fbc-dae-dbt:DayCountConvention",
+      "localName": "DayCountConvention",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/DayCountConvention",
+      "label": "day-count convention",
+      "definition": "a business recurrence interval convention that is used to calculate the number of days in an interest payment, which applies to the amount of accrued interest or the present value for debt instruments",
+      "parents": [
+        "fibo-fnd-dt-bd:BusinessRecurrenceIntervalConvention",
+        "cmns-qtu:Expression"
+      ],
+      "rules": []
+    },
+    {
+      "name": "debt",
+      "technicalName": "fibo-fbc-dae-dbt:Debt",
+      "localName": "Debt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/Debt",
+      "label": "debt",
+      "definition": "obligation to pay something, such as an amount of money, good, service, or instrument",
+      "parents": [
+        "fibo-fnd-agr-agr:Commitment"
+      ],
+      "rules": [
+        {
+          "property": "is owed to",
+          "operator": "some",
+          "value": "creditor",
+          "qualifier": null
+        },
+        {
+          "property": "is owed by",
+          "operator": "some",
+          "value": "debtor",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "debt terms",
+      "technicalName": "fibo-fbc-dae-dbt:DebtTerms",
+      "localName": "DebtTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/DebtTerms",
+      "label": "debt terms",
+      "definition": "contract terms that specify the formal rights and obligations of borrower and lender under a contract in which funds are lent from the one party to the other",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractualCommitment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "debtor",
+      "technicalName": "fibo-fbc-dae-dbt:Debtor",
+      "localName": "Debtor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/Debtor",
+      "label": "debtor",
+      "definition": "a party that owes a debt or other obligation to another party",
+      "parents": [
+        "fibo-fnd-agr-agr:Obligor"
+      ],
+      "rules": [
+        {
+          "property": "owes",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "debt"
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "explicit contract event schedule",
+      "technicalName": "fibo-fbc-dae-dbt:ExplicitContractEventSchedule",
+      "localName": "ExplicitContractEventSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/ExplicitContractEventSchedule",
+      "label": "explicit contract event schedule",
+      "definition": "schedule of events, including but not limited to payment events, rate reset events and others that will occur over the lifetime of the credit agreement",
+      "parents": [
+        "fibo-fnd-dt-fd:AdHocSchedule"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "credit agreement",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fixed interest rate",
+      "technicalName": "fibo-fbc-dae-dbt:FixedInterestRate",
+      "localName": "FixedInterestRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/FixedInterestRate",
+      "label": "fixed interest rate",
+      "definition": "interest rate that does not fluctuate over the lifetime of a loan or other debt instrument",
+      "parents": [
+        "fibo-fnd-acc-cur:InterestRate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "floating interest rate",
+      "technicalName": "fibo-fbc-dae-dbt:FloatingInterestRate",
+      "localName": "FloatingInterestRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/FloatingInterestRate",
+      "label": "floating interest rate",
+      "definition": "variable interest rate that is based on a specific index or benchmark rate",
+      "parents": [
+        "variable interest rate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "full amortization",
+      "technicalName": "fibo-fbc-dae-dbt:FullAmortization",
+      "localName": "FullAmortization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/FullAmortization",
+      "label": "full amortization",
+      "definition": "amortization in which the very last payment (which, if the schedule was calculated correctly, should be equal to all others) pays off all remaining principal and interest on the loan",
+      "parents": [
+        "amortization"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interest",
+      "technicalName": "fibo-fbc-dae-dbt:Interest",
+      "localName": "Interest",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/Interest",
+      "label": "interest",
+      "definition": "the cost of using credit, or another's money, expressed as a rate per period of time, payable by a debtor to a creditor in consideration of the credit extended to the debtor",
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ],
+      "rules": [
+        {
+          "property": "is interest on",
+          "operator": "some",
+          "value": "debt",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dt:hasDatePeriod",
+          "operator": "only",
+          "value": "cmns-dt:DatePeriod",
+          "qualifier": null
+        },
+        {
+          "property": "has interest rate",
+          "operator": "only",
+          "value": "fibo-fnd-acc-cur:InterestRate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "interest calculation",
+      "technicalName": "fibo-fbc-dae-dbt:InterestCalculation",
+      "localName": "InterestCalculation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/InterestCalculation",
+      "label": "interest calculation",
+      "definition": "event reflecting the calculation of interest",
+      "parents": [
+        "fibo-fbc-pas-fpas:ContractLifecycleEventOccurrence",
+        "fibo-fnd-dt-oc:Calculation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-acc-cur:hasMonetaryAmount",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "has interest rate",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:InterestRate"
+        }
+      ]
+    },
+    {
+      "name": "interest calculation schedule",
+      "technicalName": "fibo-fbc-dae-dbt:InterestCalculationSchedule",
+      "localName": "InterestCalculationSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/InterestCalculationSchedule",
+      "label": "interest calculation schedule",
+      "definition": "regular, contract-specific schedule including the dates on which interest is calculated",
+      "parents": [
+        "projected contract event schedule"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-oc:hasOccurrence",
+          "operator": "some",
+          "value": "interest calculation",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "interest payment",
+      "technicalName": "fibo-fbc-dae-dbt:InterestPayment",
+      "localName": "InterestPayment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/InterestPayment",
+      "label": "interest payment",
+      "definition": "event reflecting the actual payment of interest",
+      "parents": [
+        "fibo-fnd-pas-psch:Payment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interest payment schedule",
+      "technicalName": "fibo-fbc-dae-dbt:InterestPaymentSchedule",
+      "localName": "InterestPaymentSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/InterestPaymentSchedule",
+      "label": "interest payment schedule",
+      "definition": "regular, contract-specific schedule including the dates on which interest is due to be paid",
+      "parents": [
+        "projected contract event schedule",
+        "fibo-fnd-pas-psch:PaymentSchedule"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-oc:hasOccurrence",
+          "operator": "some",
+          "value": "interest payment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "interest payment terms",
+      "technicalName": "fibo-fbc-dae-dbt:InterestPaymentTerms",
+      "localName": "InterestPaymentTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/InterestPaymentTerms",
+      "label": "interest payment terms",
+      "definition": "contract terms for payment of interest on a debt",
+      "parents": [
+        "debt terms"
+      ],
+      "rules": [
+        {
+          "property": "governs payment of",
+          "operator": "some",
+          "value": "interest",
+          "qualifier": null
+        },
+        {
+          "property": "has initial interest payment date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "has initial interest accrual date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "has interest payment frequency",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-dt-fd:RecurrenceInterval"
+        },
+        {
+          "property": "has compounding frequency",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-dt-fd:RecurrenceInterval"
+        },
+        {
+          "property": "has interest payment day",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-dt-bd:DayOfMonth"
+        },
+        {
+          "property": "has interest rate cap",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:InterestRate"
+        },
+        {
+          "property": "has interest rate",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:InterestRate"
+        },
+        {
+          "property": "has accrual basis",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "day-count convention"
+        }
+      ]
+    },
+    {
+      "name": "interest rate reset",
+      "technicalName": "fibo-fbc-dae-dbt:InterestRateReset",
+      "localName": "InterestRateReset",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/InterestRateReset",
+      "label": "interest rate reset",
+      "definition": "event reflecting a potential adjustment to an interest rate, typically corresponding to a change in the underlying benchmark interest rate or index specified in the contract",
+      "parents": [
+        "interest calculation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interest rate reset schedule",
+      "technicalName": "fibo-fbc-dae-dbt:InterestRateResetSchedule",
+      "localName": "InterestRateResetSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/InterestRateResetSchedule",
+      "label": "interest rate reset schedule",
+      "definition": "regular, contract-specific schedule including the dates on which a rate reset, and corresponding actual rate, is recalculated",
+      "parents": [
+        "projected contract event schedule"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-oc:hasOccurrence",
+          "operator": "some",
+          "value": "interest rate reset",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "interest rate setting event",
+      "technicalName": "fibo-fbc-dae-dbt:InterestRateSettingEvent",
+      "localName": "InterestRateSettingEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/InterestRateSettingEvent",
+      "label": "interest rate setting event",
+      "definition": "event on which an initial rate for a given contract is set, which may be relative the the occurrence of some other contract lifecycle event, such as the execution date",
+      "parents": [
+        "interest calculation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "lease",
+      "technicalName": "fibo-fbc-dae-dbt:Lease",
+      "localName": "Lease",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/Lease",
+      "label": "lease",
+      "definition": "credit agreement permitting the use of real estate, equipment or another asset, such as a vehicle, by the owner of that asset (the lessor) to a user (the lessee) for a specific period of time in return for payment as specified in the agreement",
+      "parents": [
+        "credit agreement repaid periodically"
+      ],
+      "rules": []
+    },
+    {
+      "name": "lender",
+      "technicalName": "fibo-fbc-dae-dbt:Lender",
+      "localName": "Lender",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/Lender",
+      "label": "lender",
+      "definition": "a party that extends credit or money to a borrower with the expectation of being repaid, usually with interest",
+      "parents": [
+        "creditor",
+        "fibo-fnd-agr-ctr:ContractParty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "credit agreement",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "managed interest rate",
+      "technicalName": "fibo-fbc-dae-dbt:ManagedInterestRate",
+      "localName": "ManagedInterestRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/ManagedInterestRate",
+      "label": "managed interest rate",
+      "definition": "variable interest rate charged by a financial institution for borrowing that is not prescribed as a margin over base rate but is set from time to time by the institution",
+      "parents": [
+        "variable interest rate"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "some",
+          "value": "fibo-fbc-pas-fpas:FinancialServiceProvider",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "motor vehicle lease",
+      "technicalName": "fibo-fbc-dae-dbt:MotorVehicleLease",
+      "localName": "MotorVehicleLease",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/MotorVehicleLease",
+      "label": "motor vehicle lease",
+      "definition": "lease of a motor vehicle for a fixed period of time at an agreed amount of money",
+      "parents": [
+        "lease"
+      ],
+      "rules": []
+    },
+    {
+      "name": "negative amortization",
+      "technicalName": "fibo-fbc-dae-dbt:NegativeAmortization",
+      "localName": "NegativeAmortization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/NegativeAmortization",
+      "label": "negative amortization",
+      "definition": "amortization in which the payments made do not cover the interest due",
+      "parents": [
+        "amortization"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non-physical collateral",
+      "technicalName": "fibo-fbc-dae-dbt:NonPhysicalCollateral",
+      "localName": "NonPhysicalCollateral",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/NonPhysicalCollateral",
+      "label": "non-physical collateral",
+      "definition": "asset pledged as collateral that is a financial asset, rather than physical asset",
+      "parents": [
+        "collateral"
+      ],
+      "rules": [
+        {
+          "property": "is collateralization of",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-oac-own:FinancialAsset"
+        }
+      ]
+    },
+    {
+      "name": "partial amortization",
+      "technicalName": "fibo-fbc-dae-dbt:PartialAmortization",
+      "localName": "PartialAmortization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/PartialAmortization",
+      "label": "partial amortization",
+      "definition": "amortization in which the very last payment the last payment due may be a large balloon payment of all remaining principal and interest",
+      "parents": [
+        "amortization"
+      ],
+      "rules": []
+    },
+    {
+      "name": "physical collateral",
+      "technicalName": "fibo-fbc-dae-dbt:PhysicalCollateral",
+      "localName": "PhysicalCollateral",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/PhysicalCollateral",
+      "label": "physical collateral",
+      "definition": "asset pledged as collateral that has a material form, i.e., is a physical asset of the obligor",
+      "parents": [
+        "collateral"
+      ],
+      "rules": [
+        {
+          "property": "is collateralization of",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-oac-own:PhysicalAsset"
+        }
+      ]
+    },
+    {
+      "name": "principal",
+      "technicalName": "fibo-fbc-dae-dbt:Principal",
+      "localName": "Principal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/Principal",
+      "label": "principal",
+      "definition": "with respect to a debt: the value of an obligation, such as a bond or loan, raised and that must be repaid at maturity; for investments: the original amount of money invested, separate from any associated interest, dividends or capital gains",
+      "parents": [
+        "cmns-cls:Aspect"
+      ],
+      "rules": [
+        {
+          "property": "is principal of",
+          "operator": "some",
+          "value": "debt",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "principal payment",
+      "technicalName": "fibo-fbc-dae-dbt:PrincipalPayment",
+      "localName": "PrincipalPayment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/PrincipalPayment",
+      "label": "principal payment",
+      "definition": "event reflecting the actual payment of some amount of the principal of a debt",
+      "parents": [
+        "fibo-fnd-pas-psch:Payment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "principal payment schedule",
+      "technicalName": "fibo-fbc-dae-dbt:PrincipalPaymentSchedule",
+      "localName": "PrincipalPaymentSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/PrincipalPaymentSchedule",
+      "label": "principal payment schedule",
+      "definition": "regular, contract-specific schedule including the dates on which some percentage or all of the principal is due to be (re)paid",
+      "parents": [
+        "projected contract event schedule",
+        "fibo-fnd-pas-psch:PaymentSchedule"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-oc:hasOccurrence",
+          "operator": "some",
+          "value": "principal payment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "principal repayment terms",
+      "technicalName": "fibo-fbc-dae-dbt:PrincipalRepaymentTerms",
+      "localName": "PrincipalRepaymentTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/PrincipalRepaymentTerms",
+      "label": "principal repayment terms",
+      "definition": "contract terms that specify requirements for repayment of the principal",
+      "parents": [
+        "debt terms"
+      ],
+      "rules": [
+        {
+          "property": "governs payment of",
+          "operator": "some",
+          "value": "principal",
+          "qualifier": null
+        },
+        {
+          "property": "has principal repayment date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "has initial principal payment date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "has principal payment frequency",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-dt-fd:RecurrenceInterval"
+        },
+        {
+          "property": "has principal payment day",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-dt-bd:DayOfMonth"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasExtensionProvision",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-agr-ctr:ExtensionProvision"
+        }
+      ]
+    },
+    {
+      "name": "projected contract event schedule",
+      "technicalName": "fibo-fbc-dae-dbt:ProjectedContractEventSchedule",
+      "localName": "ProjectedContractEventSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/ProjectedContractEventSchedule",
+      "label": "projected contract event schedule",
+      "definition": "schedule of events, including but not limited to anticipated payment events, rate reset events and others that are expected to occur over the lifetime of the contract",
+      "parents": [
+        "fibo-fnd-dt-fd:RegularSchedule"
+      ],
+      "rules": [
+        {
+          "property": "has anticipated number of payments",
+          "operator": "some",
+          "value": "xsd:positiveInteger",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit agreement"
+        }
+      ]
+    },
+    {
+      "name": "rate reset time of day",
+      "technicalName": "fibo-fbc-dae-dbt:RateResetTimeOfDay",
+      "localName": "RateResetTimeOfDay",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/RateResetTimeOfDay",
+      "label": "rate reset time of day",
+      "definition": "time of day that an interest rate is reset, as indicated by some interest rate authority or market data provider",
+      "parents": [
+        "cmns-dt:TimeOfDay"
+      ],
+      "rules": [
+        {
+          "property": "cmns-loc:hasBusinessCenter",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-loc:BusinessCenter"
+        }
+      ]
+    },
+    {
+      "name": "retail credit facility",
+      "technicalName": "fibo-fbc-dae-dbt:RetailCreditFacility",
+      "localName": "RetailCreditFacility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/RetailCreditFacility",
+      "label": "retail credit facility",
+      "definition": "credit facility that is a loan or line of credit used by retailers and real estate companies",
+      "parents": [
+        "committed credit facility"
+      ],
+      "rules": []
+    },
+    {
+      "name": "revolving line of credit",
+      "technicalName": "fibo-fbc-dae-dbt:RevolvingLineOfCredit",
+      "localName": "RevolvingLineOfCredit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/RevolvingLineOfCredit",
+      "label": "revolving line of credit",
+      "definition": "credit facility that enables the borrower to withdraw funds, repay, and withdraw again",
+      "parents": [
+        "committed credit facility"
+      ],
+      "rules": [
+        {
+          "property": "is collateralized by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "collateral"
+        }
+      ]
+    },
+    {
+      "name": "security agreement",
+      "technicalName": "fibo-fbc-dae-dbt:SecurityAgreement",
+      "localName": "SecurityAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/SecurityAgreement",
+      "label": "security agreement",
+      "definition": "collateral agreement that grants a financial interest in some collateral to a party that is not an owner of that collateral, specifying terms including relative duties and rights, over and above those specified in the primary contract, regarding the disposition of the asset used as collateral",
+      "parents": [
+        "fibo-fnd-agr-ctr:CollateralAgreement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "sub-facility",
+      "technicalName": "fibo-fbc-dae-dbt:SubFacility",
+      "localName": "SubFacility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/SubFacility",
+      "label": "sub-facility",
+      "definition": "portion of a credit facility extended to the borrower for some purpose, possibly per some schedule specified in the facility",
+      "parents": [
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-acc-cur:hasMonetaryAmount",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryAmount",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isConstituentOf",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "credit facility"
+        }
+      ]
+    },
+    {
+      "name": "uncommitted credit facility",
+      "technicalName": "fibo-fbc-dae-dbt:UncommittedCreditFacility",
+      "localName": "UncommittedCreditFacility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/UncommittedCreditFacility",
+      "label": "uncommitted credit facility",
+      "definition": "credit facility that has yet to be confirmed as a source of financing for the borrower",
+      "parents": [
+        "credit facility"
+      ],
+      "rules": []
+    },
+    {
+      "name": "uncommitted sub-facility",
+      "technicalName": "fibo-fbc-dae-dbt:UncommittedSubFacility",
+      "localName": "UncommittedSubFacility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/UncommittedSubFacility",
+      "label": "uncommitted sub-facility",
+      "definition": "sub-facility that has yet to be confirmed as a source of financing for the borrower",
+      "parents": [
+        "sub-facility"
+      ],
+      "rules": []
+    },
+    {
+      "name": "variable interest rate",
+      "technicalName": "fibo-fbc-dae-dbt:VariableInterestRate",
+      "localName": "VariableInterestRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/VariableInterestRate",
+      "label": "variable interest rate",
+      "definition": "an interest rate that is allowed to vary over the maturity of a loan or other debt instrument",
+      "parents": [
+        "fibo-fnd-acc-cur:InterestRate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "collateralized guaranty",
+      "technicalName": "fibo-fbc-dae-gty:CollateralizedGuaranty",
+      "localName": "CollateralizedGuaranty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/CollateralizedGuaranty",
+      "label": "collateralized guaranty",
+      "definition": "guaranty that takes the form of some asset that is pledged by a borrower to a lender (usually in return for a loan)",
+      "parents": [
+        "guaranty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isCollateralizedBy",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:Collateral",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "government guaranty",
+      "technicalName": "fibo-fbc-dae-gty:GovernmentGuaranty",
+      "localName": "GovernmentGuaranty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/GovernmentGuaranty",
+      "label": "government guaranty",
+      "definition": "guaranty provided by a government entity, such as for a government-backed security",
+      "parents": [
+        "guaranty"
+      ],
+      "rules": [
+        {
+          "property": "is guaranteed by",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-be-ge-ge:Polity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "guarantor",
+      "technicalName": "fibo-fbc-dae-gty:Guarantor",
+      "localName": "Guarantor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/Guarantor",
+      "label": "guarantor",
+      "definition": "party that guarantees, endorses, or provides indemnity for some obligation on behalf of some other party",
+      "parents": [
+        "fibo-be-oac-cpty:DeJureControllingInterestParty",
+        "fibo-fnd-agr-ctr:ContractThirdParty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:Contract",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "guaranty",
+      "technicalName": "fibo-fbc-dae-gty:Guaranty",
+      "localName": "Guaranty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/Guaranty",
+      "label": "guaranty",
+      "definition": "commitment whereby something is formally assured if a party with primary liability fails to perform",
+      "parents": [
+        "fibo-fnd-agr-agr:Commitment"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:holdsDuring",
+          "operator": "only",
+          "value": "cmns-dt:DatePeriod",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-doc:hasExpirationDate",
+          "operator": "only",
+          "value": "cmns-dt:Date",
+          "qualifier": null
+        },
+        {
+          "property": "has guaranteed amount",
+          "operator": "only",
+          "value": "fibo-fnd-acc-cur:MonetaryAmount",
+          "qualifier": null
+        },
+        {
+          "property": "has priority level",
+          "operator": "only",
+          "value": "priority level",
+          "qualifier": null
+        },
+        {
+          "property": "is guaranteed by",
+          "operator": "only",
+          "value": "guarantor",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "insurance-backed guaranty",
+      "technicalName": "fibo-fbc-dae-gty:InsuranceBackedGuaranty",
+      "localName": "InsuranceBackedGuaranty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/InsuranceBackedGuaranty",
+      "label": "insurance-backed guaranty",
+      "definition": "guaranty that is realized as an insurance policy",
+      "parents": [
+        "guaranty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isExemplifiedBy",
+          "operator": "some",
+          "value": "insurance policy",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "insurance policy",
+      "technicalName": "fibo-fbc-dae-gty:InsurancePolicy",
+      "localName": "InsurancePolicy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/InsurancePolicy",
+      "label": "insurance policy",
+      "definition": "contract that (1) puts an indemnity cover into effect, (2) serves as a legal evidence of the insurance agreement, (3) sets out the exact terms on which the indemnity cover has been provided, and (4) states associated information such as the (a) specific risks and perils covered, (b) duration of coverage, (c) amount of premium, (d) mode of premium payment, and (e) deductibles, if any",
+      "parents": [
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "insurer",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasCounterparty",
+          "operator": "some",
+          "value": "policyholder",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "insurer",
+      "technicalName": "fibo-fbc-dae-gty:Insurer",
+      "localName": "Insurer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/Insurer",
+      "label": "insurer",
+      "definition": "financial service provider that issues an insurance policy",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider",
+        "fibo-fnd-agr-ctr:ContractPrincipal"
+      ],
+      "rules": []
+    },
+    {
+      "name": "joint guaranty",
+      "technicalName": "fibo-fbc-dae-gty:JointGuaranty",
+      "localName": "JointGuaranty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/JointGuaranty",
+      "label": "joint guaranty",
+      "definition": "guaranty provided by at least two parties, jointly and severally",
+      "parents": [
+        "guaranty"
+      ],
+      "rules": [
+        {
+          "property": "is guaranteed by",
+          "operator": "minQualified",
+          "value": "2",
+          "qualifier": "guarantor"
+        }
+      ]
+    },
+    {
+      "name": "letter of credit",
+      "technicalName": "fibo-fbc-dae-gty:LetterOfCredit",
+      "localName": "LetterOfCredit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/LetterOfCredit",
+      "label": "letter of credit",
+      "definition": "letter from a bank or other creditworthy institution guaranteeing that a buyer's payment to a seller will be received on time and for the correct amount",
+      "parents": [
+        "fibo-fbc-dae-dbt:CommittedCreditFacility"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:FinancialAsset",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "cmns-pts:PartyRole",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "letter of credit guaranty",
+      "technicalName": "fibo-fbc-dae-gty:LetterOfCreditGuaranty",
+      "localName": "LetterOfCreditGuaranty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/LetterOfCreditGuaranty",
+      "label": "letter of credit guaranty",
+      "definition": "guaranty that takes the form of a letter of credit, i.e., a document issued by a bank guaranteeing the payment up to a stated amount for a specified period",
+      "parents": [
+        "collateralized guaranty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isExemplifiedBy",
+          "operator": "some",
+          "value": "letter of credit",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "negative pledge",
+      "technicalName": "fibo-fbc-dae-gty:NegativePledge",
+      "localName": "NegativePledge",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/NegativePledge",
+      "label": "negative pledge",
+      "definition": "guaranty whereby the issuer will not pledge any assets if doing so would result in less security for lender(s) or investor(s)",
+      "parents": [
+        "guaranty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "policyholder",
+      "technicalName": "fibo-fbc-dae-gty:Policyholder",
+      "localName": "Policyholder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/Policyholder",
+      "label": "policyholder",
+      "definition": "counterparty to and typically owner of an insurance policy",
+      "parents": [
+        "fibo-fnd-agr-ctr:Counterparty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "priority level",
+      "technicalName": "fibo-fbc-dae-gty:PriorityLevel",
+      "localName": "PriorityLevel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/PriorityLevel",
+      "label": "priority level",
+      "definition": "relative ranking that a guaranty has in the context of a contract, for example for a credit enhancement priority",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has default interest compounding basis",
+      "technicalName": "fibo-fbc-dae-cre:hasDefaultInterestCompoundingBasis",
+      "localName": "hasDefaultInterestCompoundingBasis",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/hasDefaultInterestCompoundingBasis",
+      "label": "has default interest compounding basis",
+      "definition": "indicates the basis on which default interest is to be calculated, as a period of time",
+      "domain": [
+        "interest obligation in light of default"
+      ],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has default threshold amount",
+      "technicalName": "fibo-fbc-dae-cre:hasDefaultThresholdAmount",
+      "localName": "hasDefaultThresholdAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/hasDefaultThresholdAmount",
+      "label": "has default threshold amount",
+      "definition": "specifies an amount of money that triggers a failure to pay, repudiation/moratorium or restructuring event",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has grace period",
+      "technicalName": "fibo-fbc-dae-cre:hasGracePeriod",
+      "localName": "hasGracePeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/hasGracePeriod",
+      "label": "has grace period",
+      "definition": "window following any payment due date during which a party must fulfill its obligations before a failure to pay credit event occurs",
+      "domain": [],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "concerns party",
+      "technicalName": "fibo-fbc-dae-crt:concernsParty",
+      "localName": "concernsParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/concernsParty",
+      "label": "concerns party",
+      "definition": "indicates the party for which something is being or has been requested",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has coverage period",
+      "technicalName": "fibo-fbc-dae-crt:hasCoveragePeriod",
+      "localName": "hasCoveragePeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/hasCoveragePeriod",
+      "label": "has coverage period",
+      "definition": "relates something (e.g. a credit report or insurance policy) to the specific time period that it covers",
+      "domain": [],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "watch direction",
+      "technicalName": "fibo-fbc-dae-crt:hasWatchDirection",
+      "localName": "hasWatchDirection",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/hasWatchDirection",
+      "label": "watch direction",
+      "definition": "indicates direction in which an investment credit rating is expected to move in cases where that rating is on watch",
+      "domain": [
+        "investment credit rating"
+      ],
+      "range": [
+        "credit watch direction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "watch outlook",
+      "technicalName": "fibo-fbc-dae-crt:hasWatchOutlook",
+      "localName": "hasWatchOutlook",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/hasWatchOutlook",
+      "label": "watch outlook",
+      "definition": "indicates the expected outlook for the rated entity",
+      "domain": [
+        "investment credit rating"
+      ],
+      "range": [
+        "credit watch outlook"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "governs payment of",
+      "technicalName": "fibo-fbc-dae-dbt:governsPaymentOf",
+      "localName": "governsPaymentOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/governsPaymentOf",
+      "label": "governs payment of",
+      "definition": "links contractual terms embedded in a contract, such as interest or repayment terms to the element those terms apply to",
+      "domain": [
+        "debt terms"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has accrual basis",
+      "technicalName": "fibo-fbc-dae-dbt:hasAccrualBasis",
+      "localName": "hasAccrualBasis",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasAccrualBasis",
+      "label": "has accrual basis",
+      "definition": "identifies the convention that defines how interest accrues on something, that is the number of days in a month and days in a year that are counted when performing interest accrual calculations",
+      "domain": [],
+      "range": [
+        "day-count convention"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has amount of credit extended",
+      "technicalName": "fibo-fbc-dae-dbt:hasAmountOfCreditExtended",
+      "localName": "hasAmountOfCreditExtended",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasAmountOfCreditExtended",
+      "label": "has amount of credit extended",
+      "definition": "specifies the gross amount of credit that has been provided to the borrower as of a given point in time with respect to a specific agreement (e.g. for line of credit)",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has available amount",
+      "technicalName": "fibo-fbc-dae-dbt:hasAvailableAmount",
+      "localName": "hasAvailableAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasAvailableAmount",
+      "label": "has available amount",
+      "definition": "indicates an amount of money available for an individual or organization to borrow",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has borrower",
+      "technicalName": "fibo-fbc-dae-dbt:hasBorrower",
+      "localName": "hasBorrower",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasBorrower",
+      "label": "has borrower",
+      "definition": "relates a contract, such as a debt instrument or credit agreement, to one or more parties that are incurring the debt",
+      "domain": [],
+      "range": [
+        "borrower"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has compounding frequency",
+      "technicalName": "fibo-fbc-dae-dbt:hasCompoundingFrequency",
+      "localName": "hasCompoundingFrequency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasCompoundingFrequency",
+      "label": "has compounding frequency",
+      "definition": "the frequency at which interest is added to the principal of the debt over the course of the agreement",
+      "domain": [],
+      "range": [
+        "fibo-fnd-dt-fd:RecurrenceInterval"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has credit limit",
+      "technicalName": "fibo-fbc-dae-dbt:hasCreditLimit",
+      "localName": "hasCreditLimit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasCreditLimit",
+      "label": "has credit limit",
+      "definition": "specifies the maximum amount of credit that may be borrowed with respect to a specific agreement (e.g. for line of credit)",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has debt amount",
+      "technicalName": "fibo-fbc-dae-dbt:hasDebtAmount",
+      "localName": "hasDebtAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasDebtAmount",
+      "label": "has debt amount",
+      "definition": "indicates the monetary amount of the debt",
+      "domain": [
+        "credit agreement"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has denomination",
+      "technicalName": "fibo-fbc-dae-dbt:hasDenomination",
+      "localName": "hasDenomination",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasDenomination",
+      "label": "has denomination",
+      "definition": "the face value of currency units, coins, or securities",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has final interest payment date",
+      "technicalName": "fibo-fbc-dae-dbt:hasFinalInterestPaymentDate",
+      "localName": "hasFinalInterestPaymentDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasFinalInterestPaymentDate",
+      "label": "has final interest payment date",
+      "definition": "the date on which the last interest payment is due",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has initial exchange date",
+      "technicalName": "fibo-fbc-dae-dbt:hasInitialExchangeDate",
+      "localName": "hasInitialExchangeDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasInitialExchangeDate",
+      "label": "has initial exchange date",
+      "definition": "indicates the specific date when the initial exchange of assets or funds takes place",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has initial interest accrual date",
+      "technicalName": "fibo-fbc-dae-dbt:hasInitialInterestAccrualDate",
+      "localName": "hasInitialInterestAccrualDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasInitialInterestAccrualDate",
+      "label": "has initial interest accrual date",
+      "definition": "the date from which interest begins to accrue",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has initial interest payment date",
+      "technicalName": "fibo-fbc-dae-dbt:hasInitialInterestPaymentDate",
+      "localName": "hasInitialInterestPaymentDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasInitialInterestPaymentDate",
+      "label": "has initial interest payment date",
+      "definition": "the date on which the first interest payment is due",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has initial principal payment date",
+      "technicalName": "fibo-fbc-dae-dbt:hasInitialPrincipalPaymentDate",
+      "localName": "hasInitialPrincipalPaymentDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasInitialPrincipalPaymentDate",
+      "label": "has initial principal payment date",
+      "definition": "the date on which the first payment against the principal is due",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has interest payment day",
+      "technicalName": "fibo-fbc-dae-dbt:hasInterestPaymentDay",
+      "localName": "hasInterestPaymentDay",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasInterestPaymentDay",
+      "label": "has interest payment day",
+      "definition": "the day of the month on which interest payments must be made on the debt",
+      "domain": [],
+      "range": [
+        "fibo-fnd-dt-fd:RecurrenceInterval"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has interest payment frequency",
+      "technicalName": "fibo-fbc-dae-dbt:hasInterestPaymentFrequency",
+      "localName": "hasInterestPaymentFrequency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasInterestPaymentFrequency",
+      "label": "has interest payment frequency",
+      "definition": "the frequency at which interest payments must be made on the debt",
+      "domain": [],
+      "range": [
+        "fibo-fnd-dt-fd:RecurrenceInterval"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has interest rate",
+      "technicalName": "fibo-fbc-dae-dbt:hasInterestRate",
+      "localName": "hasInterestRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasInterestRate",
+      "label": "has interest rate",
+      "definition": "relates something, such as an agreement, or debt instrument, to the rate (typically annual) of interest that is to be paid by the debtor to the creditor on the debt",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:InterestRate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has interest rate cap",
+      "technicalName": "fibo-fbc-dae-dbt:hasInterestRateCap",
+      "localName": "hasInterestRateCap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasInterestRateCap",
+      "label": "has interest rate cap",
+      "definition": "relates something, such as an agreement, or debt instrument, to the upper bound (ceiling) rate (typically annual) of interest on variable-rate debt that is to be paid by the debtor to the creditor on the debt",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:InterestRate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has lender",
+      "technicalName": "fibo-fbc-dae-dbt:hasLender",
+      "localName": "hasLender",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasLender",
+      "label": "has lender",
+      "definition": "relates a contract, such as a debt instrument or credit agreement, to one or more parties that are financing the debt",
+      "domain": [],
+      "range": [
+        "lender"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has maturity date",
+      "technicalName": "fibo-fbc-dae-dbt:hasMaturityDate",
+      "localName": "hasMaturityDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasMaturityDate",
+      "label": "has maturity date",
+      "definition": "indicates the date on which the principal amount of an instrument is due to be repaid to the investor and interest or coupon payments stop, and/or the date on which the instrument may be redeemed",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has maximum advance amount",
+      "technicalName": "fibo-fbc-dae-dbt:hasMaximumAdvanceAmount",
+      "localName": "hasMaximumAdvanceAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasMaximumAdvanceAmount",
+      "label": "has maximum advance amount",
+      "definition": "specifies the ceiling on the amount of credit that can be drawn by the borrower in a single request with respect to a specific agreement (e.g. for line of credit) within the specified credit limit",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has time to maturity",
+      "technicalName": "fibo-fbc-dae-dbt:hasOriginalTimeToMaturity",
+      "localName": "hasOriginalTimeToMaturity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasOriginalTimeToMaturity",
+      "label": "has time to maturity",
+      "definition": "indicates the lifespan of credit agreement or offering, from the date of issuance to the scheduled maturity date",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDuration"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has outstanding amount",
+      "technicalName": "fibo-fbc-dae-dbt:hasOutstandingAmount",
+      "localName": "hasOutstandingAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasOutstandingAmount",
+      "label": "has outstanding amount",
+      "definition": "indicates an amount of money representing the principal, interest, or other amount owed at a specific point in time",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has principal",
+      "technicalName": "fibo-fbc-dae-dbt:hasPrincipal",
+      "localName": "hasPrincipal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasPrincipal",
+      "label": "has principal",
+      "definition": "indicates the face value of an obligation, such as a bond or loan, that must be repaid at maturity, i.e., the base amount raised by a mortgage or other debt instrument",
+      "domain": [],
+      "range": [
+        "principal"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has principal payment day",
+      "technicalName": "fibo-fbc-dae-dbt:hasPrincipalPaymentDay",
+      "localName": "hasPrincipalPaymentDay",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasPrincipalPaymentDay",
+      "label": "has principal payment day",
+      "definition": "the day of the month on which payments on the principal must be made",
+      "domain": [],
+      "range": [
+        "fibo-fnd-dt-fd:RecurrenceInterval"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has principal payment frequency",
+      "technicalName": "fibo-fbc-dae-dbt:hasPrincipalPaymentFrequency",
+      "localName": "hasPrincipalPaymentFrequency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasPrincipalPaymentFrequency",
+      "label": "has principal payment frequency",
+      "definition": "the frequency at which payments on the principal must be made",
+      "domain": [],
+      "range": [
+        "fibo-fnd-dt-fd:RecurrenceInterval"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has principal repayment date",
+      "technicalName": "fibo-fbc-dae-dbt:hasPrincipalRepaymentDate",
+      "localName": "hasPrincipalRepaymentDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasPrincipalRepaymentDate",
+      "label": "has principal repayment date",
+      "definition": "relates an instrument to the date by which the principal must be repaid in full",
+      "domain": [
+        "principal repayment terms"
+      ],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is amortization of",
+      "technicalName": "fibo-fbc-dae-dbt:isAmortizationOf",
+      "localName": "isAmortizationOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/isAmortizationOf",
+      "label": "is amortization of",
+      "definition": "links the process of reduction of debt or other costs through periodic charges to the relevant asset or liability",
+      "domain": [
+        "amortization"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is based on",
+      "technicalName": "fibo-fbc-dae-dbt:isBasedOn",
+      "localName": "isBasedOn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/isBasedOn",
+      "label": "is based on",
+      "definition": "relates something to something else on which it rests, or that supports it in some way",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is collateralization of",
+      "technicalName": "fibo-fbc-dae-dbt:isCollateralizationOf",
+      "localName": "isCollateralizationOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/isCollateralizationOf",
+      "label": "is collateralization of",
+      "definition": "relates some collateral to an agreement pledging the asset as security",
+      "domain": [
+        "collateral"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is collateralized by",
+      "technicalName": "fibo-fbc-dae-dbt:isCollateralizedBy",
+      "localName": "isCollateralizedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/isCollateralizedBy",
+      "label": "is collateralized by",
+      "definition": "relates an agreement to an asset pledged as security",
+      "domain": [],
+      "range": [
+        "collateral"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is interest on",
+      "technicalName": "fibo-fbc-dae-dbt:isInterestOn",
+      "localName": "isInterestOn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/isInterestOn",
+      "label": "is interest on",
+      "definition": "links a monetary amount that is the cost of using credit to the debt that it applies to",
+      "domain": [
+        "interest"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is owed",
+      "technicalName": "fibo-fbc-dae-dbt:isOwed",
+      "localName": "isOwed",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/isOwed",
+      "label": "is owed",
+      "definition": "links a creditor to a debt that is outstanding and payable to them",
+      "domain": [
+        "creditor"
+      ],
+      "range": [
+        "debt"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is owed by",
+      "technicalName": "fibo-fbc-dae-dbt:isOwedBy",
+      "localName": "isOwedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/isOwedBy",
+      "label": "is owed by",
+      "definition": "links a debt to the party that owes it",
+      "domain": [
+        "debt"
+      ],
+      "range": [
+        "debtor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is owed to",
+      "technicalName": "fibo-fbc-dae-dbt:isOwedTo",
+      "localName": "isOwedTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/isOwedTo",
+      "label": "is owed to",
+      "definition": "links a debt to the party to which it is payable",
+      "domain": [
+        "debt"
+      ],
+      "range": [
+        "creditor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is principal of",
+      "technicalName": "fibo-fbc-dae-dbt:isPrincipalOf",
+      "localName": "isPrincipalOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/isPrincipalOf",
+      "label": "is principal of",
+      "definition": "links the value of a debt, excluding any interest or other costs of using credit, to the debt that it applies to",
+      "domain": [
+        "principal"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "owes",
+      "technicalName": "fibo-fbc-dae-dbt:owes",
+      "localName": "owes",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/owes",
+      "label": "owes",
+      "definition": "links a party to a debt that they owe",
+      "domain": [
+        "debtor"
+      ],
+      "range": [
+        "debt"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has guaranteed amount",
+      "technicalName": "fibo-fbc-dae-gty:hasGuaranteedAmount",
+      "localName": "hasGuaranteedAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/hasGuaranteedAmount",
+      "label": "has guaranteed amount",
+      "definition": "relates the guaranty to the monetary amount guaranteed",
+      "domain": [
+        "guaranty"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has guarantor",
+      "technicalName": "fibo-fbc-dae-gty:hasGuarantor",
+      "localName": "hasGuarantor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/hasGuarantor",
+      "label": "has guarantor",
+      "definition": "relates the guarantor to the contract for which they are providing a guaranty",
+      "domain": [
+        "fibo-fnd-agr-ctr:Contract"
+      ],
+      "range": [
+        "guarantor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has guarantor party",
+      "technicalName": "fibo-fbc-dae-gty:hasGuarantorParty",
+      "localName": "hasGuarantorParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/hasGuarantorParty",
+      "label": "has guarantor party",
+      "definition": "indicates a party that guarantees, endorses, or provides indemnity for some obligation on its behalf",
+      "domain": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ],
+      "range": [
+        "guarantor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has priority level",
+      "technicalName": "fibo-fbc-dae-gty:hasPriorityLevel",
+      "localName": "hasPriorityLevel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/hasPriorityLevel",
+      "label": "has priority level",
+      "definition": "relates a guaranty to some relative ranking that the guaranty has in the context of the contract, for example for a credit enhancement priority",
+      "domain": [
+        "guaranty"
+      ],
+      "range": [
+        "priority level"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is guaranteed by",
+      "technicalName": "fibo-fbc-dae-gty:isGuaranteedBy",
+      "localName": "isGuaranteedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/isGuaranteedBy",
+      "label": "is guaranteed by",
+      "definition": "relates guaranty to the contract guarantor, i.e., to the legal person providing the guaranty",
+      "domain": [
+        "guaranty"
+      ],
+      "range": [
+        "guarantor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is guarantor of",
+      "technicalName": "fibo-fbc-dae-gty:isGuarantorOf",
+      "localName": "isGuarantorOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/isGuarantorOf",
+      "label": "is guarantor of",
+      "definition": "identifies a party over which a guarantor has some measure of control by virtue of the guarantee",
+      "domain": [
+        "guarantor"
+      ],
+      "range": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "involves multiple events",
+      "technicalName": "fibo-fbc-dae-cre:involvesMultipleEvents",
+      "localName": "involvesMultipleEvents",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/involvesMultipleEvents",
+      "label": "involves multiple events",
+      "definition": "indicates that the restructuring spans more than one credit event",
+      "domain": [
+        "obligation restructuring"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is default interest applicable",
+      "technicalName": "fibo-fbc-dae-cre:isDefaultInterestApplicable",
+      "localName": "isDefaultInterestApplicable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/isDefaultInterestApplicable",
+      "label": "is default interest applicable",
+      "definition": "indicates whether a party that defaults in the performance of any payment obligation is, to the extent permitted by law and the applicable agreement, required to pay interest (before as well as after judgment) on the overdue amount to the other party on demand in the same currency as such overdue amount, for the period from (and including) the original due date for payment to (but excluding) the date of actual payment",
+      "domain": [
+        "interest obligation in light of default"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is grace period extendable",
+      "technicalName": "fibo-fbc-dae-cre:isGracePeriodExtendable",
+      "localName": "isGracePeriodExtendable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/isGracePeriodExtendable",
+      "label": "is grace period extendable",
+      "definition": "indicates whether or not the grace period may be extended, which may be jurisdiction specific",
+      "domain": [],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has anticipated number of payments",
+      "technicalName": "fibo-fbc-dae-dbt:hasAnticipatedNumberOfPayments",
+      "localName": "hasAnticipatedNumberOfPayments",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/hasAnticipatedNumberOfPayments",
+      "label": "has anticipated number of payments",
+      "definition": "specifies the number of payments promised per the terms of the contract over the lifetime of the contract assuming all payments are made",
+      "domain": [],
+      "range": [
+        "xsd:positiveInteger"
+      ]
+    }
+  ]
+}

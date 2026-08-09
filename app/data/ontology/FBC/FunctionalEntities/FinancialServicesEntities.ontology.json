@@ -1,0 +1,1084 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FBC\\FunctionalEntities\\FinancialServicesEntities.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+  "summary": {
+    "nodes": 58,
+    "edges": 6,
+    "properties": 0,
+    "triples": 653
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/PaymentsAndSchedules/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualIdentifiers/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegistrationAuthorities/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/",
+    "https://www.omg.org/spec/LCC/Countries/CountryRepresentation/"
+  ],
+  "classes": [
+    {
+      "name": "bank",
+      "technicalName": "fibo-fbc-fct-fse:Bank",
+      "localName": "Bank",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/Bank",
+      "label": "bank",
+      "definition": "depository institution, usually a corporation, that accepts deposits, makes loans, pays checks, and performs related services, for individual members of the public, businesses or other organizations",
+      "parents": [
+        "depository institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "bank holding company",
+      "technicalName": "fibo-fbc-fct-fse:BankHoldingCompany",
+      "localName": "BankHoldingCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/BankHoldingCompany",
+      "label": "bank holding company",
+      "definition": "any company that owns and/or has direct or indirect control of one or more banks; BHCs may also own nonbanking subsidiaries such as broker-dealers and asset managers",
+      "parents": [
+        "holding company",
+        "fibo-fbc-pas-fpas:FinancialServiceProvider"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-cb:Corporation"
+        }
+      ]
+    },
+    {
+      "name": "banking product",
+      "technicalName": "fibo-fbc-fct-fse:BankingProduct",
+      "localName": "BankingProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/BankingProduct",
+      "label": "banking product",
+      "definition": "product provided to consumers and businesses by a depository institution",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialProduct"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "depository institution",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "banking service",
+      "technicalName": "fibo-fbc-fct-fse:BankingService",
+      "localName": "BankingService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/BankingService",
+      "label": "banking service",
+      "definition": "financial service offered by a depository institution",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialService"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "depository institution",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "brokerage firm",
+      "technicalName": "fibo-fbc-fct-fse:BrokerageFirm",
+      "localName": "BrokerageFirm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/BrokerageFirm",
+      "label": "brokerage firm",
+      "definition": "firm in the business of buying and selling securities, operating as both a broker and a dealer, depending on the transaction",
+      "parents": [
+        "non-depository institution",
+        "fibo-fbc-pas-fpas:BrokerDealer"
+      ],
+      "rules": []
+    },
+    {
+      "name": "business identifier code",
+      "technicalName": "fibo-fbc-fct-fse:BusinessIdentifierCode",
+      "localName": "BusinessIdentifierCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/BusinessIdentifierCode",
+      "label": "business identifier code",
+      "definition": "international identifier for financial and non-financial institutions used to facilitate automated processing of information for financial services",
+      "parents": [
+        "cmns-cds:CodeElement",
+        "cmns-cxtid:StructuredIdentifier",
+        "cmns-org:OrganizationIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "some",
+          "value": "business identifier code scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "lcc-cr:Alpha2Code"
+        },
+        {
+          "property": "cmns-dsg:denotes",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:FormalOrganization"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "business party suffix"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "business party prefix"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-org:OrganizationSubUnitIdentifier"
+        }
+      ]
+    },
+    {
+      "name": "business identifier code scheme",
+      "technicalName": "fibo-fbc-fct-fse:BusinessIdentifierCodeScheme",
+      "localName": "BusinessIdentifierCodeScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/BusinessIdentifierCodeScheme",
+      "label": "business identifier code scheme",
+      "definition": "scheme that specifies the elements of a unique business identifier code (BIC) scheme to identify financial and non-financial institutions used to facilitate automated processing of information for financial services",
+      "parents": [
+        "cmns-cds:CodeSet",
+        "cmns-org:OrganizationIdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "business identifier code",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "business party prefix",
+      "technicalName": "fibo-fbc-fct-fse:BusinessPartyPrefix",
+      "localName": "BusinessPartyPrefix",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/BusinessPartyPrefix",
+      "label": "business party prefix",
+      "definition": "four-character (4 alphanumeric) code associated with an organization for the purposes of banking telecommunications",
+      "parents": [
+        "cmns-cds:CodeElement",
+        "cmns-org:OrganizationIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "business identifier code scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "business identifier code"
+        }
+      ]
+    },
+    {
+      "name": "business party suffix",
+      "technicalName": "fibo-fbc-fct-fse:BusinessPartySuffix",
+      "localName": "BusinessPartySuffix",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/BusinessPartySuffix",
+      "label": "business party suffix",
+      "definition": "two-character (2 alphanumeric) code associated with the organization for the purposes of banking telecommunications",
+      "parents": [
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "business identifier code scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "some",
+          "value": "business identifier code",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "central bank",
+      "technicalName": "fibo-fbc-fct-fse:CentralBank",
+      "localName": "CentralBank",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/CentralBank",
+      "label": "central bank",
+      "definition": "financial institution that is the monetary authority and major regulatory bank for a country (or group of countries)",
+      "parents": [
+        "bank",
+        "monetary authority"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "fibo-be-ge-ge:Instrumentality",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "central counterparty clearing house",
+      "technicalName": "fibo-fbc-fct-fse:CentralCounterpartyClearingHouse",
+      "localName": "CentralCounterpartyClearingHouse",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/CentralCounterpartyClearingHouse",
+      "label": "central counterparty clearing house",
+      "definition": "clearing house that helps facilitate trading in derivatives and equities markets",
+      "parents": [
+        "clearing house"
+      ],
+      "rules": []
+    },
+    {
+      "name": "central securities depository",
+      "technicalName": "fibo-fbc-fct-fse:CentralSecuritiesDepository",
+      "localName": "CentralSecuritiesDepository",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/CentralSecuritiesDepository",
+      "label": "central securities depository",
+      "definition": "functional entity that provides a central point for depositing financial instruments ('securities'), for example, bonds and shares",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "clearing bank",
+      "technicalName": "fibo-fbc-fct-fse:ClearingBank",
+      "localName": "ClearingBank",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/ClearingBank",
+      "label": "clearing bank",
+      "definition": "commercial bank that facilitates payment and settlement of financial transactions, such as check clearing or facilitating trades between the sellers and buyers of securities or other financial instruments or contracts",
+      "parents": [
+        "clearing house",
+        "commercial bank"
+      ],
+      "rules": []
+    },
+    {
+      "name": "clearing corporation",
+      "technicalName": "fibo-fbc-fct-fse:ClearingCorporation",
+      "localName": "ClearingCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/ClearingCorporation",
+      "label": "clearing corporation",
+      "definition": "clearing house that is organized as a corporation",
+      "parents": [
+        "clearing house"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-cb:Corporation"
+        }
+      ]
+    },
+    {
+      "name": "clearing house",
+      "technicalName": "fibo-fbc-fct-fse:ClearingHouse",
+      "localName": "ClearingHouse",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/ClearingHouse",
+      "label": "clearing house",
+      "definition": "financial service provider that is exchange affiliated and provides clearing services, including the validation, delivery, and settlement of financial transactions, for financial intermediaries",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:provides",
+          "operator": "some",
+          "value": "clearing service",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "clearing service",
+      "technicalName": "fibo-fbc-fct-fse:ClearingService",
+      "localName": "ClearingService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/ClearingService",
+      "label": "clearing service",
+      "definition": "service provided on behalf of an institutional market participant by a clearing services provider following a trade that finalizes the transfer of security ownership",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialService"
+      ],
+      "rules": []
+    },
+    {
+      "name": "commercial bank",
+      "technicalName": "fibo-fbc-fct-fse:CommercialBank",
+      "localName": "CommercialBank",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/CommercialBank",
+      "label": "commercial bank",
+      "definition": "depository institution that engages in various financial services, such as accepting deposits and making loans",
+      "parents": [
+        "bank"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-cb:Corporation"
+        }
+      ]
+    },
+    {
+      "name": "commercial finance company",
+      "technicalName": "fibo-fbc-fct-fse:CommercialFinanceCompany",
+      "localName": "CommercialFinanceCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/CommercialFinanceCompany",
+      "label": "commercial finance company",
+      "definition": "finance company that makes loans to manufacturers and wholesalers, secured by accounts receivable, inventories, and equipment",
+      "parents": [
+        "finance company"
+      ],
+      "rules": []
+    },
+    {
+      "name": "commodity trading advisor",
+      "technicalName": "fibo-fbc-fct-fse:CommodityTradingAdvisor",
+      "localName": "CommodityTradingAdvisor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/CommodityTradingAdvisor",
+      "label": "commodity trading advisor",
+      "definition": "party that directly or indirectly advises others as to the value or advisability of buying or selling futures contracts or options",
+      "parents": [
+        "non-depository institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consumer finance company",
+      "technicalName": "fibo-fbc-fct-fse:ConsumerFinanceCompany",
+      "localName": "ConsumerFinanceCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/ConsumerFinanceCompany",
+      "label": "consumer finance company",
+      "definition": "finance company that lends to individuals under the small loans laws of the jurisdiction in which they operate",
+      "parents": [
+        "finance company"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contractual savings institution",
+      "technicalName": "fibo-fbc-fct-fse:ContractualSavingsInstitution",
+      "localName": "ContractualSavingsInstitution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/ContractualSavingsInstitution",
+      "label": "contractual savings institution",
+      "definition": "financial institution that provides the opportunity for individuals to invest in collective investment vehicles in a fiduciary rather than a principle role",
+      "parents": [
+        "fibo-be-oac-opty:Investor",
+        "non-depository institution"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        }
+      ]
+    },
+    {
+      "name": "credit union",
+      "technicalName": "fibo-fbc-fct-fse:CreditUnion",
+      "localName": "CreditUnion",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/CreditUnion",
+      "label": "credit union",
+      "definition": "not-for-profit depository institution that makes personal loans and offers other consumer banking services, organized for the purpose of promoting thrift among its members and creating a source of credit for provident or productive purposes",
+      "parents": [
+        "fibo-be-fct-fct:CooperativeSociety",
+        "depository institution"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-fbo:NotForProfitOrganization"
+        }
+      ]
+    },
+    {
+      "name": "data processing service",
+      "technicalName": "fibo-fbc-fct-fse:DataProcessingService",
+      "localName": "DataProcessingService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/DataProcessingService",
+      "label": "data processing service",
+      "definition": "financial service offered by an entity primarily engaged in providing infrastructure for hosting or data processing services",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialService"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "data processing servicer",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "data processing servicer",
+      "technicalName": "fibo-fbc-fct-fse:DataProcessingServicer",
+      "localName": "DataProcessingServicer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/DataProcessingServicer",
+      "label": "data processing servicer",
+      "definition": "finance services provider primarily engaged in providing infrastructure for hosting or data processing services",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "depository institution",
+      "technicalName": "fibo-fbc-fct-fse:DepositoryInstitution",
+      "localName": "DepositoryInstitution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/DepositoryInstitution",
+      "label": "depository institution",
+      "definition": "any financial institution engaged in the business of receiving demand deposits from the public or other institutions",
+      "parents": [
+        "financial institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "development bank",
+      "technicalName": "fibo-fbc-fct-fse:DevelopmentBank",
+      "localName": "DevelopmentBank",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/DevelopmentBank",
+      "label": "development bank",
+      "definition": "national or regional financial institution designed to provide medium- and long-term capital for productive investment, often accompanied by technical assistance, in poor countries",
+      "parents": [
+        "financial institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "electronic funds transfer service",
+      "technicalName": "fibo-fbc-fct-fse:ElectronicFundsTransferService",
+      "localName": "ElectronicFundsTransferService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/ElectronicFundsTransferService",
+      "label": "electronic funds transfer service",
+      "definition": "service involving any transfer of funds other than a transaction involving a paper instrument, that is initiated through an electronic terminal, telephone, or computer and that orders or authorizes a financial institution to debit or credit an account",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialService"
+      ],
+      "rules": []
+    },
+    {
+      "name": "face amount certificate company",
+      "technicalName": "fibo-fbc-fct-fse:FaceAmountCertificateCompany",
+      "localName": "FaceAmountCertificateCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/FaceAmountCertificateCompany",
+      "label": "face amount certificate company",
+      "definition": "investment company which is engaged or proposes to engage in the business of issuing face-amount certificates of the installment type, or which has been engaged in such business and has any such certificate outstanding",
+      "parents": [
+        "investment company"
+      ],
+      "rules": []
+    },
+    {
+      "name": "finance company",
+      "technicalName": "fibo-fbc-fct-fse:FinanceCompany",
+      "localName": "FinanceCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/FinanceCompany",
+      "label": "finance company",
+      "definition": "financial intermediary in the business of making loans that obtains its financing from banks, institutions, and other money market sources rather than from deposits",
+      "parents": [
+        "non-depository institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "financial institution",
+      "technicalName": "fibo-fbc-fct-fse:FinancialInstitution",
+      "localName": "FinancialInstitution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/FinancialInstitution",
+      "label": "financial institution",
+      "definition": "financial service provider identified as either a government agency or privately owned entity that collects funds from the public and from other institutions, and invests those funds in financial assets, such as loans, securities, bank deposits, and income-generating property",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isRegulatedBy",
+          "operator": "some",
+          "value": "cmns-rga:RegulatoryAgency",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:provides",
+          "operator": "some",
+          "value": "fibo-fbc-pas-fpas:FinancialService",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "financial service provider identifier",
+      "technicalName": "fibo-fbc-fct-fse:FinancialServiceProviderIdentifier",
+      "localName": "FinancialServiceProviderIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/FinancialServiceProviderIdentifier",
+      "label": "financial service provider identifier",
+      "definition": "identifier that is officially allocated to a financial service provider based on a function that they provide, typically in a jurisdiction over which a regulatory agency has some jurisdiction",
+      "parents": [
+        "fibo-fnd-pty-pty:PartyRoleIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-pas-fpas:FinancialServiceProvider"
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "financial service provider identifier scheme"
+        },
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-rga:Jurisdiction"
+        }
+      ]
+    },
+    {
+      "name": "financial service provider identifier scheme",
+      "technicalName": "fibo-fbc-fct-fse:FinancialServiceProviderIdentifierScheme",
+      "localName": "FinancialServiceProviderIdentifierScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/FinancialServiceProviderIdentifierScheme",
+      "label": "financial service provider identifier scheme",
+      "definition": "scheme that defines the financial service provider identifier per the issuing registration authority or regulatory agency",
+      "parents": [
+        "cmns-id:IdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "financial service provider identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "futures commission merchant",
+      "technicalName": "fibo-fbc-fct-fse:FuturesCommissionMerchant",
+      "localName": "FuturesCommissionMerchant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/FuturesCommissionMerchant",
+      "label": "futures commission merchant",
+      "definition": "party that does both of the following: (1) solicits or accepts orders to buy or sell futures contracts, options on futures, retail off-exchange forex contracts, or swaps and (2) accepts money or other assets from customers to support such orders",
+      "parents": [
+        "non-depository institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "holding company",
+      "technicalName": "fibo-fbc-fct-fse:HoldingCompany",
+      "localName": "HoldingCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/HoldingCompany",
+      "label": "holding company",
+      "definition": "business entity established to own stock in another company, typically to own enough voting shares to have some level of control over that company's policies and management",
+      "parents": [
+        "fibo-be-fct-fct:FunctionalBusinessEntity"
+      ],
+      "rules": [
+        {
+          "property": "has portfolio company",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-oac-cpty:ControlledParty"
+        }
+      ]
+    },
+    {
+      "name": "insurance company",
+      "technicalName": "fibo-fbc-fct-fse:InsuranceCompany",
+      "localName": "InsuranceCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/InsuranceCompany",
+      "label": "insurance company",
+      "definition": "non-depository institution whose primary and predominant business activity is the writing of insurance or the reinsuring of risks underwritten by insurance companies, and that provides compensation based on the happening of at least one contingency",
+      "parents": [
+        "risk pooling institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "insurance service",
+      "technicalName": "fibo-fbc-fct-fse:InsuranceService",
+      "localName": "InsuranceService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/InsuranceService",
+      "label": "insurance service",
+      "definition": "financial service in which the insurer promises to provide compensation for specific potential future losses in exchange for a periodic payment",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialService"
+      ],
+      "rules": []
+    },
+    {
+      "name": "investment bank",
+      "technicalName": "fibo-fbc-fct-fse:InvestmentBank",
+      "localName": "InvestmentBank",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/InvestmentBank",
+      "label": "investment bank",
+      "definition": "financial service provider that acts as an underwriter or agent that serves as intermediary between the issuer of securities and the investing public",
+      "parents": [
+        "financial institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "investment company",
+      "technicalName": "fibo-fbc-fct-fse:InvestmentCompany",
+      "localName": "InvestmentCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/InvestmentCompany",
+      "label": "investment company",
+      "definition": "any issuer which: (a) is or holds itself out as being engaged primarily, or proposes to engage primarily, in the business of investing, reinvesting, or trading in securities; (b) is engaged or proposes to engage in the business of issuing face-amount certificates of the installment type, or has been engaged in such business and has any such certificate outstanding; or (c) is engaged or proposes to engage in the business of investing, reinvesting, owning, holding, or trading in securities, and owns or proposes to acquire investment securities having a value exceeding 40 per centum of the value of such issuer&apos;s total assets (exclusive of Government securities and cash items) on an unconsolidated basis",
+      "parents": [
+        "non-depository institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "investment service",
+      "technicalName": "fibo-fbc-fct-fse:InvestmentService",
+      "localName": "InvestmentService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/InvestmentService",
+      "label": "investment service",
+      "definition": "financial service designed to assist investors in using capital to create more money, either through income-producing vehicles or through more risk-oriented ventures to result in capital gains, including but not limited to providing investment advice, asset and portfolio management, and brokerage services",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialService"
+      ],
+      "rules": []
+    },
+    {
+      "name": "management company",
+      "technicalName": "fibo-fbc-fct-fse:ManagementCompany",
+      "localName": "ManagementCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/ManagementCompany",
+      "label": "management company",
+      "definition": "investment company that sells and manages a portfolio of securities other than a face-amount certificate company or unit investment fund",
+      "parents": [
+        "investment company"
+      ],
+      "rules": []
+    },
+    {
+      "name": "merchant service",
+      "technicalName": "fibo-fbc-fct-fse:MerchantService",
+      "localName": "MerchantService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/MerchantService",
+      "label": "merchant service",
+      "definition": "financial service provided by a financial institution to a merchant or other business, including but not limited to managing financial transactions via a secure channel",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialService"
+      ],
+      "rules": []
+    },
+    {
+      "name": "monetary authority",
+      "technicalName": "fibo-fbc-fct-fse:MonetaryAuthority",
+      "localName": "MonetaryAuthority",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/MonetaryAuthority",
+      "label": "monetary authority",
+      "definition": "regulatory agency that controls the monetary policy, regulation and supply of money in some country or group of countries",
+      "parents": [
+        "cmns-rga:RegulatoryAgency"
+      ],
+      "rules": [
+        {
+          "property": "regulates supply of",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:Currency",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "money services business",
+      "technicalName": "fibo-fbc-fct-fse:MoneyServicesBusiness",
+      "localName": "MoneyServicesBusiness",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/MoneyServicesBusiness",
+      "label": "money services business",
+      "definition": "any person doing business, whether or not on a regular basis or as an organized business concern, in one of the following capacities: (1) currency dealer or exchanger, (2) check casher, (3) issuer of traveler's checks, money orders, or stored value, (4) seller or redeemer of traveler's checks, money orders, or stored value, (5) money transmitter, or (6) postal service",
+      "parents": [
+        "non-depository institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "mortgage company",
+      "technicalName": "fibo-fbc-fct-fse:MortgageCompany",
+      "localName": "MortgageCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/MortgageCompany",
+      "label": "mortgage company",
+      "definition": "financial service provider that originates and/or funds mortgages for residential or commercial property",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non-depository institution",
+      "technicalName": "fibo-fbc-fct-fse:NonDepositoryInstitution",
+      "localName": "NonDepositoryInstitution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/NonDepositoryInstitution",
+      "label": "non-depository institution",
+      "definition": "financial institution that does not have a full banking license and typically is not supervised by a national or international banking regulatory agency",
+      "parents": [
+        "financial institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "payment service",
+      "technicalName": "fibo-fbc-fct-fse:PaymentService",
+      "localName": "PaymentService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/PaymentService",
+      "label": "payment service",
+      "definition": "financial service that involves acceptance of electronic payments by a variety of payment methods including credit card, bank-based payments such as direct debit, bank transfer, and real-time bank transfer based on online banking",
+      "parents": [
+        "merchant service"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:involves",
+          "operator": "some",
+          "value": "fibo-fnd-pas-psch:PaymentObligation",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "payroll service",
+      "technicalName": "fibo-fbc-fct-fse:PayrollService",
+      "localName": "PayrollService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/PayrollService",
+      "label": "payroll service",
+      "definition": "financial service, typically provided to small businesses that are not large enough to have an internal finance organization, that involves managing payment of wages to employees",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialService"
+      ],
+      "rules": []
+    },
+    {
+      "name": "principal underwriter",
+      "technicalName": "fibo-fbc-fct-fse:PrincipalUnderwriter",
+      "localName": "PrincipalUnderwriter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/PrincipalUnderwriter",
+      "label": "principal underwriter",
+      "definition": "underwriter who, as principal, purchases from an investment company, or pursuant to some contract has the right to purchase from such company, any security for distribution, or who as agent for such company sells or has the right to sell any security to a dealer or to the public, excluding any dealer who purchases from such company through sn underwriter acting as an agent for such company",
+      "parents": [
+        "underwriter"
+      ],
+      "rules": []
+    },
+    {
+      "name": "registered investment advisor",
+      "technicalName": "fibo-fbc-fct-fse:RegisteredInvestmentAdvisor",
+      "localName": "RegisteredInvestmentAdvisor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/RegisteredInvestmentAdvisor",
+      "label": "registered investment advisor",
+      "definition": "registered agent and financial service provider that advises high net worth individuals on investments and manages their portfolios",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider",
+        "fibo-fbc-pas-fpas:RegisteredAgent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-oac-cpty:advises",
+          "operator": "some",
+          "value": "fibo-be-oac-cpty:ControlledParty",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "risk pooling institution",
+      "technicalName": "fibo-fbc-fct-fse:RiskPoolingInstitution",
+      "localName": "RiskPoolingInstitution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/RiskPoolingInstitution",
+      "label": "risk pooling institution",
+      "definition": "financial institution that provides some financial service while spreading the financial risk inherent in that service to lower the probability of a catastrophic financial event by aggregating customers across diverse dimensions as a risk management practice",
+      "parents": [
+        "non-depository institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "sales finance company",
+      "technicalName": "fibo-fbc-fct-fse:SalesFinanceCompany",
+      "localName": "SalesFinanceCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/SalesFinanceCompany",
+      "label": "sales finance company",
+      "definition": "finance company that purchases retail and wholesale paper from automobile and other consumer and commercial goods dealers",
+      "parents": [
+        "finance company"
+      ],
+      "rules": []
+    },
+    {
+      "name": "savings association",
+      "technicalName": "fibo-fbc-fct-fse:SavingsAssociation",
+      "localName": "SavingsAssociation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/SavingsAssociation",
+      "label": "savings association",
+      "definition": "depository institution that is (a) any federal savings bank or association chartered under section 1464 of the Federal Deposit Insurance Act; (b) any state chartered building and loan association, savings and loan association, or homestead association; or (c) any cooperative bank (other than a cooperative bank which is a state bank as defined in subsection (a)(2)) of the Federal Deposit Insurance Act, which is organized and operating according to the laws of the State (as defined in subsection (a)(3)) in which it is chartered or organized; and (c) any corporation (other than a bank) that the board of directors and the comptroller of the currency jointly determine to be operating in substantially the same manner as such a depository institution",
+      "parents": [
+        "depository institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "self-regulating organization",
+      "technicalName": "fibo-fbc-fct-fse:SelfRegulatingOrganization",
+      "localName": "SelfRegulatingOrganization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/SelfRegulatingOrganization",
+      "label": "self-regulating organization",
+      "definition": "non-governmental organization that has the power to create and exercise some degree of regulatory authority over an industry or profession in some country or group of countries",
+      "parents": [
+        "cmns-rga:RegulatoryAgency"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-be-le-fbo:NonGovernmentalOrganization",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trust company",
+      "technicalName": "fibo-fbc-fct-fse:TrustCompany",
+      "localName": "TrustCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/TrustCompany",
+      "label": "trust company",
+      "definition": "financial institution that acts as a fiduciary, trustee or agent of trusts and agencies",
+      "parents": [
+        "financial institution"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-cb:Corporation"
+        }
+      ]
+    },
+    {
+      "name": "underwriter",
+      "technicalName": "fibo-fbc-fct-fse:Underwriter",
+      "localName": "Underwriter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/Underwriter",
+      "label": "underwriter",
+      "definition": "financial service provider that evaluates and assumes another party's risk for a fee, such as a commission, premium, spread or interest",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "underwriting arrangement",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "underwriting arrangement",
+      "technicalName": "fibo-fbc-fct-fse:UnderwritingArrangement",
+      "localName": "UnderwritingArrangement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/UnderwritingArrangement",
+      "label": "underwriting arrangement",
+      "definition": "written contract between parties that commits the underwriter to assuming risk",
+      "parents": [
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "underwriter",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "unit investment trust",
+      "technicalName": "fibo-fbc-fct-fse:UnitInvestmentTrust",
+      "localName": "UnitInvestmentTrust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/UnitInvestmentTrust",
+      "label": "unit investment trust",
+      "definition": "investment company which (a) is organized under a trust indenture, contract of custodianship or agency, or similar instrument, (b) does not have a board of directors, and (c) issues only redeemable securities, each of which represents an undivided interest in a unit of specified securities; but does not include a voting trust",
+      "parents": [
+        "investment company"
+      ],
+      "rules": []
+    },
+    {
+      "name": "wealth management service",
+      "technicalName": "fibo-fbc-fct-fse:WealthManagementService",
+      "localName": "WealthManagementService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/WealthManagementService",
+      "label": "wealth management service",
+      "definition": "financial service that combines financial and investment advice, accounting and tax services, retirement planning and legal or estate planning for one set fee",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialService"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has date established",
+      "technicalName": "fibo-fbc-fct-fse:hasDateEstablished",
+      "localName": "hasDateEstablished",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/hasDateEstablished",
+      "label": "has date established",
+      "definition": "the date that the financial service provider was formally established",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has date establishment terminated",
+      "technicalName": "fibo-fbc-fct-fse:hasDateEstablishmentTerminated",
+      "localName": "hasDateEstablishmentTerminated",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/hasDateEstablishmentTerminated",
+      "label": "has date establishment terminated",
+      "definition": "last full day that the entity existed",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has date insured",
+      "technicalName": "fibo-fbc-fct-fse:hasDateInsured",
+      "localName": "hasDateInsured",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/hasDateInsured",
+      "label": "has date insured",
+      "definition": "date on which insurance became effective",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has portfolio company",
+      "technicalName": "fibo-fbc-fct-fse:hasPortfolioCompany",
+      "localName": "hasPortfolioCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/hasPortfolioCompany",
+      "label": "has portfolio company",
+      "definition": "indicates a party in which a venture capital firm, a buyout firm, or a holding company has invested",
+      "domain": [
+        "fibo-fnd-oac-ctl:ControllingParty"
+      ],
+      "range": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is portfolio company of",
+      "technicalName": "fibo-fbc-fct-fse:isPortfolioCompanyOf",
+      "localName": "isPortfolioCompanyOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/isPortfolioCompanyOf",
+      "label": "is portfolio company of",
+      "definition": "indicates a venture capital firm, a buyout firm, or a holding company that is a financial sponsor (i.e. investor in) of the party",
+      "domain": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ],
+      "range": [
+        "fibo-fnd-oac-ctl:ControllingParty"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "regulates supply of",
+      "technicalName": "fibo-fbc-fct-fse:regulatesSupplyOf",
+      "localName": "regulatesSupplyOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/regulatesSupplyOf",
+      "label": "regulates supply of",
+      "definition": "relates a regulatory agency to something it controls or supervises the availability of in some market by means of rules and regulations",
+      "domain": [
+        "cmns-rga:RegulatoryAgency"
+      ],
+      "range": []
+    }
+  ],
+  "attributes": []
+}

@@ -1,0 +1,1666 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FBC\\ProductsAndServices\\FinancialProductsAndServices.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+  "summary": {
+    "nodes": 53,
+    "edges": 20,
+    "properties": 3,
+    "triples": 1003
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/Analytics/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/BusinessAuthorizations/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/",
+    "https://www.omg.org/spec/Commons/TextDatatype/"
+  ],
+  "classes": [
+    {
+      "name": "agency agreement",
+      "technicalName": "fibo-fbc-pas-fpas:AgencyAgreement",
+      "localName": "AgencyAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/AgencyAgreement",
+      "label": "agency agreement",
+      "definition": "agreement that designates a party as a registered agent to represent and act on behalf of another party in some, typically legal, financial, or medical capacity",
+      "parents": [
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractParty",
+          "operator": "some",
+          "value": "registered agent",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "agent for service of process",
+      "technicalName": "fibo-fbc-pas-fpas:AgentForServiceOfProcess",
+      "localName": "AgentForServiceOfProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/AgentForServiceOfProcess",
+      "label": "agent for service of process",
+      "definition": "registered agent (person or organization) designated by a business entity, such as a corporation, to receive legal correspondence on behalf of the business entity in the jurisdiction in which the agent's address is located",
+      "parents": [
+        "registered agent"
+      ],
+      "rules": []
+    },
+    {
+      "name": "basket",
+      "technicalName": "fibo-fbc-pas-fpas:Basket",
+      "localName": "Basket",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Basket",
+      "label": "basket",
+      "definition": "collection of goods, services, or other things (e.g., financial contracts) that can be purchased and sold in some marketplace",
+      "parents": [
+        "cmns-col:Collection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "basket constituent",
+          "qualifier": null
+        },
+        {
+          "property": "has selection criteria",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "has selecting party",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-pts:Party"
+        }
+      ]
+    },
+    {
+      "name": "basket constituent",
+      "technicalName": "fibo-fbc-pas-fpas:BasketConstituent",
+      "localName": "BasketConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/BasketConstituent",
+      "label": "basket constituent",
+      "definition": "component of a basket",
+      "parents": [
+        "cmns-col:Constituent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isConstituentOf",
+          "operator": "some",
+          "value": "basket",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "broker",
+      "technicalName": "fibo-fbc-pas-fpas:Broker",
+      "localName": "Broker",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Broker",
+      "label": "broker",
+      "definition": "any party that acts as an intermediary between a buyer and a seller, usually charging a commission",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractThirdParty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "broker-dealer",
+      "technicalName": "fibo-fbc-pas-fpas:BrokerDealer",
+      "localName": "BrokerDealer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/BrokerDealer",
+      "label": "broker-dealer",
+      "definition": "any party in the business of buying and selling securities, operating as both a broker and a dealer, depending on the transaction",
+      "parents": [
+        "fibo-be-fct-fct:FunctionalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "catalog",
+      "technicalName": "fibo-fbc-pas-fpas:Catalog",
+      "localName": "Catalog",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Catalog",
+      "label": "catalog",
+      "definition": "publication including a list of products available for sale with their descriptions and possibly prices",
+      "parents": [
+        "fibo-be-fct-pub:Publication"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:describes",
+          "operator": "some",
+          "value": "fibo-fnd-pas-pas:Product",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "only",
+          "value": "cmns-id:Identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "contract lifecycle",
+      "technicalName": "fibo-fbc-pas-fpas:ContractLifecycle",
+      "localName": "ContractLifecycle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ContractLifecycle",
+      "label": "contract lifecycle",
+      "definition": "lifecycle of an agreement, including, but not limited to a credit agreement, financial instrument, or other formal contract, from initial stages through retirement",
+      "parents": [
+        "fibo-fnd-arr-lif:Lifecycle"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "contract lifecycle stage",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-lif:isLifecycleOf",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:Contract",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "contract lifecycle stage",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "contract lifecycle event",
+      "technicalName": "fibo-fbc-pas-fpas:ContractLifecycleEvent",
+      "localName": "ContractLifecycleEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ContractLifecycleEvent",
+      "label": "contract lifecycle event",
+      "definition": "kind of event that occurs during one or more stages of the lifecycle of an agreement",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleEvent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "contract lifecycle stage",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "contract lifecycle event occurrence"
+        },
+        {
+          "property": "cmns-dt:succeeds",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "contract lifecycle event"
+        }
+      ]
+    },
+    {
+      "name": "contract lifecycle event occurrence",
+      "technicalName": "fibo-fbc-pas-fpas:ContractLifecycleEventOccurrence",
+      "localName": "ContractLifecycleEventOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ContractLifecycleEventOccurrence",
+      "label": "contract lifecycle event occurrence",
+      "definition": "actual occurrence of an event during a specific stage of a specific contract lifecycle",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleEventOccurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "contract lifecycle stage occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "contract lifecycle event",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "contract lifecycle event"
+        }
+      ]
+    },
+    {
+      "name": "contract lifecycle occurrence",
+      "technicalName": "fibo-fbc-pas-fpas:ContractLifecycleOccurrence",
+      "localName": "ContractLifecycleOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ContractLifecycleOccurrence",
+      "label": "contract lifecycle occurrence",
+      "definition": "realization of the lifecycle of a specific contract",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleOccurrence"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "contract lifecycle stage occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "contract lifecycle"
+        }
+      ]
+    },
+    {
+      "name": "contract lifecycle stage",
+      "technicalName": "fibo-fbc-pas-fpas:ContractLifecycleStage",
+      "localName": "ContractLifecycleStage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ContractLifecycleStage",
+      "label": "contract lifecycle stage",
+      "definition": "phase in the lifecycle of an agreement",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStage"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "contract lifecycle",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "contract lifecycle event",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:Contract",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-lif:isStageOf",
+          "operator": "some",
+          "value": "contract lifecycle",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dt:succeeds",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "contract lifecycle stage"
+        }
+      ]
+    },
+    {
+      "name": "contract lifecycle stage occurrence",
+      "technicalName": "fibo-fbc-pas-fpas:ContractLifecycleStageOccurrence",
+      "localName": "ContractLifecycleStageOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ContractLifecycleStageOccurrence",
+      "label": "contract lifecycle stage occurrence",
+      "definition": "realization, from start to finish of a phase in an occurrence of a specific contract lifecycle",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStageOccurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "contract lifecycle event occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-lif:isStageOf",
+          "operator": "some",
+          "value": "contract lifecycle occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "contract lifecycle stage"
+        }
+      ]
+    },
+    {
+      "name": "dealer",
+      "technicalName": "fibo-fbc-pas-fpas:Dealer",
+      "localName": "Dealer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Dealer",
+      "label": "dealer",
+      "definition": "any party that purchases goods or services for resale and acts on their own behalf in a transaction",
+      "parents": [
+        "cmns-org:ServiceProvider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exposure",
+      "technicalName": "fibo-fbc-pas-fpas:Exposure",
+      "localName": "Exposure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Exposure",
+      "label": "exposure",
+      "definition": "means by which an individual or organization is unprotected and open to damage, danger, risk of suffering a loss, or uncertainty",
+      "parents": [
+        "cmns-pts:Undergoer"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exposure bearer",
+      "technicalName": "fibo-fbc-pas-fpas:ExposureBearer",
+      "localName": "ExposureBearer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ExposureBearer",
+      "label": "exposure bearer",
+      "definition": "party subject to influence or risk arising from a specific contract, instrument, or arrangement",
+      "parents": [
+        "cmns-pts:Actor"
+      ],
+      "rules": [
+        {
+          "property": "is exposed to",
+          "operator": "some",
+          "value": "exposure",
+          "qualifier": null
+        },
+        {
+          "property": "is exposed party in",
+          "operator": "some",
+          "value": "exposure situation",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "exposure situation",
+      "technicalName": "fibo-fbc-pas-fpas:ExposureSituation",
+      "localName": "ExposureSituation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ExposureSituation",
+      "label": "exposure situation",
+      "definition": "state of affairs in which some party is subject to influence or risk arising from a specific contract, instrument, or arrangement",
+      "parents": [
+        "cmns-pts:Situation"
+      ],
+      "rules": [
+        {
+          "property": "has exposure to",
+          "operator": "some",
+          "value": "exposure",
+          "qualifier": null
+        },
+        {
+          "property": "has exposed party",
+          "operator": "some",
+          "value": "exposure bearer",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "financial exposure",
+      "technicalName": "fibo-fbc-pas-fpas:FinancialExposure",
+      "localName": "FinancialExposure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/FinancialExposure",
+      "label": "financial exposure",
+      "definition": "the extent to which an individual or organization is open to risk of suffering a loss in a transaction, or with respect to some investment or set of investments, e.g., some holding; the amount one stands to lose in that transaction or investment",
+      "parents": [
+        "exposure"
+      ],
+      "rules": []
+    },
+    {
+      "name": "financial intermediation service",
+      "technicalName": "fibo-fbc-pas-fpas:FinancialIntermediationService",
+      "localName": "FinancialIntermediationService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/FinancialIntermediationService",
+      "label": "financial intermediation service",
+      "definition": "any financial service in which a third party (the intermediary) matches lenders and investors with entrepreneurs and other borrowers in need of capital",
+      "parents": [
+        "financial service"
+      ],
+      "rules": []
+    },
+    {
+      "name": "financial product",
+      "technicalName": "fibo-fbc-pas-fpas:FinancialProduct",
+      "localName": "FinancialProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/FinancialProduct",
+      "label": "financial product",
+      "definition": "product provided to consumers and businesses by financial institutions such as banks, insurance companies, brokerage firms, consumer finance companies, and investment companies",
+      "parents": [
+        "fibo-fnd-pas-pas:Product"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "financial service provider",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "financial product catalog",
+      "technicalName": "fibo-fbc-pas-fpas:FinancialProductCatalog",
+      "localName": "FinancialProductCatalog",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/FinancialProductCatalog",
+      "label": "financial product catalog",
+      "definition": "catalog of financial products and/or services available for sale with their description and other product details",
+      "parents": [
+        "catalog"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:describes",
+          "operator": "some",
+          "value": "financial product",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "financial service",
+      "technicalName": "fibo-fbc-pas-fpas:FinancialService",
+      "localName": "FinancialService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/FinancialService",
+      "label": "financial service",
+      "definition": "service provided to consumers and businesses by financial institutions such as banks, insurance companies, brokerage firms, consumer finance companies, and investment companies",
+      "parents": [
+        "cmns-org:Service"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "financial service provider",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "financial service provider",
+      "technicalName": "fibo-fbc-pas-fpas:FinancialServiceProvider",
+      "localName": "FinancialServiceProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/FinancialServiceProvider",
+      "label": "financial service provider",
+      "definition": "functional entity either licensed to provide financial services to consumers and/or businesses or established by law to provide financial services, such as a central bank",
+      "parents": [
+        "fibo-be-fct-fct:FunctionalBusinessEntity",
+        "cmns-org:ServiceProvider"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:provides",
+          "operator": "some",
+          "value": "financial service",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:LegalEntity"
+        }
+      ]
+    },
+    {
+      "name": "fibo-fbc-pas-fpas:Holding",
+      "technicalName": "fibo-fbc-pas-fpas:Holding",
+      "localName": "Holding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Holding",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "legal agent",
+      "technicalName": "fibo-fbc-pas-fpas:LegalAgent",
+      "localName": "LegalAgent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/LegalAgent",
+      "label": "legal agent",
+      "definition": "any party that has been legally empowered to act on behalf of another party",
+      "parents": [
+        "cmns-pts:AgentRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-law-lcap:hasCapacity",
+          "operator": "some",
+          "value": "fibo-fnd-law-lcap:DelegatedLegalAuthority",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "licensed agent",
+      "technicalName": "fibo-fbc-pas-fpas:LicensedAgent",
+      "localName": "LicensedAgent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/LicensedAgent",
+      "label": "licensed agent",
+      "definition": "any individual who is licensed to perform a legally binding function, and who has been legally empowered to act on behalf of another party",
+      "parents": [
+        "legal agent",
+        "fibo-fnd-law-lcap:Licensee",
+        "cmns-bauth:ResponsibleParty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "offeree",
+      "technicalName": "fibo-fbc-pas-fpas:Offeree",
+      "localName": "Offeree",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Offeree",
+      "label": "offeree",
+      "definition": "party that receives an offer from something from someone (i.e., an offerer) based on the terms of the offering",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "offering",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "offering",
+      "technicalName": "fibo-fbc-pas-fpas:Offering",
+      "localName": "Offering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Offering",
+      "label": "offering",
+      "definition": "expression of interest in providing something to someone that is contingent upon acceptance, forbearance, or some other consideration, as might be desired by an offeree(s)",
+      "parents": [],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "offeror",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "owl:Thing",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "offeror",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "offeree"
+        }
+      ]
+    },
+    {
+      "name": "offeror",
+      "technicalName": "fibo-fbc-pas-fpas:Offeror",
+      "localName": "Offeror",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Offeror",
+      "label": "offeror",
+      "definition": "party that proposes to make something available to someone (i.e., an offeree) based on the terms of the offering",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "offering",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:issues",
+          "operator": "some",
+          "value": "offering",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "position",
+      "technicalName": "fibo-fbc-pas-fpas:Position",
+      "localName": "Position",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Position",
+      "label": "position",
+      "definition": "financial exposure resulting from owning, borrowing, shorting, or entering into a contract (e.g., derivatives)",
+      "parents": [
+        "financial exposure"
+      ],
+      "rules": []
+    },
+    {
+      "name": "product lifecycle",
+      "technicalName": "fibo-fbc-pas-fpas:ProductLifecycle",
+      "localName": "ProductLifecycle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ProductLifecycle",
+      "label": "product lifecycle",
+      "definition": "lifecycle specific to a product or product family",
+      "parents": [
+        "fibo-fnd-arr-lif:Lifecycle"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "product lifecycle stage",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-lif:isLifecycleOf",
+          "operator": "some",
+          "value": "fibo-fnd-pas-pas:Product",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "product lifecycle stage",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "product lifecycle event",
+      "technicalName": "fibo-fbc-pas-fpas:ProductLifecycleEvent",
+      "localName": "ProductLifecycleEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ProductLifecycleEvent",
+      "label": "product lifecycle event",
+      "definition": "kind of event that occurs during one or more stages of a product lifecycle",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleEvent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "product lifecycle stage",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "product lifecycle event occurrence"
+        },
+        {
+          "property": "cmns-dt:succeeds",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "product lifecycle event"
+        }
+      ]
+    },
+    {
+      "name": "product lifecycle event occurrence",
+      "technicalName": "fibo-fbc-pas-fpas:ProductLifecycleEventOccurrence",
+      "localName": "ProductLifecycleEventOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ProductLifecycleEventOccurrence",
+      "label": "product lifecycle event occurrence",
+      "definition": "actual occurrence of an event that happens during a specific stage of a specific product lifecycle",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleEventOccurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "product lifecycle stage occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "product lifecycle event"
+        }
+      ]
+    },
+    {
+      "name": "product lifecycle occurrence",
+      "technicalName": "fibo-fbc-pas-fpas:ProductLifecycleOccurrence",
+      "localName": "ProductLifecycleOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ProductLifecycleOccurrence",
+      "label": "product lifecycle occurrence",
+      "definition": "realization of the lifecycle of a specific product",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleOccurrence"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "product lifecycle stage occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "product lifecycle"
+        }
+      ]
+    },
+    {
+      "name": "product lifecycle stage",
+      "technicalName": "fibo-fbc-pas-fpas:ProductLifecycleStage",
+      "localName": "ProductLifecycleStage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ProductLifecycleStage",
+      "label": "product lifecycle stage",
+      "definition": "phase in a product lifecycle",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStage"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "product lifecycle",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "product lifecycle event",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-fnd-pas-pas:Product",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-lif:isStageOf",
+          "operator": "some",
+          "value": "product lifecycle",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dt:succeeds",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "product lifecycle stage"
+        }
+      ]
+    },
+    {
+      "name": "product lifecycle stage occurrence",
+      "technicalName": "fibo-fbc-pas-fpas:ProductLifecycleStageOccurrence",
+      "localName": "ProductLifecycleStageOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ProductLifecycleStageOccurrence",
+      "label": "product lifecycle stage occurrence",
+      "definition": "realization of a specific stage in the lifecycle of a given product",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStageOccurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "product lifecycle event occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-lif:isStageOf",
+          "operator": "some",
+          "value": "product lifecycle occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "product lifecycle stage"
+        }
+      ]
+    },
+    {
+      "name": "registered agent",
+      "technicalName": "fibo-fbc-pas-fpas:RegisteredAgent",
+      "localName": "RegisteredAgent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/RegisteredAgent",
+      "label": "registered agent",
+      "definition": "legal agent designated by some party to represent them and act on their behalf under a formal agency agreement",
+      "parents": [
+        "legal agent",
+        "fibo-fnd-agr-ctr:ContractParty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rga:isRecognizedIn",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "agency agreement",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "regulated commodity",
+      "technicalName": "fibo-fbc-pas-fpas:RegulatedCommodity",
+      "localName": "RegulatedCommodity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/RegulatedCommodity",
+      "label": "regulated commodity",
+      "definition": "commodity under the jurisdiction of the regulatory agency, such as the Commodities Futures Trading Commission (CFTF) in the United States, which includes any commodity traded in an organized contracts market",
+      "parents": [
+        "fibo-fnd-pas-pas:Commodity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rga:isRegulatedBy",
+          "operator": "only",
+          "value": "cmns-rga:RegulatoryAgency",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "settlement terms",
+      "technicalName": "fibo-fbc-pas-fpas:SettlementTerms",
+      "localName": "SettlementTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/SettlementTerms",
+      "label": "settlement terms",
+      "definition": "contract terms that define the commitment to and mechanism for settling one or more sides of a transaction",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractualCommitment"
+      ],
+      "rules": [
+        {
+          "property": "has settlement date",
+          "operator": "only",
+          "value": "cmns-dt:Date",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "third-party agent",
+      "technicalName": "fibo-fbc-pas-fpas:ThirdPartyAgent",
+      "localName": "ThirdPartyAgent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/ThirdPartyAgent",
+      "label": "third-party agent",
+      "definition": "any service provider that is licensed to perform a legally binding function and has been legally empowered to act on behalf of another party",
+      "parents": [
+        "legal agent",
+        "fibo-fnd-law-lcap:Licensee",
+        "cmns-org:ServiceProvider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "trade",
+      "technicalName": "fibo-fbc-pas-fpas:Trade",
+      "localName": "Trade",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Trade",
+      "label": "trade",
+      "definition": "situation that realizes an agreement between parties participating in a voluntary action of buying and selling goods and services",
+      "parents": [
+        "cmns-pts:Situation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:involves",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-pas-pas:hasSeller",
+          "operator": "some",
+          "value": "fibo-fnd-pas-pas:Seller",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-pas-pas:hasBuyer",
+          "operator": "some",
+          "value": "fibo-fnd-pas-pas:Buyer",
+          "qualifier": null
+        },
+        {
+          "property": "is embodied in",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:Contract",
+          "qualifier": null
+        },
+        {
+          "property": "is facilitated by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "trader"
+        },
+        {
+          "property": "cmns-cls:isCharacterizedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "trade lifecycle"
+        },
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "trade identifier"
+        },
+        {
+          "property": "cmns-dt:succeeds",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "trade"
+        }
+      ]
+    },
+    {
+      "name": "trade identifier",
+      "technicalName": "fibo-fbc-pas-fpas:TradeIdentifier",
+      "localName": "TradeIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/TradeIdentifier",
+      "label": "trade identifier",
+      "definition": "sequence of characters identifying a trade within some context",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "trade",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trade lifecycle",
+      "technicalName": "fibo-fbc-pas-fpas:TradeLifecycle",
+      "localName": "TradeLifecycle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/TradeLifecycle",
+      "label": "trade lifecycle",
+      "definition": "lifecycle that defines the evolution of a trade, from initiation through settlement",
+      "parents": [
+        "fibo-fnd-arr-lif:Lifecycle"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "trade lifecycle stage",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-lif:isLifecycleOf",
+          "operator": "some",
+          "value": "trade",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "trade lifecycle stage",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trade lifecycle event",
+      "technicalName": "fibo-fbc-pas-fpas:TradeLifecycleEvent",
+      "localName": "TradeLifecycleEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/TradeLifecycleEvent",
+      "label": "trade lifecycle event",
+      "definition": "kind of event that occurs during one or more stages of the lifecycle of a trade",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleEvent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "trade lifecycle stage",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "trade lifecycle event occurrence"
+        },
+        {
+          "property": "cmns-dt:succeeds",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "trade lifecycle event"
+        }
+      ]
+    },
+    {
+      "name": "trade lifecycle event occurrence",
+      "technicalName": "fibo-fbc-pas-fpas:TradeLifecycleEventOccurrence",
+      "localName": "TradeLifecycleEventOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/TradeLifecycleEventOccurrence",
+      "label": "trade lifecycle event occurrence",
+      "definition": "realization of an event that happens during a specific stage of a specific trade lifecycle",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleEventOccurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "trade lifecycle stage occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "trade lifecycle event"
+        },
+        {
+          "property": "cmns-dt:succeeds",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "trade lifecycle event occurrence"
+        }
+      ]
+    },
+    {
+      "name": "trade lifecycle occurrence",
+      "technicalName": "fibo-fbc-pas-fpas:TradeLifecycleOccurrence",
+      "localName": "TradeLifecycleOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/TradeLifecycleOccurrence",
+      "label": "trade lifecycle occurrence",
+      "definition": "realization of the lifecycle for a specific trade",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleOccurrence"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "trade lifecycle stage occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "trade lifecycle"
+        }
+      ]
+    },
+    {
+      "name": "trade lifecycle stage",
+      "technicalName": "fibo-fbc-pas-fpas:TradeLifecycleStage",
+      "localName": "TradeLifecycleStage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/TradeLifecycleStage",
+      "label": "trade lifecycle stage",
+      "definition": "phase in the lifecycle of a trade",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStage"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "trade lifecycle",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "trade lifecycle event",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "trade",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-lif:isStageOf",
+          "operator": "some",
+          "value": "trade lifecycle",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dt:succeeds",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "trade lifecycle stage"
+        }
+      ]
+    },
+    {
+      "name": "trade lifecycle stage occurrence",
+      "technicalName": "fibo-fbc-pas-fpas:TradeLifecycleStageOccurrence",
+      "localName": "TradeLifecycleStageOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/TradeLifecycleStageOccurrence",
+      "label": "trade lifecycle stage occurrence",
+      "definition": "realization of a phase in the lifecycle of a specific trade",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStageOccurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "trade lifecycle event occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-lif:isStageOf",
+          "operator": "some",
+          "value": "trade lifecycle occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "trade lifecycle stage"
+        },
+        {
+          "property": "cmns-dt:succeeds",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "trade lifecycle stage occurrence"
+        }
+      ]
+    },
+    {
+      "name": "trader",
+      "technicalName": "fibo-fbc-pas-fpas:Trader",
+      "localName": "Trader",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/Trader",
+      "label": "trader",
+      "definition": "party that engages in the transfer of financial assets in any financial market on behalf of a client or the financial services provider",
+      "parents": [
+        "cmns-org:ServiceProvider"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-law-lcap:hasCapacity",
+          "operator": "some",
+          "value": "fibo-fnd-law-lcap:ContractualCapability",
+          "qualifier": null
+        },
+        {
+          "property": "facilitates",
+          "operator": "some",
+          "value": "trade",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trading strategy",
+      "technicalName": "fibo-fbc-pas-fpas:TradingStrategy",
+      "localName": "TradingStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/TradingStrategy",
+      "label": "trading strategy",
+      "definition": "approach used for buying and selling in the securities markets",
+      "parents": [
+        "fibo-fnd-gao-obj:Strategy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "unique transaction identifier",
+      "technicalName": "fibo-fbc-pas-fpas:UniqueTransactionIdentifier",
+      "localName": "UniqueTransactionIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/UniqueTransactionIdentifier",
+      "label": "unique transaction identifier",
+      "definition": "sequence of characters identifying a financial transaction uniquely whenever useful and agreed by the parties or community involved in the transaction",
+      "parents": [
+        "trade identifier"
+      ],
+      "rules": [
+        {
+          "property": "has generating entity",
+          "operator": "some",
+          "value": "cmns-org:LegalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "weighted basket",
+      "technicalName": "fibo-fbc-pas-fpas:WeightedBasket",
+      "localName": "WeightedBasket",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/WeightedBasket",
+      "label": "weighted basket",
+      "definition": "basket whose constituents have some relative importance with respect to one another",
+      "parents": [
+        "basket",
+        "cmns-col:StructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasExpression",
+          "operator": "some",
+          "value": "fibo-fnd-utl-alx:WeightingFunction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "weighted basket constituent",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "weighted basket constituent",
+      "technicalName": "fibo-fbc-pas-fpas:WeightedBasketConstituent",
+      "localName": "WeightedBasketConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/WeightedBasketConstituent",
+      "label": "weighted basket constituent",
+      "definition": "component of a basket whose relative importance with respect to other basket constituents is known",
+      "parents": [
+        "basket constituent"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasWeight",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "exposes in",
+      "technicalName": "fibo-fbc-pas-fpas:exposesIn",
+      "localName": "exposesIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/exposesIn",
+      "label": "exposes in",
+      "definition": "indicates the state of affairs in which exposure occurs",
+      "domain": [
+        "exposure"
+      ],
+      "range": [
+        "exposure situation"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "facilitates",
+      "technicalName": "fibo-fbc-pas-fpas:facilitates",
+      "localName": "facilitates",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/facilitates",
+      "label": "facilitates",
+      "definition": "acts as an enabler in a situation in which an event, a task, a conversation or something else occurs",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has exposed party",
+      "technicalName": "fibo-fbc-pas-fpas:hasExposedParty",
+      "localName": "hasExposedParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/hasExposedParty",
+      "label": "has exposed party",
+      "definition": "indicates the party subject to influence or risk in",
+      "domain": [
+        "exposure situation"
+      ],
+      "range": [
+        "exposure bearer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has exposure to",
+      "technicalName": "fibo-fbc-pas-fpas:hasExposureTo",
+      "localName": "hasExposureTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/hasExposureTo",
+      "label": "has exposure to",
+      "definition": "involves influence or risk from",
+      "domain": [
+        "exposure situation"
+      ],
+      "range": [
+        "exposure"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has generating entity",
+      "technicalName": "fibo-fbc-pas-fpas:hasGeneratingEntity",
+      "localName": "hasGeneratingEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/hasGeneratingEntity",
+      "label": "has generating entity",
+      "definition": "specifies a legal entity that generates something",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has generating entity identifier",
+      "technicalName": "fibo-fbc-pas-fpas:hasGeneratingEntityIdentifier",
+      "localName": "hasGeneratingEntityIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/hasGeneratingEntityIdentifier",
+      "label": "has generating entity identifier",
+      "definition": "specifies an identifier for the entity that generated a unique transaction identifier",
+      "domain": [
+        "unique transaction identifier"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has registered agent",
+      "technicalName": "fibo-fbc-pas-fpas:hasLegalAgent",
+      "localName": "hasLegalAgent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/hasLegalAgent",
+      "label": "has registered agent",
+      "definition": "identifies a party as one that has the legal, medical or financial capacity to act on behalf of someone else under specific circumstances",
+      "domain": [],
+      "range": [
+        "legal agent"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has offering",
+      "technicalName": "fibo-fbc-pas-fpas:hasOffering",
+      "localName": "hasOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/hasOffering",
+      "label": "has offering",
+      "definition": "relates something to a voluntary but conditional promise submitted by a buyer or seller (offeror) to another (offeree) for acceptance, and which becomes legally enforceable if accepted by the offeree",
+      "domain": [],
+      "range": [
+        "offering"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has offering amount",
+      "technicalName": "fibo-fbc-pas-fpas:hasOfferingAmount",
+      "localName": "hasOfferingAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/hasOfferingAmount",
+      "label": "has offering amount",
+      "definition": "indicates the notional monetary amount, determined based on reference data, market rates or some other agreed method associated with some offering",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has offering price",
+      "technicalName": "fibo-fbc-pas-fpas:hasOfferingPrice",
+      "localName": "hasOfferingPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/hasOfferingPrice",
+      "label": "has offering price",
+      "definition": "indicates the price associated with an offering, which may be an explicit or calculated price",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryPrice"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has selecting party",
+      "technicalName": "fibo-fbc-pas-fpas:hasSelectingParty",
+      "localName": "hasSelectingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/hasSelectingParty",
+      "label": "has selecting party",
+      "definition": "indicates the person(s) or organization(s) responsible for determining the contents of a basket",
+      "domain": [],
+      "range": [
+        "cmns-pts:Party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has settlement date",
+      "technicalName": "fibo-fbc-pas-fpas:hasSettlementDate",
+      "localName": "hasSettlementDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/hasSettlementDate",
+      "label": "has settlement date",
+      "definition": "indicates the date by which an executed order or transaction must be settled",
+      "domain": [],
+      "range": [
+        "fibo-fnd-dt-fd:CalculatedDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has trade date",
+      "technicalName": "fibo-fbc-pas-fpas:hasTradeDate",
+      "localName": "hasTradeDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/hasTradeDate",
+      "label": "has trade date",
+      "definition": "indicates the date on which a security or other instrument-specific trade actually takes place",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is embodied in",
+      "technicalName": "fibo-fbc-pas-fpas:isEmbodiedIn",
+      "localName": "isEmbodiedIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/isEmbodiedIn",
+      "label": "is embodied in",
+      "definition": "identifies the representation or tangible form of something in some context",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is exposed party in",
+      "technicalName": "fibo-fbc-pas-fpas:isExposedPartyIn",
+      "localName": "isExposedPartyIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/isExposedPartyIn",
+      "label": "is exposed party in",
+      "definition": "indicates the state of affairs in which the party bears the risk",
+      "domain": [
+        "exposure bearer"
+      ],
+      "range": [
+        "exposure situation"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is exposed to",
+      "technicalName": "fibo-fbc-pas-fpas:isExposedTo",
+      "localName": "isExposedTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/isExposedTo",
+      "label": "is exposed to",
+      "definition": "is subject to influence or risk from",
+      "domain": [
+        "exposure bearer"
+      ],
+      "range": [
+        "exposure"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is exposure of",
+      "technicalName": "fibo-fbc-pas-fpas:isExposureOf",
+      "localName": "isExposureOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/isExposureOf",
+      "label": "is exposure of",
+      "definition": "is the influence or risk borne by",
+      "domain": [
+        "exposure"
+      ],
+      "range": [
+        "exposure bearer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is facilitated by",
+      "technicalName": "fibo-fbc-pas-fpas:isFacilitatedBy",
+      "localName": "isFacilitatedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/isFacilitatedBy",
+      "label": "is facilitated by",
+      "definition": "identifies someone or something that expedites some event, transaction, conversation or something else in some context",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is offering of",
+      "technicalName": "fibo-fbc-pas-fpas:isOfferingOf",
+      "localName": "isOfferingOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/isOfferingOf",
+      "label": "is offering of",
+      "definition": "relates an offering to one or things that are the subject of the offer",
+      "domain": [
+        "offering"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "relates to",
+      "technicalName": "fibo-fbc-pas-fpas:relatesTo",
+      "localName": "relatesTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/relatesTo",
+      "label": "relates to",
+      "definition": "has a logical or causal connection with",
+      "domain": [],
+      "range": []
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has nominal number of units",
+      "technicalName": "fibo-fbc-pas-fpas:hasNominalNumberOfUnits",
+      "localName": "hasNominalNumberOfUnits",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/hasNominalNumberOfUnits",
+      "label": "has nominal number of units",
+      "definition": "indicates the base number of units of something associated with some offering",
+      "domain": [],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has offering units",
+      "technicalName": "fibo-fbc-pas-fpas:hasOfferingUnits",
+      "localName": "hasOfferingUnits",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/hasOfferingUnits",
+      "label": "has offering units",
+      "definition": "indicates the actual number of units of something, including any premium on the number of units, associated with some offering",
+      "domain": [],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has selection criteria",
+      "technicalName": "fibo-fbc-pas-fpas:hasSelectionCriteria",
+      "localName": "hasSelectionCriteria",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/hasSelectionCriteria",
+      "label": "has selection criteria",
+      "definition": "describes the methodology or program used to determine the membership of a collection",
+      "domain": [
+        "cmns-col:Collection"
+      ],
+      "range": []
+    }
+  ]
+}

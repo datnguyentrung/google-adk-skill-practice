@@ -1,0 +1,166 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Debt\\DistributedLoans.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DistributedLoans/",
+  "summary": {
+    "nodes": 9,
+    "edges": 0,
+    "properties": 0,
+    "triples": 104
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/CommercialLoans/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "administrative agent",
+      "technicalName": "fibo-sec-dbt-dln:AdministrativeAgent",
+      "localName": "AdministrativeAgent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DistributedLoans/AdministrativeAgent",
+      "label": "administrative agent",
+      "definition": "role of a financial institution (often one of the primary lenders in the syndicate) designated to act as an intermediary between the borrowers and the syndicate lenders",
+      "parents": [
+        "fibo-be-fct-fct:SyndicateMember"
+      ],
+      "rules": []
+    },
+    {
+      "name": "bookrunner",
+      "technicalName": "fibo-sec-dbt-dln:Bookrunner",
+      "localName": "Bookrunner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DistributedLoans/Bookrunner",
+      "label": "bookrunner",
+      "definition": "financial institution (typically a commercial or investment bank) responsible for coordinating the arrangement, structuring, and marketing of the loan to potential lenders",
+      "parents": [
+        "fibo-fbc-fct-fse:FinancialInstitution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "documentation agent",
+      "technicalName": "fibo-sec-dbt-dln:DocumentationAgent",
+      "localName": "DocumentationAgent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DistributedLoans/DocumentationAgent",
+      "label": "documentation agent",
+      "definition": "financial institution designated to oversee the drafting, negotiation, and finalization of the loan documentation",
+      "parents": [
+        "fibo-be-fct-fct:SyndicateMember"
+      ],
+      "rules": []
+    },
+    {
+      "name": "finance syndicate",
+      "technicalName": "fibo-sec-dbt-dln:FinanceSyndicate",
+      "localName": "FinanceSyndicate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DistributedLoans/FinanceSyndicate",
+      "label": "finance syndicate",
+      "definition": "group of financial institutions or lenders that collectively agree to provide funding for a large loan to a single borrower",
+      "parents": [
+        "fibo-be-fct-fct:Syndicate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "finance syndicate member",
+      "technicalName": "fibo-sec-dbt-dln:FinanceSyndicateMember",
+      "localName": "FinanceSyndicateMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DistributedLoans/FinanceSyndicateMember",
+      "label": "finance syndicate member",
+      "definition": "syndicate member that is a financial services provider that contributes funds to a syndicated loan or loan participation note",
+      "parents": [
+        "fibo-be-fct-fct:SyndicateMember",
+        "fibo-fbc-pas-fpas:FinancialServiceProvider"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "only",
+          "value": "finance syndicate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "lead arranger",
+      "technicalName": "fibo-sec-dbt-dln:LeadArranger",
+      "localName": "LeadArranger",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DistributedLoans/LeadArranger",
+      "label": "lead arranger",
+      "definition": "financial institution that spearheads the loan structuring and syndication process on behalf of the borrower",
+      "parents": [
+        "fibo-fbc-fct-fse:FinancialInstitution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan participation note",
+      "technicalName": "fibo-sec-dbt-dln:LoanParticipationNote",
+      "localName": "LoanParticipationNote",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DistributedLoans/LoanParticipationNote",
+      "label": "loan participation note",
+      "definition": "credit facility and fixed-income security that may be distributed across a group of lenders",
+      "parents": [
+        "fibo-fbc-dae-dbt:CreditFacility",
+        "fibo-loan-spc-com:CommercialLoan",
+        "fibo-sec-dbt-dbti:FixedIncomeSecurity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasActor",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "lead arranger"
+        }
+      ]
+    },
+    {
+      "name": "syndicated loan",
+      "technicalName": "fibo-sec-dbt-dln:SyndicatedLoan",
+      "localName": "SyndicatedLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DistributedLoans/SyndicatedLoan",
+      "label": "syndicated loan",
+      "definition": "credit agreement in which a group of lenders, known as a syndicate, collectively provides a large loan to a single borrower",
+      "parents": [
+        "fibo-fbc-dae-dbt:CreditFacility",
+        "fibo-loan-spc-com:CommercialLoan"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasActor",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "syndication agent",
+      "technicalName": "fibo-sec-dbt-dln:SyndicationAgent",
+      "localName": "SyndicationAgent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DistributedLoans/SyndicationAgent",
+      "label": "syndication agent",
+      "definition": "financial institution (typically a commercial or investment bank) designated to help structure, arrange, and manage the loan syndication process",
+      "parents": [
+        "fibo-fbc-fct-fse:FinancialInstitution"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

@@ -1,0 +1,170 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Securities\\SecuritiesClassification.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/",
+  "summary": {
+    "nodes": 7,
+    "edges": 0,
+    "properties": 0,
+    "triples": 137
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/ClassificationSchemes/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Designators/"
+  ],
+  "classes": [
+    {
+      "name": "asset class",
+      "technicalName": "fibo-sec-sec-cls:AssetClass",
+      "localName": "AssetClass",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/AssetClass",
+      "label": "asset class",
+      "definition": "financial instrument classifier for a group of securities that exhibit similar characteristics, behave similarly in the marketplace and are subject to the same laws and regulations",
+      "parents": [
+        "financial instrument classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "classification of financial instruments code scheme",
+      "technicalName": "fibo-sec-sec-cls:ClassificationOfFinancialInstrumentsCodeScheme",
+      "localName": "ClassificationOfFinancialInstrumentsCodeScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/ClassificationOfFinancialInstrumentsCodeScheme",
+      "label": "classification of financial instruments code scheme",
+      "definition": "classification scheme for set of codes for financial instruments that can be used globally for straight-through processing by all involved participants in an electronic data processing environment",
+      "parents": [
+        "financial instrument classification scheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "financial instrument classification code",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "financial instrument classification code",
+      "technicalName": "fibo-sec-sec-cls:FinancialInstrumentClassificationCode",
+      "localName": "FinancialInstrumentClassificationCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/FinancialInstrumentClassificationCode",
+      "label": "financial instrument classification code",
+      "definition": "classifier and code for a financial instrument defined in the ISO 10962 Classification of Financial Instruments (CFI) Code Scheme",
+      "parents": [
+        "financial instrument classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "classification of financial instruments code scheme"
+        }
+      ]
+    },
+    {
+      "name": "financial instrument classification scheme",
+      "technicalName": "fibo-sec-sec-cls:FinancialInstrumentClassificationScheme",
+      "localName": "FinancialInstrumentClassificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/FinancialInstrumentClassificationScheme",
+      "label": "financial instrument classification scheme",
+      "definition": "classification scheme defining a set of classifiers for financial instruments",
+      "parents": [
+        "cmns-cls:ClassificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "only",
+          "value": "financial instrument classifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "financial instrument classifier",
+      "technicalName": "fibo-sec-sec-cls:FinancialInstrumentClassifier",
+      "localName": "FinancialInstrumentClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/FinancialInstrumentClassifier",
+      "label": "financial instrument classifier",
+      "definition": "classifier for a financial instrument based on its type and features",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:FinancialInstrument",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "financial instrument classification scheme"
+        }
+      ]
+    },
+    {
+      "name": "Global Industry Classification Standards classifier",
+      "technicalName": "fibo-sec-sec-cls:GlobalIndustryClassificationStandardsClassifier",
+      "localName": "GlobalIndustryClassificationStandardsClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/GlobalIndustryClassificationStandardsClassifier",
+      "label": "Global Industry Classification Standards classifier",
+      "definition": "four-tiered standardized classification or delineation for an organization based on the principal business activity of the organization",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier",
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Global Industry Classification Standards scheme",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "industry classification benchmark classifier",
+      "technicalName": "fibo-sec-sec-cls:IndustryClassificationBenchmarkClassifier",
+      "localName": "IndustryClassificationBenchmarkClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/IndustryClassificationBenchmarkClassifier",
+      "label": "industry classification benchmark classifier",
+      "definition": "standardized classification or delineation for an organization based on their main source of revenue",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier",
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Industry Classification Benchmark scheme",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

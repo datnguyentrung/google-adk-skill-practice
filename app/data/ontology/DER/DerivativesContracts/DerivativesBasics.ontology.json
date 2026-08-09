@@ -1,0 +1,685 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\DER\\DerivativesContracts\\DerivativesBasics.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/",
+  "summary": {
+    "nodes": 24,
+    "edges": 14,
+    "properties": 0,
+    "triples": 437
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/InstrumentPricing/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/Markets/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/PaymentsAndSchedules/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/Analytics/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/ContextualIdentifiers/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RegistrationAuthorities/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "cashflow expression",
+      "technicalName": "fibo-der-drc-bsc:CashflowExpression",
+      "localName": "CashflowExpression",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/CashflowExpression",
+      "label": "cashflow expression",
+      "definition": "expression that specifies a calculation of a cash flow as a component of a cashflow formula",
+      "parents": [
+        "cmns-qtu:Expression"
+      ],
+      "rules": []
+    },
+    {
+      "name": "cashflow formula",
+      "technicalName": "fibo-der-drc-bsc:CashflowFormula",
+      "localName": "CashflowFormula",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/CashflowFormula",
+      "label": "cashflow formula",
+      "definition": "formula for determining cashflows for a derivative instrument",
+      "parents": [
+        "fibo-fnd-utl-alx:Formula"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasExpression",
+          "operator": "some",
+          "value": "cashflow expression",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "cashflow terms",
+      "technicalName": "fibo-der-drc-bsc:CashflowTerms",
+      "localName": "CashflowTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/CashflowTerms",
+      "label": "cashflow terms",
+      "definition": "terms setting out a cashflow structure of payments committed to by one party to a contract",
+      "parents": [
+        "derivative terms",
+        "fibo-fbc-dae-dbt:DebtTerms"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contract for difference",
+      "technicalName": "fibo-der-drc-bsc:ContractForDifference",
+      "localName": "ContractForDifference",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/ContractForDifference",
+      "label": "contract for difference",
+      "definition": "cash-settled derivative where the parties agree to exchange on the maturity of the contract the difference between the current value of the underlying asset and the initial value of that asset when the contract is initiated",
+      "parents": [
+        "fibo-fbc-fi-fi:DerivativeInstrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit derivative",
+      "technicalName": "fibo-der-drc-bsc:CreditDerivative",
+      "localName": "CreditDerivative",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/CreditDerivative",
+      "label": "credit derivative",
+      "definition": "derivative instrument that is a privately held, negotiable bilateral contract traded over-the-counter (OTC) between two parties in a creditor/debtor relationship, enabling the creditor to effectively transfer some or all of the risk of a debtor defaulting to a third party",
+      "parents": [
+        "fibo-fbc-fi-fi:DerivativeInstrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "derivative settlement terms",
+      "technicalName": "fibo-der-drc-bsc:DerivativeSettlementTerms",
+      "localName": "DerivativeSettlementTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/DerivativeSettlementTerms",
+      "label": "derivative settlement terms",
+      "definition": "settlement terms specifying additional details with respect to what is to be delivered when, to whom, under what conditions at the time of settlement",
+      "parents": [
+        "derivative terms",
+        "fibo-fbc-pas-fpas:SettlementTerms"
+      ],
+      "rules": [
+        {
+          "property": "has underlying asset price",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryPrice"
+        },
+        {
+          "property": "has additional costs",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "derivative terms",
+      "technicalName": "fibo-der-drc-bsc:DerivativeTerms",
+      "localName": "DerivativeTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/DerivativeTerms",
+      "label": "derivative terms",
+      "definition": "contractual terms specific to derivative contracts, including terms related to payments and delivery between parties",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractualCommitment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "derivatives clearing organization",
+      "technicalName": "fibo-der-drc-bsc:DerivativesClearingOrganization",
+      "localName": "DerivativesClearingOrganization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/DerivativesClearingOrganization",
+      "label": "derivatives clearing organization",
+      "definition": "clearing house that enables parties to substitute the credit of the DCO for the credit of the parties",
+      "parents": [
+        "fibo-fbc-fct-fse:ClearingHouse"
+      ],
+      "rules": []
+    },
+    {
+      "name": "economic rate-based derivative",
+      "technicalName": "fibo-der-drc-bsc:EconomicRateBasedDerivative",
+      "localName": "EconomicRateBasedDerivative",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/EconomicRateBasedDerivative",
+      "label": "economic rate-based derivative",
+      "definition": "rate-based derivative whose underlier is some economic indicator",
+      "parents": [
+        "rate-based derivative"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-ind-ei-ei:EconomicIndicator",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "forward rate agreement",
+      "technicalName": "fibo-der-drc-bsc:ForwardRateAgreement",
+      "localName": "ForwardRateAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/ForwardRateAgreement",
+      "label": "forward rate agreement",
+      "definition": "agreement to exchange an interest rate commitment on a notional amount at a future date",
+      "parents": [
+        "interest rate derivative"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interest rate derivative",
+      "technicalName": "fibo-der-drc-bsc:InterestRateDerivative",
+      "localName": "InterestRateDerivative",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/InterestRateDerivative",
+      "label": "interest rate derivative",
+      "definition": "rate-based derivative whose underlier is an interest rate",
+      "parents": [
+        "rate-based derivative"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-ind-ir-ir:ReferenceInterestRate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "introducing broker",
+      "technicalName": "fibo-der-drc-bsc:IntroducingBroker",
+      "localName": "IntroducingBroker",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/IntroducingBroker",
+      "label": "introducing broker",
+      "definition": "broker that solicits or accepts orders for derivatives that are traded on or subject to the rules of an exchange",
+      "parents": [
+        "fibo-fbc-fct-fse:NonDepositoryInstitution",
+        "fibo-fbc-pas-fpas:Broker"
+      ],
+      "rules": []
+    },
+    {
+      "name": "observable value",
+      "technicalName": "fibo-der-drc-bsc:ObservableValue",
+      "localName": "ObservableValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/ObservableValue",
+      "label": "observable value",
+      "definition": "specification for the value for something discernible and for which evidence can be obtained",
+      "parents": [
+        "cmns-doc:Specification"
+      ],
+      "rules": [
+        {
+          "property": "specifies value of",
+          "operator": "some",
+          "value": "owl:Thing",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-fi-fi:hasValueExpressedIn",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:Currency"
+        }
+      ]
+    },
+    {
+      "name": "over-the-counter derivative instrument",
+      "technicalName": "fibo-der-drc-bsc:OverTheCounterDerivativeInstrument",
+      "localName": "OverTheCounterDerivativeInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/OverTheCounterDerivativeInstrument",
+      "label": "over-the-counter derivative instrument",
+      "definition": "derivative instrument that is not listed on an organized exchange",
+      "parents": [
+        "over-the-counter instrument",
+        "fibo-fbc-fi-fi:DerivativeInstrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "over-the-counter instrument",
+      "technicalName": "fibo-der-drc-bsc:OverTheCounterInstrument",
+      "localName": "OverTheCounterInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/OverTheCounterInstrument",
+      "label": "over-the-counter instrument",
+      "definition": "financial instrument and bilateral contract that is not listed on an organized exchange",
+      "parents": [
+        "fibo-fbc-fi-fi:FinancialInstrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "parametric cashflow terms",
+      "technicalName": "fibo-der-drc-bsc:ParametricCashflowTerms",
+      "localName": "ParametricCashflowTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/ParametricCashflowTerms",
+      "label": "parametric cashflow terms",
+      "definition": "terms for a set of cashflows defined according to a mathematical formula",
+      "parents": [
+        "cashflow terms"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasFormula",
+          "operator": "some",
+          "value": "cashflow formula",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "paying party",
+      "technicalName": "fibo-der-drc-bsc:PayingParty",
+      "localName": "PayingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/PayingParty",
+      "label": "paying party",
+      "definition": "party responsible for making payments in a transaction specified in a contract",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractParty",
+        "fibo-fnd-pas-psch:Payer",
+        "fibo-fnd-pas-pas:Buyer"
+      ],
+      "rules": []
+    },
+    {
+      "name": "rate-based derivative",
+      "technicalName": "fibo-der-drc-bsc:RateBasedDerivative",
+      "localName": "RateBasedDerivative",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/RateBasedDerivative",
+      "label": "rate-based derivative",
+      "definition": "derivative instrument where the holder has the right but may not have the obligation, depending on the nature of the instrument, to enter into the underlying contract, or pay or receive payment related to the underlying financial rate (or rate contract) on a specified future date based on a specified future rate and term",
+      "parents": [
+        "fibo-fbc-fi-fi:DerivativeInstrument"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        }
+      ]
+    },
+    {
+      "name": "receiving counterparty",
+      "technicalName": "fibo-der-drc-bsc:ReceivingParty",
+      "localName": "ReceivingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/ReceivingParty",
+      "label": "receiving counterparty",
+      "definition": "party that receives payments in a transaction specified in a contract",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractParty",
+        "fibo-fnd-pas-psch:Payee",
+        "fibo-fnd-pas-pas:Seller"
+      ],
+      "rules": []
+    },
+    {
+      "name": "underlying asset valuation",
+      "technicalName": "fibo-der-drc-bsc:UnderlyingAssetValuation",
+      "localName": "UnderlyingAssetValuation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/UnderlyingAssetValuation",
+      "label": "underlying asset valuation",
+      "definition": "assessment activity to estimate the value of an underlying asset of a derivative",
+      "parents": [
+        "fibo-fnd-arr-asmt:ValueAssessment"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:evaluates",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Underlier",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-fi-fi:hasCalculationAgent",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-fi-fi:CalculationAgent"
+        }
+      ]
+    },
+    {
+      "name": "unique product identifier",
+      "technicalName": "fibo-der-drc-bsc:UniqueProductIdentifier",
+      "localName": "UniqueProductIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/UniqueProductIdentifier",
+      "label": "unique product identifier",
+      "definition": "sequence of characters uniquely identifying an OTC derivative product that is reportable to a trade repository",
+      "parents": [
+        "fibo-fbc-fi-fi:FinancialInstrumentIdentifier",
+        "cmns-cxtid:StructuredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "some",
+          "value": "unique product identifier service provider",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "over-the-counter derivative instrument"
+        }
+      ]
+    },
+    {
+      "name": "unique product identifier registry entry",
+      "technicalName": "fibo-der-drc-bsc:UniqueProductIdentifierRegistryEntry",
+      "localName": "UniqueProductIdentifierRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/UniqueProductIdentifierRegistryEntry",
+      "label": "unique product identifier registry entry",
+      "definition": "entry in a unique product identifier registry",
+      "parents": [
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "unique product identifier",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "value",
+          "value": "unique product identifier reference data library",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "only",
+          "value": "over-the-counter derivative instrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "unique product identifier service provider",
+      "technicalName": "fibo-der-drc-bsc:UniqueProductIdentifierServiceProvider",
+      "localName": "UniqueProductIdentifierServiceProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/UniqueProductIdentifierServiceProvider",
+      "label": "unique product identifier service provider",
+      "definition": "organization designated by an external body of financial regulators to assign UPIs and operate a UPI reference data library",
+      "parents": [
+        "cmns-ra:RegistrationAuthority"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:registers",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "unique product identifier"
+        }
+      ]
+    },
+    {
+      "name": "valuation terms",
+      "technicalName": "fibo-der-drc-bsc:ValuationTerms",
+      "localName": "ValuationTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/ValuationTerms",
+      "label": "valuation terms",
+      "definition": "contract terms specific to valuation of the underlying asset(s)",
+      "parents": [
+        "derivative terms"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:involves",
+          "operator": "some",
+          "value": "underlying asset valuation",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-asmt:hasDateOfAssessment",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDate",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has accreting notional amount",
+      "technicalName": "fibo-der-drc-bsc:hasAccretingNotionalAmount",
+      "localName": "hasAccretingNotionalAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/hasAccretingNotionalAmount",
+      "label": "has accreting notional amount",
+      "definition": "indicates that the notional amount increases through the life of the contract",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has additional costs",
+      "technicalName": "fibo-der-drc-bsc:hasAdditionalCosts",
+      "localName": "hasAdditionalCosts",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/hasAdditionalCosts",
+      "label": "has additional costs",
+      "definition": "indicates costs, such as up front costs, brokerage fees and the like, that must be paid on delivery",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has amortizing notional amount",
+      "technicalName": "fibo-der-drc-bsc:hasAmortizingNotionalAmount",
+      "localName": "hasAmortizingNotionalAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/hasAmortizingNotionalAmount",
+      "label": "has amortizing notional amount",
+      "definition": "indicates that the notional amount decreases through the life of the contract",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has constant notional amount",
+      "technicalName": "fibo-der-drc-bsc:hasConstantNotionalAmount",
+      "localName": "hasConstantNotionalAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/hasConstantNotionalAmount",
+      "label": "has constant notional amount",
+      "definition": "indicates that the notional amount is constant through the life of the contract",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has custom notional amount",
+      "technicalName": "fibo-der-drc-bsc:hasCustomNotionalAmount",
+      "localName": "hasCustomNotionalAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/hasCustomNotionalAmount",
+      "label": "has custom notional amount",
+      "definition": "indicates that the notional amount is customized per a notional step schedule",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has first delivery date",
+      "technicalName": "fibo-der-drc-bsc:hasFirstDeliveryDate",
+      "localName": "hasFirstDeliveryDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/hasFirstDeliveryDate",
+      "label": "has first delivery date",
+      "definition": "specifies the initial date in a range of dates by which the underlying asset (or some portion thereof) must be delivered in order for the terms of the contract to be fulfilled",
+      "domain": [
+        "fibo-fbc-pas-fpas:SettlementTerms"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has first notice date",
+      "technicalName": "fibo-der-drc-bsc:hasFirstNoticeDate",
+      "localName": "hasFirstNoticeDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/hasFirstNoticeDate",
+      "label": "has first notice date",
+      "definition": "specifies the initial date on which a delivery notice can be issued",
+      "domain": [
+        "fibo-fbc-pas-fpas:SettlementTerms"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has last delivery date",
+      "technicalName": "fibo-der-drc-bsc:hasLastDeliveryDate",
+      "localName": "hasLastDeliveryDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/hasLastDeliveryDate",
+      "label": "has last delivery date",
+      "definition": "specifies the final date in a range of dates by which the underlying asset (or some portion thereof) must be delivered in order for the terms of the contract to be fulfilled",
+      "domain": [
+        "fibo-fbc-pas-fpas:SettlementTerms"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has last notice date",
+      "technicalName": "fibo-der-drc-bsc:hasLastNoticeDate",
+      "localName": "hasLastNoticeDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/hasLastNoticeDate",
+      "label": "has last notice date",
+      "definition": "specifies the final date on which a delivery notice can be issued",
+      "domain": [
+        "fibo-fbc-pas-fpas:SettlementTerms"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has settlement terms",
+      "technicalName": "fibo-der-drc-bsc:hasSettlementTerms",
+      "localName": "hasSettlementTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/hasSettlementTerms",
+      "label": "has settlement terms",
+      "definition": "relates a derivative to contractual terms specific to the settlement process",
+      "domain": [
+        "fibo-fbc-fi-fi:DerivativeInstrument"
+      ],
+      "range": [
+        "fibo-fbc-pas-fpas:SettlementTerms"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has tick value",
+      "technicalName": "fibo-der-drc-bsc:hasTickValue",
+      "localName": "hasTickValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/hasTickValue",
+      "label": "has tick value",
+      "definition": "indicates the cash value of one tick, i.e., the minimum price change of the contract",
+      "domain": [
+        "fibo-fbc-fi-fi:DerivativeInstrument"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has underlying asset price",
+      "technicalName": "fibo-der-drc-bsc:hasUnderlyingAssetPrice",
+      "localName": "hasUnderlyingAssetPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/hasUnderlyingAssetPrice",
+      "label": "has underlying asset price",
+      "definition": "specifies a price for something on which the contract is based",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryPrice"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has valuation terms",
+      "technicalName": "fibo-der-drc-bsc:hasValuationTerms",
+      "localName": "hasValuationTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/hasValuationTerms",
+      "label": "has valuation terms",
+      "definition": "relates a derivative to contractual terms specific to valuation of the underlying asset(s)",
+      "domain": [
+        "fibo-fbc-fi-fi:DerivativeInstrument"
+      ],
+      "range": [
+        "valuation terms"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "specifies value of",
+      "technicalName": "fibo-der-drc-bsc:specifiesValueOf",
+      "localName": "specifiesValueOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/specifiesValueOf",
+      "label": "specifies value of",
+      "definition": "relates a derivative to contractual terms specific to valuation of the underlying asset(s)",
+      "domain": [],
+      "range": []
+    }
+  ],
+  "attributes": []
+}

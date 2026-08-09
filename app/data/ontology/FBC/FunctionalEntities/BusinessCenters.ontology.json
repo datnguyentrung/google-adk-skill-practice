@@ -1,0 +1,74 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FBC\\FunctionalEntities\\BusinessCenters.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessCenters/",
+  "summary": {
+    "nodes": 3,
+    "edges": 0,
+    "properties": 0,
+    "triples": 54
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Locations/"
+  ],
+  "classes": [
+    {
+      "name": "business center code",
+      "technicalName": "fibo-fbc-fct-bc:BusinessCenterCode",
+      "localName": "BusinessCenterCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessCenters/BusinessCenterCode",
+      "label": "business center code",
+      "definition": "code used to denote a metropolitan area where business is conducted",
+      "parents": [
+        "cmns-loc:GeographicRegionIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "cmns-loc:BusinessCenter",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "business center code set",
+      "technicalName": "fibo-fbc-fct-bc:BusinessCenterCodeScheme",
+      "localName": "BusinessCenterCodeScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessCenters/BusinessCenterCodeScheme",
+      "label": "business center code set",
+      "definition": "coding scheme used to define a set of codes for municipalities or business centers",
+      "parents": [
+        "cmns-cds:CodeSet"
+      ],
+      "rules": []
+    },
+    {
+      "name": "business day adjustment code",
+      "technicalName": "fibo-fbc-fct-bc:BusinessDayAdjustmentCode",
+      "localName": "BusinessDayAdjustmentCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessCenters/BusinessDayAdjustmentCode",
+      "label": "business day adjustment code",
+      "definition": "code used to denote a convention for specifying what happens when a date falls on a day that is weekend or holiday in some municipality or business center",
+      "parents": [
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "fibo-fnd-dt-bd:BusinessDayConvention",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

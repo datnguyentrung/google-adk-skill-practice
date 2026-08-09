@@ -1,0 +1,774 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FND\\Law",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FND\\Law\\LegalCapacity.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FND\\Law\\LegalCore.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 2,
+    "classes": 31,
+    "edges": 12,
+    "attributes": 1
+  },
+  "classes": [
+    {
+      "name": "claim",
+      "technicalName": "fibo-fnd-law-lcap:Claim",
+      "localName": "Claim",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/Claim",
+      "label": "claim",
+      "definition": "demand or assertion made by one party on another, based on facts that, taken together, give rise to a legally enforceable right or judicial action",
+      "parents": [
+        "legal construct"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contingent obligation",
+      "technicalName": "fibo-fnd-law-lcap:ContingentObligation",
+      "localName": "ContingentObligation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/ContingentObligation",
+      "label": "contingent obligation",
+      "definition": "obligation that depends on a future event or the performance of an action",
+      "parents": [
+        "duty"
+      ],
+      "rules": [
+        {
+          "property": "is implied by",
+          "operator": "some",
+          "value": "contingent right",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-agr:isObligationOf",
+          "operator": "some",
+          "value": "fibo-fnd-agr-agr:Obligor",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "contingent right",
+      "technicalName": "fibo-fnd-law-lcap:ContingentRight",
+      "localName": "ContingentRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/ContingentRight",
+      "label": "contingent right",
+      "definition": "right that depends on a future event or the performance of an action",
+      "parents": [
+        "right"
+      ],
+      "rules": [
+        {
+          "property": "is conferred on",
+          "operator": "some",
+          "value": "cmns-pts:Party",
+          "qualifier": null
+        },
+        {
+          "property": "implies",
+          "operator": "some",
+          "value": "contingent obligation",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "contractual capability",
+      "technicalName": "fibo-fnd-law-lcap:ContractualCapability",
+      "localName": "ContractualCapability",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/ContractualCapability",
+      "label": "contractual capability",
+      "definition": "the capacity to enter into legally binding contracts",
+      "parents": [
+        "legal capacity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contractual interest",
+      "technicalName": "fibo-fnd-law-lcap:ContractualInterest",
+      "localName": "ContractualInterest",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/ContractualInterest",
+      "label": "contractual interest",
+      "definition": "legally enforceable benefit or entitlement arising from a contract, agreement, or instrument, in which an entity holds specified rights or obligations related to the performance, use, or benefit of something, without necessarily holding ownership",
+      "parents": [
+        "contractual right"
+      ],
+      "rules": [
+        {
+          "property": "has fractional interest",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    },
+    {
+      "name": "contractual obligation",
+      "technicalName": "fibo-fnd-law-lcap:ContractualObligation",
+      "localName": "ContractualObligation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/ContractualObligation",
+      "label": "contractual obligation",
+      "definition": "legally binding obligation that arises from the terms of a contract",
+      "parents": [
+        "legal obligation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:Contract",
+          "qualifier": null
+        },
+        {
+          "property": "is implied by",
+          "operator": "only",
+          "value": "contractual right",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "contractual option",
+      "technicalName": "fibo-fnd-law-lcap:ContractualOption",
+      "localName": "ContractualOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/ContractualOption",
+      "label": "contractual option",
+      "definition": "contractual right that may be exercised at some point in the future, such as an option to extend a contract, or other available but not obligatory rights as defined in the contract",
+      "parents": [
+        "contractual right"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contractual right",
+      "technicalName": "fibo-fnd-law-lcap:ContractualRight",
+      "localName": "ContractualRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/ContractualRight",
+      "label": "contractual right",
+      "definition": "legally enforceable benefit or entitlement granted to a party within a binding agreement",
+      "parents": [
+        "right"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:Contract",
+          "qualifier": null
+        },
+        {
+          "property": "implies",
+          "operator": "some",
+          "value": "contractual obligation",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "delegated legal authority",
+      "technicalName": "fibo-fnd-law-lcap:DelegatedLegalAuthority",
+      "localName": "DelegatedLegalAuthority",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/DelegatedLegalAuthority",
+      "label": "delegated legal authority",
+      "definition": "institutionalized and legal power inherent in a particular job, function, or position that is meant to enable its holder to successfully carry out his or her responsibilities, where such power has been delegated through some formal means",
+      "parents": [
+        "legal capacity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "delivery obligation",
+      "technicalName": "fibo-fnd-law-lcap:DeliveryObligation",
+      "localName": "DeliveryObligation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/DeliveryObligation",
+      "label": "delivery obligation",
+      "definition": "obligation to deliver something in order to satisfy a claim or debt",
+      "parents": [
+        "contingent obligation",
+        "legal obligation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "duty",
+      "technicalName": "fibo-fnd-law-lcap:Duty",
+      "localName": "Duty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/Duty",
+      "label": "duty",
+      "definition": "some obligation which exists and is imposed on some individual",
+      "parents": [
+        "legal construct"
+      ],
+      "rules": []
+    },
+    {
+      "name": "legal capacity",
+      "technicalName": "fibo-fnd-law-lcap:LegalCapacity",
+      "localName": "LegalCapacity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/LegalCapacity",
+      "label": "legal capacity",
+      "definition": "the capability to carry out certain actions or to have certain rights together with the resources to do so",
+      "parents": [
+        "legal construct"
+      ],
+      "rules": []
+    },
+    {
+      "name": "legal construct",
+      "technicalName": "fibo-fnd-law-lcap:LegalConstruct",
+      "localName": "LegalConstruct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/LegalConstruct",
+      "label": "legal construct",
+      "definition": "something which is conferred by way of law or contract, such as a right",
+      "parents": [],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "is conferred on",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-pts:Party"
+        }
+      ]
+    },
+    {
+      "name": "legal obligation",
+      "technicalName": "fibo-fnd-law-lcap:LegalObligation",
+      "localName": "LegalObligation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/LegalObligation",
+      "label": "legal obligation",
+      "definition": "an obligation or duty that is enforceable by a court",
+      "parents": [
+        "duty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isMandatedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "legal right",
+      "technicalName": "fibo-fnd-law-lcap:LegalRight",
+      "localName": "LegalRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/LegalRight",
+      "label": "legal right",
+      "definition": "personal right, privilege, or benefit that a government, contract, or law provides or protects, making an individual or entity eligible to receive something",
+      "parents": [
+        "right"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "some",
+          "value": "fibo-fnd-law-cor:StatuteLaw",
+          "qualifier": null
+        },
+        {
+          "property": "implies",
+          "operator": "some",
+          "value": "legal obligation",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "liability capacity",
+      "technicalName": "fibo-fnd-law-lcap:LiabilityCapacity",
+      "localName": "LiabilityCapacity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/LiabilityCapacity",
+      "label": "liability capacity",
+      "definition": "the ability to be sued at law",
+      "parents": [
+        "legal capacity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "license",
+      "technicalName": "fibo-fnd-law-lcap:License",
+      "localName": "License",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/License",
+      "label": "license",
+      "definition": "grant of permission needed to do something",
+      "parents": [
+        "cmns-doc:LegalDocument"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "licensee",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "licensor",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:confers",
+          "operator": "some",
+          "value": "legal capacity",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:holdsDuring",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:DatePeriod"
+        }
+      ]
+    },
+    {
+      "name": "license identifier",
+      "technicalName": "fibo-fnd-law-lcap:LicenseIdentifier",
+      "localName": "LicenseIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/LicenseIdentifier",
+      "label": "license identifier",
+      "definition": "an identifier associated with a license",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "license"
+        }
+      ]
+    },
+    {
+      "name": "licensee",
+      "technicalName": "fibo-fnd-law-lcap:Licensee",
+      "localName": "Licensee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/Licensee",
+      "label": "licensee",
+      "definition": "a party to whom a license has been granted",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "license",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "licensor",
+      "technicalName": "fibo-fnd-law-lcap:Licensor",
+      "localName": "Licensor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/Licensor",
+      "label": "licensor",
+      "definition": "a party who grants a license",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "license",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:issues",
+          "operator": "some",
+          "value": "license",
+          "qualifier": null
+        },
+        {
+          "property": "licenses",
+          "operator": "some",
+          "value": "owl:Thing",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "litigation capacity",
+      "technicalName": "fibo-fnd-law-lcap:LitigationCapacity",
+      "localName": "LitigationCapacity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/LitigationCapacity",
+      "label": "litigation capacity",
+      "definition": "the legal capacity to pursue a litigation action in law",
+      "parents": [
+        "legal capacity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "notification obligation",
+      "technicalName": "fibo-fnd-law-lcap:NotificationObligation",
+      "localName": "NotificationObligation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/NotificationObligation",
+      "label": "notification obligation",
+      "definition": "requirement for one party to formally inform another party (or parties) about specific events, actions, or changes as outlined in the agreement",
+      "parents": [
+        "contingent obligation",
+        "legal obligation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "policy",
+      "technicalName": "fibo-fnd-law-lcap:Policy",
+      "localName": "Policy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/Policy",
+      "label": "policy",
+      "definition": "system of principles, rules and guidelines, adopted by an organization to guide decision making with respect to particular situations and implemented via procedures or protocols to achieve stated goals",
+      "parents": [],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "fibo-fnd-gao-obj:Strategy",
+          "qualifier": null
+        },
+        {
+          "property": "implements",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        }
+      ]
+    },
+    {
+      "name": "regulation",
+      "technicalName": "fibo-fnd-law-lcap:Regulation",
+      "localName": "Regulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/Regulation",
+      "label": "regulation",
+      "definition": "a rule used to carry out a law",
+      "parents": [
+        "legal construct"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "some",
+          "value": "fibo-fnd-law-cor:Law",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "reporting policy",
+      "technicalName": "fibo-fnd-law-lcap:ReportingPolicy",
+      "localName": "ReportingPolicy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/ReportingPolicy",
+      "label": "reporting policy",
+      "definition": "policy specifying principles, rules and/or guidelines regarding some aspect of reporting",
+      "parents": [
+        "policy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "right",
+      "technicalName": "fibo-fnd-law-lcap:Right",
+      "localName": "Right",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/Right",
+      "label": "right",
+      "definition": "entitlement to perform certain actions (or not), or to be in certain states (or not); or entitlement that requires others to perform certain actions or be in certain states (or not)",
+      "parents": [
+        "legal construct"
+      ],
+      "rules": []
+    },
+    {
+      "name": "signatory capacity",
+      "technicalName": "fibo-fnd-law-lcap:SignatoryCapacity",
+      "localName": "SignatoryCapacity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/SignatoryCapacity",
+      "label": "signatory capacity",
+      "definition": "the capacity of some natural person to sign agreements on the part of some organization or legal person",
+      "parents": [
+        "legal capacity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "constitution",
+      "technicalName": "fibo-fnd-law-cor:Constitution",
+      "localName": "Constitution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/Constitution",
+      "label": "constitution",
+      "definition": "set of basic principles by which an organization is governed, especially in relation to the rights of the people it governs",
+      "parents": [
+        "cmns-col:Collection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "law",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "court of law",
+      "technicalName": "fibo-fnd-law-cor:CourtOfLaw",
+      "localName": "CourtOfLaw",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/CourtOfLaw",
+      "label": "court of law",
+      "definition": "person or body of persons having judicial authority to hear and resolve disputes on the basis of statutes or the common law",
+      "parents": [
+        "cmns-org:FormalOrganization"
+      ],
+      "rules": []
+    },
+    {
+      "name": "law",
+      "technicalName": "fibo-fnd-law-cor:Law",
+      "localName": "Law",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/Law",
+      "label": "law",
+      "definition": "rule recognized by some community as regulating the behavior of its members and that it may enforce through the imposition of penalties",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "statute law",
+      "technicalName": "fibo-fnd-law-cor:StatuteLaw",
+      "localName": "StatuteLaw",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/StatuteLaw",
+      "label": "statute law",
+      "definition": "law enacted by a legislature",
+      "parents": [
+        "law"
+      ],
+      "rules": [
+        {
+          "property": "is in force in",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has capacity",
+      "technicalName": "fibo-fnd-law-lcap:hasCapacity",
+      "localName": "hasCapacity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/hasCapacity",
+      "label": "has capacity",
+      "definition": "identifies an individual or organization that has some ability and availability to carry out certain actions, or has certain rights or obligations",
+      "domain": [
+        "cmns-pts:Party"
+      ],
+      "range": [
+        "legal capacity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "implements",
+      "technicalName": "fibo-fnd-law-lcap:implements",
+      "localName": "implements",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/implements",
+      "label": "implements",
+      "definition": "carries out or puts into effect, fulfills",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "implies",
+      "technicalName": "fibo-fnd-law-lcap:implies",
+      "localName": "implies",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/implies",
+      "label": "implies",
+      "definition": "strongly suggests or involves as a logical consequence based on some set of observations, facts, or events",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is capacity of",
+      "technicalName": "fibo-fnd-law-lcap:isCapacityOf",
+      "localName": "isCapacityOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/isCapacityOf",
+      "label": "is capacity of",
+      "definition": "identifies an individual or organization on which a given legal capacity has been conferred",
+      "domain": [
+        "legal capacity"
+      ],
+      "range": [
+        "cmns-pts:Party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is conferred on",
+      "technicalName": "fibo-fnd-law-lcap:isConferredOn",
+      "localName": "isConferredOn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/isConferredOn",
+      "label": "is conferred on",
+      "definition": "indicates a party to which some benefit or right has been granted",
+      "domain": [],
+      "range": [
+        "cmns-pts:Party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is implemented by",
+      "technicalName": "fibo-fnd-law-lcap:isImplementedBy",
+      "localName": "isImplementedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/isImplementedBy",
+      "label": "is implemented by",
+      "definition": "indicates something that is carried out, incorporated or put into effect by",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is implied by",
+      "technicalName": "fibo-fnd-law-lcap:isImpliedBy",
+      "localName": "isImpliedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/isImpliedBy",
+      "label": "is implied by",
+      "definition": "indicates something that is strongly suggested by something else, such as a logical consequence based on some set of observations, facts, or events",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is licensed by",
+      "technicalName": "fibo-fnd-law-lcap:isLicensedBy",
+      "localName": "isLicensedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/isLicensedBy",
+      "label": "is licensed by",
+      "definition": "indicates the party that has issued a particular license to some other party",
+      "domain": [],
+      "range": [
+        "cmns-pts:PartyRole"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is predicated on",
+      "technicalName": "fibo-fnd-law-lcap:isPredicatedOn",
+      "localName": "isPredicatedOn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/isPredicatedOn",
+      "label": "is predicated on",
+      "definition": "depends on an assumption or requirement stated in",
+      "domain": [
+        "fibo-fnd-agr-ctr:ConditionPrecedent"
+      ],
+      "range": [
+        "anonymous restriction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "licenses",
+      "technicalName": "fibo-fnd-law-lcap:licenses",
+      "localName": "licenses",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/licenses",
+      "label": "licenses",
+      "definition": "issues a license required in order to perform some task, provide some service, exercise some privilege, or pursue some line of business or occupation to some party",
+      "domain": [
+        "cmns-pts:PartyRole"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has in force",
+      "technicalName": "fibo-fnd-law-cor:hasInForce",
+      "localName": "hasInForce",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/hasInForce",
+      "label": "has in force",
+      "definition": "relates a jurisdiction or situation to a rule, regulation or law (collectively \"law\") that is currently in force in that situation or jurisdiction",
+      "domain": [],
+      "range": [
+        "law"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is in force in",
+      "technicalName": "fibo-fnd-law-cor:isInForceIn",
+      "localName": "isInForceIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/isInForceIn",
+      "label": "is in force in",
+      "definition": "identifies a jurisdiction in which some law has effect",
+      "domain": [
+        "law"
+      ],
+      "range": []
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has fractional interest",
+      "technicalName": "fibo-fnd-law-lcap:hasFractionalInterest",
+      "localName": "hasFractionalInterest",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/hasFractionalInterest",
+      "label": "has fractional interest",
+      "definition": "has proportionate, non-exclusive entitlement to",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    }
+  ]
+}

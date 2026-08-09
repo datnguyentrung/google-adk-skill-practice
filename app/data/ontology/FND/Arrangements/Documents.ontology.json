@@ -1,0 +1,87 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Arrangements\\Documents.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/",
+  "summary": {
+    "nodes": 1,
+    "edges": 4,
+    "properties": 0,
+    "triples": 54
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/"
+  ],
+  "classes": [
+    {
+      "name": "financial record",
+      "technicalName": "fibo-fnd-arr-doc:FinancialRecord",
+      "localName": "FinancialRecord",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/FinancialRecord",
+      "label": "financial record",
+      "definition": "record of financial information",
+      "parents": [
+        "cmns-col:Collection",
+        "cmns-doc:Record"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has expiration date",
+      "technicalName": "fibo-fnd-arr-doc:hasExpirationDate",
+      "localName": "hasExpirationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/hasExpirationDate",
+      "label": "has expiration date",
+      "definition": "links something, typically an agreement, contract, document, or perishable item, with an expiration date",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has record",
+      "technicalName": "fibo-fnd-arr-doc:hasRecord",
+      "localName": "hasRecord",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/hasRecord",
+      "label": "has record",
+      "definition": "links something to a record that pertains to it",
+      "domain": [],
+      "range": [
+        "cmns-doc:Record"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has reporting period",
+      "technicalName": "fibo-fnd-arr-doc:hasReportingPeriod",
+      "localName": "hasReportingPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/hasReportingPeriod",
+      "label": "has reporting period",
+      "definition": "specifies the reporting period for which a report or something else, such as a market rate or economic indicator, applies",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has termination date",
+      "technicalName": "fibo-fnd-arr-doc:hasTerminationDate",
+      "localName": "hasTerminationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/hasTerminationDate",
+      "label": "has termination date",
+      "definition": "links something, typically an agreement, contract, document, or process, with a date on which it is scheduled to be or was terminated",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    }
+  ],
+  "attributes": []
+}

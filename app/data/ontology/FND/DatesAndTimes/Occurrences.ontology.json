@@ -1,0 +1,267 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\DatesAndTimes\\Occurrences.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+  "summary": {
+    "nodes": 5,
+    "edges": 7,
+    "properties": 1,
+    "triples": 192
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Locations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/"
+  ],
+  "classes": [
+    {
+      "name": "calculation",
+      "technicalName": "fibo-fnd-dt-oc:Calculation",
+      "localName": "Calculation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/Calculation",
+      "label": "calculation",
+      "definition": "actual execution of some computation, computational process, or operation that was scheduled or triggered by something",
+      "parents": [
+        "occurrence"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "calculation event"
+        },
+        {
+          "property": "cmns-qtu:hasQuantityValueRange",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-qtu:ScalarQuantityValueRange"
+        },
+        {
+          "property": "cmns-qtu:hasQuantityValue",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-qtu:ScalarQuantityValue"
+        },
+        {
+          "property": "cmns-qtu:hasExpression",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-qtu:Expression"
+        }
+      ]
+    },
+    {
+      "name": "calculation event",
+      "technicalName": "fibo-fnd-dt-oc:CalculationEvent",
+      "localName": "CalculationEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/CalculationEvent",
+      "label": "calculation event",
+      "definition": "kind of event that is either scheduled or triggered by something, such as a related financial event, that causes a calculation to be performed",
+      "parents": [
+        "occurrence kind"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "calculation",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "occurrence",
+      "technicalName": "fibo-fnd-dt-oc:Occurrence",
+      "localName": "Occurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/Occurrence",
+      "label": "occurrence",
+      "definition": "happening of an OccurrenceKind, i.e., an event",
+      "parents": [],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "occurrence kind"
+        },
+        {
+          "property": "cmns-loc:hasLocation",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-loc:Location"
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "occurrence kind"
+        },
+        {
+          "property": "has event date value",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        },
+        {
+          "property": "has event date",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "cmns-pts:holdsDuring",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:DatePeriod"
+        }
+      ]
+    },
+    {
+      "name": "occurrence-based date",
+      "technicalName": "fibo-fnd-dt-oc:OccurrenceBasedDate",
+      "localName": "OccurrenceBasedDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/OccurrenceBasedDate",
+      "label": "occurrence-based date",
+      "definition": "calculated date that is defined with respect to the occurrence of some occurrence kind",
+      "parents": [
+        "fibo-fnd-dt-fd:CalculatedDate"
+      ],
+      "rules": [
+        {
+          "property": "is triggered by",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "occurrence kind"
+        }
+      ]
+    },
+    {
+      "name": "occurrence kind",
+      "technicalName": "fibo-fnd-dt-oc:OccurrenceKind",
+      "localName": "OccurrenceKind",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/OccurrenceKind",
+      "label": "occurrence kind",
+      "definition": "classifier that specifies the general nature of an occurrence (event)",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "occurrence",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has event date",
+      "technicalName": "fibo-fnd-dt-oc:hasEventDate",
+      "localName": "hasEventDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/hasEventDate",
+      "label": "has event date",
+      "definition": "identifies a date associated with an event (occurrence)",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has input",
+      "technicalName": "fibo-fnd-dt-oc:hasInput",
+      "localName": "hasInput",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/hasInput",
+      "label": "has input",
+      "definition": "relates something (e.g. an occurrence) to something that is used as an input to some activity or process",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has occurrence",
+      "technicalName": "fibo-fnd-dt-oc:hasOccurrence",
+      "localName": "hasOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/hasOccurrence",
+      "label": "has occurrence",
+      "definition": "identifies events of a given occurrence kind, typically as they occur in a schedule",
+      "domain": [],
+      "range": [
+        "occurrence"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has output",
+      "technicalName": "fibo-fnd-dt-oc:hasOutput",
+      "localName": "hasOutput",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/hasOutput",
+      "label": "has output",
+      "definition": "relates something (e.g. an occurrence) to something that is the result of some activity or process",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is input to",
+      "technicalName": "fibo-fnd-dt-oc:isInputTo",
+      "localName": "isInputTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/isInputTo",
+      "label": "is input to",
+      "definition": "indicates a precondition, requirement, or other contribution (e.g., data) to some activity, process, system, report, analysis, etc.",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is output from",
+      "technicalName": "fibo-fnd-dt-oc:isOutputFrom",
+      "localName": "isOutputFrom",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/isOutputFrom",
+      "label": "is output from",
+      "definition": "indicates post condition or other product of some activity, process, system, report, analysis, etc.",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is triggered by",
+      "technicalName": "fibo-fnd-dt-oc:isTriggeredBy",
+      "localName": "isTriggeredBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/isTriggeredBy",
+      "label": "is triggered by",
+      "definition": "is activated or initiated by",
+      "domain": [
+        "occurrence-based date"
+      ],
+      "range": [
+        "occurrence kind"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has event date value",
+      "technicalName": "fibo-fnd-dt-oc:hasEventDateValue",
+      "localName": "hasEventDateValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/hasEventDateValue",
+      "label": "has event date value",
+      "definition": "identifies a date or date and time value associated with an event (occurrence)",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2767 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Securities",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Securities\\Baskets.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Securities\\ParametricSchedules.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Securities\\Pools.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Securities\\SecuritiesClassification.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Securities\\SecuritiesIdentification.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Securities\\SecuritiesIdentificationIndividuals.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Securities\\SecuritiesIssuance.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Securities\\SecuritiesListings.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Securities\\SecuritiesRestrictions.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Securities\\SecurityAssets.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Securities\\EuropeanSecurities\\all_european_securities.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Securities\\NorthAmericanSecurities\\all_north_american_securities.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 12,
+    "classes": 101,
+    "edges": 21,
+    "attributes": 13
+  },
+  "classes": [
+    {
+      "name": "market basket",
+      "technicalName": "fibo-sec-sec-bsk:BasketOfIndices",
+      "localName": "BasketOfIndices",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/BasketOfIndices",
+      "label": "market basket",
+      "definition": "basket composed of market indices",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasket",
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "basket Of indices constituent",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "basket Of indices constituent",
+      "technicalName": "fibo-sec-sec-bsk:BasketOfIndicesConstituent",
+      "localName": "BasketOfIndicesConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/BasketOfIndicesConstituent",
+      "label": "basket Of indices constituent",
+      "definition": "single constituent of a basket of indices",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasketConstituent",
+        "fibo-fnd-dt-fd:DatedCollectionConstituent"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-fd:hasDateAdded",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "only",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "basket of securities",
+      "technicalName": "fibo-sec-sec-bsk:BasketOfSecurities",
+      "localName": "BasketOfSecurities",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/BasketOfSecurities",
+      "label": "basket of securities",
+      "definition": "basket composed of securities, typically of a particular asset class such as equities or bonds",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasket",
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "securities basket constituent",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "mixed basket",
+      "technicalName": "fibo-sec-sec-bsk:MixedBasket",
+      "localName": "MixedBasket",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/MixedBasket",
+      "label": "mixed basket",
+      "definition": "basket that has a mix of constituents, including securities and indices",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasket",
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "securities basket constituent",
+      "technicalName": "fibo-sec-sec-bsk:SecuritiesBasketConstituent",
+      "localName": "SecuritiesBasketConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/SecuritiesBasketConstituent",
+      "label": "securities basket constituent",
+      "definition": "security identified as a component of a basket of securities",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasketConstituent",
+        "fibo-fnd-dt-fd:DatedCollectionConstituent"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-fd:hasDateAdded",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "only",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "auction date rule",
+      "technicalName": "fibo-sec-sec-sch:AuctionDateRule",
+      "localName": "AuctionDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/AuctionDateRule",
+      "label": "auction date rule",
+      "definition": "business recurrence interval convention that is a published rule for defining the date of some auction event",
+      "parents": [
+        "fibo-fnd-dt-bd:BusinessRecurrenceIntervalConvention"
+      ],
+      "rules": []
+    },
+    {
+      "name": "date returned by settlement date rule",
+      "technicalName": "fibo-sec-sec-sch:DateReturnedBySettlementDateRule",
+      "localName": "DateReturnedBySettlementDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/DateReturnedBySettlementDateRule",
+      "label": "date returned by settlement date rule",
+      "definition": "calculated date that is determined via a settlement rule",
+      "parents": [
+        "fibo-fnd-dt-fd:CalculatedDate"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "only",
+          "value": "settlement date rule",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "date returned by trading date rule",
+      "technicalName": "fibo-sec-sec-sch:DateReturnedByTradingDateRule",
+      "localName": "DateReturnedByTradingDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/DateReturnedByTradingDateRule",
+      "label": "date returned by trading date rule",
+      "definition": "calculated date that is determined via a trading rule",
+      "parents": [
+        "fibo-fnd-dt-fd:CalculatedDate"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "only",
+          "value": "trading date rule",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "floating-rate note date",
+      "technicalName": "fibo-sec-sec-sch:FloatingRateNoteDate",
+      "localName": "FloatingRateNoteDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/FloatingRateNoteDate",
+      "label": "floating-rate note date",
+      "definition": "calculated date associated with a floating-rate note, also known as a floater or FRN, which is a debt instrument with a variable interest rate",
+      "parents": [
+        "fibo-fnd-dt-fd:CalculatedDate"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-bd:hasBusinessDayConvention",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "floating-rate note date rule"
+        }
+      ]
+    },
+    {
+      "name": "floating-rate note date rule",
+      "technicalName": "fibo-sec-sec-sch:FloatingRateNoteDateRule",
+      "localName": "FloatingRateNoteDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/FloatingRateNoteDateRule",
+      "label": "floating-rate note date rule",
+      "definition": "business day adjustment rule applied to floating-rate note instruments",
+      "parents": [
+        "fibo-fnd-dt-bd:BusinessRecurrenceIntervalConvention"
+      ],
+      "rules": []
+    },
+    {
+      "name": "International Money Market (IMM) Australian Dollar (AUD) trading date rule",
+      "technicalName": "fibo-sec-sec-sch:InternationalMoneyMarketAustralianDollarTradingDateRule",
+      "localName": "InternationalMoneyMarketAustralianDollarTradingDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/InternationalMoneyMarketAustralianDollarTradingDateRule",
+      "label": "International Money Market (IMM) Australian Dollar (AUD) trading date rule",
+      "definition": "trading date rule defined as the last trading day of an Australian Stock Exchange (ASX) 90-Day Bank Accepted Futures and Options product, one Sydney business day preceding the second Friday of the relevant settlement month",
+      "parents": [
+        "trading date rule"
+      ],
+      "rules": []
+    },
+    {
+      "name": "International Money Market (IMM) Canadian Dollar (CAD) trading date rule",
+      "technicalName": "fibo-sec-sec-sch:InternationalMoneyMarketCanadianDollarTradingDateRule",
+      "localName": "InternationalMoneyMarketCanadianDollarTradingDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/InternationalMoneyMarketCanadianDollarTradingDateRule",
+      "label": "International Money Market (IMM) Canadian Dollar (CAD) trading date rule",
+      "definition": "trading date rule defined as the last trading day / expiration day of the Canadian Derivatives Exchange (Bourse do Montreal Inc.), three month Bankers' Acceptance Futures (Ticker symbol BAX), the second London banking day prior to the third Wednesday of the contract month",
+      "parents": [
+        "trading date rule"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-bd:hasBusinessDayConvention",
+          "operator": "value",
+          "value": "fibo-fnd-dt-bd:BusinessDayPreceding",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "International Money Market (IMM) New Zealand Dollar (NZD) trading date rule",
+      "technicalName": "fibo-sec-sec-sch:InternationalMoneyMarketNewZealandDollarTradingDateRule",
+      "localName": "InternationalMoneyMarketNewZealandDollarTradingDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/InternationalMoneyMarketNewZealandDollarTradingDateRule",
+      "label": "International Money Market (IMM) New Zealand Dollar (NZD) trading date rule",
+      "definition": "trading date rule defined as the last trading day of an Australian Stock Exchange (ASX) New Zealand (NZ) 90-Day Bank Accepted Futures and Options product, the first Wednesday after the ninth day of the relevant settlement month",
+      "parents": [
+        "trading date rule"
+      ],
+      "rules": []
+    },
+    {
+      "name": "International Money Market (IMM) settlement date rule",
+      "technicalName": "fibo-sec-sec-sch:InternationalMoneyMarketSettlementDateRule",
+      "localName": "InternationalMoneyMarketSettlementDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/InternationalMoneyMarketSettlementDateRule",
+      "label": "International Money Market (IMM) settlement date rule",
+      "definition": "settlement date rule as defined in the International Money Market (IMM) settlement dates calendar",
+      "parents": [
+        "settlement date rule"
+      ],
+      "rules": []
+    },
+    {
+      "name": "scheduled calculation period end event",
+      "technicalName": "fibo-sec-sec-sch:ScheduledCalculationPeriodEndEvent",
+      "localName": "ScheduledCalculationPeriodEndEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/ScheduledCalculationPeriodEndEvent",
+      "label": "scheduled calculation period end event",
+      "definition": "the end date of a specific calculation period",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": []
+    },
+    {
+      "name": "scheduled calculation period start event",
+      "technicalName": "fibo-sec-sec-sch:ScheduledCalculationPeriodStartEvent",
+      "localName": "ScheduledCalculationPeriodStartEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/ScheduledCalculationPeriodStartEvent",
+      "label": "scheduled calculation period start event",
+      "definition": "the start of a specific calculation period",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": []
+    },
+    {
+      "name": "settlement date rule",
+      "technicalName": "fibo-sec-sec-sch:SettlementDateRule",
+      "localName": "SettlementDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/SettlementDateRule",
+      "label": "settlement date rule",
+      "definition": "convention for determining settlement dates by reference to some jurisdiction or as set by a given exchange or similar venue",
+      "parents": [
+        "fibo-fnd-dt-bd:BusinessRecurrenceIntervalConvention"
+      ],
+      "rules": []
+    },
+    {
+      "name": "trading date rule",
+      "technicalName": "fibo-sec-sec-sch:TradingDateRule",
+      "localName": "TradingDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/TradingDateRule",
+      "label": "trading date rule",
+      "definition": "convention for determining trading dates defined with reference to some trading date calendar published by some trading facility or exchange",
+      "parents": [
+        "fibo-fnd-dt-bd:BusinessRecurrenceIntervalConvention"
+      ],
+      "rules": []
+    },
+    {
+      "name": "US Treasury bill auction date rule",
+      "technicalName": "fibo-sec-sec-sch:USTreasuryBillAuctionDateRule",
+      "localName": "USTreasuryBillAuctionDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/USTreasuryBillAuctionDateRule",
+      "label": "US Treasury bill auction date rule",
+      "definition": "rule for setting auction dates for US Treasury bills",
+      "parents": [
+        "auction date rule"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-bd:hasBusinessDayConvention",
+          "operator": "value",
+          "value": "fibo-fnd-dt-bd:BusinessDayFollowing",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "US Treasury bill date",
+      "technicalName": "fibo-sec-sec-sch:USTreasuryBillDate",
+      "localName": "USTreasuryBillDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/USTreasuryBillDate",
+      "label": "US Treasury bill date",
+      "definition": "auction date for US 13 week and 26 week Treasury bills",
+      "parents": [
+        "fibo-fnd-dt-fd:CalculatedDate"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-bd:hasBusinessDayConvention",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "US Treasury bill auction date rule"
+        }
+      ]
+    },
+    {
+      "name": "collective investment vehicle",
+      "technicalName": "fibo-sec-sec-pls:CollectiveInvestmentVehicle",
+      "localName": "CollectiveInvestmentVehicle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/CollectiveInvestmentVehicle",
+      "label": "collective investment vehicle",
+      "definition": "assets pooled by investors whose share capital remains separate from the assets of the vehicle",
+      "parents": [
+        "pooled fund"
+      ],
+      "rules": []
+    },
+    {
+      "name": "debt pool",
+      "technicalName": "fibo-sec-sec-pls:DebtPool",
+      "localName": "DebtPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/DebtPool",
+      "label": "debt pool",
+      "definition": "pool consisting of debt instruments, such as bonds, loans or mortgages",
+      "parents": [
+        "instrument pool"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:DebtInstrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund family",
+      "technicalName": "fibo-sec-sec-pls:FundFamily",
+      "localName": "FundFamily",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/FundFamily",
+      "label": "fund family",
+      "definition": "collection of managed investments that are all managed by a single investment institution",
+      "parents": [
+        "cmns-col:Collection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "managed investment",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fct-fse:FinancialInstitution"
+        }
+      ]
+    },
+    {
+      "name": "instrument pool",
+      "technicalName": "fibo-sec-sec-pls:InstrumentPool",
+      "localName": "InstrumentPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/InstrumentPool",
+      "label": "instrument pool",
+      "definition": "pool consisting of financial instruments that may be included in the same investment vehicle",
+      "parents": [
+        "pool"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:FinancialInstrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "instrument pool as asset",
+      "technicalName": "fibo-sec-sec-pls:InstrumentPoolAsAsset",
+      "localName": "InstrumentPoolAsAsset",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/InstrumentPoolAsAsset",
+      "label": "instrument pool as asset",
+      "definition": "financial asset in the form of an instrument pool",
+      "parents": [
+        "fibo-fnd-oac-own:FinancialAsset"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "instrument pool",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-own:isAssetOf",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-be-le-lp:SpecialPurposeVehicle",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "managed investment",
+      "technicalName": "fibo-sec-sec-pls:ManagedInvestment",
+      "localName": "ManagedInvestment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/ManagedInvestment",
+      "label": "managed investment",
+      "definition": "investment pool that is controlled by a professional investment manager who invests the pool in various financial instruments and assets that align with their investment objectives and is overseen by a board of directors",
+      "parents": [
+        "collective investment vehicle"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "some",
+          "value": "fibo-fbc-fct-fse:FinancialInstitution",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pool",
+      "technicalName": "fibo-sec-sec-pls:Pool",
+      "localName": "Pool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/Pool",
+      "label": "pool",
+      "definition": "combination of resources for a common purpose or benefit",
+      "parents": [
+        "cmns-col:Collection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "pool constituent",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pool constituent",
+      "technicalName": "fibo-sec-sec-pls:PoolConstituent",
+      "localName": "PoolConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/PoolConstituent",
+      "label": "pool constituent",
+      "definition": "component of a pool",
+      "parents": [
+        "cmns-col:Constituent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "some",
+          "value": "pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pooled fund",
+      "technicalName": "fibo-sec-sec-pls:PooledFund",
+      "localName": "PooledFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/PooledFund",
+      "label": "pooled fund",
+      "definition": "pool of funds that a group of investors combines for common benefit",
+      "parents": [
+        "pool"
+      ],
+      "rules": []
+    },
+    {
+      "name": "private fund",
+      "technicalName": "fibo-sec-sec-pls:PrivateFund",
+      "localName": "PrivateFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/PrivateFund",
+      "label": "private fund",
+      "definition": "managed investment that cannot offer securities to the public",
+      "parents": [
+        "managed investment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities pool",
+      "technicalName": "fibo-sec-sec-pls:SecuritiesPool",
+      "localName": "SecuritiesPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/SecuritiesPool",
+      "label": "securities pool",
+      "definition": "pool of securities organized for the purpose of issuing notes against those securities",
+      "parents": [
+        "instrument pool"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fibo-sec-sec-pls:SecuritiesPoolConstituent",
+      "technicalName": "fibo-sec-sec-pls:SecuritiesPoolConstituent",
+      "localName": "SecuritiesPoolConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/SecuritiesPoolConstituent",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "asset class",
+      "technicalName": "fibo-sec-sec-cls:AssetClass",
+      "localName": "AssetClass",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/AssetClass",
+      "label": "asset class",
+      "definition": "financial instrument classifier for a group of securities that exhibit similar characteristics, behave similarly in the marketplace and are subject to the same laws and regulations",
+      "parents": [
+        "financial instrument classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "classification of financial instruments code scheme",
+      "technicalName": "fibo-sec-sec-cls:ClassificationOfFinancialInstrumentsCodeScheme",
+      "localName": "ClassificationOfFinancialInstrumentsCodeScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/ClassificationOfFinancialInstrumentsCodeScheme",
+      "label": "classification of financial instruments code scheme",
+      "definition": "classification scheme for set of codes for financial instruments that can be used globally for straight-through processing by all involved participants in an electronic data processing environment",
+      "parents": [
+        "financial instrument classification scheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "financial instrument classification code",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "financial instrument classification code",
+      "technicalName": "fibo-sec-sec-cls:FinancialInstrumentClassificationCode",
+      "localName": "FinancialInstrumentClassificationCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/FinancialInstrumentClassificationCode",
+      "label": "financial instrument classification code",
+      "definition": "classifier and code for a financial instrument defined in the ISO 10962 Classification of Financial Instruments (CFI) Code Scheme",
+      "parents": [
+        "financial instrument classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "classification of financial instruments code scheme"
+        }
+      ]
+    },
+    {
+      "name": "financial instrument classification scheme",
+      "technicalName": "fibo-sec-sec-cls:FinancialInstrumentClassificationScheme",
+      "localName": "FinancialInstrumentClassificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/FinancialInstrumentClassificationScheme",
+      "label": "financial instrument classification scheme",
+      "definition": "classification scheme defining a set of classifiers for financial instruments",
+      "parents": [
+        "cmns-cls:ClassificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "only",
+          "value": "financial instrument classifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "financial instrument classifier",
+      "technicalName": "fibo-sec-sec-cls:FinancialInstrumentClassifier",
+      "localName": "FinancialInstrumentClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/FinancialInstrumentClassifier",
+      "label": "financial instrument classifier",
+      "definition": "classifier for a financial instrument based on its type and features",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:FinancialInstrument",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "financial instrument classification scheme"
+        }
+      ]
+    },
+    {
+      "name": "Global Industry Classification Standards classifier",
+      "technicalName": "fibo-sec-sec-cls:GlobalIndustryClassificationStandardsClassifier",
+      "localName": "GlobalIndustryClassificationStandardsClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/GlobalIndustryClassificationStandardsClassifier",
+      "label": "Global Industry Classification Standards classifier",
+      "definition": "four-tiered standardized classification or delineation for an organization based on the principal business activity of the organization",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier",
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Global Industry Classification Standards scheme",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "industry classification benchmark classifier",
+      "technicalName": "fibo-sec-sec-cls:IndustryClassificationBenchmarkClassifier",
+      "localName": "IndustryClassificationBenchmarkClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/IndustryClassificationBenchmarkClassifier",
+      "label": "industry classification benchmark classifier",
+      "definition": "standardized classification or delineation for an organization based on their main source of revenue",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier",
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Industry Classification Benchmark scheme",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "financial instrument identification scheme",
+      "technicalName": "fibo-sec-sec-id:FinancialInstrumentIdentificationScheme",
+      "localName": "FinancialInstrumentIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/FinancialInstrumentIdentificationScheme",
+      "label": "financial instrument identification scheme",
+      "definition": "formal definition of the structure and application of a particular set of financial instrument identifiers",
+      "parents": [
+        "cmns-id:IdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:FinancialInstrumentIdentifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "international securities identification number",
+      "technicalName": "fibo-sec-sec-id:InternationalSecuritiesIdentificationNumber",
+      "localName": "InternationalSecuritiesIdentificationNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/InternationalSecuritiesIdentificationNumber",
+      "label": "international securities identification number",
+      "definition": "security identifier that is defined as specified in ISO 6166, Securities and related financial instruments -- International securities identification numbering system (ISIN)",
+      "parents": [
+        "security identifier",
+        "cmns-cxtid:StructuredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "lcc-cr:Alpha2Code"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "National Securities Identifying Number"
+        }
+      ]
+    },
+    {
+      "name": "international securities identification numbering scheme",
+      "technicalName": "fibo-sec-sec-id:InternationalSecuritiesIdentificationNumberingScheme",
+      "localName": "InternationalSecuritiesIdentificationNumberingScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/InternationalSecuritiesIdentificationNumberingScheme",
+      "label": "international securities identification numbering scheme",
+      "definition": "formal definition of the structure and application of a ISINs as defined in ISO 6166",
+      "parents": [
+        "security identification scheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "international securities identification number",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "listed security identifier",
+      "technicalName": "fibo-sec-sec-id:ListedSecurityIdentifier",
+      "localName": "ListedSecurityIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/ListedSecurityIdentifier",
+      "label": "listed security identifier",
+      "definition": "security identifier issued in the public domain and referred to in listings and other relevant publications",
+      "parents": [
+        "security identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "some",
+          "value": "security registry",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "some",
+          "value": "fibo-fbc-fct-mkt:Exchange",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "fibo-sec-sec-lst:ListedSecurity",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "security identification scheme",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "national numbering agency",
+      "technicalName": "fibo-sec-sec-id:NationalNumberingAgency",
+      "localName": "NationalNumberingAgency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/NationalNumberingAgency",
+      "label": "national numbering agency",
+      "definition": "registration authority responsible for issuing and managing National Securities Identifying Numbers for securities in accordance with the ISO 6166 standard in some jurisdiction (typically that of a country)",
+      "parents": [
+        "cmns-ra:RegistrationAuthority"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:registers",
+          "operator": "some",
+          "value": "National Securities Identifying Number",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:manages",
+          "operator": "some",
+          "value": "National Securities Identifying Number registry",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-loc:hasCoverageArea",
+          "operator": "some",
+          "value": "cmns-loc:GeopoliticalEntity",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:issues",
+          "operator": "some",
+          "value": "National Securities Identifying Number",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "National Securities Identifying Number",
+      "technicalName": "fibo-sec-sec-id:NationalSecuritiesIdentifyingNumber",
+      "localName": "NationalSecuritiesIdentifyingNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/NationalSecuritiesIdentifyingNumber",
+      "label": "National Securities Identifying Number",
+      "definition": "generic, nine-digit alpha numeric code which identifies a fungible security, assigned by a national numbering agency under the ISO 6166 standard",
+      "parents": [
+        "security identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "some",
+          "value": "national numbering agency",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "national security identification scheme",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "National Securities Identifying Number registry",
+      "technicalName": "fibo-sec-sec-id:NationalSecuritiesIdentifyingNumberRegistry",
+      "localName": "NationalSecuritiesIdentifyingNumberRegistry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/NationalSecuritiesIdentifyingNumberRegistry",
+      "label": "National Securities Identifying Number registry",
+      "definition": "registry used by a national numbering agency to manage the financial instrument identifiers and related information that it registers",
+      "parents": [
+        "security registry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "some",
+          "value": "national numbering agency",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "national numbering agency registry entry",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isCharacterizedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "national security identification scheme"
+        }
+      ]
+    },
+    {
+      "name": "national numbering agency registry entry",
+      "technicalName": "fibo-sec-sec-id:NationalSecuritiesIdentifyingNumberRegistryEntry",
+      "localName": "NationalSecuritiesIdentifyingNumberRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/NationalSecuritiesIdentifyingNumberRegistryEntry",
+      "label": "national numbering agency registry entry",
+      "definition": "entry in a National Securities Identifying Number registry",
+      "parents": [
+        "security registry entry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "National Securities Identifying Number",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "national security identification scheme",
+      "technicalName": "fibo-sec-sec-id:NationalSecurityIdentificationScheme",
+      "localName": "NationalSecurityIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/NationalSecurityIdentificationScheme",
+      "label": "national security identification scheme",
+      "definition": "security identification scheme, defining the format and structure of a National Securities Identifying Number (NSIN), published nationally on behalf of a country",
+      "parents": [
+        "security identification scheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "National Securities Identifying Number",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "cmns-loc:GeopoliticalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "proprietary security identification scheme",
+      "technicalName": "fibo-sec-sec-id:ProprietarySecurityIdentificationScheme",
+      "localName": "ProprietarySecurityIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/ProprietarySecurityIdentificationScheme",
+      "label": "proprietary security identification scheme",
+      "definition": "security identification scheme published by a commercial entity",
+      "parents": [
+        "security identification scheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "proprietary security identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "proprietary security identifier",
+      "technicalName": "fibo-sec-sec-id:ProprietarySecurityIdentifier",
+      "localName": "ProprietarySecurityIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/ProprietarySecurityIdentifier",
+      "label": "proprietary security identifier",
+      "definition": "identifier supplied by a commercial entity",
+      "parents": [
+        "security identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "proprietary security identification scheme",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "security identification scheme",
+      "technicalName": "fibo-sec-sec-id:SecurityIdentificationScheme",
+      "localName": "SecurityIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/SecurityIdentificationScheme",
+      "label": "security identification scheme",
+      "definition": "formal definition of the structure and application of a particular set of securities identifiers",
+      "parents": [
+        "financial instrument identification scheme",
+        "cmns-ra:RegistrationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "security identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "security identifier",
+      "technicalName": "fibo-sec-sec-id:SecurityIdentifier",
+      "localName": "SecurityIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/SecurityIdentifier",
+      "label": "security identifier",
+      "definition": "any publicly available identifier that is used to identify a security",
+      "parents": [
+        "fibo-fbc-fi-fi:FinancialInstrumentIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "security identification scheme",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "security registry",
+      "technicalName": "fibo-sec-sec-id:SecurityRegistry",
+      "localName": "SecurityRegistry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/SecurityRegistry",
+      "label": "security registry",
+      "definition": "registry used to manage security identifiers and related information",
+      "parents": [
+        "cmns-ra:Registry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "some",
+          "value": "cmns-ra:RegistrationAuthority",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "security registry entry",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isCharacterizedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "security identification scheme"
+        }
+      ]
+    },
+    {
+      "name": "security registry entry",
+      "technicalName": "fibo-sec-sec-id:SecurityRegistryEntry",
+      "localName": "SecurityRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/SecurityRegistryEntry",
+      "label": "security registry entry",
+      "definition": "record for a security in a securities registry",
+      "parents": [
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-sec-sec-lst:RegisteredSecurity",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "security identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ticker symbol",
+      "technicalName": "fibo-sec-sec-id:TickerSymbol",
+      "localName": "TickerSymbol",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/TickerSymbol",
+      "label": "ticker symbol",
+      "definition": "reassignable identifier of relatively short character string length that is unique within an exchange for a particular financial instrument or listing for that instrument",
+      "parents": [
+        "fibo-fnd-arr-id:ReassignableIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "CUSIP International Numbering System (CINS) number",
+      "technicalName": "fibo-sec-sec-idind:CUSIPInternationalNumberingSystemNumber",
+      "localName": "CUSIPInternationalNumberingSystemNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/CUSIPInternationalNumberingSystemNumber",
+      "label": "CUSIP International Numbering System (CINS) number",
+      "definition": "9-character alphanumeric identifier that employs the same 9 characters as CUSIP, but also contains a letter of the alphabet in the first position signifying the issuer's country or geographic region, issued by CUSIP Global Services",
+      "parents": [
+        "fibo-sec-sec-id:ProprietarySecurityIdentifier",
+        "cmns-ra:RegisteredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fi-fi:Security"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "CUSIP International Numbering System (CINS) scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "CUSIP Global Services",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "value",
+          "value": "CUSIP Global Services",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "value",
+          "value": "CGS CUSIP Access Repository",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Committee on Uniform Securities Identification Procedures (CUSIP) number",
+      "technicalName": "fibo-sec-sec-idind:CommitteeOnUniformSecuritiesIdentificationProceduresNumber",
+      "localName": "CommitteeOnUniformSecuritiesIdentificationProceduresNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/CommitteeOnUniformSecuritiesIdentificationProceduresNumber",
+      "label": "Committee on Uniform Securities Identification Procedures (CUSIP) number",
+      "definition": "nine-character alphanumeric number that identifies all North American stocks and registered bonds for the purposes of facilitating clearing and settlement of trades, issued by CUSIP Global Services on behalf of the American Bankers' Association, which is a part of Standard and Poor's Capital IQ, that is the National Numbering Agency Identifier for securities issued in North America, which is also part of the ISIN for the security it identifies",
+      "parents": [
+        "fibo-sec-sec-id:NationalSecuritiesIdentifyingNumber",
+        "fibo-sec-sec-id:ProprietarySecurityIdentifier",
+        "cmns-ra:RegisteredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fi-fi:Security"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Committee on Uniform Securities Identification Procedures (CUSIP) scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "CUSIP Global Services",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "value",
+          "value": "CUSIP Global Services",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "value",
+          "value": "CGS CUSIP Access Repository",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "common code registry entry",
+      "technicalName": "fibo-sec-sec-idind:CommonCodeRegistryEntry",
+      "localName": "CommonCodeRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/CommonCodeRegistryEntry",
+      "label": "common code registry entry",
+      "definition": "entry in a common code registry",
+      "parents": [
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "Euroclear Clearstream common code",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "value",
+          "value": "common code repository",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "only",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Euroclear Clearstream common code",
+      "technicalName": "fibo-sec-sec-idind:EuroclearClearstreamCommonCode",
+      "localName": "EuroclearClearstreamCommonCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/EuroclearClearstreamCommonCode",
+      "label": "Euroclear Clearstream common code",
+      "definition": "nine-character alphanumeric securities identifier, issued in Luxembourg, jointly by Euroclear and Clearstream",
+      "parents": [
+        "fibo-sec-sec-id:ProprietarySecurityIdentifier",
+        "cmns-ra:RegisteredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fi-fi:Security"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Euroclear Clearstream common code scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "value",
+          "value": "common code repository",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "only",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "only",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "financial instrument global identifier",
+      "technicalName": "fibo-sec-sec-idind:FinancialInstrumentGlobalIdentifier",
+      "localName": "FinancialInstrumentGlobalIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/FinancialInstrumentGlobalIdentifier",
+      "label": "financial instrument global identifier",
+      "definition": "financial instrument identifier that is defined as specified in the Object Management Group (OMG) Financial Instrument Global Identifier (FIGI) Specification",
+      "parents": [
+        "cmns-ra:RegisteredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "financial instrument global identifier scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "value",
+          "value": "Financial Instrument Global Identifier (FIGI) Registry",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:BloombergLP",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:BloombergLP",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Financial Instrument Global Identifier (FIGI) registry entry",
+      "technicalName": "fibo-sec-sec-idind:FinancialInstrumentGlobalIdentifierRegistryEntry",
+      "localName": "FinancialInstrumentGlobalIdentifierRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/FinancialInstrumentGlobalIdentifierRegistryEntry",
+      "label": "Financial Instrument Global Identifier (FIGI) registry entry",
+      "definition": "entry in a Financial Instrument Global Identifier (FIGI) registry",
+      "parents": [
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "financial instrument global identifier",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "value",
+          "value": "Financial Instrument Global Identifier (FIGI) Registry",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Refinitiv instrument code",
+      "technicalName": "fibo-sec-sec-idind:RefinitivInstrumentCode",
+      "localName": "RefinitivInstrumentCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/RefinitivInstrumentCode",
+      "label": "Refinitiv instrument code",
+      "definition": "proprietary code for financial instruments and indices owned, managed, and distributed by the London Stock Exchange Group's LSEG Financial Solutions (branded as Refinitiv)",
+      "parents": [
+        "fibo-sec-sec-id:ProprietarySecurityIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Refinitiv instrument code scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "fibo-ind-ir-mdp:LSEGFinancialSolutionsAsMarketDataProvider",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "value",
+          "value": "fibo-ind-ir-mdp:LSEGFinancialSolutionsAsMarketDataProvider",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Stock Exchange Daily Official List (SEDOL) code",
+      "technicalName": "fibo-sec-sec-idind:StockExchangeDailyOfficialListCode",
+      "localName": "StockExchangeDailyOfficialListCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/StockExchangeDailyOfficialListCode",
+      "label": "Stock Exchange Daily Official List (SEDOL) code",
+      "definition": "seven-character security identifier, issued by the London Stock Exchange, that is the National Securities Identifying Number (NSIN) for securities issued in the United Kingdom, which is also part of the ISIN for the security it identifies",
+      "parents": [
+        "fibo-sec-sec-id:ListedSecurityIdentifier",
+        "fibo-sec-sec-id:NationalSecuritiesIdentifyingNumber",
+        "fibo-sec-sec-id:ProprietarySecurityIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Stock Exchange Daily Official List (SEDOL) scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "value",
+          "value": "SEDOL Master File",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:LondonStockExchange",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:LondonStockExchange",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Telekurs Id",
+      "technicalName": "fibo-sec-sec-idind:TelekursId",
+      "localName": "TelekursId",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/TelekursId",
+      "label": "Telekurs Id",
+      "definition": "identifier used to identify financial instruments owned, managed, and distributed by SIX Financial Information (formerly Telekurs AG and subsequently SIX Telekurs Ltd.)",
+      "parents": [
+        "fibo-sec-sec-id:ProprietarySecurityIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Telekurs security identifier scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:SIXFinancialInformation",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:SIXFinancialInformation",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Valoren",
+      "technicalName": "fibo-sec-sec-idind:Valoren",
+      "localName": "Valoren",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/Valoren",
+      "label": "Valoren",
+      "definition": "identification number assigned to financial instruments in Switzerland, Liechtenstein and Belgium, issued by SIX Financial Information, that is the National Securities Identifying Number (NSIN) for securities issued in those countries and is also part of the ISIN for the security it identifies",
+      "parents": [
+        "fibo-sec-sec-id:ListedSecurityIdentifier",
+        "fibo-sec-sec-id:NationalSecuritiesIdentifyingNumber",
+        "fibo-sec-sec-id:ProprietarySecurityIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Valoren scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:SIXFinancialInformation",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:SIXFinancialInformation",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "best efforts offering",
+      "technicalName": "fibo-sec-sec-iss:BestEffortsOffering",
+      "localName": "BestEffortsOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/BestEffortsOffering",
+      "label": "best efforts offering",
+      "definition": "securities offering whereby investment bankers commit to doing their best to sell the securities offered, but do not assume the full risk of an underwriter",
+      "parents": [
+        "securities offering"
+      ],
+      "rules": []
+    },
+    {
+      "name": "conversion terms",
+      "technicalName": "fibo-sec-sec-iss:ConversionTerms",
+      "localName": "ConversionTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/ConversionTerms",
+      "label": "conversion terms",
+      "definition": "contract terms specifying when and how a security may be converted to another security (usually of the same issuer)",
+      "parents": [
+        "fibo-fbc-fi-fi:RedemptionProvision"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "specifies conversion into",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "convertible security",
+      "technicalName": "fibo-sec-sec-iss:ConvertibleSecurity",
+      "localName": "ConvertibleSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/ConvertibleSecurity",
+      "label": "convertible security",
+      "definition": "security that can be converted into another security",
+      "parents": [
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "conversion terms",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "exempt issuer",
+      "technicalName": "fibo-sec-sec-iss:ExemptIssuer",
+      "localName": "ExemptIssuer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/ExemptIssuer",
+      "label": "exempt issuer",
+      "definition": "issuer that issues securities that are excused from certain regulatory reporting requirements",
+      "parents": [
+        "fibo-fbc-fi-fi:Issuer"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exempt offering",
+      "technicalName": "fibo-sec-sec-iss:ExemptOffering",
+      "localName": "ExemptOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/ExemptOffering",
+      "label": "exempt offering",
+      "definition": "public offering involving securities that are excused from certain regulatory reporting requirements",
+      "parents": [
+        "public offering"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:embodies",
+          "operator": "some",
+          "value": "exempt transaction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "exempt issuer",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "exempt transaction",
+      "technicalName": "fibo-sec-sec-iss:ExemptTransaction",
+      "localName": "ExemptTransaction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/ExemptTransaction",
+      "label": "exempt transaction",
+      "definition": "securities transaction for which there is no requirement to register the transaction with a regulatory agency",
+      "parents": [
+        "fibo-fbc-fi-fi:SecuritiesTransaction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "financial instrument short name",
+      "technicalName": "fibo-sec-sec-iss:FinancialInstrumentShortName",
+      "localName": "FinancialInstrumentShortName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/FinancialInstrumentShortName",
+      "label": "financial instrument short name",
+      "definition": "abbreviated name for a financial instrument within a defined structure as specified in ISO 18774",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "has issuer short name",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "has instrument description",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "firm commitment offering",
+      "technicalName": "fibo-sec-sec-iss:FirmCommitmentOffering",
+      "localName": "FirmCommitmentOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/FirmCommitmentOffering",
+      "label": "firm commitment offering",
+      "definition": "securities offering whereby the underwriter purchases the securities outright for their own account",
+      "parents": [
+        "securities offering"
+      ],
+      "rules": []
+    },
+    {
+      "name": "offering document",
+      "technicalName": "fibo-sec-sec-iss:OfferingDocument",
+      "localName": "OfferingDocument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/OfferingDocument",
+      "label": "offering document",
+      "definition": "legal document that states the objectives, risks and terms of an investment",
+      "parents": [
+        "fibo-be-fct-pub:Publication",
+        "cmns-doc:LegalDocument"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dt:hasDateOfIssuance",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "fibo-fnd-arr-doc:hasExpirationDate",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidenceFor",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "securities offering"
+        }
+      ]
+    },
+    {
+      "name": "offering statement",
+      "technicalName": "fibo-sec-sec-iss:OfferingStatement",
+      "localName": "OfferingStatement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/OfferingStatement",
+      "label": "offering statement",
+      "definition": "offering memorandum that conforms to Regulation A, Offering Statement, of the Securities Act of 1933",
+      "parents": [
+        "offering document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "private offering",
+      "technicalName": "fibo-sec-sec-iss:PrivateOffering",
+      "localName": "PrivateOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/PrivateOffering",
+      "label": "private offering",
+      "definition": "offering of securities made privately to a limited number of qualified potential investors",
+      "parents": [
+        "securities offering"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidencedBy",
+          "operator": "some",
+          "value": "private placement memorandum",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "private placement memorandum",
+      "technicalName": "fibo-sec-sec-iss:PrivatePlacementMemorandum",
+      "localName": "PrivatePlacementMemorandum",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/PrivatePlacementMemorandum",
+      "label": "private placement memorandum",
+      "definition": "legal document stating the objectives, risks and terms of investment involved with a private placement",
+      "parents": [
+        "offering document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "prospectus",
+      "technicalName": "fibo-sec-sec-iss:Prospectus",
+      "localName": "Prospectus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/Prospectus",
+      "label": "prospectus",
+      "definition": "formal, written offering document to sell securities that provides the facts an investor needs to make an informed investment decision",
+      "parents": [
+        "offering document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "public offering",
+      "technicalName": "fibo-sec-sec-iss:PublicOffering",
+      "localName": "PublicOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/PublicOffering",
+      "label": "public offering",
+      "definition": "offering of securities for sale to the investment public, after compliance with registration requirements of the relevant regulatory authorities",
+      "parents": [
+        "securities offering"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidencedBy",
+          "operator": "some",
+          "value": "prospectus",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "securities offering",
+      "technicalName": "fibo-sec-sec-iss:SecuritiesOffering",
+      "localName": "SecuritiesOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/SecuritiesOffering",
+      "label": "securities offering",
+      "definition": "offering of a security (or securities) for sale",
+      "parents": [
+        "fibo-fbc-pas-fpas:Offering",
+        "fibo-fnd-agr-agr:Agreement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidencedBy",
+          "operator": "some",
+          "value": "offering document",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasGoverningJurisdiction",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-pas-fpas:hasOfferingPrice",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryPrice"
+        },
+        {
+          "property": "is underwritten by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "security underwriter"
+        },
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-pas-fpas:ThirdPartyAgent"
+        }
+      ]
+    },
+    {
+      "name": "security form",
+      "technicalName": "fibo-sec-sec-iss:SecurityForm",
+      "localName": "SecurityForm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/SecurityForm",
+      "label": "security form",
+      "definition": "nature of the proof of ownership of a security",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractDocument"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:FinancialAsset",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "security underwriter",
+      "technicalName": "fibo-sec-sec-iss:SecurityUnderwriter",
+      "localName": "SecurityUnderwriter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/SecurityUnderwriter",
+      "label": "security underwriter",
+      "definition": "party that has purchased from an issuer with a view to, or sells for an issuer in connection with, the distribution of any security, or participates or has a direct or indirect participation in any such undertaking, or participates or has a participation in the direct or indirect underwriting of any such undertaking",
+      "parents": [
+        "fibo-fbc-fct-fse:Underwriter",
+        "fibo-fbc-pas-fpas:ThirdPartyAgent",
+        "fibo-fnd-agr-ctr:ContractThirdParty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "security underwriting arrangement",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "securities offering",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "security underwriting arrangement",
+      "technicalName": "fibo-sec-sec-iss:SecurityUnderwritingArrangement",
+      "localName": "SecurityUnderwritingArrangement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/SecurityUnderwritingArrangement",
+      "label": "security underwriting arrangement",
+      "definition": "underwriting agreement between an organization (typically an investment bank) and a securities issuer that commits the underwriter to assuming risk involved in buying a new issue of securities and reselling it to the public",
+      "parents": [
+        "fibo-fbc-fct-fse:UnderwritingArrangement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "security underwriter",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "listed security",
+      "technicalName": "fibo-sec-sec-lst:ListedSecurity",
+      "localName": "ListedSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/ListedSecurity",
+      "label": "listed security",
+      "definition": "registered security listed on at least one exchange",
+      "parents": [
+        "registered security"
+      ],
+      "rules": [
+        {
+          "property": "is listed via",
+          "operator": "some",
+          "value": "listing",
+          "qualifier": null
+        },
+        {
+          "property": "has original place of listing",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fct-mkt:Exchange"
+        },
+        {
+          "property": "has home exchange",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fct-mkt:Exchange"
+        }
+      ]
+    },
+    {
+      "name": "listing",
+      "technicalName": "fibo-sec-sec-lst:Listing",
+      "localName": "Listing",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/Listing",
+      "label": "listing",
+      "definition": "catalog entry for a securities offering managed by an exchange that provides the terms under which that security is made available on that exchange",
+      "parents": [],
+      "rules": [
+        {
+          "property": "fibo-fnd-acc-cur:hasCurrency",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:Currency",
+          "qualifier": null
+        },
+        {
+          "property": "has listing date",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        },
+        {
+          "property": "lists",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-sec-sec-iss:SecuritiesOffering"
+        },
+        {
+          "property": "has delisting date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        },
+        {
+          "property": "fibo-fbc-fi-ip:hasLotSize",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "has last trading date and time",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:DateTime"
+        },
+        {
+          "property": "has tick size",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "fibo-fbc-fct-breg:hasRegistrationStatus",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fct-breg:RegistrationStatus"
+        }
+      ]
+    },
+    {
+      "name": "listing service",
+      "technicalName": "fibo-sec-sec-lst:ListingService",
+      "localName": "ListingService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/ListingService",
+      "label": "listing service",
+      "definition": "service provided by an exchange to facilitate securities trading",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialService"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:provides",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "listing"
+        },
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-fct-mkt:Exchange"
+        },
+        {
+          "property": "fibo-fnd-pas-pas:isProvisionedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-fct-mkt:Exchange"
+        }
+      ]
+    },
+    {
+      "name": "registered security",
+      "technicalName": "fibo-sec-sec-lst:RegisteredSecurity",
+      "localName": "RegisteredSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/RegisteredSecurity",
+      "label": "registered security",
+      "definition": "security that is registered with some registration authority",
+      "parents": [
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:hasRegistrationDate",
+          "operator": "some",
+          "value": "cmns-dt:CombinedDateTime",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-sec-sec-iss:isRegisteredWith",
+          "operator": "some",
+          "value": "cmns-ra:RegistrationAuthority",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-sec-sec-iss:isIssuedInForm",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "contractual restriction",
+      "technicalName": "fibo-sec-sec-rst:ContractualRestriction",
+      "localName": "ContractualRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/ContractualRestriction",
+      "label": "contractual restriction",
+      "definition": "contract terms setting out restrictions on either the holder or the issuer of the security, as specified in the terms of the instrument itself",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractualCommitment",
+        "securities restriction"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isMandatedBy",
+          "operator": "only",
+          "value": "fibo-fnd-agr-ctr:Contract",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "individual investor",
+      "technicalName": "fibo-sec-sec-rst:IndividualInvestor",
+      "localName": "IndividualInvestor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/IndividualInvestor",
+      "label": "individual investor",
+      "definition": "investor that is a person, rather than an organization, who may or may not be considered a qualified investor from a legal perspective",
+      "parents": [
+        "fibo-be-oac-opty:Investor"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "fibo-be-le-lp:LegallyCompetentNaturalPerson",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "institutional investor",
+      "technicalName": "fibo-sec-sec-rst:InstitutionalInvestor",
+      "localName": "InstitutionalInvestor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/InstitutionalInvestor",
+      "label": "institutional investor",
+      "definition": "investor that pools money to purchase securities, real property, and other investment assets or originates loans",
+      "parents": [
+        "fibo-be-oac-opty:Investor"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "cmns-org:LegalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "investors' domicile restriction",
+      "technicalName": "fibo-sec-sec-rst:InvestorsDomicileRestriction",
+      "localName": "InvestorsDomicileRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/InvestorsDomicileRestriction",
+      "label": "investors' domicile restriction",
+      "definition": "legal holding restriction that specifies where holders of a security may be domiciled",
+      "parents": [
+        "legal holding restriction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "legal holding restriction",
+      "technicalName": "fibo-sec-sec-rst:LegalHoldingRestriction",
+      "localName": "LegalHoldingRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/LegalHoldingRestriction",
+      "label": "legal holding restriction",
+      "definition": "security restriction applicable to holding the security",
+      "parents": [
+        "securities restriction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "qualified investor restriction",
+      "technicalName": "fibo-sec-sec-rst:QualifiedInvestorRestriction",
+      "localName": "QualifiedInvestorRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/QualifiedInvestorRestriction",
+      "label": "qualified investor restriction",
+      "definition": "legal holding restriction that defines the concept of a qualified investor for a given purpose and specifies that only such qualified investors may hold the security",
+      "parents": [
+        "legal holding restriction"
+      ],
+      "rules": [
+        {
+          "property": "has holding period",
+          "operator": "only",
+          "value": "cmns-dt:DatePeriod",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "securities regulation",
+      "technicalName": "fibo-sec-sec-rst:SecuritiesRegulation",
+      "localName": "SecuritiesRegulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/SecuritiesRegulation",
+      "label": "securities regulation",
+      "definition": "regulation codified in law specific to securities and investments",
+      "parents": [
+        "fibo-fnd-law-lcap:Regulation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "some",
+          "value": "fibo-fnd-law-cor:StatuteLaw",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "only",
+          "value": "securities restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "securities restriction",
+      "technicalName": "fibo-sec-sec-rst:SecuritiesRestriction",
+      "localName": "SecuritiesRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/SecuritiesRestriction",
+      "label": "securities restriction",
+      "definition": "legal obligation that is applicable to a financial instrument or listing as mandated in a law or by contract",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalObligation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isMandatedBy",
+          "operator": "only",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "only",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trading restriction",
+      "technicalName": "fibo-sec-sec-rst:TradingRestriction",
+      "localName": "TradingRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/TradingRestriction",
+      "label": "trading restriction",
+      "definition": "restriction that limits trading in some manner, typically summarized on term sheets or in other documentation, including but not limited to restrictions on day trading",
+      "parents": [
+        "securities restriction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fibo-sec-sec-ast:Portfolio",
+      "technicalName": "fibo-sec-sec-ast:Portfolio",
+      "localName": "Portfolio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecurityAssets/Portfolio",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-sec-sec-ast:PortfolioHolding",
+      "technicalName": "fibo-sec-sec-ast:PortfolioHolding",
+      "localName": "PortfolioHolding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecurityAssets/PortfolioHolding",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "Basel III Designation",
+      "technicalName": "fibo-sec-sec-eurst:BaselIIIDesignation",
+      "localName": "BaselIIIDesignation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/EuropeanSecurities/EUSecuritiesRestrictions/BaselIIIDesignation",
+      "label": "Basel III Designation",
+      "definition": "European Union wide securities designation, defined by the Basel Committee on Banking Supervision (BCBS), that classifies securities based on the quality of capital underlying the instrument",
+      "parents": [
+        "fibo-sec-sec-cls:FinancialInstrumentClassifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "value",
+          "value": "cmns-loc:GeographicRegion",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "MiFID regulated security",
+      "technicalName": "fibo-sec-sec-eurst:MiFIDRegulatedSecurity",
+      "localName": "MiFIDRegulatedSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/EuropeanSecurities/EUSecuritiesRestrictions/MiFIDRegulatedSecurity",
+      "label": "MiFID regulated security",
+      "definition": "security for which MiFID reporting is required",
+      "parents": [
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "rules": [
+        {
+          "property": "has upper limit on floating shares",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "is MiFID reporting required",
+          "operator": "value",
+          "value": "true",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "blue sky law",
+      "technicalName": "fibo-sec-sec-usrst:BlueSkyLaw",
+      "localName": "BlueSkyLaw",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/NorthAmericanSecurities/USSecuritiesRestrictions/BlueSkyLaw",
+      "label": "blue sky law",
+      "definition": "state-level securities regulation, designed to protect investors against securities fraud that require issuers to be registered and to disclose details of their offerings",
+      "parents": [
+        "fibo-sec-sec-rst:SecuritiesRegulation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-loc:GeographicRegion"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has actual closing date",
+      "technicalName": "fibo-sec-sec-iss:hasActualClosingDate",
+      "localName": "hasActualClosingDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasActualClosingDate",
+      "label": "has actual closing date",
+      "definition": "indicates the date on which an offering or transaction officially closes, in contrast with an intended closing date",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has announcement date",
+      "technicalName": "fibo-sec-sec-iss:hasAnnouncementDate",
+      "localName": "hasAnnouncementDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasAnnouncementDate",
+      "label": "has announcement date",
+      "definition": "indicates the first day the public will receive information regarding a new security issue",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has financial instrument short name",
+      "technicalName": "fibo-sec-sec-iss:hasFinancialInstrumentShortName",
+      "localName": "hasFinancialInstrumentShortName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasFinancialInstrumentShortName",
+      "label": "has financial instrument short name",
+      "definition": "relates a security to its ISO 18774-compliant short name, which includes an issuer short name, abbreviated instrument characteristics, and abbreviated instrument description per the ISO standard",
+      "domain": [
+        "fibo-fbc-fi-fi:FinancialInstrument"
+      ],
+      "range": [
+        "financial instrument short name"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has first trade date",
+      "technicalName": "fibo-sec-sec-iss:hasFirstTradeDate",
+      "localName": "hasFirstTradeDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasFirstTradeDate",
+      "label": "has first trade date",
+      "definition": "indicates the date on which a newly issued security starts trading",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has first trade settlement date",
+      "technicalName": "fibo-sec-sec-iss:hasFirstTradeSettlementDate",
+      "localName": "hasFirstTradeSettlementDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasFirstTradeSettlementDate",
+      "label": "has first trade settlement date",
+      "definition": "indicates the date on which the first trade of a newly issued security is settled",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has subscription period",
+      "technicalName": "fibo-sec-sec-iss:hasSubscriptionPeriod",
+      "localName": "hasSubscriptionPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasSubscriptionPeriod",
+      "label": "has subscription period",
+      "definition": "indicates a period of time in which investors can commit to purchase shares (or units) to be issued",
+      "domain": [],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is issued in form",
+      "technicalName": "fibo-sec-sec-iss:isIssuedInForm",
+      "localName": "isIssuedInForm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/isIssuedInForm",
+      "label": "is issued in form",
+      "definition": "indicates the form in which the security is issued, typically in registered form",
+      "domain": [
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "range": [
+        "security form"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is registered",
+      "technicalName": "fibo-sec-sec-iss:isRegisteredWith",
+      "localName": "isRegisteredWith",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/isRegisteredWith",
+      "label": "is registered",
+      "definition": "indicates the registration authority for a given security, i.e., in the name of the owner on the books of the issuer, with the issuer's registrar, with a third-party transfer agent, with a broker-dealer, or other competent party",
+      "domain": [
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "range": [
+        "cmns-ra:RegistrationAuthority"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is underwritten by",
+      "technicalName": "fibo-sec-sec-iss:isUnderwrittenBy",
+      "localName": "isUnderwrittenBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/isUnderwrittenBy",
+      "label": "is underwritten by",
+      "definition": "relates an offering to an underwriter involved in raising capital for or distributing the instruments that are the subject of the offering",
+      "domain": [
+        "securities offering"
+      ],
+      "range": [
+        "fibo-fbc-fct-fse:Underwriter"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "specifies conversion into",
+      "technicalName": "fibo-sec-sec-iss:specifiesConversionInto",
+      "localName": "specifiesConversionInto",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/specifiesConversionInto",
+      "label": "specifies conversion into",
+      "definition": "specifies a security that will replace a convertible security under the terms of the agreement",
+      "domain": [
+        "conversion terms"
+      ],
+      "range": [
+        "fibo-fbc-fi-fi:Security"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "underwrites",
+      "technicalName": "fibo-sec-sec-iss:underwrites",
+      "localName": "underwrites",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/underwrites",
+      "label": "underwrites",
+      "definition": "identifies one or more underwriters involved in raising capital for or distributing the instruments that are the subject of the offering",
+      "domain": [
+        "fibo-fbc-fct-fse:Underwriter"
+      ],
+      "range": [
+        "securities offering"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has home exchange",
+      "technicalName": "fibo-sec-sec-lst:hasHomeExchange",
+      "localName": "hasHomeExchange",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/hasHomeExchange",
+      "label": "has home exchange",
+      "definition": "indicates the exchange that is considered the primary market for a security; typically, but not always, in the country in which the security was originally issued",
+      "domain": [],
+      "range": [
+        "fibo-fbc-fct-mkt:Exchange"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has last trading date and time",
+      "technicalName": "fibo-sec-sec-lst:hasLastTradingDateTime",
+      "localName": "hasLastTradingDateTime",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/hasLastTradingDateTime",
+      "label": "has last trading date and time",
+      "definition": "specifies the last date and time that the security was traded on the exchange",
+      "domain": [
+        "listing"
+      ],
+      "range": [
+        "cmns-dt:DateTime"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has original place of listing",
+      "technicalName": "fibo-sec-sec-lst:hasOriginalPlaceOfListing",
+      "localName": "hasOriginalPlaceOfListing",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/hasOriginalPlaceOfListing",
+      "label": "has original place of listing",
+      "definition": "indicates the original exchange that listed the security",
+      "domain": [],
+      "range": [
+        "fibo-fbc-fct-mkt:Exchange"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has tick size",
+      "technicalName": "fibo-sec-sec-lst:hasTickSize",
+      "localName": "hasTickSize",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/hasTickSize",
+      "label": "has tick size",
+      "definition": "specifies a minimum price movement for the security with respect to an exchange",
+      "domain": [
+        "listing"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is listed via",
+      "technicalName": "fibo-sec-sec-lst:isListedVia",
+      "localName": "isListedVia",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/isListedVia",
+      "label": "is listed via",
+      "definition": "identifies the service responsible for listing the security",
+      "domain": [
+        "listed security"
+      ],
+      "range": [
+        "listing"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is traded on",
+      "technicalName": "fibo-sec-sec-lst:isTradedOn",
+      "localName": "isTradedOn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/isTradedOn",
+      "label": "is traded on",
+      "definition": "identifies the trading facility on which the security is traded",
+      "domain": [
+        "listed security"
+      ],
+      "range": [
+        "fibo-fbc-fct-mkt:Exchange"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "lists",
+      "technicalName": "fibo-sec-sec-lst:lists",
+      "localName": "lists",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/lists",
+      "label": "lists",
+      "definition": "relates a given exchange-specific security listing to its issue",
+      "domain": [
+        "listing"
+      ],
+      "range": [
+        "listed security"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has holding period",
+      "technicalName": "fibo-sec-sec-rst:hasHoldingPeriod",
+      "localName": "hasHoldingPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/hasHoldingPeriod",
+      "label": "has holding period",
+      "definition": "identifies a holding period applicable to some financial asset",
+      "domain": [],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has restriction",
+      "technicalName": "fibo-sec-sec-rst:hasRestriction",
+      "localName": "hasRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/hasRestriction",
+      "label": "has restriction",
+      "definition": "identifies a restriction applicable to a given financial instrument or listing",
+      "domain": [],
+      "range": [
+        "securities restriction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-sec-sec-ast:hasAcquisitionPrice",
+      "technicalName": "fibo-sec-sec-ast:hasAcquisitionPrice",
+      "localName": "hasAcquisitionPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecurityAssets/hasAcquisitionPrice",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has instrument description",
+      "technicalName": "fibo-sec-sec-iss:hasInstrumentDescription",
+      "localName": "hasInstrumentDescription",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasInstrumentDescription",
+      "label": "has instrument description",
+      "definition": "relates a financial instrument or FISN to an ISO 18774-compliant instrument description, that is, a collection of characteristics and attributes defining a financial instrument with a maximum length up to 19 alphanumeric characters",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has issuer short name",
+      "technicalName": "fibo-sec-sec-iss:hasIssuerShortName",
+      "localName": "hasIssuerShortName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasIssuerShortName",
+      "label": "has issuer short name",
+      "definition": "relates a security issuer or FISN to an ISO 18774-compliant issuer short name, that is, an abbreviation of the official issuer name, limited to a maximum of 15 alphanumeric characters",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has series",
+      "technicalName": "fibo-sec-sec-iss:hasSeries",
+      "localName": "hasSeries",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasSeries",
+      "label": "has series",
+      "definition": "indicates the series identified by the issuer in the event that the instrument is issued in several series (also known as tranches)",
+      "domain": [],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has subscription amount",
+      "technicalName": "fibo-sec-sec-iss:hasSubscriptionAmount",
+      "localName": "hasSubscriptionAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasSubscriptionAmount",
+      "label": "has subscription amount",
+      "definition": "indicates a number of shares or units",
+      "domain": [],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is over-allotted",
+      "technicalName": "fibo-sec-sec-iss:isOverAllotted",
+      "localName": "isOverAllotted",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/isOverAllotted",
+      "label": "is over-allotted",
+      "definition": "indicates whether or not the subscription is over-subscribed",
+      "domain": [],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has delisting date",
+      "technicalName": "fibo-sec-sec-lst:hasDelistingDate",
+      "localName": "hasDelistingDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/hasDelistingDate",
+      "label": "has delisting date",
+      "definition": "specifies the date set by the exchange for delisting a security",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has listing date",
+      "technicalName": "fibo-sec-sec-lst:hasListingDate",
+      "localName": "hasListingDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/hasListingDate",
+      "label": "has listing date",
+      "definition": "indicates the date on which a security is listed",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is seasoned",
+      "technicalName": "fibo-sec-sec-lst:isSeasoned",
+      "localName": "isSeasoned",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/isSeasoned",
+      "label": "is seasoned",
+      "definition": "indicates that the security has been publicly traded long enough to eliminate any short-term volume volatility from its initial public offering",
+      "domain": [
+        "listed security"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has upper limit on floating shares",
+      "technicalName": "fibo-sec-sec-eurst:hasUpperLimitOnFloatingShares",
+      "localName": "hasUpperLimitOnFloatingShares",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/EuropeanSecurities/EUSecuritiesRestrictions/hasUpperLimitOnFloatingShares",
+      "label": "has upper limit on floating shares",
+      "definition": "indicates the upper limit on the number of free float shares to be reported, if applicable",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is MiFID reporting required",
+      "technicalName": "fibo-sec-sec-eurst:isMiFIDReportingRequired",
+      "localName": "isMiFIDReportingRequired",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/EuropeanSecurities/EUSecuritiesRestrictions/isMiFIDReportingRequired",
+      "label": "is MiFID reporting required",
+      "definition": "indicates whether reporting on the security is required by the Markets in Financial Instruments Directive (MiFID)",
+      "domain": [
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is Employee Retirement Income Security Act conformant",
+      "technicalName": "fibo-sec-sec-usrst:isEmployeeRetirementIncomeSecurityActConformant",
+      "localName": "isEmployeeRetirementIncomeSecurityActConformant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/NorthAmericanSecurities/USSecuritiesRestrictions/isEmployeeRetirementIncomeSecurityActConformant",
+      "label": "is Employee Retirement Income Security Act conformant",
+      "definition": "indicates whether the security conforms to the Employee Retirement Income Security Act (ERISA) of 1974, a federal outline for regulating employee benefit plans, including healthcare plans sponsored and/or insured by an employer",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is Federal Deposit Insurance Corporation insured",
+      "technicalName": "fibo-sec-sec-usrst:isFederalDepositInsuranceCorporationInsured",
+      "localName": "isFederalDepositInsuranceCorporationInsured",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/NorthAmericanSecurities/USSecuritiesRestrictions/isFederalDepositInsuranceCorporationInsured",
+      "label": "is Federal Deposit Insurance Corporation insured",
+      "definition": "indicates whether the security is covered by Federal Deposit Insurance Corporation (FDIC) insurance",
+      "domain": [
+        "fibo-fbc-pas-caa:NonTransactionDepositAccount"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is subject to Federal Reserve Board Regulation T",
+      "technicalName": "fibo-sec-sec-usrst:isSubjectToFederalReserveBoardRegulationT",
+      "localName": "isSubjectToFederalReserveBoardRegulationT",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/NorthAmericanSecurities/USSecuritiesRestrictions/isSubjectToFederalReserveBoardRegulationT",
+      "label": "is subject to Federal Reserve Board Regulation T",
+      "definition": "indicates whether a given cash or margin account is subject to Federal Reserve Board (FRB) margin requirements",
+      "domain": [
+        "fibo-fbc-pas-caa:Account"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,790 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\DER\\DerivativesContracts\\ExoticOptions.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/",
+  "summary": {
+    "nodes": 25,
+    "edges": 9,
+    "properties": 3,
+    "triples": 466
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/InstrumentPricing/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/Analytics/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/ExerciseConventions/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "Asian option",
+      "technicalName": "fibo-der-drc-exo:AsianOption",
+      "localName": "AsianOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/AsianOption",
+      "label": "Asian option",
+      "definition": "option whose exercise terms involve a payoff determined by the average underlying price (either the strike price or the settlement price) of the underlying asset over a predetermined period",
+      "parents": [
+        "fibo-der-drc-opt:ExoticOption"
+      ],
+      "rules": [
+        {
+          "property": "uses weighted average",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:boolean"
+        },
+        {
+          "property": "fibo-sec-dbt-ex:hasExerciseDate",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "has Asian tail period",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:DatePeriod"
+        },
+        {
+          "property": "uses currency in averaging",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:Currency"
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "averaging strategy"
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "Asian option classifier"
+        }
+      ]
+    },
+    {
+      "name": "Asian option classifier",
+      "technicalName": "fibo-der-drc-exo:AsianOptionClassifier",
+      "localName": "AsianOptionClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/AsianOptionClassifier",
+      "label": "Asian option classifier",
+      "definition": "financial instrument classifier that classifies Asian options based on whether they are rate-based or price based",
+      "parents": [
+        "fibo-sec-sec-cls:FinancialInstrumentClassifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "Asian option",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "averaging strategy",
+      "technicalName": "fibo-der-drc-exo:AveragingStrategy",
+      "localName": "AveragingStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/AveragingStrategy",
+      "label": "averaging strategy",
+      "definition": "method used for calculating the average rate or price of an Asian option",
+      "parents": [
+        "fibo-fnd-gao-obj:Strategy"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "Asian option",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "barrier option",
+      "technicalName": "fibo-der-drc-exo:BarrierOption",
+      "localName": "BarrierOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/BarrierOption",
+      "label": "barrier option",
+      "definition": "option whose final exercise depends upon the path taken by the price of an underlying instrument, i.e., whose payoff depends on whether or not the underlying asset has reached or exceeded a predetermined price",
+      "parents": [
+        "fibo-der-drc-opt:ExoticOption"
+      ],
+      "rules": [
+        {
+          "property": "is above strike price",
+          "operator": "some",
+          "value": "xsd:boolean",
+          "qualifier": null
+        },
+        {
+          "property": "has monitoring period",
+          "operator": "some",
+          "value": "cmns-dt:DatePeriod",
+          "qualifier": null
+        },
+        {
+          "property": "has monitoring frequency",
+          "operator": "some",
+          "value": "xsd:positiveInteger",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "chooser option",
+      "technicalName": "fibo-der-drc-exo:ChooserOption",
+      "localName": "ChooserOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/ChooserOption",
+      "label": "chooser option",
+      "definition": "exotic option that allows its holder (buyer) to exercise the right to buy (call) or sell (put) specified assets at a fixed price whereby the buyer does not have to decide whether the contract will be a put or a call until an agreed future date, prior to expiration",
+      "parents": [
+        "fibo-der-drc-opt:ExoticOption"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "has option type election date",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "cliquet option",
+      "technicalName": "fibo-der-drc-exo:CliquetOption",
+      "localName": "CliquetOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/CliquetOption",
+      "label": "cliquet option",
+      "definition": "exotic option that is a series of at-the-money (ATM) options, either puts or calls, where each successive option becomes active when the previous one expires",
+      "parents": [
+        "fibo-der-drc-opt:ExoticOption"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "forward start option",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "commodore option",
+      "technicalName": "fibo-der-drc-exo:CommodoreOption",
+      "localName": "CommodoreOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/CommodoreOption",
+      "label": "commodore option",
+      "definition": "exotic option consisting of a number of digital barrier options that pay a coupon if a pre-determined level of the underlying or basket of underlyings is reached",
+      "parents": [
+        "fibo-der-drc-opt:ExoticOption"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "digital option",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "compound option",
+      "technicalName": "fibo-der-drc-exo:CompoundOption",
+      "localName": "CompoundOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/CompoundOption",
+      "label": "compound option",
+      "definition": "exotic option for which the underlying asset is another option",
+      "parents": [
+        "fibo-der-drc-opt:ExoticOption"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Option",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "digital option",
+      "technicalName": "fibo-der-drc-exo:DigitalOption",
+      "localName": "DigitalOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/DigitalOption",
+      "label": "digital option",
+      "definition": "exotic option that has a pre-determined payout if the option is in-the-money and the payoff condition is satisfied",
+      "parents": [
+        "barrier option"
+      ],
+      "rules": []
+    },
+    {
+      "name": "double barrier option",
+      "technicalName": "fibo-der-drc-exo:DoubleBarrierOption",
+      "localName": "DoubleBarrierOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/DoubleBarrierOption",
+      "label": "double barrier option",
+      "definition": "barrier option applied to currencies or over the counter stocks that works as a binary, or digital option in that it pays out only under defined circumstances, or it is worthless, at expiration",
+      "parents": [
+        "barrier option"
+      ],
+      "rules": [
+        {
+          "property": "has second barrier price",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryPrice",
+          "qualifier": null
+        },
+        {
+          "property": "has first barrier price",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryPrice",
+          "qualifier": null
+        },
+        {
+          "property": "has second rebate amount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+        },
+        {
+          "property": "has first rebate amount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "fixed lookback strike expression",
+      "technicalName": "fibo-der-drc-exo:FixedLookbackStrikeExpression",
+      "localName": "FixedLookbackStrikeExpression",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/FixedLookbackStrikeExpression",
+      "label": "fixed lookback strike expression",
+      "definition": "cashflow expression specifying the arguments required to calculate the fixed price at which the lookback option is to be exercised",
+      "parents": [
+        "fibo-der-drc-bsc:CashflowExpression"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasSubtrahend",
+          "operator": "some",
+          "value": "observed best value",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-utl-alx:hasMinuend",
+          "operator": "some",
+          "value": "fibo-der-drc-opt:StrikePrice",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "floating lookback strike expression",
+      "technicalName": "fibo-der-drc-exo:FloatingLookbackStrikeExpression",
+      "localName": "FloatingLookbackStrikeExpression",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/FloatingLookbackStrikeExpression",
+      "label": "floating lookback strike expression",
+      "definition": "cashflow expression specifying the arguments required to calculate the best projected price at which the lookback option may be exercised",
+      "parents": [
+        "fibo-der-drc-bsc:CashflowExpression"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasSubtrahend",
+          "operator": "some",
+          "value": "observed best value",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-utl-alx:hasMinuend",
+          "operator": "some",
+          "value": "projected value at maturity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "forward start option",
+      "technicalName": "fibo-der-drc-exo:ForwardStartOption",
+      "localName": "ForwardStartOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/ForwardStartOption",
+      "label": "forward start option",
+      "definition": "exotic option that is fully specified with respect to a set expiry date, underlying asset and other parameters, purchased and paid for on initiation, but that becomes active at a set activation date with a strike price determined at the time of activation",
+      "parents": [
+        "fibo-der-drc-opt:ExoticOption"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "interest rate cap option",
+      "technicalName": "fibo-der-drc-exo:InterestRateCapOption",
+      "localName": "InterestRateCapOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/InterestRateCapOption",
+      "label": "interest rate cap option",
+      "definition": "interest rate derivative in which the buyer receives payments at the end of each period in which the interest rate exceeds the agreed strike price",
+      "parents": [
+        "fibo-der-drc-opt:InterestRateOption"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interest rate floor option",
+      "technicalName": "fibo-der-drc-exo:InterestRateFloorOption",
+      "localName": "InterestRateFloorOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/InterestRateFloorOption",
+      "label": "interest rate floor option",
+      "definition": "interest rate derivative in which the buyer receives payments at the end of each period in which the interest rate is below the agreed strike price",
+      "parents": [
+        "fibo-der-drc-opt:InterestRateOption"
+      ],
+      "rules": []
+    },
+    {
+      "name": "knock-in option",
+      "technicalName": "fibo-der-drc-exo:KnockInOption",
+      "localName": "KnockInOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/KnockInOption",
+      "label": "knock-in option",
+      "definition": "barrier option that is not triggered until a certain price threshold is met",
+      "parents": [
+        "barrier option"
+      ],
+      "rules": [
+        {
+          "property": "has first barrier price",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryPrice",
+          "qualifier": null
+        },
+        {
+          "property": "has first rebate amount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "knock-out option",
+      "technicalName": "fibo-der-drc-exo:KnockOutOption",
+      "localName": "KnockOutOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/KnockOutOption",
+      "label": "knock-out option",
+      "definition": "barrier option with a built-in mechanism to expire as worthless if a specified price level in the underlying asset is reached",
+      "parents": [
+        "barrier option"
+      ],
+      "rules": [
+        {
+          "property": "has first barrier price",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryPrice",
+          "qualifier": null
+        },
+        {
+          "property": "has first rebate amount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "lookback option",
+      "technicalName": "fibo-der-drc-exo:LookbackOption",
+      "localName": "LookbackOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/LookbackOption",
+      "label": "lookback option",
+      "definition": "exotic option that minimizes the uncertainties related to the timing of market entry, providing the holder the advantage of knowing history when determining when to exercise their option",
+      "parents": [
+        "fibo-der-drc-opt:ExoticOption"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "lookback strike terms",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "lookback strike terms",
+      "technicalName": "fibo-der-drc-exo:LookbackStrikeTerms",
+      "localName": "LookbackStrikeTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/LookbackStrikeTerms",
+      "label": "lookback strike terms",
+      "definition": "terms specifying the value of the underlying asset based on analysis during a specific period, typically ending in the maturity of the option, whereby the payoff is determined by comparing the strike price with the value of the selected price",
+      "parents": [
+        "fibo-der-drc-bsc:DerivativeTerms"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "fibo-ind-ind-ind:PriceStructure",
+          "qualifier": null
+        },
+        {
+          "property": "has lookback period",
+          "operator": "some",
+          "value": "cmns-dt:DatePeriod",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-qtu:hasExpression",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "floating lookback strike expression"
+        },
+        {
+          "property": "cmns-qtu:hasExpression",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fixed lookback strike expression"
+        }
+      ]
+    },
+    {
+      "name": "low exercise price option",
+      "technicalName": "fibo-der-drc-exo:LowExercisePriceOption",
+      "localName": "LowExercisePriceOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/LowExercisePriceOption",
+      "label": "low exercise price option",
+      "definition": "exotic option that is a European-style call option with an exercise price of one cent that mimics a futures contract",
+      "parents": [
+        "fibo-der-drc-opt:CallOption",
+        "fibo-der-drc-opt:ExoticOption"
+      ],
+      "rules": [
+        {
+          "property": "fibo-der-drc-opt:hasExerciseStyle",
+          "operator": "value",
+          "value": "fibo-sec-dbt-ex:EuropeanExerciseConvention",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "mountain range option",
+      "technicalName": "fibo-der-drc-exo:MountainRangeOption",
+      "localName": "MountainRangeOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/MountainRangeOption",
+      "label": "mountain range option",
+      "definition": "exotic option based on multiple underlying securities",
+      "parents": [
+        "fibo-der-drc-opt:ExoticOption"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-sec-bsk:MixedBasket",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "observed best value",
+      "technicalName": "fibo-der-drc-exo:ObservedBestValue",
+      "localName": "ObservedBestValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/ObservedBestValue",
+      "label": "observed best value",
+      "definition": "observed value of the underlying asset as of some date during the lookback period that is considered the best value from the perspective of the option holder during the lookback period (depending on whether the option is a call or put)",
+      "parents": [
+        "fibo-fbc-fi-ip:MarketPrice"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-fd:hasAsOfDate",
+          "operator": "some",
+          "value": "cmns-dt:Date",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "projected value at maturity",
+      "technicalName": "fibo-der-drc-exo:ProjectedValueAtMaturity",
+      "localName": "ProjectedValueAtMaturity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/ProjectedValueAtMaturity",
+      "label": "projected value at maturity",
+      "definition": "expected value of the underlying asset at maturity calculated as of some date during the lookback period",
+      "parents": [
+        "fibo-fnd-acc-cur:CalculatedPrice"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasObservedDateTime",
+          "operator": "some",
+          "value": "cmns-dt:CombinedDateTime",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rainbow option",
+      "technicalName": "fibo-der-drc-exo:RainbowOption",
+      "localName": "RainbowOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/RainbowOption",
+      "label": "rainbow option",
+      "definition": "exotic option linked to the performances of two or more underlying assets",
+      "parents": [
+        "fibo-der-drc-opt:ExoticOption"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-sec-bsk:MixedBasket",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "swaption",
+      "technicalName": "fibo-der-drc-exo:Swaption",
+      "localName": "Swaption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/Swaption",
+      "label": "swaption",
+      "definition": "over-the-counter option that confers the right but not the obligation, to enter into a swap transaction at some time in the future",
+      "parents": [
+        "fibo-der-drc-opt:ExoticOption"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-der-drc-swp:Swap",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has Asian tail period",
+      "technicalName": "fibo-der-drc-exo:hasAsianTailPeriod",
+      "localName": "hasAsianTailPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/hasAsianTailPeriod",
+      "label": "has Asian tail period",
+      "definition": "window of time during which averaging of the price of the underlying contract is effective",
+      "domain": [
+        "Asian option"
+      ],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has first barrier price",
+      "technicalName": "fibo-der-drc-exo:hasFirstBarrierPrice",
+      "localName": "hasFirstBarrierPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/hasFirstBarrierPrice",
+      "label": "has first barrier price",
+      "definition": "has price (or level) that activates or deactivates the option",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryPrice"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has first rebate amount",
+      "technicalName": "fibo-der-drc-exo:hasFirstRebateAmount",
+      "localName": "hasFirstRebateAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/hasFirstRebateAmount",
+      "label": "has first rebate amount",
+      "definition": "indicates the percentage of the premium paid by the holder for the option",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has lookback period",
+      "technicalName": "fibo-der-drc-exo:hasLookbackPeriod",
+      "localName": "hasLookbackPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/hasLookbackPeriod",
+      "label": "has lookback period",
+      "definition": "window of time during which the lookback is effective",
+      "domain": [
+        "lookback strike terms"
+      ],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has monitoring period",
+      "technicalName": "fibo-der-drc-exo:hasMonitoringPeriod",
+      "localName": "hasMonitoringPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/hasMonitoringPeriod",
+      "label": "has monitoring period",
+      "definition": "window of time during which pricing is monitored",
+      "domain": [
+        "barrier option"
+      ],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has option type election date",
+      "technicalName": "fibo-der-drc-exo:hasOptionTypeElectionDate",
+      "localName": "hasOptionTypeElectionDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/hasOptionTypeElectionDate",
+      "label": "has option type election date",
+      "definition": "indicates the date on which the holder of the chooser option contract determines a choice of either a call or a put",
+      "domain": [
+        "chooser option"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has second barrier price",
+      "technicalName": "fibo-der-drc-exo:hasSecondBarrierPrice",
+      "localName": "hasSecondBarrierPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/hasSecondBarrierPrice",
+      "label": "has second barrier price",
+      "definition": "has price (or level) that the second barrier activates or deactivates in the case of a double barrier option",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryPrice"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has second rebate amount",
+      "technicalName": "fibo-der-drc-exo:hasSecondRebateAmount",
+      "localName": "hasSecondRebateAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/hasSecondRebateAmount",
+      "label": "has second rebate amount",
+      "definition": "indicates the percentage of the premium paid by the holder in the case of a double barrier option",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "uses currency in averaging",
+      "technicalName": "fibo-der-drc-exo:usesCurrencyInAveraging",
+      "localName": "usesCurrencyInAveraging",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/usesCurrencyInAveraging",
+      "label": "uses currency in averaging",
+      "definition": "indicates the currency used in averaging calculation",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:Currency"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has monitoring frequency",
+      "technicalName": "fibo-der-drc-exo:hasMonitoringFrequency",
+      "localName": "hasMonitoringFrequency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/hasMonitoringFrequency",
+      "label": "has monitoring frequency",
+      "definition": "has frequency with respect to how often, in days, the asset price is checked to see if the barrier has been breached",
+      "domain": [
+        "barrier option"
+      ],
+      "range": [
+        "xsd:positiveInteger"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is above strike price",
+      "technicalName": "fibo-der-drc-exo:isAboveStrikePrice",
+      "localName": "isAboveStrikePrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/isAboveStrikePrice",
+      "label": "is above strike price",
+      "definition": "indicates whether the barrier is crossed when the price of the underlier is above (or below, if not) the strike price (threshold)",
+      "domain": [
+        "barrier option"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "uses weighted average",
+      "technicalName": "fibo-der-drc-exo:usesWeightedAverage",
+      "localName": "usesWeightedAverage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/usesWeightedAverage",
+      "label": "uses weighted average",
+      "definition": "indicates whether a weighted average is being used to calculate the average rate or strike price",
+      "domain": [
+        "Asian option"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

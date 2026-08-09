@@ -1,0 +1,176 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FBC\\FunctionalEntities\\RegulatoryAgencies.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegulatoryAgencies/",
+  "summary": {
+    "nodes": 6,
+    "edges": 0,
+    "properties": 0,
+    "triples": 147
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/BusinessAuthorizations/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "examiner",
+      "technicalName": "fibo-fbc-fct-rga:Examiner",
+      "localName": "Examiner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegulatoryAgencies/Examiner",
+      "label": "examiner",
+      "definition": "party empowered as an official representative by a regulatory agency to investigate and review specified documents for accuracy and truthfulness",
+      "parents": [
+        "cmns-bauth:ResponsibleParty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-law-lcap:hasCapacity",
+          "operator": "some",
+          "value": "regulatory capacity",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-bauth:isAuthorizedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-rga:RegulatoryAgency"
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    },
+    {
+      "name": "government-issued license",
+      "technicalName": "fibo-fbc-fct-rga:GovernmentIssuedLicense",
+      "localName": "GovernmentIssuedLicense",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegulatoryAgencies/GovernmentIssuedLicense",
+      "label": "government-issued license",
+      "definition": "grant of permission needed to legally perform some task, provide some service, exercise a certain privilege, or pursue some business or occupation",
+      "parents": [
+        "fibo-fnd-law-lcap:License"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "cmns-rga:RegulatoryAgency",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "regulation identification scheme",
+      "technicalName": "fibo-fbc-fct-rga:RegulationIdentificationScheme",
+      "localName": "RegulationIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegulatoryAgencies/RegulationIdentificationScheme",
+      "label": "regulation identification scheme",
+      "definition": "a scheme for organizing information and allocating identifiers to regulations",
+      "parents": [
+        "cmns-id:IdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "regulation identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "regulation identifier",
+      "technicalName": "fibo-fbc-fct-rga:RegulationIdentifier",
+      "localName": "RegulationIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegulatoryAgencies/RegulationIdentifier",
+      "label": "regulation identifier",
+      "definition": "an identifier associated with a regulation",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-law-lcap:Regulation"
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "regulation identification scheme"
+        }
+      ]
+    },
+    {
+      "name": "regulatory capacity",
+      "technicalName": "fibo-fbc-fct-rga:RegulatoryCapacity",
+      "localName": "RegulatoryCapacity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegulatoryAgencies/RegulatoryCapacity",
+      "label": "regulatory capacity",
+      "definition": "the capacity of some natural person to regulate some industry, organization, or product by virtue of some certification program on behalf of some regulatory agency",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalCapacity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tax authority",
+      "technicalName": "fibo-fbc-fct-rga:TaxAuthority",
+      "localName": "TaxAuthority",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/RegulatoryAgencies/TaxAuthority",
+      "label": "tax authority",
+      "definition": "regulatory agency that has jurisdiction over the assessment, determination, collection, imposition and other aspects of any tax",
+      "parents": [
+        "cmns-rga:RegulatoryAgency"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:hasJurisdiction",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:manages",
+          "operator": "some",
+          "value": "fibo-fnd-pty-pty:TaxIdentificationScheme",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:issues",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-pty-pty:TaxIdentifier"
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

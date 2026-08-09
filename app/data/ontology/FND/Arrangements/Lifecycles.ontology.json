@@ -1,0 +1,258 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Arrangements\\Lifecycles.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/",
+  "summary": {
+    "nodes": 7,
+    "edges": 4,
+    "properties": 0,
+    "triples": 153
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Designators/"
+  ],
+  "classes": [
+    {
+      "name": "lifecycle",
+      "technicalName": "fibo-fnd-arr-lif:Lifecycle",
+      "localName": "Lifecycle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/Lifecycle",
+      "label": "lifecycle",
+      "definition": "arrangement that compares the cyclical nature of families, organizations, processes, products, marketing, and order management, portfolio management or other systems with the cradle to grave life stages (birth, growth, maturity, decay, and death) of living organisms",
+      "parents": [
+        "cmns-col:Arrangement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "lifecycle stage",
+          "qualifier": null
+        },
+        {
+          "property": "is lifecycle of",
+          "operator": "some",
+          "value": "owl:Thing",
+          "qualifier": null
+        },
+        {
+          "property": "has stage",
+          "operator": "some",
+          "value": "lifecycle stage",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "lifecycle event",
+      "technicalName": "fibo-fnd-arr-lif:LifecycleEvent",
+      "localName": "LifecycleEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/LifecycleEvent",
+      "label": "lifecycle event",
+      "definition": "kind of event that occurs during one or more stages of a lifecycle",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "lifecycle stage",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "lifecycle event occurrence",
+      "technicalName": "fibo-fnd-arr-lif:LifecycleEventOccurrence",
+      "localName": "LifecycleEventOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/LifecycleEventOccurrence",
+      "label": "lifecycle event occurrence",
+      "definition": "realization of an event in a stage of a lifecycle",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "lifecycle stage occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "lifecycle event"
+        }
+      ]
+    },
+    {
+      "name": "lifecycle occurrence",
+      "technicalName": "fibo-fnd-arr-lif:LifecycleOccurrence",
+      "localName": "LifecycleOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/LifecycleOccurrence",
+      "label": "lifecycle occurrence",
+      "definition": "realization of a lifecycle",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": [
+        {
+          "property": "has stage",
+          "operator": "some",
+          "value": "lifecycle stage occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "lifecycle"
+        }
+      ]
+    },
+    {
+      "name": "lifecycle stage",
+      "technicalName": "fibo-fnd-arr-lif:LifecycleStage",
+      "localName": "LifecycleStage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/LifecycleStage",
+      "label": "lifecycle stage",
+      "definition": "phase in a lifecycle",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "lifecycle",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "lifecycle event",
+          "qualifier": null
+        },
+        {
+          "property": "is stage of",
+          "operator": "some",
+          "value": "lifecycle",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "lifecycle stage occurrence",
+      "technicalName": "fibo-fnd-arr-lif:LifecycleStageOccurrence",
+      "localName": "LifecycleStageOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/LifecycleStageOccurrence",
+      "label": "lifecycle stage occurrence",
+      "definition": "realization of a phase in a given lifecycle",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "lifecycle event occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "is stage of",
+          "operator": "some",
+          "value": "lifecycle occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "lifecycle stage"
+        }
+      ]
+    },
+    {
+      "name": "lifecycle status",
+      "technicalName": "fibo-fnd-arr-lif:LifecycleStatus",
+      "localName": "LifecycleStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/LifecycleStatus",
+      "label": "lifecycle status",
+      "definition": "classifier indicating the position or state of something at a particular point in its life-cycle",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "has stage",
+          "operator": "some",
+          "value": "lifecycle stage occurrence",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has lifecycle",
+      "technicalName": "fibo-fnd-arr-lif:hasLifecycle",
+      "localName": "hasLifecycle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/hasLifecycle",
+      "label": "has lifecycle",
+      "definition": "relates something, such as a product, trade, or related process, to a lifecycle that characterizes it",
+      "domain": [],
+      "range": [
+        "lifecycle"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has stage",
+      "technicalName": "fibo-fnd-arr-lif:hasStage",
+      "localName": "hasStage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/hasStage",
+      "label": "has stage",
+      "definition": "relates something, such as a product or trade lifecycle or related process, to a phase or stage in that lifecycle",
+      "domain": [],
+      "range": [
+        "anonymous restriction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is lifecycle of",
+      "technicalName": "fibo-fnd-arr-lif:isLifecycleOf",
+      "localName": "isLifecycleOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/isLifecycleOf",
+      "label": "is lifecycle of",
+      "definition": "relates a lifecycle to something it characterizes",
+      "domain": [
+        "lifecycle"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is stage of",
+      "technicalName": "fibo-fnd-arr-lif:isStageOf",
+      "localName": "isStageOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/isStageOf",
+      "label": "is stage of",
+      "definition": "relates a stage in a product or trade lifecycle or process to the lifecycle or process that it is a stage of",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": []
+    }
+  ],
+  "attributes": []
+}

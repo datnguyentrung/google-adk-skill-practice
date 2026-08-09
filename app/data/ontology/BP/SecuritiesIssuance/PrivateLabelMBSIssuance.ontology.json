@@ -1,0 +1,1471 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BP\\SecuritiesIssuance\\PrivateLabelMBSIssuance.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/",
+  "summary": {
+    "nodes": 53,
+    "edges": 36,
+    "properties": 0,
+    "triples": 538
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/",
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/",
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceDocuments/",
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/",
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/MBSIssuance/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/SecuritiesTransactions/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/Bonds/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/MortgageBackedSecurities/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/"
+  ],
+  "classes": [
+    {
+      "name": "allocate primary identifier",
+      "technicalName": "fibo-bp-iss-pmbs:AllocatePrimaryIdentifier",
+      "localName": "AllocatePrimaryIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/AllocatePrimaryIdentifier",
+      "label": "allocate primary identifier",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "allocate ratings",
+      "technicalName": "fibo-bp-iss-pmbs:AllocateRatings",
+      "localName": "AllocateRatings",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/AllocateRatings",
+      "label": "allocate ratings",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "assess pool suitability for issuance",
+      "technicalName": "fibo-bp-iss-pmbs:AssessPoolSuitabilityForIssuance",
+      "localName": "AssessPoolSuitabilityForIssuance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/AssessPoolSuitabilityForIssuance",
+      "label": "assess pool suitability for issuance",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "is assessment of",
+          "operator": "some",
+          "value": "in assembly mortgage pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "assess ratings",
+      "technicalName": "fibo-bp-iss-pmbs:AssessRatings",
+      "localName": "AssessRatings",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/AssessRatings",
+      "label": "assess ratings",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "broker dealer",
+      "technicalName": "fibo-bp-iss-pmbs:BrokerDealer",
+      "localName": "BrokerDealer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/BrokerDealer",
+      "label": "broker dealer",
+      "definition": "An entity which may become a primary investor in the issue. Term origin:MBS PoC Reviews",
+      "parents": [],
+      "rules": [
+        {
+          "property": "commits to",
+          "operator": "some",
+          "value": "get commitment from investors",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "close deal",
+      "technicalName": "fibo-bp-iss-pmbs:CloseDeal",
+      "localName": "CloseDeal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/CloseDeal",
+      "label": "close deal",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "results in publication of",
+          "operator": "some",
+          "value": "remittance report",
+          "qualifier": null
+        },
+        {
+          "property": "results in",
+          "operator": "some",
+          "value": "tranched m b s deal transaction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "define notes parameters",
+      "technicalName": "fibo-bp-iss-pmbs:DefineNotesParameters",
+      "localName": "DefineNotesParameters",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/DefineNotesParameters",
+      "label": "define notes parameters",
+      "definition": "the denom of the notes",
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "results in",
+          "operator": "some",
+          "value": "draft tranche notes parameters",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "define pool characteristics",
+      "technicalName": "fibo-bp-iss-pmbs:DefinePoolCharacteristics",
+      "localName": "DefinePoolCharacteristics",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/DefinePoolCharacteristics",
+      "label": "define pool characteristics",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "isDefiningOf",
+          "operator": "some",
+          "value": "not yet issued non agency mortgage pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "draft tranche notes parameters",
+      "technicalName": "fibo-bp-iss-pmbs:DraftTrancheNotesParameters",
+      "localName": "DraftTrancheNotesParameters",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/DraftTrancheNotesParameters",
+      "label": "draft tranche notes parameters",
+      "definition": "Draft of set of information defining the notes breakdown of one tranche. covers denominations and amounts that you can byu of the instrument in this tranche. Term origin:MBS PoC Reviews",
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "draft tranche structure",
+      "technicalName": "fibo-bp-iss-pmbs:DraftTrancheStructure",
+      "localName": "DraftTrancheStructure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/DraftTrancheStructure",
+      "label": "draft tranche structure",
+      "definition": "Draft of set of information defining the tranches in the tranched issue and how these relate to one another. Term origin:MBS PoC Reviews",
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "draft tranche termsheet",
+      "technicalName": "fibo-bp-iss-pmbs:DraftTrancheTermsheet",
+      "localName": "DraftTrancheTermsheet",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/DraftTrancheTermsheet",
+      "label": "draft tranche termsheet",
+      "definition": "Draft of set of information defining one tranche of a tranched issue. This will become the termsheet of an individual tranche within that issue. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-fnd-agr-ctr:TermSheet"
+      ],
+      "rules": []
+    },
+    {
+      "name": "draw up offering memorandum",
+      "technicalName": "fibo-bp-iss-pmbs:DrawUpOfferingMemorandum",
+      "localName": "DrawUpOfferingMemorandum",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/DrawUpOfferingMemorandum",
+      "label": "draw up offering memorandum",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "draw up tranche termsheets",
+      "technicalName": "fibo-bp-iss-pmbs:DrawUpTrancheTermsheets",
+      "localName": "DrawUpTrancheTermsheets",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/DrawUpTrancheTermsheets",
+      "label": "draw up tranche termsheets",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "requires",
+          "operator": "some",
+          "value": "fibo-sec-dbt-mbs:NonAgencyMortgagePool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "finalize pool content",
+      "technicalName": "fibo-bp-iss-pmbs:FinalizePoolContent",
+      "localName": "FinalizePoolContent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/FinalizePoolContent",
+      "label": "finalize pool content",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "finalizes",
+          "operator": "some",
+          "value": "in issuance non agency mortgage pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "finalize prospectus",
+      "technicalName": "fibo-bp-iss-pmbs:FinalizeProspectus",
+      "localName": "FinalizeProspectus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/FinalizeProspectus",
+      "label": "finalize prospectus",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "results in",
+          "operator": "some",
+          "value": "fibo-sec-dbt-cdo:TranchedMBSDealProspectus",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "get commitment from investors",
+      "technicalName": "fibo-bp-iss-pmbs:GetCommitmentFromInvestors",
+      "localName": "GetCommitmentFromInvestors",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/GetCommitmentFromInvestors",
+      "label": "get commitment from investors",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "has resource",
+          "operator": "some",
+          "value": "draft tranche notes parameters",
+          "qualifier": null
+        },
+        {
+          "property": "has resource",
+          "operator": "some",
+          "value": "draft tranche notes parameters",
+          "qualifier": null
+        },
+        {
+          "property": "commitment based on",
+          "operator": "some",
+          "value": "tranched draft prospectus",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "identify conforming mortgage",
+      "technicalName": "fibo-bp-iss-pmbs:IdentifyConformingMortgage",
+      "localName": "IdentifyConformingMortgage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/IdentifyConformingMortgage",
+      "label": "identify conforming mortgage",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "refers to",
+          "operator": "some",
+          "value": "fibo-loan-reln-mtg:LoanSecuredByRealEstate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "identify underwriter",
+      "technicalName": "fibo-bp-iss-pmbs:IdentifyUnderwriter",
+      "localName": "IdentifyUnderwriter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/IdentifyUnderwriter",
+      "label": "identify underwriter",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-bp-iss-dbti:resultsIn",
+          "operator": "some",
+          "value": "potential tranched issue underwriter",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "in assembly mortgage pool",
+      "technicalName": "fibo-bp-iss-pmbs:InAssemblyMortgagePool",
+      "localName": "InAssemblyMortgagePool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/InAssemblyMortgagePool",
+      "label": "in assembly mortgage pool",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-mbs:NonAgencyMortgagePool"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "fibo-bp-iss-dbti:InAssembly",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "in issuance non agency mortgage pool",
+      "technicalName": "fibo-bp-iss-pmbs:InIssuanceNonAgencyMortgagePool",
+      "localName": "InIssuanceNonAgencyMortgagePool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/InIssuanceNonAgencyMortgagePool",
+      "label": "in issuance non agency mortgage pool",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-mbs:NonAgencyMortgagePool"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "fibo-bp-iss-dbti:InIssuance",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "individual tranche definitions",
+      "technicalName": "fibo-bp-iss-pmbs:IndividualTrancheDefinitions",
+      "localName": "IndividualTrancheDefinitions",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/IndividualTrancheDefinitions",
+      "label": "individual tranche definitions",
+      "definition": "In reality there is one termsheet that has sets of information for the terms for each Tranche. This class of information identifies the terms of one tranche, but it does not exist as a separate document in its own right. Further Notes ? We may need to firm up the relationship between the individual tranche termsheet and the information about the relationships among these (some of which are quite complex) and the terms that are common to more than one tranche. In practice these may be separate sections of one document. Term origin:MBS PoC Reviews",
+      "parents": [
+        "tranched m b s issue prospectus part",
+        "fibo-fnd-agr-ctr:TermSheet"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "fibo-sec-dbt-bnd:CouponPaymentTerms",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "fibo-sec-dbt-bnd:BondAmortizationPaymentTerms",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "investor",
+      "technicalName": "fibo-bp-iss-pmbs:Investor",
+      "localName": "Investor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/Investor",
+      "label": "investor",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "m b s securitization end",
+      "technicalName": "fibo-bp-iss-pmbs:MBSSecuritizationEnd",
+      "localName": "MBSSecuritizationEnd",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/MBSSecuritizationEnd",
+      "label": "m b s securitization end",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "m b s securitization start",
+      "technicalName": "fibo-bp-iss-pmbs:MBSSecuritizationStart",
+      "localName": "MBSSecuritizationStart",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/MBSSecuritizationStart",
+      "label": "m b s securitization start",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "make securities available in market",
+      "technicalName": "fibo-bp-iss-pmbs:MakeSecuritiesAvailableInMarket",
+      "localName": "MakeSecuritiesAvailableInMarket",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/MakeSecuritiesAvailableInMarket",
+      "label": "make securities available in market",
+      "definition": "What happens here? e.g. notices / marketing (phone calls) Structured Finance: There's not really notices in the newspaper, it's a very small market and it's all based on relationships so there's no public notice. So you would get an email from the sales person at the bank who has just closed the deal and is now selling these (this bank is the broker/dealer who bought it?) There's not really much of a secondary market - the initial investors would often hold on to these. There is something around Bloomberg - you can go there and see what's available, if someone has a number of notes from a iven tranche, that they are willing to sell. So there's no transpoarency (!!) Sales would be OTC but less transparent e.g. if you look up a normal OTC stock, you would be able to see more of this information, than in these (non Agency) MBS issues and other SF. DOES THIS APPLY IN ALL MBS??.",
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "requires",
+          "operator": "some",
+          "value": "fibo-sec-dbt-cdo:TranchedMBSDealProspectus",
+          "qualifier": null
+        },
+        {
+          "property": "is issue of",
+          "operator": "some",
+          "value": "fibo-sec-dbt-cdo:TranchedMBSDeal",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "market issue to primary investors",
+      "technicalName": "fibo-bp-iss-pmbs:MarketIssueToPrimaryInvestors",
+      "localName": "MarketIssueToPrimaryInvestors",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/MarketIssueToPrimaryInvestors",
+      "label": "market issue to primary investors",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "has resource",
+          "operator": "some",
+          "value": "tranched offering memorandum",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "non agency pool creation end",
+      "technicalName": "fibo-bp-iss-pmbs:NonAgencyPoolCreationEnd",
+      "localName": "NonAgencyPoolCreationEnd",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/NonAgencyPoolCreationEnd",
+      "label": "non agency pool creation end",
+      "definition": null,
+      "parents": [],
+      "rules": [
+        {
+          "property": "flow",
+          "operator": "some",
+          "value": "m b s securitization start",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "non agency pool creation process",
+      "technicalName": "fibo-bp-iss-pmbs:NonAgencyPoolCreationProcess",
+      "localName": "NonAgencyPoolCreationProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/NonAgencyPoolCreationProcess",
+      "label": "non agency pool creation process",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-dbti:RetailAssetPoolCreationProcess"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non agency pool creation start",
+      "technicalName": "fibo-bp-iss-pmbs:NonAgencyPoolCreationStart",
+      "localName": "NonAgencyPoolCreationStart",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/NonAgencyPoolCreationStart",
+      "label": "non agency pool creation start",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "not yet issued non agency mortgage pool",
+      "technicalName": "fibo-bp-iss-pmbs:NotYetIssuedNonAgencyMortgagePool",
+      "localName": "NotYetIssuedNonAgencyMortgagePool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/NotYetIssuedNonAgencyMortgagePool",
+      "label": "not yet issued non agency mortgage pool",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-mbs:NonAgencyMortgagePool"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "fibo-bp-iss-dbti:NotYetIssued",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "numbering agency",
+      "technicalName": "fibo-bp-iss-pmbs:NumberingAgency",
+      "localName": "NumberingAgency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/NumberingAgency",
+      "label": "numbering agency",
+      "definition": "The agency which will provide the primary securitiy identifier for the security. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-bp-iss-prc:SecuritiesIssuanceProcessActor"
+      ],
+      "rules": [
+        {
+          "property": "allocates identifier",
+          "operator": "some",
+          "value": "allocate primary identifier",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-bp-iss-ambs:allocatesIdentifier",
+          "operator": "some",
+          "value": "fibo-bp-iss-ambs:AllocatePrimaryIdentifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "PoolLifecycleStateSelection",
+      "technicalName": "fibo-bp-iss-pmbs:PoolLifecycleStateSelection",
+      "localName": "PoolLifecycleStateSelection",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/PoolLifecycleStateSelection",
+      "label": "PoolLifecycleStateSelection",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStage"
+      ],
+      "rules": []
+    },
+    {
+      "name": "pool ready for issue",
+      "technicalName": "fibo-bp-iss-pmbs:PoolReadyForIssue",
+      "localName": "PoolReadyForIssue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/PoolReadyForIssue",
+      "label": "pool ready for issue",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "pool trustee",
+      "technicalName": "fibo-bp-iss-pmbs:PoolTrustee",
+      "localName": "PoolTrustee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/PoolTrustee",
+      "label": "pool trustee",
+      "definition": null,
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "may become",
+          "operator": "some",
+          "value": "fibo-sec-sec-iss:SecurityUnderwriter",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "potential m b s investor",
+      "technicalName": "fibo-bp-iss-pmbs:PotentialMBSInvestor",
+      "localName": "PotentialMBSInvestor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/PotentialMBSInvestor",
+      "label": "potential m b s investor",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "potential non agency m b s issuer",
+      "technicalName": "fibo-bp-iss-pmbs:PotentialNonAgencyMBSIssuer",
+      "localName": "PotentialNonAgencyMBSIssuer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/PotentialNonAgencyMBSIssuer",
+      "label": "potential non agency m b s issuer",
+      "definition": "The entity which will become the issuing party for the Tranched MBS Issue. This entity is the principal actor in most of the activities involved in the issue. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-bp-iss-dbti:PoolBackedSecuritySecuritizationProcessActor"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:evaluates",
+          "operator": "some",
+          "value": "assess ratings",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:evaluates",
+          "operator": "some",
+          "value": "assess pool suitability for issuance",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "potential tranched issue underwriter",
+      "technicalName": "fibo-bp-iss-pmbs:PotentialTranchedIssueUnderwriter",
+      "localName": "PotentialTranchedIssueUnderwriter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/PotentialTranchedIssueUnderwriter",
+      "label": "potential tranched issue underwriter",
+      "definition": "The entity which will become the underwriter for the tranched MBS issue. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-bp-iss-prc:PotentialUnderwriter"
+      ],
+      "rules": []
+    },
+    {
+      "name": "primary investor",
+      "technicalName": "fibo-bp-iss-pmbs:PrimaryInvestor",
+      "localName": "PrimaryInvestor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/PrimaryInvestor",
+      "label": "primary investor",
+      "definition": "A party which becomes the primary investor in the issue, by purchasing some of the tranches of the issue. Term origin:MBS PoC Reviews",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "purchase mortgage into pool",
+      "technicalName": "fibo-bp-iss-pmbs:PurchaseMortgageIntoPool",
+      "localName": "PurchaseMortgageIntoPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/PurchaseMortgageIntoPool",
+      "label": "purchase mortgage into pool",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "is purchase of",
+          "operator": "some",
+          "value": "fibo-loan-reln-mtg:LoanSecuredByRealEstate",
+          "qualifier": null
+        },
+        {
+          "property": "adds to",
+          "operator": "some",
+          "value": "in assembly mortgage pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ratings agency",
+      "technicalName": "fibo-bp-iss-pmbs:RatingsAgency",
+      "localName": "RatingsAgency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/RatingsAgency",
+      "label": "ratings agency",
+      "definition": null,
+      "parents": [],
+      "rules": [
+        {
+          "property": "allocates ratings",
+          "operator": "some",
+          "value": "allocate ratings",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ratings suitable for issue",
+      "technicalName": "fibo-bp-iss-pmbs:RatingsSuitableForIssue",
+      "localName": "RatingsSuitableForIssue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/RatingsSuitableForIssue",
+      "label": "ratings suitable for issue",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "register security",
+      "technicalName": "fibo-bp-iss-pmbs:RegisterSecurity",
+      "localName": "RegisterSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/RegisterSecurity",
+      "label": "register security",
+      "definition": "After the deal is closed the security is formally registered with some registraton authority This is the \"official\" bit - there is not a separate \"Issue\" activity which is official ?????",
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "remittance report",
+      "technicalName": "fibo-bp-iss-pmbs:RemittanceReport",
+      "localName": "RemittanceReport",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/RemittanceReport",
+      "label": "remittance report",
+      "definition": "Report containing a specific and limited set of information about the Deal. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-fnd-arr-rep:Report"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tranche notes parameters",
+      "technicalName": "fibo-bp-iss-pmbs:TrancheNotesParameters",
+      "localName": "TrancheNotesParameters",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/TrancheNotesParameters",
+      "label": "tranche notes parameters",
+      "definition": "One set of information defining the notes breakdown of one tranche. Covers denominations and amounts that you can byu of the instrument in this tranche. Q: Is this really defined in the prospectus? A: yes The prospectus lists the characteristics including e.g. \"The notes will be sold in denominations of X AND Increuemtns of Y e.g. $250 000 incremented by $1000. Parameters include: Denominations Minimum amounts what else? Term origin:MBS PoC Reviews",
+      "parents": [
+        "tranched m b s issue prospectus part"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:isAbout",
+          "operator": "some",
+          "value": "fibo-sec-dbt-cdo:MBSTrancheNote",
+          "qualifier": null
+        },
+        {
+          "property": "maximum amount",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "tranche structure and termsheet",
+      "technicalName": "fibo-bp-iss-pmbs:TrancheStructureAndTermsheet",
+      "localName": "TrancheStructureAndTermsheet",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/TrancheStructureAndTermsheet",
+      "label": "tranche structure and termsheet",
+      "definition": "One sheet defining the MBS structure.",
+      "parents": [
+        "tranched m b s issue prospectus part"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tranched draft prospectus",
+      "technicalName": "fibo-bp-iss-pmbs:TranchedDraftProspectus",
+      "localName": "TranchedDraftProspectus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/TranchedDraftProspectus",
+      "label": "tranched draft prospectus",
+      "definition": "The draft prospectus for a tranched Mortgage Backed Securities issue, as determined by the issuing entity prior to marketing the issue. Certain terms in the draft prospectus will be finalized later in the issuance process to become the actual Prospectus. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-bp-iss-doc:PreliminaryProspectus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:precedes",
+          "operator": "some",
+          "value": "fibo-sec-dbt-cdo:TranchedMBSDealProspectus",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "tranched m b s deal settlement",
+      "technicalName": "fibo-bp-iss-pmbs:TranchedMBSDealSettlement",
+      "localName": "TranchedMBSDealSettlement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/TranchedMBSDealSettlement",
+      "label": "tranched m b s deal settlement",
+      "definition": null,
+      "parents": [],
+      "rules": [
+        {
+          "property": "decomposes into",
+          "operator": "some",
+          "value": "tranched m b s primary deal transaction settlement process",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "tranched m b s deal transaction",
+      "technicalName": "fibo-bp-iss-pmbs:TranchedMBSDealTransaction",
+      "localName": "TranchedMBSDealTransaction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/TranchedMBSDealTransaction",
+      "label": "tranched m b s deal transaction",
+      "definition": "The deal transaction by which the MBS Issue is issued to primary investors. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-fnd-txn-sec:FinancialPrimaryMarketTransaction"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-txn-sec:follows",
+          "operator": "some",
+          "value": "tranched m b s primary deal transaction settlement process",
+          "qualifier": null
+        },
+        {
+          "property": "has counterparty",
+          "operator": "some",
+          "value": "primary investor",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "tranched m b s issue prospectus part",
+      "technicalName": "fibo-bp-iss-pmbs:TranchedMBSIssueProspectusPart",
+      "localName": "TranchedMBSIssueProspectusPart",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/TranchedMBSIssueProspectusPart",
+      "label": "tranched m b s issue prospectus part",
+      "definition": "A part or section of a prospectus for a tranched mortgage backed securities issue. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-bp-iss-mbs:ProspectusPart"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tranched m b s primary deal transaction settlement process",
+      "technicalName": "fibo-bp-iss-pmbs:TranchedMBSPrimaryDealTransactionSettlementProcess",
+      "localName": "TranchedMBSPrimaryDealTransactionSettlementProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/TranchedMBSPrimaryDealTransactionSettlementProcess",
+      "label": "tranched m b s primary deal transaction settlement process",
+      "definition": "The process by which the primary deal transaction is settled. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-fnd-txn-sec:SettlementProcess"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tranched m b s prospectus outline",
+      "technicalName": "fibo-bp-iss-pmbs:TranchedMBSProspectusOutline",
+      "localName": "TranchedMBSProspectusOutline",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/TranchedMBSProspectusOutline",
+      "label": "tranched m b s prospectus outline",
+      "definition": "An outline of the tranched prospectus, provind an intial representation of the possible tranches and their features. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-bp-iss-doc:PreliminaryProspectus"
+      ],
+      "rules": [
+        {
+          "property": "has content",
+          "operator": "some",
+          "value": "draft tranche termsheet",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "tranched m b s securitization process",
+      "technicalName": "fibo-bp-iss-pmbs:TranchedMBSSecuritizationProcess",
+      "localName": "TranchedMBSSecuritizationProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/TranchedMBSSecuritizationProcess",
+      "label": "tranched m b s securitization process",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-mbs:MBSSecuritizationProcess"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tranched offering memorandum",
+      "technicalName": "fibo-bp-iss-pmbs:TranchedOfferingMemorandum",
+      "localName": "TranchedOfferingMemorandum",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/TranchedOfferingMemorandum",
+      "label": "tranched offering memorandum",
+      "definition": "The Offering Memorandum will include or attach the terms for two or more individual tranches that will make up the issue, and the structure of the tranches, including how they will relate to one another (priorities and so on). Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-sec-sec-iss:OfferingDocument"
+      ],
+      "rules": [
+        {
+          "property": "includes details about",
+          "operator": "some",
+          "value": "individual tranche definitions",
+          "qualifier": null
+        },
+        {
+          "property": "includes details about",
+          "operator": "some",
+          "value": "tranche structure and termsheet",
+          "qualifier": null
+        },
+        {
+          "property": "may include details about",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "draft tranche notes parameters"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "adds to",
+      "technicalName": "fibo-bp-iss-pmbs:addsTo",
+      "localName": "addsTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/addsTo",
+      "label": "adds to",
+      "definition": null,
+      "domain": [
+        "purchase mortgage into pool"
+      ],
+      "range": [
+        "in assembly mortgage pool"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "allocates identifier",
+      "technicalName": "fibo-bp-iss-pmbs:allocatesIdentifier",
+      "localName": "allocatesIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/allocatesIdentifier",
+      "label": "allocates identifier",
+      "definition": null,
+      "domain": [
+        "numbering agency"
+      ],
+      "range": [
+        "allocate primary identifier"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "allocates ratings",
+      "technicalName": "fibo-bp-iss-pmbs:allocatesRatings",
+      "localName": "allocatesRatings",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/allocatesRatings",
+      "label": "allocates ratings",
+      "definition": null,
+      "domain": [
+        "ratings agency"
+      ],
+      "range": [
+        "allocate ratings"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "commitment based on",
+      "technicalName": "fibo-bp-iss-pmbs:commitmentBasedOn",
+      "localName": "commitmentBasedOn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/commitmentBasedOn",
+      "label": "commitment based on",
+      "definition": null,
+      "domain": [
+        "get commitment from investors"
+      ],
+      "range": [
+        "tranched draft prospectus"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "commits to",
+      "technicalName": "fibo-bp-iss-pmbs:commitsTo",
+      "localName": "commitsTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/commitsTo",
+      "label": "commits to",
+      "definition": null,
+      "domain": [
+        "broker dealer"
+      ],
+      "range": [
+        "get commitment from investors"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "decomposes into",
+      "technicalName": "fibo-bp-iss-pmbs:decomposesInto",
+      "localName": "decomposesInto",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/decomposesInto",
+      "label": "decomposes into",
+      "definition": null,
+      "domain": [
+        "tranched m b s deal settlement"
+      ],
+      "range": [
+        "tranched m b s primary deal transaction settlement process"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "denomination increment",
+      "technicalName": "fibo-bp-iss-pmbs:denominationIncrement",
+      "localName": "denominationIncrement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/denominationIncrement",
+      "label": "denomination increment",
+      "definition": null,
+      "domain": [
+        "tranche notes parameters"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "finalizes",
+      "technicalName": "fibo-bp-iss-pmbs:finalizes.1",
+      "localName": "finalizes.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/finalizes.1",
+      "label": "finalizes",
+      "definition": null,
+      "domain": [
+        "finalize pool content"
+      ],
+      "range": [
+        "in issuance non agency mortgage pool"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "flow",
+      "technicalName": "fibo-bp-iss-pmbs:flow",
+      "localName": "flow",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/flow",
+      "label": "flow",
+      "definition": null,
+      "domain": [
+        "non agency pool creation end"
+      ],
+      "range": [
+        "m b s securitization start"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has content",
+      "technicalName": "fibo-bp-iss-pmbs:hasContent",
+      "localName": "hasContent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/hasContent",
+      "label": "has content",
+      "definition": null,
+      "domain": [
+        "tranched m b s prospectus outline"
+      ],
+      "range": [
+        "draft tranche structure"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has content",
+      "technicalName": "fibo-bp-iss-pmbs:hasContent.1",
+      "localName": "hasContent.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/hasContent.1",
+      "label": "has content",
+      "definition": null,
+      "domain": [
+        "tranched m b s prospectus outline"
+      ],
+      "range": [
+        "draft tranche termsheet"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has counterparty",
+      "technicalName": "fibo-bp-iss-pmbs:hasCounterparty",
+      "localName": "hasCounterparty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/hasCounterparty",
+      "label": "has counterparty",
+      "definition": null,
+      "domain": [
+        "tranched m b s deal transaction"
+      ],
+      "range": [
+        "primary investor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has primary holder",
+      "technicalName": "fibo-bp-iss-pmbs:hasPrimaryHolder",
+      "localName": "hasPrimaryHolder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/hasPrimaryHolder",
+      "label": "has primary holder",
+      "definition": null,
+      "domain": [
+        "fibo-sec-dbt-cdo:TranchedMBSInstrument"
+      ],
+      "range": [
+        "primary investor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has principal party",
+      "technicalName": "fibo-bp-iss-pmbs:hasPrincipalParty",
+      "localName": "hasPrincipalParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/hasPrincipalParty",
+      "label": "has principal party",
+      "definition": null,
+      "domain": [
+        "tranched m b s deal transaction"
+      ],
+      "range": [
+        "fibo-sec-dbt-mbs:NonAgencyMBSIssuer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has resource",
+      "technicalName": "fibo-bp-iss-pmbs:hasResource",
+      "localName": "hasResource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/hasResource",
+      "label": "has resource",
+      "definition": null,
+      "domain": [
+        "get commitment from investors"
+      ],
+      "range": [
+        "draft tranche notes parameters"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has resource",
+      "technicalName": "fibo-bp-iss-pmbs:hasResource.1",
+      "localName": "hasResource.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/hasResource.1",
+      "label": "has resource",
+      "definition": null,
+      "domain": [
+        "market issue to primary investors"
+      ],
+      "range": [
+        "tranched offering memorandum"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has resource",
+      "technicalName": "fibo-bp-iss-pmbs:hasResource.2",
+      "localName": "hasResource.2",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/hasResource.2",
+      "label": "has resource",
+      "definition": null,
+      "domain": [
+        "get commitment from investors"
+      ],
+      "range": [
+        "draft tranche notes parameters"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has trustee",
+      "technicalName": "fibo-bp-iss-pmbs:hasTrustee",
+      "localName": "hasTrustee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/hasTrustee",
+      "label": "has trustee",
+      "definition": null,
+      "domain": [
+        "fibo-sec-dbt-mbs:NonAgencyMortgagePool"
+      ],
+      "range": [
+        "pool trustee"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "identifier issued by",
+      "technicalName": "fibo-bp-iss-pmbs:identifierIssuedBy",
+      "localName": "identifierIssuedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/identifierIssuedBy",
+      "label": "identifier issued by",
+      "definition": null,
+      "domain": [
+        "fibo-sec-dbt-cdo:TranchedMBSInstrument"
+      ],
+      "range": [
+        "fibo-bp-iss-prc:PrimaryIdentifierIssuer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "includes details about",
+      "technicalName": "fibo-bp-iss-pmbs:includesDetailsAbout",
+      "localName": "includesDetailsAbout",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/includesDetailsAbout",
+      "label": "includes details about",
+      "definition": null,
+      "domain": [
+        "tranched offering memorandum"
+      ],
+      "range": [
+        "tranche structure and termsheet"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "includes details about",
+      "technicalName": "fibo-bp-iss-pmbs:includesDetailsAbout.1",
+      "localName": "includesDetailsAbout.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/includesDetailsAbout.1",
+      "label": "includes details about",
+      "definition": null,
+      "domain": [
+        "tranched offering memorandum"
+      ],
+      "range": [
+        "individual tranche definitions"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is assessment of",
+      "technicalName": "fibo-bp-iss-pmbs:isAssessmentOf",
+      "localName": "isAssessmentOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/isAssessmentOf",
+      "label": "is assessment of",
+      "definition": null,
+      "domain": [
+        "assess pool suitability for issuance"
+      ],
+      "range": [
+        "in assembly mortgage pool"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "isDefiningOf",
+      "technicalName": "fibo-bp-iss-pmbs:isDefiningOf",
+      "localName": "isDefiningOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/isDefiningOf",
+      "label": "isDefiningOf",
+      "definition": null,
+      "domain": [
+        "define pool characteristics"
+      ],
+      "range": [
+        "not yet issued non agency mortgage pool"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is issue of",
+      "technicalName": "fibo-bp-iss-pmbs:isIssueOf",
+      "localName": "isIssueOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/isIssueOf",
+      "label": "is issue of",
+      "definition": null,
+      "domain": [
+        "make securities available in market"
+      ],
+      "range": [
+        "fibo-sec-dbt-cdo:TranchedMBSDeal"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is purchase of",
+      "technicalName": "fibo-bp-iss-pmbs:isPurchaseOf",
+      "localName": "isPurchaseOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/isPurchaseOf",
+      "label": "is purchase of",
+      "definition": null,
+      "domain": [
+        "purchase mortgage into pool"
+      ],
+      "range": [
+        "fibo-loan-reln-mtg:LoanSecuredByRealEstate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "maximum amount",
+      "technicalName": "fibo-bp-iss-pmbs:maximumAmount",
+      "localName": "maximumAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/maximumAmount",
+      "label": "maximum amount",
+      "definition": "This has not been seen - incliuded as it's implicit but we might want to get rid of this. ACTION: Look at example prospectus document, mark up against this model; if this item is not seen, we could remove it",
+      "domain": [
+        "tranche notes parameters"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "may become",
+      "technicalName": "fibo-bp-iss-pmbs:mayBecome",
+      "localName": "mayBecome",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/mayBecome",
+      "label": "may become",
+      "definition": null,
+      "domain": [
+        "pool trustee"
+      ],
+      "range": [
+        "fibo-sec-sec-iss:SecurityUnderwriter"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "may include details about",
+      "technicalName": "fibo-bp-iss-pmbs:mayIncludeDetailsAbout",
+      "localName": "mayIncludeDetailsAbout",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/mayIncludeDetailsAbout",
+      "label": "may include details about",
+      "definition": null,
+      "domain": [
+        "tranched offering memorandum"
+      ],
+      "range": [
+        "draft tranche notes parameters"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "minimum denomination",
+      "technicalName": "fibo-bp-iss-pmbs:minimumDenomination",
+      "localName": "minimumDenomination",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/minimumDenomination",
+      "label": "minimum denomination",
+      "definition": null,
+      "domain": [
+        "tranche notes parameters"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "refers to",
+      "technicalName": "fibo-bp-iss-pmbs:refersTo",
+      "localName": "refersTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/refersTo",
+      "label": "refers to",
+      "definition": null,
+      "domain": [
+        "identify conforming mortgage"
+      ],
+      "range": [
+        "fibo-loan-reln-mtg:LoanSecuredByRealEstate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "requires",
+      "technicalName": "fibo-bp-iss-pmbs:requires",
+      "localName": "requires",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/requires",
+      "label": "requires",
+      "definition": null,
+      "domain": [
+        "draw up tranche termsheets"
+      ],
+      "range": [
+        "fibo-sec-dbt-mbs:NonAgencyMortgagePool"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "requires",
+      "technicalName": "fibo-bp-iss-pmbs:requires.1",
+      "localName": "requires.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/requires.1",
+      "label": "requires",
+      "definition": null,
+      "domain": [
+        "make securities available in market"
+      ],
+      "range": [
+        "fibo-sec-dbt-cdo:TranchedMBSDealProspectus"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "results in",
+      "technicalName": "fibo-bp-iss-pmbs:resultsIn",
+      "localName": "resultsIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/resultsIn",
+      "label": "results in",
+      "definition": null,
+      "domain": [
+        "close deal"
+      ],
+      "range": [
+        "tranched m b s deal transaction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "results in",
+      "technicalName": "fibo-bp-iss-pmbs:resultsIn.1",
+      "localName": "resultsIn.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/resultsIn.1",
+      "label": "results in",
+      "definition": null,
+      "domain": [
+        "define notes parameters"
+      ],
+      "range": [
+        "draft tranche notes parameters"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "results in",
+      "technicalName": "fibo-bp-iss-pmbs:resultsIn.2",
+      "localName": "resultsIn.2",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/resultsIn.2",
+      "label": "results in",
+      "definition": null,
+      "domain": [
+        "finalize prospectus"
+      ],
+      "range": [
+        "fibo-sec-dbt-cdo:TranchedMBSDealProspectus"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "results in publication of",
+      "technicalName": "fibo-bp-iss-pmbs:resultsInPublicationOf",
+      "localName": "resultsInPublicationOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/resultsInPublicationOf",
+      "label": "results in publication of",
+      "definition": null,
+      "domain": [
+        "close deal"
+      ],
+      "range": [
+        "remittance report"
+      ]
+    }
+  ],
+  "attributes": []
+}

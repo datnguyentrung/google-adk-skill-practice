@@ -1,0 +1,781 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\DER\\DerivativesContracts\\RightsAndWarrants.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/",
+  "summary": {
+    "nodes": 42,
+    "edges": 0,
+    "properties": 2,
+    "triples": 417
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CurrencyContracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/ExoticOptions/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/SecurityBasedDerivatives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/Bonds/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/ExerciseConventions/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "allotment right",
+      "technicalName": "fibo-der-drc-raw:AllotmentRight",
+      "localName": "AllotmentRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/AllotmentRight",
+      "label": "allotment right",
+      "definition": "privileges allotted to existing security holders, entitling them to receive new securities free of charge",
+      "parents": [
+        "fibo-der-sbd-sbd:EquityDerivative",
+        "fibo-fbc-fi-fi:Entitlement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasExpression",
+          "operator": "some",
+          "value": "allotment right formula",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "allotment right formula",
+      "technicalName": "fibo-der-drc-raw:AllotmentRightFormula",
+      "localName": "AllotmentRightFormula",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/AllotmentRightFormula",
+      "label": "allotment right formula",
+      "definition": "rule applied to calculate the number of securities for an allotment right, typically based on the number of these instruments that the holder holds",
+      "parents": [
+        "cmns-qtu:Expression"
+      ],
+      "rules": []
+    },
+    {
+      "name": "barrier instrument-based mini-future certificate",
+      "technicalName": "fibo-der-drc-raw:BarrierInstrumentBasedMiniFutureCertificate",
+      "localName": "BarrierInstrumentBasedMiniFutureCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/BarrierInstrumentBasedMiniFutureCertificate",
+      "label": "barrier instrument-based mini-future certificate",
+      "definition": "mini-future certificate that immediately expires if the barrier instrument trading price level is breached during product lifetime",
+      "parents": [
+        "mini-future certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "barrier underlying mini-future certificate",
+      "technicalName": "fibo-der-drc-raw:BarrierUnderlyingMiniFutureCertificate",
+      "localName": "BarrierUnderlyingMiniFutureCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/BarrierUnderlyingMiniFutureCertificate",
+      "label": "barrier underlying mini-future certificate",
+      "definition": "mini-future certificate that immediately expires if the barrier underlying level is breached during product lifetime",
+      "parents": [
+        "mini-future certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "basket warrant",
+      "technicalName": "fibo-der-drc-raw:BasketWarrant",
+      "localName": "BasketWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/BasketWarrant",
+      "label": "basket warrant",
+      "definition": "warrant that permits the holder to acquire a package or group of assets at a specified price during a specified period",
+      "parents": [
+        "warrant"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-sec-bsk:BasketOfSecurities",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "bond purchase right",
+      "technicalName": "fibo-der-drc-raw:BondPurchaseRight",
+      "localName": "BondPurchaseRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/BondPurchaseRight",
+      "label": "bond purchase right",
+      "definition": "purchase right that gives a prospective acquiree's bondholders the right to buy bonds of the firm or bonds of anyone who acquires the firm at a deep discount to their fair market value",
+      "parents": [
+        "purchase right"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-dbt-bnd:Bond",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "bond subscription right",
+      "technicalName": "fibo-der-drc-raw:BondSubscriptionRight",
+      "localName": "BondSubscriptionRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/BondSubscriptionRight",
+      "label": "bond subscription right",
+      "definition": "subscription right entitling existing bond holders to subscribe to new securities at a price normally lower than the prevailing market price",
+      "parents": [
+        "subscription right"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-dbt-bnd:Bond",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "call put warrant",
+      "technicalName": "fibo-der-drc-raw:CallPutWarrant",
+      "localName": "CallPutWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/CallPutWarrant",
+      "label": "call put warrant",
+      "definition": "warrant that either does not specify call or put features, or that explicitly includes both a call and put feature",
+      "parents": [
+        "call warrant",
+        "put warrant"
+      ],
+      "rules": []
+    },
+    {
+      "name": "call warrant",
+      "technicalName": "fibo-der-drc-raw:CallWarrant",
+      "localName": "CallWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/CallWarrant",
+      "label": "call warrant",
+      "definition": "warrant giving the buyer (holder) the right, but not the obligation, to acquire specific underlying assets during a specified period at a specified price",
+      "parents": [
+        "warrant"
+      ],
+      "rules": []
+    },
+    {
+      "name": "combined instruments purchase right",
+      "technicalName": "fibo-der-drc-raw:CombinedInstrumentsPurchaseRight",
+      "localName": "CombinedInstrumentsPurchaseRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/CombinedInstrumentsPurchaseRight",
+      "label": "combined instruments purchase right",
+      "definition": "purchase right that gives a prospective acquiree's holders of multiple securities the right to buy securities of the firm or securities of anyone who acquires the firm at a deep discount to their fair market value",
+      "parents": [
+        "purchase right"
+      ],
+      "rules": []
+    },
+    {
+      "name": "combined instruments subscription right",
+      "technicalName": "fibo-der-drc-raw:CombinedInstrumentsSubscriptionRight",
+      "localName": "CombinedInstrumentsSubscriptionRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/CombinedInstrumentsSubscriptionRight",
+      "label": "combined instruments subscription right",
+      "definition": "subscription right entitling existing holders of multiple securities to subscribe to new securities at a price normally lower than the prevailing market price",
+      "parents": [
+        "subscription right"
+      ],
+      "rules": []
+    },
+    {
+      "name": "commodity warrant",
+      "technicalName": "fibo-der-drc-raw:CommodityWarrant",
+      "localName": "CommodityWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/CommodityWarrant",
+      "label": "commodity warrant",
+      "definition": "warrant that permits the holder to acquire a specified amount of a commodity during a specified period at a specified price",
+      "parents": [
+        "fibo-der-drc-comm:CommodityDerivative",
+        "warrant"
+      ],
+      "rules": []
+    },
+    {
+      "name": "common convertible share purchase right",
+      "technicalName": "fibo-der-drc-raw:CommonConvertibleSharePurchaseRight",
+      "localName": "CommonConvertibleSharePurchaseRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/CommonConvertibleSharePurchaseRight",
+      "label": "common convertible share purchase right",
+      "definition": "purchase right that gives a prospective acquiree's common, convertible shareholders the right to buy common, convertible shares of the firm or common, convertible shares of anyone who acquires the firm at a deep discount to their fair market value",
+      "parents": [
+        "purchase right"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:ConvertibleCommonShare",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "common convertible share subscription right",
+      "technicalName": "fibo-der-drc-raw:CommonConvertibleShareSubscriptionRight",
+      "localName": "CommonConvertibleShareSubscriptionRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/CommonConvertibleShareSubscriptionRight",
+      "label": "common convertible share subscription right",
+      "definition": "subscription right entitling existing common convertible shareholders to subscribe to new securities at a price normally lower than the prevailing market price",
+      "parents": [
+        "subscription right"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:ConvertibleCommonShare",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "common share purchase right",
+      "technicalName": "fibo-der-drc-raw:CommonSharePurchaseRight",
+      "localName": "CommonSharePurchaseRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/CommonSharePurchaseRight",
+      "label": "common share purchase right",
+      "definition": "purchase right that gives a prospective acquiree's common shareholders the right to buy common shares of the firm or common shares of anyone who acquires the firm at a deep discount to their fair market value",
+      "parents": [
+        "purchase right"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:CommonShare",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "common share subscription right",
+      "technicalName": "fibo-der-drc-raw:CommonShareSubscriptionRight",
+      "localName": "CommonShareSubscriptionRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/CommonShareSubscriptionRight",
+      "label": "common share subscription right",
+      "definition": "subscription right entitling existing common shareholders to subscribe to new securities at a price normally lower than the prevailing market price",
+      "parents": [
+        "subscription right"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:CommonShare",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fibo-der-drc-raw:CompanyWarrant",
+      "technicalName": "fibo-der-drc-raw:CompanyWarrant",
+      "localName": "CompanyWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/CompanyWarrant",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "constant leverage certificate",
+      "technicalName": "fibo-der-drc-raw:ConstantLeverageCertificate",
+      "localName": "ConstantLeverageCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/ConstantLeverageCertificate",
+      "label": "constant leverage certificate",
+      "definition": "entitlement that combines the structure of an open-end certificate with a leverage option with no fixed term, making leverage available without a term restriction, without a knock-out barrier dependency",
+      "parents": [
+        "fibo-der-sbd-sbd:SecurityBasedDerivative",
+        "fibo-fbc-fi-fi:Entitlement",
+        "fibo-fbc-fi-fi:Option"
+      ],
+      "rules": []
+    },
+    {
+      "name": "covered warrant",
+      "technicalName": "fibo-der-drc-raw:CoveredWarrant",
+      "localName": "CoveredWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/CoveredWarrant",
+      "label": "covered warrant",
+      "definition": "warrant that gives the holder the right, but not the obligation, to buy (call warrant) or to sell (put warrant) an underlying asset at a specified price (the strike or exercise price) by a predetermined date, issued without an accompanying security by a third party that holds as many securities as would be required if all the warrants are exercised",
+      "parents": [
+        "warrant"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "fibo-fbc-fct-fse:FinancialInstitution",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "currency warrant",
+      "technicalName": "fibo-der-drc-raw:CurrencyWarrant",
+      "localName": "CurrencyWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/CurrencyWarrant",
+      "label": "currency warrant",
+      "definition": "warrant that permits the holder to acquire a specified amount in a certain currency at a specified exchange rate during a specified period",
+      "parents": [
+        "fibo-der-drc-cur:CurrencyDerivative",
+        "warrant"
+      ],
+      "rules": []
+    },
+    {
+      "name": "debt warrant",
+      "technicalName": "fibo-der-drc-raw:DebtWarrant",
+      "localName": "DebtWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/DebtWarrant",
+      "label": "debt warrant",
+      "definition": "warrant that permits the holder to acquire a specified amount of a debt instrument or related debt observable a specified period at a specified price",
+      "parents": [
+        "warrant",
+        "fibo-der-sbd-sbd:DebtInstrumentDerivative"
+      ],
+      "rules": []
+    },
+    {
+      "name": "equity warrant",
+      "technicalName": "fibo-der-drc-raw:EquityWarrant",
+      "localName": "EquityWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/EquityWarrant",
+      "label": "equity warrant",
+      "definition": "warrant that permits the holder to acquire a specified amount of an equity instrument during a specified period at a specified price",
+      "parents": [
+        "call warrant",
+        "traditional warrant",
+        "fibo-der-sbd-sbd:EquityDerivative"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "fibo-be-le-cb:StockCorporation",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "exchange-traded warrant",
+      "technicalName": "fibo-der-drc-raw:ExchangeTradedWarrant",
+      "localName": "ExchangeTradedWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/ExchangeTradedWarrant",
+      "label": "exchange-traded warrant",
+      "definition": "warrant that is listed on a securities exchange",
+      "parents": [
+        "public warrant",
+        "fibo-sec-sec-lst:ListedSecurity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exotic warrant",
+      "technicalName": "fibo-der-drc-raw:ExoticWarrant",
+      "localName": "ExoticWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/ExoticWarrant",
+      "label": "exotic warrant",
+      "definition": "warrant that gives the holder the right (but not the obligation) to buy (or sometimes sell) an underlying asset under non-standard or complex conditions, often involving additional features not found in a plain vanilla (standard) warrant",
+      "parents": [
+        "warrant"
+      ],
+      "rules": []
+    },
+    {
+      "name": "index warrant",
+      "technicalName": "fibo-der-drc-raw:IndexWarrant",
+      "localName": "IndexWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/IndexWarrant",
+      "label": "index warrant",
+      "definition": "warrant that permits the holder to acquire a specified amount based on the performance of an index during a specified period at a specified price",
+      "parents": [
+        "warrant"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        }
+      ]
+    },
+    {
+      "name": "long mini-future certificate",
+      "technicalName": "fibo-der-drc-raw:LongMiniFutureCertificate",
+      "localName": "LongMiniFutureCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/LongMiniFutureCertificate",
+      "label": "long mini-future certificate",
+      "definition": "mini-future certificate that typically entitles the holder to acquire specific underlying assets during a specified period at a specified price",
+      "parents": [
+        "mini-future certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "mini-future certificate",
+      "technicalName": "fibo-der-drc-raw:MiniFutureCertificate",
+      "localName": "MiniFutureCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/MiniFutureCertificate",
+      "label": "mini-future certificate",
+      "definition": "entitlement that combines the structure of an open-end certificate with a leverage option with no fixed term, making leverage available without a term restriction, and whose payoff depends on whether or not the underlying asset has reached or exceeded a predetermined price",
+      "parents": [
+        "fibo-der-drc-exo:BarrierOption",
+        "fibo-der-sbd-sbd:SecurityBasedDerivative",
+        "fibo-fbc-fi-fi:Entitlement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "naked warrant",
+      "technicalName": "fibo-der-drc-raw:NakedWarrant",
+      "localName": "NakedWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/NakedWarrant",
+      "label": "naked warrant",
+      "definition": "warrant that gives the holder the right, but not the obligation, to buy (call warrant) or to sell (put warrant) an underlying asset at a specified price (the strike or exercise price) by a predetermined date, issued without an accompanying security by a third party that does not hold as many securities as would be required if all the warrants are exercised",
+      "parents": [
+        "warrant"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "fibo-fbc-fct-fse:FinancialInstitution",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "perpetual warrant",
+      "technicalName": "fibo-der-drc-raw:PerpetualWarrant",
+      "localName": "PerpetualWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/PerpetualWarrant",
+      "label": "perpetual warrant",
+      "definition": "warrant without an expiration date, giving the holder the right, but not the obligation, to buy (call warrant) or to sell (put warrant) an underlying asset at a certain strike price",
+      "parents": [
+        "warrant"
+      ],
+      "rules": []
+    },
+    {
+      "name": "preferred convertible share purchase right",
+      "technicalName": "fibo-der-drc-raw:PreferredConvertibleSharePurchaseRight",
+      "localName": "PreferredConvertibleSharePurchaseRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/PreferredConvertibleSharePurchaseRight",
+      "label": "preferred convertible share purchase right",
+      "definition": "purchase right that gives a prospective acquiree's preferred, convertible shareholders the right to buy preferred, convertible shares of the firm or preferred, convertible shares of anyone who acquires the firm at a deep discount to their fair market value",
+      "parents": [
+        "purchase right"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:ConvertiblePreferredShare",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "preferred convertible share subscription right",
+      "technicalName": "fibo-der-drc-raw:PreferredConvertibleShareSubscriptionRight",
+      "localName": "PreferredConvertibleShareSubscriptionRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/PreferredConvertibleShareSubscriptionRight",
+      "label": "preferred convertible share subscription right",
+      "definition": "subscription right entitling existing preferred, convertible shareholders to subscribe to new securities at a price normally lower than the prevailing market price",
+      "parents": [
+        "subscription right"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:ConvertiblePreferredShare",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "preferred share purchase right",
+      "technicalName": "fibo-der-drc-raw:PreferredSharePurchaseRight",
+      "localName": "PreferredSharePurchaseRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/PreferredSharePurchaseRight",
+      "label": "preferred share purchase right",
+      "definition": "purchase right that gives a prospective acquiree's preferred shareholders the right to buy preferred shares of the firm or preferred shares of anyone who acquires the firm at a deep discount to their fair market value",
+      "parents": [
+        "purchase right"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:PreferredShare",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "preferred share subscription right",
+      "technicalName": "fibo-der-drc-raw:PreferredShareSubscriptionRight",
+      "localName": "PreferredShareSubscriptionRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/PreferredShareSubscriptionRight",
+      "label": "preferred share subscription right",
+      "definition": "subscription right entitling existing preferred shareholders to subscribe to new securities at a price normally lower than the prevailing market price",
+      "parents": [
+        "subscription right"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:PreferredShare",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "private warrant",
+      "technicalName": "fibo-der-drc-raw:PrivateWarrant",
+      "localName": "PrivateWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/PrivateWarrant",
+      "label": "private warrant",
+      "definition": "warrant that is not tradable",
+      "parents": [
+        "warrant",
+        "fibo-fbc-fi-fi:NonNegotiableSecurity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "public warrant",
+      "technicalName": "fibo-der-drc-raw:PublicWarrant",
+      "localName": "PublicWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/PublicWarrant",
+      "label": "public warrant",
+      "definition": "warrant that may be traded over the counter (OTC) or through an exchange",
+      "parents": [
+        "warrant",
+        "fibo-fbc-fi-fi:NegotiableSecurity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "purchase right",
+      "technicalName": "fibo-der-drc-raw:PurchaseRight",
+      "localName": "PurchaseRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/PurchaseRight",
+      "label": "purchase right",
+      "definition": "anti-takeover device that gives a prospective acquiree's shareholders the right to buy shares of the firm or shares of anyone who acquires the firm at a deep discount to their fair market value",
+      "parents": [
+        "fibo-fbc-fi-fi:Entitlement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "put warrant",
+      "technicalName": "fibo-der-drc-raw:PutWarrant",
+      "localName": "PutWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/PutWarrant",
+      "label": "put warrant",
+      "definition": "warrant giving the buyer (holder) the right, but not the obligation, to sell the assets specified (i.e., acquire cash in exchange for the underlying assets, such as stock) back to the issuer at a fixed price or formula, on or before a specified date",
+      "parents": [
+        "warrant"
+      ],
+      "rules": []
+    },
+    {
+      "name": "short mini-future certificate",
+      "technicalName": "fibo-der-drc-raw:ShortMiniFutureCertificate",
+      "localName": "ShortMiniFutureCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/ShortMiniFutureCertificate",
+      "label": "short mini-future certificate",
+      "definition": "mini-future certificate that entitles the holder to acquire cash in exchange for specific underlying assets",
+      "parents": [
+        "mini-future certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "structured warrant",
+      "technicalName": "fibo-der-drc-raw:StructuredWarrant",
+      "localName": "StructuredWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/StructuredWarrant",
+      "label": "structured warrant",
+      "definition": "warrant that is listed on an exchange, offering investors a way to participate in the price performance of an underlying asset without buying it directly",
+      "parents": [
+        "warrant"
+      ],
+      "rules": []
+    },
+    {
+      "name": "subscription right",
+      "technicalName": "fibo-der-drc-raw:SubscriptionRight",
+      "localName": "SubscriptionRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/SubscriptionRight",
+      "label": "subscription right",
+      "definition": "privileges allotted to existing security holders, entitling them to subscribe to new securities at a price normally lower than the prevailing market price",
+      "parents": [
+        "fibo-fbc-fi-fi:Entitlement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "traditional warrant",
+      "technicalName": "fibo-der-drc-raw:TraditionalWarrant",
+      "localName": "TraditionalWarrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/TraditionalWarrant",
+      "label": "traditional warrant",
+      "definition": "warrant that gives the holder the right, but not the obligation, to buy (call warrant) or to sell (put warrant) an underlying asset at a specified price (the strike or exercise price) by a predetermined date, issued by the issuer of the underlying instrument",
+      "parents": [
+        "warrant"
+      ],
+      "rules": []
+    },
+    {
+      "name": "warrant",
+      "technicalName": "fibo-der-drc-raw:Warrant",
+      "localName": "Warrant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/Warrant",
+      "label": "warrant",
+      "definition": "entitlement that permits the holder to purchase a specified amount of a financial instrument, commodity, currency or other asset during a specified period at a specified price",
+      "parents": [
+        "fibo-fbc-fi-fi:Entitlement"
+      ],
+      "rules": [
+        {
+          "property": "fibo-sec-dbt-ex:hasExerciseTerms",
+          "operator": "some",
+          "value": "fibo-sec-dbt-ex:ExerciseTerms",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has conversion ratio",
+      "technicalName": "fibo-der-drc-raw:hasConversionRatio",
+      "localName": "hasConversionRatio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/hasConversionRatio",
+      "label": "has conversion ratio",
+      "definition": "indicates the factor used to determine the number of warrants needed in order to buy or sell a specific number of securities or investment units",
+      "domain": [
+        "fibo-fbc-fi-fi:Entitlement"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has oversubscribe option",
+      "technicalName": "fibo-der-drc-raw:hasOversubscribeOption",
+      "localName": "hasOversubscribeOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/RightsAndWarrants/hasOversubscribeOption",
+      "label": "has oversubscribe option",
+      "definition": "indicates whether the holders of the rights instrument may get securities in the event that other right holders choose not to subscribe",
+      "domain": [
+        "fibo-fbc-fi-fi:Entitlement"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

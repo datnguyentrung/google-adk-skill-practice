@@ -1,0 +1,264 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Debt\\AssetBackedSecurities.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/AssetBackedSecurities/",
+  "summary": {
+    "nodes": 12,
+    "edges": 0,
+    "properties": 0,
+    "triples": 151
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/Analytics/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/CardAccounts/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/ConsumerLoans/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansSpecific/StudentLoans/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/Bonds/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/"
+  ],
+  "classes": [
+    {
+      "name": "auto asset-backed security",
+      "technicalName": "fibo-sec-dbt-abs:AutoAssetBackedSecurity",
+      "localName": "AutoAssetBackedSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/AssetBackedSecurities/AutoAssetBackedSecurity",
+      "label": "auto asset-backed security",
+      "definition": "asset-backed security that is backed by an underlying pool of auto-related loans and/or leases",
+      "parents": [
+        "fibo-sec-dbt-pbs:AssetBackedSecurity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "auto debt pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "auto debt pool",
+      "technicalName": "fibo-sec-dbt-abs:AutoDebtPool",
+      "localName": "AutoDebtPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/AssetBackedSecurities/AutoDebtPool",
+      "label": "auto debt pool",
+      "definition": "debt pool of loans and/or leases that are motor vehicle-related",
+      "parents": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasPart",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "bond pool",
+      "technicalName": "fibo-sec-dbt-abs:BondPool",
+      "localName": "BondPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/AssetBackedSecurities/BondPool",
+      "label": "bond pool",
+      "definition": "debt pool of consisting of bonds",
+      "parents": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasPart",
+          "operator": "some",
+          "value": "fibo-sec-dbt-bnd:Bond",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "consumer asset-backed security",
+      "technicalName": "fibo-sec-dbt-abs:ConsumerAssetBackedSecurity",
+      "localName": "ConsumerAssetBackedSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/AssetBackedSecurities/ConsumerAssetBackedSecurity",
+      "label": "consumer asset-backed security",
+      "definition": "structured finance securities collateralized by pools of auto loans and leases (auto ABS), credit card receivables (credit card ABS) or student loans (student loan ABS)",
+      "parents": [
+        "fibo-sec-dbt-pbs:AssetBackedSecurity",
+        "fibo-sec-dbt-pbs:StructuredFinanceInstrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "controlled amortization asset-backed security",
+      "technicalName": "fibo-sec-dbt-abs:ControlledAmortizationAssetBackedSecurity",
+      "localName": "ControlledAmortizationAssetBackedSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/AssetBackedSecurities/ControlledAmortizationAssetBackedSecurity",
+      "label": "controlled amortization asset-backed security",
+      "definition": "asset-backed security based on a pool of bonds securitized using a controlled amortization structure",
+      "parents": [
+        "fibo-sec-dbt-pbs:AssetBackedSecurity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-sec-dbt-dbti:hasRepaymentTerms",
+          "operator": "some",
+          "value": "fibo-sec-dbt-bnd:BondAmortizationPaymentTerms",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "fibo-sec-sec-pls:DebtPool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit card account pool",
+      "technicalName": "fibo-sec-dbt-abs:CreditCardAccountPool",
+      "localName": "CreditCardAccountPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/AssetBackedSecurities/CreditCardAccountPool",
+      "label": "credit card account pool",
+      "definition": "pool of credit card receivables associated with designated accounts",
+      "parents": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasPart",
+          "operator": "some",
+          "value": "fibo-loan-spc-crd:CreditCardAccount",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit card asset-backed security",
+      "technicalName": "fibo-sec-dbt-abs:CreditCardAssetBackedSecurity",
+      "localName": "CreditCardAssetBackedSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/AssetBackedSecurities/CreditCardAssetBackedSecurity",
+      "label": "credit card asset-backed security",
+      "definition": "asset-backed security based on credit card receivables",
+      "parents": [
+        "fibo-sec-dbt-pbs:AssetBackedSecurity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "credit card account pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fully amortizing asset-backed security",
+      "technicalName": "fibo-sec-dbt-abs:FullyAmortizingAssetBackedSecurity",
+      "localName": "FullyAmortizingAssetBackedSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/AssetBackedSecurities/FullyAmortizingAssetBackedSecurity",
+      "label": "fully amortizing asset-backed security",
+      "definition": "asset-backed security based on a pool of debt instruments that returns principal to investors over the life of the security",
+      "parents": [
+        "fibo-sec-dbt-pbs:AssetBackedSecurity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "fibo-sec-sec-pls:DebtPool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "home equity line of credit pool",
+      "technicalName": "fibo-sec-dbt-abs:HomeEquityLineOfCreditPool",
+      "localName": "HomeEquityLineOfCreditPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/AssetBackedSecurities/HomeEquityLineOfCreditPool",
+      "label": "home equity line of credit pool",
+      "definition": "debt pool consisting of home equity loans",
+      "parents": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasPart",
+          "operator": "some",
+          "value": "fibo-loan-spc-cns:HomeEquityLineOfCredit",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "home equity loan asset-backed security",
+      "technicalName": "fibo-sec-dbt-abs:HomeEquityLoanAssetBackedSecurity",
+      "localName": "HomeEquityLoanAssetBackedSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/AssetBackedSecurities/HomeEquityLoanAssetBackedSecurity",
+      "label": "home equity loan asset-backed security",
+      "definition": "asset-backed security based on home equity loan receivables",
+      "parents": [
+        "fibo-sec-dbt-pbs:AssetBackedSecurity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "home equity line of credit pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "student loan asset-backed security",
+      "technicalName": "fibo-sec-dbt-abs:StudentLoanAssetBackedSecurity",
+      "localName": "StudentLoanAssetBackedSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/AssetBackedSecurities/StudentLoanAssetBackedSecurity",
+      "label": "student loan asset-backed security",
+      "definition": "asset-backed security based on student loan receivables",
+      "parents": [
+        "fibo-sec-dbt-pbs:AssetBackedSecurity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "student loan pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "student loan pool",
+      "technicalName": "fibo-sec-dbt-abs:StudentLoanPool",
+      "localName": "StudentLoanPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/AssetBackedSecurities/StudentLoanPool",
+      "label": "student loan pool",
+      "definition": "debt pool consisting of student loans",
+      "parents": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasPart",
+          "operator": "some",
+          "value": "fibo-loan-spc-stu:StudentLoan",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

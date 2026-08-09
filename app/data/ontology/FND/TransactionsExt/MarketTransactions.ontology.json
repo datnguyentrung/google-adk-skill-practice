@@ -1,0 +1,154 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\TransactionsExt\\MarketTransactions.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/MarketTransactions/",
+  "summary": {
+    "nodes": 5,
+    "edges": 2,
+    "properties": 0,
+    "triples": 65
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/PaymentsAndSchedules/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/"
+  ],
+  "classes": [
+    {
+      "name": "market transaction",
+      "technicalName": "fibo-fnd-txn-mkt:MarketTransaction",
+      "localName": "MarketTransaction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/MarketTransactions/MarketTransaction",
+      "label": "market transaction",
+      "definition": "Any transaction which defines a supply of some negotiable item in return for some Consideration. The Market Transaction has a Principal and a Counterparty, i.e. it is not symmetrical.",
+      "parents": [
+        "fibo-fnd-txn-rea:EconomicTransaction"
+      ],
+      "rules": [
+        {
+          "property": "payment terms",
+          "operator": "some",
+          "value": "market transaction payment terms",
+          "qualifier": null
+        },
+        {
+          "property": "consideration",
+          "operator": "some",
+          "value": "fibo-fnd-txn-rea:EconomicResource",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasPrincipalParty",
+          "operator": "some",
+          "value": "transaction principal",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasCounterparty",
+          "operator": "some",
+          "value": "transaction counterparty",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "market transaction invoicing terms",
+      "technicalName": "fibo-fnd-txn-mkt:MarketTransactionInvoicingTerms",
+      "localName": "MarketTransactionInvoicingTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/MarketTransactions/MarketTransactionInvoicingTerms",
+      "label": "market transaction invoicing terms",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-txn-rea:EconomicContractTermsSet"
+      ],
+      "rules": []
+    },
+    {
+      "name": "market transaction payment terms",
+      "technicalName": "fibo-fnd-txn-mkt:MarketTransactionPaymentTerms",
+      "localName": "MarketTransactionPaymentTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/MarketTransactions/MarketTransactionPaymentTerms",
+      "label": "market transaction payment terms",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-txn-rea:EconomicContractTermsSet"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "fibo-fnd-pas-psch:Payment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "transaction counterparty",
+      "technicalName": "fibo-fnd-txn-mkt:TransactionCounterparty",
+      "localName": "TransactionCounterparty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/MarketTransactions/TransactionCounterparty",
+      "label": "transaction counterparty",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-agr-ctr:Counterparty",
+        "fibo-fnd-txn-rea:TransactionParty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "transaction principal",
+      "technicalName": "fibo-fnd-txn-mkt:TransactionPrincipal",
+      "localName": "TransactionPrincipal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/MarketTransactions/TransactionPrincipal",
+      "label": "transaction principal",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractPrincipal",
+        "fibo-fnd-txn-rea:TransactionParty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-txn-rea:transactsWith",
+          "operator": "some",
+          "value": "transaction counterparty",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "consideration",
+      "technicalName": "fibo-fnd-txn-mkt:consideration",
+      "localName": "consideration",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/MarketTransactions/consideration",
+      "label": "consideration",
+      "definition": null,
+      "domain": [
+        "market transaction"
+      ],
+      "range": [
+        "fibo-fnd-txn-rea:EconomicResource"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "payment terms",
+      "technicalName": "fibo-fnd-txn-mkt:paymentTerms",
+      "localName": "paymentTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/MarketTransactions/paymentTerms",
+      "label": "payment terms",
+      "definition": null,
+      "domain": [
+        "market transaction"
+      ],
+      "range": [
+        "market transaction payment terms"
+      ]
+    }
+  ],
+  "attributes": []
+}

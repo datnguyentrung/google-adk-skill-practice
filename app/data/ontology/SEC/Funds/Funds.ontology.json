@@ -1,0 +1,553 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Funds\\Funds.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/",
+  "summary": {
+    "nodes": 28,
+    "edges": 3,
+    "properties": 2,
+    "triples": 358
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Locations/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/"
+  ],
+  "classes": [
+    {
+      "name": "aligned community investment fund",
+      "technicalName": "fibo-sec-fund-fund:AlignedCommunityInvestmentFund",
+      "localName": "AlignedCommunityInvestmentFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/AlignedCommunityInvestmentFund",
+      "label": "aligned community investment fund",
+      "definition": "community investment fund that raises capital publicly from community members and deploys some of that capital via investments into its client businesses or other businesses in the community",
+      "parents": [
+        "community investment fund"
+      ],
+      "rules": []
+    },
+    {
+      "name": "closed-end investment",
+      "technicalName": "fibo-sec-fund-fund:ClosedEndInvestment",
+      "localName": "ClosedEndInvestment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/ClosedEndInvestment",
+      "label": "closed-end investment",
+      "definition": "investment fund that has a fixed number of shares offered by an investment company through an initial public offering",
+      "parents": [
+        "fibo-sec-sec-pls:ManagedInvestment"
+      ],
+      "rules": [
+        {
+          "property": "is open ended",
+          "operator": "value",
+          "value": "false",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fibo-sec-fund-fund:CollectiveInvestmentVehicle",
+      "technicalName": "fibo-sec-fund-fund:CollectiveInvestmentVehicle",
+      "localName": "CollectiveInvestmentVehicle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/CollectiveInvestmentVehicle",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "community investment fund",
+      "technicalName": "fibo-sec-fund-fund:CommunityInvestmentFund",
+      "localName": "CommunityInvestmentFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/CommunityInvestmentFund",
+      "label": "community investment fund",
+      "definition": "professionally-managed investment fund with three essential characteristics: capital is sourced from people in the community (ideally from retail/non-accredited investors); capital is invested into local people, projects, and businesses; and capital is deployed by individuals in the community, typically but not necessarily a nonprofit fund",
+      "parents": [
+        "fibo-sec-sec-pls:PrivateFund"
+      ],
+      "rules": [
+        {
+          "property": "cmns-loc:hasCoverageArea",
+          "operator": "some",
+          "value": "cmns-loc:GeographicRegion",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "some",
+          "value": "fibo-fnd-gao-obj:LocalInvestmentObjective",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "diversified community investment fund",
+      "technicalName": "fibo-sec-fund-fund:DiversifiedCommunityInvestmentFund",
+      "localName": "DiversifiedCommunityInvestmentFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/DiversifiedCommunityInvestmentFund",
+      "label": "diversified community investment fund",
+      "definition": "community investment fund that invests primarily in real estate but can also invest in any local business or project, and can do so with investment capital raised publicly from within the fund's own community, including community investors",
+      "parents": [
+        "community investment fund"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exchange-traded fund",
+      "technicalName": "fibo-sec-fund-fund:ExchangeTradedFund",
+      "localName": "ExchangeTradedFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/ExchangeTradedFund",
+      "label": "exchange-traded fund",
+      "definition": "investment fund whose fund units are traded on an exchange, much like stocks",
+      "parents": [
+        "open-end investment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund administrator",
+      "technicalName": "fibo-sec-fund-fund:FundAdministrator",
+      "localName": "FundAdministrator",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundAdministrator",
+      "label": "fund administrator",
+      "definition": "role of the party responsible for managing the operational, accounting, and compliance functions of an investment fund",
+      "parents": [
+        "cmns-org:ServiceProvider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund contract",
+      "technicalName": "fibo-sec-fund-fund:FundContract",
+      "localName": "FundContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundContract",
+      "label": "fund contract",
+      "definition": "contract that embodies and defines the fund legal form in cases where there is no independent organization",
+      "parents": [
+        "fibo-be-le-fbo:OrganizationCoveringAgreement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund holder",
+      "technicalName": "fibo-sec-fund-fund:FundHolder",
+      "localName": "FundHolder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundHolder",
+      "label": "fund holder",
+      "definition": "party that owns units in or a percentage of and has rights and responsibilities with respect to some fund, provided in exchange for investment",
+      "parents": [
+        "fibo-be-oac-cown:BeneficialOwner",
+        "fibo-fnd-agr-ctr:Counterparty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund holding",
+      "technicalName": "fibo-sec-fund-fund:FundHolding",
+      "localName": "FundHolding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundHolding",
+      "label": "fund holding",
+      "definition": "ownership interest in a fund, which may represented by fund units that confer financial rights and governance privileges",
+      "parents": [
+        "fibo-fnd-oac-own:FinancialAsset"
+      ],
+      "rules": [
+        {
+          "property": "fibo-be-oac-cown:consistsOfNumberOfUnits",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fund unit"
+        }
+      ]
+    },
+    {
+      "name": "fund manager",
+      "technicalName": "fibo-sec-fund-fund:FundManager",
+      "localName": "FundManager",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundManager",
+      "label": "fund manager",
+      "definition": "role of the party responsible for making investment decisions and managing the portfolio of an investment fund",
+      "parents": [
+        "cmns-org:ServiceProvider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund of funds",
+      "technicalName": "fibo-sec-fund-fund:FundOfFunds",
+      "localName": "FundOfFunds",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundOfFunds",
+      "label": "fund of funds",
+      "definition": "investment fund that invests directly in other investment funds rather than investing in stocks, bonds, and other securities",
+      "parents": [
+        "fibo-sec-sec-pls:ManagedInvestment"
+      ],
+      "rules": [
+        {
+          "property": "has sub-fund",
+          "operator": "some",
+          "value": "fibo-sec-sec-pls:CollectiveInvestmentVehicle",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund position",
+      "technicalName": "fibo-sec-fund-fund:FundPosition",
+      "localName": "FundPosition",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundPosition",
+      "label": "fund position",
+      "definition": "position in some fund, which may be defined in terms of fund units",
+      "parents": [
+        "fibo-fbc-pas-fpas:Position"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-own:hasOwnedAsset",
+          "operator": "some",
+          "value": "fund holding",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isHeldBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "fibo-fnd-oac-own:hasOwningParty",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fund holder"
+        }
+      ]
+    },
+    {
+      "name": "fund unit",
+      "technicalName": "fibo-sec-fund-fund:FundUnit",
+      "localName": "FundUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundUnit",
+      "label": "fund unit",
+      "definition": "quantified share of beneficial interest in a pooled fund, representing a proportional claim on the fund's assets, income, or entitlements",
+      "parents": [
+        "fibo-fnd-law-lcap:ContractualInterest"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isPartOf",
+          "operator": "some",
+          "value": "fibo-sec-sec-pls:PooledFund",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-acc-cur:hasCurrency",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:Currency",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "hedge fund",
+      "technicalName": "fibo-sec-fund-fund:HedgeFund",
+      "localName": "HedgeFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/HedgeFund",
+      "label": "hedge fund",
+      "definition": "investment fund that pursues a total return and is usually open to qualified investors only",
+      "parents": [
+        "open-end investment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "legal fund structure",
+      "technicalName": "fibo-sec-fund-fund:LegalFundStructure",
+      "localName": "LegalFundStructure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/LegalFundStructure",
+      "label": "legal fund structure",
+      "definition": "structure of a fund with respect to its legal formation in some jurisdiction",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalConstruct"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "mutual fund",
+      "technicalName": "fibo-sec-fund-fund:MutualFund",
+      "localName": "MutualFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/MutualFund",
+      "label": "mutual fund",
+      "definition": "open-end professionally managed investment fund established for the purpose of investing in securities such as stocks, bonds, money market instruments and similar assets",
+      "parents": [
+        "open-end investment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non-tradable fund unit",
+      "technicalName": "fibo-sec-fund-fund:NonTradableFundUnit",
+      "localName": "NonTradableFundUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/NonTradableFundUnit",
+      "label": "non-tradable fund unit",
+      "definition": "security representing an interest in a fund that cannot be traded ontside of the fund itself",
+      "parents": [
+        "fibo-fbc-fi-fi:NonNegotiableSecurity",
+        "fund unit"
+      ],
+      "rules": []
+    },
+    {
+      "name": "nonprofit fund",
+      "technicalName": "fibo-sec-fund-fund:NonprofitFund",
+      "localName": "NonprofitFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/NonprofitFund",
+      "label": "nonprofit fund",
+      "definition": "investment vehicle designed to support a nonprofit mission, whose objectives include environmental stewardship and/or social responsibility in addition to financial performance",
+      "parents": [
+        "fibo-sec-sec-pls:PrivateFund"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-gao-obj:TripleBottomLineObjective"
+        }
+      ]
+    },
+    {
+      "name": "open-end investment",
+      "technicalName": "fibo-sec-fund-fund:OpenEndInvestment",
+      "localName": "OpenEndInvestment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/OpenEndInvestment",
+      "label": "open-end investment",
+      "definition": "investment fund that offered through a fund company that sells shares directly to investors",
+      "parents": [
+        "fibo-sec-sec-pls:ManagedInvestment"
+      ],
+      "rules": [
+        {
+          "property": "is open ended",
+          "operator": "value",
+          "value": "true",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pension fund",
+      "technicalName": "fibo-sec-fund-fund:PensionFund",
+      "localName": "PensionFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/PensionFund",
+      "label": "pension fund",
+      "definition": "investment fund run by a financial intermediary on behalf of an organization and its employees/members",
+      "parents": [
+        "fibo-sec-sec-pls:ManagedInvestment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "private credit fund",
+      "technicalName": "fibo-sec-fund-fund:PrivateCreditFund",
+      "localName": "PrivateCreditFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/PrivateCreditFund",
+      "label": "private credit fund",
+      "definition": "investment vehicle that provides loans or other forms of credit to companies, typically outside of the traditional banking system",
+      "parents": [
+        "fibo-sec-sec-pls:PrivateFund"
+      ],
+      "rules": []
+    },
+    {
+      "name": "private equity fund",
+      "technicalName": "fibo-sec-fund-fund:PrivateEquityFund",
+      "localName": "PrivateEquityFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/PrivateEquityFund",
+      "label": "private equity fund",
+      "definition": "investment fund used for making investments in various equity (and to a lesser extent debt) securities according to an investment strategy associated with private equity",
+      "parents": [
+        "fibo-sec-sec-pls:PrivateFund"
+      ],
+      "rules": []
+    },
+    {
+      "name": "real estate investment trust",
+      "technicalName": "fibo-sec-fund-fund:RealEstateInvestmentTrust",
+      "localName": "RealEstateInvestmentTrust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/RealEstateInvestmentTrust",
+      "label": "real estate investment trust",
+      "definition": "investment fund that offers shares/units to the public and invests in real estate directly",
+      "parents": [
+        "fibo-sec-sec-pls:ManagedInvestment"
+      ],
+      "rules": [
+        {
+          "property": "has legal structure",
+          "operator": "some",
+          "value": "fibo-be-tr-tr:Trust",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "sovereign wealth fund",
+      "technicalName": "fibo-sec-fund-fund:SovereignWealthFund",
+      "localName": "SovereignWealthFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/SovereignWealthFund",
+      "label": "sovereign wealth fund",
+      "definition": "state-owned investment fund that consists of pools of money derived from a country's reserves",
+      "parents": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tradable fund unit",
+      "technicalName": "fibo-sec-fund-fund:TradableFundUnit",
+      "localName": "TradableFundUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/TradableFundUnit",
+      "label": "tradable fund unit",
+      "definition": "security representing a tradable interest in a fund",
+      "parents": [
+        "fibo-fbc-fi-fi:EquityInstrument",
+        "fibo-fbc-fi-fi:NegotiableSecurity",
+        "fund unit"
+      ],
+      "rules": []
+    },
+    {
+      "name": "unit trust",
+      "technicalName": "fibo-sec-fund-fund:UnitTrust",
+      "localName": "UnitTrust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/UnitTrust",
+      "label": "unit trust",
+      "definition": "pooled investment vehicle in which investors hold units that represent beneficial ownership in a trust-managed portfolio of assets",
+      "parents": [
+        "unitized fund"
+      ],
+      "rules": []
+    },
+    {
+      "name": "unitized fund",
+      "technicalName": "fibo-sec-fund-fund:UnitizedFund",
+      "localName": "UnitizedFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/UnitizedFund",
+      "label": "unitized fund",
+      "definition": "pooled investment vehicle in which investors hold units that represent a proportional share of the fund's underlying assets, typically used in pensions or insurance-based products",
+      "parents": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has legal structure",
+      "technicalName": "fibo-sec-fund-fund:hasLegalStructure",
+      "localName": "hasLegalStructure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/hasLegalStructure",
+      "label": "has legal structure",
+      "definition": "indicates the legal form that the fund takes",
+      "domain": [
+        "fibo-sec-sec-pls:PooledFund"
+      ],
+      "range": [
+        "legal fund structure"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has sub-fund",
+      "technicalName": "fibo-sec-fund-fund:hasSubFund",
+      "localName": "hasSubFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/hasSubFund",
+      "label": "has sub-fund",
+      "definition": "relates a pooled fund to a sub-fund that is a constituent of the parent fund",
+      "domain": [
+        "fibo-sec-sec-pls:PooledFund"
+      ],
+      "range": [
+        "fibo-sec-sec-pls:PooledFund"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is sub-fund of",
+      "technicalName": "fibo-sec-fund-fund:isSubFundOf",
+      "localName": "isSubFundOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/isSubFundOf",
+      "label": "is sub-fund of",
+      "definition": "relates a pooled fund to a parent fund",
+      "domain": [
+        "fibo-sec-sec-pls:PooledFund"
+      ],
+      "range": [
+        "fibo-sec-sec-pls:PooledFund"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "is open ended",
+      "technicalName": "fibo-sec-fund-fund:isOpenEnded",
+      "localName": "isOpenEnded",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/isOpenEnded",
+      "label": "is open ended",
+      "definition": "indicates whether the fund is an open-end/closed-end fund",
+      "domain": [
+        "fibo-sec-sec-pls:PooledFund"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is private",
+      "technicalName": "fibo-sec-fund-fund:isPrivate",
+      "localName": "isPrivate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/isPrivate",
+      "label": "is private",
+      "definition": "indicates that the fund does not offer its securities to the general public",
+      "domain": [
+        "fibo-sec-sec-pls:PooledFund"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Places\\VirtualPlaces.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/VirtualPlaces/",
+  "summary": {
+    "nodes": 4,
+    "edges": 2,
+    "properties": 0,
+    "triples": 59
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Locations/",
+    "https://www.omg.org/spec/Commons/Organizations/"
+  ],
+  "classes": [
+    {
+      "name": "electronic mail address",
+      "technicalName": "fibo-fnd-plc-vrt:ElectronicMailAddress",
+      "localName": "ElectronicMailAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/VirtualPlaces/ElectronicMailAddress",
+      "label": "electronic mail address",
+      "definition": "virtual address that defines an electronic messaging endpoint to which email messages can be delivered, typically via an Simple Mail Transfer Protocol (SMTP) based communications system",
+      "parents": [
+        "fibo-fnd-plc-adr:VirtualAddress"
+      ],
+      "rules": []
+    },
+    {
+      "name": "network location",
+      "technicalName": "fibo-fnd-plc-vrt:NetworkLocation",
+      "localName": "NetworkLocation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/VirtualPlaces/NetworkLocation",
+      "label": "network location",
+      "definition": "a virtual location that may be identified by a network address (an identifier for a node or interface)",
+      "parents": [
+        "cmns-loc:VirtualLocation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-plc-adr:Address"
+        }
+      ]
+    },
+    {
+      "name": "notional place",
+      "technicalName": "fibo-fnd-plc-vrt:NotionalPlace",
+      "localName": "NotionalPlace",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/VirtualPlaces/NotionalPlace",
+      "label": "notional place",
+      "definition": "an abstract place; one of many commonly understood concepts such as domestic, Eurozone etc.",
+      "parents": [
+        "cmns-loc:Location"
+      ],
+      "rules": []
+    },
+    {
+      "name": "telephone number",
+      "technicalName": "fibo-fnd-plc-vrt:TelephoneNumber",
+      "localName": "TelephoneNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/VirtualPlaces/TelephoneNumber",
+      "label": "telephone number",
+      "definition": "virtual address that may be assigned to a fixed-line telephone subscriber station connected to a telephone line or to a wireless electronic telephony device, such as a radio telephone or a mobile telephone, or to other devices or services for data transmission via the public switched telephone network (PSTN) or other public and private networks",
+      "parents": [
+        "fibo-fnd-plc-adr:VirtualAddress"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has electronic mail address",
+      "technicalName": "fibo-fnd-plc-vrt:hasElectronicMailAddress",
+      "localName": "hasElectronicMailAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/VirtualPlaces/hasElectronicMailAddress",
+      "label": "has electronic mail address",
+      "definition": "specifies an electronic messaging endpoint at which some entity may be located or contacted or may receive correspondence",
+      "domain": [],
+      "range": [
+        "electronic mail address"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has telephone number",
+      "technicalName": "fibo-fnd-plc-vrt:hasTelephoneNumber",
+      "localName": "hasTelephoneNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/VirtualPlaces/hasTelephoneNumber",
+      "label": "has telephone number",
+      "definition": "indicates a virtual address composed of a sequence of digits and symbols that may be assigned to a fixed-line telephone subscriber station, a wireless electronic telephony device, such as a radio telephone or a mobile telephone, or other similar device or service",
+      "domain": [],
+      "range": [
+        "telephone number"
+      ]
+    }
+  ],
+  "attributes": []
+}

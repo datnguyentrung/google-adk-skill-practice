@@ -1,0 +1,548 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\DER\\DerivativesContracts\\CommoditiesContracts.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/",
+  "summary": {
+    "nodes": 32,
+    "edges": 2,
+    "properties": 0,
+    "triples": 291
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/"
+  ],
+  "classes": [
+    {
+      "name": "agricultural resource",
+      "technicalName": "fibo-der-drc-comm:AgriculturalResource",
+      "localName": "AgriculturalResource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/AgriculturalResource",
+      "label": "agricultural resource",
+      "definition": "negotiable commodity that is obtained via some agricultural process, including forestry, fishing, livestock, grain, dairy, corn, cocoa, soybeans, sugar, coffee",
+      "parents": [
+        "fibo-fnd-pas-pas:NegotiableCommodity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "base metal",
+      "technicalName": "fibo-der-drc-comm:BaseMetal",
+      "localName": "BaseMetal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/BaseMetal",
+      "label": "base metal",
+      "definition": "common metal that tarnishes, oxidizes, or corrodes relatively quickly when exposed to air or moisture, that is widely used in commercial and industrial applications, such as construction and manufacturing",
+      "parents": [
+        "metal"
+      ],
+      "rules": []
+    },
+    {
+      "name": "basket of commodities",
+      "technicalName": "fibo-der-drc-comm:BasketOfCommodities",
+      "localName": "BasketOfCommodities",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/BasketOfCommodities",
+      "label": "basket of commodities",
+      "definition": "custom basket whose constituents consist of one or more negotiable commodities",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasket"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "commodity basket constituent",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "bullion",
+      "technicalName": "fibo-der-drc-comm:Bullion",
+      "localName": "Bullion",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/Bullion",
+      "label": "bullion",
+      "definition": "physical precious metal that is officially recognized as being at least 99.5 percent pure",
+      "parents": [
+        "fibo-fnd-acc-cur:PreciousMetal"
+      ],
+      "rules": []
+    },
+    {
+      "name": "commodity basket constituent",
+      "technicalName": "fibo-der-drc-comm:CommodityBasketConstituent",
+      "localName": "CommodityBasketConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/CommodityBasketConstituent",
+      "label": "commodity basket constituent",
+      "definition": "component of a custom commodity basket whose relative importance with respect to other basket constituents is known",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasketConstituent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasQuantityValue",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-qtu:ScalarQuantityValue"
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasAsOfDate",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:involves",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-pas-pas:Commodity"
+        },
+        {
+          "property": "has commodity value as of date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "commodity derivative",
+      "technicalName": "fibo-der-drc-comm:CommodityDerivative",
+      "localName": "CommodityDerivative",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/CommodityDerivative",
+      "label": "commodity derivative",
+      "definition": "derivative instrument whose primary underlying item is a physical commodity, or the price, or related index, or any other aspect related to a physical commodity",
+      "parents": [
+        "fibo-fbc-fi-fi:CommodityInstrument",
+        "fibo-fbc-fi-fi:DerivativeInstrument"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "commodity derivative underlier"
+        }
+      ]
+    },
+    {
+      "name": "commodity derivative underlier",
+      "technicalName": "fibo-der-drc-comm:CommodityDerivativeUnderlier",
+      "localName": "CommodityDerivativeUnderlier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/CommodityDerivativeUnderlier",
+      "label": "commodity derivative underlier",
+      "definition": "underlier of a commodity derivative, including, but not limited to, the negotiable commodity itself",
+      "parents": [
+        "fibo-fbc-fi-fi:Underlier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasQuantityValue",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-qtu:ScalarQuantityValue"
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasAsOfDate",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:involves",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-pas-pas:Commodity"
+        },
+        {
+          "property": "has commodity value as of date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "commodity forward",
+      "technicalName": "fibo-der-drc-comm:CommodityForward",
+      "localName": "CommodityForward",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/CommodityForward",
+      "label": "commodity forward",
+      "definition": "forward contract in which a buyer and seller agree upon delivery of a specified quality and quantity of goods at a specified future date",
+      "parents": [
+        "commodity derivative",
+        "fibo-der-drc-ff:Forward"
+      ],
+      "rules": []
+    },
+    {
+      "name": "commodity future",
+      "technicalName": "fibo-der-drc-comm:CommodityFuture",
+      "localName": "CommodityFuture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/CommodityFuture",
+      "label": "commodity future",
+      "definition": "futures contract to buy or sell a predetermined amount of a commodity at a specific price on a specific date in the future",
+      "parents": [
+        "commodity derivative",
+        "fibo-fbc-fi-fi:Future"
+      ],
+      "rules": []
+    },
+    {
+      "name": "commodity index",
+      "technicalName": "fibo-der-drc-comm:CommodityIndex",
+      "localName": "CommodityIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/CommodityIndex",
+      "label": "commodity index",
+      "definition": "investment vehicle that tracks a basket of commodities to measure their price and investment return performance",
+      "parents": [
+        "fibo-ind-mkt-bas:ReferenceIndex"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "basket of commodities",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "commodity option",
+      "technicalName": "fibo-der-drc-comm:CommodityOption",
+      "localName": "CommodityOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/CommodityOption",
+      "label": "commodity option",
+      "definition": "option where the option buyer has the right to buy or sell specified commodities or commodity related index at a fixed price or formula, on or before a specified date",
+      "parents": [
+        "commodity derivative",
+        "fibo-der-drc-opt:VanillaOption"
+      ],
+      "rules": []
+    },
+    {
+      "name": "commodity return leg",
+      "technicalName": "fibo-der-drc-comm:CommodityReturnLeg",
+      "localName": "CommodityReturnLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/CommodityReturnLeg",
+      "label": "commodity return leg",
+      "definition": "leg of a commodity return swap in which the return is based on a physical commodity, or the price, or behavior of the price, or any other aspect related to a physical commodity",
+      "parents": [
+        "fibo-der-drc-swp:ReturnLeg"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "commodity derivative underlier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "commodity spot contract",
+      "technicalName": "fibo-der-drc-comm:CommoditySpotContract",
+      "localName": "CommoditySpotContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/CommoditySpotContract",
+      "label": "commodity spot contract",
+      "definition": "contract that involves physical delivery of the commodity asset at settlement",
+      "parents": [
+        "fibo-fbc-fi-fi:CommodityInstrument",
+        "fibo-fbc-fi-fi:SpotContract"
+      ],
+      "rules": []
+    },
+    {
+      "name": "commodity swap",
+      "technicalName": "fibo-der-drc-comm:CommoditySwap",
+      "localName": "CommoditySwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/CommoditySwap",
+      "label": "commodity swap",
+      "definition": "commodity derivative that includes, without limitation, any swap for which the primary underlying notional item is a physical commodity, or the price, or behavior of the price, or the level of a commodity index, or other aspect related to a physical commodity",
+      "parents": [
+        "commodity derivative",
+        "fibo-der-drc-swp:ReturnSwap"
+      ],
+      "rules": [
+        {
+          "property": "fibo-der-drc-swp:hasReturnLeg",
+          "operator": "some",
+          "value": "commodity return leg",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "energy resource",
+      "technicalName": "fibo-der-drc-comm:EnergyResource",
+      "localName": "EnergyResource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/EnergyResource",
+      "label": "energy resource",
+      "definition": "negotiable commodity that is an energy-related product, or a derivative of an energy-related product, including electricity, renewable energy, or any power/energy delivered through a utility network of provider; diesel fuel, fuel oil, gas oil, gasoline, heating oil, jet fuel, kerosene, natural gas, oil (Brent, Tapis, Dubai, WTI)",
+      "parents": [
+        "fibo-fnd-pas-pas:NegotiableCommodity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "energy transmission rights",
+      "technicalName": "fibo-der-drc-comm:EnergyTransmissionRights",
+      "localName": "EnergyTransmissionRights",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/EnergyTransmissionRights",
+      "label": "energy transmission rights",
+      "definition": "rights to the transmission of power across an electricity distribution network",
+      "parents": [
+        "energy resource"
+      ],
+      "rules": []
+    },
+    {
+      "name": "environmental resource",
+      "technicalName": "fibo-der-drc-comm:EnvironmentalResource",
+      "localName": "EnvironmentalResource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/EnvironmentalResource",
+      "label": "environmental resource",
+      "definition": "negotiable commodity including offset credits",
+      "parents": [
+        "fibo-fnd-pas-pas:NegotiableCommodity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "extraction resource",
+      "technicalName": "fibo-der-drc-comm:ExtractionResource",
+      "localName": "ExtractionResource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/ExtractionResource",
+      "label": "extraction resource",
+      "definition": "negotiable commodity that is a mineral resource obtained via withdrawal from the natural environment",
+      "parents": [
+        "fibo-fnd-pas-pas:NegotiableCommodity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fertilizer resource",
+      "technicalName": "fibo-der-drc-comm:FertilizerResource",
+      "localName": "FertilizerResource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/FertilizerResource",
+      "label": "fertilizer resource",
+      "definition": "negotiable commodity that includes ammonia, diammonium phosphate (DAP), potash, sulphur, urea, urea and ammonium nitrate (UAN)",
+      "parents": [
+        "fibo-fnd-pas-pas:NegotiableCommodity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "freight resource",
+      "technicalName": "fibo-der-drc-comm:FreightResource",
+      "localName": "FreightResource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/FreightResource",
+      "label": "freight resource",
+      "definition": "negotiable commodity that is a freight index route",
+      "parents": [
+        "fibo-fnd-pas-pas:NegotiableCommodity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "gas commodity",
+      "technicalName": "fibo-der-drc-comm:GasCommodity",
+      "localName": "GasCommodity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/GasCommodity",
+      "label": "gas commodity",
+      "definition": "extraction resource that is natural gas",
+      "parents": [
+        "energy resource",
+        "extraction resource"
+      ],
+      "rules": []
+    },
+    {
+      "name": "generated resource",
+      "technicalName": "fibo-der-drc-comm:GeneratedResource",
+      "localName": "GeneratedResource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/GeneratedResource",
+      "label": "generated resource",
+      "definition": "negotiable commodity obtained via some generation process, including electricity, renewable energy, or any power/energy delivered through a utility network or provider",
+      "parents": [
+        "fibo-fnd-pas-pas:NegotiableCommodity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "grain commodity",
+      "technicalName": "fibo-der-drc-comm:GrainCommodity",
+      "localName": "GrainCommodity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/GrainCommodity",
+      "label": "grain commodity",
+      "definition": "agricultural resource that is a small, hard seed, of a food plant, especially of a cereal plant, such as wheat, corn, rye, oats, rice, and millet",
+      "parents": [
+        "agricultural resource"
+      ],
+      "rules": []
+    },
+    {
+      "name": "industrial resource",
+      "technicalName": "fibo-der-drc-comm:IndustrialResource",
+      "localName": "IndustrialResource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/IndustrialResource",
+      "label": "industrial resource",
+      "definition": "negotiable commodity that is obtained via some industrial process, including construction and manufacturing",
+      "parents": [
+        "fibo-fnd-pas-pas:NegotiableCommodity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "meat commodity",
+      "technicalName": "fibo-der-drc-comm:MeatCommodity",
+      "localName": "MeatCommodity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/MeatCommodity",
+      "label": "meat commodity",
+      "definition": "agricultural resource derived from the flesh of an animal (especially a mammal), such as pork bellies",
+      "parents": [
+        "agricultural resource"
+      ],
+      "rules": []
+    },
+    {
+      "name": "metal",
+      "technicalName": "fibo-der-drc-comm:Metal",
+      "localName": "Metal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/Metal",
+      "label": "metal",
+      "definition": "material that, when freshly prepared, polished, or fractured, shows a lustrous appearance, and conducts electricity and heat relatively well",
+      "parents": [
+        "extraction resource"
+      ],
+      "rules": []
+    },
+    {
+      "name": "oil commodity",
+      "technicalName": "fibo-der-drc-comm:OilCommodity",
+      "localName": "OilCommodity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/OilCommodity",
+      "label": "oil commodity",
+      "definition": "generated resource that is a viscous liquid derived from petroleum, including for use as fuel, or as a lubricant, and the manufacture of many types of paints, plastics, and other materials",
+      "parents": [
+        "generated resource"
+      ],
+      "rules": [
+        {
+          "property": "has grade",
+          "operator": "some",
+          "value": "oil grade",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "oil grade",
+      "technicalName": "fibo-der-drc-comm:OilGrade",
+      "localName": "OilGrade",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/OilGrade",
+      "label": "oil grade",
+      "definition": "measure of the viscosity of oil during operation",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "paper resource",
+      "technicalName": "fibo-der-drc-comm:PaperResource",
+      "localName": "PaperResource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/PaperResource",
+      "label": "paper resource",
+      "definition": "negotiable commodity that is a paper product, including containerboard, newsprint, pulp, recovered paper",
+      "parents": [
+        "fibo-fnd-pas-pas:NegotiableCommodity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "polypropylene resource",
+      "technicalName": "fibo-der-drc-comm:PolypropyleneResource",
+      "localName": "PolypropyleneResource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/PolypropyleneResource",
+      "label": "polypropylene resource",
+      "definition": "negotiable commodity including plastics",
+      "parents": [
+        "fibo-fnd-pas-pas:NegotiableCommodity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "service resource",
+      "technicalName": "fibo-der-drc-comm:ServiceResource",
+      "localName": "ServiceResource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/ServiceResource",
+      "label": "service resource",
+      "definition": "negotiable commodity involving services such as transportation, communications, and trade",
+      "parents": [
+        "fibo-fnd-pas-pas:NegotiableCommodity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "weather derivative",
+      "technicalName": "fibo-der-drc-comm:WeatherDerivative",
+      "localName": "WeatherDerivative",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/WeatherDerivative",
+      "label": "weather derivative",
+      "definition": "derivative instrument whose primary underlying notional item is based on something related to the weather, for example, the average temperature in Chicago in January",
+      "parents": [
+        "commodity derivative",
+        "fibo-fbc-fi-fi:DerivativeInstrument"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has commodity value as of date",
+      "technicalName": "fibo-der-drc-comm:hasCommodityValueAsOfDate",
+      "localName": "hasCommodityValueAsOfDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/hasCommodityValueAsOfDate",
+      "label": "has commodity value as of date",
+      "definition": "indicates the per unit value of a given commodity as of some specified date",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has grade",
+      "technicalName": "fibo-der-drc-comm:hasGrade",
+      "localName": "hasGrade",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CommoditiesContracts/hasGrade",
+      "label": "has grade",
+      "definition": "The grade of oil e.g. Brent Crude.",
+      "domain": [
+        "oil commodity"
+      ],
+      "range": [
+        "oil grade"
+      ]
+    }
+  ],
+  "attributes": []
+}

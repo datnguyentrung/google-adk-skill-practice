@@ -1,0 +1,24 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Accounting\\ISO4217-CurrencyCodes.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/ISO4217-CurrencyCodes/",
+  "summary": {
+    "nodes": 0,
+    "edges": 0,
+    "properties": 0,
+    "triples": 3004
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/LCC/Countries/ISO3166-1-CountryCodes/"
+  ],
+  "classes": [],
+  "edges": [],
+  "attributes": []
+}

@@ -1,0 +1,400 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FBC\\DebtAndEquities\\Guaranty.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/",
+  "summary": {
+    "nodes": 13,
+    "edges": 6,
+    "properties": 0,
+    "triples": 227
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "collateralized guaranty",
+      "technicalName": "fibo-fbc-dae-gty:CollateralizedGuaranty",
+      "localName": "CollateralizedGuaranty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/CollateralizedGuaranty",
+      "label": "collateralized guaranty",
+      "definition": "guaranty that takes the form of some asset that is pledged by a borrower to a lender (usually in return for a loan)",
+      "parents": [
+        "guaranty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isCollateralizedBy",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:Collateral",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "government guaranty",
+      "technicalName": "fibo-fbc-dae-gty:GovernmentGuaranty",
+      "localName": "GovernmentGuaranty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/GovernmentGuaranty",
+      "label": "government guaranty",
+      "definition": "guaranty provided by a government entity, such as for a government-backed security",
+      "parents": [
+        "guaranty"
+      ],
+      "rules": [
+        {
+          "property": "is guaranteed by",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-be-ge-ge:Polity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "guarantor",
+      "technicalName": "fibo-fbc-dae-gty:Guarantor",
+      "localName": "Guarantor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/Guarantor",
+      "label": "guarantor",
+      "definition": "party that guarantees, endorses, or provides indemnity for some obligation on behalf of some other party",
+      "parents": [
+        "fibo-be-oac-cpty:DeJureControllingInterestParty",
+        "fibo-fnd-agr-ctr:ContractThirdParty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:Contract",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "guaranty",
+      "technicalName": "fibo-fbc-dae-gty:Guaranty",
+      "localName": "Guaranty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/Guaranty",
+      "label": "guaranty",
+      "definition": "commitment whereby something is formally assured if a party with primary liability fails to perform",
+      "parents": [
+        "fibo-fnd-agr-agr:Commitment"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:holdsDuring",
+          "operator": "only",
+          "value": "cmns-dt:DatePeriod",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-doc:hasExpirationDate",
+          "operator": "only",
+          "value": "cmns-dt:Date",
+          "qualifier": null
+        },
+        {
+          "property": "has guaranteed amount",
+          "operator": "only",
+          "value": "fibo-fnd-acc-cur:MonetaryAmount",
+          "qualifier": null
+        },
+        {
+          "property": "has priority level",
+          "operator": "only",
+          "value": "priority level",
+          "qualifier": null
+        },
+        {
+          "property": "is guaranteed by",
+          "operator": "only",
+          "value": "guarantor",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "insurance-backed guaranty",
+      "technicalName": "fibo-fbc-dae-gty:InsuranceBackedGuaranty",
+      "localName": "InsuranceBackedGuaranty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/InsuranceBackedGuaranty",
+      "label": "insurance-backed guaranty",
+      "definition": "guaranty that is realized as an insurance policy",
+      "parents": [
+        "guaranty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isExemplifiedBy",
+          "operator": "some",
+          "value": "insurance policy",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "insurance policy",
+      "technicalName": "fibo-fbc-dae-gty:InsurancePolicy",
+      "localName": "InsurancePolicy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/InsurancePolicy",
+      "label": "insurance policy",
+      "definition": "contract that (1) puts an indemnity cover into effect, (2) serves as a legal evidence of the insurance agreement, (3) sets out the exact terms on which the indemnity cover has been provided, and (4) states associated information such as the (a) specific risks and perils covered, (b) duration of coverage, (c) amount of premium, (d) mode of premium payment, and (e) deductibles, if any",
+      "parents": [
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "insurer",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasCounterparty",
+          "operator": "some",
+          "value": "policyholder",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "insurer",
+      "technicalName": "fibo-fbc-dae-gty:Insurer",
+      "localName": "Insurer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/Insurer",
+      "label": "insurer",
+      "definition": "financial service provider that issues an insurance policy",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider",
+        "fibo-fnd-agr-ctr:ContractPrincipal"
+      ],
+      "rules": []
+    },
+    {
+      "name": "joint guaranty",
+      "technicalName": "fibo-fbc-dae-gty:JointGuaranty",
+      "localName": "JointGuaranty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/JointGuaranty",
+      "label": "joint guaranty",
+      "definition": "guaranty provided by at least two parties, jointly and severally",
+      "parents": [
+        "guaranty"
+      ],
+      "rules": [
+        {
+          "property": "is guaranteed by",
+          "operator": "minQualified",
+          "value": "2",
+          "qualifier": "guarantor"
+        }
+      ]
+    },
+    {
+      "name": "letter of credit",
+      "technicalName": "fibo-fbc-dae-gty:LetterOfCredit",
+      "localName": "LetterOfCredit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/LetterOfCredit",
+      "label": "letter of credit",
+      "definition": "letter from a bank or other creditworthy institution guaranteeing that a buyer's payment to a seller will be received on time and for the correct amount",
+      "parents": [
+        "fibo-fbc-dae-dbt:CommittedCreditFacility"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:FinancialAsset",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "cmns-pts:PartyRole",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "letter of credit guaranty",
+      "technicalName": "fibo-fbc-dae-gty:LetterOfCreditGuaranty",
+      "localName": "LetterOfCreditGuaranty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/LetterOfCreditGuaranty",
+      "label": "letter of credit guaranty",
+      "definition": "guaranty that takes the form of a letter of credit, i.e., a document issued by a bank guaranteeing the payment up to a stated amount for a specified period",
+      "parents": [
+        "collateralized guaranty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isExemplifiedBy",
+          "operator": "some",
+          "value": "letter of credit",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "negative pledge",
+      "technicalName": "fibo-fbc-dae-gty:NegativePledge",
+      "localName": "NegativePledge",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/NegativePledge",
+      "label": "negative pledge",
+      "definition": "guaranty whereby the issuer will not pledge any assets if doing so would result in less security for lender(s) or investor(s)",
+      "parents": [
+        "guaranty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "policyholder",
+      "technicalName": "fibo-fbc-dae-gty:Policyholder",
+      "localName": "Policyholder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/Policyholder",
+      "label": "policyholder",
+      "definition": "counterparty to and typically owner of an insurance policy",
+      "parents": [
+        "fibo-fnd-agr-ctr:Counterparty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "priority level",
+      "technicalName": "fibo-fbc-dae-gty:PriorityLevel",
+      "localName": "PriorityLevel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/PriorityLevel",
+      "label": "priority level",
+      "definition": "relative ranking that a guaranty has in the context of a contract, for example for a credit enhancement priority",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has guaranteed amount",
+      "technicalName": "fibo-fbc-dae-gty:hasGuaranteedAmount",
+      "localName": "hasGuaranteedAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/hasGuaranteedAmount",
+      "label": "has guaranteed amount",
+      "definition": "relates the guaranty to the monetary amount guaranteed",
+      "domain": [
+        "guaranty"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has guarantor",
+      "technicalName": "fibo-fbc-dae-gty:hasGuarantor",
+      "localName": "hasGuarantor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/hasGuarantor",
+      "label": "has guarantor",
+      "definition": "relates the guarantor to the contract for which they are providing a guaranty",
+      "domain": [
+        "fibo-fnd-agr-ctr:Contract"
+      ],
+      "range": [
+        "guarantor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has guarantor party",
+      "technicalName": "fibo-fbc-dae-gty:hasGuarantorParty",
+      "localName": "hasGuarantorParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/hasGuarantorParty",
+      "label": "has guarantor party",
+      "definition": "indicates a party that guarantees, endorses, or provides indemnity for some obligation on its behalf",
+      "domain": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ],
+      "range": [
+        "guarantor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has priority level",
+      "technicalName": "fibo-fbc-dae-gty:hasPriorityLevel",
+      "localName": "hasPriorityLevel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/hasPriorityLevel",
+      "label": "has priority level",
+      "definition": "relates a guaranty to some relative ranking that the guaranty has in the context of the contract, for example for a credit enhancement priority",
+      "domain": [
+        "guaranty"
+      ],
+      "range": [
+        "priority level"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is guaranteed by",
+      "technicalName": "fibo-fbc-dae-gty:isGuaranteedBy",
+      "localName": "isGuaranteedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/isGuaranteedBy",
+      "label": "is guaranteed by",
+      "definition": "relates guaranty to the contract guarantor, i.e., to the legal person providing the guaranty",
+      "domain": [
+        "guaranty"
+      ],
+      "range": [
+        "guarantor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is guarantor of",
+      "technicalName": "fibo-fbc-dae-gty:isGuarantorOf",
+      "localName": "isGuarantorOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/isGuarantorOf",
+      "label": "is guarantor of",
+      "definition": "identifies a party over which a guarantor has some measure of control by virtue of the guarantee",
+      "domain": [
+        "guarantor"
+      ],
+      "range": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ]
+    }
+  ],
+  "attributes": []
+}

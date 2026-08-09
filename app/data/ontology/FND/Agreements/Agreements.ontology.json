@@ -1,0 +1,235 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Agreements\\Agreements.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/",
+  "summary": {
+    "nodes": 9,
+    "edges": 2,
+    "properties": 0,
+    "triples": 129
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "agreement",
+      "technicalName": "fibo-fnd-agr-agr:Agreement",
+      "localName": "Agreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/Agreement",
+      "label": "agreement",
+      "definition": "negotiated understanding between two or more parties, reflecting the offer and acceptance of commitments on the part of either party",
+      "parents": [
+        "cmns-pts:Situation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "minQualified",
+          "value": "2",
+          "qualifier": "cmns-pts:PartyRole"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:confers",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "commitment"
+        }
+      ]
+    },
+    {
+      "name": "beneficiary",
+      "technicalName": "fibo-fnd-agr-agr:Beneficiary",
+      "localName": "Beneficiary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/Beneficiary",
+      "label": "beneficiary",
+      "definition": "party that receives some benefit or advantage or profits from something",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "agreement"
+        }
+      ]
+    },
+    {
+      "name": "bilateral agreement",
+      "technicalName": "fibo-fnd-agr-agr:BilateralAgreement",
+      "localName": "BilateralAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/BilateralAgreement",
+      "label": "bilateral agreement",
+      "definition": "agreement where two parties commit to perform specific actions or obligations towards each other",
+      "parents": [
+        "agreement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "cmns-pts:PartyRole"
+        }
+      ]
+    },
+    {
+      "name": "commitment",
+      "technicalName": "fibo-fnd-agr-agr:Commitment",
+      "localName": "Commitment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/Commitment",
+      "label": "commitment",
+      "definition": "promise made by some party to act or refrain from acting in some manner",
+      "parents": [
+        "cmns-pts:Situation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "cmns-pts:PartyRole",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "commitment at large",
+      "technicalName": "fibo-fnd-agr-agr:CommitmentAtLarge",
+      "localName": "CommitmentAtLarge",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/CommitmentAtLarge",
+      "label": "commitment at large",
+      "definition": "commitment made by some party without direct involvement from the potential beneficiaries of that commitment",
+      "parents": [
+        "unilateral commitment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "multilateral agreement",
+      "technicalName": "fibo-fnd-agr-agr:MultilateralAgreement",
+      "localName": "MultilateralAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/MultilateralAgreement",
+      "label": "multilateral agreement",
+      "definition": "agreements that involve or include multiple parties",
+      "parents": [
+        "agreement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "minQualified",
+          "value": "3",
+          "qualifier": "cmns-pts:PartyRole"
+        }
+      ]
+    },
+    {
+      "name": "obligee",
+      "technicalName": "fibo-fnd-agr-agr:Obligee",
+      "localName": "Obligee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/Obligee",
+      "label": "obligee",
+      "definition": "party to whom some commitment or obligation is owed, either legally or per the terms of an agreement",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "agreement"
+        }
+      ]
+    },
+    {
+      "name": "obligor",
+      "technicalName": "fibo-fnd-agr-agr:Obligor",
+      "localName": "Obligor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/Obligor",
+      "label": "obligor",
+      "definition": "party that is bound legally or by agreement to repay a debt, make a payment, do something, or refrain from doing something",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "agreement"
+        },
+        {
+          "property": "has obligation",
+          "operator": "some",
+          "value": "commitment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "unilateral commitment",
+      "technicalName": "fibo-fnd-agr-agr:UnilateralCommitment",
+      "localName": "UnilateralCommitment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/UnilateralCommitment",
+      "label": "unilateral commitment",
+      "definition": "commitment (promise or obligation) made by one party without requiring a reciprocal promise from another party",
+      "parents": [
+        "commitment"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has obligation",
+      "technicalName": "fibo-fnd-agr-agr:hasObligation",
+      "localName": "hasObligation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/hasObligation",
+      "label": "has obligation",
+      "definition": "identifies a duty or obligation that a given party has taken on",
+      "domain": [
+        "obligor"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is obligation of",
+      "technicalName": "fibo-fnd-agr-agr:isObligationOf",
+      "localName": "isObligationOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/isObligationOf",
+      "label": "is obligation of",
+      "definition": "identifies a party that has a given obligation",
+      "domain": [],
+      "range": [
+        "obligor"
+      ]
+    }
+  ],
+  "attributes": []
+}

@@ -1,0 +1,122 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\MD\\TemporalCore\\SecurityCreditStatuses.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/",
+  "summary": {
+    "nodes": 4,
+    "edges": 0,
+    "properties": 3,
+    "triples": 46
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/"
+  ],
+  "classes": [
+    {
+      "name": "credit o k",
+      "technicalName": "fibo-md-temx-crs:CreditOK",
+      "localName": "CreditOK",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/CreditOK",
+      "label": "credit o k",
+      "definition": "Not defaulted.",
+      "parents": [
+        "security credit status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "in default",
+      "technicalName": "fibo-md-temx-crs:InDefault",
+      "localName": "InDefault",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/InDefault",
+      "label": "in default",
+      "definition": "The issuer has failed to pay somthing that they are contractually obliged to pay.",
+      "parents": [
+        "security credit status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "security cashflow status",
+      "technicalName": "fibo-md-temx-crs:SecurityCashflowStatus",
+      "localName": "SecurityCashflowStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/SecurityCashflowStatus",
+      "label": "security cashflow status",
+      "definition": "The status of the cashflow due to the holder from the security.",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStatus"
+      ],
+      "rules": []
+    },
+    {
+      "name": "security credit status",
+      "technicalName": "fibo-md-temx-crs:SecurityCreditStatus",
+      "localName": "SecurityCreditStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/SecurityCreditStatus",
+      "label": "security credit status",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStatus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "accelerated principal payments expected",
+      "technicalName": "fibo-md-temx-crs:acceleratedPrincipalPaymentsExpected",
+      "localName": "acceleratedPrincipalPaymentsExpected",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/acceleratedPrincipalPaymentsExpected",
+      "label": "accelerated principal payments expected",
+      "definition": null,
+      "domain": [
+        "security cashflow status"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "interest payments expected",
+      "technicalName": "fibo-md-temx-crs:interestPaymentsExpected",
+      "localName": "interestPaymentsExpected",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/interestPaymentsExpected",
+      "label": "interest payments expected",
+      "definition": null,
+      "domain": [
+        "security cashflow status"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "principal payments expected",
+      "technicalName": "fibo-md-temx-crs:principalPaymentsExpected",
+      "localName": "principalPaymentsExpected",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/principalPaymentsExpected",
+      "label": "principal payments expected",
+      "definition": null,
+      "domain": [
+        "security cashflow status"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

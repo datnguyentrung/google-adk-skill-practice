@@ -1,0 +1,28 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FBC\\FunctionalEntities\\MarketsIndividuals.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/MarketsIndividuals/",
+  "summary": {
+    "nodes": 0,
+    "edges": 0,
+    "properties": 0,
+    "triples": 56948
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessCentersIndividuals/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/Markets/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/",
+    "https://www.omg.org/spec/Commons/SitesAndFacilities/",
+    "https://www.omg.org/spec/LCC/Countries/ISO3166-1-CountryCodes/"
+  ],
+  "classes": [],
+  "edges": [],
+  "attributes": []
+}

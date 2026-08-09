@@ -1,0 +1,1158 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\LegalEntities",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\LegalEntities\\CorporateBodies.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\LegalEntities\\FormalBusinessOrganizations.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\LegalEntities\\LegalPersons.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\LegalEntities\\LEIEntities.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 4,
+    "classes": 46,
+    "edges": 17,
+    "attributes": 6
+  },
+  "classes": [
+    {
+      "name": "benefit corporation",
+      "technicalName": "fibo-be-le-cb:BenefitCorporation",
+      "localName": "BenefitCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/BenefitCorporation",
+      "label": "benefit corporation",
+      "definition": "not-for-profit corporation set up under specific state legislation, typically to provide some social benefit, without an obligation to maximize shareholder return",
+      "parents": [
+        "not-for-profit corporation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "board agreement",
+      "technicalName": "fibo-be-le-cb:BoardAgreement",
+      "localName": "BoardAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/BoardAgreement",
+      "label": "board agreement",
+      "definition": "formal, legally binding agreement between members of the Board of Directors of the organization",
+      "parents": [
+        "fibo-be-le-fbo:OrganizationCoveringAgreement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "common interest development corporation",
+      "technicalName": "fibo-be-le-cb:CommonInterestDevelopmentCorporation",
+      "localName": "CommonInterestDevelopmentCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/CommonInterestDevelopmentCorporation",
+      "label": "common interest development corporation",
+      "definition": "not-for-profit corporation set up under specific state legislation as a business entity for homeowners' associations",
+      "parents": [
+        "not-for-profit corporation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "corporation",
+      "technicalName": "fibo-be-le-cb:Corporation",
+      "localName": "Corporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/Corporation",
+      "label": "corporation",
+      "definition": "formal organization that is a legal entity (artificial person) distinct from its owners, created under the jurisdiction of the laws of a state or nation",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:hasLegalName",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "is incorporated in",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-rga:Jurisdiction"
+        },
+        {
+          "property": "is constituted by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "instrument of incorporation"
+        }
+      ]
+    },
+    {
+      "name": "for profit corporation",
+      "technicalName": "fibo-be-le-cb:ForProfitCorporation",
+      "localName": "ForProfitCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/ForProfitCorporation",
+      "label": "for profit corporation",
+      "definition": "corporation whose objective is to make money, i.e., to ensure realization of a financial benefit such that the amount of revenue gained from a business activity exceeds the expenses, costs and taxes needed to sustain that activity",
+      "parents": [
+        "corporation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-le-lp:ProfitObjective"
+        }
+      ]
+    },
+    {
+      "name": "incorporation guarantee",
+      "technicalName": "fibo-be-le-cb:IncorporationGuarantee",
+      "localName": "IncorporationGuarantee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/IncorporationGuarantee",
+      "label": "incorporation guarantee",
+      "definition": "guarantee that is part of the financial basis by which some legal entity is incorporated",
+      "parents": [
+        "fibo-fnd-law-cor:Constitution"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-acc-cur:hasNotionalAmount",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "exactly",
+          "value": "1",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "instrument of incorporation",
+      "technicalName": "fibo-be-le-cb:InstrumentOfIncorporation",
+      "localName": "InstrumentOfIncorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/InstrumentOfIncorporation",
+      "label": "instrument of incorporation",
+      "definition": "memorandum and articles of association by which some legal entity is established",
+      "parents": [
+        "fibo-fnd-law-cor:Constitution"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-rga:Jurisdiction"
+        }
+      ]
+    },
+    {
+      "name": "joint stock company",
+      "technicalName": "fibo-be-le-cb:JointStockCompany",
+      "localName": "JointStockCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/JointStockCompany",
+      "label": "joint stock company",
+      "definition": "for-profit, unincorporated business that has some characteristics of a corporation and some features of a partnership, with ownership interests represented by shares of stock",
+      "parents": [
+        "fibo-be-le-lp:BusinessEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "not-for-profit corporation",
+      "technicalName": "fibo-be-le-cb:NotForProfitCorporation",
+      "localName": "NotForProfitCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/NotForProfitCorporation",
+      "label": "not-for-profit corporation",
+      "definition": "corporation approved by its jurisdictional oversight and tax authorities as operating for educational, charitable, social, religious, civic or humanitarian purposes",
+      "parents": [
+        "corporation",
+        "fibo-be-le-fbo:NotForProfitOrganization"
+      ],
+      "rules": []
+    },
+    {
+      "name": "privately held company",
+      "technicalName": "fibo-be-le-cb:PrivatelyHeldCompany",
+      "localName": "PrivatelyHeldCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/PrivatelyHeldCompany",
+      "label": "privately held company",
+      "definition": "corporation whose issued shares are all held by a family or a small group of investors and, therefore, cannot be bought by the public",
+      "parents": [
+        "stock corporation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "publicly held company",
+      "technicalName": "fibo-be-le-cb:PubliclyHeldCompany",
+      "localName": "PubliclyHeldCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/PubliclyHeldCompany",
+      "label": "publicly held company",
+      "definition": "corporation whose shares are traded and held publicly",
+      "parents": [
+        "stock corporation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "registration identifier",
+      "technicalName": "fibo-be-le-cb:RegistrationIdentifier",
+      "localName": "RegistrationIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/RegistrationIdentifier",
+      "label": "registration identifier",
+      "definition": "identifier that is officially allocated to an organization at the time of registration, typically in a jurisdiction in which said organization is organized or registered and used in that jurisdiction to identify the organization",
+      "parents": [
+        "cmns-org:OrganizationIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "registration identifier scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:FormalOrganization"
+        },
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-rga:Jurisdiction"
+        }
+      ]
+    },
+    {
+      "name": "registration identifier scheme",
+      "technicalName": "fibo-be-le-cb:RegistrationIdentifierScheme",
+      "localName": "RegistrationIdentifierScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/RegistrationIdentifierScheme",
+      "label": "registration identifier scheme",
+      "definition": "scheme that defines the registration identifier per the issuing registration authority",
+      "parents": [
+        "cmns-org:OrganizationIdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "registration identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "religious corporation",
+      "technicalName": "fibo-be-le-cb:ReligiousCorporation",
+      "localName": "ReligiousCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/ReligiousCorporation",
+      "label": "religious corporation",
+      "definition": "not-for-profit corporation whose objective is specific to some fundamental set of beliefs and practices generally agreed upon by a number of people, and that is incorporated under the law",
+      "parents": [
+        "not-for-profit corporation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "some",
+          "value": "fibo-be-le-lp:ReligiousObjective",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "stock corporation",
+      "technicalName": "fibo-be-le-cb:StockCorporation",
+      "localName": "StockCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/StockCorporation",
+      "label": "stock corporation",
+      "definition": "corporation that has shareholders, each of whom receives a portion of the ownership of the corporation through shares of stock",
+      "parents": [
+        "corporation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "some",
+          "value": "board agreement",
+          "qualifier": null
+        },
+        {
+          "property": "has date of incorporation",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "has issued capital",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "has date of registration",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        }
+      ]
+    },
+    {
+      "name": "branch",
+      "technicalName": "fibo-be-le-fbo:Branch",
+      "localName": "Branch",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/Branch",
+      "label": "branch",
+      "definition": "part of a larger organization that might not be co-located with it",
+      "parents": [
+        "cmns-org:OrganizationalSubUnit"
+      ],
+      "rules": []
+    },
+    {
+      "name": "division",
+      "technicalName": "fibo-be-le-fbo:Division",
+      "localName": "Division",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/Division",
+      "label": "division",
+      "definition": "part of an organization, such as a line of business, that may have separate accounting and reporting requirements",
+      "parents": [
+        "cmns-org:OrganizationalSubUnit"
+      ],
+      "rules": []
+    },
+    {
+      "name": "joint venture",
+      "technicalName": "fibo-be-le-fbo:JointVenture",
+      "localName": "JointVenture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/JointVenture",
+      "label": "joint venture",
+      "definition": "legal entity that is formed between parties that pool their resources for the purpose of accomplishing a specific task but otherwise retain their distinct identities",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non-governmental organization",
+      "technicalName": "fibo-be-le-fbo:NonGovernmentalOrganization",
+      "localName": "NonGovernmentalOrganization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/NonGovernmentalOrganization",
+      "label": "non-governmental organization",
+      "definition": "not-for-profit organization that functions independently of government",
+      "parents": [
+        "not for profit organization"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-le-lp:PublicPurpose"
+        }
+      ]
+    },
+    {
+      "name": "not for profit organization",
+      "technicalName": "fibo-be-le-fbo:NotForProfitOrganization",
+      "localName": "NotForProfitOrganization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/NotForProfitOrganization",
+      "label": "not for profit organization",
+      "definition": "organization that uses its surplus revenues to further achieve its purpose rather than distributing its surplus income to the organization's owners (directors, investors, and equivalents) as profit / dividends",
+      "parents": [
+        "cmns-org:FormalOrganization"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-le-lp:NotForProfitObjective"
+        }
+      ]
+    },
+    {
+      "name": "organization covering agreement",
+      "technicalName": "fibo-be-le-fbo:OrganizationCoveringAgreement",
+      "localName": "OrganizationCoveringAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/OrganizationCoveringAgreement",
+      "label": "organization covering agreement",
+      "definition": "contract between the principals in a formal organization that specifies the relationship between the principals, and between the principals and the entity",
+      "parents": [
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": []
+    },
+    {
+      "name": "value-added tax identification number",
+      "technicalName": "fibo-be-le-fbo:ValueAddedTaxIdentificationNumber",
+      "localName": "ValueAddedTaxIdentificationNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/ValueAddedTaxIdentificationNumber",
+      "label": "value-added tax identification number",
+      "definition": "tax identifier that identifies a taxable person (business) or non-taxable legal entity for a consumption tax that is assessed incrementally, levied on the price of a product or service at each stage of production, distribution, and sale to the end consumer",
+      "parents": [
+        "fibo-fnd-pty-pty:TaxIdentifier",
+        "cmns-org:OrganizationIdentifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "business entity",
+      "technicalName": "fibo-be-le-lp:BusinessEntity",
+      "localName": "BusinessEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/BusinessEntity",
+      "label": "business entity",
+      "definition": "entity that is formed and administered as per commercial law in order to engage in business activities",
+      "parents": [
+        "cmns-org:FormalOrganization"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:holds",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-law-lcap:License"
+        },
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-gao-obj:BusinessObjective"
+        }
+      ]
+    },
+    {
+      "name": "business license",
+      "technicalName": "fibo-be-le-lp:BusinessLicense",
+      "localName": "BusinessLicense",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/BusinessLicense",
+      "label": "business license",
+      "definition": "license that allows the holder to conduct business or carry out a specific profession within some jurisdiction for some period of time",
+      "parents": [
+        "fibo-fnd-law-lcap:License"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isRecognizedIn",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "business entity"
+        }
+      ]
+    },
+    {
+      "name": "chartered legal person",
+      "technicalName": "fibo-be-le-lp:CharteredLegalPerson",
+      "localName": "CharteredLegalPerson",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/CharteredLegalPerson",
+      "label": "chartered legal person",
+      "definition": "a legal person created by a royal charter or decree",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "legally competent natural person",
+      "technicalName": "fibo-be-le-lp:LegallyCompetentNaturalPerson",
+      "localName": "LegallyCompetentNaturalPerson",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/LegallyCompetentNaturalPerson",
+      "label": "legally competent natural person",
+      "definition": "person who is considered competent, under the circumstances, to enter into a contract, conduct business, or participate in other activities that generally require the mental ability to understand problems and make decisions on his or her own behalf",
+      "parents": [
+        "fibo-fnd-aap-ppl:Person",
+        "cmns-org:LegalPerson"
+      ],
+      "rules": []
+    },
+    {
+      "name": "not for profit objective",
+      "technicalName": "fibo-be-le-lp:NotForProfitObjective",
+      "localName": "NotForProfitObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/NotForProfitObjective",
+      "label": "not for profit objective",
+      "definition": "objective that reflects the charitable, educational, religious, humanitarian, public services, or other not for profit goals of an organization",
+      "parents": [
+        "fibo-fnd-gao-obj:Objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "power of attorney",
+      "technicalName": "fibo-be-le-lp:PowerOfAttorney",
+      "localName": "PowerOfAttorney",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/PowerOfAttorney",
+      "label": "power of attorney",
+      "definition": "legal authorization given by one party (the principal) to another (the agent or attorney-in-fact) to perform certain acts on the principal's behalf",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalCapacity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-law-lcap:isConferredOn",
+          "operator": "some",
+          "value": "legally competent natural person",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasEffectiveDate",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        }
+      ]
+    },
+    {
+      "name": "profit objective",
+      "technicalName": "fibo-be-le-lp:ProfitObjective",
+      "localName": "ProfitObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/ProfitObjective",
+      "label": "profit objective",
+      "definition": "objective that reflects pursuit of a financial benefit that may be realized when the amount of revenue gained from a business activity exceeds the expenses, costs and taxes needed to sustain that activity",
+      "parents": [
+        "fibo-fnd-gao-obj:BusinessObjective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "public purpose",
+      "technicalName": "fibo-be-le-lp:PublicPurpose",
+      "localName": "PublicPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/PublicPurpose",
+      "label": "public purpose",
+      "definition": "objective that reflects values generally thought to be shared by and that is intended to benefit the populace as a whole",
+      "parents": [
+        "fibo-fnd-gao-obj:Objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "religious objective",
+      "technicalName": "fibo-be-le-lp:ReligiousObjective",
+      "localName": "ReligiousObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/ReligiousObjective",
+      "label": "religious objective",
+      "definition": "not-for-profit objective that reflects the religious goals of an organization",
+      "parents": [
+        "not for profit objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fonds commun de placement",
+      "technicalName": "fibo-be-le-lp:SpecialPurposeVehicle",
+      "localName": "SpecialPurposeVehicle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/SpecialPurposeVehicle",
+      "label": "fonds commun de placement",
+      "definition": "legal entity created to fulfill narrow, specific, and frequently temporary objectives",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": [
+        {
+          "property": "has intended liquidation date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        }
+      ]
+    },
+    {
+      "name": "statutory body",
+      "technicalName": "fibo-be-le-lp:StatutoryBody",
+      "localName": "StatutoryBody",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/StatutoryBody",
+      "label": "statutory body",
+      "definition": "legal entity established by a government to consider evidence and make judgements in some field of activity",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "variable interest entity",
+      "technicalName": "fibo-be-le-lp:VariableInterestEntity",
+      "localName": "VariableInterestEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/VariableInterestEntity",
+      "label": "variable interest entity",
+      "definition": "legal entity whose shareholders are entitled to a percentage of a named company's profits via a private contract",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "accounting framework",
+      "technicalName": "fibo-be-le-lei:AccountingFramework",
+      "localName": "AccountingFramework",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/AccountingFramework",
+      "label": "accounting framework",
+      "definition": "framework, including policies, methods, rules, and processes, used to measure, recognize, present, and disclose the information appearing in an entity's financial statements, and, from a legal ownership perspective, that is applied for accounting consolidation determination",
+      "parents": [
+        "relationship qualifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contractually capable entity",
+      "technicalName": "fibo-be-le-lei:ContractuallyCapableEntity",
+      "localName": "ContractuallyCapableEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/ContractuallyCapableEntity",
+      "label": "contractually capable entity",
+      "definition": "a unique entity that is legally or financially responsible for the performance of financial transactions, or has the legal right in its jurisdiction to enter independently into legal contracts, regardless of whether it is incorporated or constituted in some other way (e.g. trust, partnership, contractual). This excludes natural persons, but includes governmental organizations and supranationals.",
+      "parents": [
+        "cmns-pts:AgentRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:LegalEntity"
+        }
+      ]
+    },
+    {
+      "name": "entity legal form",
+      "technicalName": "fibo-be-le-lei:EntityLegalForm",
+      "localName": "EntityLegalForm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/EntityLegalForm",
+      "label": "entity legal form",
+      "definition": "a classifier for a legal entity that indicates the nature of that entity as defined from a legal or regulatory perspective, in the jurisdiction in which it was established",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "entity legal form scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:hasTextualName",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        },
+        {
+          "property": "has transliterated name",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        },
+        {
+          "property": "has transliterated legal form abbreviation",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        },
+        {
+          "property": "has legal form abbreviation",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        }
+      ]
+    },
+    {
+      "name": "entity legal form identifier",
+      "technicalName": "fibo-be-le-lei:EntityLegalFormIdentifier",
+      "localName": "EntityLegalFormIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/EntityLegalFormIdentifier",
+      "label": "entity legal form identifier",
+      "definition": "code that denotes an entity legal form as defined in ISO 20275",
+      "parents": [
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "entity legal form scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:denotes",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "entity legal form"
+        }
+      ]
+    },
+    {
+      "name": "entity legal form scheme",
+      "technicalName": "fibo-be-le-lei:EntityLegalFormScheme",
+      "localName": "EntityLegalFormScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/EntityLegalFormScheme",
+      "label": "entity legal form scheme",
+      "definition": "scheme that specifies the elements of the codes for entity legal forms, such as those that are sanctioned in a given jurisdiction as defined in ISO 20725",
+      "parents": [
+        "cmns-cls:ClassificationScheme",
+        "cmns-cds:CodeSet"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "entity legal form identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "LEI registered entity",
+      "technicalName": "fibo-be-le-lei:LEIRegisteredEntity",
+      "localName": "LEIRegisteredEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/LEIRegisteredEntity",
+      "label": "LEI registered entity",
+      "definition": "a legal person that has registered for and is identified by a legal entity identifier",
+      "parents": [
+        "cmns-org:LegalPerson"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "some",
+          "value": "legal entity identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "legal entity identifier",
+      "technicalName": "fibo-be-le-lei:LegalEntityIdentifier",
+      "localName": "LegalEntityIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/LegalEntityIdentifier",
+      "label": "legal entity identifier",
+      "definition": "an organization identifier that uniquely identifies a legal person as defined in ISO 17442",
+      "parents": [
+        "cmns-org:OrganizationIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "legal entity identifier scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:LegalPerson"
+        }
+      ]
+    },
+    {
+      "name": "legal entity identifier scheme",
+      "technicalName": "fibo-be-le-lei:LegalEntityIdentifierScheme",
+      "localName": "LegalEntityIdentifierScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/LegalEntityIdentifierScheme",
+      "label": "legal entity identifier scheme",
+      "definition": "a scheme that specifies the elements of an unambiguous legal entity identifier (LEI) scheme to identify the legal entities relevant to any financial transaction",
+      "parents": [
+        "cmns-org:OrganizationIdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "legal entity identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "relationship period qualifier",
+      "technicalName": "fibo-be-le-lei:RelationshipPeriodQualifier",
+      "localName": "RelationshipPeriodQualifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/RelationshipPeriodQualifier",
+      "label": "relationship period qualifier",
+      "definition": "a classifier that qualifies something about the reporting period specified, such as that the date period reflects an accounting or document filing period",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "relationship qualifier",
+      "technicalName": "fibo-be-le-lei:RelationshipQualifier",
+      "localName": "RelationshipQualifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/RelationshipQualifier",
+      "label": "relationship qualifier",
+      "definition": "a classifier that qualifies something about the relationship between consolidated entities during the reporting period, such as the accounting framework used",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "relationship record",
+      "technicalName": "fibo-be-le-lei:RelationshipRecord",
+      "localName": "RelationshipRecord",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/RelationshipRecord",
+      "label": "relationship record",
+      "definition": "a record describing relationships between legal entities",
+      "parents": [
+        "cmns-col:Constituent"
+      ],
+      "rules": [
+        {
+          "property": "is quantified by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:isQualifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "relationship qualifier"
+        }
+      ]
+    },
+    {
+      "name": "relationship status",
+      "technicalName": "fibo-be-le-lei:RelationshipStatus",
+      "localName": "RelationshipStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/RelationshipStatus",
+      "label": "relationship status",
+      "definition": "a classifier that specifies the status of the relationship between consolidated entities during the reporting period (active or inactive)",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has date of incorporation",
+      "technicalName": "fibo-be-le-cb:hasDateOfIncorporation",
+      "localName": "hasDateOfIncorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/hasDateOfIncorporation",
+      "label": "has date of incorporation",
+      "definition": "indicates the formal date of incorporation as stated in filing documents",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has date of registration",
+      "technicalName": "fibo-be-le-cb:hasDateOfRegistration",
+      "localName": "hasDateOfRegistration",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/hasDateOfRegistration",
+      "label": "has date of registration",
+      "definition": "indicates the date on which the corporation has registered in some jurisdiction for regulatory and / or for tax purposes",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has issued capital",
+      "technicalName": "fibo-be-le-cb:hasIssuedCapital",
+      "localName": "hasIssuedCapital",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/hasIssuedCapital",
+      "label": "has issued capital",
+      "definition": "indicates the aggregate value of all shares held by shareholders",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is constituted by",
+      "technicalName": "fibo-be-le-cb:isConstitutedBy",
+      "localName": "isConstitutedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/isConstitutedBy",
+      "label": "is constituted by",
+      "definition": "the instrument by which an entity is incorporated",
+      "domain": [
+        "corporation"
+      ],
+      "range": [
+        "fibo-fnd-law-cor:Constitution"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is incorporated in",
+      "technicalName": "fibo-be-le-cb:isIncorporatedIn",
+      "localName": "isIncorporatedIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/isIncorporatedIn",
+      "label": "is incorporated in",
+      "definition": "the legal jurisdiction under which the legal entity is incorporated",
+      "domain": [
+        "corporation"
+      ],
+      "range": [
+        "cmns-rga:Jurisdiction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has equity",
+      "technicalName": "fibo-be-le-fbo:hasEquity",
+      "localName": "hasEquity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/hasEquity",
+      "label": "has equity",
+      "definition": "indicates owners' equity associated with the entity",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "fibo-fnd-oac-own:OwnersEquity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has headquarters address",
+      "technicalName": "fibo-be-le-fbo:hasHeadquartersAddress",
+      "localName": "hasHeadquartersAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/hasHeadquartersAddress",
+      "label": "has headquarters address",
+      "definition": "indicates the main address at which communications may be delivered for the organization",
+      "domain": [],
+      "range": [
+        "fibo-fnd-plc-adr:PhysicalAddress"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has operating address",
+      "technicalName": "fibo-be-le-fbo:hasOperatingAddress",
+      "localName": "hasOperatingAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/hasOperatingAddress",
+      "label": "has operating address",
+      "definition": "indicates an address at which an organization carries out operations",
+      "domain": [
+        "cmns-org:Organization"
+      ],
+      "range": [
+        "fibo-fnd-plc-adr:PhysicalAddress"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has registered address",
+      "technicalName": "fibo-be-le-fbo:hasRegisteredAddress",
+      "localName": "hasRegisteredAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/hasRegisteredAddress",
+      "label": "has registered address",
+      "definition": "identifies an address that is officially recorded with some government authority and at which legal papers may be served",
+      "domain": [
+        "cmns-pts:Party"
+      ],
+      "range": [
+        "fibo-fnd-plc-adr:ConventionalStreetAddress"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has intended liquidation date",
+      "technicalName": "fibo-be-le-lp:hasIntendedLiquidationDate",
+      "localName": "hasIntendedLiquidationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/hasIntendedLiquidationDate",
+      "label": "has intended liquidation date",
+      "definition": "links an agreement, contract, or legal entity to a date on which it is scheduled to be sold",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has legal address",
+      "technicalName": "fibo-be-le-lei:hasLegalAddress",
+      "localName": "hasLegalAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasLegalAddress",
+      "label": "has legal address",
+      "definition": "indicates the legal address for the entity, in the jurisdiction in which the entity is established, used for registration purposes with respect to obtaining an LEI",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "fibo-fnd-plc-adr:ConventionalStreetAddress"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has legal form",
+      "technicalName": "fibo-be-le-lei:hasLegalForm",
+      "localName": "hasLegalForm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasLegalForm",
+      "label": "has legal form",
+      "definition": "indicates the nature of the entity as defined from a legal or regulatory perspective in a given jurisdiction",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "entity legal form"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is consolidated by",
+      "technicalName": "fibo-be-le-lei:isConsolidatedBy",
+      "localName": "isConsolidatedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isConsolidatedBy",
+      "label": "is consolidated by",
+      "definition": "indicates the entity considered the 'end node' or consolidating entity (parent) from an ISO 17442 perspective",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is consolidation of",
+      "technicalName": "fibo-be-le-lei:isConsolidationOf",
+      "localName": "isConsolidationOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isConsolidationOf",
+      "label": "is consolidation of",
+      "definition": "indicates the entity considered the 'start node' or consolidated entity from an ISO 17442 perspective",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is directly consolidated by",
+      "technicalName": "fibo-be-le-lei:isDirectlyConsolidatedBy",
+      "localName": "isDirectlyConsolidatedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isDirectlyConsolidatedBy",
+      "label": "is directly consolidated by",
+      "definition": "indicates that the entity considered the 'end node' or consolidating entity (parent) fully consolidates the accounting of the 'start node' (child) per the accounting rules specified, and is the closest consolidating entity to that child in any applicable ownership hierarchy",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is an international branch of",
+      "technicalName": "fibo-be-le-lei:isInternationalBranchOf",
+      "localName": "isInternationalBranchOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isInternationalBranchOf",
+      "label": "is an international branch of",
+      "definition": "indicates that the entity considered the 'start node' or consolidated entity (child) is an international subsidiary of the 'end node' (parent) in the jurisdiction of the child",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is ultimately consolidated by",
+      "technicalName": "fibo-be-le-lei:isUltimatelyConsolidatedBy",
+      "localName": "isUltimatelyConsolidatedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isUltimatelyConsolidatedBy",
+      "label": "is ultimately consolidated by",
+      "definition": "indicates that the entity considered the 'end node' or consolidating entity (parent) fully consolidates the accounting of the 'start node' (child) per the accounting rules specified, and is the most distant consolidating entity to that child in any applicable ownership hierarchy",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has shares authorized",
+      "technicalName": "fibo-be-le-cb:hasSharesAuthorized",
+      "localName": "hasSharesAuthorized",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/hasSharesAuthorized",
+      "label": "has shares authorized",
+      "definition": "indicates the maximum number of shares that are permitted to be issued, as established by the board of directors",
+      "domain": [],
+      "range": [
+        "xsd:nonNegativeInteger"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has legal form abbreviation",
+      "technicalName": "fibo-be-le-lei:hasLegalFormAbbreviation",
+      "localName": "hasLegalFormAbbreviation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasLegalFormAbbreviation",
+      "label": "has legal form abbreviation",
+      "definition": "the precise abbreviation for the entity legal form as defined in the jurisdiction in which it is registered, for example LLC, LLP, Ltd, PLC, Corp.",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has ownership percentage",
+      "technicalName": "fibo-be-le-lei:hasOwnershipPercentage",
+      "localName": "hasOwnershipPercentage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasOwnershipPercentage",
+      "label": "has ownership percentage",
+      "definition": "the percentage ownership interest in the owned entity owned by owning entity, if known",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has transliterated legal form abbreviation",
+      "technicalName": "fibo-be-le-lei:hasTransliteratedLegalFormAbbreviation",
+      "localName": "hasTransliteratedLegalFormAbbreviation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasTransliteratedLegalFormAbbreviation",
+      "label": "has transliterated legal form abbreviation",
+      "definition": "a transliterated (i.e., in Latin or Romanized ASCII) representation of the abbreviation for the entity legal form",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has transliterated name",
+      "technicalName": "fibo-be-le-lei:hasTransliteratedName",
+      "localName": "hasTransliteratedName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasTransliteratedName",
+      "label": "has transliterated name",
+      "definition": "a transliterated (i.e., in Latin or Romanized ASCII) representation of a name for the entity",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "is quantified by",
+      "technicalName": "fibo-be-le-lei:isQuantifiedBy",
+      "localName": "isQuantifiedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isQuantifiedBy",
+      "label": "is quantified by",
+      "definition": "indicates that something is limited to or conditional due to some rate or other statistical value",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    }
+  ]
+}

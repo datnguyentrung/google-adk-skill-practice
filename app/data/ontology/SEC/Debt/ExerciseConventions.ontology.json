@@ -1,0 +1,190 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Debt\\ExerciseConventions.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/ExerciseConventions/",
+  "summary": {
+    "nodes": 6,
+    "edges": 3,
+    "properties": 0,
+    "triples": 116
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/"
+  ],
+  "classes": [
+    {
+      "name": "American exercise terms",
+      "technicalName": "fibo-sec-dbt-ex:AmericanExerciseTerms",
+      "localName": "AmericanExerciseTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/ExerciseConventions/AmericanExerciseTerms",
+      "label": "American exercise terms",
+      "definition": "exercise terms that stipulate that an option may be exercised on or before the date of expiration",
+      "parents": [
+        "exercise terms"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:uses",
+          "operator": "value",
+          "value": "American exercise convention",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Bermudan exercise terms",
+      "technicalName": "fibo-sec-dbt-ex:BermudanExerciseTerms",
+      "localName": "BermudanExerciseTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/ExerciseConventions/BermudanExerciseTerms",
+      "label": "Bermudan exercise terms",
+      "definition": "exercise terms that stipulate that an option may only be exercised on predetermined dates within some exercise window, often on one day each month or at the date of expiration",
+      "parents": [
+        "exercise terms"
+      ],
+      "rules": [
+        {
+          "property": "has exercise window",
+          "operator": "some",
+          "value": "cmns-dt:DatePeriod",
+          "qualifier": null
+        },
+        {
+          "property": "has exercise date",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDate",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:uses",
+          "operator": "value",
+          "value": "Bermudan exercise convention",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "canary exercise terms",
+      "technicalName": "fibo-sec-dbt-ex:CanaryExerciseTerms",
+      "localName": "CanaryExerciseTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/ExerciseConventions/CanaryExerciseTerms",
+      "label": "canary exercise terms",
+      "definition": "exercise terms that stipulate that an option may only be exercised on predetermined dates until the first step is reached, but not after that point",
+      "parents": [
+        "Bermudan exercise terms"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:uses",
+          "operator": "value",
+          "value": "canary exercise convention",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "European exercise terms",
+      "technicalName": "fibo-sec-dbt-ex:EuropeanExerciseTerms",
+      "localName": "EuropeanExerciseTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/ExerciseConventions/EuropeanExerciseTerms",
+      "label": "European exercise terms",
+      "definition": "exercise terms that stipulate that an option may only be exercised at the date of expiration",
+      "parents": [
+        "exercise terms"
+      ],
+      "rules": [
+        {
+          "property": "has exercise date",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "cmns-cxtdsg:uses",
+          "operator": "value",
+          "value": "European exercise convention",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "exercise convention",
+      "technicalName": "fibo-sec-dbt-ex:ExerciseConvention",
+      "localName": "ExerciseConvention",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/ExerciseConventions/ExerciseConvention",
+      "label": "exercise convention",
+      "definition": "convention that determines when the holder or future holder of an option can implement the rights defined in the option",
+      "parents": [
+        "fibo-fnd-dt-bd:Convention"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exercise terms",
+      "technicalName": "fibo-sec-dbt-ex:ExerciseTerms",
+      "localName": "ExerciseTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/ExerciseConventions/ExerciseTerms",
+      "label": "exercise terms",
+      "definition": "contract terms specific to the conditions, conventions and other stipulations related to the exercise of an option or entitlement",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractualCommitment"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:uses",
+          "operator": "some",
+          "value": "exercise convention",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has exercise date",
+      "technicalName": "fibo-sec-dbt-ex:hasExerciseDate",
+      "localName": "hasExerciseDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/ExerciseConventions/hasExerciseDate",
+      "label": "has exercise date",
+      "definition": "indicates a date on which an option may be exercised as specified in the terms of the contract",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has exercise terms",
+      "technicalName": "fibo-sec-dbt-ex:hasExerciseTerms",
+      "localName": "hasExerciseTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/ExerciseConventions/hasExerciseTerms",
+      "label": "has exercise terms",
+      "definition": "links a derivative, such as an option or entitlement, to any exercise terms that are specified therein",
+      "domain": [
+        "fibo-fbc-fi-fi:DerivativeInstrument"
+      ],
+      "range": [
+        "exercise terms"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has exercise window",
+      "technicalName": "fibo-sec-dbt-ex:hasExerciseWindow",
+      "localName": "hasExerciseWindow",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/ExerciseConventions/hasExerciseWindow",
+      "label": "has exercise window",
+      "definition": "indicates a period of time during which the option may be exercised as specified in the terms of the contract",
+      "domain": [],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    }
+  ],
+  "attributes": []
+}

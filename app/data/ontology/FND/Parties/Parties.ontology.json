@@ -1,0 +1,144 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Parties\\Parties.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/",
+  "summary": {
+    "nodes": 4,
+    "edges": 1,
+    "properties": 0,
+    "triples": 127
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "party role identification scheme",
+      "technicalName": "fibo-fnd-pty-pty:PartyRoleIdentificationScheme",
+      "localName": "PartyRoleIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/PartyRoleIdentificationScheme",
+      "label": "party role identification scheme",
+      "definition": "system for allocating identifiers to roles that parties play",
+      "parents": [
+        "cmns-id:IdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "party role identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "party role identifier",
+      "technicalName": "fibo-fnd-pty-pty:PartyRoleIdentifier",
+      "localName": "PartyRoleIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/PartyRoleIdentifier",
+      "label": "party role identifier",
+      "definition": "sequence of characters, capable of uniquely identifying a party based on a specific role that they play in some context",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-pts:PartyRole"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "party role identification scheme"
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "party role identification scheme"
+        }
+      ]
+    },
+    {
+      "name": "tax identification scheme",
+      "technicalName": "fibo-fnd-pty-pty:TaxIdentificationScheme",
+      "localName": "TaxIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/TaxIdentificationScheme",
+      "label": "tax identification scheme",
+      "definition": "identification scheme used to identify taxpayers in some jurisdiction",
+      "parents": [
+        "cmns-id:IdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "tax identifier",
+      "technicalName": "fibo-fnd-pty-pty:TaxIdentifier",
+      "localName": "TaxIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/TaxIdentifier",
+      "label": "tax identifier",
+      "definition": "identifier assigned to a taxpayer that enables compulsory financial charges and other levies to be imposed on the taxpayer by a governmental organization in order to fund government spending and various public expenditures",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-pts:Party"
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "tax identification scheme"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has mailing address",
+      "technicalName": "fibo-fnd-pty-pty:hasMailingAddress",
+      "localName": "hasMailingAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/hasMailingAddress",
+      "label": "has mailing address",
+      "definition": "identifies a physical address where an independent party can receive communications, including letters and packages",
+      "domain": [
+        "cmns-pts:Party"
+      ],
+      "range": [
+        "fibo-fnd-plc-adr:PhysicalAddress"
+      ]
+    }
+  ],
+  "attributes": []
+}

@@ -1,0 +1,458 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Places\\NorthAmerica\\USPostalServiceAddresses.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/",
+  "summary": {
+    "nodes": 22,
+    "edges": 1,
+    "properties": 0,
+    "triples": 392
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Locations/"
+  ],
+  "classes": [
+    {
+      "name": "complete address",
+      "technicalName": "fibo-fnd-plc-uspsa:CompleteAddress",
+      "localName": "CompleteAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/CompleteAddress",
+      "label": "complete address",
+      "definition": "delivery address that has all the address elements necessary to allow an exact match with the current Postal Service ZIP+4 and City State files to obtain the finest level of ZIP+4 and delivery point codes for the delivery address",
+      "parents": [
+        "standardized address"
+      ],
+      "rules": []
+    },
+    {
+      "name": "delivery address code set",
+      "technicalName": "fibo-fnd-plc-uspsa:DeliveryAddressCodeSet",
+      "localName": "DeliveryAddressCodeSet",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/DeliveryAddressCodeSet",
+      "label": "delivery address code set",
+      "definition": "system of numeric codes that substitute for specified delivery point details according to the U.S. Postal Service Publication 28",
+      "parents": [
+        "cmns-cds:CodeSet",
+        "cmns-id:IdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "U.S. Postal Service address identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "delivery point code",
+      "technicalName": "fibo-fnd-plc-uspsa:DeliveryPointCode",
+      "localName": "DeliveryPointCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/DeliveryPointCode",
+      "label": "delivery point code",
+      "definition": "specific set of digits between 00 and 99 assigned to a delivery point",
+      "parents": [
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "delivery point code set"
+        }
+      ]
+    },
+    {
+      "name": "delivery point code set",
+      "technicalName": "fibo-fnd-plc-uspsa:DeliveryPointCodeSet",
+      "localName": "DeliveryPointCodeSet",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/DeliveryPointCodeSet",
+      "label": "delivery point code set",
+      "definition": "system of numeric codes that substitute for specified delivery point details according to the U.S. Postal Service Publication 28",
+      "parents": [
+        "cmns-cds:CodeSet"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "delivery point code",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Department of State address",
+      "technicalName": "fibo-fnd-plc-uspsa:DepartmentOfStateAddress",
+      "localName": "DepartmentOfStateAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/DepartmentOfStateAddress",
+      "label": "Department of State address",
+      "definition": "delivery address whose delivery address line uses 'UNIT' followed by the unit identifier, followed by 'BOX' followed by box number, in place of a street address, 'DPO' as the literal value for the city, and the appropriate armed forces subdivision code in place of a subdivision (state) code",
+      "parents": [
+        "fibo-fnd-plc-adr:PhysicalAddress"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "mailbox"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "Department of State unit component"
+        },
+        {
+          "property": "cmns-loc:hasCityName",
+          "operator": "value",
+          "value": "DPO",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Department of State unit component",
+      "technicalName": "fibo-fnd-plc-uspsa:DepartmentOfStateUnitComponent",
+      "localName": "DepartmentOfStateUnitComponent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/DepartmentOfStateUnitComponent",
+      "label": "Department of State unit component",
+      "definition": "component of a Department of State address that includes 'UNIT' followed by the unit identifier",
+      "parents": [
+        "fibo-fnd-plc-adr:SupplementalAddressComponent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "value",
+          "value": "fibo-fnd-plc-adr:Unit",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "general delivery address",
+      "technicalName": "fibo-fnd-plc-uspsa:GeneralDeliveryAddress",
+      "localName": "GeneralDeliveryAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/GeneralDeliveryAddress",
+      "label": "general delivery address",
+      "definition": "delivery address that uses the words 'GENERAL DELIVERY', uppercase preferred, spelled out (no abbreviation), in place of a street address",
+      "parents": [
+        "fibo-fnd-plc-adr:PhysicalAddress"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-plc-adr:hasAddressLine1",
+          "operator": "value",
+          "value": "GENERAL DELIVERY",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "highway contract route",
+      "technicalName": "fibo-fnd-plc-uspsa:HighwayContractRoute",
+      "localName": "HighwayContractRoute",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/HighwayContractRoute",
+      "label": "highway contract route",
+      "definition": "highway contract route associated with an address",
+      "parents": [
+        "fibo-fnd-plc-adr:SupplementalAddressComponent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "value",
+          "value": "highway contract route designator",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "highway contract address",
+      "technicalName": "fibo-fnd-plc-uspsa:HighwayContractRouteAddress",
+      "localName": "HighwayContractRouteAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/HighwayContractRouteAddress",
+      "label": "highway contract address",
+      "definition": "delivery address whose delivery address line uses the abbreviation 'HC', followed by the route identifier, followed by 'BOX' followed by box number, in place of a street address",
+      "parents": [
+        "fibo-fnd-plc-adr:PhysicalAddress"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "mailbox"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "highway contract route"
+        }
+      ]
+    },
+    {
+      "name": "international address",
+      "technicalName": "fibo-fnd-plc-uspsa:InternationalAddress",
+      "localName": "InternationalAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/InternationalAddress",
+      "label": "international address",
+      "definition": "physical address that explicitly includes a country",
+      "parents": [
+        "fibo-fnd-plc-adr:PhysicalAddress"
+      ],
+      "rules": [
+        {
+          "property": "cmns-loc:hasCountry",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-loc:Country"
+        }
+      ]
+    },
+    {
+      "name": "mailbox",
+      "technicalName": "fibo-fnd-plc-uspsa:Mailbox",
+      "localName": "Mailbox",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/Mailbox",
+      "label": "mailbox",
+      "definition": "mailbox, other than a U.S. Post Office box, associated with an address",
+      "parents": [
+        "fibo-fnd-plc-adr:SupplementalAddressComponent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "value",
+          "value": "mailbox designator",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "overseas military address",
+      "technicalName": "fibo-fnd-plc-uspsa:OverseasMilitaryAddress",
+      "localName": "OverseasMilitaryAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/OverseasMilitaryAddress",
+      "label": "overseas military address",
+      "definition": "delivery address whose delivery address line uses an abbreviation for the unit or command such as 'CMR', 'PSC', or 'UNIT', or 'HC', followed by the unit identifier, followed by 'BOX' followed by box number, in place of a street address, either 'APO' or 'FPO' as the literal value for the city and the appropriate armed forces subdivision code in place of a subdivision (state) code",
+      "parents": [
+        "fibo-fnd-plc-adr:PhysicalAddress"
+      ],
+      "rules": [
+        {
+          "property": "cmns-loc:hasCityName",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-plc-adr:hasAddressLine1",
+          "operator": "some",
+          "value": "rdfs:Literal",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "private mail box address",
+      "technicalName": "fibo-fnd-plc-uspsa:PrivateMailBoxAddress",
+      "localName": "PrivateMailBoxAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/PrivateMailBoxAddress",
+      "label": "private mail box address",
+      "definition": "delivery address provided by a commercial mail receiving company that includes a supplementary address line containing the abbreviation 'PMB' or the pound \"#\" symbol followed by the mailbox number; alternatively, 'PMB' or '#\" and the mailbox number can be appended to the street address",
+      "parents": [
+        "fibo-fnd-plc-adr:ConventionalStreetAddress"
+      ],
+      "rules": []
+    },
+    {
+      "name": "Puerto Rico address",
+      "technicalName": "fibo-fnd-plc-uspsa:PuertoRicoAddress",
+      "localName": "PuertoRicoAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/PuertoRicoAddress",
+      "label": "Puerto Rico address",
+      "definition": "delivery address for a delivery point in Puerto Rico that may include a supplementary address line containing the abbreviation 'URB' followed by the name of the urbanization area that is appropriate for that address",
+      "parents": [
+        "fibo-fnd-plc-adr:ConventionalStreetAddress"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "urbanization"
+        }
+      ]
+    },
+    {
+      "name": "highway contract route address",
+      "technicalName": "fibo-fnd-plc-uspsa:RuralRoute",
+      "localName": "RuralRoute",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/RuralRoute",
+      "label": "highway contract route address",
+      "definition": "mail route outside the city or township limits in a rural area associated with an address",
+      "parents": [
+        "fibo-fnd-plc-adr:SupplementalAddressComponent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "value",
+          "value": "rural route designator",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rural route address",
+      "technicalName": "fibo-fnd-plc-uspsa:RuralRouteAddress",
+      "localName": "RuralRouteAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/RuralRouteAddress",
+      "label": "rural route address",
+      "definition": "delivery address whose delivery address line uses the abbreviation 'RR', followed by the route identifier, followed by 'BOX' followed by box number, in place of a street address",
+      "parents": [
+        "fibo-fnd-plc-adr:PhysicalAddress"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "highway contract route address"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "mailbox"
+        }
+      ]
+    },
+    {
+      "name": "standardized address",
+      "technicalName": "fibo-fnd-plc-uspsa:StandardizedAddress",
+      "localName": "StandardizedAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/StandardizedAddress",
+      "label": "standardized address",
+      "definition": "delivery address that is fully spelled out, abbreviated by using the Postal Service standard abbreviations or as given in the current Postal Service ZIP+4 file",
+      "parents": [
+        "fibo-fnd-plc-adr:PhysicalAddress"
+      ],
+      "rules": []
+    },
+    {
+      "name": "U.S. Postal Service address identifier",
+      "technicalName": "fibo-fnd-plc-uspsa:USPostalServiceAddressIdentifier",
+      "localName": "USPostalServiceAddressIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/USPostalServiceAddressIdentifier",
+      "label": "U.S. Postal Service address identifier",
+      "definition": "combined with the ZIP + 4 code, the delivery point code provides a unique identifier for every deliverable address served by the USPS",
+      "parents": [
+        "fibo-fnd-plc-adr:PhysicalAddressIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "ZIP+4 Code"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "delivery point code"
+        }
+      ]
+    },
+    {
+      "name": "urbanization",
+      "technicalName": "fibo-fnd-plc-uspsa:Urbanization",
+      "localName": "Urbanization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/Urbanization",
+      "label": "urbanization",
+      "definition": "an area, sector, or development within a larger geographic area",
+      "parents": [
+        "cmns-loc:CountrySubdivision"
+      ],
+      "rules": []
+    },
+    {
+      "name": "Zip Code",
+      "technicalName": "fibo-fnd-plc-uspsa:ZIPCode",
+      "localName": "ZIPCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/ZIPCode",
+      "label": "Zip Code",
+      "definition": "five-digit code code assigned to a delivery address indicating the state and post office or postal zone",
+      "parents": [
+        "fibo-fnd-plc-adr:Postcode"
+      ],
+      "rules": []
+    },
+    {
+      "name": "ZIP+4 Code",
+      "technicalName": "fibo-fnd-plc-uspsa:ZIPPlus4Code",
+      "localName": "ZIPPlus4Code",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/ZIPPlus4Code",
+      "label": "ZIP+4 Code",
+      "definition": "nine-digit number consisting of five digits, a hyphen, and four digits, which the USPS describes by its trademark ZIP+4",
+      "parents": [
+        "fibo-fnd-plc-adr:Postcode"
+      ],
+      "rules": []
+    },
+    {
+      "name": "zip code scheme",
+      "technicalName": "fibo-fnd-plc-uspsa:ZipCodeScheme",
+      "localName": "ZipCodeScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/ZipCodeScheme",
+      "label": "zip code scheme",
+      "definition": "system used in the U.S. to facilitate the delivery of mail, consisting of a five- or nine-digit code Zone Improvement Plan (ZIP) printed directly after the address, the first five digits (initial code) indicating the state and post office or postal zone, the last four (expanded code) the box section or number, portion of a rural route, building, or other specific delivery location",
+      "parents": [
+        "cmns-cds:CodeSet",
+        "cmns-id:IdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has urbanization",
+      "technicalName": "fibo-fnd-plc-uspsa:hasUrbanization",
+      "localName": "hasUrbanization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/NorthAmerica/USPostalServiceAddresses/hasUrbanization",
+      "label": "has urbanization",
+      "definition": "indicates area, sector, or development within a geographic area relevant to a delivery address",
+      "domain": [],
+      "range": [
+        "urbanization"
+      ]
+    }
+  ],
+  "attributes": []
+}

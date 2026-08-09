@@ -1,0 +1,1649 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FND\\Arrangements",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FND\\Arrangements\\Arrangements.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FND\\Arrangements\\Assessments.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FND\\Arrangements\\ClassificationSchemes.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FND\\Arrangements\\Documents.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FND\\Arrangements\\IdentifiersAndIndices.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FND\\Arrangements\\Lifecycles.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FND\\Arrangements\\Ratings.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FND\\Arrangements\\Reporting.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 8,
+    "classes": 50,
+    "edges": 32,
+    "attributes": 6
+  },
+  "classes": [
+    {
+      "name": "scheme",
+      "technicalName": "fibo-fnd-arr-arr:Scheme",
+      "localName": "Scheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Arrangements/Scheme",
+      "label": "scheme",
+      "definition": "structure or means of organizing information such as a blueprint, schema, numbering system, organization structure, measurement system, plan, taxonomy, or language for organizing information",
+      "parents": [
+        "cmns-col:Arrangement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "min",
+          "value": "0",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "appraisal",
+      "technicalName": "fibo-fnd-arr-asmt:Appraisal",
+      "localName": "Appraisal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/Appraisal",
+      "label": "appraisal",
+      "definition": "written estimate of the market value of something as of some point in time, typically provided by a qualified appraiser",
+      "parents": [
+        "assessment report"
+      ],
+      "rules": [
+        {
+          "property": "estimates value at",
+          "operator": "some",
+          "value": "appraised value",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:evaluates",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-oac-own:Asset"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isGeneratedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "appraiser"
+        }
+      ]
+    },
+    {
+      "name": "appraised value",
+      "technicalName": "fibo-fnd-arr-asmt:AppraisedValue",
+      "localName": "AppraisedValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/AppraisedValue",
+      "label": "appraised value",
+      "definition": "estimated value of some asset as of a given point in time",
+      "parents": [
+        "market value"
+      ],
+      "rules": []
+    },
+    {
+      "name": "appraiser",
+      "technicalName": "fibo-fnd-arr-asmt:Appraiser",
+      "localName": "Appraiser",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/Appraiser",
+      "label": "appraiser",
+      "definition": "party that evaluates or estimates the nature, quality, ability, or value of someone or something",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:provides",
+          "operator": "some",
+          "value": "appraisal",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:evaluates",
+          "operator": "min",
+          "value": "0",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "assessment activity",
+      "technicalName": "fibo-fnd-arr-asmt:AssessmentActivity",
+      "localName": "AssessmentActivity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/AssessmentActivity",
+      "label": "assessment activity",
+      "definition": "activity involving the evaluation or estimation of the nature, quality, ability, or value of someone or something",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "cmns-pts:AgentRole",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:evaluates",
+          "operator": "min",
+          "value": "0",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "assessment event",
+      "technicalName": "fibo-fnd-arr-asmt:AssessmentEvent",
+      "localName": "AssessmentEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/AssessmentEvent",
+      "label": "assessment event",
+      "definition": "event involving the evaluation or estimation of the nature, quality, or ability of someone or something",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "cmns-pts:AgentRole",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasOutput",
+          "operator": "some",
+          "value": "opinion",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "assessment activity"
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasOutput",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "assessment report"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:evaluates",
+          "operator": "min",
+          "value": "0",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "assessment report",
+      "technicalName": "fibo-fnd-arr-asmt:AssessmentReport",
+      "localName": "AssessmentReport",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/AssessmentReport",
+      "label": "assessment report",
+      "definition": "report that includes an opinion, judgement, appraisal, or view about something and typically the methodology and raw inputs used to arrive at that opinion",
+      "parents": [
+        "fibo-fnd-arr-rep:Report"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-rep:reportsOn",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "opinion"
+        }
+      ]
+    },
+    {
+      "name": "expected value",
+      "technicalName": "fibo-fnd-arr-asmt:ExpectedValue",
+      "localName": "ExpectedValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/ExpectedValue",
+      "label": "expected value",
+      "definition": "theoretical value that is anticipated based on a model or hypothesis",
+      "parents": [
+        "value"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fair value",
+      "technicalName": "fibo-fnd-arr-asmt:FairValue",
+      "localName": "FairValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/FairValue",
+      "label": "fair value",
+      "definition": "price that would be received to sell an asset, or paid to transfer a liability, in an orderly transaction between market participants at the measurement date",
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryAmount",
+        "quantitative value"
+      ],
+      "rules": []
+    },
+    {
+      "name": "market value",
+      "technicalName": "fibo-fnd-arr-asmt:MarketValue",
+      "localName": "MarketValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/MarketValue",
+      "label": "market value",
+      "definition": "price an asset would sell for in the market",
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryAmount",
+        "quantitative value"
+      ],
+      "rules": []
+    },
+    {
+      "name": "observed value",
+      "technicalName": "fibo-fnd-arr-asmt:ObservedValue",
+      "localName": "ObservedValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/ObservedValue",
+      "label": "observed value",
+      "definition": "value that is an actual data point collected from an experiment, survey, or observation",
+      "parents": [
+        "value"
+      ],
+      "rules": []
+    },
+    {
+      "name": "opinion",
+      "technicalName": "fibo-fnd-arr-asmt:Opinion",
+      "localName": "Opinion",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/Opinion",
+      "label": "opinion",
+      "definition": "judgement, appraisal, or view about something",
+      "parents": [],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isGeneratedBy",
+          "operator": "some",
+          "value": "cmns-pts:AgentRole",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:isOutputFrom",
+          "operator": "some",
+          "value": "assessment event",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "present value",
+      "technicalName": "fibo-fnd-arr-asmt:PresentValue",
+      "localName": "PresentValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/PresentValue",
+      "label": "present value",
+      "definition": "value of an asset today, which may be calculated from reference data and may based on its expected future value",
+      "parents": [
+        "quantitative value"
+      ],
+      "rules": []
+    },
+    {
+      "name": "qualitative value",
+      "technicalName": "fibo-fnd-arr-asmt:QualitativeValue",
+      "localName": "QualitativeValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/QualitativeValue",
+      "label": "qualitative value",
+      "definition": "value that has less precision or accuracy than a value determined via quantitative methods and which is usually expressed in codes rather than actual numbers",
+      "parents": [
+        "value"
+      ],
+      "rules": []
+    },
+    {
+      "name": "quantitative value",
+      "technicalName": "fibo-fnd-arr-asmt:QuantitativeValue",
+      "localName": "QuantitativeValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/QuantitativeValue",
+      "label": "quantitative value",
+      "definition": "value determined via quantitative methods, expressed as a numerical value in appropriate units",
+      "parents": [
+        "value",
+        "cmns-qtu:ScalarQuantityValue"
+      ],
+      "rules": []
+    },
+    {
+      "name": "reference value",
+      "technicalName": "fibo-fnd-arr-asmt:ReferenceValue",
+      "localName": "ReferenceValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/ReferenceValue",
+      "label": "reference value",
+      "definition": "value for something discernible for which evidence can be obtained",
+      "parents": [
+        "quantitative value",
+        "cmns-doc:Reference"
+      ],
+      "rules": []
+    },
+    {
+      "name": "valuation method",
+      "technicalName": "fibo-fnd-arr-asmt:ValuationMethod",
+      "localName": "ValuationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/ValuationMethod",
+      "label": "valuation method",
+      "definition": "method used to determine the present or expected worth of an asset",
+      "parents": [
+        "fibo-fnd-gao-obj:Strategy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "value",
+      "technicalName": "fibo-fnd-arr-asmt:Value",
+      "localName": "Value",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/Value",
+      "label": "value",
+      "definition": "perceived worth of something, such as a product, service, or asset to a company, customer, or stakeholder",
+      "parents": [
+        "cmns-cls:Aspect"
+      ],
+      "rules": []
+    },
+    {
+      "name": "value assessment",
+      "technicalName": "fibo-fnd-arr-asmt:ValueAssessment",
+      "localName": "ValueAssessment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/ValueAssessment",
+      "label": "value assessment",
+      "definition": "assessment event to estimate the value of something",
+      "parents": [
+        "assessment event"
+      ],
+      "rules": [
+        {
+          "property": "has appraiser",
+          "operator": "some",
+          "value": "cmns-pts:AgentRole",
+          "qualifier": null
+        },
+        {
+          "property": "applies methodology",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "valuation method"
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasOutput",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "appraisal"
+        }
+      ]
+    },
+    {
+      "name": "industry sector classification scheme",
+      "technicalName": "fibo-fnd-arr-cls:IndustrySectorClassificationScheme",
+      "localName": "IndustrySectorClassificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/ClassificationSchemes/IndustrySectorClassificationScheme",
+      "label": "industry sector classification scheme",
+      "definition": "system for allocating classifiers to organizations by industry sector",
+      "parents": [
+        "cmns-cls:ClassificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "industry sector classifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "industry sector classifier",
+      "technicalName": "fibo-fnd-arr-cls:IndustrySectorClassifier",
+      "localName": "IndustrySectorClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/ClassificationSchemes/IndustrySectorClassifier",
+      "label": "industry sector classifier",
+      "definition": "standardized classification or delineation for an organization, or possibly for a security representing an interest in a given organization, per some scheme for such delineation, by industry",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "industry sector classification scheme"
+        }
+      ]
+    },
+    {
+      "name": "financial record",
+      "technicalName": "fibo-fnd-arr-doc:FinancialRecord",
+      "localName": "FinancialRecord",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/FinancialRecord",
+      "label": "financial record",
+      "definition": "record of financial information",
+      "parents": [
+        "cmns-col:Collection",
+        "cmns-doc:Record"
+      ],
+      "rules": []
+    },
+    {
+      "name": "index",
+      "technicalName": "fibo-fnd-arr-id:Index",
+      "localName": "Index",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/Index",
+      "label": "index",
+      "definition": "indirect shortcut derived from and pointing into, a greater volume of values, data, information or knowledge",
+      "parents": [
+        "cmns-doc:Reference"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "indexing scheme"
+        },
+        {
+          "property": "is index to",
+          "operator": "exactly",
+          "value": "1",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "indexing scheme",
+      "technicalName": "fibo-fnd-arr-id:IndexingScheme",
+      "localName": "IndexingScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/IndexingScheme",
+      "label": "indexing scheme",
+      "definition": "system for indexing values, data, information, or knowledge",
+      "parents": [
+        "fibo-fnd-arr-arr:Scheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "index",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "reassignable identifier",
+      "technicalName": "fibo-fnd-arr-id:ReassignableIdentifier",
+      "localName": "ReassignableIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/ReassignableIdentifier",
+      "label": "reassignable identifier",
+      "definition": "identifier that uniquely identifies something for a given time period, and that may be reused to identify something else at a different point in time",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "has initial assignment date",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        },
+        {
+          "property": "has assignment termination date",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        }
+      ]
+    },
+    {
+      "name": "lifecycle",
+      "technicalName": "fibo-fnd-arr-lif:Lifecycle",
+      "localName": "Lifecycle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/Lifecycle",
+      "label": "lifecycle",
+      "definition": "arrangement that compares the cyclical nature of families, organizations, processes, products, marketing, and order management, portfolio management or other systems with the cradle to grave life stages (birth, growth, maturity, decay, and death) of living organisms",
+      "parents": [
+        "cmns-col:Arrangement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "lifecycle stage",
+          "qualifier": null
+        },
+        {
+          "property": "is lifecycle of",
+          "operator": "some",
+          "value": "owl:Thing",
+          "qualifier": null
+        },
+        {
+          "property": "has stage",
+          "operator": "some",
+          "value": "lifecycle stage",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "lifecycle event",
+      "technicalName": "fibo-fnd-arr-lif:LifecycleEvent",
+      "localName": "LifecycleEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/LifecycleEvent",
+      "label": "lifecycle event",
+      "definition": "kind of event that occurs during one or more stages of a lifecycle",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "lifecycle stage",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "lifecycle event occurrence",
+      "technicalName": "fibo-fnd-arr-lif:LifecycleEventOccurrence",
+      "localName": "LifecycleEventOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/LifecycleEventOccurrence",
+      "label": "lifecycle event occurrence",
+      "definition": "realization of an event in a stage of a lifecycle",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "lifecycle stage occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "lifecycle event"
+        }
+      ]
+    },
+    {
+      "name": "lifecycle occurrence",
+      "technicalName": "fibo-fnd-arr-lif:LifecycleOccurrence",
+      "localName": "LifecycleOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/LifecycleOccurrence",
+      "label": "lifecycle occurrence",
+      "definition": "realization of a lifecycle",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": [
+        {
+          "property": "has stage",
+          "operator": "some",
+          "value": "lifecycle stage occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "lifecycle"
+        }
+      ]
+    },
+    {
+      "name": "lifecycle stage",
+      "technicalName": "fibo-fnd-arr-lif:LifecycleStage",
+      "localName": "LifecycleStage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/LifecycleStage",
+      "label": "lifecycle stage",
+      "definition": "phase in a lifecycle",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "lifecycle",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "lifecycle event",
+          "qualifier": null
+        },
+        {
+          "property": "is stage of",
+          "operator": "some",
+          "value": "lifecycle",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "lifecycle stage occurrence",
+      "technicalName": "fibo-fnd-arr-lif:LifecycleStageOccurrence",
+      "localName": "LifecycleStageOccurrence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/LifecycleStageOccurrence",
+      "label": "lifecycle stage occurrence",
+      "definition": "realization of a phase in a given lifecycle",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "lifecycle event occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "is stage of",
+          "operator": "some",
+          "value": "lifecycle occurrence",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "lifecycle stage"
+        }
+      ]
+    },
+    {
+      "name": "lifecycle status",
+      "technicalName": "fibo-fnd-arr-lif:LifecycleStatus",
+      "localName": "LifecycleStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/LifecycleStatus",
+      "label": "lifecycle status",
+      "definition": "classifier indicating the position or state of something at a particular point in its life-cycle",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "has stage",
+          "operator": "some",
+          "value": "lifecycle stage occurrence",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "qualitative rating score",
+      "technicalName": "fibo-fnd-arr-rt:QualitativeRatingScore",
+      "localName": "QualitativeRatingScore",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/QualitativeRatingScore",
+      "label": "qualitative rating score",
+      "definition": "rating score that is represented as a qualitative code with respect to some rating scale",
+      "parents": [
+        "rating score",
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "quantitative rating score",
+      "technicalName": "fibo-fnd-arr-rt:QuantitativeRatingScore",
+      "localName": "QuantitativeRatingScore",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/QuantitativeRatingScore",
+      "label": "quantitative rating score",
+      "definition": "rating score that is a simple numeric value on some scale, such as a credit rating for an individual",
+      "parents": [
+        "rating score"
+      ],
+      "rules": [
+        {
+          "property": "has measure within scale",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    },
+    {
+      "name": "rating",
+      "technicalName": "fibo-fnd-arr-rt:Rating",
+      "localName": "Rating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/Rating",
+      "label": "rating",
+      "definition": "standing of something at a particular time, indicated by at least one scores with respect to some scale, based on an assessment by some party",
+      "parents": [
+        "fibo-fnd-arr-asmt:Opinion"
+      ],
+      "rules": [
+        {
+          "property": "has rating score",
+          "operator": "some",
+          "value": "rating score",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dt:hasDateOfIssuance",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isGeneratedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "rating party"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "rating issuer"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasEffectiveDate",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "rates",
+          "operator": "exactly",
+          "value": "1",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rating agency",
+      "technicalName": "fibo-fnd-arr-rt:RatingAgency",
+      "localName": "RatingAgency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingAgency",
+      "label": "rating agency",
+      "definition": "rating issuer that is also a rating scale publisher, frequently but not always an independent rating service",
+      "parents": [
+        "rating issuer",
+        "rating scale publisher"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "cmns-org:FormalOrganization",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rating assessment activity",
+      "technicalName": "fibo-fnd-arr-rt:RatingAssessmentActivity",
+      "localName": "RatingAssessmentActivity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingAssessmentActivity",
+      "label": "rating assessment activity",
+      "definition": "assessment activity resulting in a grade or score and potentially a report describing the score and the process used to determine that score",
+      "parents": [
+        "fibo-fnd-arr-asmt:AssessmentActivity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "rating party",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rating assessment event",
+      "technicalName": "fibo-fnd-arr-rt:RatingAssessmentEvent",
+      "localName": "RatingAssessmentEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingAssessmentEvent",
+      "label": "rating assessment event",
+      "definition": "individual assessment resulting in a grade or score and potentially a report describing the score",
+      "parents": [
+        "fibo-fnd-arr-asmt:AssessmentEvent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "rating party",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasOutput",
+          "operator": "some",
+          "value": "rating",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "rating assessment activity"
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasOutput",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "rating report"
+        }
+      ]
+    },
+    {
+      "name": "rating issuer",
+      "technicalName": "fibo-fnd-arr-rt:RatingIssuer",
+      "localName": "RatingIssuer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingIssuer",
+      "label": "rating issuer",
+      "definition": "party that is responsible for issuing ratings",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:issues",
+          "operator": "some",
+          "value": "rating",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rating party",
+      "technicalName": "fibo-fnd-arr-rt:RatingParty",
+      "localName": "RatingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingParty",
+      "label": "rating party",
+      "definition": "person, organization or group that analyzes some aspect of something and develops a rating",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:generates",
+          "operator": "some",
+          "value": "rating",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rating report",
+      "technicalName": "fibo-fnd-arr-rt:RatingReport",
+      "localName": "RatingReport",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingReport",
+      "label": "rating report",
+      "definition": "report describing a set of ratings",
+      "parents": [
+        "fibo-fnd-arr-asmt:AssessmentReport"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-rep:reportsOn",
+          "operator": "some",
+          "value": "rating",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rating scale",
+      "technicalName": "fibo-fnd-arr-rt:RatingScale",
+      "localName": "RatingScale",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingScale",
+      "label": "rating scale",
+      "definition": "system for assigning a value to something according to some scale with respect to quality, a standard, or ranking",
+      "parents": [
+        "cmns-cls:ClassificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "rating score",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "rating scale publisher"
+        },
+        {
+          "property": "has worst measure",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "has best measure",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    },
+    {
+      "name": "rating scale publisher",
+      "technicalName": "fibo-fnd-arr-rt:RatingScalePublisher",
+      "localName": "RatingScalePublisher",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingScalePublisher",
+      "label": "rating scale publisher",
+      "definition": "party responsible for managing one or more rating schemes and potentially publishing ratings based on those schemes",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:manages",
+          "operator": "some",
+          "value": "rating scale",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rating score",
+      "technicalName": "fibo-fnd-arr-rt:RatingScore",
+      "localName": "RatingScore",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingScore",
+      "label": "rating score",
+      "definition": "grade, classification, or ranking of for something in accordance with some rating scale",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "rating scale"
+        },
+        {
+          "property": "has measure within scale",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    },
+    {
+      "name": "report",
+      "technicalName": "fibo-fnd-arr-rep:Report",
+      "localName": "Report",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/Report",
+      "label": "report",
+      "definition": "document that provides a structured description of something, prepared on ad hoc, periodic, recurring, regular, or as required basis",
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "reporting party",
+          "qualifier": null
+        },
+        {
+          "property": "is reported to",
+          "operator": "some",
+          "value": "cmns-pts:PartyRole",
+          "qualifier": null
+        },
+        {
+          "property": "is submitted to",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-pts:PartyRole"
+        },
+        {
+          "property": "has report date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "has report date time",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:DateTime"
+        },
+        {
+          "property": "fibo-fnd-arr-doc:hasReportingPeriod",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:DatePeriod"
+        },
+        {
+          "property": "is submitted by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "submitter"
+        }
+      ]
+    },
+    {
+      "name": "reporting party",
+      "technicalName": "fibo-fnd-arr-rep:ReportingParty",
+      "localName": "ReportingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/ReportingParty",
+      "label": "reporting party",
+      "definition": "party providing a report, typically in response to some contractual, legal, regulatory or other business requirement",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:provides",
+          "operator": "some",
+          "value": "report",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "request",
+      "technicalName": "fibo-fnd-arr-rep:Request",
+      "localName": "Request",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/Request",
+      "label": "request",
+      "definition": "event in which some party asks another party for something at some point in time",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "some",
+          "value": "request activity",
+          "qualifier": null
+        },
+        {
+          "property": "is requested of",
+          "operator": "some",
+          "value": "cmns-pts:PartyRole",
+          "qualifier": null
+        },
+        {
+          "property": "is requested by",
+          "operator": "some",
+          "value": "requester",
+          "qualifier": null
+        },
+        {
+          "property": "has request date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "has request date time",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:DateTime"
+        }
+      ]
+    },
+    {
+      "name": "request activity",
+      "technicalName": "fibo-fnd-arr-rep:RequestActivity",
+      "localName": "RequestActivity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/RequestActivity",
+      "label": "request activity",
+      "definition": "activity in which some party asks another party for something or to do something",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": [
+        {
+          "property": "requests",
+          "operator": "some",
+          "value": "owl:Thing",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "requester",
+      "technicalName": "fibo-fnd-arr-rep:Requester",
+      "localName": "Requester",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/Requester",
+      "label": "requester",
+      "definition": "party that asks for something",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": []
+    },
+    {
+      "name": "submitter",
+      "technicalName": "fibo-fnd-arr-rep:Submitter",
+      "localName": "Submitter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/Submitter",
+      "label": "submitter",
+      "definition": "party presenting something, such as a regulatory report",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "submits",
+          "operator": "some",
+          "value": "report",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "applies methodology",
+      "technicalName": "fibo-fnd-arr-asmt:appliesMethodology",
+      "localName": "appliesMethodology",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/appliesMethodology",
+      "label": "applies methodology",
+      "definition": "indicates the strategy used for the purposes of determining the fair market or present value of something",
+      "domain": [],
+      "range": [
+        "valuation method"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "estimates value at",
+      "technicalName": "fibo-fnd-arr-asmt:estimatesValueAt",
+      "localName": "estimatesValueAt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/estimatesValueAt",
+      "label": "estimates value at",
+      "definition": "provides an approximate value of some asset as of some point in time",
+      "domain": [],
+      "range": [
+        "appraised value"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has appraiser",
+      "technicalName": "fibo-fnd-arr-asmt:hasAppraiser",
+      "localName": "hasAppraiser",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/hasAppraiser",
+      "label": "has appraiser",
+      "definition": "relates an assessment or report to an agent that conducts the assessment",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has date of assessment",
+      "technicalName": "fibo-fnd-arr-asmt:hasDateOfAssessment",
+      "localName": "hasDateOfAssessment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/hasDateOfAssessment",
+      "label": "has date of assessment",
+      "definition": "date on which an assessment process was completed",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has estimated value",
+      "technicalName": "fibo-fnd-arr-asmt:hasEstimatedValue",
+      "localName": "hasEstimatedValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/hasEstimatedValue",
+      "label": "has estimated value",
+      "definition": "relates something to its estimated value",
+      "domain": [],
+      "range": [
+        "appraised value"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is estimated value of",
+      "technicalName": "fibo-fnd-arr-asmt:isEstimatedValueOf",
+      "localName": "isEstimatedValueOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/isEstimatedValueOf",
+      "label": "is estimated value of",
+      "definition": "relates an appraised value to the asset of interest as of the date of the assessment",
+      "domain": [
+        "appraised value"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has expiration date",
+      "technicalName": "fibo-fnd-arr-doc:hasExpirationDate",
+      "localName": "hasExpirationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/hasExpirationDate",
+      "label": "has expiration date",
+      "definition": "links something, typically an agreement, contract, document, or perishable item, with an expiration date",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has record",
+      "technicalName": "fibo-fnd-arr-doc:hasRecord",
+      "localName": "hasRecord",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/hasRecord",
+      "label": "has record",
+      "definition": "links something to a record that pertains to it",
+      "domain": [],
+      "range": [
+        "cmns-doc:Record"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has reporting period",
+      "technicalName": "fibo-fnd-arr-doc:hasReportingPeriod",
+      "localName": "hasReportingPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/hasReportingPeriod",
+      "label": "has reporting period",
+      "definition": "specifies the reporting period for which a report or something else, such as a market rate or economic indicator, applies",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has termination date",
+      "technicalName": "fibo-fnd-arr-doc:hasTerminationDate",
+      "localName": "hasTerminationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/hasTerminationDate",
+      "label": "has termination date",
+      "definition": "links something, typically an agreement, contract, document, or process, with a date on which it is scheduled to be or was terminated",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is index to",
+      "technicalName": "fibo-fnd-arr-id:isIndexTo",
+      "localName": "isIndexTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/isIndexTo",
+      "label": "is index to",
+      "definition": "that to which the index refers",
+      "domain": [
+        "index"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has lifecycle",
+      "technicalName": "fibo-fnd-arr-lif:hasLifecycle",
+      "localName": "hasLifecycle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/hasLifecycle",
+      "label": "has lifecycle",
+      "definition": "relates something, such as a product, trade, or related process, to a lifecycle that characterizes it",
+      "domain": [],
+      "range": [
+        "lifecycle"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has stage",
+      "technicalName": "fibo-fnd-arr-lif:hasStage",
+      "localName": "hasStage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/hasStage",
+      "label": "has stage",
+      "definition": "relates something, such as a product or trade lifecycle or related process, to a phase or stage in that lifecycle",
+      "domain": [],
+      "range": [
+        "anonymous restriction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is lifecycle of",
+      "technicalName": "fibo-fnd-arr-lif:isLifecycleOf",
+      "localName": "isLifecycleOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/isLifecycleOf",
+      "label": "is lifecycle of",
+      "definition": "relates a lifecycle to something it characterizes",
+      "domain": [
+        "lifecycle"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is stage of",
+      "technicalName": "fibo-fnd-arr-lif:isStageOf",
+      "localName": "isStageOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/isStageOf",
+      "label": "is stage of",
+      "definition": "relates a stage in a product or trade lifecycle or process to the lifecycle or process that it is a stage of",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has rating",
+      "technicalName": "fibo-fnd-arr-rt:hasRating",
+      "localName": "hasRating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/hasRating",
+      "label": "has rating",
+      "definition": "indicates the rating assigned to a thing based on a grade or score according to a particular rating scale",
+      "domain": [],
+      "range": [
+        "rating"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has rating score",
+      "technicalName": "fibo-fnd-arr-rt:hasRatingScore",
+      "localName": "hasRatingScore",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/hasRatingScore",
+      "label": "has rating score",
+      "definition": "indicates the grade or score associated with a rating with respect to a particular rating scale",
+      "domain": [
+        "rating"
+      ],
+      "range": [
+        "rating score"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "produces ratings for",
+      "technicalName": "fibo-fnd-arr-rt:producesRatingsFor",
+      "localName": "producesRatingsFor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/producesRatingsFor",
+      "label": "produces ratings for",
+      "definition": "issuer for which ratings are produced or posted through",
+      "domain": [
+        "rating party"
+      ],
+      "range": [
+        "rating issuer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "rates",
+      "technicalName": "fibo-fnd-arr-rt:rates",
+      "localName": "rates",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/rates",
+      "label": "rates",
+      "definition": "indicates the instrument, party or something else to which a rating applies",
+      "domain": [
+        "rating"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "uses rating performer",
+      "technicalName": "fibo-fnd-arr-rt:usesRatingParty",
+      "localName": "usesRatingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/usesRatingParty",
+      "label": "uses rating performer",
+      "definition": "rating performer an issuer uses to assess ratings",
+      "domain": [
+        "rating issuer"
+      ],
+      "range": [
+        "rating party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has report date",
+      "technicalName": "fibo-fnd-arr-rep:hasReportDate",
+      "localName": "hasReportDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/hasReportDate",
+      "label": "has report date",
+      "definition": "date on which a report was issued",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has report date time",
+      "technicalName": "fibo-fnd-arr-rep:hasReportDateTime",
+      "localName": "hasReportDateTime",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/hasReportDateTime",
+      "label": "has report date time",
+      "definition": "date and time at which a report was issued",
+      "domain": [],
+      "range": [
+        "cmns-dt:DateTime"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has request date",
+      "technicalName": "fibo-fnd-arr-rep:hasRequestDate",
+      "localName": "hasRequestDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/hasRequestDate",
+      "label": "has request date",
+      "definition": "date on which a request was made",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has request date time",
+      "technicalName": "fibo-fnd-arr-rep:hasRequestDateTime",
+      "localName": "hasRequestDateTime",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/hasRequestDateTime",
+      "label": "has request date time",
+      "definition": "date and time at which a request was made",
+      "domain": [],
+      "range": [
+        "cmns-dt:DateTime"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is reported to",
+      "technicalName": "fibo-fnd-arr-rep:isReportedTo",
+      "localName": "isReportedTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/isReportedTo",
+      "label": "is reported to",
+      "definition": "indicates the party to which something is reported",
+      "domain": [],
+      "range": [
+        "cmns-pts:PartyRole"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is requested by",
+      "technicalName": "fibo-fnd-arr-rep:isRequestedBy",
+      "localName": "isRequestedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/isRequestedBy",
+      "label": "is requested by",
+      "definition": "indicates the party that asks for something",
+      "domain": [],
+      "range": [
+        "requester"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is requested of",
+      "technicalName": "fibo-fnd-arr-rep:isRequestedOf",
+      "localName": "isRequestedOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/isRequestedOf",
+      "label": "is requested of",
+      "definition": "indicates the party that is asked for something",
+      "domain": [],
+      "range": [
+        "cmns-pts:PartyRole"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is submitted by",
+      "technicalName": "fibo-fnd-arr-rep:isSubmittedBy",
+      "localName": "isSubmittedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/isSubmittedBy",
+      "label": "is submitted by",
+      "definition": "indicates the party that submits something",
+      "domain": [],
+      "range": [
+        "submitter"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is submitted to",
+      "technicalName": "fibo-fnd-arr-rep:isSubmittedTo",
+      "localName": "isSubmittedTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/isSubmittedTo",
+      "label": "is submitted to",
+      "definition": "indicates the party to which something is submitted",
+      "domain": [],
+      "range": [
+        "cmns-pts:PartyRole"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "reports on",
+      "technicalName": "fibo-fnd-arr-rep:reportsOn",
+      "localName": "reportsOn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/reportsOn",
+      "label": "reports on",
+      "definition": "indicates a subject matter, observation(s), assessment(s), focus or other topic of a report",
+      "domain": [
+        "report"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "requests",
+      "technicalName": "fibo-fnd-arr-rep:requests",
+      "localName": "requests",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/requests",
+      "label": "requests",
+      "definition": "asks for something",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "submits",
+      "technicalName": "fibo-fnd-arr-rep:submits",
+      "localName": "submits",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/submits",
+      "label": "submits",
+      "definition": "presents something (a proposal, application, report, or other document) for consideration or review",
+      "domain": [
+        "submitter"
+      ],
+      "range": []
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has collection size",
+      "technicalName": "fibo-fnd-arr-arr:hasCollectionSize",
+      "localName": "hasCollectionSize",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Arrangements/hasCollectionSize",
+      "label": "has collection size",
+      "definition": "indicates the number of elements in a given collection",
+      "domain": [],
+      "range": [
+        "xsd:nonNegativeInteger"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has assignment termination date",
+      "technicalName": "fibo-fnd-arr-id:hasAssignmentTerminationDate",
+      "localName": "hasAssignmentTerminationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/hasAssignmentTerminationDate",
+      "label": "has assignment termination date",
+      "definition": "the date on which an identifier is released from its assignment to some resource",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has initial assignment date",
+      "technicalName": "fibo-fnd-arr-id:hasInitialAssignmentDate",
+      "localName": "hasInitialAssignmentDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/hasInitialAssignmentDate",
+      "label": "has initial assignment date",
+      "definition": "the date on which an identifier is first assigned to some resource",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has best measure",
+      "technicalName": "fibo-fnd-arr-rt:hasBestMeasure",
+      "localName": "hasBestMeasure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/hasBestMeasure",
+      "label": "has best measure",
+      "definition": "indicates the 'best' (most desirable) possible value for a rating score's hasMeasureWithinScale property",
+      "domain": [
+        "rating scale"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has measure within scale",
+      "technicalName": "fibo-fnd-arr-rt:hasMeasureWithinScale",
+      "localName": "hasMeasureWithinScale",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/hasMeasureWithinScale",
+      "label": "has measure within scale",
+      "definition": "indicates a relative, numeric measure or ordering on a rating scale",
+      "domain": [
+        "rating score"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has worst measure",
+      "technicalName": "fibo-fnd-arr-rt:hasWorstMeasure",
+      "localName": "hasWorstMeasure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/hasWorstMeasure",
+      "label": "has worst measure",
+      "definition": "indicates the 'worst' (least desirable) possible value for a rating score's hasMeasureWithinScale property",
+      "domain": [
+        "rating scale"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    }
+  ]
+}

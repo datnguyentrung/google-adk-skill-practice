@@ -1,0 +1,3425 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Funds",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Funds\\CollectiveInvestmentVehicles.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\SEC\\Funds\\Funds.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 2,
+    "classes": 91,
+    "edges": 88,
+    "attributes": 41
+  },
+  "classes": [
+    {
+      "name": "accumulating share class",
+      "technicalName": "fibo-sec-fund-civ:AccumulatingShareClass",
+      "localName": "AccumulatingShareClass",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/AccumulatingShareClass",
+      "label": "accumulating share class",
+      "definition": "A share class in which there is no option to reinvest.",
+      "parents": [
+        "fund share class unit"
+      ],
+      "rules": []
+    },
+    {
+      "name": "asset class strategy",
+      "technicalName": "fibo-sec-fund-civ:AssetClassStrategy",
+      "localName": "AssetClassStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/AssetClassStrategy",
+      "label": "asset class strategy",
+      "definition": "Strategy which is asset class based.",
+      "parents": [
+        "fund portfolio investment limitations"
+      ],
+      "rules": [
+        {
+          "property": "identifies asset types by",
+          "operator": "some",
+          "value": "fibo-sec-sec-cls:FinancialInstrumentClassifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "common share in fund",
+      "technicalName": "fibo-sec-fund-civ:CommonShareInFund",
+      "localName": "CommonShareInFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/CommonShareInFund",
+      "label": "common share in fund",
+      "definition": "A share unit in a fund, which is classified as a Common Share class.",
+      "parents": [
+        "fund share class unit"
+      ],
+      "rules": []
+    },
+    {
+      "name": "currency strategy",
+      "technicalName": "fibo-sec-fund-civ:CurrencyStrategy",
+      "localName": "CurrencyStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/CurrencyStrategy",
+      "label": "currency strategy",
+      "definition": "Strategy which is currency based.",
+      "parents": [
+        "fund portfolio investment limitations"
+      ],
+      "rules": []
+    },
+    {
+      "name": "distributing share class",
+      "technicalName": "fibo-sec-fund-civ:DistributingShareClass",
+      "localName": "DistributingShareClass",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/DistributingShareClass",
+      "label": "distributing share class",
+      "definition": null,
+      "parents": [
+        "fund share class unit"
+      ],
+      "rules": []
+    },
+    {
+      "name": "equity fund",
+      "technicalName": "fibo-sec-fund-civ:EquityFund",
+      "localName": "EquityFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/EquityFund",
+      "label": "equity fund",
+      "definition": "A fund which invests in at least 85% shares.",
+      "parents": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "equity portfolio",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "equity portfolio",
+      "technicalName": "fibo-sec-fund-civ:EquityPortfolio",
+      "localName": "EquityPortfolio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/EquityPortfolio",
+      "label": "equity portfolio",
+      "definition": "A portfolio which has at least 85% exposure to shares.",
+      "parents": [
+        "fund portfolio"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-be-oac-cown:Shareholding",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fonds commun de placement",
+      "technicalName": "fibo-sec-fund-civ:FondsCommunDePlacement",
+      "localName": "FondsCommunDePlacement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FondsCommunDePlacement",
+      "label": "fonds commun de placement",
+      "definition": "open-ended collective investment fund, which is a contractual form set up between the fund manager and investors and not a separate legal entity",
+      "parents": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund accountant",
+      "technicalName": "fibo-sec-fund-civ:FundAccountant",
+      "localName": "FundAccountant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundAccountant",
+      "label": "fund accountant",
+      "definition": "The party that keeps accounting records of the available assets and liabilities of the Fund. It calculates dealing prices, the Net Asset Value (NAV) of the Fund, and may provide fund performance and tax data. Can be subcontracted by the FundAdministrator.",
+      "parents": [
+        "funds processing party"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund bond class unit",
+      "technicalName": "fibo-sec-fund-civ:FundBondClassUnit",
+      "localName": "FundBondClassUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundBondClassUnit",
+      "label": "fund bond class unit",
+      "definition": "A fund unit which takes the form of debt in that fund.",
+      "parents": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "rules": [
+        {
+          "property": "has expected coupon",
+          "operator": "some",
+          "value": "fund bond unit coupon",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-gao-obj:hasStrategy",
+          "operator": "some",
+          "value": "fund unit distribution policy",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund bond unit coupon",
+      "technicalName": "fibo-sec-fund-civ:FundBondUnitCoupon",
+      "localName": "FundBondUnitCoupon",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundBondUnitCoupon",
+      "label": "fund bond unit coupon",
+      "definition": "A fixed coupon paid out to holders of the Fund Bond Unit.",
+      "parents": [
+        "fibo-fnd-acc-cur:InterestRate"
+      ],
+      "rules": [
+        {
+          "property": "has policy terms",
+          "operator": "some",
+          "value": "fund coupon policy",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund cash distribution policy",
+      "technicalName": "fibo-sec-fund-civ:FundCashDistributionPolicy",
+      "localName": "FundCashDistributionPolicy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundCashDistributionPolicy",
+      "label": "fund cash distribution policy",
+      "definition": "Policy for distribution of cash dividends or notes in the event that the fund units have a distribution policy of \"Cash\" rather than \"Reinvestment\".",
+      "parents": [
+        "fund unit distribution policy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund classification",
+      "technicalName": "fibo-sec-fund-civ:FundClassification",
+      "localName": "FundClassification",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundClassification",
+      "label": "fund classification",
+      "definition": "The category of the fund according to the asset class. This is a published code by which the Fund is classified. Further notes: Could be EFCF codes. This is the way in which \"Type of fund\" is articulated.",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-sec-sec-pls:CollectiveInvestmentVehicle",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund classification scheme",
+      "technicalName": "fibo-sec-fund-civ:FundClassificationScheme",
+      "localName": "FundClassificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundClassificationScheme",
+      "label": "fund classification scheme",
+      "definition": "A published scheme for the category of a fund according to the asset class.",
+      "parents": [
+        "cmns-cls:ClassificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "fund classification",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund coupon policy",
+      "technicalName": "fibo-sec-fund-civ:FundCouponPolicy",
+      "localName": "FundCouponPolicy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundCouponPolicy",
+      "label": "fund coupon policy",
+      "definition": "Terms for the expected distribution of bond unit coupons.",
+      "parents": [
+        "fund cash distribution policy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund depositary",
+      "technicalName": "fibo-sec-fund-civ:FundDepositary",
+      "localName": "FundDepositary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundDepositary",
+      "label": "fund depositary",
+      "definition": "The party that holds and safeguards holdings owned by a fund. It is also responsible for compliance of the portfolio with legal ratios etc.",
+      "parents": [
+        "funds processing party"
+      ],
+      "rules": [
+        {
+          "property": "provides depositary service for",
+          "operator": "some",
+          "value": "fibo-sec-fund-fund:FundUnit",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund distribution policy",
+      "technicalName": "fibo-sec-fund-civ:FundDistributionPolicy",
+      "localName": "FundDistributionPolicy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundDistributionPolicy",
+      "label": "fund distribution policy",
+      "definition": "policy indicating the overall strategy or limitations on distribution for the fund",
+      "parents": [
+        "fibo-fnd-law-lcap:Policy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund distributor",
+      "technicalName": "fibo-sec-fund-civ:FundDistributor",
+      "localName": "FundDistributor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundDistributor",
+      "label": "fund distributor",
+      "definition": "an entity through which a fund may be bought by or for an investor. This may be on a discretionary or advisory basis, or as an execution-only service. Definition origin:EFAMA DD",
+      "parents": [
+        "funds processing party"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund dividend policy",
+      "technicalName": "fibo-sec-fund-civ:FundDividendPolicy",
+      "localName": "FundDividendPolicy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundDividendPolicy",
+      "label": "fund dividend policy",
+      "definition": "Terms for the expected distributions of dividends.",
+      "parents": [
+        "fund cash distribution policy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund investment objective",
+      "technicalName": "fibo-sec-fund-civ:FundInvestmentObjective",
+      "localName": "FundInvestmentObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundInvestmentObjective",
+      "label": "fund investment objective",
+      "definition": "The aim of a Fund e.g outperfom a given benchmark.",
+      "parents": [
+        "fibo-fnd-gao-obj:InvestmentObjective"
+      ],
+      "rules": [
+        {
+          "property": "stated in",
+          "operator": "some",
+          "value": "fibo-sec-sec-iss:Prospectus",
+          "qualifier": null
+        },
+        {
+          "property": "has intended risk level",
+          "operator": "some",
+          "value": "risk level",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund investment policy",
+      "technicalName": "fibo-sec-fund-civ:FundInvestmentPolicy",
+      "localName": "FundInvestmentPolicy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundInvestmentPolicy",
+      "label": "fund investment policy",
+      "definition": "policy that the fund implements in order to achieve the stated fund objectives",
+      "parents": [
+        "fibo-fnd-law-lcap:Policy"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "portfolio investment strategy",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "fund investment restrictions set",
+          "qualifier": null
+        },
+        {
+          "property": "stipulates benchmark",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "fibo-ind-ind-ind:MarketRate"
+        }
+      ]
+    },
+    {
+      "name": "fund legal form documentation",
+      "technicalName": "fibo-sec-fund-civ:FundLegalFormDocumentation",
+      "localName": "FundLegalFormDocumentation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundLegalFormDocumentation",
+      "label": "fund legal form documentation",
+      "definition": "For a fund which is constituted under the law of contract, the constitution or articles that define the fund. These are embodied in a Contract.",
+      "parents": [
+        "fibo-fnd-law-cor:Constitution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund order desk",
+      "technicalName": "fibo-sec-fund-civ:FundOrderDesk",
+      "localName": "FundOrderDesk",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundOrderDesk",
+      "label": "fund order desk",
+      "definition": "The Fund Order Desk is a party to the Fund Order Desk Account.",
+      "parents": [
+        "fibo-fbc-pas-caa:AccountProvider"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "cmns-org:LegalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund portfolio",
+      "technicalName": "fibo-sec-fund-civ:FundPortfolio",
+      "localName": "FundPortfolio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundPortfolio",
+      "label": "fund portfolio",
+      "definition": "An account containing a number of financial instruments along with cash positions in one or more currencies and belonging to a Fund",
+      "parents": [
+        "fibo-fnd-oac-own:Portfolio"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:Portfolio",
+          "qualifier": null
+        },
+        {
+          "property": "implements fund policy",
+          "operator": "some",
+          "value": "fund portfolio investment policy",
+          "qualifier": null
+        },
+        {
+          "property": "strategy",
+          "operator": "some",
+          "value": "portfolio investment strategy",
+          "qualifier": null
+        },
+        {
+          "property": "assessed against",
+          "operator": "some",
+          "value": "portfolio benchmark",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-acc-cur:hasMonetaryAmount",
+          "operator": "some",
+          "value": "fibo-fbc-pas-caa:Balance",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund portfolio investment limitations",
+      "technicalName": "fibo-sec-fund-civ:FundPortfolioInvestmentLimitations",
+      "localName": "FundPortfolioInvestmentLimitations",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundPortfolioInvestmentLimitations",
+      "label": "fund portfolio investment limitations",
+      "definition": "Detailed Policy on approximately how the portfolio is to be allocated to achieve the stated investment goals. This underpins the detailed strategy of how to achieve this.",
+      "parents": [
+        "fund investment restrictions set"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund portfolio investment policy",
+      "technicalName": "fibo-sec-fund-civ:FundPortfolioInvestmentPolicy",
+      "localName": "FundPortfolioInvestmentPolicy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundPortfolioInvestmentPolicy",
+      "label": "fund portfolio investment policy",
+      "definition": "policy with respect to allocation of the portfolio that is designed to meet the stated investment strategy and goals",
+      "parents": [
+        "fibo-fnd-law-lcap:Policy"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "portfolio investment strategy",
+          "qualifier": null
+        },
+        {
+          "property": "defines allocations",
+          "operator": "some",
+          "value": "fund portfolio investment limitations",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund processing general terms",
+      "technicalName": "fibo-sec-fund-civ:FundProcessingGeneralTerms",
+      "localName": "FundProcessingGeneralTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundProcessingGeneralTerms",
+      "label": "fund processing general terms",
+      "definition": "Formal terms for general processing of the fund. These set out what the investor and the fund may or may not do.",
+      "parents": [
+        "fund processing terms"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund processing terms",
+      "technicalName": "fibo-sec-fund-civ:FundProcessingTerms",
+      "localName": "FundProcessingTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundProcessingTerms",
+      "label": "fund processing terms",
+      "definition": "Formal terms for processing of the fund. These set out what the investor and the fund may or may not do. These include terms for redemption and subscription processing as well as general processing terms. ISO FIBIM definition: Processing characteristics linked to the instrument, ie, not to the market.",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractualCommitment"
+      ],
+      "rules": [
+        {
+          "property": "has default settlement convention",
+          "operator": "some",
+          "value": "fibo-fbc-fi-stl:SettlementConvention",
+          "qualifier": null
+        },
+        {
+          "property": "defines main fund order desk account",
+          "operator": "some",
+          "value": "funds processing account",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund redemption restriction",
+      "technicalName": "fibo-sec-fund-civ:FundRedemptionRestriction",
+      "localName": "FundRedemptionRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundRedemptionRestriction",
+      "label": "fund redemption restriction",
+      "definition": null,
+      "parents": [
+        "fibo-sec-sec-rst:SecuritiesRestriction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund redemption terms",
+      "technicalName": "fibo-sec-fund-civ:FundRedemptionTerms",
+      "localName": "FundRedemptionTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundRedemptionTerms",
+      "label": "fund redemption terms",
+      "definition": "Formal terms for redemption of units in the fund. These set out what the investor and the fund may or may not do.",
+      "parents": [
+        "fund processing terms"
+      ],
+      "rules": [
+        {
+          "property": "has additional redemption restrictions",
+          "operator": "some",
+          "value": "refer to fund order desk",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund reinvestment policy",
+      "technicalName": "fibo-sec-fund-civ:FundReinvestmentPolicy",
+      "localName": "FundReinvestmentPolicy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundReinvestmentPolicy",
+      "label": "fund reinvestment policy",
+      "definition": "Terms for the expected reinvestment of profits on fund units.",
+      "parents": [
+        "fund unit distribution policy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund share class unit",
+      "technicalName": "fibo-sec-fund-civ:FundShareClassUnit",
+      "localName": "FundShareClassUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundShareClassUnit",
+      "label": "fund share class unit",
+      "definition": "The legal structure in which you can purchase part of an investment pool, defined by a variety of characteristics like investor type, minimum size of investment, distribution type, fee and currency. A fund unit which gives the holder an equity stake in the fund.",
+      "parents": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasStrategy",
+          "operator": "some",
+          "value": "fund unit distribution policy",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund subscription terms",
+      "technicalName": "fibo-sec-fund-civ:FundSubscriptionTerms",
+      "localName": "FundSubscriptionTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundSubscriptionTerms",
+      "label": "fund subscription terms",
+      "definition": "Subscription terms for the fund. Further notes: ISO FIBIM, EFAMA DD and FPP combine terms for subscription, redemption and general holding requirements. These have been separated here as they are different kinds of term, but this can be reviewed. Subscription Terms are identified as terms of the fund and not the fund unit, since terms for how you might subscribe can't be binding one someone who has not yet subscribed.",
+      "parents": [
+        "fund processing terms"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-sec-fund-fund:FundUnit",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund supervisory authority",
+      "technicalName": "fibo-sec-fund-civ:FundSupervisoryAuthority",
+      "localName": "FundSupervisoryAuthority",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundSupervisoryAuthority",
+      "label": "fund supervisory authority",
+      "definition": "party that supervises the fund or fund industry",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund transfer agent",
+      "technicalName": "fibo-sec-fund-civ:FundTransferAgent",
+      "localName": "FundTransferAgent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundTransferAgent",
+      "label": "fund transfer agent",
+      "definition": "An entity that undertakes the execution of subscription, redemption and switch orders on behalf of a fund. Definition origin:EFAMA DD",
+      "parents": [
+        "funds processing party"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund unit distribution method",
+      "technicalName": "fibo-sec-fund-civ:FundUnitDistributionMethod",
+      "localName": "FundUnitDistributionMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundUnitDistributionMethod",
+      "label": "fund unit distribution method",
+      "definition": "The normal distribution policy for funds.",
+      "parents": [
+        "fibo-fnd-gao-obj:DistributionStrategy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund unit distribution policy",
+      "technicalName": "fibo-sec-fund-civ:FundUnitDistributionPolicy",
+      "localName": "FundUnitDistributionPolicy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundUnitDistributionPolicy",
+      "label": "fund unit distribution policy",
+      "definition": "policy relating to the unit, e.g. if income is paid out or retained in the fund and how this is treated, including distribution policy details for dividends and coupons.",
+      "parents": [
+        "fibo-fnd-law-lcap:Policy"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasStrategy",
+          "operator": "some",
+          "value": "fund unit distribution method",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "funds cash distribution",
+      "technicalName": "fibo-sec-fund-civ:FundsCashDistribution",
+      "localName": "FundsCashDistribution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundsCashDistribution",
+      "label": "funds cash distribution",
+      "definition": "Accrued income is distributed periodically to the investor.",
+      "parents": [
+        "fund unit distribution method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "funds processing",
+      "technicalName": "fibo-sec-fund-civ:FundsProcessing",
+      "localName": "FundsProcessing",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundsProcessing",
+      "label": "funds processing",
+      "definition": "The context of managing and processing funds, issuing funds units etc. This is the context in which the different parties involved in a fund are defined as parties.",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStage"
+      ],
+      "rules": []
+    },
+    {
+      "name": "funds processing account",
+      "technicalName": "fibo-sec-fund-civ:FundsProcessingAccount",
+      "localName": "FundsProcessingAccount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundsProcessingAccount",
+      "label": "funds processing account",
+      "definition": "An account used specifically in the processing of funds. Like all accounts this is (per FIBIM definition) a business relationship between two entities; one entity is the account owner, the other entity is the account servicer. Please refer to Financial global model for treatment of accounts relationships in this model.",
+      "parents": [
+        "fibo-fbc-pas-caa:Account"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "fund order desk",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "funds processing party",
+      "technicalName": "fibo-sec-fund-civ:FundsProcessingParty",
+      "localName": "FundsProcessingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/FundsProcessingParty",
+      "label": "funds processing party",
+      "definition": "party involved in the processing of funds",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": []
+    },
+    {
+      "name": "income accumulation",
+      "technicalName": "fibo-sec-fund-civ:IncomeAccumulation",
+      "localName": "IncomeAccumulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/IncomeAccumulation",
+      "label": "income accumulation",
+      "definition": "Accrued income is not distributed and instead remains reflected within the unit/share price.",
+      "parents": [
+        "fund unit distribution method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund investment restrictions set",
+      "technicalName": "fibo-sec-fund-civ:InvestmentRestriction",
+      "localName": "InvestmentRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/InvestmentRestriction",
+      "label": "fund investment restrictions set",
+      "definition": "Limitations that apply to the fund as a whole, such as risk factors. these are used to determine whether the fund is appropriate for a given type of investor to invest in.",
+      "parents": [
+        "fibo-sec-sec-rst:SecuritiesRestriction"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isPartOf",
+          "operator": "some",
+          "value": "fibo-sec-sec-iss:Prospectus",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "investment strategy",
+      "technicalName": "fibo-sec-fund-civ:InvestmentStrategy",
+      "localName": "InvestmentStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/InvestmentStrategy",
+      "label": "investment strategy",
+      "definition": "plan, method, or series of maneuvers or stratagems for obtaining a specific investment goal",
+      "parents": [
+        "fibo-fnd-gao-obj:BusinessStrategy"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "some",
+          "value": "fibo-fnd-gao-obj:InvestmentObjective",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "jurisdiction strategy",
+      "technicalName": "fibo-sec-fund-civ:JurisdictionStrategy",
+      "localName": "JurisdictionStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/JurisdictionStrategy",
+      "label": "jurisdiction strategy",
+      "definition": "Strategy which is jurisdiction based.",
+      "parents": [
+        "fund portfolio investment limitations"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "key investor information document",
+      "technicalName": "fibo-sec-fund-civ:KeyInvestorInformationDocument",
+      "localName": "KeyInvestorInformationDocument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/KeyInvestorInformationDocument",
+      "label": "key investor information document",
+      "definition": "short document that provides critical information for investors, summarizing content derived from a prospectus such that it can be understood by investors without reference to other documents, as required by law in the European Union",
+      "parents": [
+        "fibo-sec-sec-iss:OfferingDocument"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-sec-fund-fund:FundUnit",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "value",
+          "value": "fibo-be-ge-euj:EuropeanUnionJurisdiction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "net asset value calculation method",
+      "technicalName": "fibo-sec-fund-civ:NetAssetValueCalculationMethod",
+      "localName": "NetAssetValueCalculationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/NetAssetValueCalculationMethod",
+      "label": "net asset value calculation method",
+      "definition": "Parameters for the calculation of the net asset value for an investment fund/fund class.",
+      "parents": [
+        "cmns-qtu:Expression"
+      ],
+      "rules": [
+        {
+          "property": "is calculated in",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:Currency",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "note fund",
+      "technicalName": "fibo-sec-fund-civ:NoteFund",
+      "localName": "NoteFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/NoteFund",
+      "label": "note fund",
+      "definition": "pooled investment vehicle that issues debt instruments (notes) to investors rather than (or in addition to) traditional equity interests",
+      "parents": [
+        "fibo-sec-sec-pls:ManagedInvestment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "note fund share",
+      "technicalName": "fibo-sec-fund-civ:NoteFundShare",
+      "localName": "NoteFundShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/NoteFundShare",
+      "label": "note fund share",
+      "definition": "investment interest in a fund that issues notes rather than traditional equity, in cases where the fund is structured as a company",
+      "parents": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isPartOf",
+          "operator": "some",
+          "value": "note fund",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "note fund unit",
+      "technicalName": "fibo-sec-fund-civ:NoteFundUnit",
+      "localName": "NoteFundUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/NoteFundUnit",
+      "label": "note fund unit",
+      "definition": "investment interest in a fund that issues notes rather than traditional equity, in cases where the fund is structured as a trust, partnership, or unitized fund",
+      "parents": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isPartOf",
+          "operator": "some",
+          "value": "note fund",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "organization strategy",
+      "technicalName": "fibo-sec-fund-civ:OrganizationStrategy",
+      "localName": "OrganizationStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/OrganizationStrategy",
+      "label": "organization strategy",
+      "definition": "Strategy which is organization based.",
+      "parents": [
+        "fund portfolio investment limitations"
+      ],
+      "rules": [
+        {
+          "property": "defined in relation to",
+          "operator": "some",
+          "value": "fibo-be-le-cb:Corporation",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "other investment fund information",
+      "technicalName": "fibo-sec-fund-civ:OtherInvestmentFundInformation",
+      "localName": "OtherInvestmentFundInformation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/OtherInvestmentFundInformation",
+      "label": "other investment fund information",
+      "definition": "Things which are not part of the prospectus but are important if you want to understand the fund.",
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "portfolio benchmark",
+      "technicalName": "fibo-sec-fund-civ:PortfolioBenchmark",
+      "localName": "PortfolioBenchmark",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/PortfolioBenchmark",
+      "label": "portfolio benchmark",
+      "definition": "Security or other price against which the performance of the portfolio is evaluated.",
+      "parents": [
+        "cmns-qtu:Measure"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fund portfolio",
+          "qualifier": null
+        },
+        {
+          "property": "defines benchmark",
+          "operator": "some",
+          "value": "fibo-ind-ind-ind:MarketRate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "portfolio investment strategy",
+      "technicalName": "fibo-sec-fund-civ:PortfolioInvestmentStrategy",
+      "localName": "PortfolioInvestmentStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/PortfolioInvestmentStrategy",
+      "label": "portfolio investment strategy",
+      "definition": "The manner in which the portfolio manager tries to reach the funds objectives.",
+      "parents": [
+        "investment strategy"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fund portfolio investment limitations",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "preferred share in fund",
+      "technicalName": "fibo-sec-fund-civ:PreferredShareInFund",
+      "localName": "PreferredShareInFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/PreferredShareInFund",
+      "label": "preferred share in fund",
+      "definition": null,
+      "parents": [
+        "fund share class unit"
+      ],
+      "rules": []
+    },
+    {
+      "name": "private equity holding",
+      "technicalName": "fibo-sec-fund-civ:PrivateEquityHolding",
+      "localName": "PrivateEquityHolding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/PrivateEquityHolding",
+      "label": "private equity holding",
+      "definition": "A holding of private equity.",
+      "parents": [
+        "fibo-fnd-oac-own:Portfolio"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:PrivatelyHeldShare",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "real estate holding",
+      "technicalName": "fibo-sec-fund-civ:RealEstateHolding",
+      "localName": "RealEstateHolding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/RealEstateHolding",
+      "label": "real estate holding",
+      "definition": "tangible asset consisting of real estate that is owned or controlled by an individual, organization, or entity for investment, operational, or strategic purposes",
+      "parents": [
+        "fibo-fnd-oac-own:Portfolio"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-fnd-plc-rp:RealEstate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "refer to fund order desk",
+      "technicalName": "fibo-sec-fund-civ:ReferToFundOrderDesk",
+      "localName": "ReferToFundOrderDesk",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/ReferToFundOrderDesk",
+      "label": "refer to fund order desk",
+      "definition": "Restriction requiring an investor to refer to the fund order desk prior to redeeming a fund.",
+      "parents": [
+        "fund redemption restriction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "risk level",
+      "technicalName": "fibo-sec-fund-civ:RiskLevel",
+      "localName": "RiskLevel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/RiskLevel",
+      "label": "risk level",
+      "definition": null,
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "s i c a f",
+      "technicalName": "fibo-sec-fund-civ:SICAF",
+      "localName": "SICAF",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/SICAF",
+      "label": "s i c a f",
+      "definition": "A French fund vehicle type. Designation and definition needed.",
+      "parents": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "rules": []
+    },
+    {
+      "name": "s i c a v",
+      "technicalName": "fibo-sec-fund-civ:SICAV",
+      "localName": "SICAV",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/SICAV",
+      "label": "s i c a v",
+      "definition": "Societe Collective a Capital Variable",
+      "parents": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "rules": []
+    },
+    {
+      "name": "sector strategy",
+      "technicalName": "fibo-sec-fund-civ:SectorStrategy",
+      "localName": "SectorStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/SectorStrategy",
+      "label": "sector strategy",
+      "definition": "Strategy which is sector based.",
+      "parents": [
+        "fund portfolio investment limitations"
+      ],
+      "rules": []
+    },
+    {
+      "name": "unit issuer",
+      "technicalName": "fibo-sec-fund-civ:UnitIssuer",
+      "localName": "UnitIssuer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/UnitIssuer",
+      "label": "unit issuer",
+      "definition": "The party which issues the Fund Unit.",
+      "parents": [
+        "funds processing party"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-be-le-cb:Corporation",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:issues",
+          "operator": "some",
+          "value": "fibo-sec-fund-fund:FundUnit",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "aligned community investment fund",
+      "technicalName": "fibo-sec-fund-fund:AlignedCommunityInvestmentFund",
+      "localName": "AlignedCommunityInvestmentFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/AlignedCommunityInvestmentFund",
+      "label": "aligned community investment fund",
+      "definition": "community investment fund that raises capital publicly from community members and deploys some of that capital via investments into its client businesses or other businesses in the community",
+      "parents": [
+        "community investment fund"
+      ],
+      "rules": []
+    },
+    {
+      "name": "closed-end investment",
+      "technicalName": "fibo-sec-fund-fund:ClosedEndInvestment",
+      "localName": "ClosedEndInvestment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/ClosedEndInvestment",
+      "label": "closed-end investment",
+      "definition": "investment fund that has a fixed number of shares offered by an investment company through an initial public offering",
+      "parents": [
+        "fibo-sec-sec-pls:ManagedInvestment"
+      ],
+      "rules": [
+        {
+          "property": "is open ended",
+          "operator": "value",
+          "value": "false",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fibo-sec-fund-fund:CollectiveInvestmentVehicle",
+      "technicalName": "fibo-sec-fund-fund:CollectiveInvestmentVehicle",
+      "localName": "CollectiveInvestmentVehicle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/CollectiveInvestmentVehicle",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "community investment fund",
+      "technicalName": "fibo-sec-fund-fund:CommunityInvestmentFund",
+      "localName": "CommunityInvestmentFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/CommunityInvestmentFund",
+      "label": "community investment fund",
+      "definition": "professionally-managed investment fund with three essential characteristics: capital is sourced from people in the community (ideally from retail/non-accredited investors); capital is invested into local people, projects, and businesses; and capital is deployed by individuals in the community, typically but not necessarily a nonprofit fund",
+      "parents": [
+        "fibo-sec-sec-pls:PrivateFund"
+      ],
+      "rules": [
+        {
+          "property": "cmns-loc:hasCoverageArea",
+          "operator": "some",
+          "value": "cmns-loc:GeographicRegion",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "some",
+          "value": "fibo-fnd-gao-obj:LocalInvestmentObjective",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "diversified community investment fund",
+      "technicalName": "fibo-sec-fund-fund:DiversifiedCommunityInvestmentFund",
+      "localName": "DiversifiedCommunityInvestmentFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/DiversifiedCommunityInvestmentFund",
+      "label": "diversified community investment fund",
+      "definition": "community investment fund that invests primarily in real estate but can also invest in any local business or project, and can do so with investment capital raised publicly from within the fund's own community, including community investors",
+      "parents": [
+        "community investment fund"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exchange-traded fund",
+      "technicalName": "fibo-sec-fund-fund:ExchangeTradedFund",
+      "localName": "ExchangeTradedFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/ExchangeTradedFund",
+      "label": "exchange-traded fund",
+      "definition": "investment fund whose fund units are traded on an exchange, much like stocks",
+      "parents": [
+        "open-end investment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund administrator",
+      "technicalName": "fibo-sec-fund-fund:FundAdministrator",
+      "localName": "FundAdministrator",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundAdministrator",
+      "label": "fund administrator",
+      "definition": "role of the party responsible for managing the operational, accounting, and compliance functions of an investment fund",
+      "parents": [
+        "cmns-org:ServiceProvider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund contract",
+      "technicalName": "fibo-sec-fund-fund:FundContract",
+      "localName": "FundContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundContract",
+      "label": "fund contract",
+      "definition": "contract that embodies and defines the fund legal form in cases where there is no independent organization",
+      "parents": [
+        "fibo-be-le-fbo:OrganizationCoveringAgreement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund holder",
+      "technicalName": "fibo-sec-fund-fund:FundHolder",
+      "localName": "FundHolder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundHolder",
+      "label": "fund holder",
+      "definition": "party that owns units in or a percentage of and has rights and responsibilities with respect to some fund, provided in exchange for investment",
+      "parents": [
+        "fibo-be-oac-cown:BeneficialOwner",
+        "fibo-fnd-agr-ctr:Counterparty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund holding",
+      "technicalName": "fibo-sec-fund-fund:FundHolding",
+      "localName": "FundHolding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundHolding",
+      "label": "fund holding",
+      "definition": "ownership interest in a fund, which may represented by fund units that confer financial rights and governance privileges",
+      "parents": [
+        "fibo-fnd-oac-own:FinancialAsset"
+      ],
+      "rules": [
+        {
+          "property": "fibo-be-oac-cown:consistsOfNumberOfUnits",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fund unit"
+        }
+      ]
+    },
+    {
+      "name": "fund manager",
+      "technicalName": "fibo-sec-fund-fund:FundManager",
+      "localName": "FundManager",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundManager",
+      "label": "fund manager",
+      "definition": "role of the party responsible for making investment decisions and managing the portfolio of an investment fund",
+      "parents": [
+        "cmns-org:ServiceProvider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund of funds",
+      "technicalName": "fibo-sec-fund-fund:FundOfFunds",
+      "localName": "FundOfFunds",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundOfFunds",
+      "label": "fund of funds",
+      "definition": "investment fund that invests directly in other investment funds rather than investing in stocks, bonds, and other securities",
+      "parents": [
+        "fibo-sec-sec-pls:ManagedInvestment"
+      ],
+      "rules": [
+        {
+          "property": "has sub-fund",
+          "operator": "some",
+          "value": "fibo-sec-sec-pls:CollectiveInvestmentVehicle",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund position",
+      "technicalName": "fibo-sec-fund-fund:FundPosition",
+      "localName": "FundPosition",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundPosition",
+      "label": "fund position",
+      "definition": "position in some fund, which may be defined in terms of fund units",
+      "parents": [
+        "fibo-fbc-pas-fpas:Position"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-own:hasOwnedAsset",
+          "operator": "some",
+          "value": "fund holding",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isHeldBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "fibo-fnd-oac-own:hasOwningParty",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fund holder"
+        }
+      ]
+    },
+    {
+      "name": "fund unit",
+      "technicalName": "fibo-sec-fund-fund:FundUnit",
+      "localName": "FundUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/FundUnit",
+      "label": "fund unit",
+      "definition": "quantified share of beneficial interest in a pooled fund, representing a proportional claim on the fund's assets, income, or entitlements",
+      "parents": [
+        "fibo-fnd-law-lcap:ContractualInterest"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isPartOf",
+          "operator": "some",
+          "value": "fibo-sec-sec-pls:PooledFund",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-acc-cur:hasCurrency",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:Currency",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "hedge fund",
+      "technicalName": "fibo-sec-fund-fund:HedgeFund",
+      "localName": "HedgeFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/HedgeFund",
+      "label": "hedge fund",
+      "definition": "investment fund that pursues a total return and is usually open to qualified investors only",
+      "parents": [
+        "open-end investment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "legal fund structure",
+      "technicalName": "fibo-sec-fund-fund:LegalFundStructure",
+      "localName": "LegalFundStructure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/LegalFundStructure",
+      "label": "legal fund structure",
+      "definition": "structure of a fund with respect to its legal formation in some jurisdiction",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalConstruct"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "mutual fund",
+      "technicalName": "fibo-sec-fund-fund:MutualFund",
+      "localName": "MutualFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/MutualFund",
+      "label": "mutual fund",
+      "definition": "open-end professionally managed investment fund established for the purpose of investing in securities such as stocks, bonds, money market instruments and similar assets",
+      "parents": [
+        "open-end investment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non-tradable fund unit",
+      "technicalName": "fibo-sec-fund-fund:NonTradableFundUnit",
+      "localName": "NonTradableFundUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/NonTradableFundUnit",
+      "label": "non-tradable fund unit",
+      "definition": "security representing an interest in a fund that cannot be traded ontside of the fund itself",
+      "parents": [
+        "fibo-fbc-fi-fi:NonNegotiableSecurity",
+        "fund unit"
+      ],
+      "rules": []
+    },
+    {
+      "name": "nonprofit fund",
+      "technicalName": "fibo-sec-fund-fund:NonprofitFund",
+      "localName": "NonprofitFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/NonprofitFund",
+      "label": "nonprofit fund",
+      "definition": "investment vehicle designed to support a nonprofit mission, whose objectives include environmental stewardship and/or social responsibility in addition to financial performance",
+      "parents": [
+        "fibo-sec-sec-pls:PrivateFund"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-gao-obj:TripleBottomLineObjective"
+        }
+      ]
+    },
+    {
+      "name": "open-end investment",
+      "technicalName": "fibo-sec-fund-fund:OpenEndInvestment",
+      "localName": "OpenEndInvestment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/OpenEndInvestment",
+      "label": "open-end investment",
+      "definition": "investment fund that offered through a fund company that sells shares directly to investors",
+      "parents": [
+        "fibo-sec-sec-pls:ManagedInvestment"
+      ],
+      "rules": [
+        {
+          "property": "is open ended",
+          "operator": "value",
+          "value": "true",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pension fund",
+      "technicalName": "fibo-sec-fund-fund:PensionFund",
+      "localName": "PensionFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/PensionFund",
+      "label": "pension fund",
+      "definition": "investment fund run by a financial intermediary on behalf of an organization and its employees/members",
+      "parents": [
+        "fibo-sec-sec-pls:ManagedInvestment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "private credit fund",
+      "technicalName": "fibo-sec-fund-fund:PrivateCreditFund",
+      "localName": "PrivateCreditFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/PrivateCreditFund",
+      "label": "private credit fund",
+      "definition": "investment vehicle that provides loans or other forms of credit to companies, typically outside of the traditional banking system",
+      "parents": [
+        "fibo-sec-sec-pls:PrivateFund"
+      ],
+      "rules": []
+    },
+    {
+      "name": "private equity fund",
+      "technicalName": "fibo-sec-fund-fund:PrivateEquityFund",
+      "localName": "PrivateEquityFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/PrivateEquityFund",
+      "label": "private equity fund",
+      "definition": "investment fund used for making investments in various equity (and to a lesser extent debt) securities according to an investment strategy associated with private equity",
+      "parents": [
+        "fibo-sec-sec-pls:PrivateFund"
+      ],
+      "rules": []
+    },
+    {
+      "name": "real estate investment trust",
+      "technicalName": "fibo-sec-fund-fund:RealEstateInvestmentTrust",
+      "localName": "RealEstateInvestmentTrust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/RealEstateInvestmentTrust",
+      "label": "real estate investment trust",
+      "definition": "investment fund that offers shares/units to the public and invests in real estate directly",
+      "parents": [
+        "fibo-sec-sec-pls:ManagedInvestment"
+      ],
+      "rules": [
+        {
+          "property": "has legal structure",
+          "operator": "some",
+          "value": "fibo-be-tr-tr:Trust",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "sovereign wealth fund",
+      "technicalName": "fibo-sec-fund-fund:SovereignWealthFund",
+      "localName": "SovereignWealthFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/SovereignWealthFund",
+      "label": "sovereign wealth fund",
+      "definition": "state-owned investment fund that consists of pools of money derived from a country's reserves",
+      "parents": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tradable fund unit",
+      "technicalName": "fibo-sec-fund-fund:TradableFundUnit",
+      "localName": "TradableFundUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/TradableFundUnit",
+      "label": "tradable fund unit",
+      "definition": "security representing a tradable interest in a fund",
+      "parents": [
+        "fibo-fbc-fi-fi:EquityInstrument",
+        "fibo-fbc-fi-fi:NegotiableSecurity",
+        "fund unit"
+      ],
+      "rules": []
+    },
+    {
+      "name": "unit trust",
+      "technicalName": "fibo-sec-fund-fund:UnitTrust",
+      "localName": "UnitTrust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/UnitTrust",
+      "label": "unit trust",
+      "definition": "pooled investment vehicle in which investors hold units that represent beneficial ownership in a trust-managed portfolio of assets",
+      "parents": [
+        "unitized fund"
+      ],
+      "rules": []
+    },
+    {
+      "name": "unitized fund",
+      "technicalName": "fibo-sec-fund-fund:UnitizedFund",
+      "localName": "UnitizedFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/UnitizedFund",
+      "label": "unitized fund",
+      "definition": "pooled investment vehicle in which investors hold units that represent a proportional share of the fund's underlying assets, typically used in pensions or insurance-based products",
+      "parents": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "accounting year end date",
+      "technicalName": "fibo-sec-fund-civ:accountingYearEndDate",
+      "localName": "accountingYearEndDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/accountingYearEndDate",
+      "label": "accounting year end date",
+      "definition": "Last day of the accounting year for the fund.",
+      "domain": [],
+      "range": [
+        "fibo-fnd-dt-bd:DayOfMonth"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "administered by",
+      "technicalName": "fibo-sec-fund-civ:administeredBy",
+      "localName": "administeredBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/administeredBy",
+      "label": "administered by",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fibo-sec-fund-fund:FundAdministrator"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "advised by",
+      "technicalName": "fibo-sec-fund-civ:advisedBy",
+      "localName": "advisedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/advisedBy",
+      "label": "advised by",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fibo-fbc-fct-fse:RegisteredInvestmentAdvisor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "assessed against",
+      "technicalName": "fibo-sec-fund-civ:assessedAgainst",
+      "localName": "assessedAgainst",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/assessedAgainst",
+      "label": "assessed against",
+      "definition": null,
+      "domain": [
+        "fund portfolio"
+      ],
+      "range": [
+        "portfolio benchmark"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "authorized country",
+      "technicalName": "fibo-sec-fund-civ:authorizedCountry",
+      "localName": "authorizedCountry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/authorizedCountry",
+      "label": "authorized country",
+      "definition": "Country in which it is authorised to commercialise the fund.",
+      "domain": [
+        "fund processing general terms"
+      ],
+      "range": [
+        "cmns-loc:Country"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "benchmark weight",
+      "technicalName": "fibo-sec-fund-civ:benchmarkWeight",
+      "localName": "benchmarkWeight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/benchmarkWeight",
+      "label": "benchmark weight",
+      "definition": "Instrument weighting in the benchmark for the portfolio.",
+      "domain": [
+        "portfolio benchmark"
+      ],
+      "range": [
+        "cmns-qtu:Percentage"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "coupon payment date",
+      "technicalName": "fibo-sec-fund-civ:couponPaymentDate",
+      "localName": "couponPaymentDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/couponPaymentDate",
+      "label": "coupon payment date",
+      "definition": "The date at which the coupon is distributed to the bond unit holder.",
+      "domain": [
+        "fund coupon policy"
+      ],
+      "range": [
+        "fibo-fnd-dt-bd:DayOfMonth"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "defined in relation to",
+      "technicalName": "fibo-sec-fund-civ:definedInRelationTo",
+      "localName": "definedInRelationTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/definedInRelationTo",
+      "label": "defined in relation to",
+      "definition": null,
+      "domain": [
+        "organization strategy"
+      ],
+      "range": [
+        "fibo-be-le-cb:Corporation"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "defines allocations",
+      "technicalName": "fibo-sec-fund-civ:definesAllocations",
+      "localName": "definesAllocations",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/definesAllocations",
+      "label": "defines allocations",
+      "definition": null,
+      "domain": [
+        "fund portfolio investment policy"
+      ],
+      "range": [
+        "fund portfolio investment limitations"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "defines benchmark",
+      "technicalName": "fibo-sec-fund-civ:definesBenchmark",
+      "localName": "definesBenchmark",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/definesBenchmark",
+      "label": "defines benchmark",
+      "definition": null,
+      "domain": [
+        "portfolio benchmark"
+      ],
+      "range": [
+        "fibo-ind-ind-ind:MarketRate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "defines main fund order desk account",
+      "technicalName": "fibo-sec-fund-civ:definesMainFundOrderDeskAccount",
+      "localName": "definesMainFundOrderDeskAccount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/definesMainFundOrderDeskAccount",
+      "label": "defines main fund order desk account",
+      "definition": null,
+      "domain": [
+        "fund processing terms"
+      ],
+      "range": [
+        "funds processing account"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "distributed by",
+      "technicalName": "fibo-sec-fund-civ:distributedBy",
+      "localName": "distributedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/distributedBy",
+      "label": "distributed by",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fund distributor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "end of fiscal year",
+      "technicalName": "fibo-sec-fund-civ:endOfFiscalYear",
+      "localName": "endOfFiscalYear",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/endOfFiscalYear",
+      "label": "end of fiscal year",
+      "definition": "Day and month on any given year at which the books are closed and profit and loss is determined.",
+      "domain": [],
+      "range": [
+        "fibo-fnd-dt-bd:DayOfMonth"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "ex coupon date",
+      "technicalName": "fibo-sec-fund-civ:exCouponDate",
+      "localName": "exCouponDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/exCouponDate",
+      "label": "ex coupon date",
+      "definition": "The date at which the coupon is substracted from the NAV",
+      "domain": [
+        "fund coupon policy"
+      ],
+      "range": [
+        "fibo-fnd-dt-bd:DayOfMonth"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "fund has related party",
+      "technicalName": "fibo-sec-fund-civ:fundHasRelatedParty",
+      "localName": "fundHasRelatedParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/fundHasRelatedParty",
+      "label": "fund has related party",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "funds processing party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has additional information",
+      "technicalName": "fibo-sec-fund-civ:hasAdditionalInformation",
+      "localName": "hasAdditionalInformation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasAdditionalInformation",
+      "label": "has additional information",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "other investment fund information"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has additional redemption restrictions",
+      "technicalName": "fibo-sec-fund-civ:hasAdditionalRedemptionRestrictions",
+      "localName": "hasAdditionalRedemptionRestrictions",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasAdditionalRedemptionRestrictions",
+      "label": "has additional redemption restrictions",
+      "definition": null,
+      "domain": [
+        "fund redemption terms"
+      ],
+      "range": [
+        "refer to fund order desk"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has auditor",
+      "technicalName": "fibo-sec-fund-civ:hasAuditor",
+      "localName": "hasAuditor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasAuditor",
+      "label": "has auditor",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fibo-be-oac-exec:ExternalAuditor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has data provider",
+      "technicalName": "fibo-sec-fund-civ:hasDataProvider",
+      "localName": "hasDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasDataProvider",
+      "label": "has data provider",
+      "definition": "has an organization which is the data provider and is legally responsible for the information provided",
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fibo-be-fct-pub:MarketDataProvider"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has default settlement convention",
+      "technicalName": "fibo-sec-fund-civ:hasDefaultSettlementConvention",
+      "localName": "hasDefaultSettlementConvention",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasDefaultSettlementConvention",
+      "label": "has default settlement convention",
+      "definition": null,
+      "domain": [
+        "fund processing terms"
+      ],
+      "range": [
+        "fibo-fbc-fi-stl:SettlementConvention"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has depository",
+      "technicalName": "fibo-sec-fund-civ:hasDepository",
+      "localName": "hasDepository",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasDepository",
+      "label": "has depository",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fund depositary"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has details",
+      "technicalName": "fibo-sec-fund-civ:hasDetails",
+      "localName": "hasDetails",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasDetails",
+      "label": "has details",
+      "definition": "Information on the net asset value calculation of the investment fund component.",
+      "domain": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "range": [
+        "net asset value calculation method"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has expected coupon",
+      "technicalName": "fibo-sec-fund-civ:hasExpectedCoupon",
+      "localName": "hasExpectedCoupon",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasExpectedCoupon",
+      "label": "has expected coupon",
+      "definition": null,
+      "domain": [
+        "fund bond class unit"
+      ],
+      "range": [
+        "fund bond unit coupon"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has fund policy",
+      "technicalName": "fibo-sec-fund-civ:hasFundPolicy",
+      "localName": "hasFundPolicy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasFundPolicy",
+      "label": "has fund policy",
+      "definition": "Overall policy for amounts invested, limitations etc. Not the same as the detailed Portfolio policy.",
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fund investment policy"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has fund processing terms",
+      "technicalName": "fibo-sec-fund-civ:hasFundProcessingTerms",
+      "localName": "hasFundProcessingTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasFundProcessingTerms",
+      "label": "has fund processing terms",
+      "definition": null,
+      "domain": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "range": [
+        "fund processing terms"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has intended risk level",
+      "technicalName": "fibo-sec-fund-civ:hasIntendedRiskLevel",
+      "localName": "hasIntendedRiskLevel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasIntendedRiskLevel",
+      "label": "has intended risk level",
+      "definition": null,
+      "domain": [
+        "fund investment objective"
+      ],
+      "range": [
+        "risk level"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "strategy",
+      "technicalName": "fibo-sec-fund-civ:hasInvestmentStrategy",
+      "localName": "hasInvestmentStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasInvestmentStrategy",
+      "label": "strategy",
+      "definition": null,
+      "domain": [
+        "fibo-fnd-oac-own:Portfolio"
+      ],
+      "range": [
+        "investment strategy"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has issue date",
+      "technicalName": "fibo-sec-fund-civ:hasIssueDate",
+      "localName": "hasIssueDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasIssueDate",
+      "label": "has issue date",
+      "definition": "Date of first NAV calculation and start of performance calculations (same as launch date)",
+      "domain": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has management company",
+      "technicalName": "fibo-sec-fund-civ:hasManagementCompany",
+      "localName": "hasManagementCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasManagementCompany",
+      "label": "has management company",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fibo-sec-fund-fund:FundManager"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has policy terms",
+      "technicalName": "fibo-sec-fund-civ:hasPolicyTerms",
+      "localName": "hasPolicyTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasPolicyTerms",
+      "label": "has policy terms",
+      "definition": null,
+      "domain": [
+        "fund bond unit coupon"
+      ],
+      "range": [
+        "fund coupon policy"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has portfolio",
+      "technicalName": "fibo-sec-fund-civ:hasPortfolio",
+      "localName": "hasPortfolio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasPortfolio",
+      "label": "has portfolio",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fund portfolio"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has related fund terms",
+      "technicalName": "fibo-sec-fund-civ:hasRelatedFundTerms",
+      "localName": "hasRelatedFundTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasRelatedFundTerms",
+      "label": "has related fund terms",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fund processing terms"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has related terms",
+      "technicalName": "fibo-sec-fund-civ:hasRelatedTerms",
+      "localName": "hasRelatedTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasRelatedTerms",
+      "label": "has related terms",
+      "definition": null,
+      "domain": [],
+      "range": [
+        "fibo-fnd-agr-ctr:ContractualElement"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has subscription terms",
+      "technicalName": "fibo-sec-fund-civ:hasSubscriptionTerms",
+      "localName": "hasSubscriptionTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasSubscriptionTerms",
+      "label": "has subscription terms",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fund subscription terms"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has tradable unit",
+      "technicalName": "fibo-sec-fund-civ:hasTradableUnit",
+      "localName": "hasTradableUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasTradableUnit",
+      "label": "has tradable unit",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fibo-sec-fund-fund:FundUnit"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has transfer agent",
+      "technicalName": "fibo-sec-fund-civ:hasTransferAgent",
+      "localName": "hasTransferAgent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/hasTransferAgent",
+      "label": "has transfer agent",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fund transfer agent"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "identifies asset types by",
+      "technicalName": "fibo-sec-fund-civ:identifiesAssetTypesBy",
+      "localName": "identifiesAssetTypesBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/identifiesAssetTypesBy",
+      "label": "identifies asset types by",
+      "definition": null,
+      "domain": [
+        "asset class strategy"
+      ],
+      "range": [
+        "fibo-sec-sec-cls:FinancialInstrumentClassifier"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "implements fund policy",
+      "technicalName": "fibo-sec-fund-civ:implementsFundPolicy",
+      "localName": "implementsFundPolicy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/implementsFundPolicy",
+      "label": "implements fund policy",
+      "definition": null,
+      "domain": [
+        "fund portfolio"
+      ],
+      "range": [
+        "fund portfolio investment policy"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "inception date",
+      "technicalName": "fibo-sec-fund-civ:inceptionDate",
+      "localName": "inceptionDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/inceptionDate",
+      "label": "inception date",
+      "definition": "Authorization date in the country of origin.",
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "inception date",
+      "technicalName": "fibo-sec-fund-civ:inceptionDate.1",
+      "localName": "inceptionDate.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/inceptionDate.1",
+      "label": "inception date",
+      "definition": "Authorization date in the country of origin. Further Notes See definition in Inception Date for Fund. Separate fact exists here. Same definition used. EFAMA Review notes: Inception Date exists as soon as there is a prospectus, so it is a fact about a Share Class even if the share class is never formally issued or offered to the public. Legal structure exists even if something is not launched. Editor question: Review stated this was a fact about Share Class; confirm this fact does not apply to Bond and Note units, or was the term Share Class being used to mean all three? Meanwhile I have put the term \"Issue Date\" as a fact about all Fund Unit, as this is given a sa separate term in the EFAMA DD spreadsheet. MAy come clearer in the next version of that.",
+      "domain": [
+        "fund share class unit"
+      ],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "initial application form",
+      "technicalName": "fibo-sec-fund-civ:initialApplicationForm",
+      "localName": "initialApplicationForm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/initialApplicationForm",
+      "label": "initial application form",
+      "definition": "Physical application form for the initial subscription by the investor.",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is calculated in",
+      "technicalName": "fibo-sec-fund-civ:isCalculatedIn",
+      "localName": "isCalculatedIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/isCalculatedIn",
+      "label": "is calculated in",
+      "definition": null,
+      "domain": [
+        "net asset value calculation method"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:Currency"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is unit holder",
+      "technicalName": "fibo-sec-fund-civ:isUnitHolder",
+      "localName": "isUnitHolder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/isUnitHolder",
+      "label": "is unit holder",
+      "definition": null,
+      "domain": [
+        "fibo-be-oac-opty:Investor"
+      ],
+      "range": [
+        "fibo-sec-fund-fund:FundUnit"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "issue price",
+      "technicalName": "fibo-sec-fund-civ:issuePrice",
+      "localName": "issuePrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/issuePrice",
+      "label": "issue price",
+      "definition": "The price at which the Fund Unit was first issued.",
+      "domain": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:Price"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "maximum deviation",
+      "technicalName": "fibo-sec-fund-civ:maximumDeviation",
+      "localName": "maximumDeviation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/maximumDeviation",
+      "label": "maximum deviation",
+      "definition": "Maximum allowable deviation from the benchmark.",
+      "domain": [
+        "portfolio benchmark"
+      ],
+      "range": [
+        "cmns-qtu:Percentage"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "maximum investment amount",
+      "technicalName": "fibo-sec-fund-civ:maximumInvestmentAmount",
+      "localName": "maximumInvestmentAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/maximumInvestmentAmount",
+      "label": "maximum investment amount",
+      "definition": "Maximum amount that may be invested in the specified strategy.",
+      "domain": [
+        "fund portfolio investment limitations"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "maximum investment percentage",
+      "technicalName": "fibo-sec-fund-civ:maximumInvestmentPercentage",
+      "localName": "maximumInvestmentPercentage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/maximumInvestmentPercentage",
+      "label": "maximum investment percentage",
+      "definition": "Maximum percentage that may be invested in the specified strategy.",
+      "domain": [
+        "fund portfolio investment limitations"
+      ],
+      "range": [
+        "cmns-qtu:Percentage"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "maximum purchasing fee",
+      "technicalName": "fibo-sec-fund-civ:maximumPurchasingFee",
+      "localName": "maximumPurchasingFee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/maximumPurchasingFee",
+      "label": "maximum purchasing fee",
+      "definition": "Maximum percentage or fixed amount of money due when purchasing fund shares Definition origin:EFAMA DD",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "fibo-fbc-pas-caa:Fee"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "maximum redemption amount",
+      "technicalName": "fibo-sec-fund-civ:maximumRedemptionAmount",
+      "localName": "maximumRedemptionAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/maximumRedemptionAmount",
+      "label": "maximum redemption amount",
+      "definition": "Maximum quantity of securities, expressed as an amount that can be sold.",
+      "domain": [
+        "fund redemption terms"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "maximum redemption fee",
+      "technicalName": "fibo-sec-fund-civ:maximumRedemptionFee",
+      "localName": "maximumRedemptionFee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/maximumRedemptionFee",
+      "label": "maximum redemption fee",
+      "definition": "Maximum percentage or fixed amount of money due when redeeming fund shares Definition origin:EFAMA DD",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "fibo-fbc-pas-caa:Fee"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "maximum redemption percentage",
+      "technicalName": "fibo-sec-fund-civ:maximumRedemptionPercentage",
+      "localName": "maximumRedemptionPercentage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/maximumRedemptionPercentage",
+      "label": "maximum redemption percentage",
+      "definition": "Maximum quantity of securities, expressed as a percentage that can be sold.",
+      "domain": [
+        "fund redemption terms"
+      ],
+      "range": [
+        "cmns-qtu:Percentage"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "may also be",
+      "technicalName": "fibo-sec-fund-civ:mayAlsoBe",
+      "localName": "mayAlsoBe",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/mayAlsoBe",
+      "label": "may also be",
+      "definition": "The unit issuer would be the fund administrator (except when it is a Bond).",
+      "domain": [
+        "fibo-sec-fund-fund:FundAdministrator"
+      ],
+      "range": [
+        "unit issuer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "minimum deviation",
+      "technicalName": "fibo-sec-fund-civ:minimumDeviation",
+      "localName": "minimumDeviation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/minimumDeviation",
+      "label": "minimum deviation",
+      "definition": "Minimum allowable deviation from the benchmark.",
+      "domain": [
+        "portfolio benchmark"
+      ],
+      "range": [
+        "cmns-qtu:Percentage"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "minimum holding period",
+      "technicalName": "fibo-sec-fund-civ:minimumHoldingPeriod",
+      "localName": "minimumHoldingPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/minimumHoldingPeriod",
+      "label": "minimum holding period",
+      "definition": "Period, in days, during which the units/shares must be held following their issue before redemption will be permitted.",
+      "domain": [
+        "fund processing general terms"
+      ],
+      "range": [
+        "cmns-dt:Duration"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "minimum initial subscription amount",
+      "technicalName": "fibo-sec-fund-civ:minimumInitialSubscriptionAmount",
+      "localName": "minimumInitialSubscriptionAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/minimumInitialSubscriptionAmount",
+      "label": "minimum initial subscription amount",
+      "definition": "Minimum initial subscription value.",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "minimum investment amount",
+      "technicalName": "fibo-sec-fund-civ:minimumInvestmentAmount",
+      "localName": "minimumInvestmentAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/minimumInvestmentAmount",
+      "label": "minimum investment amount",
+      "definition": "Minimum amount that has to be invested in the specified strategy.",
+      "domain": [
+        "fund portfolio investment limitations"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "minimum investment percentage",
+      "technicalName": "fibo-sec-fund-civ:minimumInvestmentPercentage",
+      "localName": "minimumInvestmentPercentage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/minimumInvestmentPercentage",
+      "label": "minimum investment percentage",
+      "definition": "Minimum percentage that has to be invested in the specified strategy.",
+      "domain": [
+        "fund portfolio investment limitations"
+      ],
+      "range": [
+        "cmns-qtu:Percentage"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "minimum rating restriction",
+      "technicalName": "fibo-sec-fund-civ:minimumRatingRestriction",
+      "localName": "minimumRatingRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/minimumRatingRestriction",
+      "label": "minimum rating restriction",
+      "definition": "The minimum rating of securities to be invested in.",
+      "domain": [
+        "fund investment restrictions set"
+      ],
+      "range": [
+        "fibo-fnd-arr-rt:RatingScore"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "minimum remaining holding amount",
+      "technicalName": "fibo-sec-fund-civ:minimumRemainingHoldingAmount",
+      "localName": "minimumRemainingHoldingAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/minimumRemainingHoldingAmount",
+      "label": "minimum remaining holding amount",
+      "definition": "Minimum value of units/shares that must be retained to avoid automatic redemption.",
+      "domain": [
+        "fund processing general terms"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "minimum subscription amount",
+      "technicalName": "fibo-sec-fund-civ:minimumSubscriptionAmount",
+      "localName": "minimumSubscriptionAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/minimumSubscriptionAmount",
+      "label": "minimum subscription amount",
+      "definition": "Minimum subscription value for existing investors.",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "outlines",
+      "technicalName": "fibo-sec-fund-civ:outlines",
+      "localName": "outlines",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/outlines",
+      "label": "outlines",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-iss:Prospectus"
+      ],
+      "range": [
+        "fund investment objective"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "percentage invested",
+      "technicalName": "fibo-sec-fund-civ:percentageInvested",
+      "localName": "percentageInvested",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/percentageInvested",
+      "label": "percentage invested",
+      "definition": "The percentage of funds that is to be invested at any given time.",
+      "domain": [
+        "fund investment restrictions set"
+      ],
+      "range": [
+        "cmns-qtu:Percentage"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "performance fee",
+      "technicalName": "fibo-sec-fund-civ:performanceFee",
+      "localName": "performanceFee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/performanceFee",
+      "label": "performance fee",
+      "definition": "Fees paid for the achivements of predefined outperformance objectives Definition origin:EFAMA DD",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "fibo-fbc-pas-caa:Fee"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "processing country",
+      "technicalName": "fibo-sec-fund-civ:processingCountry",
+      "localName": "processingCountry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/processingCountry",
+      "label": "processing country",
+      "definition": "Country in which the processing characteristic applies.",
+      "domain": [
+        "fund processing terms"
+      ],
+      "range": [
+        "cmns-loc:Country"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "provides depositary service for",
+      "technicalName": "fibo-sec-fund-civ:providesDepositaryServiceFor",
+      "localName": "providesDepositaryServiceFor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/providesDepositaryServiceFor",
+      "label": "provides depositary service for",
+      "definition": null,
+      "domain": [
+        "fund depositary"
+      ],
+      "range": [
+        "fibo-sec-fund-fund:FundUnit"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "purchasing fee",
+      "technicalName": "fibo-sec-fund-civ:purchasingFee",
+      "localName": "purchasingFee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/purchasingFee",
+      "label": "purchasing fee",
+      "definition": "Actual percentage or fixed amount of money due when purchasing fund shares Definition origin:EFAMA DD",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "fibo-fbc-pas-caa:Fee"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "redemption cutoff date time",
+      "technicalName": "fibo-sec-fund-civ:redemptionCutoffDateTime",
+      "localName": "redemptionCutoffDateTime",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/redemptionCutoffDateTime",
+      "label": "redemption cutoff date time",
+      "definition": "Last date/time at which an order to redeem can be given.",
+      "domain": [
+        "fund redemption terms"
+      ],
+      "range": [
+        "cmns-dt:DateTime"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "redemption dealing frequency",
+      "technicalName": "fibo-sec-fund-civ:redemptionDealingFrequency",
+      "localName": "redemptionDealingFrequency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/redemptionDealingFrequency",
+      "label": "redemption dealing frequency",
+      "definition": "Frequency at which the redemptions are done.",
+      "domain": [
+        "fund redemption terms"
+      ],
+      "range": [
+        "fibo-fnd-dt-fd:RecurrenceInterval"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "redemption fee",
+      "technicalName": "fibo-sec-fund-civ:redemptionFee",
+      "localName": "redemptionFee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/redemptionFee",
+      "label": "redemption fee",
+      "definition": "Actual percentage or fixed amount of money due when redeeming fund shares Definition origin:EFAMA DD",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "fibo-fbc-pas-caa:Fee"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "redemption form",
+      "technicalName": "fibo-sec-fund-civ:redemptionForm",
+      "localName": "redemptionForm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/redemptionForm",
+      "label": "redemption form",
+      "definition": "Physical written instruction/renunciation form for redemption of units/shares by the investor.",
+      "domain": [
+        "fund redemption terms"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "redemption period",
+      "technicalName": "fibo-sec-fund-civ:redemptionPeriod",
+      "localName": "redemptionPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/redemptionPeriod",
+      "label": "redemption period",
+      "definition": "Specific period, eg, for some guaranteed funds, during which the units/shares may be redeemed.",
+      "domain": [
+        "fund redemption terms"
+      ],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "reinvestment frequency",
+      "technicalName": "fibo-sec-fund-civ:reinvestmentFrequency",
+      "localName": "reinvestmentFrequency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/reinvestmentFrequency",
+      "label": "reinvestment frequency",
+      "definition": "For units where there is Reinvestment distribution, the frequency with which the reinvestment takes place (this will be the same or less frequently than the Dividend Payment Frequency), otherwise this fact does not apply.",
+      "domain": [
+        "fund reinvestment policy"
+      ],
+      "range": [
+        "fibo-fnd-dt-fd:RecurrenceInterval"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "stated distribution fee",
+      "technicalName": "fibo-sec-fund-civ:statedDistributionFee",
+      "localName": "statedDistributionFee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/statedDistributionFee",
+      "label": "stated distribution fee",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-iss:Prospectus"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "stated in",
+      "technicalName": "fibo-sec-fund-civ:statedIn",
+      "localName": "statedIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/statedIn",
+      "label": "stated in",
+      "definition": null,
+      "domain": [
+        "fund investment objective"
+      ],
+      "range": [
+        "fibo-sec-sec-iss:Prospectus"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "stated management fee",
+      "technicalName": "fibo-sec-fund-civ:statedManagementFee",
+      "localName": "statedManagementFee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/statedManagementFee",
+      "label": "stated management fee",
+      "definition": "The fee that is stated in the Prospectus as being what is to be charged for management. Further notes: Can be monetary amount or a percentage or a combination. Action: simple type is wrong.",
+      "domain": [
+        "fibo-sec-sec-iss:Prospectus"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "stipulates benchmark",
+      "technicalName": "fibo-sec-fund-civ:stipulatesBenchmark",
+      "localName": "stipulatesBenchmark",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/stipulatesBenchmark",
+      "label": "stipulates benchmark",
+      "definition": null,
+      "domain": [
+        "fund investment policy"
+      ],
+      "range": [
+        "fibo-ind-ind-ind:MarketRate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "subscription cutoff date time",
+      "technicalName": "fibo-sec-fund-civ:subscriptionCutoffDateTime",
+      "localName": "subscriptionCutoffDateTime",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/subscriptionCutoffDateTime",
+      "label": "subscription cutoff date time",
+      "definition": "Last date/time at which an order to subscribe can be given.",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "cmns-dt:DateTime"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "subscription dealing frequency",
+      "technicalName": "fibo-sec-fund-civ:subscriptionDealingFrequency",
+      "localName": "subscriptionDealingFrequency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/subscriptionDealingFrequency",
+      "label": "subscription dealing frequency",
+      "definition": "Frequency at which the subscriptions are done.",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "fibo-fnd-dt-fd:RecurrenceInterval"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "subscription period",
+      "technicalName": "fibo-sec-fund-civ:subscriptionPeriod",
+      "localName": "subscriptionPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/subscriptionPeriod",
+      "label": "subscription period",
+      "definition": "Specific period, eg, for some guaranteed funds, during which the units/shares may be subscribed to.",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "subsequent application form",
+      "technicalName": "fibo-sec-fund-civ:subsequentApplicationForm",
+      "localName": "subsequentApplicationForm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/subsequentApplicationForm",
+      "label": "subsequent application form",
+      "definition": "Physical application form for subsequent investments by the same investor.",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "supervised by",
+      "technicalName": "fibo-sec-fund-civ:supervisedBy",
+      "localName": "supervisedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/supervisedBy",
+      "label": "supervised by",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fund supervisory authority"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "switching fee",
+      "technicalName": "fibo-sec-fund-civ:switchingFee",
+      "localName": "switchingFee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/switchingFee",
+      "label": "switching fee",
+      "definition": "Actual percentage or fixed amount of money due when switching to another fund. Definition origin:EFAMA DD",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "fibo-fbc-pas-caa:Fee"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "tracking error",
+      "technicalName": "fibo-sec-fund-civ:trackingError",
+      "localName": "trackingError",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/trackingError",
+      "label": "tracking error",
+      "definition": "See RiskFactors narrative in EFAMA DD",
+      "domain": [
+        "fund investment restrictions set"
+      ],
+      "range": [
+        "cmns-qtu:Percentage"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "valuation frequency",
+      "technicalName": "fibo-sec-fund-civ:valuationFrequency",
+      "localName": "valuationFrequency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/valuationFrequency",
+      "label": "valuation frequency",
+      "definition": "Frequency of the net asset value calculation.",
+      "domain": [
+        "net asset value calculation method"
+      ],
+      "range": [
+        "fibo-fnd-dt-fd:RecurrenceInterval"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "value at risk",
+      "technicalName": "fibo-sec-fund-civ:valueAtRisk",
+      "localName": "valueAtRisk",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/valueAtRisk",
+      "label": "value at risk",
+      "definition": "See RiskClassification_NameOf in EFAMA DD Applies to Fund not Portfolio.",
+      "domain": [
+        "fund investment restrictions set"
+      ],
+      "range": [
+        "cmns-qtu:Percentage"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has legal structure",
+      "technicalName": "fibo-sec-fund-fund:hasLegalStructure",
+      "localName": "hasLegalStructure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/hasLegalStructure",
+      "label": "has legal structure",
+      "definition": "indicates the legal form that the fund takes",
+      "domain": [
+        "fibo-sec-sec-pls:PooledFund"
+      ],
+      "range": [
+        "legal fund structure"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has sub-fund",
+      "technicalName": "fibo-sec-fund-fund:hasSubFund",
+      "localName": "hasSubFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/hasSubFund",
+      "label": "has sub-fund",
+      "definition": "relates a pooled fund to a sub-fund that is a constituent of the parent fund",
+      "domain": [
+        "fibo-sec-sec-pls:PooledFund"
+      ],
+      "range": [
+        "fibo-sec-sec-pls:PooledFund"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is sub-fund of",
+      "technicalName": "fibo-sec-fund-fund:isSubFundOf",
+      "localName": "isSubFundOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/isSubFundOf",
+      "label": "is sub-fund of",
+      "definition": "relates a pooled fund to a parent fund",
+      "domain": [
+        "fibo-sec-sec-pls:PooledFund"
+      ],
+      "range": [
+        "fibo-sec-sec-pls:PooledFund"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "additional restrictions",
+      "technicalName": "fibo-sec-fund-civ:additionalRestrictions",
+      "localName": "additionalRestrictions",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/additionalRestrictions",
+      "label": "additional restrictions",
+      "definition": "Other restrictions or treatment information in respect of this strategy and the organization to which it refers.",
+      "domain": [
+        "organization strategy"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "back end load applicable",
+      "technicalName": "fibo-sec-fund-civ:backEndLoadApplicable",
+      "localName": "backEndLoadApplicable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/backEndLoadApplicable",
+      "label": "back end load applicable",
+      "definition": "Whether an exit charge, eg, CDSC, on redemption orders for this class can be applied.",
+      "domain": [
+        "fund processing general terms"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "blacklisted",
+      "technicalName": "fibo-sec-fund-civ:blacklisted",
+      "localName": "blacklisted",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/blacklisted",
+      "label": "blacklisted",
+      "definition": "Whether or not the strategy in framed so as to include the referenced business entity as being blacklisted. If yes, the strategy prevents investment in securities issued by that organization.",
+      "domain": [
+        "organization strategy"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "clear funds required",
+      "technicalName": "fibo-sec-fund-civ:clearFundsRequired",
+      "localName": "clearFundsRequired",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/clearFundsRequired",
+      "label": "clear funds required",
+      "definition": "Whether cleared funds may be required before a subscription order can be executed.",
+      "domain": [
+        "fibo-fbc-pas-fpas:SettlementTerms"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "dealing frequency description",
+      "technicalName": "fibo-sec-fund-civ:dealingFrequencyDescription",
+      "localName": "dealingFrequencyDescription",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/dealingFrequencyDescription",
+      "label": "dealing frequency description",
+      "definition": "Description of frequency at which the subscriptions and redemptions are done.",
+      "domain": [
+        "fund processing terms"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "declaration channel",
+      "technicalName": "fibo-sec-fund-civ:declarationChannel",
+      "localName": "declarationChannel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/declarationChannel",
+      "label": "declaration channel",
+      "definition": "Means of the net asset value publication, eg, a newspaper.",
+      "domain": [
+        "net asset value calculation method"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "distribution with reinvestment",
+      "technicalName": "fibo-sec-fund-civ:distributionWithReinvestment",
+      "localName": "distributionWithReinvestment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/distributionWithReinvestment",
+      "label": "distribution with reinvestment",
+      "definition": "It is possible to hold shares for which the accrued income is distributed, but then reinvested automatically in additional units/shares allocated to the investor.",
+      "domain": [
+        "fund reinvestment policy",
+        "fund unit distribution policy"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "dual fund",
+      "technicalName": "fibo-sec-fund-civ:dualFund",
+      "localName": "dualFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/dualFund",
+      "label": "dual fund",
+      "definition": "Whether the fund has two prices.",
+      "domain": [
+        "fund processing general terms"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "first accounting year end date",
+      "technicalName": "fibo-sec-fund-civ:firstAccountingYearEndDate",
+      "localName": "firstAccountingYearEndDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/firstAccountingYearEndDate",
+      "label": "first accounting year end date",
+      "definition": "Last day of the first accounting year for the fund.",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "first n a v calculation date",
+      "technicalName": "fibo-sec-fund-civ:firstNAVCalculationDate",
+      "localName": "firstNAVCalculationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/firstNAVCalculationDate",
+      "label": "first n a v calculation date",
+      "definition": "The first date of NAV calculation",
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "front end load applicable",
+      "technicalName": "fibo-sec-fund-civ:frontEndLoadApplicable",
+      "localName": "frontEndLoadApplicable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/frontEndLoadApplicable",
+      "label": "front end load applicable",
+      "definition": "Whether a front end charge on subscription orders for this class can be applied.",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "fund class type identifier",
+      "technicalName": "fibo-sec-fund-civ:fundClassTypeIdentifier",
+      "localName": "fundClassTypeIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/fundClassTypeIdentifier",
+      "label": "fund class type identifier",
+      "definition": "A textual identification of the class of fund units. This is used to uniquely identify a particular class of fund units, and thereby identify features of this type of unit within the fund.",
+      "domain": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "historic pricing indicator",
+      "technicalName": "fibo-sec-fund-civ:historicPricingIndicator",
+      "localName": "historicPricingIndicator",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/historicPricingIndicator",
+      "label": "historic pricing indicator",
+      "definition": "Indicates whether the price is historic or forward.",
+      "domain": [
+        "net asset value calculation method"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "holder may reinvest",
+      "technicalName": "fibo-sec-fund-civ:holderMayReinvest",
+      "localName": "holderMayReinvest",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/holderMayReinvest",
+      "label": "holder may reinvest",
+      "definition": "Whether or not the holder may reinvest dividends in the fund.",
+      "domain": [
+        "distributing share class"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "holding transferable",
+      "technicalName": "fibo-sec-fund-civ:holdingTransferable",
+      "localName": "holdingTransferable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/holdingTransferable",
+      "label": "holding transferable",
+      "definition": "Whether registered investors are able to transfer some or all of their holdings to third parties.",
+      "domain": [
+        "fund processing general terms"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "include related firms",
+      "technicalName": "fibo-sec-fund-civ:includeRelatedFirms",
+      "localName": "includeRelatedFirms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/includeRelatedFirms",
+      "label": "include related firms",
+      "definition": "Whether or not the strategy includes firms which are related in some way to the referenced organization.",
+      "domain": [
+        "organization strategy"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "inclusion",
+      "technicalName": "fibo-sec-fund-civ:inclusion",
+      "localName": "inclusion",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/inclusion",
+      "label": "inclusion",
+      "definition": "Whether the referred strategy is included. No means this description refers to the exclusion of what is described, from the portfolio.",
+      "domain": [
+        "fund portfolio investment limitations"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "investment focus",
+      "technicalName": "fibo-sec-fund-civ:investmentFocus",
+      "localName": "investmentFocus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/investmentFocus",
+      "label": "investment focus",
+      "definition": "The information about the area the fund is mostly invested into (for example stock market in Germany).",
+      "domain": [
+        "portfolio investment strategy"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "launch date",
+      "technicalName": "fibo-sec-fund-civ:launchDate",
+      "localName": "launchDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/launchDate",
+      "label": "launch date",
+      "definition": "Date of first NAV calculation and start of performance calculations",
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "limited shares are issued",
+      "technicalName": "fibo-sec-fund-civ:limitedSharesAreIssued",
+      "localName": "limitedSharesAreIssued",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/limitedSharesAreIssued",
+      "label": "limited shares are issued",
+      "definition": "Whether or not new shares can be issued in the fund. This is what makes it a closed end or open end fund.",
+      "domain": [
+        "fund share class unit"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "main fund order desk",
+      "technicalName": "fibo-sec-fund-civ:mainFundOrderDesk",
+      "localName": "mainFundOrderDesk",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/mainFundOrderDesk",
+      "label": "main fund order desk",
+      "definition": "Whether the fund order desk is the principal entity appointed by the fund to which orders should be submitted.",
+      "domain": [
+        "fund processing terms"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "maximum redemption units",
+      "technicalName": "fibo-sec-fund-civ:maximumRedemptionUnits",
+      "localName": "maximumRedemptionUnits",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/maximumRedemptionUnits",
+      "label": "maximum redemption units",
+      "definition": "Maximum number of shares/units that may be redeemed on a single dealing day.",
+      "domain": [
+        "fund redemption terms"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "minimum initial subscription units",
+      "technicalName": "fibo-sec-fund-civ:minimumInitialSubscriptionUnits",
+      "localName": "minimumInitialSubscriptionUnits",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/minimumInitialSubscriptionUnits",
+      "label": "minimum initial subscription units",
+      "definition": "Minimum initial number of units/shares that must be purchased.",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "minimum remaining holding units",
+      "technicalName": "fibo-sec-fund-civ:minimumRemainingHoldingUnits",
+      "localName": "minimumRemainingHoldingUnits",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/minimumRemainingHoldingUnits",
+      "label": "minimum remaining holding units",
+      "definition": "Minimum number of units/shares that must be retained to avoid automatic redemption.",
+      "domain": [
+        "fund processing general terms"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "minimum subscription units",
+      "technicalName": "fibo-sec-fund-civ:minimumSubscriptionUnits",
+      "localName": "minimumSubscriptionUnits",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/minimumSubscriptionUnits",
+      "label": "minimum subscription units",
+      "definition": "Minimum number of units/shares that must be purchased by existing investors.",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "name",
+      "technicalName": "fibo-sec-fund-civ:name",
+      "localName": "name",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/name",
+      "label": "name",
+      "definition": "Name of the investment fund.",
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "name",
+      "technicalName": "fibo-sec-fund-civ:name.1",
+      "localName": "name.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/name.1",
+      "label": "name",
+      "definition": "Name given to the defined strategy.",
+      "domain": [
+        "fund portfolio investment policy"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "physical document required",
+      "technicalName": "fibo-sec-fund-civ:physicalDocumentRequired",
+      "localName": "physicalDocumentRequired",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/physicalDocumentRequired",
+      "label": "physical document required",
+      "definition": "Whether a phsyical form is required through the main fund order desk. Yes: A phsyical form is required through the main fund order desk. No: A phsyical form is not required through the main fund order desk.",
+      "domain": [],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "product group description",
+      "technicalName": "fibo-sec-fund-civ:productGroupDescription",
+      "localName": "productGroupDescription",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/productGroupDescription",
+      "label": "product group description",
+      "definition": "Company specific description of a group of funds.",
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "redemption cycle in business days",
+      "technicalName": "fibo-sec-fund-civ:redemptionCycleInBusinessDays",
+      "localName": "redemptionCycleInBusinessDays",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/redemptionCycleInBusinessDays",
+      "label": "redemption cycle in business days",
+      "definition": "The last business day following the day on which a redemption order is priced (T) by which settlement will be due for orders placed with the main Fund Order Desk. Alternatively, if proceeds will be paid following receipt of written renunciation, the last business day following receipt of the relevant renunciation documentation by the main Fund Order Desk (R) by which the proceeds will be sent.",
+      "domain": [
+        "fibo-fbc-fi-stl:SettlementConvention"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "redemption in amount allowed",
+      "technicalName": "fibo-sec-fund-civ:redemptionInAmountAllowed",
+      "localName": "redemptionInAmountAllowed",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/redemptionInAmountAllowed",
+      "label": "redemption in amount allowed",
+      "definition": "Whether redemptions in amount are allowed.",
+      "domain": [
+        "fund redemption terms"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "registration date",
+      "technicalName": "fibo-sec-fund-civ:registrationDate",
+      "localName": "registrationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/registrationDate",
+      "label": "registration date",
+      "definition": "The date at which the fund is legally approved in a country other than the country of origin.",
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "signature required",
+      "technicalName": "fibo-sec-fund-civ:signatureRequired",
+      "localName": "signatureRequired",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/signatureRequired",
+      "label": "signature required",
+      "definition": "Whether a phsyical form with the investor's written signature is required through the main fund order desk. Yes:A phsyical form with the investor's written signature is required through the main fund order desk.",
+      "domain": [],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "stated investment aim",
+      "technicalName": "fibo-sec-fund-civ:statedInvestmentAim",
+      "localName": "statedInvestmentAim",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/statedInvestmentAim",
+      "label": "stated investment aim",
+      "definition": "The stated aim of the Fund in words, e.g outperfom a given benchmark.",
+      "domain": [
+        "fund investment objective"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "stated objective",
+      "technicalName": "fibo-sec-fund-civ:statedObjective",
+      "localName": "statedObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/statedObjective",
+      "label": "stated objective",
+      "definition": "The stated objective of the fund, in words.",
+      "domain": [
+        "fibo-sec-sec-iss:Prospectus"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "subscriptions in amount allowed",
+      "technicalName": "fibo-sec-fund-civ:subscriptionsInAmountAllowed",
+      "localName": "subscriptionsInAmountAllowed",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/subscriptionsInAmountAllowed",
+      "label": "subscriptions in amount allowed",
+      "definition": "Whether subscriptions in amount are allowed.",
+      "domain": [
+        "fund subscription terms"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "switching chargeable",
+      "technicalName": "fibo-sec-fund-civ:switchingChargeable",
+      "localName": "switchingChargeable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/switchingChargeable",
+      "label": "switching chargeable",
+      "definition": "Whether a switching charge for changing between sub-funds of the same umbrella can be applied.",
+      "domain": [
+        "fund processing general terms"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "type of securities",
+      "technicalName": "fibo-sec-fund-civ:typeOfSecurities",
+      "localName": "typeOfSecurities",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/typeOfSecurities",
+      "label": "type of securities",
+      "definition": "The type of securities or other holdings that may be invested in.",
+      "domain": [
+        "fund investment restrictions set"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "valuation frequency textual description",
+      "technicalName": "fibo-sec-fund-civ:valuationFrequencyTextualDescription",
+      "localName": "valuationFrequencyTextualDescription",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/valuationFrequencyTextualDescription",
+      "label": "valuation frequency textual description",
+      "definition": "Description of the frequency of the net asset value calculation.",
+      "domain": [
+        "net asset value calculation method"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is open ended",
+      "technicalName": "fibo-sec-fund-fund:isOpenEnded",
+      "localName": "isOpenEnded",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/isOpenEnded",
+      "label": "is open ended",
+      "definition": "indicates whether the fund is an open-end/closed-end fund",
+      "domain": [
+        "fibo-sec-sec-pls:PooledFund"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is private",
+      "technicalName": "fibo-sec-fund-fund:isPrivate",
+      "localName": "isPrivate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/isPrivate",
+      "label": "is private",
+      "definition": "indicates that the fund does not offer its securities to the general public",
+      "domain": [
+        "fibo-sec-sec-pls:PooledFund"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

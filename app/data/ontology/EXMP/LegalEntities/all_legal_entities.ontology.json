@@ -1,0 +1,18 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\EXMP\\LegalEntities",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\EXMP\\LegalEntities\\DowJonesIndustrialAverageCompanies.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\EXMP\\LegalEntities\\DowJonesIndustrialAverageExecutives.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\EXMP\\LegalEntities\\FinancialInstitutionExamples.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\EXMP\\LegalEntities\\MarketsAndExchangesExamples.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 4,
+    "classes": 0,
+    "edges": 0,
+    "attributes": 0
+  },
+  "classes": [],
+  "edges": [],
+  "attributes": []
+}

@@ -1,0 +1,109 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Accounting\\AccountingEquity.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/",
+  "summary": {
+    "nodes": 9,
+    "edges": 0,
+    "properties": 0,
+    "triples": 54
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/"
+  ],
+  "classes": [
+    {
+      "name": "fibo-fnd-acc-aeq:CapitalSurplus",
+      "technicalName": "fibo-fnd-acc-aeq:CapitalSurplus",
+      "localName": "CapitalSurplus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/CapitalSurplus",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-fnd-acc-aeq:EarningsBeforeInterestTaxesDepreciationAmortization",
+      "technicalName": "fibo-fnd-acc-aeq:EarningsBeforeInterestTaxesDepreciationAmortization",
+      "localName": "EarningsBeforeInterestTaxesDepreciationAmortization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/EarningsBeforeInterestTaxesDepreciationAmortization",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-fnd-acc-aeq:FinancialAsset",
+      "technicalName": "fibo-fnd-acc-aeq:FinancialAsset",
+      "localName": "FinancialAsset",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/FinancialAsset",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-fnd-acc-aeq:Income",
+      "technicalName": "fibo-fnd-acc-aeq:Income",
+      "localName": "Income",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/Income",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-fnd-acc-aeq:OwnersEquity",
+      "technicalName": "fibo-fnd-acc-aeq:OwnersEquity",
+      "localName": "OwnersEquity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/OwnersEquity",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-fnd-acc-aeq:PaidInCapital",
+      "technicalName": "fibo-fnd-acc-aeq:PaidInCapital",
+      "localName": "PaidInCapital",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/PaidInCapital",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-fnd-acc-aeq:PhysicalAsset",
+      "technicalName": "fibo-fnd-acc-aeq:PhysicalAsset",
+      "localName": "PhysicalAsset",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/PhysicalAsset",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-fnd-acc-aeq:RetainedEarnings",
+      "technicalName": "fibo-fnd-acc-aeq:RetainedEarnings",
+      "localName": "RetainedEarnings",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/RetainedEarnings",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-fnd-acc-aeq:ShareholdersEquity",
+      "technicalName": "fibo-fnd-acc-aeq:ShareholdersEquity",
+      "localName": "ShareholdersEquity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/AccountingEquity/ShareholdersEquity",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

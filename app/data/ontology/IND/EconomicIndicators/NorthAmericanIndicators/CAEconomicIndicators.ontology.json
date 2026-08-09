@@ -1,0 +1,170 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\IND\\EconomicIndicators\\NorthAmericanIndicators\\CAEconomicIndicators.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/CAEconomicIndicators/",
+  "summary": {
+    "nodes": 6,
+    "edges": 0,
+    "properties": 0,
+    "triples": 132
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/NorthAmericanJurisdiction/CAGovernmentEntitiesAndJurisdictions/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/ClassificationSchemes/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Locations/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/",
+    "https://www.omg.org/spec/LCC/Countries/ISO3166-1-CountryCodes/"
+  ],
+  "classes": [
+    {
+      "name": "Canadian consumer price index",
+      "technicalName": "fibo-ind-ei-caei:CanadianConsumerPriceIndex",
+      "localName": "CanadianConsumerPriceIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/CAEconomicIndicators/CanadianConsumerPriceIndex",
+      "label": "Canadian consumer price index",
+      "definition": "economic indicator representing a measure of changes over time in the prices of a fixed basket of consumer goods and services that Canadian private households consume",
+      "parents": [
+        "fibo-ind-ei-ei:ConsumerPriceIndex"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "fibo-ind-ei-ei:FixedBasket",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "Canadian households consumers universe",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "Canadian households consumers universe"
+        },
+        {
+          "property": "fibo-be-fct-pub:isPublishedBy",
+          "operator": "value",
+          "value": "Statistics Canada",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-fct-pub:hasPublisher",
+          "operator": "value",
+          "value": "Canadian statistics publisher",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Canadian households consumers universe",
+      "technicalName": "fibo-ind-ei-caei:CanadianHouseholdsConsumersUniverse",
+      "localName": "CanadianHouseholdsConsumersUniverse",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/CAEconomicIndicators/CanadianHouseholdsConsumersUniverse",
+      "label": "Canadian households consumers universe",
+      "definition": "a statistical universe consisting of all private households in Canada, with the exception of soldiers on military bases, people living on First Nations reserves, institutionalized persons, and households living in the rural areas of the three northern territories",
+      "parents": [
+        "fibo-ind-ei-ei:CivilianNonInstitutionalPopulation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "fibo-ind-ei-ei:Household",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "fibo-ind-ei-ei:UltimateConsumer",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Canadian producer price index",
+      "technicalName": "fibo-ind-ei-caei:CanadianProducerPriceIndex",
+      "localName": "CanadianProducerPriceIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/CAEconomicIndicators/CanadianProducerPriceIndex",
+      "label": "Canadian producer price index",
+      "definition": "an economic indicator representing a measure of the change over time in the prices of a fixed-basket of domestic producer goods and services",
+      "parents": [
+        "fibo-ind-ei-ei:ProducerPriceIndex"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-fct-pub:isPublishedBy",
+          "operator": "value",
+          "value": "Statistics Canada",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-fct-pub:hasPublisher",
+          "operator": "value",
+          "value": "Canadian statistics publisher",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "industrial products sector",
+      "technicalName": "fibo-ind-ei-caei:IndustrialProductsSector",
+      "localName": "IndustrialProductsSector",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/CAEconomicIndicators/IndustrialProductsSector",
+      "label": "industrial products sector",
+      "definition": "a classifier for a sector of the economy used for price indices focused on major commodities sold by manufacturers in Canada",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "new housing sector",
+      "technicalName": "fibo-ind-ei-caei:NewHousingSector",
+      "localName": "NewHousingSector",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/CAEconomicIndicators/NewHousingSector",
+      "label": "new housing sector",
+      "definition": "a classifier for a sector of the economy used for price indices focused on contractors' selling prices of new residential houses, where detailed specifications pertaining to each house remain the same between two consecutive periods",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "raw materials sector",
+      "technicalName": "fibo-ind-ei-caei:RawMaterialsSector",
+      "localName": "RawMaterialsSector",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/CAEconomicIndicators/RawMaterialsSector",
+      "label": "raw materials sector",
+      "definition": "a classifier used for price indices related to raw materials purchased by industries in Canada for further processing",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

@@ -33,10 +33,10 @@ def resolve_output_path(path: Path | str | None = None) -> Path:
     return resolved
 
 
-def is_merged_ontology_file(path: Path) -> bool:
-    """Identify generated aggregate ontology files that should not be inputs."""
+def is_generated_ontology_file(path: Path) -> bool:
+    """Identify generated lowercase aggregate files."""
 
-    return path.name.lower().startswith("all")
+    return path.name.startswith("all_") or path.name == "all.ontology.json"
 
 
 def folder_output_path(folder: Path) -> Path:
@@ -75,13 +75,16 @@ def append_unique(items: list[Any], item: Any, seen: set[tuple[str, str]]) -> No
     items.append(item)
 
 
-def ontology_files(input_dir: Path, output_path: Path | None = None) -> list[Path]:
+def direct_ontology_files(
+    input_dir: Path,
+    output_path: Path | None = None,
+) -> list[Path]:
     """Find direct ontology JSON inputs, excluding generated aggregate files."""
 
     resolved_output_path = output_path.resolve() if output_path else None
     files = []
     for file_path in sorted(input_dir.glob("*.ontology.json")):
-        if is_merged_ontology_file(file_path):
+        if is_generated_ontology_file(file_path):
             continue
         if resolved_output_path and file_path.resolve() == resolved_output_path:
             continue
@@ -89,15 +92,37 @@ def ontology_files(input_dir: Path, output_path: Path | None = None) -> list[Pat
     return files
 
 
+def ontology_files(input_dir: Path, output_path: Path | None = None) -> list[Path]:
+    """Find the input files used to build one folder's aggregate ontology."""
+
+    files = direct_ontology_files(input_dir, output_path)
+    for child_dir in sorted(path for path in input_dir.iterdir() if path.is_dir()):
+        child_output_path = folder_output_path(child_dir)
+        if child_output_path.exists():
+            files.append(child_output_path)
+    return files
+
+
 def ontology_folders(root_dir: Path) -> list[Path]:
-    """Find folders that contain direct ontology JSON source files."""
+    """Find folders that contain direct or descendant ontology JSON inputs."""
 
     folders = [root_dir]
     folders.extend(path for path in root_dir.rglob("*") if path.is_dir())
+    source_folders = {
+        file_path.parent
+        for file_path in root_dir.rglob("*.ontology.json")
+        if not is_generated_ontology_file(file_path)
+    }
+    merge_folders = set(source_folders)
+    for source_folder in source_folders:
+        for parent in source_folder.parents:
+            merge_folders.add(parent)
+            if parent == root_dir:
+                break
     return [
         folder
         for folder in sorted(folders)
-        if ontology_files(folder, folder_output_path(folder))
+        if folder in merge_folders and root_dir in (folder, *folder.parents)
     ]
 
 
@@ -160,8 +185,17 @@ def write_merged_ontology_folders(
 
     resolved_root_dir = resolve_directory(root_dir)
     results = []
-    for folder in ontology_folders(resolved_root_dir):
-        output_path, data = write_merged_ontology(folder_output_path(folder), folder)
+    for folder in sorted(
+        ontology_folders(resolved_root_dir),
+        key=lambda path: len(path.relative_to(resolved_root_dir).parts),
+        reverse=True,
+    ):
+        output_path = (
+            resolved_root_dir / DEFAULT_OUTPUT_PATH.name
+            if folder == resolved_root_dir
+            else folder_output_path(folder)
+        )
+        output_path, data = write_merged_ontology(output_path, folder)
         results.append(
             {
                 "folder": str(folder),

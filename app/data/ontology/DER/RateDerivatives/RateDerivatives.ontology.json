@@ -1,0 +1,100 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\DER\\RateDerivatives\\RateDerivatives.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/",
+  "summary": {
+    "nodes": 8,
+    "edges": 0,
+    "properties": 0,
+    "triples": 43
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/"
+  ],
+  "classes": [
+    {
+      "name": "fibo-der-rtd-rtd:EconomicRateBasedDerivativeInstrument",
+      "technicalName": "fibo-der-rtd-rtd:EconomicRateBasedDerivativeInstrument",
+      "localName": "EconomicRateBasedDerivativeInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/EconomicRateBasedDerivativeInstrument",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-der-rtd-rtd:EconomicRateObservable",
+      "technicalName": "fibo-der-rtd-rtd:EconomicRateObservable",
+      "localName": "EconomicRateObservable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/EconomicRateObservable",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-der-rtd-rtd:ForeignExchangeRateObservable",
+      "technicalName": "fibo-der-rtd-rtd:ForeignExchangeRateObservable",
+      "localName": "ForeignExchangeRateObservable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/ForeignExchangeRateObservable",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-der-rtd-rtd:ForwardRateAgreement",
+      "technicalName": "fibo-der-rtd-rtd:ForwardRateAgreement",
+      "localName": "ForwardRateAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/ForwardRateAgreement",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-der-rtd-rtd:InterestRateDerivativeInstrument",
+      "technicalName": "fibo-der-rtd-rtd:InterestRateDerivativeInstrument",
+      "localName": "InterestRateDerivativeInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/InterestRateDerivativeInstrument",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-der-rtd-rtd:InterestRateObservable",
+      "technicalName": "fibo-der-rtd-rtd:InterestRateObservable",
+      "localName": "InterestRateObservable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/InterestRateObservable",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-der-rtd-rtd:RateBasedDerivativeInstrument",
+      "technicalName": "fibo-der-rtd-rtd:RateBasedDerivativeInstrument",
+      "localName": "RateBasedDerivativeInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/RateBasedDerivativeInstrument",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-der-rtd-rtd:RateBasedObservable",
+      "technicalName": "fibo-der-rtd-rtd:RateBasedObservable",
+      "localName": "RateBasedObservable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/RateBasedObservable",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

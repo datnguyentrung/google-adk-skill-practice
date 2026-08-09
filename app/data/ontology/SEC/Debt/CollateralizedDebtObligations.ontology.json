@@ -1,0 +1,1914 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Debt\\CollateralizedDebtObligations.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/",
+  "summary": {
+    "nodes": 85,
+    "edges": 28,
+    "properties": 6,
+    "triples": 794
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/AssetBackedSecurities/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/Bonds/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/MortgageBackedSecurities/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "a b s c d o deal",
+      "technicalName": "fibo-sec-dbt-cdo:ABSCDODeal",
+      "localName": "ABSCDODeal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/ABSCDODeal",
+      "label": "a b s c d o deal",
+      "definition": "An issue of Asset Backed Security CDO notes.",
+      "parents": [
+        "c d o deal"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "a b s c d o instrument",
+      "technicalName": "fibo-sec-dbt-cdo:ABSCDOInstrument",
+      "localName": "ABSCDOInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/ABSCDOInstrument",
+      "label": "a b s c d o instrument",
+      "definition": "CDO where the underlying asset pool is ABS.",
+      "parents": [
+        "cash c d o tranche"
+      ],
+      "rules": []
+    },
+    {
+      "name": "agency c m o",
+      "technicalName": "fibo-sec-dbt-cdo:AgencyCMO",
+      "localName": "AgencyCMO",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/AgencyCMO",
+      "label": "agency c m o",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-dbti:DebtOffering"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-sec-dbt-mbs:AgencyMBSPool",
+          "qualifier": null
+        },
+        {
+          "property": "provides prepayment support",
+          "operator": "some",
+          "value": "agency c m o",
+          "qualifier": null
+        },
+        {
+          "property": "has tranche type",
+          "operator": "some",
+          "value": "tranche type",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "agency i o tranche",
+      "technicalName": "fibo-sec-dbt-cdo:AgencyIOTranche",
+      "localName": "AgencyIOTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/AgencyIOTranche",
+      "label": "agency i o tranche",
+      "definition": null,
+      "parents": [
+        "agency c m o"
+      ],
+      "rules": []
+    },
+    {
+      "name": "agency jump tranche",
+      "technicalName": "fibo-sec-dbt-cdo:AgencyJumpTranche",
+      "localName": "AgencyJumpTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/AgencyJumpTranche",
+      "label": "agency jump tranche",
+      "definition": "A tranche where if there is some sort of trigger event reached then the holders of the tranche will begin to receive payments.",
+      "parents": [
+        "agency c m o"
+      ],
+      "rules": [
+        {
+          "property": "specifies trigger",
+          "operator": "some",
+          "value": "jump z trigger event",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "agency jump z tranche",
+      "technicalName": "fibo-sec-dbt-cdo:AgencyJumpZTranche",
+      "localName": "AgencyJumpZTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/AgencyJumpZTranche",
+      "label": "agency jump z tranche",
+      "definition": "A Jump Z tranche is like a Z tranche but if there is some sort of trigger event reached then the holders of the Jump Z tranche will begin to receive payments. Regular non-Sticky Jump Z tranches maintain their changed status only while the trigger event is in effect, and revert to their old payment status once the trigger event has passed.",
+      "parents": [
+        "agency jump tranche",
+        "agency z tranche"
+      ],
+      "rules": []
+    },
+    {
+      "name": "agency p o tranche",
+      "technicalName": "fibo-sec-dbt-cdo:AgencyPOTranche",
+      "localName": "AgencyPOTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/AgencyPOTranche",
+      "label": "agency p o tranche",
+      "definition": "Principal Only tranche. This tranche will only pay principal.",
+      "parents": [
+        "agency c m o"
+      ],
+      "rules": []
+    },
+    {
+      "name": "agency regular jump z",
+      "technicalName": "fibo-sec-dbt-cdo:AgencyRegularJumpZ",
+      "localName": "AgencyRegularJumpZ",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/AgencyRegularJumpZ",
+      "label": "agency regular jump z",
+      "definition": "Regular non-Sticky Jump Z tranches maintain their changed status only while the trigger event is in effect, and revert to their old payment status once the trigger event has passed.",
+      "parents": [
+        "agency jump z tranche"
+      ],
+      "rules": [
+        {
+          "property": "reverts on",
+          "operator": "some",
+          "value": "jump z trigger event reversal",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "agency sticky jump z",
+      "technicalName": "fibo-sec-dbt-cdo:AgencyStickyJumpZ",
+      "localName": "AgencyStickyJumpZ",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/AgencyStickyJumpZ",
+      "label": "agency sticky jump z",
+      "definition": "\"Sticky\" Jump Z tranches maintain the payment priority of a Jump Z tranche until they are retired.",
+      "parents": [
+        "agency jump z tranche"
+      ],
+      "rules": []
+    },
+    {
+      "name": "agency z tranche",
+      "technicalName": "fibo-sec-dbt-cdo:AgencyZTranche",
+      "localName": "AgencyZTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/AgencyZTranche",
+      "label": "agency z tranche",
+      "definition": "A tranche that does not receive payments while other tranches remain.",
+      "parents": [
+        "agency c m o"
+      ],
+      "rules": []
+    },
+    {
+      "name": "arbitrage c d o",
+      "technicalName": "fibo-sec-dbt-cdo:ArbitrageCDO",
+      "localName": "ArbitrageCDO",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/ArbitrageCDO",
+      "label": "arbitrage c d o",
+      "definition": "Arbitrage CDO/CLO/CBO - the reference assets are bought by a firm or conduit or SPV (Special Purpose Vehicle) with a view to repackage them and sell them on as the structured product.",
+      "parents": [
+        "c d o deal"
+      ],
+      "rules": [
+        {
+          "property": "has c d o origination objective",
+          "operator": "some",
+          "value": "arbitrage cdo objective",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "arbitrage cdo objective",
+      "technicalName": "fibo-sec-dbt-cdo:ArbitrageCdoObjective",
+      "localName": "ArbitrageCdoObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/ArbitrageCdoObjective",
+      "label": "arbitrage cdo objective",
+      "definition": "The objective is arbitrage, whereby the motivation is to add value by repackaging assets into tranches.",
+      "parents": [
+        "c d o origination objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "balance sheet c d o",
+      "technicalName": "fibo-sec-dbt-cdo:BalanceSheetCDO",
+      "localName": "BalanceSheetCDO",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/BalanceSheetCDO",
+      "label": "balance sheet c d o",
+      "definition": "Balance Sheet CDO/CLO/CBO - the reference assets for the SDO portfolio are taken from a company/firm's balance sheet.",
+      "parents": [
+        "c d o deal"
+      ],
+      "rules": [
+        {
+          "property": "has c d o origination objective",
+          "operator": "some",
+          "value": "balance sheet c d o objective",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "balance sheet c d o objective",
+      "technicalName": "fibo-sec-dbt-cdo:BalanceSheetCDOObjective",
+      "localName": "BalanceSheetCDOObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/BalanceSheetCDOObjective",
+      "label": "balance sheet c d o objective",
+      "definition": "The objective is that the CDO is created to move assets off the originator balance sheet.",
+      "parents": [
+        "c d o origination objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "c d o cashflow treatment structure",
+      "technicalName": "fibo-sec-dbt-cdo:CDOCashflowTreatmentStructure",
+      "localName": "CDOCashflowTreatmentStructure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CDOCashflowTreatmentStructure",
+      "label": "c d o cashflow treatment structure",
+      "definition": "The way in which cash flows are handled in a CDO.",
+      "parents": [
+        "fibo-fnd-gao-obj:Strategy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "c d o deal",
+      "technicalName": "fibo-sec-dbt-cdo:CDODeal",
+      "localName": "CDODeal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CDODeal",
+      "label": "c d o deal",
+      "definition": "An Issue of a set of CDO tranches as part of an offering to the market.",
+      "parents": [
+        "fibo-sec-dbt-dbti:DebtOffering"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "some",
+          "value": "c d o portfolio manager",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "collateralized debt obligation",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "super senior c d o tranche",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "subordinated c d o equity",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "senior c d o tranche",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "mezzanine c d o tranche",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "c d o portfolio",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "c d o management style",
+      "technicalName": "fibo-sec-dbt-cdo:CDOManagementStyle",
+      "localName": "CDOManagementStyle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CDOManagementStyle",
+      "label": "c d o management style",
+      "definition": "The manner in which reference assets are managed during the life of a CDO.",
+      "parents": [
+        "fibo-fnd-gao-obj:Strategy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "c d o origination objective",
+      "technicalName": "fibo-sec-dbt-cdo:CDOOriginationObjective",
+      "localName": "CDOOriginationObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CDOOriginationObjective",
+      "label": "c d o origination objective",
+      "definition": "The origin or motivation behind a CDO issue.",
+      "parents": [
+        "fibo-fnd-gao-obj:Objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "c d o pool",
+      "technicalName": "fibo-sec-dbt-cdo:CDOPool",
+      "localName": "CDOPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CDOPool",
+      "label": "c d o pool",
+      "definition": "A pool of CDO securities. The underlying of the CDO Squared is a pool of CDO instruments.",
+      "parents": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "rules": []
+    },
+    {
+      "name": "c d o portfolio",
+      "technicalName": "fibo-sec-dbt-cdo:CDOPortfolio",
+      "localName": "CDOPortfolio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CDOPortfolio",
+      "label": "c d o portfolio",
+      "definition": "A portfolio in which the reference assets of the CDO are held.",
+      "parents": [
+        "fibo-fnd-oac-own:Portfolio"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "some",
+          "value": "c d o portfolio manager",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "m b s instrument slice",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "c d o portfolio manager",
+      "technicalName": "fibo-sec-dbt-cdo:CDOPortfolioManager",
+      "localName": "CDOPortfolioManager",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CDOPortfolioManager",
+      "label": "c d o portfolio manager",
+      "definition": "The portfolio manager for a managed CDO or arbitrage CDO (also called an asset manager). This assumes that the role is the same in both cases.",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:manages",
+          "operator": "some",
+          "value": "c d o portfolio",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "c d o squared deal",
+      "technicalName": "fibo-sec-dbt-cdo:CDOSquaredDeal",
+      "localName": "CDOSquaredDeal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CDOSquaredDeal",
+      "label": "c d o squared deal",
+      "definition": "An issue of CDO Squared notes.",
+      "parents": [
+        "c d o deal"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "c d o pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "c d o squared instrument",
+      "technicalName": "fibo-sec-dbt-cdo:CDOSquaredInstrument",
+      "localName": "CDOSquaredInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CDOSquaredInstrument",
+      "label": "c d o squared instrument",
+      "definition": "CDOs where the underlying asset pool is CDOs.",
+      "parents": [
+        "collateralized debt obligation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "CDOTrancheSenioritySelection",
+      "technicalName": "fibo-sec-dbt-cdo:CDOTrancheSenioritySelection",
+      "localName": "CDOTrancheSenioritySelection",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CDOTrancheSenioritySelection",
+      "label": "CDOTrancheSenioritySelection",
+      "definition": "The seniority of a tranche of a CDO issue.",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "c m o deal",
+      "technicalName": "fibo-sec-dbt-cdo:CMODeal",
+      "localName": "CMODeal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CMODeal",
+      "label": "c m o deal",
+      "definition": "An issue of Collateralized mortgaged Obligations.",
+      "parents": [
+        "fibo-sec-dbt-dbti:DebtOffering"
+      ],
+      "rules": []
+    },
+    {
+      "name": "cash a b s pool",
+      "technicalName": "fibo-sec-dbt-cdo:CashABSPool",
+      "localName": "CashABSPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CashABSPool",
+      "label": "cash a b s pool",
+      "definition": "A pool investment consisting of a collection of cash ABS instruments.",
+      "parents": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "rules": []
+    },
+    {
+      "name": "cash c d o",
+      "technicalName": "fibo-sec-dbt-cdo:CashCDO",
+      "localName": "CashCDO",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CashCDO",
+      "label": "cash c d o",
+      "definition": "A CDO which has an uderlying portfolio of assets which are held by the issuer.",
+      "parents": [
+        "c d o deal"
+      ],
+      "rules": [
+        {
+          "property": "issues",
+          "operator": "some",
+          "value": "cash c d o tranche",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "cash c d o tranche",
+      "technicalName": "fibo-sec-dbt-cdo:CashCDOTranche",
+      "localName": "CashCDOTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CashCDOTranche",
+      "label": "cash c d o tranche",
+      "definition": null,
+      "parents": [
+        "collateralized debt obligation",
+        "fibo-sec-dbt-pbs:Tranche"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isPartOf",
+          "operator": "some",
+          "value": "fibo-sec-sec-pls:DebtPool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "cashflow c d o",
+      "technicalName": "fibo-sec-dbt-cdo:CashflowCDO",
+      "localName": "CashflowCDO",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CashflowCDO",
+      "label": "cashflow c d o",
+      "definition": "A cash-flow CDO is analogous to a CMO. Cash flows from collateral are used to pay principal and interest to investors. If such cash flows prove inadequate, principal and interest is paid to tranches according to seniority. At any point in time, all immediate obligations to a given tranch are met before any payments are made to less senior tranches.",
+      "parents": [
+        "c d o deal"
+      ],
+      "rules": [
+        {
+          "property": "structure",
+          "operator": "some",
+          "value": "cashflow structure",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "cashflow structure",
+      "technicalName": "fibo-sec-dbt-cdo:CashflowStructure",
+      "localName": "CashflowStructure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CashflowStructure",
+      "label": "cashflow structure",
+      "definition": "The source of funds for the CDO is cashflow. this means that cash flows from collateral are used to pay principal and interest to investors.",
+      "parents": [
+        "c d o cashflow treatment structure"
+      ],
+      "rules": []
+    },
+    {
+      "name": "collateralized bond obligation",
+      "technicalName": "fibo-sec-dbt-cdo:CollateralizedBondObligation",
+      "localName": "CollateralizedBondObligation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CollateralizedBondObligation",
+      "label": "collateralized bond obligation",
+      "definition": "structured debt security that has investment-grade bonds as its underlying assets backed by the receivables on high-yield or junk bonds",
+      "parents": [
+        "cash c d o tranche"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "fibo-sec-dbt-abs:BondPool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "collateralized debt obligation",
+      "technicalName": "fibo-sec-dbt-cdo:CollateralizedDebtObligation",
+      "localName": "CollateralizedDebtObligation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CollateralizedDebtObligation",
+      "label": "collateralized debt obligation",
+      "definition": "structured finance constructed from a portfolio of fixed income assets including corporate loans and mortgage backed securities. A special purpose vehicle (SPV) issues notes to investors in order to raise funds that are invested in a portfolio of those fixed income assets, held by the SPV as collateral for the notes. Further notes: Collateralized Debt Obligation, for example, ABS CDO which consists of a portfolio of different ABS bonds, and the payments to the holders of these trust certificates are derived from the cash flows of the ABS bonds. This CDO instrument is part of a CDO issue, consisting of individual CDO instruments of a given seniority. Often referred to as tranches and slices (Investopedia). Investopedia: Similar in structure to a collateralized mortgage obligation (CMO) or collateralized bond obligation (CBO), CDOs are unique in that they represent different types of debt and credit risk. In the case of CDOs, these different types of debt are often referred to as 'tranches' or 'slices'. Each slice has a different maturity and risk associated with it. The higher the risk, the more the CDO pays. Further details: Collateralized Debt obligations are securitized interests in pools of - generally non-mortgage - assets. Assets - called collateral - usually comprise loans or debt instruments. A CDO may be called a collateralized loan obligation (CLO) or collateralized bond obligation (CBO) if it holds only loans or bonds, respectively. Investors bear the credit risk of the collateral. Multiple tranches of securities are issued by the CDO, offering investors various maturity and credit risk characteristics.",
+      "parents": [
+        "fibo-sec-dbt-pbs:StructuredFinanceInstrument"
+      ],
+      "rules": [
+        {
+          "property": "fibo-sec-dbt-dbti:isSubordinatedTo",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "collateralized debt obligation"
+        }
+      ]
+    },
+    {
+      "name": "collateralized loan obligation offering",
+      "technicalName": "fibo-sec-dbt-cdo:CollateralizedLoanObligationOffering",
+      "localName": "CollateralizedLoanObligationOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/CollateralizedLoanObligationOffering",
+      "label": "collateralized loan obligation offering",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-dbti:DebtOffering"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "loan pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "floater tranche",
+      "technicalName": "fibo-sec-dbt-cdo:FloaterTranche",
+      "localName": "FloaterTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/FloaterTranche",
+      "label": "floater tranche",
+      "definition": "A floater tranche is a tranche that is keyed to an index and a spread.",
+      "parents": [
+        "tranched m b s instrument"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-fd:hasRecurrenceInterval",
+          "operator": "some",
+          "value": "fibo-fnd-dt-bd:DayOfMonth",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "hybrid c d o",
+      "technicalName": "fibo-sec-dbt-cdo:HybridCDO",
+      "localName": "HybridCDO",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/HybridCDO",
+      "label": "hybrid c d o",
+      "definition": "A CDO which combines features both of the cash and synthetic CDO. This is a CDO with tranches of cash and tranches of synthetic underlying assets. Further notes: So for example an issiue of $550 million may have $500 million in an asset pool and an additional $50 million created via a synthetic asset.",
+      "parents": [
+        "c d o deal"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "only",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "i oette",
+      "technicalName": "fibo-sec-dbt-cdo:IOette",
+      "localName": "IOette",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/IOette",
+      "label": "i oette",
+      "definition": "REVIEW: Is this a kind of IO Tranche.",
+      "parents": [
+        "agency i o tranche"
+      ],
+      "rules": []
+    },
+    {
+      "name": "inverse floater tranche",
+      "technicalName": "fibo-sec-dbt-cdo:InverseFloaterTranche",
+      "localName": "InverseFloaterTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/InverseFloaterTranche",
+      "label": "inverse floater tranche",
+      "definition": null,
+      "parents": [
+        "floater tranche"
+      ],
+      "rules": []
+    },
+    {
+      "name": "jump z trigger event",
+      "technicalName": "fibo-sec-dbt-cdo:JumpZTriggerEvent",
+      "localName": "JumpZTriggerEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/JumpZTriggerEvent",
+      "label": "jump z trigger event",
+      "definition": "The event which triggers the Jump Z",
+      "parents": [
+        "trigger event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "jump z trigger event reversal",
+      "technicalName": "fibo-sec-dbt-cdo:JumpZTriggerEventReversal",
+      "localName": "JumpZTriggerEventReversal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/JumpZTriggerEventReversal",
+      "label": "jump z trigger event reversal",
+      "definition": "The reversal of the event which triggers the Jump Z",
+      "parents": [
+        "trigger event"
+      ],
+      "rules": [
+        {
+          "property": "specifies reverse trigger",
+          "operator": "some",
+          "value": "jump z trigger event",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "loan pool",
+      "technicalName": "fibo-sec-dbt-cdo:LoanPool",
+      "localName": "LoanPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/LoanPool",
+      "label": "loan pool",
+      "definition": "debt pool whose consituents are loans",
+      "parents": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "fibo-loan-ln-ln:Loan",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "m b s instrument slice",
+      "technicalName": "fibo-sec-dbt-cdo:MBSInstrumentSlice",
+      "localName": "MBSInstrumentSlice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/MBSInstrumentSlice",
+      "label": "m b s instrument slice",
+      "definition": "A holding of an individual slice or slices of a tranche.",
+      "parents": [
+        "fibo-fnd-oac-own:Portfolio"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "m b s tranche note",
+      "technicalName": "fibo-sec-dbt-cdo:MBSTrancheNote",
+      "localName": "MBSTrancheNote",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/MBSTrancheNote",
+      "label": "m b s tranche note",
+      "definition": "An individual note of a tranche.",
+      "parents": [
+        "fibo-fbc-fi-fi:PromissoryNote"
+      ],
+      "rules": []
+    },
+    {
+      "name": "managed c d o",
+      "technicalName": "fibo-sec-dbt-cdo:ManagedCDO",
+      "localName": "ManagedCDO",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/ManagedCDO",
+      "label": "managed c d o",
+      "definition": "A CDO where the reference assets are bought (the portfolio is ramped up) and then the CDO manager may alter the portfolio as they see fit.",
+      "parents": [
+        "c d o deal"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "managed c d o portfolio",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "m b s instrument slice",
+          "qualifier": null
+        },
+        {
+          "property": "management style",
+          "operator": "some",
+          "value": "managed management style",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "managed c d o portfolio",
+      "technicalName": "fibo-sec-dbt-cdo:ManagedCDOPortfolio",
+      "localName": "ManagedCDOPortfolio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/ManagedCDOPortfolio",
+      "label": "managed c d o portfolio",
+      "definition": "A portfolio where the reference assets of the CDO are bought (the portfolio is ramped up) and then the CDO manager may alter the portfolio as they see fit.",
+      "parents": [
+        "c d o portfolio"
+      ],
+      "rules": []
+    },
+    {
+      "name": "managed management style",
+      "technicalName": "fibo-sec-dbt-cdo:ManagedManagementStyle",
+      "localName": "ManagedManagementStyle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/ManagedManagementStyle",
+      "label": "managed management style",
+      "definition": null,
+      "parents": [
+        "c d o management style"
+      ],
+      "rules": []
+    },
+    {
+      "name": "market value c d o",
+      "technicalName": "fibo-sec-dbt-cdo:MarketValueCDO",
+      "localName": "MarketValueCDO",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/MarketValueCDO",
+      "label": "market value c d o",
+      "definition": null,
+      "parents": [
+        "c d o deal"
+      ],
+      "rules": [
+        {
+          "property": "structure",
+          "operator": "some",
+          "value": "market value structure",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "market value structure",
+      "technicalName": "fibo-sec-dbt-cdo:MarketValueStructure",
+      "localName": "MarketValueStructure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/MarketValueStructure",
+      "label": "market value structure",
+      "definition": null,
+      "parents": [
+        "c d o cashflow treatment structure"
+      ],
+      "rules": []
+    },
+    {
+      "name": "mezzanine c d o tranche",
+      "technicalName": "fibo-sec-dbt-cdo:MezzanineCDOTranche",
+      "localName": "MezzanineCDOTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/MezzanineCDOTranche",
+      "label": "mezzanine c d o tranche",
+      "definition": "The tranche between senior and subordinated. Mezzanine tranches of a CDO issue are typically rated B to BBB.",
+      "parents": [
+        "collateralized debt obligation"
+      ],
+      "rules": [
+        {
+          "property": "rated at issue",
+          "operator": "some",
+          "value": "tranche rating at issue",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "mezzanine m b s tranche",
+      "technicalName": "fibo-sec-dbt-cdo:MezzanineMBSTranche",
+      "localName": "MezzanineMBSTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/MezzanineMBSTranche",
+      "label": "mezzanine m b s tranche",
+      "definition": "Specific kinds of tranche are modeled for example and investigation only and have been removed from the diagrams. These will be removed from the final model.",
+      "parents": [
+        "tranched m b s instrument"
+      ],
+      "rules": [
+        {
+          "property": "senior to",
+          "operator": "some",
+          "value": "subordinated m b s tranche",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "non agency i o tranche",
+      "technicalName": "fibo-sec-dbt-cdo:NonAgencyIOTranche",
+      "localName": "NonAgencyIOTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/NonAgencyIOTranche",
+      "label": "non agency i o tranche",
+      "definition": "Interest Only tranche, meaning that this tranche will only pay interest.",
+      "parents": [
+        "tranched m b s instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non agency jump tranche",
+      "technicalName": "fibo-sec-dbt-cdo:NonAgencyJumpTranche",
+      "localName": "NonAgencyJumpTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/NonAgencyJumpTranche",
+      "label": "non agency jump tranche",
+      "definition": "A tranche where if there is some sort of trigger event reached then the holders of the tranche will begin to receive payments.",
+      "parents": [
+        "tranched m b s instrument"
+      ],
+      "rules": [
+        {
+          "property": "specifies trigger",
+          "operator": "some",
+          "value": "jump z trigger event",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "non agency jump z tranche",
+      "technicalName": "fibo-sec-dbt-cdo:NonAgencyJumpZTranche",
+      "localName": "NonAgencyJumpZTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/NonAgencyJumpZTranche",
+      "label": "non agency jump z tranche",
+      "definition": "A Jump Z tranche is like a Z tranche but if there is some sort of trigger event reached then the holders of the Jump Z tranche will begin to receive payments. Regular non-Sticky Jump Z tranches maintain their changed status only while the trigger event is in effect, and revert to their old payment status once the trigger event has passed.",
+      "parents": [
+        "non agency jump tranche",
+        "non agency z tranche"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non agency p o tranche",
+      "technicalName": "fibo-sec-dbt-cdo:NonAgencyPOTranche",
+      "localName": "NonAgencyPOTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/NonAgencyPOTranche",
+      "label": "non agency p o tranche",
+      "definition": "Principal Only tranche. This tranche will only pay principal.",
+      "parents": [
+        "tranched m b s instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non agency regular jump z tranche",
+      "technicalName": "fibo-sec-dbt-cdo:NonAgencyRegularJumpZTranche",
+      "localName": "NonAgencyRegularJumpZTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/NonAgencyRegularJumpZTranche",
+      "label": "non agency regular jump z tranche",
+      "definition": "Regular non-Sticky Jump Z tranches maintain their changed status only while the trigger event is in effect, and revert to their old payment status once the trigger event has passed.",
+      "parents": [
+        "non agency jump z tranche"
+      ],
+      "rules": [
+        {
+          "property": "reverts",
+          "operator": "some",
+          "value": "jump z trigger event reversal",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "non agency sticky jump z tranche",
+      "technicalName": "fibo-sec-dbt-cdo:NonAgencyStickyJumpZTranche",
+      "localName": "NonAgencyStickyJumpZTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/NonAgencyStickyJumpZTranche",
+      "label": "non agency sticky jump z tranche",
+      "definition": "\"Sticky\" Jump Z tranches maintain the payment priority of a Jump Z tranche until they are retired.",
+      "parents": [
+        "non agency jump z tranche"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non agency z tranche",
+      "technicalName": "fibo-sec-dbt-cdo:NonAgencyZTranche",
+      "localName": "NonAgencyZTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/NonAgencyZTranche",
+      "label": "non agency z tranche",
+      "definition": "A tranche that does not receive payments while other tranches remain.",
+      "parents": [
+        "tranched m b s instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "p a c-1 class",
+      "technicalName": "fibo-sec-dbt-cdo:PAC-1Class",
+      "localName": "PAC-1Class",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/PAC-1Class",
+      "label": "p a c-1 class",
+      "definition": "Planned Amortization Class tranche. PAC-1 is the most senior Planned Amortization Class tranche.",
+      "parents": [
+        "planned amortization class bond"
+      ],
+      "rules": [
+        {
+          "property": "takes prepayment after",
+          "operator": "only",
+          "value": "p a c-2 class",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "p a c-2 class",
+      "technicalName": "fibo-sec-dbt-cdo:PAC-2Class",
+      "localName": "PAC-2Class",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/PAC-2Class",
+      "label": "p a c-2 class",
+      "definition": "Planned Amortization Class tranche. PAC-2 refers to a support tranche that is given a scheduled payment structure like a PAC bond.",
+      "parents": [
+        "planned amortization class bond"
+      ],
+      "rules": [
+        {
+          "property": "takes prepayment after",
+          "operator": "only",
+          "value": "p a c-3 class",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "p a c-3 class",
+      "technicalName": "fibo-sec-dbt-cdo:PAC-3Class",
+      "localName": "PAC-3Class",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/PAC-3Class",
+      "label": "p a c-3 class",
+      "definition": "Planned Amortization Class tranche. Additional support tranche with scheduled payments.",
+      "parents": [
+        "planned amortization class bond"
+      ],
+      "rules": []
+    },
+    {
+      "name": "p a c- z tranche",
+      "technicalName": "fibo-sec-dbt-cdo:PAC-ZTranche",
+      "localName": "PAC-ZTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/PAC-ZTranche",
+      "label": "p a c- z tranche",
+      "definition": "Planned Amortization Class tranche which is also a Z tranche, that is Definition needed.",
+      "parents": [
+        "agency z tranche",
+        "planned amortization class bond"
+      ],
+      "rules": []
+    },
+    {
+      "name": "p a c p o tranche",
+      "technicalName": "fibo-sec-dbt-cdo:PACPOTranche",
+      "localName": "PACPOTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/PACPOTranche",
+      "label": "p a c p o tranche",
+      "definition": "Planned Amortization Class principal only tranche.",
+      "parents": [
+        "agency p o tranche",
+        "planned amortization class bond"
+      ],
+      "rules": []
+    },
+    {
+      "name": "p a c tranche amortization schedule",
+      "technicalName": "fibo-sec-dbt-cdo:PACTrancheAmortizationSchedule",
+      "localName": "PACTrancheAmortizationSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/PACTrancheAmortizationSchedule",
+      "label": "p a c tranche amortization schedule",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-bnd:RedemptionSchedule"
+      ],
+      "rules": []
+    },
+    {
+      "name": "planned amortization class bond",
+      "technicalName": "fibo-sec-dbt-cdo:PlannedAmortizationClassBond",
+      "localName": "PlannedAmortizationClassBond",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/PlannedAmortizationClassBond",
+      "label": "planned amortization class bond",
+      "definition": "Planned Amortization Class tranche.This is a tranche where the principal payment must follow a certain schedule.",
+      "parents": [
+        "agency c m o"
+      ],
+      "rules": [
+        {
+          "property": "specifies",
+          "operator": "some",
+          "value": "p a c tranche amortization schedule",
+          "qualifier": null
+        },
+        {
+          "property": "supported by",
+          "operator": "only",
+          "value": "planned amortization class bond",
+          "qualifier": null
+        },
+        {
+          "property": "provides prepayment support for",
+          "operator": "only",
+          "value": "planned amortization class bond",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "regular floater tranche",
+      "technicalName": "fibo-sec-dbt-cdo:RegularFloaterTranche",
+      "localName": "RegularFloaterTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/RegularFloaterTranche",
+      "label": "regular floater tranche",
+      "definition": "A floater tranche is a tranche that is keyed to an index and a spread. The spread is added to the index.",
+      "parents": [
+        "floater tranche"
+      ],
+      "rules": []
+    },
+    {
+      "name": "residual tranche",
+      "technicalName": "fibo-sec-dbt-cdo:ResidualTranche",
+      "localName": "ResidualTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/ResidualTranche",
+      "label": "residual tranche",
+      "definition": "Unknown Further notes: Verify whether Residual Tranche and Support Tranche are meant to be in the same list of types as PAC etc. i.e. can a tranche not be PAC and Residual? this looks suspicioulsy like two semantics.",
+      "parents": [
+        "tranched m b s instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "senior c d o tranche",
+      "technicalName": "fibo-sec-dbt-cdo:SeniorCDOTranche",
+      "localName": "SeniorCDOTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/SeniorCDOTranche",
+      "label": "senior c d o tranche",
+      "definition": "The most senior tranche of the CDO issue. Typically rated A to AAA. If there are defaults or the CDO's collateral otherwise underperforms, scheduled payments to senior tranches take precedence over those of mezzanine tranches.",
+      "parents": [
+        "collateralized debt obligation",
+        "fibo-sec-dbt-pbs:Tranche"
+      ],
+      "rules": [
+        {
+          "property": "rated at issue",
+          "operator": "some",
+          "value": "tranche rating at issue",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "senior m b s tranche",
+      "technicalName": "fibo-sec-dbt-cdo:SeniorMBSTranche",
+      "localName": "SeniorMBSTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/SeniorMBSTranche",
+      "label": "senior m b s tranche",
+      "definition": "Specific kinds of tranche are modeled for example and investigation only and have been removed from the diagrams. These will be removed from the final model.",
+      "parents": [
+        "tranched m b s instrument"
+      ],
+      "rules": [
+        {
+          "property": "senior to",
+          "operator": "some",
+          "value": "mezzanine m b s tranche",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "static c d o",
+      "technicalName": "fibo-sec-dbt-cdo:StaticCDO",
+      "localName": "StaticCDO",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/StaticCDO",
+      "label": "static c d o",
+      "definition": "A CDO where collateral is fixed through the life of the CDO. The reference assets are bought and then are kept untouched for the term of the product.",
+      "parents": [
+        "c d o deal"
+      ],
+      "rules": [
+        {
+          "property": "management style",
+          "operator": "some",
+          "value": "static management style",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "static c d o portfolio",
+      "technicalName": "fibo-sec-dbt-cdo:StaticCDOPortfolio",
+      "localName": "StaticCDOPortfolio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/StaticCDOPortfolio",
+      "label": "static c d o portfolio",
+      "definition": "A portfolio where collateral of the CDO is fixed through the life of the CDO. The reference assets are bought and then are kept untouched for the term of the product.",
+      "parents": [
+        "c d o portfolio"
+      ],
+      "rules": []
+    },
+    {
+      "name": "static management style",
+      "technicalName": "fibo-sec-dbt-cdo:StaticManagementStyle",
+      "localName": "StaticManagementStyle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/StaticManagementStyle",
+      "label": "static management style",
+      "definition": null,
+      "parents": [
+        "c d o management style"
+      ],
+      "rules": []
+    },
+    {
+      "name": "subordinated c d o equity",
+      "technicalName": "fibo-sec-dbt-cdo:SubordinatedCDOEquity",
+      "localName": "SubordinatedCDOEquity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/SubordinatedCDOEquity",
+      "label": "subordinated c d o equity",
+      "definition": "The subordinated (also known as equity) CDO tranche is the most junior tranche in the CDO issue. If there are defaults or the CDO's collateral otherwise underperforms, scheduled payments to senior and mezzanine tranches take precedence over those to subordinated/equity tranches.",
+      "parents": [
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "rules": []
+    },
+    {
+      "name": "subordinated m b s tranche",
+      "technicalName": "fibo-sec-dbt-cdo:SubordinatedMBSTranche",
+      "localName": "SubordinatedMBSTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/SubordinatedMBSTranche",
+      "label": "subordinated m b s tranche",
+      "definition": "Specific kinds of tranche are modeled for example and investigation only and have been removed from the diagrams. These will be removed from the final model.",
+      "parents": [
+        "tranched m b s instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "super floater tranche",
+      "technicalName": "fibo-sec-dbt-cdo:SuperFloaterTranche",
+      "localName": "SuperFloaterTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/SuperFloaterTranche",
+      "label": "super floater tranche",
+      "definition": null,
+      "parents": [
+        "floater tranche"
+      ],
+      "rules": []
+    },
+    {
+      "name": "super p o tranche",
+      "technicalName": "fibo-sec-dbt-cdo:SuperPOTranche",
+      "localName": "SuperPOTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/SuperPOTranche",
+      "label": "super p o tranche",
+      "definition": "Principal Only tranche. This tranche will only pay principal. Not clear how this is distinct from generic PO.",
+      "parents": [
+        "agency p o tranche"
+      ],
+      "rules": []
+    },
+    {
+      "name": "super senior c d o tranche",
+      "technicalName": "fibo-sec-dbt-cdo:SuperSeniorCDOTranche",
+      "localName": "SuperSeniorCDOTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/SuperSeniorCDOTranche",
+      "label": "super senior c d o tranche",
+      "definition": "A tranche at the very top of a CDO Issue.",
+      "parents": [
+        "collateralized debt obligation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "support tranche",
+      "technicalName": "fibo-sec-dbt-cdo:SupportTranche",
+      "localName": "SupportTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/SupportTranche",
+      "label": "support tranche",
+      "definition": "A tranche which provides payment support to a PAC Tranche.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "p a c-2 class",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "t a c tranche",
+      "technicalName": "fibo-sec-dbt-cdo:TACTranche",
+      "localName": "TACTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/TACTranche",
+      "label": "t a c tranche",
+      "definition": "Targeted Amortization Class. This is related to a PAC tranche and has a payment schedule geared towards a specified prepayment speed (called the pricing speed). Agency CMO",
+      "parents": [
+        "agency c m o",
+        "tranched m b s instrument"
+      ],
+      "rules": [
+        {
+          "property": "specifies",
+          "operator": "some",
+          "value": "t a c tranche amortization schedule",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "t a c tranche amortization schedule",
+      "technicalName": "fibo-sec-dbt-cdo:TACTrancheAmortizationSchedule",
+      "localName": "TACTrancheAmortizationSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/TACTrancheAmortizationSchedule",
+      "label": "t a c tranche amortization schedule",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-bnd:RedemptionSchedule"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tranche rating at issue",
+      "technicalName": "fibo-sec-dbt-cdo:TrancheRatingAtIssue",
+      "localName": "TrancheRatingAtIssue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/TrancheRatingAtIssue",
+      "label": "tranche rating at issue",
+      "definition": "The rating at issue of a tranche of a security. Note this is under review",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "tranche type",
+      "technicalName": "fibo-sec-dbt-cdo:TrancheType",
+      "localName": "TrancheType",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/TrancheType",
+      "label": "tranche type",
+      "definition": "the type of tranche in a tranched MBS security",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "tranched m b s deal",
+      "technicalName": "fibo-sec-dbt-cdo:TranchedMBSDeal",
+      "localName": "TranchedMBSDeal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/TranchedMBSDeal",
+      "label": "tranched m b s deal",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-dbti:DebtOffering"
+      ],
+      "rules": [
+        {
+          "property": "is also",
+          "operator": "some",
+          "value": "fibo-sec-dbt-mbs:PrivateLabelMBSDeal",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "tranched m b s deal prospectus",
+      "technicalName": "fibo-sec-dbt-cdo:TranchedMBSDealProspectus",
+      "localName": "TranchedMBSDealProspectus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/TranchedMBSDealProspectus",
+      "label": "tranched m b s deal prospectus",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-mbs:MortgageBackedSecurityOfferingProspectus"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tranched m b s instrument",
+      "technicalName": "fibo-sec-dbt-cdo:TranchedMBSInstrument",
+      "localName": "TranchedMBSInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/TranchedMBSInstrument",
+      "label": "tranched m b s instrument",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-mbs:MortgageBackedSecurity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-sec-dbt-mbs:hasNote",
+          "operator": "some",
+          "value": "m b s tranche note",
+          "qualifier": null
+        },
+        {
+          "property": "provides credit support to",
+          "operator": "only",
+          "value": "tranched m b s instrument",
+          "qualifier": null
+        },
+        {
+          "property": "cashflow precedence",
+          "operator": "only",
+          "value": "tranched m b s instrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trigger event",
+      "technicalName": "fibo-sec-dbt-cdo:TriggerEvent",
+      "localName": "TriggerEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/TriggerEvent",
+      "label": "trigger event",
+      "definition": "Any event where some value passes some threashold. Or some other type of business event. This is not restricted to \"trigger\" in the sense of a value passing a threshold. Can also be an seen such as a CDO manager going into bankruptcy.",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "true p s objective",
+      "technicalName": "fibo-sec-dbt-cdo:TruePSObjective",
+      "localName": "TruePSObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/TruePSObjective",
+      "label": "true p s objective",
+      "definition": null,
+      "parents": [
+        "c d o origination objective"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "cashflow precedence",
+      "technicalName": "fibo-sec-dbt-cdo:cashflowPrecedence",
+      "localName": "cashflowPrecedence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/cashflowPrecedence",
+      "label": "cashflow precedence",
+      "definition": null,
+      "domain": [
+        "tranched m b s instrument"
+      ],
+      "range": [
+        "tranched m b s instrument"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "confers ownership of",
+      "technicalName": "fibo-sec-dbt-cdo:confersOwnershipOf",
+      "localName": "confersOwnershipOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/confersOwnershipOf",
+      "label": "confers ownership of",
+      "definition": null,
+      "domain": [
+        "subordinated c d o equity"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "denomination",
+      "technicalName": "fibo-sec-dbt-cdo:denomination",
+      "localName": "denomination",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/denomination",
+      "label": "denomination",
+      "definition": "The currency amount in which the Note is denominated, for example $500 notes.",
+      "domain": [
+        "m b s tranche note"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has c d o origination objective",
+      "technicalName": "fibo-sec-dbt-cdo:hasCDOOriginationObjective",
+      "localName": "hasCDOOriginationObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/hasCDOOriginationObjective",
+      "label": "has c d o origination objective",
+      "definition": null,
+      "domain": [
+        "c d o deal"
+      ],
+      "range": [
+        "c d o origination objective"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has tranche type",
+      "technicalName": "fibo-sec-dbt-cdo:hasTrancheType",
+      "localName": "hasTrancheType",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/hasTrancheType",
+      "label": "has tranche type",
+      "definition": null,
+      "domain": [
+        "fibo-sec-dbt-pbs:StructuredFinanceInstrument"
+      ],
+      "range": [
+        "tranche type"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is also",
+      "technicalName": "fibo-sec-dbt-cdo:isAlso.1",
+      "localName": "isAlso.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/isAlso.1",
+      "label": "is also",
+      "definition": null,
+      "domain": [
+        "tranched m b s deal"
+      ],
+      "range": [
+        "fibo-sec-dbt-mbs:PrivateLabelMBSDeal"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "issues",
+      "technicalName": "fibo-sec-dbt-cdo:issues",
+      "localName": "issues",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/issues",
+      "label": "issues",
+      "definition": null,
+      "domain": [
+        "cash c d o"
+      ],
+      "range": [
+        "cash c d o tranche"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has deal management style",
+      "technicalName": "fibo-sec-dbt-cdo:managementStyle",
+      "localName": "managementStyle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/managementStyle",
+      "label": "has deal management style",
+      "definition": "Whether the CDO is static or managed. This refers to whether or not the CDO manager may make changes to the reference portfolio during the life of the security. Further notes: If it is static, collateral is fixed through the life of the CDO. The reference assets are bought and then are kept untouched for the term of the product.If it is managed, the reference assets are bought (the portfolio is ramped up) and then the CDO manager may alter the portfolio as they see fit.",
+      "domain": [
+        "collateralized debt obligation"
+      ],
+      "range": [
+        "c d o management style"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "management style",
+      "technicalName": "fibo-sec-dbt-cdo:managementStyle.1",
+      "localName": "managementStyle.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/managementStyle.1",
+      "label": "management style",
+      "definition": "A CDO where the reference assets are bought (the portfolio is ramped up) and then the CDO manager may alter the portfolio as they see fit.",
+      "domain": [
+        "c d o deal"
+      ],
+      "range": [
+        "c d o management style"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has origination objective",
+      "technicalName": "fibo-sec-dbt-cdo:origination.2",
+      "localName": "origination.2",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/origination.2",
+      "label": "has origination objective",
+      "definition": null,
+      "domain": [
+        "collateralized debt obligation"
+      ],
+      "range": [
+        "c d o origination objective"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "provides credit support to",
+      "technicalName": "fibo-sec-dbt-cdo:providesCreditSupportTo",
+      "localName": "providesCreditSupportTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/providesCreditSupportTo",
+      "label": "provides credit support to",
+      "definition": null,
+      "domain": [
+        "tranched m b s instrument"
+      ],
+      "range": [
+        "tranched m b s instrument"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "provides prepayment support",
+      "technicalName": "fibo-sec-dbt-cdo:providesPrepaymentSupport",
+      "localName": "providesPrepaymentSupport",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/providesPrepaymentSupport",
+      "label": "provides prepayment support",
+      "definition": null,
+      "domain": [
+        "agency c m o"
+      ],
+      "range": [
+        "agency c m o"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "provides prepayment support for",
+      "technicalName": "fibo-sec-dbt-cdo:providesPrepaymentSupportFor",
+      "localName": "providesPrepaymentSupportFor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/providesPrepaymentSupportFor",
+      "label": "provides prepayment support for",
+      "definition": null,
+      "domain": [
+        "planned amortization class bond"
+      ],
+      "range": [
+        "planned amortization class bond"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "rated at issue",
+      "technicalName": "fibo-sec-dbt-cdo:ratedAtIssue",
+      "localName": "ratedAtIssue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/ratedAtIssue",
+      "label": "rated at issue",
+      "definition": null,
+      "domain": [
+        "mezzanine c d o tranche"
+      ],
+      "range": [
+        "tranche rating at issue"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "rated at issue",
+      "technicalName": "fibo-sec-dbt-cdo:ratedAtIssue.1",
+      "localName": "ratedAtIssue.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/ratedAtIssue.1",
+      "label": "rated at issue",
+      "definition": null,
+      "domain": [
+        "senior c d o tranche"
+      ],
+      "range": [
+        "tranche rating at issue"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "reverts",
+      "technicalName": "fibo-sec-dbt-cdo:reverts",
+      "localName": "reverts",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/reverts",
+      "label": "reverts",
+      "definition": null,
+      "domain": [
+        "non agency regular jump z tranche"
+      ],
+      "range": [
+        "jump z trigger event reversal"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "reverts on",
+      "technicalName": "fibo-sec-dbt-cdo:revertsOn",
+      "localName": "revertsOn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/revertsOn",
+      "label": "reverts on",
+      "definition": null,
+      "domain": [
+        "agency regular jump z"
+      ],
+      "range": [
+        "jump z trigger event reversal"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "senior to",
+      "technicalName": "fibo-sec-dbt-cdo:seniorTo",
+      "localName": "seniorTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/seniorTo",
+      "label": "senior to",
+      "definition": "Specific kinds of tranche are modeled for example and investigation only and have been removed from the diagrams. These will be removed from the final model.",
+      "domain": [
+        "mezzanine m b s tranche",
+        "senior m b s tranche"
+      ],
+      "range": [
+        "mezzanine m b s tranche",
+        "subordinated m b s tranche"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "seniority",
+      "technicalName": "fibo-sec-dbt-cdo:seniority",
+      "localName": "seniority",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/seniority",
+      "label": "seniority",
+      "definition": "The seniority which defines this tranche. This is the precedence order for scheduled payments. Further notes: Tranches are categorized as senior, mezzanine, and subordinated/equity, according to their degree of credit risk. If there are defaults or the CDO's collateral otherwise underperforms, scheduled payments to senior tranches take precedence over those of mezzanine tranches, and scheduled payments to mezzanine tranches take precedence over those to subordinated/equity tranches. Senior and mezzanine tranches are typically rated, with the former receiving ratings of A to AAA and the latter receiving ratings of B to BBB. The ratings reflect both the credit quality of underlying collateral as well as how much protection a given tranch is afforded by tranches that are subordinate to it.",
+      "domain": [
+        "collateralized debt obligation"
+      ],
+      "range": [
+        "CDOTrancheSenioritySelection"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "specifies",
+      "technicalName": "fibo-sec-dbt-cdo:specifies",
+      "localName": "specifies",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/specifies",
+      "label": "specifies",
+      "definition": null,
+      "domain": [
+        "planned amortization class bond"
+      ],
+      "range": [
+        "p a c tranche amortization schedule"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "specifies",
+      "technicalName": "fibo-sec-dbt-cdo:specifies.1",
+      "localName": "specifies.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/specifies.1",
+      "label": "specifies",
+      "definition": null,
+      "domain": [
+        "t a c tranche"
+      ],
+      "range": [
+        "t a c tranche amortization schedule"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "specifies reverse trigger",
+      "technicalName": "fibo-sec-dbt-cdo:specifiesReverseTrigger",
+      "localName": "specifiesReverseTrigger",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/specifiesReverseTrigger",
+      "label": "specifies reverse trigger",
+      "definition": null,
+      "domain": [
+        "jump z trigger event reversal"
+      ],
+      "range": [
+        "jump z trigger event"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "specifies trigger",
+      "technicalName": "fibo-sec-dbt-cdo:specifiesTrigger",
+      "localName": "specifiesTrigger",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/specifiesTrigger",
+      "label": "specifies trigger",
+      "definition": "The event which, when it takes place, causes the Jump Z holders to begin receiving payments.",
+      "domain": [
+        "agency jump tranche",
+        "non agency jump tranche"
+      ],
+      "range": [
+        "jump z trigger event"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has structure type",
+      "technicalName": "fibo-sec-dbt-cdo:structure",
+      "localName": "structure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/structure",
+      "label": "has structure type",
+      "definition": "The source of funds for the CDO. This is either cashflow or market value.",
+      "domain": [
+        "collateralized debt obligation"
+      ],
+      "range": [
+        "c d o cashflow treatment structure"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "structure",
+      "technicalName": "fibo-sec-dbt-cdo:structure.2",
+      "localName": "structure.2",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/structure.2",
+      "label": "structure",
+      "definition": "The source of funds for the CDO is market value. This means that principal and interest payments to investors come from both collateral cash flows as well as sales of collateral.",
+      "domain": [
+        "c d o deal"
+      ],
+      "range": [
+        "c d o cashflow treatment structure"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "supported by",
+      "technicalName": "fibo-sec-dbt-cdo:supportedBy",
+      "localName": "supportedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/supportedBy",
+      "label": "supported by",
+      "definition": null,
+      "domain": [
+        "planned amortization class bond"
+      ],
+      "range": [
+        "planned amortization class bond"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "takes prepayment after",
+      "technicalName": "fibo-sec-dbt-cdo:takesPrepaymentAfter",
+      "localName": "takesPrepaymentAfter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/takesPrepaymentAfter",
+      "label": "takes prepayment after",
+      "definition": null,
+      "domain": [
+        "p a c-1 class"
+      ],
+      "range": [
+        "p a c-2 class"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "takes prepayment after",
+      "technicalName": "fibo-sec-dbt-cdo:takesPrepaymentAfter.1",
+      "localName": "takesPrepaymentAfter.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/takesPrepaymentAfter.1",
+      "label": "takes prepayment after",
+      "definition": null,
+      "domain": [
+        "p a c-2 class"
+      ],
+      "range": [
+        "p a c-3 class"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "is cash",
+      "technicalName": "fibo-sec-dbt-cdo:isCash",
+      "localName": "isCash",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/isCash",
+      "label": "is cash",
+      "definition": "Whether the CDO has an underlying pool of real assets. If yes, the CDO has an underlying pool of real assets. If no, the CDO has a synthetic pool of underlying assets.",
+      "domain": [
+        "collateralized debt obligation"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is cash",
+      "technicalName": "fibo-sec-dbt-cdo:isCash.1",
+      "localName": "isCash.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/isCash.1",
+      "label": "is cash",
+      "definition": "Whether the CDO has an underlying pool of real assets. This is yes: the CDO has an underlying pool of real assets,",
+      "domain": [
+        "cash c d o tranche"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "seniority",
+      "technicalName": "fibo-sec-dbt-cdo:seniority.1",
+      "localName": "seniority.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/seniority.1",
+      "label": "seniority",
+      "definition": "The seniority which defines this tranche. This is the precedence order for scheduled payments. This is Mezzanine, meaning the tranche between senior and subordinated.",
+      "domain": [
+        "mezzanine c d o tranche"
+      ],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "seniority",
+      "technicalName": "fibo-sec-dbt-cdo:seniority.2",
+      "localName": "seniority.2",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/seniority.2",
+      "label": "seniority",
+      "definition": "The seniority which defines this tranche. This is the precedence order for scheduled payments. This is defined as Senior, i.e. this is the most senior tranche of the CDO issue.",
+      "domain": [
+        "senior c d o tranche"
+      ],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "seniority",
+      "technicalName": "fibo-sec-dbt-cdo:seniority.3",
+      "localName": "seniority.3",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/seniority.3",
+      "label": "seniority",
+      "definition": "The seniority which defines this tranche. This is the precedence order for scheduled payments. This is subordinated (also known as equity) and is the most junior tranche in the CDO issue.",
+      "domain": [
+        "subordinated c d o equity"
+      ],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "seniority",
+      "technicalName": "fibo-sec-dbt-cdo:seniority.4",
+      "localName": "seniority.4",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/seniority.4",
+      "label": "seniority",
+      "definition": "The seniority which defines this tranche. This is the precedence order for scheduled payments. This is defined as Senior, i.e. this is the most senior tranche of the CDO issue.",
+      "domain": [
+        "super senior c d o tranche"
+      ],
+      "range": []
+    }
+  ]
+}

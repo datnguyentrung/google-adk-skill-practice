@@ -1,0 +1,393 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\CAE\\CorporateEvents\\CorporateActions.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/",
+  "summary": {
+    "nodes": 25,
+    "edges": 0,
+    "properties": 0,
+    "triples": 197
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Organizations/"
+  ],
+  "classes": [
+    {
+      "name": "action",
+      "technicalName": "fibo-cae-ce-act:Action",
+      "localName": "Action",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/Action",
+      "label": "action",
+      "definition": "event announced, initiated or carried out by an organization that affects a legal entity or the securities it issues and may have a material impact on that entity's stakeholders, such as shareholders and creditors",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "action classifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "action classification scheme",
+      "technicalName": "fibo-cae-ce-act:ActionClassificationScheme",
+      "localName": "ActionClassificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/ActionClassificationScheme",
+      "label": "action classification scheme",
+      "definition": "scheme for classifying the kinds of actions and events that may be announced, initiated or carried out by an organization that affects a legal entity or the securities it issues",
+      "parents": [
+        "cmns-cls:ClassificationScheme",
+        "cmns-cds:CodeSet"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "action classifier",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "only",
+          "value": "action classifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "action classifier",
+      "technicalName": "fibo-cae-ce-act:ActionClassifier",
+      "localName": "ActionClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/ActionClassifier",
+      "label": "action classifier",
+      "definition": "classifier that distinguishes the kinds of actions and events that may be announced, initiated or carried out by an organization that affects a legal entity or the securities it issues, such as income-oriented events",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind",
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "action",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "action classification scheme"
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "action classification scheme"
+        }
+      ]
+    },
+    {
+      "name": "action status",
+      "technicalName": "fibo-cae-ce-act:ActionStatus",
+      "localName": "ActionStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/ActionStatus",
+      "label": "action status",
+      "definition": "state of some action at some point in time",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStatus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "action",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "business strategy classifier",
+      "technicalName": "fibo-cae-ce-act:BusinessStrategyClassifier",
+      "localName": "BusinessStrategyClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/BusinessStrategyClassifier",
+      "label": "business strategy classifier",
+      "definition": "classifier of corporate actions that involve improving liquidity or changing the overall structure of the organization through diversification, combining and closing parts of the business, etc, to increase long-term profitability",
+      "parents": [
+        "action classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "change action",
+      "technicalName": "fibo-cae-ce-act:ChangeAction",
+      "localName": "ChangeAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/ChangeAction",
+      "label": "change action",
+      "definition": "corporate action to disseminate information regarding a change further described in the corporate action details",
+      "parents": [
+        "mandatory corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "class action",
+      "technicalName": "fibo-cae-ce-act:ClassAction",
+      "localName": "ClassAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/ClassAction",
+      "label": "class action",
+      "definition": "corporate action involving a situation where interested parties seek restitution for financial loss",
+      "parents": [
+        "voluntary corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consent solicitation",
+      "technicalName": "fibo-cae-ce-act:ConsentSolicitation",
+      "localName": "ConsentSolicitation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/ConsentSolicitation",
+      "label": "consent solicitation",
+      "definition": "corporate action that is a procedure that aims to obtain consent of holder to a proposal by the issuer or a third party without convening a meeting",
+      "parents": [
+        "voluntary corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "corporate action",
+      "technicalName": "fibo-cae-ce-act:CorporateAction",
+      "localName": "CorporateAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/CorporateAction",
+      "label": "corporate action",
+      "definition": "action carried out by or specifically relating to a legal entity that may affect the securities it issues and may have a material impact on its stakeholders, such as shareholders and creditors",
+      "parents": [
+        "action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "disclosure action",
+      "technicalName": "fibo-cae-ce-act:DisclosureAction",
+      "localName": "DisclosureAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/DisclosureAction",
+      "label": "disclosure action",
+      "definition": "corporate action involving a request for holders or beneficial owners to disclose their name, location and holdings of any issue to the issuer",
+      "parents": [
+        "voluntary corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "divestiture",
+      "technicalName": "fibo-cae-ce-act:Divestiture",
+      "localName": "Divestiture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/Divestiture",
+      "label": "divestiture",
+      "definition": "corporate action involving the sales of subsidiary business interests or investments",
+      "parents": [
+        "mandatory corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "income-oriented classifier",
+      "technicalName": "fibo-cae-ce-act:IncomeOrientedClassifier",
+      "localName": "IncomeOrientedClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/IncomeOrientedClassifier",
+      "label": "income-oriented classifier",
+      "definition": "classifier of corporate actions that impacts income to shareholders",
+      "parents": [
+        "action classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "legal form change",
+      "technicalName": "fibo-cae-ce-act:LegalFormChange",
+      "localName": "LegalFormChange",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/LegalFormChange",
+      "label": "legal form change",
+      "definition": "corporate action indicating a modification of the legal form of the organization",
+      "parents": [
+        "mandatory corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "liquidation",
+      "technicalName": "fibo-cae-ce-act:Liquidation",
+      "localName": "Liquidation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/Liquidation",
+      "label": "liquidation",
+      "definition": "corporate action related to winding up a business, including but not limited to distribution of cash, assets, or both",
+      "parents": [
+        "divestiture"
+      ],
+      "rules": []
+    },
+    {
+      "name": "mandatory corporate action",
+      "technicalName": "fibo-cae-ce-act:MandatoryCorporateAction",
+      "localName": "MandatoryCorporateAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/MandatoryCorporateAction",
+      "label": "mandatory corporate action",
+      "definition": "action initiated by the board of directors of a corporation that affects all shareholders",
+      "parents": [
+        "corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "mandatory with choice corporate action",
+      "technicalName": "fibo-cae-ce-act:MandatoryWithChoiceCorporateAction",
+      "localName": "MandatoryWithChoiceCorporateAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/MandatoryWithChoiceCorporateAction",
+      "label": "mandatory with choice corporate action",
+      "definition": "mandatory corporate action where shareholders are given an opportunity to choose among several options",
+      "parents": [
+        "mandatory corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "market action",
+      "technicalName": "fibo-cae-ce-act:MarketAction",
+      "localName": "MarketAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/MarketAction",
+      "label": "market action",
+      "definition": "action that is initiated by a market, such as a securities exchange, that affects a legal entity or the securities it issues and may have a material impact on that entity's stakeholders, such as shareholders and creditors",
+      "parents": [
+        "action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "merger / acquisition",
+      "technicalName": "fibo-cae-ce-act:MergerAcquisition",
+      "localName": "MergerAcquisition",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/MergerAcquisition",
+      "label": "merger / acquisition",
+      "definition": "corporate action involving the consolidation of legal entities or assets",
+      "parents": [
+        "mandatory corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "notification",
+      "technicalName": "fibo-cae-ce-act:Notification",
+      "localName": "Notification",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/Notification",
+      "label": "notification",
+      "definition": "corporate action involving information provided by the issuer having no accounting/financial impact on the holder",
+      "parents": [
+        "mandatory corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "organization address change",
+      "technicalName": "fibo-cae-ce-act:OrganizationAddressChange",
+      "localName": "OrganizationAddressChange",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/OrganizationAddressChange",
+      "label": "organization address change",
+      "definition": "information action that provides details of address changes for a legal entity",
+      "parents": [
+        "notification"
+      ],
+      "rules": []
+    },
+    {
+      "name": "organization name change",
+      "technicalName": "fibo-cae-ce-act:OrganizationNameChange",
+      "localName": "OrganizationNameChange",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/OrganizationNameChange",
+      "label": "organization name change",
+      "definition": "information action that provides details of name changes for a legal entity",
+      "parents": [
+        "notification"
+      ],
+      "rules": []
+    },
+    {
+      "name": "priority issue",
+      "technicalName": "fibo-cae-ce-act:PriorityIssue",
+      "localName": "PriorityIssue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/PriorityIssue",
+      "label": "priority issue",
+      "definition": "corporate action that is a public offer where, due to a limited amount of securities available, priority is given to existing shareholders",
+      "parents": [
+        "voluntary corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "regulatory action",
+      "technicalName": "fibo-cae-ce-act:RegulatoryAction",
+      "localName": "RegulatoryAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/RegulatoryAction",
+      "label": "regulatory action",
+      "definition": "action initiated by a regulatory agency that affects a legal entity or the securities it issues and may have a material impact on that entity's stakeholders, such as shareholders and creditors",
+      "parents": [
+        "action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "spin off",
+      "technicalName": "fibo-cae-ce-act:SpinOff",
+      "localName": "SpinOff",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/SpinOff",
+      "label": "spin off",
+      "definition": "corporate action involving the distribution of subsidiary stock to the shareholders of the parent company without a surrender of shares",
+      "parents": [
+        "divestiture"
+      ],
+      "rules": []
+    },
+    {
+      "name": "voluntary corporate action",
+      "technicalName": "fibo-cae-ce-act:VoluntaryCorporateAction",
+      "localName": "VoluntaryCorporateAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/VoluntaryCorporateAction",
+      "label": "voluntary corporate action",
+      "definition": "event in which the shareholders elect to participate and must respond in order for the issuer to process the action",
+      "parents": [
+        "corporate action"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

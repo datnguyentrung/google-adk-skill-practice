@@ -1,0 +1,79 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\SoleProprietorships",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\SoleProprietorships\\SoleProprietorships.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 1,
+    "classes": 2,
+    "edges": 0,
+    "attributes": 0
+  },
+  "classes": [
+    {
+      "name": "sole proprietor",
+      "technicalName": "fibo-be-sps-sps:SoleProprietor",
+      "localName": "SoleProprietor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/SoleProprietorships/SoleProprietorships/SoleProprietor",
+      "label": "sole proprietor",
+      "definition": "party that owns a business, has the rights to all profits from that business and is considered a single entity (unincorporated) together with that business for tax and liability purposes",
+      "parents": [
+        "fibo-be-oac-opty:EntityOwner"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-oac:ownsAndControls",
+          "operator": "some",
+          "value": "sole proprietorship",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-oac-opty:hasInvestmentEntity",
+          "operator": "some",
+          "value": "sole proprietorship",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    },
+    {
+      "name": "sole proprietorship",
+      "technicalName": "fibo-be-sps-sps:SoleProprietorship",
+      "localName": "SoleProprietorship",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/SoleProprietorships/SoleProprietorships/SoleProprietorship",
+      "label": "sole proprietorship",
+      "definition": "unincorporated business owned by a single person",
+      "parents": [
+        "fibo-be-le-lp:BusinessEntity",
+        "cmns-org:LegalPerson"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-law-lcap:hasCapacity",
+          "operator": "some",
+          "value": "fibo-fnd-law-lcap:LiabilityCapacity",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-oac:isOwnedAndControlledBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

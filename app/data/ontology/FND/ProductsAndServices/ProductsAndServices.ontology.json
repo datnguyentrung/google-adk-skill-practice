@@ -1,0 +1,559 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\ProductsAndServices\\ProductsAndServices.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/",
+  "summary": {
+    "nodes": 22,
+    "edges": 10,
+    "properties": 0,
+    "triples": 321
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/",
+    "https://www.omg.org/spec/Commons/SitesAndFacilities/"
+  ],
+  "classes": [
+    {
+      "name": "buyer",
+      "technicalName": "fibo-fnd-pas-pas:Buyer",
+      "localName": "Buyer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/Buyer",
+      "label": "buyer",
+      "definition": "party that purchases something in exchange for money or other consideration under a contract of sale",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "buys",
+          "operator": "some",
+          "value": "product",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "client",
+      "technicalName": "fibo-fnd-pas-pas:Client",
+      "localName": "Client",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/Client",
+      "label": "client",
+      "definition": "party that purchases professional services from, or has a formal relationship to purchase services from another party",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "service agreement",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "client identifier",
+      "technicalName": "fibo-fnd-pas-pas:ClientIdentifier",
+      "localName": "ClientIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/ClientIdentifier",
+      "label": "client identifier",
+      "definition": "sequence of characters uniquely identifying a client within the context of some organization",
+      "parents": [
+        "fibo-fnd-pty-pty:PartyRoleIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "client"
+        }
+      ]
+    },
+    {
+      "name": "commodity",
+      "technicalName": "fibo-fnd-pas-pas:Commodity",
+      "localName": "Commodity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/Commodity",
+      "label": "commodity",
+      "definition": "material resource used in commerce that is interchangeable with other commodities of the same type",
+      "parents": [
+        "good"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consumer",
+      "technicalName": "fibo-fnd-pas-pas:Consumer",
+      "localName": "Consumer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/Consumer",
+      "label": "consumer",
+      "definition": "party that utilizes economic goods or services, typically for personal, family, or household purposes",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contractual product",
+      "technicalName": "fibo-fnd-pas-pas:ContractualProduct",
+      "localName": "ContractualProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/ContractualProduct",
+      "label": "contractual product",
+      "definition": "product that takes the form of an agreement",
+      "parents": [
+        "product"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contractual template product",
+      "technicalName": "fibo-fnd-pas-pas:ContractualTemplateProduct",
+      "localName": "ContractualTemplateProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/ContractualTemplateProduct",
+      "label": "contractual template product",
+      "definition": "contractual product that is finalized through specification of values for parameters defined in a template",
+      "parents": [
+        "contractual product",
+        "off-the-shelf product"
+      ],
+      "rules": []
+    },
+    {
+      "name": "custom product",
+      "technicalName": "fibo-fnd-pas-pas:CustomProduct",
+      "localName": "CustomProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/CustomProduct",
+      "label": "custom product",
+      "definition": "product that is made to order, commissioned based on a customer's specifications",
+      "parents": [
+        "product"
+      ],
+      "rules": []
+    },
+    {
+      "name": "customer",
+      "technicalName": "fibo-fnd-pas-pas:Customer",
+      "localName": "Customer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/Customer",
+      "label": "customer",
+      "definition": "party that receives or consumes products (goods or services) and has the ability to choose between different products and suppliers",
+      "parents": [
+        "buyer"
+      ],
+      "rules": [
+        {
+          "property": "buys from",
+          "operator": "some",
+          "value": "supplier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "customer identifier",
+      "technicalName": "fibo-fnd-pas-pas:CustomerIdentifier",
+      "localName": "CustomerIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/CustomerIdentifier",
+      "label": "customer identifier",
+      "definition": "sequence of characters uniquely identifying a customer within the context of some organization",
+      "parents": [
+        "fibo-fnd-pty-pty:PartyRoleIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "customer"
+        }
+      ]
+    },
+    {
+      "name": "good",
+      "technicalName": "fibo-fnd-pas-pas:Good",
+      "localName": "Good",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/Good",
+      "label": "good",
+      "definition": "physical, produced item over which ownership rights can be established, whose ownership can be passed from one party to another by engaging in transactions, and that is not money or real estate",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "negotiable commodity",
+      "technicalName": "fibo-fnd-pas-pas:NegotiableCommodity",
+      "localName": "NegotiableCommodity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/NegotiableCommodity",
+      "label": "negotiable commodity",
+      "definition": "commodity that can be bought or sold in some marketplace",
+      "parents": [
+        "commodity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "off-the-shelf product",
+      "technicalName": "fibo-fnd-pas-pas:OffTheShelfProduct",
+      "localName": "OffTheShelfProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/OffTheShelfProduct",
+      "label": "off-the-shelf product",
+      "definition": "product that is readily available from merchandise in stock, or can be quickly and easily configured to order, not specially designed or custom-made",
+      "parents": [
+        "product"
+      ],
+      "rules": []
+    },
+    {
+      "name": "producer",
+      "technicalName": "fibo-fnd-pas-pas:Producer",
+      "localName": "Producer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/Producer",
+      "label": "producer",
+      "definition": "grower, maker, fabricator, or manufacturer of some product or other good",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:produces",
+          "operator": "some",
+          "value": "good",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "product",
+      "technicalName": "fibo-fnd-pas-pas:Product",
+      "localName": "Product",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/Product",
+      "label": "product",
+      "definition": "commercially distributed good that is (1) tangible property, (2) the output or result of a fabrication, manufacturing, or production process, or (3) something that passes through a distribution channel before being consumed or used.",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "product identifier",
+      "technicalName": "fibo-fnd-pas-pas:ProductIdentifier",
+      "localName": "ProductIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/ProductIdentifier",
+      "label": "product identifier",
+      "definition": "sequence of characters uniquely identifying a product in some context",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "product"
+        }
+      ]
+    },
+    {
+      "name": "sale",
+      "technicalName": "fibo-fnd-pas-pas:Sale",
+      "localName": "Sale",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/Sale",
+      "label": "sale",
+      "definition": "exchange of goods or services for money",
+      "parents": [
+        "transaction event",
+        "cmns-pts:Situation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "product",
+          "qualifier": null
+        },
+        {
+          "property": "has seller",
+          "operator": "some",
+          "value": "seller",
+          "qualifier": null
+        },
+        {
+          "property": "has buyer",
+          "operator": "some",
+          "value": "buyer",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-acc-cur:hasPrice",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryAmount",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "seller",
+      "technicalName": "fibo-fnd-pas-pas:Seller",
+      "localName": "Seller",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/Seller",
+      "label": "seller",
+      "definition": "party that makes, offers or contracts to make a sale to an actual or potential buyer",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "sells",
+          "operator": "some",
+          "value": "product",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "service agreement",
+      "technicalName": "fibo-fnd-pas-pas:ServiceAgreement",
+      "localName": "ServiceAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/ServiceAgreement",
+      "label": "service agreement",
+      "definition": "written contract between a client and service provider whereby the service provider supplies some service in the form of time, effort, and/or expertise in exchange for compensation",
+      "parents": [
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "cmns-org:Service",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractParty",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:ServiceProvider"
+        }
+      ]
+    },
+    {
+      "name": "supplier",
+      "technicalName": "fibo-fnd-pas-pas:Supplier",
+      "localName": "Supplier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/Supplier",
+      "label": "supplier",
+      "definition": "party that provides goods or services that some party wants or needs, especially over a long period of time",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "supplies",
+          "operator": "some",
+          "value": "product",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "transaction confirmation",
+      "technicalName": "fibo-fnd-pas-pas:TransactionConfirmation",
+      "localName": "TransactionConfirmation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/TransactionConfirmation",
+      "label": "transaction confirmation",
+      "definition": "written communication from a seller or service provider reciting the relevant details of a transaction",
+      "parents": [
+        "cmns-doc:LegalDocument"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidenceFor",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "transaction event"
+        }
+      ]
+    },
+    {
+      "name": "transaction event",
+      "technicalName": "fibo-fnd-pas-pas:TransactionEvent",
+      "localName": "TransactionEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/TransactionEvent",
+      "label": "transaction event",
+      "definition": "any sale, assignment, lease, license, loan, advance, contribution, or other transfer of any interest in or right to use any property (tangible or intangible) or money, however that transaction is effected, and regardless of whether the terms of the transaction are formally documented",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidencedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "transaction confirmation"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "buys",
+      "technicalName": "fibo-fnd-pas-pas:buys",
+      "localName": "buys",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/buys",
+      "label": "buys",
+      "definition": "links a party in the role of purchaser to something that they have purchased or plan to purchase",
+      "domain": [
+        "buyer"
+      ],
+      "range": [
+        "product"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "buys from",
+      "technicalName": "fibo-fnd-pas-pas:buysFrom",
+      "localName": "buysFrom",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/buysFrom",
+      "label": "buys from",
+      "definition": "links a party in the role of purchaser to a party from which they have made or are planning to make a purchase",
+      "domain": [
+        "buyer"
+      ],
+      "range": [
+        "seller"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has buyer",
+      "technicalName": "fibo-fnd-pas-pas:hasBuyer",
+      "localName": "hasBuyer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/hasBuyer",
+      "label": "has buyer",
+      "definition": "indicates the purchasing party in the context of a sales transaction",
+      "domain": [],
+      "range": [
+        "buyer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has seller",
+      "technicalName": "fibo-fnd-pas-pas:hasSeller",
+      "localName": "hasSeller",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/hasSeller",
+      "label": "has seller",
+      "definition": "indicates the vendor in the context of a sales transaction",
+      "domain": [],
+      "range": [
+        "seller"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is provisioned by",
+      "technicalName": "fibo-fnd-pas-pas:isProvisionedBy",
+      "localName": "isProvisionedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/isProvisionedBy",
+      "label": "is provisioned by",
+      "definition": "identifies the service provider that provisions the service or facility",
+      "domain": [],
+      "range": [
+        "cmns-org:ServiceProvider"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is supplied by",
+      "technicalName": "fibo-fnd-pas-pas:isSuppliedBy",
+      "localName": "isSuppliedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/isSuppliedBy",
+      "label": "is supplied by",
+      "definition": "identifies the party (supplier, vendor, distributor, etc.) that makes a product available",
+      "domain": [
+        "product"
+      ],
+      "range": [
+        "supplier"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "provisions",
+      "technicalName": "fibo-fnd-pas-pas:provisions",
+      "localName": "provisions",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/provisions",
+      "label": "provisions",
+      "definition": "customizes, provides, or outfits something required for use in delivering a service",
+      "domain": [
+        "cmns-org:ServiceProvider"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "sells",
+      "technicalName": "fibo-fnd-pas-pas:sells",
+      "localName": "sells",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/sells",
+      "label": "sells",
+      "definition": "links a party in the role of broker, dealer, vendor, or merchandiser to something that they make available for sale",
+      "domain": [
+        "seller"
+      ],
+      "range": [
+        "product"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "sells to",
+      "technicalName": "fibo-fnd-pas-pas:sellsTo",
+      "localName": "sellsTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/sellsTo",
+      "label": "sells to",
+      "definition": "links a party in the role of broker, dealer, vendor, or merchandiser to a purchaser or potential purchasing party",
+      "domain": [
+        "seller"
+      ],
+      "range": [
+        "buyer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "supplies",
+      "technicalName": "fibo-fnd-pas-pas:supplies",
+      "localName": "supplies",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/supplies",
+      "label": "supplies",
+      "definition": "links a party in the role of outfitter, provisioner, distributor, etc. to something that they provide",
+      "domain": [
+        "supplier"
+      ],
+      "range": [
+        "product"
+      ]
+    }
+  ],
+  "attributes": []
+}

@@ -1,0 +1,408 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Securities\\SecuritiesIdentificationIndividuals.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/",
+  "summary": {
+    "nodes": 10,
+    "edges": 0,
+    "properties": 0,
+    "triples": 410
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/CommercialRegistrationAuthorities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/MarketDataProviders/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RegistrationAuthorities/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "CUSIP International Numbering System (CINS) number",
+      "technicalName": "fibo-sec-sec-idind:CUSIPInternationalNumberingSystemNumber",
+      "localName": "CUSIPInternationalNumberingSystemNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/CUSIPInternationalNumberingSystemNumber",
+      "label": "CUSIP International Numbering System (CINS) number",
+      "definition": "9-character alphanumeric identifier that employs the same 9 characters as CUSIP, but also contains a letter of the alphabet in the first position signifying the issuer's country or geographic region, issued by CUSIP Global Services",
+      "parents": [
+        "fibo-sec-sec-id:ProprietarySecurityIdentifier",
+        "cmns-ra:RegisteredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fi-fi:Security"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "CUSIP International Numbering System (CINS) scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "CUSIP Global Services",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "value",
+          "value": "CUSIP Global Services",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "value",
+          "value": "CGS CUSIP Access Repository",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Committee on Uniform Securities Identification Procedures (CUSIP) number",
+      "technicalName": "fibo-sec-sec-idind:CommitteeOnUniformSecuritiesIdentificationProceduresNumber",
+      "localName": "CommitteeOnUniformSecuritiesIdentificationProceduresNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/CommitteeOnUniformSecuritiesIdentificationProceduresNumber",
+      "label": "Committee on Uniform Securities Identification Procedures (CUSIP) number",
+      "definition": "nine-character alphanumeric number that identifies all North American stocks and registered bonds for the purposes of facilitating clearing and settlement of trades, issued by CUSIP Global Services on behalf of the American Bankers' Association, which is a part of Standard and Poor's Capital IQ, that is the National Numbering Agency Identifier for securities issued in North America, which is also part of the ISIN for the security it identifies",
+      "parents": [
+        "fibo-sec-sec-id:NationalSecuritiesIdentifyingNumber",
+        "fibo-sec-sec-id:ProprietarySecurityIdentifier",
+        "cmns-ra:RegisteredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fi-fi:Security"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Committee on Uniform Securities Identification Procedures (CUSIP) scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "CUSIP Global Services",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "value",
+          "value": "CUSIP Global Services",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "value",
+          "value": "CGS CUSIP Access Repository",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "common code registry entry",
+      "technicalName": "fibo-sec-sec-idind:CommonCodeRegistryEntry",
+      "localName": "CommonCodeRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/CommonCodeRegistryEntry",
+      "label": "common code registry entry",
+      "definition": "entry in a common code registry",
+      "parents": [
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "Euroclear Clearstream common code",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "value",
+          "value": "common code repository",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "only",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Euroclear Clearstream common code",
+      "technicalName": "fibo-sec-sec-idind:EuroclearClearstreamCommonCode",
+      "localName": "EuroclearClearstreamCommonCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/EuroclearClearstreamCommonCode",
+      "label": "Euroclear Clearstream common code",
+      "definition": "nine-character alphanumeric securities identifier, issued in Luxembourg, jointly by Euroclear and Clearstream",
+      "parents": [
+        "fibo-sec-sec-id:ProprietarySecurityIdentifier",
+        "cmns-ra:RegisteredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fi-fi:Security"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Euroclear Clearstream common code scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "value",
+          "value": "common code repository",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "only",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "only",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "financial instrument global identifier",
+      "technicalName": "fibo-sec-sec-idind:FinancialInstrumentGlobalIdentifier",
+      "localName": "FinancialInstrumentGlobalIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/FinancialInstrumentGlobalIdentifier",
+      "label": "financial instrument global identifier",
+      "definition": "financial instrument identifier that is defined as specified in the Object Management Group (OMG) Financial Instrument Global Identifier (FIGI) Specification",
+      "parents": [
+        "cmns-ra:RegisteredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "financial instrument global identifier scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "value",
+          "value": "Financial Instrument Global Identifier (FIGI) Registry",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:BloombergLP",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:BloombergLP",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Financial Instrument Global Identifier (FIGI) registry entry",
+      "technicalName": "fibo-sec-sec-idind:FinancialInstrumentGlobalIdentifierRegistryEntry",
+      "localName": "FinancialInstrumentGlobalIdentifierRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/FinancialInstrumentGlobalIdentifierRegistryEntry",
+      "label": "Financial Instrument Global Identifier (FIGI) registry entry",
+      "definition": "entry in a Financial Instrument Global Identifier (FIGI) registry",
+      "parents": [
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "financial instrument global identifier",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "value",
+          "value": "Financial Instrument Global Identifier (FIGI) Registry",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Refinitiv instrument code",
+      "technicalName": "fibo-sec-sec-idind:RefinitivInstrumentCode",
+      "localName": "RefinitivInstrumentCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/RefinitivInstrumentCode",
+      "label": "Refinitiv instrument code",
+      "definition": "proprietary code for financial instruments and indices owned, managed, and distributed by the London Stock Exchange Group's LSEG Financial Solutions (branded as Refinitiv)",
+      "parents": [
+        "fibo-sec-sec-id:ProprietarySecurityIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Refinitiv instrument code scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "fibo-ind-ir-mdp:LSEGFinancialSolutionsAsMarketDataProvider",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "value",
+          "value": "fibo-ind-ir-mdp:LSEGFinancialSolutionsAsMarketDataProvider",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Stock Exchange Daily Official List (SEDOL) code",
+      "technicalName": "fibo-sec-sec-idind:StockExchangeDailyOfficialListCode",
+      "localName": "StockExchangeDailyOfficialListCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/StockExchangeDailyOfficialListCode",
+      "label": "Stock Exchange Daily Official List (SEDOL) code",
+      "definition": "seven-character security identifier, issued by the London Stock Exchange, that is the National Securities Identifying Number (NSIN) for securities issued in the United Kingdom, which is also part of the ISIN for the security it identifies",
+      "parents": [
+        "fibo-sec-sec-id:ListedSecurityIdentifier",
+        "fibo-sec-sec-id:NationalSecuritiesIdentifyingNumber",
+        "fibo-sec-sec-id:ProprietarySecurityIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Stock Exchange Daily Official List (SEDOL) scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "value",
+          "value": "SEDOL Master File",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:LondonStockExchange",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:LondonStockExchange",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Telekurs Id",
+      "technicalName": "fibo-sec-sec-idind:TelekursId",
+      "localName": "TelekursId",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/TelekursId",
+      "label": "Telekurs Id",
+      "definition": "identifier used to identify financial instruments owned, managed, and distributed by SIX Financial Information (formerly Telekurs AG and subsequently SIX Telekurs Ltd.)",
+      "parents": [
+        "fibo-sec-sec-id:ProprietarySecurityIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Telekurs security identifier scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:SIXFinancialInformation",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:SIXFinancialInformation",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Valoren",
+      "technicalName": "fibo-sec-sec-idind:Valoren",
+      "localName": "Valoren",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentificationIndividuals/Valoren",
+      "label": "Valoren",
+      "definition": "identification number assigned to financial instruments in Switzerland, Liechtenstein and Belgium, issued by SIX Financial Information, that is the National Securities Identifying Number (NSIN) for securities issued in those countries and is also part of the ISIN for the security it identifies",
+      "parents": [
+        "fibo-sec-sec-id:ListedSecurityIdentifier",
+        "fibo-sec-sec-id:NationalSecuritiesIdentifyingNumber",
+        "fibo-sec-sec-id:ProprietarySecurityIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Valoren scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:SIXFinancialInformation",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "value",
+          "value": "fibo-fbc-fct-cra:SIXFinancialInformation",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

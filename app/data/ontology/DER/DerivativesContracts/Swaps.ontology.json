@@ -1,0 +1,815 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\DER\\DerivativesContracts\\Swaps.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/",
+  "summary": {
+    "nodes": 35,
+    "edges": 5,
+    "properties": 0,
+    "triples": 477
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/PaymentsAndSchedules/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "basis swap",
+      "technicalName": "fibo-der-drc-swp:BasisSwap",
+      "localName": "BasisSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/BasisSwap",
+      "label": "basis swap",
+      "definition": "swap in which payment streams are referenced to different bases",
+      "parents": [
+        "rates swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "correlation leg",
+      "technicalName": "fibo-der-drc-swp:CorrelationLeg",
+      "localName": "CorrelationLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/CorrelationLeg",
+      "label": "correlation leg",
+      "definition": "floating leg of a correlation swap that pays an amount based on the observed average correlation of the prices of a collection of underlying products",
+      "parents": [
+        "performance-based variable leg"
+      ],
+      "rules": [
+        {
+          "property": "is leg of",
+          "operator": "some",
+          "value": "correlation swap",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "correlation swap",
+      "technicalName": "fibo-der-drc-swp:CorrelationSwap",
+      "localName": "CorrelationSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/CorrelationSwap",
+      "label": "correlation swap",
+      "definition": "over-the-counter statistical derivative that allows one to hedge risks associated with the observed average correlation of a collection of underlying products",
+      "parents": [
+        "statistical swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "dispersion leg",
+      "technicalName": "fibo-der-drc-swp:DispersionLeg",
+      "localName": "DispersionLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/DispersionLeg",
+      "label": "dispersion leg",
+      "definition": "floating leg of a dispersion swap that pays an amount based on the realized dispersion of the price changes of the underlying product",
+      "parents": [
+        "performance-based variable leg"
+      ],
+      "rules": [
+        {
+          "property": "is leg of",
+          "operator": "some",
+          "value": "dispersion swap",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "dispersion swap",
+      "technicalName": "fibo-der-drc-swp:DispersionSwap",
+      "localName": "DispersionSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/DispersionSwap",
+      "label": "dispersion swap",
+      "definition": "statistical derivative used to hedge on the magnitude of a price movement of an underlying asset",
+      "parents": [
+        "statistical swap"
+      ],
+      "rules": [
+        {
+          "property": "has leg",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "dispersion leg"
+        }
+      ]
+    },
+    {
+      "name": "excess return swap",
+      "technicalName": "fibo-der-drc-swp:ExcessReturnSwap",
+      "localName": "ExcessReturnSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/ExcessReturnSwap",
+      "label": "excess return swap",
+      "definition": "return swap in which the change in the level of the index will be equal to the returns generated primarily by the changes in price of each of the contracts that comprise the index",
+      "parents": [
+        "index return swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fixed leg",
+      "technicalName": "fibo-der-drc-swp:FixedLeg",
+      "localName": "FixedLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/FixedLeg",
+      "label": "fixed leg",
+      "definition": "swap leg whose paying party is obligated to make payments from time to time over the term of a swap calculated by reference to a fixed annual rate or consisting of at least one payment of a fixed amount",
+      "parents": [
+        "swap leg"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-pas-psch:hasPaymentSchedule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-pas-psch:PaymentSchedule"
+        }
+      ]
+    },
+    {
+      "name": "fixed payment leg",
+      "technicalName": "fibo-der-drc-swp:FixedPaymentLeg",
+      "localName": "FixedPaymentLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/FixedPaymentLeg",
+      "label": "fixed payment leg",
+      "definition": "swap leg that specifies contractual terms associated with a schedule of payments for any swap calculated by reference to a fixed annual rate",
+      "parents": [
+        "swap leg"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-pas-psch:hasPaymentSchedule",
+          "operator": "some",
+          "value": "fibo-fnd-pas-psch:PaymentSchedule",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "floating leg",
+      "technicalName": "fibo-der-drc-swp:FloatingLeg",
+      "localName": "FloatingLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/FloatingLeg",
+      "label": "floating leg",
+      "definition": "swap leg whose paying party is obligated to make payments from time to time over the term of a swap calculated by reference to some variable rate, calculated based on the change in value of some underlying asset, or consisting of at least one payment of some floating amount",
+      "parents": [
+        "swap leg"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-pas-psch:hasPaymentSchedule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-pas-psch:PaymentSchedule"
+        }
+      ]
+    },
+    {
+      "name": "index return swap",
+      "technicalName": "fibo-der-drc-swp:IndexReturnSwap",
+      "localName": "IndexReturnSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/IndexReturnSwap",
+      "label": "index return swap",
+      "definition": "return swap in which payments are based on a fee paid to the seller of the swap and on a floating reference price based on changes in the level of an index from an initial level to a level observed on some valuation date(s)",
+      "parents": [
+        "return swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "major swap participant",
+      "technicalName": "fibo-der-drc-swp:MajorSwapParticipant",
+      "localName": "MajorSwapParticipant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/MajorSwapParticipant",
+      "label": "major swap participant",
+      "definition": "financial service provider that maintains a substantial position in swaps for any of the major swap categories",
+      "parents": [
+        "fibo-fbc-fct-fse:NonDepositoryInstitution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "performance-based variable leg",
+      "technicalName": "fibo-der-drc-swp:PerformanceBasedVariableLeg",
+      "localName": "PerformanceBasedVariableLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/PerformanceBasedVariableLeg",
+      "label": "performance-based variable leg",
+      "definition": "floating leg of a swap that depends on some statistical measure of the performance of the underlier",
+      "parents": [
+        "floating leg"
+      ],
+      "rules": [
+        {
+          "property": "is leg of",
+          "operator": "some",
+          "value": "statistical swap",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rate-based leg",
+      "technicalName": "fibo-der-drc-swp:RateBasedLeg",
+      "localName": "RateBasedLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/RateBasedLeg",
+      "label": "rate-based leg",
+      "definition": "swap leg of a rate-based swap based on a floating interest, floating inflation or fixed interest rate",
+      "parents": [
+        "swap leg"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "is leg of",
+          "operator": "some",
+          "value": "rates swap",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rates swap",
+      "technicalName": "fibo-der-drc-swp:RatesSwap",
+      "localName": "RatesSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/RatesSwap",
+      "label": "rates swap",
+      "definition": "swap in two counterparties each agree to pay the other cash flows on defined dates during an agreed period, based on a specified notional amount and a floating interest, floating inflation or fixed interest rate",
+      "parents": [
+        "swap"
+      ],
+      "rules": [
+        {
+          "property": "has leg",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "rate-based leg"
+        }
+      ]
+    },
+    {
+      "name": "realized variable leg",
+      "technicalName": "fibo-der-drc-swp:RealizedVariableLeg",
+      "localName": "RealizedVariableLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/RealizedVariableLeg",
+      "label": "realized variable leg",
+      "definition": "performance-based leg wherein the payment is netted at maturity rather than periodically",
+      "parents": [
+        "performance-based variable leg"
+      ],
+      "rules": []
+    },
+    {
+      "name": "return leg",
+      "technicalName": "fibo-der-drc-swp:ReturnLeg",
+      "localName": "ReturnLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/ReturnLeg",
+      "label": "return leg",
+      "definition": "leg of a swap in which the income generated by some underlier is paid",
+      "parents": [
+        "floating leg"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-ind-mkt-bas:ReferenceIndex",
+          "qualifier": null
+        },
+        {
+          "property": "is leg of",
+          "operator": "some",
+          "value": "return swap",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "return swap",
+      "technicalName": "fibo-der-drc-swp:ReturnSwap",
+      "localName": "ReturnSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/ReturnSwap",
+      "label": "return swap",
+      "definition": "swap in which one leg, the return leg, is based on income generated from some underlier",
+      "parents": [
+        "swap"
+      ],
+      "rules": [
+        {
+          "property": "has return leg",
+          "operator": "some",
+          "value": "return leg",
+          "qualifier": null
+        },
+        {
+          "property": "has funding leg",
+          "operator": "some",
+          "value": "fixed payment leg",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "simple return leg",
+      "technicalName": "fibo-der-drc-swp:SimpleReturnLeg",
+      "localName": "SimpleReturnLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/SimpleReturnLeg",
+      "label": "simple return leg",
+      "definition": "return leg based strictly on the income generated by the underlying asset, excluding appreciation, decrease in value, capital gains, and fees on any increase in value",
+      "parents": [
+        "return leg"
+      ],
+      "rules": []
+    },
+    {
+      "name": "statistical swap",
+      "technicalName": "fibo-der-drc-swp:StatisticalSwap",
+      "localName": "StatisticalSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/StatisticalSwap",
+      "label": "statistical swap",
+      "definition": "swap that depends on some statistical measure of the performance of the underlier",
+      "parents": [
+        "swap"
+      ],
+      "rules": [
+        {
+          "property": "has leg",
+          "operator": "some",
+          "value": "performance-based variable leg",
+          "qualifier": null
+        },
+        {
+          "property": "has leg",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fixed leg"
+        }
+      ]
+    },
+    {
+      "name": "strike leg",
+      "technicalName": "fibo-der-drc-swp:StrikeLeg",
+      "localName": "StrikeLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/StrikeLeg",
+      "label": "strike leg",
+      "definition": "swap leg that specifies a fixed amount, 'the strike', quoted at the time of execution",
+      "parents": [
+        "fixed leg"
+      ],
+      "rules": []
+    },
+    {
+      "name": "swap",
+      "technicalName": "fibo-der-drc-swp:Swap",
+      "localName": "Swap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/Swap",
+      "label": "swap",
+      "definition": "derivative instrument whereby counterparties agree to exchange periodic streams of cash flows or liabilities from two different financial instruments with each other",
+      "parents": [
+        "fibo-fbc-fi-fi:DerivativeInstrument"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:exchanges",
+          "operator": "some",
+          "value": "swap leg",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "swap terms",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractParty",
+          "operator": "some",
+          "value": "swap party",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "unique swap identifier"
+        }
+      ]
+    },
+    {
+      "name": "swap confirmation",
+      "technicalName": "fibo-der-drc-swp:SwapConfirmation",
+      "localName": "SwapConfirmation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/SwapConfirmation",
+      "label": "swap confirmation",
+      "definition": "formal confirmation that codifies the terms and conditions specific to a lifecycle event with respect to the overall transaction between the parties",
+      "parents": [
+        "swap lifecycle event",
+        "fibo-fnd-pas-pas:TransactionConfirmation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractParty",
+          "operator": "some",
+          "value": "swap party",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:supersedes",
+          "operator": "only",
+          "value": "swap confirmation",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "swap data repository",
+      "technicalName": "fibo-der-drc-swp:SwapDataRepository",
+      "localName": "SwapDataRepository",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/SwapDataRepository",
+      "label": "swap data repository",
+      "definition": "financial service provider that provides a central facility for swap data reporting and recordkeeping",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "swap dealer",
+      "technicalName": "fibo-der-drc-swp:SwapDealer",
+      "localName": "SwapDealer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/SwapDealer",
+      "label": "swap dealer",
+      "definition": "non-depository institution such as one that deals in swaps, makes a market in swaps, regularly enters into swaps with counterparties as an ordinary course of business for its own account, and engages in any activity causing the person to be commonly known in the trade as a dealer/market maker in swaps",
+      "parents": [
+        "fibo-fbc-fct-fse:NonDepositoryInstitution",
+        "fibo-fbc-pas-fpas:Dealer"
+      ],
+      "rules": []
+    },
+    {
+      "name": "swap leg",
+      "technicalName": "fibo-der-drc-swp:SwapLeg",
+      "localName": "SwapLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/SwapLeg",
+      "label": "swap leg",
+      "definition": "terms defining and the commitment to fulfill cashflow requirements (e.g., interest payments, coupon payments, etc.) for a component of a swap",
+      "parents": [
+        "fibo-der-drc-bsc:CashflowTerms",
+        "swap terms"
+      ],
+      "rules": [
+        {
+          "property": "is leg of",
+          "operator": "some",
+          "value": "swap",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasEffectiveDate",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "fibo-fbc-fi-fi:isDenominatedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:Currency"
+        },
+        {
+          "property": "fibo-fnd-pas-pas:hasSeller",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "swap receiving party"
+        },
+        {
+          "property": "fibo-fnd-pas-pas:hasBuyer",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "swap paying party"
+        },
+        {
+          "property": "fibo-fnd-arr-doc:hasTerminationDate",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "cmns-qtu:hasQuantityValue",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-qtu:ScalarQuantityValue"
+        },
+        {
+          "property": "fibo-fnd-acc-cur:hasNotionalAmount",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "swap leg event",
+      "technicalName": "fibo-der-drc-swp:SwapLegEvent",
+      "localName": "SwapLegEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/SwapLegEvent",
+      "label": "swap leg event",
+      "definition": "swap lifecycle event, such as a payment or rate reset event, that applies to one leg of a swap",
+      "parents": [
+        "swap lifecycle event"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "swap leg",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "swap lifecycle event",
+      "technicalName": "fibo-der-drc-swp:SwapLifecycleEvent",
+      "localName": "SwapLifecycleEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/SwapLifecycleEvent",
+      "label": "swap lifecycle event",
+      "definition": "event that occurs during the lifecycle of a swap, where the overall set of events includes those specific to the issuer, front office, middle office, and/or back office processes",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleEvent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "swap party",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "swap",
+          "qualifier": null
+        },
+        {
+          "property": "has swap identifier",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "unique swap identifier"
+        },
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "swap lifecycle event identifier"
+        }
+      ]
+    },
+    {
+      "name": "swap lifecycle event identifier",
+      "technicalName": "fibo-der-drc-swp:SwapLifecycleEventIdentifier",
+      "localName": "SwapLifecycleEventIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/SwapLifecycleEventIdentifier",
+      "label": "swap lifecycle event identifier",
+      "definition": "identifier that uniquely identifies a specific event in the lifecycle of a swap",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "swap lifecycle event"
+        }
+      ]
+    },
+    {
+      "name": "swap party",
+      "technicalName": "fibo-der-drc-swp:SwapParty",
+      "localName": "SwapParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/SwapParty",
+      "label": "swap party",
+      "definition": "party to a swap and therefore a legal party to the contract that embodies that transaction",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractParty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "swap",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "swap paying party",
+      "technicalName": "fibo-der-drc-swp:SwapPayingParty",
+      "localName": "SwapPayingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/SwapPayingParty",
+      "label": "swap paying party",
+      "definition": "swap party responsible for making payments for a given leg of the transaction as defined in the contract",
+      "parents": [
+        "fibo-der-drc-bsc:PayingParty",
+        "swap party"
+      ],
+      "rules": []
+    },
+    {
+      "name": "swap receiving party",
+      "technicalName": "fibo-der-drc-swp:SwapReceivingParty",
+      "localName": "SwapReceivingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/SwapReceivingParty",
+      "label": "swap receiving party",
+      "definition": "swap party that receives payments for a given leg of the transaction as defined in the contract",
+      "parents": [
+        "fibo-der-drc-bsc:ReceivingParty",
+        "swap party"
+      ],
+      "rules": []
+    },
+    {
+      "name": "swap terms",
+      "technicalName": "fibo-der-drc-swp:SwapTerms",
+      "localName": "SwapTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/SwapTerms",
+      "label": "swap terms",
+      "definition": "legal contractual terms of a swap transaction",
+      "parents": [
+        "fibo-der-drc-bsc:DerivativeTerms"
+      ],
+      "rules": []
+    },
+    {
+      "name": "total return leg",
+      "technicalName": "fibo-der-drc-swp:TotalReturnLeg",
+      "localName": "TotalReturnLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/TotalReturnLeg",
+      "label": "total return leg",
+      "definition": "return leg based on the income generated by the underlying asset as well as any appreciation, decrease in value, capital gains, and fees on any increase in value",
+      "parents": [
+        "return leg"
+      ],
+      "rules": []
+    },
+    {
+      "name": "total return swap",
+      "technicalName": "fibo-der-drc-swp:TotalReturnSwap",
+      "localName": "TotalReturnSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/TotalReturnSwap",
+      "label": "total return swap",
+      "definition": "return swap where the seller agrees to pay the other party the difference in value of some underlying asset multiplied by an agreed-upon notional value should the asset value increase between specified periods of time",
+      "parents": [
+        "fibo-der-drc-bsc:CreditDerivative",
+        "return swap"
+      ],
+      "rules": [
+        {
+          "property": "has return leg",
+          "operator": "some",
+          "value": "total return leg",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "unique swap identifier",
+      "technicalName": "fibo-der-drc-swp:UniqueSwapIdentifier",
+      "localName": "UniqueSwapIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/UniqueSwapIdentifier",
+      "label": "unique swap identifier",
+      "definition": "identifier for a swap that is used in recordkeeping and swap data reporting",
+      "parents": [
+        "fibo-fbc-fi-fi:FinancialInstrumentIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "swap"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has funding leg",
+      "technicalName": "fibo-der-drc-swp:hasFundingLeg",
+      "localName": "hasFundingLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/hasFundingLeg",
+      "label": "has funding leg",
+      "definition": "indicates the leg of a return swap that specifies a set payment rate, typically benchmark based but possibly a fixed rate",
+      "domain": [
+        "return swap"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has leg",
+      "technicalName": "fibo-der-drc-swp:hasLeg",
+      "localName": "hasLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/hasLeg",
+      "label": "has leg",
+      "definition": "relates a swap contract to a leg that is part of that swap",
+      "domain": [
+        "swap"
+      ],
+      "range": [
+        "swap leg"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has return leg",
+      "technicalName": "fibo-der-drc-swp:hasReturnLeg",
+      "localName": "hasReturnLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/hasReturnLeg",
+      "label": "has return leg",
+      "definition": "indicates the leg of a return swap whose payments are based on the return of an underlying asset",
+      "domain": [
+        "return swap"
+      ],
+      "range": [
+        "return leg"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has swap identifier",
+      "technicalName": "fibo-der-drc-swp:hasSwapIdentifier",
+      "localName": "hasSwapIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/hasSwapIdentifier",
+      "label": "has swap identifier",
+      "definition": "relates a swap lifecycle event to the identifier for the swap",
+      "domain": [],
+      "range": [
+        "fibo-fbc-fi-fi:FinancialInstrumentIdentifier"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is leg of",
+      "technicalName": "fibo-der-drc-swp:isLegOf",
+      "localName": "isLegOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/isLegOf",
+      "label": "is leg of",
+      "definition": "relates a swap leg to the to the swap that includes it",
+      "domain": [
+        "swap leg"
+      ],
+      "range": [
+        "swap"
+      ]
+    }
+  ],
+  "attributes": []
+}

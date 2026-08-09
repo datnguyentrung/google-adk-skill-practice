@@ -1,0 +1,851 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\TransactionsExt\\REATransactions.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/",
+  "summary": {
+    "nodes": 21,
+    "edges": 23,
+    "properties": 0,
+    "triples": 355
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegistrationAuthorities/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "contractual economic agreement",
+      "technicalName": "fibo-fnd-txn-rea:ContractualEconomicAgreement",
+      "localName": "ContractualEconomicAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/ContractualEconomicAgreement",
+      "label": "contractual economic agreement",
+      "definition": "An economic agreement forming part of a transaction, which has contractual standing as evidenced by a contract between the two parties to the Agreement.",
+      "parents": [
+        "fibo-fnd-agr-ctr:Contract",
+        "economic agreement"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:confers",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:ContractualCommitment",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractParty",
+          "operator": "some",
+          "value": "contractual transaction party",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "contractual transaction",
+      "technicalName": "fibo-fnd-txn-rea:ContractualTransaction",
+      "localName": "ContractualTransaction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/ContractualTransaction",
+      "label": "contractual transaction",
+      "definition": "An economic transaction which has some contractual basis.",
+      "parents": [
+        "economic transaction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contractual transaction party",
+      "technicalName": "fibo-fnd-txn-rea:ContractualTransactionParty",
+      "localName": "ContractualTransactionParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/ContractualTransactionParty",
+      "label": "contractual transaction party",
+      "definition": "That which is party to a transaction which has contractual standing.",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractParty",
+        "transaction party"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "covered transaction",
+      "technicalName": "fibo-fnd-txn-rea:CoveredTransaction",
+      "localName": "CoveredTransaction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/CoveredTransaction",
+      "label": "covered transaction",
+      "definition": "A transaction covered by some Master Agreement.",
+      "parents": [
+        "contractual transaction"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:MasterAgreement",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "discharging event",
+      "technicalName": "fibo-fnd-txn-rea:DischargingEvent",
+      "localName": "DischargingEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/DischargingEvent",
+      "label": "discharging event",
+      "definition": null,
+      "parents": [
+        "transaction business event"
+      ],
+      "rules": [
+        {
+          "property": "triggers",
+          "operator": "some",
+          "value": "ledger entry",
+          "qualifier": null
+        },
+        {
+          "property": "terminates",
+          "operator": "some",
+          "value": "economic commitment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "economic agreement",
+      "technicalName": "fibo-fnd-txn-rea:EconomicAgreement",
+      "localName": "EconomicAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/EconomicAgreement",
+      "label": "economic agreement",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-agr-ctr:Contract"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "economic transaction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "transaction party",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:confers",
+          "operator": "some",
+          "value": "economic commitment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "economic commitment",
+      "technicalName": "fibo-fnd-txn-rea:EconomicCommitment",
+      "localName": "EconomicCommitment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/EconomicCommitment",
+      "label": "economic commitment",
+      "definition": "Some Commitment which forms part of the subject of some Transaction, being an undertaking by one or other of the parties to the transaction, extended to the other party to that same transaction.",
+      "parents": [
+        "fibo-fnd-agr-agr:Commitment"
+      ],
+      "rules": [
+        {
+          "property": "made by",
+          "operator": "some",
+          "value": "transaction party",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "some",
+          "value": "economic agreement",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "economic contract",
+      "technicalName": "fibo-fnd-txn-rea:EconomicContract",
+      "localName": "EconomicContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/EconomicContract",
+      "label": "economic contract",
+      "definition": "A contract relating to and governing an economic transaction between two parties.",
+      "parents": [
+        "fibo-fnd-agr-ctr:Contract"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:embodies",
+          "operator": "some",
+          "value": "contractual economic agreement",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "economic contract commitment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "economic contract commitment",
+      "technicalName": "fibo-fnd-txn-rea:EconomicContractTermsSet",
+      "localName": "EconomicContractTermsSet",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/EconomicContractTermsSet",
+      "label": "economic contract commitment",
+      "definition": "Terms underlying the contract for a transaction.",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractualCommitment"
+      ],
+      "rules": [
+        {
+          "property": "sets out contractual economic commitment",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:ContractualCommitment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "economic resource",
+      "technicalName": "fibo-fnd-txn-rea:EconomicResource",
+      "localName": "EconomicResource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/EconomicResource",
+      "label": "economic resource",
+      "definition": "Anything that can bought sold or exchanged.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "takes material form",
+          "operator": "some",
+          "value": "owl:Thing",
+          "qualifier": null
+        },
+        {
+          "property": "defined in context of",
+          "operator": "some",
+          "value": "economic transaction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "economic transaction",
+      "technicalName": "fibo-fnd-txn-rea:EconomicTransaction",
+      "localName": "EconomicTransaction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/EconomicTransaction",
+      "label": "economic transaction",
+      "definition": "Some exchange of some items of economic value between two parties (economic agents).",
+      "parents": [],
+      "rules": [
+        {
+          "property": "transaction embodies economic agreement",
+          "operator": "some",
+          "value": "economic agreement",
+          "qualifier": null
+        },
+        {
+          "property": "transacted under",
+          "operator": "some",
+          "value": "economic contract commitment",
+          "qualifier": null
+        },
+        {
+          "property": "subject",
+          "operator": "minQualified",
+          "value": "2",
+          "qualifier": "economic resource"
+        }
+      ]
+    },
+    {
+      "name": "ledger entry",
+      "technicalName": "fibo-fnd-txn-rea:LedgerEntry",
+      "localName": "LedgerEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/LedgerEntry",
+      "label": "ledger entry",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-dt-fd:DatedCollectionConstituent",
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "some",
+          "value": "fibo-fbc-pas-caa:LedgerAccount",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-acc-cur:hasMonetaryAmount",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "fibo-fbc-pas-caa:hasTransactionDate",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-pas-caa:TransactionDate"
+        },
+        {
+          "property": "fibo-fbc-pas-caa:hasPostingDate",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-pas-caa:PostingDate"
+        }
+      ]
+    },
+    {
+      "name": "r e a claim",
+      "technicalName": "fibo-fnd-txn-rea:REAClaim",
+      "localName": "REAClaim",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/REAClaim",
+      "label": "r e a claim",
+      "definition": "Some imbalance, at a given point in time, between the respective rights and obligations of two parties with respect to one another.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "is imbalance in",
+          "operator": "some",
+          "value": "fibo-fnd-law-lcap:LegalConstruct",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "revaluation",
+      "technicalName": "fibo-fnd-txn-rea:Revaluation",
+      "localName": "Revaluation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/Revaluation",
+      "label": "revaluation",
+      "definition": null,
+      "parents": [
+        "transaction business event"
+      ],
+      "rules": [
+        {
+          "property": "triggers",
+          "operator": "some",
+          "value": "ledger entry",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "transaction business event",
+      "technicalName": "fibo-fnd-txn-rea:TransactionBusinessEvent",
+      "localName": "TransactionBusinessEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/TransactionBusinessEvent",
+      "label": "transaction business event",
+      "definition": "Occurrence in time that partners to a business transaction wish to monitor or control.",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "transaction event",
+      "technicalName": "fibo-fnd-txn-rea:TransactionEvent",
+      "localName": "TransactionEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/TransactionEvent",
+      "label": "transaction event",
+      "definition": "The event component of a transaction",
+      "parents": [],
+      "rules": [
+        {
+          "property": "has start",
+          "operator": "some",
+          "value": "transaction undertaking",
+          "qualifier": null
+        },
+        {
+          "property": "has end",
+          "operator": "some",
+          "value": "discharging event",
+          "qualifier": null
+        },
+        {
+          "property": "has corresponding",
+          "operator": "some",
+          "value": "transaction event",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:embodies",
+          "operator": "some",
+          "value": "economic commitment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "transaction event aspect",
+      "technicalName": "fibo-fnd-txn-rea:TransactionEventAspect",
+      "localName": "TransactionEventAspect",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/TransactionEventAspect",
+      "label": "transaction event aspect",
+      "definition": "A transaction side as seen from the perspective of one of the parties to the transaction.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "has corresponding alternative aspect",
+          "operator": "some",
+          "value": "transaction event aspect",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "transaction party",
+      "technicalName": "fibo-fnd-txn-rea:TransactionParty",
+      "localName": "TransactionParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/TransactionParty",
+      "label": "transaction party",
+      "definition": "Some entity which takes part in some transaction by receiving and/or parting with some item of economic value or some payment or both.",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "transacts with",
+          "operator": "some",
+          "value": "transaction party",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "transaction undertaking",
+      "technicalName": "fibo-fnd-txn-rea:TransactionUndertaking",
+      "localName": "TransactionUndertaking",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/TransactionUndertaking",
+      "label": "transaction undertaking",
+      "definition": "A contractually defined and established commitment to deliver some goods, perform some service or make some payment in cash or in kind.",
+      "parents": [
+        "undertaking event"
+      ],
+      "rules": [
+        {
+          "property": "gives rise to",
+          "operator": "some",
+          "value": "economic commitment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "undertaking",
+      "technicalName": "fibo-fnd-txn-rea:Undertaking",
+      "localName": "Undertaking",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/Undertaking",
+      "label": "undertaking",
+      "definition": "Some undertaking to act.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "is undertaking to",
+          "operator": "some",
+          "value": "fibo-fnd-law-lcap:ContingentObligation",
+          "qualifier": null
+        },
+        {
+          "property": "is made as part of",
+          "operator": "some",
+          "value": "fibo-fnd-agr-agr:Agreement",
+          "qualifier": null
+        },
+        {
+          "property": "gives rise to",
+          "operator": "some",
+          "value": "fibo-fnd-agr-agr:Commitment",
+          "qualifier": null
+        },
+        {
+          "property": "bestows",
+          "operator": "some",
+          "value": "fibo-fnd-law-lcap:ContingentRight",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractParty",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:ContractParty",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "undertaking event",
+      "technicalName": "fibo-fnd-txn-rea:UndertakingEvent",
+      "localName": "UndertakingEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/UndertakingEvent",
+      "label": "undertaking event",
+      "definition": "Something which occurs at a point in time, at which a party makes some commitment to some other party.",
+      "parents": [
+        "transaction business event",
+        "undertaking"
+      ],
+      "rules": [
+        {
+          "property": "triggers",
+          "operator": "some",
+          "value": "ledger entry",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "bestows",
+      "technicalName": "fibo-fnd-txn-rea:bestows",
+      "localName": "bestows",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/bestows",
+      "label": "bestows",
+      "definition": null,
+      "domain": [
+        "undertaking"
+      ],
+      "range": [
+        "fibo-fnd-law-lcap:ContingentRight"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "defined in context of",
+      "technicalName": "fibo-fnd-txn-rea:definedInContextOf",
+      "localName": "definedInContextOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/definedInContextOf",
+      "label": "defined in context of",
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "gives rise to",
+      "technicalName": "fibo-fnd-txn-rea:givesRiseTo",
+      "localName": "givesRiseTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/givesRiseTo",
+      "label": "gives rise to",
+      "definition": null,
+      "domain": [
+        "undertaking"
+      ],
+      "range": [
+        "fibo-fnd-agr-agr:Commitment"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has corresponding",
+      "technicalName": "fibo-fnd-txn-rea:hasCorresponding",
+      "localName": "hasCorresponding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/hasCorresponding",
+      "label": "has corresponding",
+      "definition": null,
+      "domain": [
+        "transaction event"
+      ],
+      "range": [
+        "transaction event"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has corresponding alternative aspect",
+      "technicalName": "fibo-fnd-txn-rea:hasCorrespondingAlternativeAspect",
+      "localName": "hasCorrespondingAlternativeAspect",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/hasCorrespondingAlternativeAspect",
+      "label": "has corresponding alternative aspect",
+      "definition": null,
+      "domain": [
+        "transaction event aspect"
+      ],
+      "range": [
+        "transaction event aspect"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has end",
+      "technicalName": "fibo-fnd-txn-rea:hasEnd",
+      "localName": "hasEnd",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/hasEnd",
+      "label": "has end",
+      "definition": null,
+      "domain": [],
+      "range": [
+        "discharging event"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has perspective",
+      "technicalName": "fibo-fnd-txn-rea:hasPerspective",
+      "localName": "hasPerspective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/hasPerspective",
+      "label": "has perspective",
+      "definition": null,
+      "domain": [
+        "transaction event"
+      ],
+      "range": [
+        "transaction event aspect"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has start",
+      "technicalName": "fibo-fnd-txn-rea:hasStart",
+      "localName": "hasStart",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/hasStart",
+      "label": "has start",
+      "definition": null,
+      "domain": [],
+      "range": [
+        "transaction undertaking"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has transaction component",
+      "technicalName": "fibo-fnd-txn-rea:hasTransactionComponent",
+      "localName": "hasTransactionComponent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/hasTransactionComponent",
+      "label": "has transaction component",
+      "definition": null,
+      "domain": [
+        "economic transaction"
+      ],
+      "range": [
+        "transaction event"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has transaction party",
+      "technicalName": "fibo-fnd-txn-rea:hasTransactionParty",
+      "localName": "hasTransactionParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/hasTransactionParty",
+      "label": "has transaction party",
+      "definition": null,
+      "domain": [
+        "economic transaction"
+      ],
+      "range": [
+        "transaction party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is imbalance in",
+      "technicalName": "fibo-fnd-txn-rea:isImbalanceIn",
+      "localName": "isImbalanceIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/isImbalanceIn",
+      "label": "is imbalance in",
+      "definition": "The imbalance in Obligations or Rights (depending on the viewpoint from which it is described) between one party and another.",
+      "domain": [
+        "r e a claim"
+      ],
+      "range": [
+        "fibo-fnd-law-lcap:LegalConstruct"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is made as part of",
+      "technicalName": "fibo-fnd-txn-rea:isMadeAsPartOf",
+      "localName": "isMadeAsPartOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/isMadeAsPartOf",
+      "label": "is made as part of",
+      "definition": null,
+      "domain": [
+        "undertaking"
+      ],
+      "range": [
+        "fibo-fnd-agr-agr:Agreement"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is undertaking to",
+      "technicalName": "fibo-fnd-txn-rea:isUndertakingTo",
+      "localName": "isUndertakingTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/isUndertakingTo",
+      "label": "is undertaking to",
+      "definition": null,
+      "domain": [
+        "undertaking"
+      ],
+      "range": [
+        "fibo-fnd-law-lcap:ContingentObligation"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "made by",
+      "technicalName": "fibo-fnd-txn-rea:madeBy",
+      "localName": "madeBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/madeBy",
+      "label": "made by",
+      "definition": null,
+      "domain": [],
+      "range": [
+        "transaction party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "sets out contractual economic commitment",
+      "technicalName": "fibo-fnd-txn-rea:setsOutContractualEconomicCommitment",
+      "localName": "setsOutContractualEconomicCommitment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/setsOutContractualEconomicCommitment",
+      "label": "sets out contractual economic commitment",
+      "definition": "The economic commitment set out in the terms to the contract which formalizes the agreement to the transaction.",
+      "domain": [
+        "economic contract commitment"
+      ],
+      "range": [
+        "fibo-fnd-agr-ctr:ContractualCommitment"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "subject",
+      "technicalName": "fibo-fnd-txn-rea:subject",
+      "localName": "subject",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/subject",
+      "label": "subject",
+      "definition": null,
+      "domain": [
+        "economic transaction"
+      ],
+      "range": [
+        "economic resource"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "takes material form",
+      "technicalName": "fibo-fnd-txn-rea:takesMaterialForm",
+      "localName": "takesMaterialForm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/takesMaterialForm",
+      "label": "takes material form",
+      "definition": "The material form of the Economic Resource; that is the thing which is recognized as being an Economic Resource as defined here, Editorial Note: This would usually be some Independent Thing. However it is conceivable that the existence of some relative thing, for example an asset, may itself be regarded and defined as a resource, over and above the role or context already defined for it. Therefore this identity relationship has a range of Thing, but is modeled as a sub property of \"identity\" to make this conclusion explicit. Editorial Note: This is a relationship with the sense that some relative thing takes the form of something, but is distinct from the similar concept as applied to Asset, in which the thing which takes the form of some asset is owned by someone. Here it is a resource, irrespective of whether or by whom it is owned. Labeled as \"takes material form\" to disambiguate these two relationships.",
+      "domain": [
+        "economic resource"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "terminates",
+      "technicalName": "fibo-fnd-txn-rea:terminates",
+      "localName": "terminates",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/terminates",
+      "label": "terminates",
+      "definition": null,
+      "domain": [
+        "discharging event"
+      ],
+      "range": [
+        "economic commitment"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "transacted under",
+      "technicalName": "fibo-fnd-txn-rea:transactedUnder",
+      "localName": "transactedUnder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/transactedUnder",
+      "label": "transacted under",
+      "definition": null,
+      "domain": [
+        "economic transaction"
+      ],
+      "range": [
+        "economic contract commitment"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "transaction embodies economic agreement",
+      "technicalName": "fibo-fnd-txn-rea:transactionEmbodiesEconomicAgreement",
+      "localName": "transactionEmbodiesEconomicAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/transactionEmbodiesEconomicAgreement",
+      "label": "transaction embodies economic agreement",
+      "definition": null,
+      "domain": [
+        "economic transaction"
+      ],
+      "range": [
+        "economic agreement"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "transaction event follows business process",
+      "technicalName": "fibo-fnd-txn-rea:transactionEventFollowsBusinessProcess",
+      "localName": "transactionEventFollowsBusinessProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/transactionEventFollowsBusinessProcess",
+      "label": "transaction event follows business process",
+      "definition": null,
+      "domain": [
+        "transaction event"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "transacts with",
+      "technicalName": "fibo-fnd-txn-rea:transactsWith",
+      "localName": "transactsWith",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/transactsWith",
+      "label": "transacts with",
+      "definition": null,
+      "domain": [
+        "transaction party"
+      ],
+      "range": [
+        "transaction party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "triggers",
+      "technicalName": "fibo-fnd-txn-rea:triggers",
+      "localName": "triggers",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/triggers",
+      "label": "triggers",
+      "definition": null,
+      "domain": [
+        "transaction business event"
+      ],
+      "range": [
+        "ledger entry"
+      ]
+    }
+  ],
+  "attributes": []
+}

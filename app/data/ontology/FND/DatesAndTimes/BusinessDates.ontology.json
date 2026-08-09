@@ -1,0 +1,153 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\DatesAndTimes\\BusinessDates.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/",
+  "summary": {
+    "nodes": 7,
+    "edges": 2,
+    "properties": 0,
+    "triples": 141
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Locations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/"
+  ],
+  "classes": [
+    {
+      "name": "business day convention",
+      "technicalName": "fibo-fnd-dt-bd:BusinessDayConvention",
+      "localName": "BusinessDayConvention",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/BusinessDayConvention",
+      "label": "business day convention",
+      "definition": "convention that enumerates the possible ways to handle a date that falls on a weekend or holiday",
+      "parents": [
+        "business recurrence interval convention"
+      ],
+      "rules": [
+        {
+          "property": "cmns-loc:hasBusinessCenter",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-loc:BusinessCenter"
+        }
+      ]
+    },
+    {
+      "name": "business recurrence interval",
+      "technicalName": "fibo-fnd-dt-bd:BusinessRecurrenceInterval",
+      "localName": "BusinessRecurrenceInterval",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/BusinessRecurrenceInterval",
+      "label": "business recurrence interval",
+      "definition": "recurrence interval that is defined per a specific convention that determines how recurring days should be handled",
+      "parents": [
+        "fibo-fnd-dt-fd:RecurrenceInterval"
+      ],
+      "rules": [
+        {
+          "property": "has business recurrence interval convention",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "business recurrence interval convention"
+        }
+      ]
+    },
+    {
+      "name": "business recurrence interval convention",
+      "technicalName": "fibo-fnd-dt-bd:BusinessRecurrenceIntervalConvention",
+      "localName": "BusinessRecurrenceIntervalConvention",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/BusinessRecurrenceIntervalConvention",
+      "label": "business recurrence interval convention",
+      "definition": "convention that specifies how recurring days should be handled, such as the end of the month, a particular day of the month, a day of the week, or more specifically, a t-bill auction date",
+      "parents": [
+        "convention"
+      ],
+      "rules": []
+    },
+    {
+      "name": "convention",
+      "technicalName": "fibo-fnd-dt-bd:Convention",
+      "localName": "Convention",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/Convention",
+      "label": "convention",
+      "definition": "widely accepted or established way of doing 'something' within some community of practice",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "day of month",
+      "technicalName": "fibo-fnd-dt-bd:DayOfMonth",
+      "localName": "DayOfMonth",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/DayOfMonth",
+      "label": "day of month",
+      "definition": "specific, recurring day of the month",
+      "parents": [
+        "business recurrence interval"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-fd:hasOrdinalNumber",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:nonNegativeInteger"
+        }
+      ]
+    },
+    {
+      "name": "day of the week",
+      "technicalName": "fibo-fnd-dt-bd:DayOfWeek",
+      "localName": "DayOfWeek",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/DayOfWeek",
+      "label": "day of the week",
+      "definition": "specific, recurring day of the week",
+      "parents": [
+        "business recurrence interval"
+      ],
+      "rules": []
+    },
+    {
+      "name": "end of the month",
+      "technicalName": "fibo-fnd-dt-bd:EndOfMonth",
+      "localName": "EndOfMonth",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/EndOfMonth",
+      "label": "end of the month",
+      "definition": "the last day of a calendar month, irrespective of the length of the calendar month",
+      "parents": [
+        "business recurrence interval"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has business day convention",
+      "technicalName": "fibo-fnd-dt-bd:hasBusinessDayConvention",
+      "localName": "hasBusinessDayConvention",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/hasBusinessDayConvention",
+      "label": "has business day convention",
+      "definition": "identifies a convention regarding how a date should be handled when it falls on a day that is not a business day, such as a weekend or holiday",
+      "domain": [],
+      "range": [
+        "business day convention"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has business recurrence interval convention",
+      "technicalName": "fibo-fnd-dt-bd:hasBusinessRecurrenceIntervalConvention",
+      "localName": "hasBusinessRecurrenceIntervalConvention",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/hasBusinessRecurrenceIntervalConvention",
+      "label": "has business recurrence interval convention",
+      "definition": "identifies a convention regarding how certain recurring dates should be handled with respect to a given schedule, such as the end of the month",
+      "domain": [],
+      "range": [
+        "business recurrence interval convention"
+      ]
+    }
+  ],
+  "attributes": []
+}

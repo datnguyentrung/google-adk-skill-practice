@@ -1,0 +1,970 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\AgentsAndPeople\\People.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/",
+  "summary": {
+    "nodes": 31,
+    "edges": 10,
+    "properties": 12,
+    "triples": 535
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Locations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/",
+    "https://www.omg.org/spec/Commons/TextDatatype/"
+  ],
+  "classes": [
+    {
+      "name": "adult",
+      "technicalName": "fibo-fnd-aap-ppl:Adult",
+      "localName": "Adult",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/Adult",
+      "label": "adult",
+      "definition": "person who has attained the age of majority as defined in some jurisdiction",
+      "parents": [
+        "person"
+      ],
+      "rules": [
+        {
+          "property": "has age of majority",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "age of majority"
+        }
+      ]
+    },
+    {
+      "name": "age of majority",
+      "technicalName": "fibo-fnd-aap-ppl:AgeOfMajority",
+      "localName": "AgeOfMajority",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/AgeOfMajority",
+      "label": "age of majority",
+      "definition": "age at which someone acquires the rights and responsibilities of an adult in some jurisdiction",
+      "parents": [
+        "legal age"
+      ],
+      "rules": []
+    },
+    {
+      "name": "birth certificate",
+      "technicalName": "fibo-fnd-aap-ppl:BirthCertificate",
+      "localName": "BirthCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/BirthCertificate",
+      "label": "birth certificate",
+      "definition": "an original document certifying the circumstances of the birth, or a certified copy of or representation of the ensuing registration of that birth",
+      "parents": [
+        "identity document",
+        "cmns-doc:Certificate"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "birth certificate identifier"
+        }
+      ]
+    },
+    {
+      "name": "birth certificate identification scheme",
+      "technicalName": "fibo-fnd-aap-ppl:BirthCertificateIdentificationScheme",
+      "localName": "BirthCertificateIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/BirthCertificateIdentificationScheme",
+      "label": "birth certificate identification scheme",
+      "definition": "system for allocating identifiers to birth certificates",
+      "parents": [
+        "cmns-id:IdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "birth certificate identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "birth certificate identifier",
+      "technicalName": "fibo-fnd-aap-ppl:BirthCertificateIdentifier",
+      "localName": "BirthCertificateIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/BirthCertificateIdentifier",
+      "label": "birth certificate identifier",
+      "definition": "identifier associated with a vital record documenting the birth of a child",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "birth certificate identification scheme"
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "birth certificate"
+        }
+      ]
+    },
+    {
+      "name": "contact",
+      "technicalName": "fibo-fnd-aap-ppl:Contact",
+      "localName": "Contact",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/Contact",
+      "label": "contact",
+      "definition": "role or associated with a party serving as a designated point of communication, typically within a system or process",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "cmns-pts:Party",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "some",
+          "value": "fibo-fnd-pty-pty:PartyRoleIdentifier",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:isSignifiedBy",
+          "operator": "some",
+          "value": "contact record",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "contact record",
+      "technicalName": "fibo-fnd-aap-ppl:ContactRecord",
+      "localName": "ContactRecord",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/ContactRecord",
+      "label": "contact record",
+      "definition": "record about a party in a specific communicative or liaison role",
+      "parents": [
+        "cmns-doc:Record"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-pty-pty:PartyRoleIdentifier"
+        },
+        {
+          "property": "cmns-dsg:denotes",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "contact"
+        }
+      ]
+    },
+    {
+      "name": "date of birth",
+      "technicalName": "fibo-fnd-aap-ppl:DateOfBirth",
+      "localName": "DateOfBirth",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/DateOfBirth",
+      "label": "date of birth",
+      "definition": "explicit date, i.e., the day, month and year, on which an individual was born",
+      "parents": [
+        "cmns-dt:ExplicitDate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "date of death",
+      "technicalName": "fibo-fnd-aap-ppl:DateOfDeath",
+      "localName": "DateOfDeath",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/DateOfDeath",
+      "label": "date of death",
+      "definition": "explicit date, i.e., the day, month and year, on which an individual died",
+      "parents": [
+        "cmns-dt:ExplicitDate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "death certificate",
+      "technicalName": "fibo-fnd-aap-ppl:DeathCertificate",
+      "localName": "DeathCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/DeathCertificate",
+      "label": "death certificate",
+      "definition": "original document certifying the circumstances of the death (such as how and when it occurred), or a certified copy of or representation of the ensuing registration of that death",
+      "parents": [
+        "identity document",
+        "cmns-doc:Certificate"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "death certificate identifier"
+        }
+      ]
+    },
+    {
+      "name": "death certificate identification scheme",
+      "technicalName": "fibo-fnd-aap-ppl:DeathCertificateIdentificationScheme",
+      "localName": "DeathCertificateIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/DeathCertificateIdentificationScheme",
+      "label": "death certificate identification scheme",
+      "definition": "system for allocating identifiers to death certificates",
+      "parents": [
+        "cmns-id:IdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "death certificate identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "death certificate identifier",
+      "technicalName": "fibo-fnd-aap-ppl:DeathCertificateIdentifier",
+      "localName": "DeathCertificateIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/DeathCertificateIdentifier",
+      "label": "death certificate identifier",
+      "definition": "identifier associated with a vital record documenting the death of an individual",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "death certificate identification scheme"
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "death certificate"
+        }
+      ]
+    },
+    {
+      "name": "driver's license",
+      "technicalName": "fibo-fnd-aap-ppl:DriversLicense",
+      "localName": "DriversLicense",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/DriversLicense",
+      "label": "driver's license",
+      "definition": "an official document which states that a person may operate a motorized vehicle, such as a motorcycle, car, truck or a bus, on a public roadway or provides official identifying information for a non-driver",
+      "parents": [
+        "identity document"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "driver's license identifier"
+        }
+      ]
+    },
+    {
+      "name": "driver's license identification scheme",
+      "technicalName": "fibo-fnd-aap-ppl:DriversLicenseIdentificationScheme",
+      "localName": "DriversLicenseIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/DriversLicenseIdentificationScheme",
+      "label": "driver's license identification scheme",
+      "definition": "system for allocating identifiers to driver's, operating, or non-driver identification documents",
+      "parents": [
+        "cmns-id:IdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "driver's license identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "driver's license identifier",
+      "technicalName": "fibo-fnd-aap-ppl:DriversLicenseIdentifier",
+      "localName": "DriversLicenseIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/DriversLicenseIdentifier",
+      "label": "driver's license identifier",
+      "definition": "identifier associated with a drivers' or operating license for operating a motor vehicle or non-driver identification card",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "driver's license identification scheme"
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "driver's license"
+        }
+      ]
+    },
+    {
+      "name": "emancipated minor",
+      "technicalName": "fibo-fnd-aap-ppl:EmancipatedMinor",
+      "localName": "EmancipatedMinor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/EmancipatedMinor",
+      "label": "emancipated minor",
+      "definition": "a minor who is allowed to conduct a business or any other occupation on his or her own behalf or for their own account outside the control of a parent or guardian",
+      "parents": [
+        "minor"
+      ],
+      "rules": []
+    },
+    {
+      "name": "identity document",
+      "technicalName": "fibo-fnd-aap-ppl:IdentityDocument",
+      "localName": "IdentityDocument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/IdentityDocument",
+      "label": "identity document",
+      "definition": "any legal document which may be used to verify aspects of a person's identity",
+      "parents": [
+        "cmns-doc:LegalDocument"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "person",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-id:Identifier"
+        },
+        {
+          "property": "cmns-dt:hasDateOfIssuance",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "fibo-fnd-arr-doc:hasExpirationDate",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Date"
+        }
+      ]
+    },
+    {
+      "name": "incapacitated adult",
+      "technicalName": "fibo-fnd-aap-ppl:IncapacitatedAdult",
+      "localName": "IncapacitatedAdult",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/IncapacitatedAdult",
+      "label": "incapacitated adult",
+      "definition": "an adult who is legally identified as not having legal capacity, typically as a result of some inherent physical or mental incapacity or as a result of having contracted some illness which temporarily deprives them of such capacity",
+      "parents": [
+        "adult"
+      ],
+      "rules": []
+    },
+    {
+      "name": "legal age",
+      "technicalName": "fibo-fnd-aap-ppl:LegalAge",
+      "localName": "LegalAge",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/LegalAge",
+      "label": "legal age",
+      "definition": "age at which someone acquires the capacity to do something that they were prohibited from doing before under the law in some jurisdiction",
+      "parents": [
+        "fibo-fnd-dt-fd:Age"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "legal working age",
+      "technicalName": "fibo-fnd-aap-ppl:LegalWorkingAge",
+      "localName": "LegalWorkingAge",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/LegalWorkingAge",
+      "label": "legal working age",
+      "definition": "age at which someone acquires the capacity to work legally in some jurisdiction",
+      "parents": [
+        "legal age"
+      ],
+      "rules": []
+    },
+    {
+      "name": "legal working age person",
+      "technicalName": "fibo-fnd-aap-ppl:LegalWorkingAgePerson",
+      "localName": "LegalWorkingAgePerson",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/LegalWorkingAgePerson",
+      "label": "legal working age person",
+      "definition": "person whose age is greater than the minimum legal working age specified in a jurisdiction in which they work",
+      "parents": [
+        "person"
+      ],
+      "rules": [
+        {
+          "property": "has minimum legal working age",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "legal working age"
+        }
+      ]
+    },
+    {
+      "name": "legally capable adult",
+      "technicalName": "fibo-fnd-aap-ppl:LegallyCapableAdult",
+      "localName": "LegallyCapableAdult",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/LegallyCapableAdult",
+      "label": "legally capable adult",
+      "definition": "person who has attained the age of majority as defined in some jurisdiction and who is allowed to conduct a business or any other occupation on his or her own behalf or for their own account",
+      "parents": [
+        "adult"
+      ],
+      "rules": []
+    },
+    {
+      "name": "minor",
+      "technicalName": "fibo-fnd-aap-ppl:Minor",
+      "localName": "Minor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/Minor",
+      "label": "minor",
+      "definition": "a person under a certain age, usually the age of majority in a given jurisdiction, which legally demarcates childhood from adulthood",
+      "parents": [
+        "person"
+      ],
+      "rules": []
+    },
+    {
+      "name": "national identification number",
+      "technicalName": "fibo-fnd-aap-ppl:NationalIdentificationNumber",
+      "localName": "NationalIdentificationNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/NationalIdentificationNumber",
+      "label": "national identification number",
+      "definition": "number or text which appears on an identity document issued by a country or jurisdiction",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "person"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "national identification number scheme"
+        }
+      ]
+    },
+    {
+      "name": "national identification number scheme",
+      "technicalName": "fibo-fnd-aap-ppl:NationalIdentificationNumberScheme",
+      "localName": "NationalIdentificationNumberScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/NationalIdentificationNumberScheme",
+      "label": "national identification number scheme",
+      "definition": "system for allocating identifiers to national identification numbers",
+      "parents": [
+        "cmns-id:IdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "national identification number",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "passport",
+      "technicalName": "fibo-fnd-aap-ppl:Passport",
+      "localName": "Passport",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/Passport",
+      "label": "passport",
+      "definition": "formal identity document, issued by a national government, which certifies the identity and nationality of its holder for the purpose of international travel",
+      "parents": [
+        "identity document"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "passport number"
+        }
+      ]
+    },
+    {
+      "name": "passport number",
+      "technicalName": "fibo-fnd-aap-ppl:PassportNumber",
+      "localName": "PassportNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/PassportNumber",
+      "label": "passport number",
+      "definition": "national identification number associated with a passport",
+      "parents": [
+        "national identification number"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "passport number identification scheme"
+        }
+      ]
+    },
+    {
+      "name": "passport number identification scheme",
+      "technicalName": "fibo-fnd-aap-ppl:PassportNumberIdentificationScheme",
+      "localName": "PassportNumberIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/PassportNumberIdentificationScheme",
+      "label": "passport number identification scheme",
+      "definition": "system for allocating identifiers to passports",
+      "parents": [
+        "cmns-id:IdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "passport number",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "person",
+      "technicalName": "fibo-fnd-aap-ppl:Person",
+      "localName": "Person",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/Person",
+      "label": "person",
+      "definition": "individual human being, with consciousness of self",
+      "parents": [
+        "cmns-pts:Party"
+      ],
+      "rules": [
+        {
+          "property": "has gender",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "has place of birth",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "place of birth"
+        },
+        {
+          "property": "has date of birth",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "date of birth"
+        },
+        {
+          "property": "has citizenship",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-loc:Country"
+        },
+        {
+          "property": "has residence",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-plc-adr:ConventionalStreetAddress"
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasAge",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-dt-fd:Age"
+        },
+        {
+          "property": "cmns-dsg:hasName",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "person name"
+        },
+        {
+          "property": "has date of death",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "date of death"
+        }
+      ]
+    },
+    {
+      "name": "person name",
+      "technicalName": "fibo-fnd-aap-ppl:PersonName",
+      "localName": "PersonName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/PersonName",
+      "label": "person name",
+      "definition": "designation by which someone is known in some context",
+      "parents": [
+        "cmns-cxtdsg:ContextualName"
+      ],
+      "rules": [
+        {
+          "property": "has surname",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        },
+        {
+          "property": "has name suffix",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        },
+        {
+          "property": "has name prefix",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        },
+        {
+          "property": "has full legal name",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        },
+        {
+          "property": "cmns-dsg:isNameOf",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "person"
+        }
+      ]
+    },
+    {
+      "name": "place of birth",
+      "technicalName": "fibo-fnd-aap-ppl:PlaceOfBirth",
+      "localName": "PlaceOfBirth",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/PlaceOfBirth",
+      "label": "place of birth",
+      "definition": "physical location, including country, region, and municipality where an individual was born",
+      "parents": [
+        "cmns-loc:PhysicalLocation"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has age of majority",
+      "technicalName": "fibo-fnd-aap-ppl:hasAgeOfMajority",
+      "localName": "hasAgeOfMajority",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasAgeOfMajority",
+      "label": "has age of majority",
+      "definition": "relates someone to the age required to attain the capacity to engage in certain transactions or be treated legally as an adult in some jurisdiction",
+      "domain": [],
+      "range": [
+        "age of majority"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has citizenship",
+      "technicalName": "fibo-fnd-aap-ppl:hasCitizenship",
+      "localName": "hasCitizenship",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasCitizenship",
+      "label": "has citizenship",
+      "definition": "links a person to their country of citizenship",
+      "domain": [
+        "person"
+      ],
+      "range": [
+        "cmns-loc:Country"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has date of birth",
+      "technicalName": "fibo-fnd-aap-ppl:hasDateOfBirth",
+      "localName": "hasDateOfBirth",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasDateOfBirth",
+      "label": "has date of birth",
+      "definition": "identifies the date on which an individual was born",
+      "domain": [
+        "person"
+      ],
+      "range": [
+        "date of birth"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has date of death",
+      "technicalName": "fibo-fnd-aap-ppl:hasDateOfDeath",
+      "localName": "hasDateOfDeath",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasDateOfDeath",
+      "label": "has date of death",
+      "definition": "identifies the date on which an individual died",
+      "domain": [
+        "person"
+      ],
+      "range": [
+        "date of death"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has minimum legal working age",
+      "technicalName": "fibo-fnd-aap-ppl:hasMinimumLegalWorkingAge",
+      "localName": "hasMinimumLegalWorkingAge",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasMinimumLegalWorkingAge",
+      "label": "has minimum legal working age",
+      "definition": "relates someone to the minimum legal working age for the jurisdiction in which they reside",
+      "domain": [],
+      "range": [
+        "legal working age"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has place of birth",
+      "technicalName": "fibo-fnd-aap-ppl:hasPlaceOfBirth",
+      "localName": "hasPlaceOfBirth",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasPlaceOfBirth",
+      "label": "has place of birth",
+      "definition": "identifies the location where an individual was born",
+      "domain": [
+        "person"
+      ],
+      "range": [
+        "place of birth"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has point of contact",
+      "technicalName": "fibo-fnd-aap-ppl:hasPointOfContact",
+      "localName": "hasPointOfContact",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasPointOfContact",
+      "label": "has point of contact",
+      "definition": "identifies a party designated as the point of contact for",
+      "domain": [],
+      "range": [
+        "contact"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has primary residence",
+      "technicalName": "fibo-fnd-aap-ppl:hasPrimaryResidence",
+      "localName": "hasPrimaryResidence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasPrimaryResidence",
+      "label": "has primary residence",
+      "definition": "identifies a dwelling where an individual resides the majority of the year",
+      "domain": [
+        "person"
+      ],
+      "range": [
+        "fibo-fnd-plc-adr:ConventionalStreetAddress"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has residence",
+      "technicalName": "fibo-fnd-aap-ppl:hasResidence",
+      "localName": "hasResidence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasResidence",
+      "label": "has residence",
+      "definition": "identifies a dwelling where an individual lives",
+      "domain": [
+        "person"
+      ],
+      "range": [
+        "fibo-fnd-plc-adr:ConventionalStreetAddress"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is point of contact for",
+      "technicalName": "fibo-fnd-aap-ppl:isPointOfContactFor",
+      "localName": "isPointOfContactFor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/isPointOfContactFor",
+      "label": "is point of contact for",
+      "definition": "is the entity or purpose for which the party is the point of contact",
+      "domain": [
+        "contact"
+      ],
+      "range": []
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has family name",
+      "technicalName": "fibo-fnd-aap-ppl:hasFamilyName",
+      "localName": "hasFamilyName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasFamilyName",
+      "label": "has family name",
+      "definition": "indicates the name shared in common to identify the members of a family, as distinguished from each member's given name",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has first name",
+      "technicalName": "fibo-fnd-aap-ppl:hasFirstName",
+      "localName": "hasFirstName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasFirstName",
+      "label": "has first name",
+      "definition": "indicates the given name or first name of a person, that is, the name chosen for them at birth or changed by them subsequently from the name given at birth",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has full legal name",
+      "technicalName": "fibo-fnd-aap-ppl:hasFullLegalName",
+      "localName": "hasFullLegalName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasFullLegalName",
+      "label": "has full legal name",
+      "definition": "indicates the complete name of a person, typically used in formal situations including those of a legal or contractual nature",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has gender",
+      "technicalName": "fibo-fnd-aap-ppl:hasGender",
+      "localName": "hasGender",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasGender",
+      "label": "has gender",
+      "definition": "links a particular gender value with a person",
+      "domain": [
+        "person"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has given name",
+      "technicalName": "fibo-fnd-aap-ppl:hasGivenName",
+      "localName": "hasGivenName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasGivenName",
+      "label": "has given name",
+      "definition": "indicates the given name or first name of a person, that is, the name chosen for them at birth or changed by them subsequently from the name given at birth",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has last name",
+      "technicalName": "fibo-fnd-aap-ppl:hasLastName",
+      "localName": "hasLastName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasLastName",
+      "label": "has last name",
+      "definition": "indicates the name shared in common to identify the members of a family, as distinguished from each member's given name",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has maiden name",
+      "technicalName": "fibo-fnd-aap-ppl:hasMaidenName",
+      "localName": "hasMaidenName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasMaidenName",
+      "label": "has maiden name",
+      "definition": "indicates the name shared in common to identify the members of a family, that predates any changes of name due to marriage",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has middle name or initial",
+      "technicalName": "fibo-fnd-aap-ppl:hasMiddleNameOrInitial",
+      "localName": "hasMiddleNameOrInitial",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasMiddleNameOrInitial",
+      "label": "has middle name or initial",
+      "definition": "one or more additional names or initial letters for names that occur between a person's first and last name",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has name prefix",
+      "technicalName": "fibo-fnd-aap-ppl:hasNamePrefix",
+      "localName": "hasNamePrefix",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasNamePrefix",
+      "label": "has name prefix",
+      "definition": "indicates a character or sequence of characters, preceding a person's name, that provides additional information about the person, such as a form of address representing a title, honorific, or military rank",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has name suffix",
+      "technicalName": "fibo-fnd-aap-ppl:hasNameSuffix",
+      "localName": "hasNameSuffix",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasNameSuffix",
+      "label": "has name suffix",
+      "definition": "indicates a character or sequence of characters, following a person's name, that provides additional information about the person, such as their position, educational degree, accreditation, office, or honor",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has person name",
+      "technicalName": "fibo-fnd-aap-ppl:hasPersonName",
+      "localName": "hasPersonName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasPersonName",
+      "label": "has person name",
+      "definition": "links a name to an individual",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has surname",
+      "technicalName": "fibo-fnd-aap-ppl:hasSurname",
+      "localName": "hasSurname",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/hasSurname",
+      "label": "has surname",
+      "definition": "indicates the name shared in common to identify the members of a family, as distinguished from each member's given name",
+      "domain": [],
+      "range": []
+    }
+  ]
+}

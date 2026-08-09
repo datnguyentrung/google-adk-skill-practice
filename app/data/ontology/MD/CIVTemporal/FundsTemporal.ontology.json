@@ -1,0 +1,394 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\MD\\CIVTemporal\\FundsTemporal.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/",
+  "summary": {
+    "nodes": 15,
+    "edges": 12,
+    "properties": 1,
+    "triples": 117
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/InstrumentPricing/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/CollectiveInvestmentVehicles/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/"
+  ],
+  "classes": [
+    {
+      "name": "accrued fees",
+      "technicalName": "fibo-md-civx-fun:AccruedFees",
+      "localName": "AccruedFees",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/AccruedFees",
+      "label": "accrued fees",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "accrued income",
+      "technicalName": "fibo-md-civx-fun:AccruedIncome",
+      "localName": "AccruedIncome",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/AccruedIncome",
+      "label": "accrued income",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "accrued taxes",
+      "technicalName": "fibo-md-civx-fun:AccruedTaxes",
+      "localName": "AccruedTaxes",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/AccruedTaxes",
+      "label": "accrued taxes",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "annualized performance determination method",
+      "technicalName": "fibo-md-civx-fun:AnnualizedPerformanceDeterminationMethod",
+      "localName": "AnnualizedPerformanceDeterminationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/AnnualizedPerformanceDeterminationMethod",
+      "label": "annualized performance determination method",
+      "definition": "Annualized performance determination.",
+      "parents": [
+        "performance determination method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fee payable",
+      "technicalName": "fibo-md-civx-fun:FeePayable",
+      "localName": "FeePayable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/FeePayable",
+      "label": "fee payable",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fund price",
+      "technicalName": "fibo-md-civx-fun:FundPrice",
+      "localName": "FundPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/FundPrice",
+      "label": "fund price",
+      "definition": null,
+      "parents": [
+        "fibo-fbc-fi-ip:SecurityPrice"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund unit performance",
+      "technicalName": "fibo-md-civx-fun:FundUnitPerformance",
+      "localName": "FundUnitPerformance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/FundUnitPerformance",
+      "label": "fund unit performance",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "funds tax",
+      "technicalName": "fibo-md-civx-fun:FundsTax",
+      "localName": "FundsTax",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/FundsTax",
+      "label": "funds tax",
+      "definition": null,
+      "parents": [],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-be-oac-opty:Investor",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "gross of fee performance determination method",
+      "technicalName": "fibo-md-civx-fun:GrossOfFeePerformanceDeterminationMethod",
+      "localName": "GrossOfFeePerformanceDeterminationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/GrossOfFeePerformanceDeterminationMethod",
+      "label": "gross of fee performance determination method",
+      "definition": "Performance determined gross of fee. Review: Is this mutually exclusive with the other listed method? It sounds like it is not.",
+      "parents": [
+        "performance determination method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "money weighted rate of return performance determination method",
+      "technicalName": "fibo-md-civx-fun:MoneyWeightedRateOfReturnPerformanceDeterminationMethod",
+      "localName": "MoneyWeightedRateOfReturnPerformanceDeterminationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/MoneyWeightedRateOfReturnPerformanceDeterminationMethod",
+      "label": "money weighted rate of return performance determination method",
+      "definition": "Money weighted rate of return.",
+      "parents": [
+        "performance determination method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "performance determination method",
+      "technicalName": "fibo-md-civx-fun:PerformanceDeterminationMethod",
+      "localName": "PerformanceDeterminationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/PerformanceDeterminationMethod",
+      "label": "performance determination method",
+      "definition": "A method for performance determination (e.g. Time weighted and money weighted, annualized, gross of fee) along with the time frame in which this is determined. PLUS Performances NamePeriod",
+      "parents": [
+        "fibo-fnd-gao-obj:Method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "sigma value of holdings",
+      "technicalName": "fibo-md-civx-fun:SigmaValueOfHoldings",
+      "localName": "SigmaValueOfHoldings",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/SigmaValueOfHoldings",
+      "label": "sigma value of holdings",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "swing",
+      "technicalName": "fibo-md-civx-fun:Swing",
+      "localName": "Swing",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/Swing",
+      "label": "swing",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "swing price",
+      "technicalName": "fibo-md-civx-fun:SwingPrice",
+      "localName": "SwingPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/SwingPrice",
+      "label": "swing price",
+      "definition": null,
+      "parents": [
+        "fund price"
+      ],
+      "rules": []
+    },
+    {
+      "name": "time weighted rate of return performance determination method",
+      "technicalName": "fibo-md-civx-fun:TimeWeightedRateOfReturnPerformanceDeterminationMethod",
+      "localName": "TimeWeightedRateOfReturnPerformanceDeterminationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/TimeWeightedRateOfReturnPerformanceDeterminationMethod",
+      "label": "time weighted rate of return performance determination method",
+      "definition": "Time weighted rate of return.",
+      "parents": [
+        "performance determination method"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "determination date",
+      "technicalName": "fibo-md-civx-fun:determinationDate.1",
+      "localName": "determinationDate.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/determinationDate.1",
+      "label": "determination date",
+      "definition": null,
+      "domain": [
+        "fund unit performance"
+      ],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "determination period",
+      "technicalName": "fibo-md-civx-fun:determinationPeriod",
+      "localName": "determinationPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/determinationPeriod",
+      "label": "determination period",
+      "definition": "THe period for which the performance is determined",
+      "domain": [
+        "fund unit performance"
+      ],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "determines",
+      "technicalName": "fibo-md-civx-fun:determines",
+      "localName": "determines",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/determines",
+      "label": "determines",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fee payable"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has performance",
+      "technicalName": "fibo-md-civx-fun:hasPerformance",
+      "localName": "hasPerformance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/hasPerformance",
+      "label": "has performance",
+      "definition": null,
+      "domain": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "range": [
+        "fund unit performance"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has performance determination method",
+      "technicalName": "fibo-md-civx-fun:hasPerformanceDeterminationMethod",
+      "localName": "hasPerformanceDeterminationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/hasPerformanceDeterminationMethod",
+      "label": "has performance determination method",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "performance determination method"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "incurs",
+      "technicalName": "fibo-md-civx-fun:incurs",
+      "localName": "incurs",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/incurs",
+      "label": "incurs",
+      "definition": null,
+      "domain": [
+        "fibo-sec-fund-civ:FundPortfolio"
+      ],
+      "range": [
+        "funds tax"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "incurs fees",
+      "technicalName": "fibo-md-civx-fun:incursFees",
+      "localName": "incursFees",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/incursFees",
+      "label": "incurs fees",
+      "definition": null,
+      "domain": [
+        "fibo-be-oac-opty:Investor"
+      ],
+      "range": [
+        "fee payable"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "incurs fees",
+      "technicalName": "fibo-md-civx-fun:incursFees.1",
+      "localName": "incursFees.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/incursFees.1",
+      "label": "incurs fees",
+      "definition": null,
+      "domain": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "range": [
+        "fee payable"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "incurs tax",
+      "technicalName": "fibo-md-civx-fun:incursTax",
+      "localName": "incursTax",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/incursTax",
+      "label": "incurs tax",
+      "definition": null,
+      "domain": [
+        "fibo-be-oac-opty:Investor"
+      ],
+      "range": [
+        "funds tax"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "incurs tax",
+      "technicalName": "fibo-md-civx-fun:incursTax.1",
+      "localName": "incursTax.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/incursTax.1",
+      "label": "incurs tax",
+      "definition": null,
+      "domain": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "range": [
+        "funds tax"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "incurs transaction fee",
+      "technicalName": "fibo-md-civx-fun:incursTransactionFee",
+      "localName": "incursTransactionFee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/incursTransactionFee",
+      "label": "incurs transaction fee",
+      "definition": null,
+      "domain": [
+        "fibo-sec-fund-civ:FundPortfolio"
+      ],
+      "range": [
+        "fee payable"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "performance determination timeframe",
+      "technicalName": "fibo-md-civx-fun:performanceDeterminationTimeframe",
+      "localName": "performanceDeterminationTimeframe",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/performanceDeterminationTimeframe",
+      "label": "performance determination timeframe",
+      "definition": "The timeframe on which the performance is reported (e.g. 1month, 1 year, YTD).",
+      "domain": [
+        "performance determination method"
+      ],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "net or gross of fees",
+      "technicalName": "fibo-md-civx-fun:netOrGrossOfFees",
+      "localName": "netOrGrossOfFees",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/netOrGrossOfFees",
+      "label": "net or gross of fees",
+      "definition": null,
+      "domain": [
+        "fund unit performance"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    }
+  ]
+}

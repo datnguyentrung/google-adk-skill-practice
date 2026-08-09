@@ -1,0 +1,77 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Places\\Facilities.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Facilities/",
+  "summary": {
+    "nodes": 3,
+    "edges": 2,
+    "properties": 0,
+    "triples": 44
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/",
+    "https://www.omg.org/spec/Commons/SitesAndFacilities/"
+  ],
+  "classes": [
+    {
+      "name": "fibo-fnd-plc-fac:Facility",
+      "technicalName": "fibo-fnd-plc-fac:Facility",
+      "localName": "Facility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Facilities/Facility",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-fnd-plc-fac:Site",
+      "technicalName": "fibo-fnd-plc-fac:Site",
+      "localName": "Site",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Facilities/Site",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-fnd-plc-fac:Venue",
+      "technicalName": "fibo-fnd-plc-fac:Venue",
+      "localName": "Venue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Facilities/Venue",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "fibo-fnd-plc-fac:isSituatedAt",
+      "technicalName": "fibo-fnd-plc-fac:isSituatedAt",
+      "localName": "isSituatedAt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Facilities/isSituatedAt",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-fnd-plc-fac:situates",
+      "technicalName": "fibo-fnd-plc-fac:situates",
+      "localName": "situates",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Facilities/situates",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    }
+  ],
+  "attributes": []
+}

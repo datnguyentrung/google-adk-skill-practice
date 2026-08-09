@@ -1,0 +1,230 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FBC\\FinancialInstruments\\Settlement.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/Settlement/",
+  "summary": {
+    "nodes": 6,
+    "edges": 3,
+    "properties": 2,
+    "triples": 155
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/InstrumentPricing/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/"
+  ],
+  "classes": [
+    {
+      "name": "cash settlement terms",
+      "technicalName": "fibo-fbc-fi-stl:CashSettlementTerms",
+      "localName": "CashSettlementTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/Settlement/CashSettlementTerms",
+      "label": "cash settlement terms",
+      "definition": "contractual commitment to settle in cash",
+      "parents": [
+        "fibo-fbc-pas-fpas:SettlementTerms"
+      ],
+      "rules": [
+        {
+          "property": "has settlement amount",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryAmount",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-acc-cur:hasPrice",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-fi-ip:SecurityPrice"
+        },
+        {
+          "property": "has settlement method",
+          "operator": "value",
+          "value": "delivery in cash",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "delivery method",
+      "technicalName": "fibo-fbc-fi-stl:DeliveryMethod",
+      "localName": "DeliveryMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/Settlement/DeliveryMethod",
+      "label": "delivery method",
+      "definition": "method and commitment to transfer a commodity, currency, security, cash or another instrument as defined in the settlement terms of the contract",
+      "parents": [
+        "fibo-fnd-gao-obj:DistributionStrategy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "physical settlement terms",
+      "technicalName": "fibo-fbc-fi-stl:PhysicalSettlementTerms",
+      "localName": "PhysicalSettlementTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/Settlement/PhysicalSettlementTerms",
+      "label": "physical settlement terms",
+      "definition": "commitment to deliver the actual underlying asset on the specified delivery date, rather than cash",
+      "parents": [
+        "fibo-fbc-pas-fpas:SettlementTerms"
+      ],
+      "rules": [
+        {
+          "property": "has settlement method",
+          "operator": "value",
+          "value": "physical delivery method",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "settlement",
+      "technicalName": "fibo-fbc-fi-stl:Settlement",
+      "localName": "Settlement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/Settlement/Settlement",
+      "label": "settlement",
+      "definition": "act of finalizing a transaction, including but not limited to finalizing accounting, exchanging consideration, and/or legally recording documents, as applicable",
+      "parents": [
+        "fibo-fbc-pas-fpas:ContractLifecycleEvent"
+      ],
+      "rules": []
+    },
+    {
+      "name": "settlement convention",
+      "technicalName": "fibo-fbc-fi-stl:SettlementConvention",
+      "localName": "SettlementConvention",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/Settlement/SettlementConvention",
+      "label": "settlement convention",
+      "definition": "convention employed to determine the closing date (from the stated settlement date) in the process of settling a transaction on which securities or interests in securities are delivered, usually against (in simultaneous exchange for) payment of some consideration",
+      "parents": [
+        "fibo-fnd-dt-bd:Convention"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasNumericValue",
+          "operator": "some",
+          "value": "xsd:positiveInteger",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "settlement event",
+      "technicalName": "fibo-fbc-fi-stl:SettlementEvent",
+      "localName": "SettlementEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/Settlement/SettlementEvent",
+      "label": "settlement event",
+      "definition": "specific event involving the finalization a transaction or portion thereof, including but not limited to finalizing accounting, exchanging consideration, and/or legally recording documents, as applicable",
+      "parents": [
+        "fibo-fbc-pas-fpas:ContractLifecycleEventOccurrence"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "settlement"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:involves",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-arr-asmt:ValueAssessment"
+        },
+        {
+          "property": "fibo-fnd-acc-cur:hasPrice",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-fi-ip:SecurityPrice"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has settlement method",
+      "technicalName": "fibo-fbc-fi-stl:hasDeliveryMethod",
+      "localName": "hasDeliveryMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/Settlement/hasDeliveryMethod",
+      "label": "has settlement method",
+      "definition": "specifies the strategy for settlement from a delivery perspective",
+      "domain": [
+        "fibo-fbc-pas-fpas:SettlementTerms"
+      ],
+      "range": [
+        "delivery method"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has preferred settlement currency",
+      "technicalName": "fibo-fbc-fi-stl:hasPreferredSettlementCurrency",
+      "localName": "hasPreferredSettlementCurrency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/Settlement/hasPreferredSettlementCurrency",
+      "label": "has preferred settlement currency",
+      "definition": "indicates the preferred currency for settlement purposes",
+      "domain": [
+        "fibo-fbc-pas-fpas:SettlementTerms"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:Currency"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has settlement amount",
+      "technicalName": "fibo-fbc-fi-stl:hasSettlementAmount",
+      "localName": "hasSettlementAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/Settlement/hasSettlementAmount",
+      "label": "has settlement amount",
+      "definition": "indicates the monetary amount required for cash settlement",
+      "domain": [
+        "fibo-fbc-pas-fpas:SettlementTerms"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "is fractional eligible",
+      "technicalName": "fibo-fbc-fi-stl:isFractionalEligible",
+      "localName": "isFractionalEligible",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/Settlement/isFractionalEligible",
+      "label": "is fractional eligible",
+      "definition": "indicates whether the security can contain fractional share/amounts",
+      "domain": [
+        "fibo-fbc-pas-fpas:SettlementTerms"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is fully automated securities transfer applicable",
+      "technicalName": "fibo-fbc-fi-stl:isFullyAutomatedSecuritiesTransferApplicable",
+      "localName": "isFullyAutomatedSecuritiesTransferApplicable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/Settlement/isFullyAutomatedSecuritiesTransferApplicable",
+      "label": "is fully automated securities transfer applicable",
+      "definition": "indicates whether the security is to be held at the transfer agent as part of the FAST (Fully Automated Securities Transfer) program",
+      "domain": [
+        "fibo-fbc-pas-fpas:SettlementTerms"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

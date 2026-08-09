@@ -1,0 +1,120 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Accounting\\CashFlows.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CashFlows/",
+  "summary": {
+    "nodes": 3,
+    "edges": 2,
+    "properties": 0,
+    "triples": 68
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Documents/"
+  ],
+  "classes": [
+    {
+      "name": "cash flow",
+      "technicalName": "fibo-fnd-acc-csf:CashFlow",
+      "localName": "CashFlow",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CashFlows/CashFlow",
+      "label": "cash flow",
+      "definition": "the movement of money from some source to some sink",
+      "parents": [
+        "fibo-fnd-dt-fd:DatedCollectionConstituent"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-acc-cur:hasMonetaryAmount",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "has target of funds",
+          "operator": "exactly",
+          "value": "1",
+          "qualifier": null
+        },
+        {
+          "property": "has source of funds",
+          "operator": "exactly",
+          "value": "1",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "cash flow structure",
+      "technicalName": "fibo-fnd-acc-csf:CashFlowStructure",
+      "localName": "CashFlowStructure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CashFlows/CashFlowStructure",
+      "label": "cash flow structure",
+      "definition": "the structure related to one or more cash flows",
+      "parents": [
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "cash flow",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-doc:specifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "triggering event"
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasSchedule",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-dt-fd:Schedule"
+        }
+      ]
+    },
+    {
+      "name": "triggering event",
+      "technicalName": "fibo-fnd-acc-csf:TriggeringEvent",
+      "localName": "TriggeringEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CashFlows/TriggeringEvent",
+      "label": "triggering event",
+      "definition": "event that relates to or triggers some aspect of a credit default swap",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has source of funds",
+      "technicalName": "fibo-fnd-acc-csf:hasSourceOfMoney",
+      "localName": "hasSourceOfMoney",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CashFlows/hasSourceOfMoney",
+      "label": "has source of funds",
+      "definition": "refers to the origin of some amount of money",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has target of funds",
+      "technicalName": "fibo-fnd-acc-csf:hasTargetOfMoney",
+      "localName": "hasTargetOfMoney",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CashFlows/hasTargetOfMoney",
+      "label": "has target of funds",
+      "definition": "refers to the sink for some amount of money",
+      "domain": [],
+      "range": []
+    }
+  ],
+  "attributes": []
+}

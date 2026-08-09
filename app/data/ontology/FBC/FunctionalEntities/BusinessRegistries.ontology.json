@@ -1,0 +1,708 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FBC\\FunctionalEntities\\BusinessRegistries.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/",
+  "summary": {
+    "nodes": 18,
+    "edges": 6,
+    "properties": 14,
+    "triples": 575
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/ClassificationSchemes/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegistrationAuthorities/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "business register identifier",
+      "technicalName": "fibo-fbc-fct-breg:BusinessRegisterIdentifier",
+      "localName": "BusinessRegisterIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/BusinessRegisterIdentifier",
+      "label": "business register identifier",
+      "definition": "identifier that uniquely identifies a business register, such as a register identified by the Global Legal Entity Identifier Foundation (GLEIF) registration authorities list",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "some",
+          "value": "business registration authority",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "business registry"
+        }
+      ]
+    },
+    {
+      "name": "business registration authority",
+      "technicalName": "fibo-fbc-fct-breg:BusinessRegistrationAuthority",
+      "localName": "BusinessRegistrationAuthority",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/BusinessRegistrationAuthority",
+      "label": "business registration authority",
+      "definition": "registration authority that is responsible for maintaining a registry of business entities",
+      "parents": [
+        "cmns-ra:Registrar",
+        "cmns-ra:RegistrationAuthority"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:registers",
+          "operator": "some",
+          "value": "fibo-be-le-cb:RegistrationIdentifier",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:manages",
+          "operator": "some",
+          "value": "business registry",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "business registry",
+      "technicalName": "fibo-fbc-fct-breg:BusinessRegistry",
+      "localName": "BusinessRegistry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/BusinessRegistry",
+      "label": "business registry",
+      "definition": "registry for registering and maintaining information about business entities",
+      "parents": [
+        "cmns-ra:Registry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "business registry entry",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "business registration authority"
+        },
+        {
+          "property": "has registry name",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "business registry entry",
+      "technicalName": "fibo-fbc-fct-breg:BusinessRegistryEntry",
+      "localName": "BusinessRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/BusinessRegistryEntry",
+      "label": "business registry entry",
+      "definition": "entry in a business registry",
+      "parents": [
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:hasRegistrationDate",
+          "operator": "some",
+          "value": "cmns-dt:CombinedDateTime",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-be-le-cb:RegistrationIdentifier",
+          "qualifier": null
+        },
+        {
+          "property": "has registration status",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "registration status"
+        }
+      ]
+    },
+    {
+      "name": "entity expiration reason",
+      "technicalName": "fibo-fbc-fct-breg:EntityExpirationReason",
+      "localName": "EntityExpirationReason",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/EntityExpirationReason",
+      "label": "entity expiration reason",
+      "definition": "code for the reason that a legal entity ceased to exist and/or operate",
+      "parents": [
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "entity legal form registry",
+      "technicalName": "fibo-fbc-fct-breg:EntityLegalFormRegistry",
+      "localName": "EntityLegalFormRegistry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/EntityLegalFormRegistry",
+      "label": "entity legal form registry",
+      "definition": "registry for registering and maintaining information about the legal forms that are valid for business entities for a particular jurisdiction following the ISO 20275 standard",
+      "parents": [
+        "cmns-ra:Registry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "entity legal form registry entry",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "entity legal form registry entry",
+      "technicalName": "fibo-fbc-fct-breg:EntityLegalFormRegistryEntry",
+      "localName": "EntityLegalFormRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/EntityLegalFormRegistryEntry",
+      "label": "entity legal form registry entry",
+      "definition": "entry in an entity legal form registry that conforms to ISO 20275",
+      "parents": [
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-be-le-lei:EntityLegalFormIdentifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "entity status",
+      "technicalName": "fibo-fbc-fct-breg:EntityStatus",
+      "localName": "EntityStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/EntityStatus",
+      "label": "entity status",
+      "definition": "lifecycle stage indicating the operational and/or legal status of an entity",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStage"
+      ],
+      "rules": []
+    },
+    {
+      "name": "entity validation level",
+      "technicalName": "fibo-fbc-fct-breg:EntityValidationLevel",
+      "localName": "EntityValidationLevel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/EntityValidationLevel",
+      "label": "entity validation level",
+      "definition": "code for the level of validation performed by the GLEIF or LOU with respect to the reference data provided by the registrant",
+      "parents": [
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "legal entity identifier registry",
+      "technicalName": "fibo-fbc-fct-breg:LegalEntityIdentifierRegistry",
+      "localName": "LegalEntityIdentifierRegistry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/LegalEntityIdentifierRegistry",
+      "label": "legal entity identifier registry",
+      "definition": "registry for registering and maintaining information about business entities for a particular jurisdiction",
+      "parents": [
+        "business registry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "legal entity identifier registry entry",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "legal entity identifier registry entry",
+      "technicalName": "fibo-fbc-fct-breg:LegalEntityIdentifierRegistryEntry",
+      "localName": "LegalEntityIdentifierRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/LegalEntityIdentifierRegistryEntry",
+      "label": "legal entity identifier registry entry",
+      "definition": "entry in a legal entity identifier registry that conforms to ISO 17442 and the Global Legal Entity Identifier Foundation (GLEIF) Common Data Format (CDF)",
+      "parents": [
+        "business registry entry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-be-le-lei:LegalEntityIdentifier",
+          "qualifier": null
+        },
+        {
+          "property": "has validation level",
+          "operator": "some",
+          "value": "entity validation level",
+          "qualifier": null
+        },
+        {
+          "property": "has registration status",
+          "operator": "some",
+          "value": "registration status",
+          "qualifier": null
+        },
+        {
+          "property": "has validation authority",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "business registration authority"
+        },
+        {
+          "property": "has managing local operating unit",
+          "operator": "only",
+          "value": "fibo-be-le-lei:LegalEntityIdentifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "local operating unit",
+      "technicalName": "fibo-fbc-fct-breg:LocalOperatingUnit",
+      "localName": "LocalOperatingUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/LocalOperatingUnit",
+      "label": "local operating unit",
+      "definition": "registrar that is authorized by the Global LEI Foundation to issue legal entity identifiers",
+      "parents": [
+        "cmns-ra:Registrar"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:registers",
+          "operator": "some",
+          "value": "fibo-be-le-lei:LegalEntityIdentifier",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:issues",
+          "operator": "some",
+          "value": "fibo-be-le-lei:LegalEntityIdentifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "North American Industry Classification System code",
+      "technicalName": "fibo-fbc-fct-breg:NorthAmericanIndustryClassificationSystemCode",
+      "localName": "NorthAmericanIndustryClassificationSystemCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/NorthAmericanIndustryClassificationSystemCode",
+      "label": "North American Industry Classification System code",
+      "definition": "the North American Industry Classification System (NAICS) code representing an industry",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier",
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "cmns-org:FormalOrganization",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "North American Industry Classification System scheme"
+        }
+      ]
+    },
+    {
+      "name": "North American Industry Classification System scheme",
+      "technicalName": "fibo-fbc-fct-breg:NorthAmericanIndustryClassificationSystemScheme",
+      "localName": "NorthAmericanIndustryClassificationSystemScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/NorthAmericanIndustryClassificationSystemScheme",
+      "label": "North American Industry Classification System scheme",
+      "definition": "the scheme defining the North American Industry Classification System (NAICS) Codes",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassificationScheme",
+        "cmns-cds:CodeSet"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "North American Industry Classification System code",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "registration authority code",
+      "technicalName": "fibo-fbc-fct-breg:RegistrationAuthorityCode",
+      "localName": "RegistrationAuthorityCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/RegistrationAuthorityCode",
+      "label": "registration authority code",
+      "definition": "identifier that uniquely identifies a business registry, and is associated with a registration authority and jurisdiction, issued by the Global Legal Entity Identifier Foundation (GLEIF)",
+      "parents": [
+        "cmns-cds:CodeElement",
+        "cmns-ra:RegisteredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "business registry"
+        }
+      ]
+    },
+    {
+      "name": "registration status",
+      "technicalName": "fibo-fbc-fct-breg:RegistrationStatus",
+      "localName": "RegistrationStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/RegistrationStatus",
+      "label": "registration status",
+      "definition": "lifecycle stage indicating the status of a given registration of something, such as a business or legal entity, as specified by the registration authority",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStage"
+      ],
+      "rules": []
+    },
+    {
+      "name": "standard industrial classification code",
+      "technicalName": "fibo-fbc-fct-breg:StandardIndustrialClassificationCode",
+      "localName": "StandardIndustrialClassificationCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/StandardIndustrialClassificationCode",
+      "label": "standard industrial classification code",
+      "definition": "the SIC code representing an industry",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier",
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "cmns-org:FormalOrganization",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "standard industrial classification scheme"
+        }
+      ]
+    },
+    {
+      "name": "standard industrial classification scheme",
+      "technicalName": "fibo-fbc-fct-breg:StandardIndustrialClassificationScheme",
+      "localName": "StandardIndustrialClassificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/StandardIndustrialClassificationScheme",
+      "label": "standard industrial classification scheme",
+      "definition": "the scheme defining the Standard Industrial Classification (SIC) Code List",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassificationScheme",
+        "cmns-cds:CodeSet"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "standard industrial classification code",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has entity expiration reason",
+      "technicalName": "fibo-fbc-fct-breg:hasEntityExpirationReason",
+      "localName": "hasEntityExpirationReason",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasEntityExpirationReason",
+      "label": "has entity expiration reason",
+      "definition": "indicates the reason that an entity ceased to exist (i.e., disolved, merged with another entity, etc.)",
+      "domain": [],
+      "range": [
+        "entity expiration reason"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has entity status",
+      "technicalName": "fibo-fbc-fct-breg:hasEntityStatus",
+      "localName": "hasEntityStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasEntityStatus",
+      "label": "has entity status",
+      "definition": "indicates the status of the entity (i.e., active, inactive)",
+      "domain": [],
+      "range": [
+        "entity status"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has managing local operating unit",
+      "technicalName": "fibo-fbc-fct-breg:hasManagingLocalOperatingUnit",
+      "localName": "hasManagingLocalOperatingUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasManagingLocalOperatingUnit",
+      "label": "has managing local operating unit",
+      "definition": "relates a legal entity identification record to the identifier for the local operating unit that registered the relevant legal entity identifier",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has registration status",
+      "technicalName": "fibo-fbc-fct-breg:hasRegistrationStatus",
+      "localName": "hasRegistrationStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasRegistrationStatus",
+      "label": "has registration status",
+      "definition": "indicates the status of a specific registration, such as for an identifier or license",
+      "domain": [],
+      "range": [
+        "registration status"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has validation authority",
+      "technicalName": "fibo-fbc-fct-breg:hasValidationAuthority",
+      "localName": "hasValidationAuthority",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasValidationAuthority",
+      "label": "has validation authority",
+      "definition": "identifies the business registration authority for the legal entity, used by the Local Operating Unit (LOU) as the basis for validation, as defined in the GLEIF Registration Authorities List",
+      "domain": [],
+      "range": [
+        "business registration authority"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has validation level",
+      "technicalName": "fibo-fbc-fct-breg:hasValidationLevel",
+      "localName": "hasValidationLevel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasValidationLevel",
+      "label": "has validation level",
+      "definition": "indicates the level of validation performed by the registrar with respect to the legal entity",
+      "domain": [],
+      "range": [
+        "entity validation level"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has alternative language legal name",
+      "technicalName": "fibo-fbc-fct-breg:hasAlternativeLanguageLegalName",
+      "localName": "hasAlternativeLanguageLegalName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasAlternativeLanguageLegalName",
+      "label": "has alternative language legal name",
+      "definition": "denotes a registered legal name for the entity in an alternative language used in the legal jurisdiction in which the entity is registered",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has automatically transliterated legal name",
+      "technicalName": "fibo-fbc-fct-breg:hasAutomaticallyTransliteratedLegalName",
+      "localName": "hasAutomaticallyTransliteratedLegalName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasAutomaticallyTransliteratedLegalName",
+      "label": "has automatically transliterated legal name",
+      "definition": "denotes an auto-generated ASCII-transliterated representation of the legal name for the entity",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has entity expiration date",
+      "technicalName": "fibo-fbc-fct-breg:hasEntityExpirationDate",
+      "localName": "hasEntityExpirationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasEntityExpirationDate",
+      "label": "has entity expiration date",
+      "definition": "indicates the date on which an entity ceases(d) to exist",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has expiry date",
+      "technicalName": "fibo-fbc-fct-breg:hasExpiryDate",
+      "localName": "hasExpiryDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasExpiryDate",
+      "label": "has expiry date",
+      "definition": "indicates the date on which something ceases(d) to exist",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has initial registration date",
+      "technicalName": "fibo-fbc-fct-breg:hasInitialRegistrationDate",
+      "localName": "hasInitialRegistrationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasInitialRegistrationDate",
+      "label": "has initial registration date",
+      "definition": "indicates the date on which an identifier or other registered item was created and/or first registered",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has preferred transliterated legal name",
+      "technicalName": "fibo-fbc-fct-breg:hasPreferredTransliteratedLegalName",
+      "localName": "hasPreferredTransliteratedLegalName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasPreferredTransliteratedLegalName",
+      "label": "has preferred transliterated legal name",
+      "definition": "denotes a preferred ASCII-transliterated representation of the legal name for the entity",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has prior legal name",
+      "technicalName": "fibo-fbc-fct-breg:hasPriorLegalName",
+      "localName": "hasPriorLegalName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasPriorLegalName",
+      "label": "has prior legal name",
+      "definition": "denotes a primary legal name that was used previously for the entity",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has registration status revision date",
+      "technicalName": "fibo-fbc-fct-breg:hasRegistrationRevisionDate",
+      "localName": "hasRegistrationRevisionDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasRegistrationRevisionDate",
+      "label": "has registration status revision date",
+      "definition": "indicates the date that the status of a specific registration in the registry was revised",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has registry name",
+      "technicalName": "fibo-fbc-fct-breg:hasRegistryName",
+      "localName": "hasRegistryName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasRegistryName",
+      "label": "has registry name",
+      "definition": "denotes a name for the registry, for example, for a business registry in which a business registration identifier for the legal entity is registered",
+      "domain": [
+        "cmns-ra:Registry"
+      ],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has renewal date",
+      "technicalName": "fibo-fbc-fct-breg:hasRenewalDate",
+      "localName": "hasRenewalDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasRenewalDate",
+      "label": "has renewal date",
+      "definition": "indicates the date by which a specific registration in the registry must be renewed or updated",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has trading or operational name",
+      "technicalName": "fibo-fbc-fct-breg:hasTradingOrOperationalName",
+      "localName": "hasTradingOrOperationalName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasTradingOrOperationalName",
+      "label": "has trading or operational name",
+      "definition": "denotes a 'trading as', 'brand name', 'doing business as', or 'operating under' name currently used by the entity in addition to, but not replacing, the (primary) legal, official registered name",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has transliterated legal name",
+      "technicalName": "fibo-fbc-fct-breg:hasTransliteratedLegalName",
+      "localName": "hasTransliteratedLegalName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasTransliteratedLegalName",
+      "label": "has transliterated legal name",
+      "definition": "denotes an optional ASCII-transliterated (i.e. Latin- or Romanized) representation of the legal name for the entity",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has validation date",
+      "technicalName": "fibo-fbc-fct-breg:hasValidationDate",
+      "localName": "hasValidationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/hasValidationDate",
+      "label": "has validation date",
+      "definition": "indicates the date that a specific registration in the registry was most recently reviewed and validated",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is self-maintained",
+      "technicalName": "fibo-fbc-fct-breg:isSelfMaintained",
+      "localName": "isSelfMaintained",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/isSelfMaintained",
+      "label": "is self-maintained",
+      "definition": "indicates whether the information about the entity is maintained internally or by a third-party",
+      "domain": [],
+      "range": [
+        "xsd:string"
+      ]
+    }
+  ]
+}

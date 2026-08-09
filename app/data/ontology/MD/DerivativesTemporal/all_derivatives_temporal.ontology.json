@@ -1,0 +1,250 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\MD\\DerivativesTemporal",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\MD\\DerivativesTemporal\\ETOptionsTemporal.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\MD\\DerivativesTemporal\\FuturesTemporal.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 2,
+    "classes": 15,
+    "edges": 0,
+    "attributes": 0
+  },
+  "classes": [
+    {
+      "name": "delta",
+      "technicalName": "fibo-md-derx-eto:Delta",
+      "localName": "Delta",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/ETOptionsTemporal/Delta",
+      "label": "delta",
+      "definition": "First derivative of option value with respect to theoretical price is a delta (or on a position). Theoretical price",
+      "parents": [
+        "options greek"
+      ],
+      "rules": []
+    },
+    {
+      "name": "option daily settlement price",
+      "technicalName": "fibo-md-derx-eto:OptionDailySettlementPrice",
+      "localName": "OptionDailySettlementPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/ETOptionsTemporal/OptionDailySettlementPrice",
+      "label": "option daily settlement price",
+      "definition": "The official price at the end of a trading session. This price is established by The Options Clearing Corporation and is used to determine changes in account equity, margin requirements, and for other purposes.",
+      "parents": [
+        "fibo-fbc-fi-ip:ClosingPrice",
+        "fibo-fbc-fi-ip:SecurityPrice"
+      ],
+      "rules": [
+        {
+          "property": "fibo-be-fct-pub:hasPublisher",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "option theoretical value",
+      "technicalName": "fibo-md-derx-eto:OptionTheoreticalValue",
+      "localName": "OptionTheoreticalValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/ETOptionsTemporal/OptionTheoreticalValue",
+      "label": "option theoretical value",
+      "definition": "fair value of the option as determined by an option pricing model",
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-ip:PricingModel",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "options greek",
+      "technicalName": "fibo-md-derx-eto:OptionsGreek",
+      "localName": "OptionsGreek",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/ETOptionsTemporal/OptionsGreek",
+      "label": "options greek",
+      "definition": "quantity representing the sensitivity of the price of an option or options to a change in underlying parameters on which the value depends",
+      "parents": [
+        "fibo-fbc-fi-ip:PriceAnalytic"
+      ],
+      "rules": []
+    },
+    {
+      "name": "options theta",
+      "technicalName": "fibo-md-derx-eto:OptionsTheta",
+      "localName": "OptionsTheta",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/ETOptionsTemporal/OptionsTheta",
+      "label": "options theta",
+      "definition": "A measure of the rate of change in an option's theoretical value for a one-unit change in time to the option's expiration date. Action: add terms that define or influence this.",
+      "parents": [
+        "options greek"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "option theoretical value",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "options vega",
+      "technicalName": "fibo-md-derx-eto:OptionsVega",
+      "localName": "OptionsVega",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/ETOptionsTemporal/OptionsVega",
+      "label": "options vega",
+      "definition": "A measure of the rate of change in an option's theoretical value for a one-unit change in the volatility assumption. Action: add terms that define or influence this.",
+      "parents": [
+        "options greek"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "option theoretical value",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "exchange futures price",
+      "technicalName": "fibo-md-der-fut:ExchangeFuturesPrice",
+      "localName": "ExchangeFuturesPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/ExchangeFuturesPrice",
+      "label": "exchange futures price",
+      "definition": null,
+      "parents": [
+        "fibo-fbc-fi-ip:SecurityPrice"
+      ],
+      "rules": []
+    },
+    {
+      "name": "futures closing price",
+      "technicalName": "fibo-md-der-fut:FuturesClosingPrice",
+      "localName": "FuturesClosingPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/FuturesClosingPrice",
+      "label": "futures closing price",
+      "definition": null,
+      "parents": [
+        "exchange futures price"
+      ],
+      "rules": []
+    },
+    {
+      "name": "futures daily settlement price",
+      "technicalName": "fibo-md-der-fut:FuturesDailySettlementPrice",
+      "localName": "FuturesDailySettlementPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/FuturesDailySettlementPrice",
+      "label": "futures daily settlement price",
+      "definition": "Review whether this exists",
+      "parents": [
+        "fibo-fbc-fi-ip:SecurityPrice"
+      ],
+      "rules": []
+    },
+    {
+      "name": "futures greek",
+      "technicalName": "fibo-md-der-fut:FuturesGreek",
+      "localName": "FuturesGreek",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/FuturesGreek",
+      "label": "futures greek",
+      "definition": "quantity representing the sensitivity of the price of a future or futures to a change in underlying parameters on which the value depends",
+      "parents": [
+        "fibo-fbc-fi-ip:PriceAnalytic"
+      ],
+      "rules": []
+    },
+    {
+      "name": "futures theta",
+      "technicalName": "fibo-md-der-fut:FuturesTheta",
+      "localName": "FuturesTheta",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/FuturesTheta",
+      "label": "futures theta",
+      "definition": null,
+      "parents": [
+        "futures greek"
+      ],
+      "rules": []
+    },
+    {
+      "name": "futures trading account holder",
+      "technicalName": "fibo-md-der-fut:FuturesTradingAccountHolder",
+      "localName": "FuturesTradingAccountHolder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/FuturesTradingAccountHolder",
+      "label": "futures trading account holder",
+      "definition": "A party who has an account for futures trading at a derivatives exchange. Further notes: The trader opens an account with a given amount known as a margin.",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "futures vega",
+      "technicalName": "fibo-md-der-fut:FuturesVega",
+      "localName": "FuturesVega",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/FuturesVega",
+      "label": "futures vega",
+      "definition": null,
+      "parents": [
+        "futures greek"
+      ],
+      "rules": []
+    },
+    {
+      "name": "initial margin",
+      "technicalName": "fibo-md-der-fut:InitialMargin",
+      "localName": "InitialMargin",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/InitialMargin",
+      "label": "initial margin",
+      "definition": "money or securities put up as a good faith deposit assuring that a future contract will be fulfilled",
+      "parents": [
+        "fibo-fnd-oac-own:Asset"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isHeldBy",
+          "operator": "some",
+          "value": "futures trading account holder",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasAsOfDate",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "minimum margin",
+      "technicalName": "fibo-md-der-fut:MinimumMargin",
+      "localName": "MinimumMargin",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/MinimumMargin",
+      "label": "minimum margin",
+      "definition": "The lowest amount an account can reach before needing to be replenished.",
+      "parents": [
+        "fibo-fnd-oac-own:Asset"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isHeldBy",
+          "operator": "some",
+          "value": "futures trading account holder",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasAsOfDate",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDate",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

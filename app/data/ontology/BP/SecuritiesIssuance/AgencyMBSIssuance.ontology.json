@@ -1,0 +1,813 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BP\\SecuritiesIssuance\\AgencyMBSIssuance.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/",
+  "summary": {
+    "nodes": 31,
+    "edges": 15,
+    "properties": 0,
+    "triples": 303
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/DebtIssuance/",
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceDocuments/",
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceProcess/",
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/MBSIssuance/",
+    "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/PrivateLabelMBSIssuance/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/LOAN/RealEstateLoans/Mortgages/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/Bonds/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/MortgageBackedSecurities/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/"
+  ],
+  "classes": [
+    {
+      "name": "acquire mortgage",
+      "technicalName": "fibo-bp-iss-ambs:AcquireMortgage",
+      "localName": "AcquireMortgage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/AcquireMortgage",
+      "label": "acquire mortgage",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "purchase",
+          "operator": "some",
+          "value": "fibo-loan-reln-mtg:LoanSecuredByRealEstate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "add mortgage to pool",
+      "technicalName": "fibo-bp-iss-ambs:AddMortgageToPool",
+      "localName": "AddMortgageToPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/AddMortgageToPool",
+      "label": "add mortgage to pool",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "adds to pool",
+          "operator": "some",
+          "value": "fibo-loan-reln-mtg:LoanSecuredByRealEstate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "agency mortgage pool creation process",
+      "technicalName": "fibo-bp-iss-ambs:AgencyMortgagePoolCreationProcess",
+      "localName": "AgencyMortgagePoolCreationProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/AgencyMortgagePoolCreationProcess",
+      "label": "agency mortgage pool creation process",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-dbti:RetailAssetPoolCreationProcess"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:precedes",
+          "operator": "some",
+          "value": "pass through m b s securitization process",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dt:hasStartDate",
+          "operator": "some",
+          "value": "cmns-dt:Date",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dt:hasEndDate",
+          "operator": "some",
+          "value": "cmns-dt:Date",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "allocate primary identifier",
+      "technicalName": "fibo-bp-iss-ambs:AllocatePrimaryIdentifier",
+      "localName": "AllocatePrimaryIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/AllocatePrimaryIdentifier",
+      "label": "allocate primary identifier",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "assess pool suitablility for issuance",
+      "technicalName": "fibo-bp-iss-ambs:AssessPoolSuitablilityForIssuance",
+      "localName": "AssessPoolSuitablilityForIssuance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/AssessPoolSuitablilityForIssuance",
+      "label": "assess pool suitablility for issuance",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "classify mortgage",
+      "technicalName": "fibo-bp-iss-ambs:ClassifyMortgage",
+      "localName": "ClassifyMortgage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/ClassifyMortgage",
+      "label": "classify mortgage",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "is assessment of",
+          "operator": "some",
+          "value": "fibo-loan-reln-mtg:LoanSecuredByRealEstate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "define mortgage pool",
+      "technicalName": "fibo-bp-iss-ambs:DefineMortgagePool",
+      "localName": "DefineMortgagePool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/DefineMortgagePool",
+      "label": "define mortgage pool",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "is defining of",
+          "operator": "some",
+          "value": "not yet issued agency mortgage pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "draft pass through termsheet",
+      "technicalName": "fibo-bp-iss-ambs:DraftPassThroughTermsheet",
+      "localName": "DraftPassThroughTermsheet",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/DraftPassThroughTermsheet",
+      "label": "draft pass through termsheet",
+      "definition": "Draft of set of information defining the pass thorugh security terms. These will eventually become the contractual terms of the instrument. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-fnd-agr-ctr:TermSheet"
+      ],
+      "rules": []
+    },
+    {
+      "name": "draw up offering memorandum",
+      "technicalName": "fibo-bp-iss-ambs:DrawUpOfferingMemorandum",
+      "localName": "DrawUpOfferingMemorandum",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/DrawUpOfferingMemorandum",
+      "label": "draw up offering memorandum",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "draw up termsheet",
+      "technicalName": "fibo-bp-iss-ambs:DrawUpTermsheet",
+      "localName": "DrawUpTermsheet",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/DrawUpTermsheet",
+      "label": "draw up termsheet",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "finalize pool content",
+      "technicalName": "fibo-bp-iss-ambs:FinalizePoolContent",
+      "localName": "FinalizePoolContent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/FinalizePoolContent",
+      "label": "finalize pool content",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "finalize prospectus",
+      "technicalName": "fibo-bp-iss-ambs:FinalizeProspectus",
+      "localName": "FinalizeProspectus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/FinalizeProspectus",
+      "label": "finalize prospectus",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "identify conforming mortgage",
+      "technicalName": "fibo-bp-iss-ambs:IdentifyConformingMortgage",
+      "localName": "IdentifyConformingMortgage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/IdentifyConformingMortgage",
+      "label": "identify conforming mortgage",
+      "definition": "Identify mortgage conforming to overall requirements for this issuer.",
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "fibo-loan-reln-mtg:LoanSecuredByRealEstate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "identify underwriter",
+      "technicalName": "fibo-bp-iss-ambs:IdentifyUnderwriter",
+      "localName": "IdentifyUnderwriter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/IdentifyUnderwriter",
+      "label": "identify underwriter",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "results in appointment of",
+          "operator": "some",
+          "value": "potential pass through issuance underwriter",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "in assembly agency mortgage pool",
+      "technicalName": "fibo-bp-iss-ambs:InAssemblyAgencyMortgagePool",
+      "localName": "InAssemblyAgencyMortgagePool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/InAssemblyAgencyMortgagePool",
+      "label": "in assembly agency mortgage pool",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-mbs:AgencyMortgagePool"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "fibo-bp-iss-dbti:InAssembly",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "in issuance agency mortgage pool",
+      "technicalName": "fibo-bp-iss-ambs:InIssuanceAgencyMortgagePool",
+      "localName": "InIssuanceAgencyMortgagePool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/InIssuanceAgencyMortgagePool",
+      "label": "in issuance agency mortgage pool",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-mbs:AgencyMortgagePool"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "fibo-bp-iss-dbti:InIssuance",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "make securities availabe in market",
+      "technicalName": "fibo-bp-iss-ambs:MakeSecuritiesAvailabeInMarket",
+      "localName": "MakeSecuritiesAvailabeInMarket",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/MakeSecuritiesAvailabeInMarket",
+      "label": "make securities availabe in market",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "market issue",
+      "technicalName": "fibo-bp-iss-ambs:MarketIssue",
+      "localName": "MarketIssue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/MarketIssue",
+      "label": "market issue",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "has resource",
+          "operator": "some",
+          "value": "pass through m b s draft prospectus",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "not yet issued agency mortgage pool",
+      "technicalName": "fibo-bp-iss-ambs:NotYetIssuedAgencyMortgagePool",
+      "localName": "NotYetIssuedAgencyMortgagePool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/NotYetIssuedAgencyMortgagePool",
+      "label": "not yet issued agency mortgage pool",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-mbs:AgencyMortgagePool"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-lif:hasStage",
+          "operator": "some",
+          "value": "fibo-bp-iss-dbti:NotYetIssued",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pass through issue prospectus part",
+      "technicalName": "fibo-bp-iss-ambs:PassThroughIssueProspectusPart",
+      "localName": "PassThroughIssueProspectusPart",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/PassThroughIssueProspectusPart",
+      "label": "pass through issue prospectus part",
+      "definition": "A part or section of a prospectus for a pass through MBS issue. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-bp-iss-mbs:ProspectusPart"
+      ],
+      "rules": []
+    },
+    {
+      "name": "pass through m b s draft prospectus",
+      "technicalName": "fibo-bp-iss-ambs:PassThroughMBSDraftProspectus",
+      "localName": "PassThroughMBSDraftProspectus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/PassThroughMBSDraftProspectus",
+      "label": "pass through m b s draft prospectus",
+      "definition": "The draft prospectus for a pass through Mortgage Backed Securities issue, as determined by the issuing agency prior to marketing the issue. Certain terms in the draft prospectus will be finalized later in the issuance process to become the actual Prospectus. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-bp-iss-doc:PreliminaryProspectus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:precedes",
+          "operator": "some",
+          "value": "pass through m b s final prospectus",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pass through m b s final prospectus",
+      "technicalName": "fibo-bp-iss-ambs:PassThroughMBSFinalProspectus",
+      "localName": "PassThroughMBSFinalProspectus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/PassThroughMBSFinalProspectus",
+      "label": "pass through m b s final prospectus",
+      "definition": "Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-sec-dbt-mbs:MortgageBackedSecurityOfferingProspectus"
+      ],
+      "rules": []
+    },
+    {
+      "name": "pass through m b s final termsheet",
+      "technicalName": "fibo-bp-iss-ambs:PassThroughMBSFinalTermsheet",
+      "localName": "PassThroughMBSFinalTermsheet",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/PassThroughMBSFinalTermsheet",
+      "label": "pass through m b s final termsheet",
+      "definition": "The final termsheet for the pass through MBS issue. This defines the terms for the MBS contract itself. Term origin:MBS PoC Reviews",
+      "parents": [
+        "pass through issue prospectus part",
+        "fibo-fnd-agr-ctr:TermSheet"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "fibo-sec-dbt-bnd:CouponPaymentTerms",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "fibo-sec-dbt-bnd:BondAmortizationPaymentTerms",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pass through m b s securitization process",
+      "technicalName": "fibo-bp-iss-ambs:PassThroughMBSSecuritizationProcess",
+      "localName": "PassThroughMBSSecuritizationProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/PassThroughMBSSecuritizationProcess",
+      "label": "pass through m b s securitization process",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-mbs:MBSSecuritizationProcess"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasStartDate",
+          "operator": "some",
+          "value": "cmns-dt:Date",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dt:hasEndDate",
+          "operator": "some",
+          "value": "cmns-dt:Date",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pass through offering memorandum",
+      "technicalName": "fibo-bp-iss-ambs:PassThroughOfferingMemorandum",
+      "localName": "PassThroughOfferingMemorandum",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/PassThroughOfferingMemorandum",
+      "label": "pass through offering memorandum",
+      "definition": "The offering memorandum for a pass through MBS issue, setting out basic information about a future issue, for the information of prospective investors and their agents. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-sec-sec-iss:OfferingDocument"
+      ],
+      "rules": [
+        {
+          "property": "fibo-bp-iss-mbs:includesDetailsAbout",
+          "operator": "some",
+          "value": "pass through m b s final termsheet",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pool conformance criteria",
+      "technicalName": "fibo-bp-iss-ambs:PoolConformanceCriteria",
+      "localName": "PoolConformanceCriteria",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/PoolConformanceCriteria",
+      "label": "pool conformance criteria",
+      "definition": null,
+      "parents": [],
+      "rules": [
+        {
+          "property": "defines criteria for",
+          "operator": "some",
+          "value": "not yet issued agency mortgage pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "potential agency m b s issuer",
+      "technicalName": "fibo-bp-iss-ambs:PotentialAgencyMBSIssuer",
+      "localName": "PotentialAgencyMBSIssuer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/PotentialAgencyMBSIssuer",
+      "label": "potential agency m b s issuer",
+      "definition": "The entity which will become the issuing party for the pass through MBS Issue. This entity is the principal actor in most of the activities involved in the issue. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-bp-iss-dbti:PoolBackedSecuritySecuritizationProcessActor"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:evaluates",
+          "operator": "some",
+          "value": "classify mortgage",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:evaluates",
+          "operator": "some",
+          "value": "assess pool suitablility for issuance",
+          "qualifier": null
+        },
+        {
+          "property": "validates",
+          "operator": "some",
+          "value": "validate conformance",
+          "qualifier": null
+        },
+        {
+          "property": "purchases",
+          "operator": "some",
+          "value": "acquire mortgage",
+          "qualifier": null
+        },
+        {
+          "property": "identifies",
+          "operator": "some",
+          "value": "identify conforming mortgage",
+          "qualifier": null
+        },
+        {
+          "property": "finalizes",
+          "operator": "some",
+          "value": "finalize pool content",
+          "qualifier": null
+        },
+        {
+          "property": "adds",
+          "operator": "some",
+          "value": "add mortgage to pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "potential pass through issuance underwriter",
+      "technicalName": "fibo-bp-iss-ambs:PotentialPassThroughIssuanceUnderwriter",
+      "localName": "PotentialPassThroughIssuanceUnderwriter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/PotentialPassThroughIssuanceUnderwriter",
+      "label": "potential pass through issuance underwriter",
+      "definition": "The entity which will become the underwriter for the pass through MBS issue. Term origin:MBS PoC Reviews",
+      "parents": [
+        "fibo-bp-iss-prc:PotentialUnderwriter"
+      ],
+      "rules": []
+    },
+    {
+      "name": "register security",
+      "technicalName": "fibo-bp-iss-ambs:RegisterSecurity",
+      "localName": "RegisterSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/RegisterSecurity",
+      "label": "register security",
+      "definition": null,
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "suitable for issue",
+      "technicalName": "fibo-bp-iss-ambs:SuitableForIssue",
+      "localName": "SuitableForIssue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/SuitableForIssue",
+      "label": "suitable for issue",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "validate conformance",
+      "technicalName": "fibo-bp-iss-ambs:ValidateConformance",
+      "localName": "ValidateConformance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/ValidateConformance",
+      "label": "validate conformance",
+      "definition": "The mortgage is automatically validated for conformance to the requirements of the pool in which it is to be included.",
+      "parents": [
+        "fibo-bp-iss-prc:IssuanceProcessActivity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "pool conformance criteria",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "adds",
+      "technicalName": "fibo-bp-iss-ambs:adds",
+      "localName": "adds",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/adds",
+      "label": "adds",
+      "definition": null,
+      "domain": [
+        "potential agency m b s issuer"
+      ],
+      "range": [
+        "add mortgage to pool"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "adds to pool",
+      "technicalName": "fibo-bp-iss-ambs:addsToPool",
+      "localName": "addsToPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/addsToPool",
+      "label": "adds to pool",
+      "definition": null,
+      "domain": [
+        "add mortgage to pool"
+      ],
+      "range": [
+        "fibo-loan-reln-mtg:LoanSecuredByRealEstate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "allocates identifier",
+      "technicalName": "fibo-bp-iss-ambs:allocatesIdentifier",
+      "localName": "allocatesIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/allocatesIdentifier",
+      "label": "allocates identifier",
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "defines criteria for",
+      "technicalName": "fibo-bp-iss-ambs:definesCriteriaFor",
+      "localName": "definesCriteriaFor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/definesCriteriaFor",
+      "label": "defines criteria for",
+      "definition": null,
+      "domain": [
+        "pool conformance criteria"
+      ],
+      "range": [
+        "not yet issued agency mortgage pool"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "finalizes",
+      "technicalName": "fibo-bp-iss-ambs:finalizes",
+      "localName": "finalizes",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/finalizes",
+      "label": "finalizes",
+      "definition": null,
+      "domain": [
+        "potential agency m b s issuer"
+      ],
+      "range": [
+        "finalize pool content"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has resource",
+      "technicalName": "fibo-bp-iss-ambs:hasResource",
+      "localName": "hasResource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/hasResource",
+      "label": "has resource",
+      "definition": null,
+      "domain": [
+        "market issue"
+      ],
+      "range": [
+        "pass through m b s draft prospectus"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "identifies",
+      "technicalName": "fibo-bp-iss-ambs:identifies",
+      "localName": "identifies",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/identifies",
+      "label": "identifies",
+      "definition": null,
+      "domain": [
+        "potential agency m b s issuer"
+      ],
+      "range": [
+        "identify conforming mortgage"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is assessment of",
+      "technicalName": "fibo-bp-iss-ambs:isAssessmentOf",
+      "localName": "isAssessmentOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/isAssessmentOf",
+      "label": "is assessment of",
+      "definition": null,
+      "domain": [
+        "classify mortgage"
+      ],
+      "range": [
+        "fibo-loan-reln-mtg:LoanSecuredByRealEstate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is defining of",
+      "technicalName": "fibo-bp-iss-ambs:isDefiningOf",
+      "localName": "isDefiningOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/isDefiningOf",
+      "label": "is defining of",
+      "definition": null,
+      "domain": [
+        "define mortgage pool"
+      ],
+      "range": [
+        "not yet issued agency mortgage pool"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "maximum loan balance",
+      "technicalName": "fibo-bp-iss-ambs:maximumLoanBalance",
+      "localName": "maximumLoanBalance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/maximumLoanBalance",
+      "label": "maximum loan balance",
+      "definition": null,
+      "domain": [
+        "pool conformance criteria"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "minimum rating",
+      "technicalName": "fibo-bp-iss-ambs:minimumRating",
+      "localName": "minimumRating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/minimumRating",
+      "label": "minimum rating",
+      "definition": null,
+      "domain": [
+        "pool conformance criteria"
+      ],
+      "range": [
+        "fibo-fbc-dae-crt:InvestmentCreditRating"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "purchase",
+      "technicalName": "fibo-bp-iss-ambs:purchase",
+      "localName": "purchase",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/purchase",
+      "label": "purchase",
+      "definition": null,
+      "domain": [
+        "acquire mortgage"
+      ],
+      "range": [
+        "fibo-loan-reln-mtg:LoanSecuredByRealEstate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "purchases",
+      "technicalName": "fibo-bp-iss-ambs:purchases",
+      "localName": "purchases",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/purchases",
+      "label": "purchases",
+      "definition": null,
+      "domain": [
+        "potential agency m b s issuer"
+      ],
+      "range": [
+        "acquire mortgage"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "results in appointment of",
+      "technicalName": "fibo-bp-iss-ambs:resultsInAppointmentOf",
+      "localName": "resultsInAppointmentOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/resultsInAppointmentOf",
+      "label": "results in appointment of",
+      "definition": null,
+      "domain": [
+        "identify underwriter"
+      ],
+      "range": [
+        "potential pass through issuance underwriter"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "validates",
+      "technicalName": "fibo-bp-iss-ambs:validates",
+      "localName": "validates",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/AgencyMBSIssuance/validates",
+      "label": "validates",
+      "definition": null,
+      "domain": [
+        "potential agency m b s issuer"
+      ],
+      "range": [
+        "validate conformance"
+      ]
+    }
+  ],
+  "attributes": []
+}

@@ -1,0 +1,77 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\DER\\DerivativesContracts\\DerivativesMasterAgreements.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesMasterAgreements/",
+  "summary": {
+    "nodes": 4,
+    "edges": 0,
+    "properties": 0,
+    "triples": 41
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/"
+  ],
+  "classes": [
+    {
+      "name": "account change notification obligation",
+      "technicalName": "fibo-der-drc-ma:AccountChangeNotificationObligation",
+      "localName": "AccountChangeNotificationObligation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesMasterAgreements/AccountChangeNotificationObligation",
+      "label": "account change notification obligation",
+      "definition": "obligation to notify a counterparty of any changes in account details",
+      "parents": [
+        "fibo-fnd-law-lcap:NotificationObligation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "derivative credit support agreement",
+      "technicalName": "fibo-der-drc-ma:DerivativeCreditSupportAgreement",
+      "localName": "DerivativeCreditSupportAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesMasterAgreements/DerivativeCreditSupportAgreement",
+      "label": "derivative credit support agreement",
+      "definition": "addendum to the master agreement that governs the exchange of collateral between parties in derivatives transactions",
+      "parents": [
+        "fibo-fbc-dae-dbt:CreditEnhancementAgreement"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:isSubordinateTo",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "derivative master agreement"
+        }
+      ]
+    },
+    {
+      "name": "derivative master agreement",
+      "technicalName": "fibo-der-drc-ma:DerivativeMasterAgreement",
+      "localName": "DerivativeMasterAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesMasterAgreements/DerivativeMasterAgreement",
+      "label": "derivative master agreement",
+      "definition": "master agreement covering derivatives transactions to be carried out between the parties to this contract",
+      "parents": [
+        "fibo-fbc-dae-dbt:CreditAgreement",
+        "fibo-fnd-agr-ctr:MasterAgreement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "master agreement early termination right",
+      "technicalName": "fibo-der-drc-ma:MasterAgreementEarlyTerminationRight",
+      "localName": "MasterAgreementEarlyTerminationRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesMasterAgreements/MasterAgreementEarlyTerminationRight",
+      "label": "master agreement early termination right",
+      "definition": "contractual right of a party to the master agreement to terminate the agreement early",
+      "parents": [
+        "fibo-fnd-law-lcap:ContractualRight"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

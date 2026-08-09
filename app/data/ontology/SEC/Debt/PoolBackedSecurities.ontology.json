@@ -1,0 +1,415 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Debt\\PoolBackedSecurities.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/",
+  "summary": {
+    "nodes": 18,
+    "edges": 3,
+    "properties": 1,
+    "triples": 252
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/Analytics/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "absolute prepayment rate",
+      "technicalName": "fibo-sec-dbt-pbs:AbsolutePrepaymentRate",
+      "localName": "AbsolutePrepaymentRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/AbsolutePrepaymentRate",
+      "label": "absolute prepayment rate",
+      "definition": "measure of the monthly rate of loan prepayments as a percentage of the original pool balance",
+      "parents": [
+        "debt pool statistical measure"
+      ],
+      "rules": []
+    },
+    {
+      "name": "asset-backed security",
+      "technicalName": "fibo-sec-dbt-pbs:AssetBackedSecurity",
+      "localName": "AssetBackedSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/AssetBackedSecurity",
+      "label": "asset-backed security",
+      "definition": "debt instrument backed by receivables other than those arising out of real estate loans or mortgages",
+      "parents": [
+        "pool-backed security"
+      ],
+      "rules": []
+    },
+    {
+      "name": "attachment point",
+      "technicalName": "fibo-sec-dbt-pbs:AttachmentPoint",
+      "localName": "AttachmentPoint",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/AttachmentPoint",
+      "label": "attachment point",
+      "definition": "lower tranche boundary of a tranche defined as a percentage of the value of the total pool of collateral, either at issuance or as of some point in time",
+      "parents": [
+        "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-asmt:isEstimatedValueOf",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-dae-dbt:CollateralValueAsOfDate"
+        }
+      ]
+    },
+    {
+      "name": "debt pool statistical measure",
+      "technicalName": "fibo-sec-dbt-pbs:DebtPoolStatisticalMeasure",
+      "localName": "DebtPoolStatisticalMeasure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/DebtPoolStatisticalMeasure",
+      "label": "debt pool statistical measure",
+      "definition": "qualified measure of some aspect of the behavior of one or more debt instrument(s) that may vary over time",
+      "parents": [
+        "fibo-fnd-utl-alx:QualifiedMeasure"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-sec-sec-pls:DebtPool",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:hasApplicablePeriod",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:DatePeriod"
+        }
+      ]
+    },
+    {
+      "name": "default rate",
+      "technicalName": "fibo-sec-dbt-pbs:DefaultRate",
+      "localName": "DefaultRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/DefaultRate",
+      "label": "default rate",
+      "definition": "qualified measure of the rate at which holders of the debt instruments in the pool default on those instruments",
+      "parents": [
+        "debt pool statistical measure",
+        "cmns-qtu:Ratio"
+      ],
+      "rules": []
+    },
+    {
+      "name": "detachment point",
+      "technicalName": "fibo-sec-dbt-pbs:DetachmentPoint",
+      "localName": "DetachmentPoint",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/DetachmentPoint",
+      "label": "detachment point",
+      "definition": "upper tranche boundary of a tranche defined as a percentage of the value of the total pool of collateral, either at issuance or as of some point in time",
+      "parents": [
+        "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-asmt:isEstimatedValueOf",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-dae-dbt:CollateralValueAsOfDate"
+        }
+      ]
+    },
+    {
+      "name": "pool-backed security",
+      "technicalName": "fibo-sec-dbt-pbs:PoolBackedSecurity",
+      "localName": "PoolBackedSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/PoolBackedSecurity",
+      "label": "pool-backed security",
+      "definition": "debt instrument that derives its cashflow from an underlying pool of mortgage loans or other receivables",
+      "parents": [
+        "fibo-sec-dbt-dbti:TradableDebtInstrument"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "fibo-sec-sec-pls:InstrumentPool",
+          "qualifier": null
+        },
+        {
+          "property": "is pass through",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:boolean"
+        },
+        {
+          "property": "cmns-cls:isCharacterizedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "debt pool statistical measure"
+        },
+        {
+          "property": "is estimated value of",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-dae-dbt:CollateralValueAsOfDate"
+        }
+      ]
+    },
+    {
+      "name": "prepayment speed",
+      "technicalName": "fibo-sec-dbt-pbs:PrepaymentSpeed",
+      "localName": "PrepaymentSpeed",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/PrepaymentSpeed",
+      "label": "prepayment speed",
+      "definition": "estimated rate at which a debt or part of a debt is paid off ahead of schedule",
+      "parents": [
+        "debt pool statistical measure"
+      ],
+      "rules": []
+    },
+    {
+      "name": "principal protected note",
+      "technicalName": "fibo-sec-dbt-pbs:PrincipalProtectedNote",
+      "localName": "PrincipalProtectedNote",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/PrincipalProtectedNote",
+      "label": "principal protected note",
+      "definition": "structured finance that offers investors exposure to chosen underlying assets using various approaches and asymmetric pay-off profiles",
+      "parents": [
+        "structured finance instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "single monthly mortality",
+      "technicalName": "fibo-sec-dbt-pbs:SingleMonthlyMortality",
+      "localName": "SingleMonthlyMortality",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/SingleMonthlyMortality",
+      "label": "single monthly mortality",
+      "definition": "estimated per-month percentage of mortgages in an MBS pool that will be paid off early",
+      "parents": [
+        "debt pool statistical measure",
+        "cmns-qtu:Percentage"
+      ],
+      "rules": []
+    },
+    {
+      "name": "structured finance instrument",
+      "technicalName": "fibo-sec-dbt-pbs:StructuredFinanceInstrument",
+      "localName": "StructuredFinanceInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/StructuredFinanceInstrument",
+      "label": "structured finance instrument",
+      "definition": "pool-backed security wherein the risk associated with the pool has been uncoupled from the risk associated with the originating institution through a special purpose vehicle",
+      "parents": [
+        "pool-backed security"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-be-le-lp:SpecialPurposeVehicle",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "structured finance without principal protection",
+      "technicalName": "fibo-sec-dbt-pbs:StructuredFinanceWithoutPrincipalProtection",
+      "localName": "StructuredFinanceWithoutPrincipalProtection",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/StructuredFinanceWithoutPrincipalProtection",
+      "label": "structured finance without principal protection",
+      "definition": "structured finance that is a short-term note linked to an underlying asset that offers a steady stream of income",
+      "parents": [
+        "structured finance instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tranche",
+      "technicalName": "fibo-sec-dbt-pbs:Tranche",
+      "localName": "Tranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/Tranche",
+      "label": "tranche",
+      "definition": "segment of a pool of securities, typically debt instruments",
+      "parents": [
+        "structured finance instrument"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isPartOf",
+          "operator": "some",
+          "value": "fibo-sec-sec-pls:InstrumentPool",
+          "qualifier": null
+        },
+        {
+          "property": "has detachment point",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "detachment point"
+        },
+        {
+          "property": "has attachment point",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "attachment point"
+        },
+        {
+          "property": "is estimated value of",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-dae-dbt:CollateralValueAsOfDate"
+        }
+      ]
+    },
+    {
+      "name": "weighted average coupon",
+      "technicalName": "fibo-sec-dbt-pbs:WeightedAverageCoupon",
+      "localName": "WeightedAverageCoupon",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/WeightedAverageCoupon",
+      "label": "weighted average coupon",
+      "definition": "weighted-average gross interest rates of the pool of mortgages that underlie a mortgage-backed security (MBS) weighed by their balances at the time the securities were issued",
+      "parents": [
+        "fibo-fnd-utl-alx:ArithmeticMean",
+        "debt pool statistical measure"
+      ],
+      "rules": []
+    },
+    {
+      "name": "weighted average life",
+      "technicalName": "fibo-sec-dbt-pbs:WeightedAverageLife",
+      "localName": "WeightedAverageLife",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/WeightedAverageLife",
+      "label": "weighted average life",
+      "definition": "weighted average of the times of the principal repayments Average life is calculated using the weighted average time to the receipt of all future cash flows.",
+      "parents": [
+        "fibo-fnd-utl-alx:ArithmeticMean",
+        "debt pool statistical measure"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "prepayment speed"
+        }
+      ]
+    },
+    {
+      "name": "weighted average loan age",
+      "technicalName": "fibo-sec-dbt-pbs:WeightedAverageLoanAge",
+      "localName": "WeightedAverageLoanAge",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/WeightedAverageLoanAge",
+      "label": "weighted average loan age",
+      "definition": "dollar-weighted average measuring the age of the individual loans in a mortgage pass-through or pooled security",
+      "parents": [
+        "fibo-fnd-utl-alx:ArithmeticMean",
+        "debt pool statistical measure"
+      ],
+      "rules": []
+    },
+    {
+      "name": "weighted average maturity",
+      "technicalName": "fibo-sec-dbt-pbs:WeightedAverageMaturity",
+      "localName": "WeightedAverageMaturity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/WeightedAverageMaturity",
+      "label": "weighted average maturity",
+      "definition": "weighted average amount of time until the maturities on mortgages in a mortgage-backed security (MBS)",
+      "parents": [
+        "fibo-fnd-utl-alx:ArithmeticMean",
+        "debt pool statistical measure"
+      ],
+      "rules": []
+    },
+    {
+      "name": "weighted average remaining term",
+      "technicalName": "fibo-sec-dbt-pbs:WeightedAverageRemainingTerm",
+      "localName": "WeightedAverageRemainingTerm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/WeightedAverageRemainingTerm",
+      "label": "weighted average remaining term",
+      "definition": "weighted average time to maturity of a portfolio of asset-backed securities (ABS) or mortgage-backed (MBS) securities",
+      "parents": [
+        "fibo-fnd-utl-alx:ArithmeticMean",
+        "debt pool statistical measure"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has attachment point",
+      "technicalName": "fibo-sec-dbt-pbs:hasAttachmentPoint",
+      "localName": "hasAttachmentPoint",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/hasAttachmentPoint",
+      "label": "has attachment point",
+      "definition": "indicates the minimum (lower boundary) of the total value of the underlying collateral, either at issuance or as of some point in time, at which point a given tranche becomes liable for losses",
+      "domain": [],
+      "range": [
+        "attachment point"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has detachment point",
+      "technicalName": "fibo-sec-dbt-pbs:hasDetachmentPoint",
+      "localName": "hasDetachmentPoint",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/hasDetachmentPoint",
+      "label": "has detachment point",
+      "definition": "indicates the maximum (upper boundary) of the total value of the underlying collateral, either at issuance or as of some point in time, at which point the value of given tranche is wiped out",
+      "domain": [],
+      "range": [
+        "detachment point"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is estimated value of",
+      "technicalName": "fibo-sec-dbt-pbs:hasEstimatedTotalCollateralValueAtIssuance",
+      "localName": "hasEstimatedTotalCollateralValueAtIssuance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/hasEstimatedTotalCollateralValueAtIssuance",
+      "label": "is estimated value of",
+      "definition": "indicates the estimated value of the combined underlying collateral for a given tranche at the time the instrument was issued",
+      "domain": [],
+      "range": [
+        "fibo-fbc-dae-dbt:CollateralValueAsOfDate"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "is pass through",
+      "technicalName": "fibo-sec-dbt-pbs:isPassThrough",
+      "localName": "isPassThrough",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/isPassThrough",
+      "label": "is pass through",
+      "definition": "indicates whether the cash flows from the underlying asset pool are passed through to the investor by way of redemption payments",
+      "domain": [
+        "pool-backed security"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,431 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Securities\\SecuritiesIdentification.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/",
+  "summary": {
+    "nodes": 16,
+    "edges": 0,
+    "properties": 0,
+    "triples": 256
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/Markets/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/ContextualIdentifiers/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Locations/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RegistrationAuthorities/",
+    "https://www.omg.org/spec/LCC/Countries/CountryRepresentation/"
+  ],
+  "classes": [
+    {
+      "name": "financial instrument identification scheme",
+      "technicalName": "fibo-sec-sec-id:FinancialInstrumentIdentificationScheme",
+      "localName": "FinancialInstrumentIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/FinancialInstrumentIdentificationScheme",
+      "label": "financial instrument identification scheme",
+      "definition": "formal definition of the structure and application of a particular set of financial instrument identifiers",
+      "parents": [
+        "cmns-id:IdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:FinancialInstrumentIdentifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "international securities identification number",
+      "technicalName": "fibo-sec-sec-id:InternationalSecuritiesIdentificationNumber",
+      "localName": "InternationalSecuritiesIdentificationNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/InternationalSecuritiesIdentificationNumber",
+      "label": "international securities identification number",
+      "definition": "security identifier that is defined as specified in ISO 6166, Securities and related financial instruments -- International securities identification numbering system (ISIN)",
+      "parents": [
+        "security identifier",
+        "cmns-cxtid:StructuredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "lcc-cr:Alpha2Code"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "National Securities Identifying Number"
+        }
+      ]
+    },
+    {
+      "name": "international securities identification numbering scheme",
+      "technicalName": "fibo-sec-sec-id:InternationalSecuritiesIdentificationNumberingScheme",
+      "localName": "InternationalSecuritiesIdentificationNumberingScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/InternationalSecuritiesIdentificationNumberingScheme",
+      "label": "international securities identification numbering scheme",
+      "definition": "formal definition of the structure and application of a ISINs as defined in ISO 6166",
+      "parents": [
+        "security identification scheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "international securities identification number",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "listed security identifier",
+      "technicalName": "fibo-sec-sec-id:ListedSecurityIdentifier",
+      "localName": "ListedSecurityIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/ListedSecurityIdentifier",
+      "label": "listed security identifier",
+      "definition": "security identifier issued in the public domain and referred to in listings and other relevant publications",
+      "parents": [
+        "security identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "some",
+          "value": "security registry",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "some",
+          "value": "fibo-fbc-fct-mkt:Exchange",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "fibo-sec-sec-lst:ListedSecurity",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "security identification scheme",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "national numbering agency",
+      "technicalName": "fibo-sec-sec-id:NationalNumberingAgency",
+      "localName": "NationalNumberingAgency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/NationalNumberingAgency",
+      "label": "national numbering agency",
+      "definition": "registration authority responsible for issuing and managing National Securities Identifying Numbers for securities in accordance with the ISO 6166 standard in some jurisdiction (typically that of a country)",
+      "parents": [
+        "cmns-ra:RegistrationAuthority"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:registers",
+          "operator": "some",
+          "value": "National Securities Identifying Number",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:manages",
+          "operator": "some",
+          "value": "National Securities Identifying Number registry",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-loc:hasCoverageArea",
+          "operator": "some",
+          "value": "cmns-loc:GeopoliticalEntity",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:issues",
+          "operator": "some",
+          "value": "National Securities Identifying Number",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "National Securities Identifying Number",
+      "technicalName": "fibo-sec-sec-id:NationalSecuritiesIdentifyingNumber",
+      "localName": "NationalSecuritiesIdentifyingNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/NationalSecuritiesIdentifyingNumber",
+      "label": "National Securities Identifying Number",
+      "definition": "generic, nine-digit alpha numeric code which identifies a fungible security, assigned by a national numbering agency under the ISO 6166 standard",
+      "parents": [
+        "security identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "some",
+          "value": "national numbering agency",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "national security identification scheme",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "National Securities Identifying Number registry",
+      "technicalName": "fibo-sec-sec-id:NationalSecuritiesIdentifyingNumberRegistry",
+      "localName": "NationalSecuritiesIdentifyingNumberRegistry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/NationalSecuritiesIdentifyingNumberRegistry",
+      "label": "National Securities Identifying Number registry",
+      "definition": "registry used by a national numbering agency to manage the financial instrument identifiers and related information that it registers",
+      "parents": [
+        "security registry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "some",
+          "value": "national numbering agency",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "national numbering agency registry entry",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isCharacterizedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "national security identification scheme"
+        }
+      ]
+    },
+    {
+      "name": "national numbering agency registry entry",
+      "technicalName": "fibo-sec-sec-id:NationalSecuritiesIdentifyingNumberRegistryEntry",
+      "localName": "NationalSecuritiesIdentifyingNumberRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/NationalSecuritiesIdentifyingNumberRegistryEntry",
+      "label": "national numbering agency registry entry",
+      "definition": "entry in a National Securities Identifying Number registry",
+      "parents": [
+        "security registry entry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "National Securities Identifying Number",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "national security identification scheme",
+      "technicalName": "fibo-sec-sec-id:NationalSecurityIdentificationScheme",
+      "localName": "NationalSecurityIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/NationalSecurityIdentificationScheme",
+      "label": "national security identification scheme",
+      "definition": "security identification scheme, defining the format and structure of a National Securities Identifying Number (NSIN), published nationally on behalf of a country",
+      "parents": [
+        "security identification scheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "National Securities Identifying Number",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "cmns-loc:GeopoliticalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "proprietary security identification scheme",
+      "technicalName": "fibo-sec-sec-id:ProprietarySecurityIdentificationScheme",
+      "localName": "ProprietarySecurityIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/ProprietarySecurityIdentificationScheme",
+      "label": "proprietary security identification scheme",
+      "definition": "security identification scheme published by a commercial entity",
+      "parents": [
+        "security identification scheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "proprietary security identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "proprietary security identifier",
+      "technicalName": "fibo-sec-sec-id:ProprietarySecurityIdentifier",
+      "localName": "ProprietarySecurityIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/ProprietarySecurityIdentifier",
+      "label": "proprietary security identifier",
+      "definition": "identifier supplied by a commercial entity",
+      "parents": [
+        "security identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "proprietary security identification scheme",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "security identification scheme",
+      "technicalName": "fibo-sec-sec-id:SecurityIdentificationScheme",
+      "localName": "SecurityIdentificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/SecurityIdentificationScheme",
+      "label": "security identification scheme",
+      "definition": "formal definition of the structure and application of a particular set of securities identifiers",
+      "parents": [
+        "financial instrument identification scheme",
+        "cmns-ra:RegistrationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "security identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "security identifier",
+      "technicalName": "fibo-sec-sec-id:SecurityIdentifier",
+      "localName": "SecurityIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/SecurityIdentifier",
+      "label": "security identifier",
+      "definition": "any publicly available identifier that is used to identify a security",
+      "parents": [
+        "fibo-fbc-fi-fi:FinancialInstrumentIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "security identification scheme",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "security registry",
+      "technicalName": "fibo-sec-sec-id:SecurityRegistry",
+      "localName": "SecurityRegistry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/SecurityRegistry",
+      "label": "security registry",
+      "definition": "registry used to manage security identifiers and related information",
+      "parents": [
+        "cmns-ra:Registry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "some",
+          "value": "cmns-ra:RegistrationAuthority",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "security registry entry",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isCharacterizedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "security identification scheme"
+        }
+      ]
+    },
+    {
+      "name": "security registry entry",
+      "technicalName": "fibo-sec-sec-id:SecurityRegistryEntry",
+      "localName": "SecurityRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/SecurityRegistryEntry",
+      "label": "security registry entry",
+      "definition": "record for a security in a securities registry",
+      "parents": [
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-sec-sec-lst:RegisteredSecurity",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "security identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ticker symbol",
+      "technicalName": "fibo-sec-sec-id:TickerSymbol",
+      "localName": "TickerSymbol",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIdentification/TickerSymbol",
+      "label": "ticker symbol",
+      "definition": "reassignable identifier of relatively short character string length that is unique within an exchange for a particular financial instrument or listing for that instrument",
+      "parents": [
+        "fibo-fnd-arr-id:ReassignableIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

@@ -1,0 +1,327 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Securities\\SecuritiesListings.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/",
+  "summary": {
+    "nodes": 4,
+    "edges": 7,
+    "properties": 3,
+    "triples": 205
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/InstrumentPricing/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/Markets/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RegistrationAuthorities/",
+    "https://www.omg.org/spec/Commons/SitesAndFacilities/"
+  ],
+  "classes": [
+    {
+      "name": "listed security",
+      "technicalName": "fibo-sec-sec-lst:ListedSecurity",
+      "localName": "ListedSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/ListedSecurity",
+      "label": "listed security",
+      "definition": "registered security listed on at least one exchange",
+      "parents": [
+        "registered security"
+      ],
+      "rules": [
+        {
+          "property": "is listed via",
+          "operator": "some",
+          "value": "listing",
+          "qualifier": null
+        },
+        {
+          "property": "has original place of listing",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fct-mkt:Exchange"
+        },
+        {
+          "property": "has home exchange",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fct-mkt:Exchange"
+        }
+      ]
+    },
+    {
+      "name": "listing",
+      "technicalName": "fibo-sec-sec-lst:Listing",
+      "localName": "Listing",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/Listing",
+      "label": "listing",
+      "definition": "catalog entry for a securities offering managed by an exchange that provides the terms under which that security is made available on that exchange",
+      "parents": [],
+      "rules": [
+        {
+          "property": "fibo-fnd-acc-cur:hasCurrency",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:Currency",
+          "qualifier": null
+        },
+        {
+          "property": "has listing date",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        },
+        {
+          "property": "lists",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-sec-sec-iss:SecuritiesOffering"
+        },
+        {
+          "property": "has delisting date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        },
+        {
+          "property": "fibo-fbc-fi-ip:hasLotSize",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "has last trading date and time",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:DateTime"
+        },
+        {
+          "property": "has tick size",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "fibo-fbc-fct-breg:hasRegistrationStatus",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fct-breg:RegistrationStatus"
+        }
+      ]
+    },
+    {
+      "name": "listing service",
+      "technicalName": "fibo-sec-sec-lst:ListingService",
+      "localName": "ListingService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/ListingService",
+      "label": "listing service",
+      "definition": "service provided by an exchange to facilitate securities trading",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialService"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:provides",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "listing"
+        },
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-fct-mkt:Exchange"
+        },
+        {
+          "property": "fibo-fnd-pas-pas:isProvisionedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-fct-mkt:Exchange"
+        }
+      ]
+    },
+    {
+      "name": "registered security",
+      "technicalName": "fibo-sec-sec-lst:RegisteredSecurity",
+      "localName": "RegisteredSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/RegisteredSecurity",
+      "label": "registered security",
+      "definition": "security that is registered with some registration authority",
+      "parents": [
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:hasRegistrationDate",
+          "operator": "some",
+          "value": "cmns-dt:CombinedDateTime",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-sec-sec-iss:isRegisteredWith",
+          "operator": "some",
+          "value": "cmns-ra:RegistrationAuthority",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-sec-sec-iss:isIssuedInForm",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has home exchange",
+      "technicalName": "fibo-sec-sec-lst:hasHomeExchange",
+      "localName": "hasHomeExchange",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/hasHomeExchange",
+      "label": "has home exchange",
+      "definition": "indicates the exchange that is considered the primary market for a security; typically, but not always, in the country in which the security was originally issued",
+      "domain": [],
+      "range": [
+        "fibo-fbc-fct-mkt:Exchange"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has last trading date and time",
+      "technicalName": "fibo-sec-sec-lst:hasLastTradingDateTime",
+      "localName": "hasLastTradingDateTime",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/hasLastTradingDateTime",
+      "label": "has last trading date and time",
+      "definition": "specifies the last date and time that the security was traded on the exchange",
+      "domain": [
+        "listing"
+      ],
+      "range": [
+        "cmns-dt:DateTime"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has original place of listing",
+      "technicalName": "fibo-sec-sec-lst:hasOriginalPlaceOfListing",
+      "localName": "hasOriginalPlaceOfListing",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/hasOriginalPlaceOfListing",
+      "label": "has original place of listing",
+      "definition": "indicates the original exchange that listed the security",
+      "domain": [],
+      "range": [
+        "fibo-fbc-fct-mkt:Exchange"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has tick size",
+      "technicalName": "fibo-sec-sec-lst:hasTickSize",
+      "localName": "hasTickSize",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/hasTickSize",
+      "label": "has tick size",
+      "definition": "specifies a minimum price movement for the security with respect to an exchange",
+      "domain": [
+        "listing"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is listed via",
+      "technicalName": "fibo-sec-sec-lst:isListedVia",
+      "localName": "isListedVia",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/isListedVia",
+      "label": "is listed via",
+      "definition": "identifies the service responsible for listing the security",
+      "domain": [
+        "listed security"
+      ],
+      "range": [
+        "listing"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is traded on",
+      "technicalName": "fibo-sec-sec-lst:isTradedOn",
+      "localName": "isTradedOn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/isTradedOn",
+      "label": "is traded on",
+      "definition": "identifies the trading facility on which the security is traded",
+      "domain": [
+        "listed security"
+      ],
+      "range": [
+        "fibo-fbc-fct-mkt:Exchange"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "lists",
+      "technicalName": "fibo-sec-sec-lst:lists",
+      "localName": "lists",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/lists",
+      "label": "lists",
+      "definition": "relates a given exchange-specific security listing to its issue",
+      "domain": [
+        "listing"
+      ],
+      "range": [
+        "listed security"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has delisting date",
+      "technicalName": "fibo-sec-sec-lst:hasDelistingDate",
+      "localName": "hasDelistingDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/hasDelistingDate",
+      "label": "has delisting date",
+      "definition": "specifies the date set by the exchange for delisting a security",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has listing date",
+      "technicalName": "fibo-sec-sec-lst:hasListingDate",
+      "localName": "hasListingDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/hasListingDate",
+      "label": "has listing date",
+      "definition": "indicates the date on which a security is listed",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is seasoned",
+      "technicalName": "fibo-sec-sec-lst:isSeasoned",
+      "localName": "isSeasoned",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/isSeasoned",
+      "label": "is seasoned",
+      "definition": "indicates that the security has been publicly traded long enough to eliminate any short-term volume volatility from its initial public offering",
+      "domain": [
+        "listed security"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

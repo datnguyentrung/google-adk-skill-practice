@@ -1,0 +1,16 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\LatinAmericanJurisdiction",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\LatinAmericanJurisdiction\\CentralAmericanGovernmentEntitiesAndJurisdictions.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\LatinAmericanJurisdiction\\SouthAmericanGovernmentEntitiesAndJurisdictions.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 2,
+    "classes": 0,
+    "edges": 0,
+    "attributes": 0
+  },
+  "classes": [],
+  "edges": [],
+  "attributes": []
+}

@@ -1,0 +1,974 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\DER\\DerivativesContracts\\Options.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/",
+  "summary": {
+    "nodes": 35,
+    "edges": 12,
+    "properties": 0,
+    "triples": 594
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/SecurityBasedDerivatives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/InstrumentPricing/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/Markets/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/Analytics/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/Bonds/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/ExerciseConventions/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "basket option",
+      "technicalName": "fibo-der-drc-opt:BasketOption",
+      "localName": "BasketOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/BasketOption",
+      "label": "basket option",
+      "definition": "option whose underlying asset is a group, or basket, of commodities, securities, indices, or currencies",
+      "parents": [
+        "exotic option"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractDuration",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDuration",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-fi-ip:hasPriceDeterminationMethod",
+          "operator": "some",
+          "value": "fibo-fbc-fi-ip:PriceDeterminationMethod",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-sec-bsk:MixedBasket",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "bond option",
+      "technicalName": "fibo-der-drc-opt:BondOption",
+      "localName": "BondOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/BondOption",
+      "label": "bond option",
+      "definition": "option giving the buyer (holder) the right, but not the obligation, to buy or sell (depending on whether it is a call or a put) a bond at a certain price on or before a specified date",
+      "parents": [
+        "fixed income option"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-sec-dbt-bnd:Bond",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "butterfly",
+      "technicalName": "fibo-der-drc-opt:Butterfly",
+      "localName": "Butterfly",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/Butterfly",
+      "label": "butterfly",
+      "definition": "strategy that combines bull and bear spreads with a fixed risk and capped profit",
+      "parents": [
+        "option trading strategy"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "4",
+          "qualifier": "fibo-fbc-fi-fi:Option"
+        },
+        {
+          "property": "has exercise price",
+          "operator": "exactlyQualified",
+          "value": "3",
+          "qualifier": "strike price"
+        }
+      ]
+    },
+    {
+      "name": "call option",
+      "technicalName": "fibo-der-drc-opt:CallOption",
+      "localName": "CallOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/CallOption",
+      "label": "call option",
+      "definition": "option giving the buyer (holder) the right, but not the obligation, to buy the assets specified at a fixed price or formula, on or before a specified date",
+      "parents": [
+        "fibo-fbc-fi-fi:Option"
+      ],
+      "rules": []
+    },
+    {
+      "name": "capped option",
+      "technicalName": "fibo-der-drc-opt:CappedOption",
+      "localName": "CappedOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/CappedOption",
+      "label": "capped option",
+      "definition": "option with an established profit cap or cap price",
+      "parents": [
+        "vanilla option"
+      ],
+      "rules": [
+        {
+          "property": "has cap price",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryPrice",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "collar",
+      "technicalName": "fibo-der-drc-opt:Collar",
+      "localName": "Collar",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/Collar",
+      "label": "collar",
+      "definition": "option trading strategy that involves buying a downside put and selling an upside call that is implemented to protect against large losses, but which also limits large upside gains",
+      "parents": [
+        "option trading strategy"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "put option"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "call option"
+        }
+      ]
+    },
+    {
+      "name": "condor spread",
+      "technicalName": "fibo-der-drc-opt:CondorSpread",
+      "localName": "CondorSpread",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/CondorSpread",
+      "label": "condor spread",
+      "definition": "non-directional options strategy that limits both gains and losses while seeking to profit from either low or high volatility",
+      "parents": [
+        "option trading strategy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "covered call",
+      "technicalName": "fibo-der-drc-opt:CoveredCall",
+      "localName": "CoveredCall",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/CoveredCall",
+      "label": "covered call",
+      "definition": "call option in which the seller (investor) owns an equivalent amount of the underlying security",
+      "parents": [
+        "call option"
+      ],
+      "rules": []
+    },
+    {
+      "name": "equity option",
+      "technicalName": "fibo-der-drc-opt:EquityOption",
+      "localName": "EquityOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/EquityOption",
+      "label": "equity option",
+      "definition": "option giving the buyer (holder) the right, but not the obligation, to buy (via a call option) or sell (via a put option) the underlying equity assets specified at a pre-determined price (i.e., the strike price, fixed or calculated), on or before a specified date (the expiration date)",
+      "parents": [
+        "vanilla option",
+        "fibo-der-sbd-sbd:EquityDerivative"
+      ],
+      "rules": [
+        {
+          "property": "has exercise style",
+          "operator": "value",
+          "value": "fibo-sec-dbt-ex:AmericanExerciseConvention",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "exotic option",
+      "technicalName": "fibo-der-drc-opt:ExoticOption",
+      "localName": "ExoticOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/ExoticOption",
+      "label": "exotic option",
+      "definition": "option that has a non-standard payout structure or other feature",
+      "parents": [
+        "fibo-der-drc-bsc:OverTheCounterDerivativeInstrument",
+        "fibo-fbc-fi-fi:Option"
+      ],
+      "rules": []
+    },
+    {
+      "name": "extrinsic value",
+      "technicalName": "fibo-der-drc-opt:ExtrinsicValue",
+      "localName": "ExtrinsicValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/ExtrinsicValue",
+      "label": "extrinsic value",
+      "definition": "measure of the difference between the market price of an option, called the premium, and its intrinsic value",
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fence",
+      "technicalName": "fibo-der-drc-opt:Fence",
+      "localName": "Fence",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/Fence",
+      "label": "fence",
+      "definition": "option trading strategy that uses options to limit the range of possible returns on a financial instrument",
+      "parents": [
+        "option trading strategy"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "put option"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "call option"
+        }
+      ]
+    },
+    {
+      "name": "fixed income option",
+      "technicalName": "fibo-der-drc-opt:FixedIncomeOption",
+      "localName": "FixedIncomeOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/FixedIncomeOption",
+      "label": "fixed income option",
+      "definition": "option giving the buyer (holder) the right, but not the obligation, to buy (via a call option) or sell (via a put option) the underlying fixed income assets specified at a pre-determined price (i.e., the strike price, fixed or calculated), on or before a specified date (the expiration date)",
+      "parents": [
+        "vanilla option",
+        "fibo-der-sbd-sbd:DebtInstrumentDerivative"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interest rate option",
+      "technicalName": "fibo-der-drc-opt:InterestRateOption",
+      "localName": "InterestRateOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/InterestRateOption",
+      "label": "interest rate option",
+      "definition": "option that giving the buyer (holder) the right, but not the obligation, to receive a cash payment if market interest rate of a reference rate is higher or lower, depending on the option, than the strike rate of the option",
+      "parents": [
+        "fibo-der-drc-bsc:InterestRateDerivative",
+        "vanilla option"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-ind-ir-ir:InterestRateBenchmark",
+          "qualifier": null
+        },
+        {
+          "property": "has strike rate",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:InterestRate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "intrinsic value",
+      "technicalName": "fibo-der-drc-opt:IntrinsicValue",
+      "localName": "IntrinsicValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/IntrinsicValue",
+      "label": "intrinsic value",
+      "definition": "measure of what an asset is worth, i.e. with respect to its current price",
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ],
+      "rules": []
+    },
+    {
+      "name": "iron butterfly",
+      "technicalName": "fibo-der-drc-opt:IronButterfly",
+      "localName": "IronButterfly",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/IronButterfly",
+      "label": "iron butterfly",
+      "definition": "butterfly strategy that consists of two call options and two put options, three strike prices and the same expiration date",
+      "parents": [
+        "butterfly"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "put option"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "call option"
+        }
+      ]
+    },
+    {
+      "name": "iron condor",
+      "technicalName": "fibo-der-drc-opt:IronCondor",
+      "localName": "IronCondor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/IronCondor",
+      "label": "iron condor",
+      "definition": "condor strategy consisting of two puts (one long and one short) and two calls (one long and one short), and four strike prices, all with the same expiration date",
+      "parents": [
+        "condor spread"
+      ],
+      "rules": [
+        {
+          "property": "has exercise price",
+          "operator": "exactlyQualified",
+          "value": "4",
+          "qualifier": "strike price"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "put option"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "call option"
+        }
+      ]
+    },
+    {
+      "name": "long-term equity anticipation security",
+      "technicalName": "fibo-der-drc-opt:LongTermEquityAnticipationSecurity",
+      "localName": "LongTermEquityAnticipationSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/LongTermEquityAnticipationSecurity",
+      "label": "long-term equity anticipation security",
+      "definition": "equity option that allows the holder to buy or sell shares of stock with expiration dates that are longer than one year, and typically up to three years from issue",
+      "parents": [
+        "equity option"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractDuration",
+          "operator": "some",
+          "value": "cmns-dt:Duration",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "moneyness",
+      "technicalName": "fibo-der-drc-opt:Moneyness",
+      "localName": "Moneyness",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/Moneyness",
+      "label": "moneyness",
+      "definition": "classifier for a derivative relating its strike price to the price of its underlying asset",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Option",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "option holder",
+      "technicalName": "fibo-der-drc-opt:OptionHolder",
+      "localName": "OptionHolder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/OptionHolder",
+      "label": "option holder",
+      "definition": "party that owns an option",
+      "parents": [
+        "fibo-fnd-oac-own:Owner"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:holds",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Option",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "option issuer",
+      "technicalName": "fibo-der-drc-opt:OptionIssuer",
+      "localName": "OptionIssuer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/OptionIssuer",
+      "label": "option issuer",
+      "definition": "issuer granting the rights defined in the option in exchange for some consideration",
+      "parents": [
+        "fibo-fbc-fi-fi:Issuer"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Option",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "option on future",
+      "technicalName": "fibo-der-drc-opt:OptionOnFuture",
+      "localName": "OptionOnFuture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/OptionOnFuture",
+      "label": "option on future",
+      "definition": "option that gives the holder the right, but not the obligation, to buy or sell a specific futures contract at a specified price on or before the option's expiration date",
+      "parents": [
+        "vanilla option"
+      ],
+      "rules": [
+        {
+          "property": "fibo-sec-dbt-ex:hasExerciseTerms",
+          "operator": "some",
+          "value": "fibo-sec-dbt-ex:AmericanExerciseTerms",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Future",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "option premium",
+      "technicalName": "fibo-der-drc-opt:OptionPremium",
+      "localName": "OptionPremium",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/OptionPremium",
+      "label": "option premium",
+      "definition": "current market price of an option contract",
+      "parents": [
+        "fibo-fbc-fi-ip:MarketPrice"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasQuantityValue",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+        },
+        {
+          "property": "fibo-fnd-acc-cur:hasMonetaryAmount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "cmns-qtu:hasExpression",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "option premium formula"
+        }
+      ]
+    },
+    {
+      "name": "option premium formula",
+      "technicalName": "fibo-der-drc-opt:OptionPremiumFormula",
+      "localName": "OptionPremiumFormula",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/OptionPremiumFormula",
+      "label": "option premium formula",
+      "definition": "expression used to calculate the premium based either on the price per option or percentage of the notional amount",
+      "parents": [
+        "cmns-qtu:Expression"
+      ],
+      "rules": []
+    },
+    {
+      "name": "option trading strategy",
+      "technicalName": "fibo-der-drc-opt:OptionTradingStrategy",
+      "localName": "OptionTradingStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/OptionTradingStrategy",
+      "label": "option trading strategy",
+      "definition": "trading tactic involving more than one option type, strike price, or expiration date on the same underlying asset",
+      "parents": [
+        "fibo-fbc-pas-fpas:TradingStrategy"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Option",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "protective collar",
+      "technicalName": "fibo-der-drc-opt:ProtectiveCollar",
+      "localName": "ProtectiveCollar",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/ProtectiveCollar",
+      "label": "protective collar",
+      "definition": "collar that consists of a covered call and protective put",
+      "parents": [
+        "collar"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "protective put"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "covered call"
+        }
+      ]
+    },
+    {
+      "name": "protective put",
+      "technicalName": "fibo-der-drc-opt:ProtectivePut",
+      "localName": "ProtectivePut",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/ProtectivePut",
+      "label": "protective put",
+      "definition": "put option giving the buyer (holder) the right, but not the obligation, to sell the assets specified at with a strike price equal or close to the current price of the underlying asset, on or before a specified date",
+      "parents": [
+        "put option"
+      ],
+      "rules": [
+        {
+          "property": "has calculated market value",
+          "operator": "some",
+          "value": "option premium",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "put option",
+      "technicalName": "fibo-der-drc-opt:PutOption",
+      "localName": "PutOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/PutOption",
+      "label": "put option",
+      "definition": "option giving the buyer (holder) the right, but not the obligation, to sell the assets specified at a fixed price or formula, on or before a specified date",
+      "parents": [
+        "fibo-fbc-fi-fi:Option"
+      ],
+      "rules": []
+    },
+    {
+      "name": "risk reversal",
+      "technicalName": "fibo-der-drc-opt:RiskReversal",
+      "localName": "RiskReversal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/RiskReversal",
+      "label": "risk reversal",
+      "definition": "option trading strategy that consists of being short (selling) an out of the money put and being long (i.e., buying) an out of the money call, both with the same maturity",
+      "parents": [
+        "option trading strategy"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "put option"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "call option"
+        }
+      ]
+    },
+    {
+      "name": "standardized options terms",
+      "technicalName": "fibo-der-drc-opt:StandardizedOptionsTerms",
+      "localName": "StandardizedOptionsTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/StandardizedOptionsTerms",
+      "label": "standardized options terms",
+      "definition": "standardized contract terms established by a securities or options exchange or by an options clearing entity",
+      "parents": [
+        "fibo-fbc-fi-fi:StandardizedTerms"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "vanilla option",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-fi-ip:hasPriceDeterminationMethod",
+          "operator": "some",
+          "value": "fibo-fbc-fi-ip:PriceDeterminationMethod",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-fct-pub:hasPublisher",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "straddle",
+      "technicalName": "fibo-der-drc-opt:Straddle",
+      "localName": "Straddle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/Straddle",
+      "label": "straddle",
+      "definition": "neutral option trading strategy that involves simultaneously buying both a put option and a call option for the underlying security with the same strike price and the same expiration date",
+      "parents": [
+        "option trading strategy"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "put option"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "call option"
+        }
+      ]
+    },
+    {
+      "name": "strangle",
+      "technicalName": "fibo-der-drc-opt:Strangle",
+      "localName": "Strangle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/Strangle",
+      "label": "strangle",
+      "definition": "option trading strategy in which the investor holds a position in both a call and a put option with different strike prices, but with the same expiration date and underlying asset",
+      "parents": [
+        "option trading strategy"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "put option"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "call option"
+        }
+      ]
+    },
+    {
+      "name": "strike price",
+      "technicalName": "fibo-der-drc-opt:StrikePrice",
+      "localName": "StrikePrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/StrikePrice",
+      "label": "strike price",
+      "definition": "price at which a lot of the underlying asset may be bought or sold when the contract is exercised",
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryPrice"
+      ],
+      "rules": []
+    },
+    {
+      "name": "strip strategy",
+      "technicalName": "fibo-der-drc-opt:StripStrategy",
+      "localName": "StripStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/StripStrategy",
+      "label": "strip strategy",
+      "definition": "option trading strategy that involves a sequential set of options with periodic reset dates, such that each period between resets behaves like an individual option",
+      "parents": [
+        "option trading strategy"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-fd:hasSchedule",
+          "operator": "some",
+          "value": "fibo-fnd-dt-fd:Schedule",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "put option"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "call option"
+        }
+      ]
+    },
+    {
+      "name": "vanilla option",
+      "technicalName": "fibo-der-drc-opt:VanillaOption",
+      "localName": "VanillaOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/VanillaOption",
+      "label": "vanilla option",
+      "definition": "common option giving the buyer (holder) the right, but not the obligation, to buy (via a call option) or sell (via a put option) the underlying assets specified at a pre-determined price (i.e., the strike price, fixed or calculated), on or before a specified date (the expiration date)",
+      "parents": [
+        "fibo-fbc-fi-fi:Option"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractDuration",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDuration",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-fi-ip:hasPriceDeterminationMethod",
+          "operator": "some",
+          "value": "fibo-fbc-fi-ip:PriceDeterminationMethod",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has calculated market value",
+      "technicalName": "fibo-der-drc-opt:hasCalculatedMarketValue",
+      "localName": "hasCalculatedMarketValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/hasCalculatedMarketValue",
+      "label": "has calculated market value",
+      "definition": "indicates a calculated price as of some relative date considered the market value of the option at that point in time",
+      "domain": [
+        "fibo-fbc-fi-fi:Option"
+      ],
+      "range": [
+        "option premium"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has cap price",
+      "technicalName": "fibo-der-drc-opt:hasCapPrice",
+      "localName": "hasCapPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/hasCapPrice",
+      "label": "has cap price",
+      "definition": "price at which the contract may be exercised",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryPrice"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has exercise date offset",
+      "technicalName": "fibo-der-drc-opt:hasExerciseDateOffset",
+      "localName": "hasExerciseDateOffset",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/hasExerciseDateOffset",
+      "label": "has exercise date offset",
+      "definition": "indicates the period in days between the reset date and the exercise date",
+      "domain": [
+        "strip strategy"
+      ],
+      "range": [
+        "cmns-dt:Duration"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has exercise price",
+      "technicalName": "fibo-der-drc-opt:hasExercisePrice",
+      "localName": "hasExercisePrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/hasExercisePrice",
+      "label": "has exercise price",
+      "definition": "specifies a predetermined price at which the holder commits to buy or sell an underlying asset",
+      "domain": [],
+      "range": [
+        "strike price"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has exercise schedule",
+      "technicalName": "fibo-der-drc-opt:hasExerciseSchedule",
+      "localName": "hasExerciseSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/hasExerciseSchedule",
+      "label": "has exercise schedule",
+      "definition": "links an option to the schedule specified in the contract that constrains when it may be exercised",
+      "domain": [
+        "fibo-fbc-fi-fi:Option"
+      ],
+      "range": [
+        "fibo-fnd-dt-fd:Schedule"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has exercise style",
+      "technicalName": "fibo-der-drc-opt:hasExerciseStyle",
+      "localName": "hasExerciseStyle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/hasExerciseStyle",
+      "label": "has exercise style",
+      "definition": "indicates the exercise convention specified for the option",
+      "domain": [
+        "fibo-fbc-fi-fi:Option"
+      ],
+      "range": [
+        "fibo-sec-dbt-ex:ExerciseConvention"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has interest accrual date offset",
+      "technicalName": "fibo-der-drc-opt:hasInterestAccrualDateOffset",
+      "localName": "hasInterestAccrualDateOffset",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/hasInterestAccrualDateOffset",
+      "label": "has interest accrual date offset",
+      "definition": "indicates the period in days between each reset date and the commencement of interest accrual for the next period",
+      "domain": [
+        "strip strategy"
+      ],
+      "range": [
+        "cmns-dt:Duration"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has option holder",
+      "technicalName": "fibo-der-drc-opt:hasOptionHolder",
+      "localName": "hasOptionHolder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/hasOptionHolder",
+      "label": "has option holder",
+      "definition": "indicates the owner of the option",
+      "domain": [
+        "fibo-fbc-fi-fi:Option"
+      ],
+      "range": [
+        "option holder"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has option writer",
+      "technicalName": "fibo-der-drc-opt:hasOptionWriter",
+      "localName": "hasOptionWriter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/hasOptionWriter",
+      "label": "has option writer",
+      "definition": "indicates the issuer of the option",
+      "domain": [
+        "fibo-fbc-fi-fi:Option"
+      ],
+      "range": [
+        "option issuer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has settlement date offset",
+      "technicalName": "fibo-der-drc-opt:hasSettlementDateOffset",
+      "localName": "hasSettlementDateOffset",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/hasSettlementDateOffset",
+      "label": "has settlement date offset",
+      "definition": "indicats the period in days between each reset date and the corresponding settlement date",
+      "domain": [
+        "strip strategy"
+      ],
+      "range": [
+        "cmns-dt:Duration"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has strike percentage amount",
+      "technicalName": "fibo-der-drc-opt:hasStrikePercentageAmount",
+      "localName": "hasStrikePercentageAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/hasStrikePercentageAmount",
+      "label": "has strike percentage amount",
+      "definition": "indicates a strike price or level expressed as a percentage of the value of the underlying asset",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has strike rate",
+      "technicalName": "fibo-der-drc-opt:hasStrikeRate",
+      "localName": "hasStrikeRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/hasStrikeRate",
+      "label": "has strike rate",
+      "definition": "rate at which the contract may be exercised",
+      "domain": [],
+      "range": [
+        "cmns-qtu:Ratio"
+      ]
+    }
+  ],
+  "attributes": []
+}

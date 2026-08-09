@@ -1,0 +1,137 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Securities\\Baskets.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/",
+  "summary": {
+    "nodes": 5,
+    "edges": 0,
+    "properties": 0,
+    "triples": 91
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/"
+  ],
+  "classes": [
+    {
+      "name": "market basket",
+      "technicalName": "fibo-sec-sec-bsk:BasketOfIndices",
+      "localName": "BasketOfIndices",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/BasketOfIndices",
+      "label": "market basket",
+      "definition": "basket composed of market indices",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasket",
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "basket Of indices constituent",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "basket Of indices constituent",
+      "technicalName": "fibo-sec-sec-bsk:BasketOfIndicesConstituent",
+      "localName": "BasketOfIndicesConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/BasketOfIndicesConstituent",
+      "label": "basket Of indices constituent",
+      "definition": "single constituent of a basket of indices",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasketConstituent",
+        "fibo-fnd-dt-fd:DatedCollectionConstituent"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-fd:hasDateAdded",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "only",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "basket of securities",
+      "technicalName": "fibo-sec-sec-bsk:BasketOfSecurities",
+      "localName": "BasketOfSecurities",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/BasketOfSecurities",
+      "label": "basket of securities",
+      "definition": "basket composed of securities, typically of a particular asset class such as equities or bonds",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasket",
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "securities basket constituent",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "mixed basket",
+      "technicalName": "fibo-sec-sec-bsk:MixedBasket",
+      "localName": "MixedBasket",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/MixedBasket",
+      "label": "mixed basket",
+      "definition": "basket that has a mix of constituents, including securities and indices",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasket",
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "securities basket constituent",
+      "technicalName": "fibo-sec-sec-bsk:SecuritiesBasketConstituent",
+      "localName": "SecuritiesBasketConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/SecuritiesBasketConstituent",
+      "label": "securities basket constituent",
+      "definition": "security identified as a component of a basket of securities",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasketConstituent",
+        "fibo-fnd-dt-fd:DatedCollectionConstituent"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-fd:hasDateAdded",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "only",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

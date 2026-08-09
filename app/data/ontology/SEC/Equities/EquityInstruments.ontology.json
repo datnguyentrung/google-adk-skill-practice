@@ -1,0 +1,1598 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Equities\\EquityInstruments.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/",
+  "summary": {
+    "nodes": 58,
+    "edges": 15,
+    "properties": 12,
+    "triples": 874
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/InstrumentPricing/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Lifecycles/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/PaymentsAndSchedules/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "adjustable rate dividend",
+      "technicalName": "fibo-sec-eq-eq:AdjustableRateDividend",
+      "localName": "AdjustableRateDividend",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/AdjustableRateDividend",
+      "label": "adjustable rate dividend",
+      "definition": "dividend that varies with a benchmark",
+      "parents": [
+        "preferred dividend"
+      ],
+      "rules": [
+        {
+          "property": "has adjustable dividend rate",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:PercentageMonetaryAmount",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-qtu:describesActualExpression",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "cmns-qtu:hasQuantityKind",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-ind-ir-ir:InterestRateBenchmark"
+        }
+      ]
+    },
+    {
+      "name": "auction rate dividend",
+      "technicalName": "fibo-sec-eq-eq:AuctionRateDividend",
+      "localName": "AuctionRateDividend",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/AuctionRateDividend",
+      "label": "auction rate dividend",
+      "definition": "preferred share dividend whose rate is periodically reset through an auction, typically every 7, 14, 28, or 35 days",
+      "parents": [
+        "preferred dividend"
+      ],
+      "rules": [
+        {
+          "property": "has adjustable dividend rate",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:PercentageMonetaryAmount",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "common share",
+      "technicalName": "fibo-sec-eq-eq:CommonShare",
+      "localName": "CommonShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/CommonShare",
+      "label": "common share",
+      "definition": "share that signifies a unit of ownership in a corporation and represents a claim on part of the corporation's assets and earnings",
+      "parents": [
+        "share"
+      ],
+      "rules": [
+        {
+          "property": "has dividend",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "ordinary dividend"
+        }
+      ]
+    },
+    {
+      "name": "convertible common share",
+      "technicalName": "fibo-sec-eq-eq:ConvertibleCommonShare",
+      "localName": "ConvertibleCommonShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/ConvertibleCommonShare",
+      "label": "convertible common share",
+      "definition": "common share that is convertible into another security",
+      "parents": [
+        "common share",
+        "fibo-sec-sec-iss:ConvertibleSecurity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "convertible preferred share",
+      "technicalName": "fibo-sec-eq-eq:ConvertiblePreferredShare",
+      "localName": "ConvertiblePreferredShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/ConvertiblePreferredShare",
+      "label": "convertible preferred share",
+      "definition": "preferred share that includes an option for the holder to convert the shares into a fixed number of common shares after a predetermined date",
+      "parents": [
+        "preferred share",
+        "fibo-sec-sec-iss:ConvertibleSecurity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "cumulative preferred share",
+      "technicalName": "fibo-sec-eq-eq:CumulativePreferredShare",
+      "localName": "CumulativePreferredShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/CumulativePreferredShare",
+      "label": "cumulative preferred share",
+      "definition": "preferred share whose dividends, if not paid on time, accumulate until paid out",
+      "parents": [
+        "preferred share"
+      ],
+      "rules": []
+    },
+    {
+      "name": "custodian",
+      "technicalName": "fibo-sec-eq-eq:Custodian",
+      "localName": "Custodian",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/Custodian",
+      "label": "custodian",
+      "definition": "financial institution that holds customers' securities for safekeeping",
+      "parents": [
+        "fibo-fbc-fct-fse:FinancialInstitution",
+        "fibo-fbc-pas-fpas:ThirdPartyAgent"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:holds",
+          "operator": "some",
+          "value": "share",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "dividend",
+      "technicalName": "fibo-sec-eq-eq:Dividend",
+      "localName": "Dividend",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/Dividend",
+      "label": "dividend",
+      "definition": "announced commitment to make a specific distribution of a portion of earnings to shareholders, prorated by class of security",
+      "parents": [
+        "fibo-fnd-agr-agr:Commitment"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-fd:hasSchedule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "dividend schedule"
+        },
+        {
+          "property": "fibo-fnd-pas-psch:hasPaymentAmount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "has distribution method",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "dividend distribution method"
+        }
+      ]
+    },
+    {
+      "name": "dividend distribution method",
+      "technicalName": "fibo-sec-eq-eq:DividendDistributionMethod",
+      "localName": "DividendDistributionMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/DividendDistributionMethod",
+      "label": "dividend distribution method",
+      "definition": "convention by which dividends are provided to shareholders",
+      "parents": [
+        "fibo-fnd-dt-bd:Convention",
+        "fibo-fnd-gao-obj:Strategy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "dividend schedule",
+      "technicalName": "fibo-sec-eq-eq:DividendSchedule",
+      "localName": "DividendSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/DividendSchedule",
+      "label": "dividend schedule",
+      "definition": "payment schedule indicating the dates on which dividends are due to be paid",
+      "parents": [
+        "fibo-fnd-dt-fd:RegularSchedule",
+        "fibo-fnd-pas-psch:PaymentSchedule"
+      ],
+      "rules": []
+    },
+    {
+      "name": "enhanced voting share",
+      "technicalName": "fibo-sec-eq-eq:EnhancedVotingShare",
+      "localName": "EnhancedVotingShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/EnhancedVotingShare",
+      "label": "enhanced voting share",
+      "definition": "share that confers more than one vote per share",
+      "parents": [
+        "share"
+      ],
+      "rules": [
+        {
+          "property": "number of votes per share",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "equity conversion terms",
+      "technicalName": "fibo-sec-eq-eq:EquityConversionTerms",
+      "localName": "EquityConversionTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/EquityConversionTerms",
+      "label": "equity conversion terms",
+      "definition": "conversion terms specifying the details regarding conversion of shares into other securities",
+      "parents": [
+        "fibo-sec-sec-iss:ConversionTerms"
+      ],
+      "rules": [
+        {
+          "property": "fibo-sec-sec-iss:specifiesConversionInto",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "specifies conversion date",
+          "operator": "some",
+          "value": "cmns-dt:Date",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "equity position",
+      "technicalName": "fibo-sec-eq-eq:EquityPosition",
+      "localName": "EquityPosition",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/EquityPosition",
+      "label": "equity position",
+      "definition": "position in an equity instrument",
+      "parents": [
+        "fibo-fbc-pas-fpas:Position"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-own:hasOwnedAsset",
+          "operator": "some",
+          "value": "fibo-be-oac-cown:Shareholding",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isHeldBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "fibo-fnd-oac-own:hasOwningParty",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-oac-cown:Shareholder"
+        }
+      ]
+    },
+    {
+      "name": "equity redemption provision",
+      "technicalName": "fibo-sec-eq-eq:EquityRedemptionProvision",
+      "localName": "EquityRedemptionProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/EquityRedemptionProvision",
+      "label": "equity redemption provision",
+      "definition": "redemption provision that specifies the conditions under which the issuer or shareholder may redeem the shares",
+      "parents": [
+        "fibo-fbc-fi-fi:RedemptionProvision"
+      ],
+      "rules": [
+        {
+          "property": "is redeemable at shareholder option",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:boolean"
+        },
+        {
+          "property": "is redeemable at issuer option",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:boolean"
+        },
+        {
+          "property": "has extendable redemption date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:boolean"
+        },
+        {
+          "property": "has earliest redemption date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "has redemption premium",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryPrice"
+        },
+        {
+          "property": "has minimum redemption price",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryPrice"
+        }
+      ]
+    },
+    {
+      "name": "equity redemption provision with extendable redemption date",
+      "technicalName": "fibo-sec-eq-eq:EquityRedemptionProvisionWithExtendableRedemptionDate",
+      "localName": "EquityRedemptionProvisionWithExtendableRedemptionDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/EquityRedemptionProvisionWithExtendableRedemptionDate",
+      "label": "equity redemption provision with extendable redemption date",
+      "definition": "equity redemption provision that allows modification of the redemption date beyond the original specified date",
+      "parents": [
+        "equity redemption provision"
+      ],
+      "rules": [
+        {
+          "property": "has extendable redemption date",
+          "operator": "value",
+          "value": "true",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "exchangeable preferred share",
+      "technicalName": "fibo-sec-eq-eq:ExchangeablePreferredShare",
+      "localName": "ExchangeablePreferredShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/ExchangeablePreferredShare",
+      "label": "exchangeable preferred share",
+      "definition": "preferred share that may be exchanged for a security of another issuer",
+      "parents": [
+        "preferred share"
+      ],
+      "rules": []
+    },
+    {
+      "name": "extendable preferred share",
+      "technicalName": "fibo-sec-eq-eq:ExtendablePreferredShare",
+      "localName": "ExtendablePreferredShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/ExtendablePreferredShare",
+      "label": "extendable preferred share",
+      "definition": "preferred share whose redemption date can be extended at the issuer or holder option",
+      "parents": [
+        "preferred share"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fixed rate dividend",
+      "technicalName": "fibo-sec-eq-eq:FixedRateDividend",
+      "localName": "FixedRateDividend",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/FixedRateDividend",
+      "label": "fixed rate dividend",
+      "definition": "dividend that provides a specified annual return on the nominal value (and any premium) paid on shares",
+      "parents": [
+        "preferred dividend"
+      ],
+      "rules": [
+        {
+          "property": "has fixed dividend rate",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:PercentageMonetaryAmount",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fully paid share",
+      "technicalName": "fibo-sec-eq-eq:FullyPaidShare",
+      "localName": "FullyPaidShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/FullyPaidShare",
+      "label": "fully paid share",
+      "definition": "share whose payment status indicates that no additional money is owed to the company by shareholders on the value of the shares",
+      "parents": [
+        "share"
+      ],
+      "rules": [
+        {
+          "property": "has share payment status",
+          "operator": "value",
+          "value": "fully paid share status",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "hard retractable preferred share",
+      "technicalName": "fibo-sec-eq-eq:HardRetractablePreferredShare",
+      "localName": "HardRetractablePreferredShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/HardRetractablePreferredShare",
+      "label": "hard retractable preferred share",
+      "definition": "retractable preferred share whose retraction value must be paid in cash",
+      "parents": [
+        "retractable preferred share"
+      ],
+      "rules": []
+    },
+    {
+      "name": "limited partnership unit",
+      "technicalName": "fibo-sec-eq-eq:LimitedPartnershipUnit",
+      "localName": "LimitedPartnershipUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/LimitedPartnershipUnit",
+      "label": "limited partnership unit",
+      "definition": "share in a form of partnership similar to a general partnership, except that in addition to one or more general partners (GPs), there are one or more limited partners (LPs)",
+      "parents": [
+        "share"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasCounterparty",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-be-ptr-ptr:LimitedPartnership",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "listed share",
+      "technicalName": "fibo-sec-eq-eq:ListedShare",
+      "localName": "ListedShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/ListedShare",
+      "label": "listed share",
+      "definition": "share that is listed on at least one platform",
+      "parents": [
+        "share",
+        "fibo-sec-sec-lst:ListedSecurity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "nil paid share",
+      "technicalName": "fibo-sec-eq-eq:NilPaidShare",
+      "localName": "NilPaidShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/NilPaidShare",
+      "label": "nil paid share",
+      "definition": "share whose payment status indicates that none of the market value has been received by the company for the shares",
+      "parents": [
+        "share"
+      ],
+      "rules": [
+        {
+          "property": "has share payment status",
+          "operator": "value",
+          "value": "nil paid share status",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "non-cumulative preferred share",
+      "technicalName": "fibo-sec-eq-eq:NonCumulativePreferredShare",
+      "localName": "NonCumulativePreferredShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/NonCumulativePreferredShare",
+      "label": "non-cumulative preferred share",
+      "definition": "preferred share whose dividend payments are not carried forward",
+      "parents": [
+        "preferred share"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non-participating preferred share",
+      "technicalName": "fibo-sec-eq-eq:NonParticipatingPreferredShare",
+      "localName": "NonParticipatingPreferredShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/NonParticipatingPreferredShare",
+      "label": "non-participating preferred share",
+      "definition": "preferred share that is not a participating preferred share",
+      "parents": [
+        "preferred share"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non-voting share",
+      "technicalName": "fibo-sec-eq-eq:NonVotingShare",
+      "localName": "NonVotingShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/NonVotingShare",
+      "label": "non-voting share",
+      "definition": "share that has no voting right",
+      "parents": [
+        "share"
+      ],
+      "rules": [
+        {
+          "property": "number of votes per share",
+          "operator": "value",
+          "value": "0",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ordinary dividend",
+      "technicalName": "fibo-sec-eq-eq:OrdinaryDividend",
+      "localName": "OrdinaryDividend",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/OrdinaryDividend",
+      "label": "ordinary dividend",
+      "definition": "dividend that is paid to shareholders periodically",
+      "parents": [
+        "dividend"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-pas-psch:hasPaymentAmount",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "partially paid share",
+      "technicalName": "fibo-sec-eq-eq:PartiallyPaidShare",
+      "localName": "PartiallyPaidShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/PartiallyPaidShare",
+      "label": "partially paid share",
+      "definition": "share whose payment status indicates that only a portion of the market value has been received by the company for the shares",
+      "parents": [
+        "share"
+      ],
+      "rules": [
+        {
+          "property": "has share payment status",
+          "operator": "value",
+          "value": "partially paid share status",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "participating preferred share",
+      "technicalName": "fibo-sec-eq-eq:ParticipatingPreferredShare",
+      "localName": "ParticipatingPreferredShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/ParticipatingPreferredShare",
+      "label": "participating preferred share",
+      "definition": "preferred share that, in addition to paying a stipulated dividend, gives the holder the right to participate with common share holders in additional distributions of earnings under specified conditions",
+      "parents": [
+        "preferred share"
+      ],
+      "rules": [
+        {
+          "property": "has dividend",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "ordinary dividend"
+        }
+      ]
+    },
+    {
+      "name": "perpetual preferred share",
+      "technicalName": "fibo-sec-eq-eq:PerpetualPreferredShare",
+      "localName": "PerpetualPreferredShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/PerpetualPreferredShare",
+      "label": "perpetual preferred share",
+      "definition": "preferred share that has no fixed maturity date",
+      "parents": [
+        "preferred share"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:hasMaturityDate",
+          "operator": "maxQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        }
+      ]
+    },
+    {
+      "name": "precedence right",
+      "technicalName": "fibo-sec-eq-eq:PrecedenceRight",
+      "localName": "PrecedenceRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/PrecedenceRight",
+      "label": "precedence right",
+      "definition": "right that give the shareholder higher priority with respect to certain pre-defined dividend payments over other shareholders and that pay out first in the case of liquidation",
+      "parents": [
+        "fibo-fnd-law-lcap:ContractualRight"
+      ],
+      "rules": []
+    },
+    {
+      "name": "preferred dividend",
+      "technicalName": "fibo-sec-eq-eq:PreferredDividend",
+      "localName": "PreferredDividend",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/PreferredDividend",
+      "label": "preferred dividend",
+      "definition": "commitment to distribute a portion of earnings to shareholders, similar to a dividend but often with a fixed payment amount and schedule",
+      "parents": [
+        "dividend"
+      ],
+      "rules": [
+        {
+          "property": "has dividend grace period",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Duration"
+        },
+        {
+          "property": "has fixed dividend rate",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "preferred share",
+      "technicalName": "fibo-sec-eq-eq:PreferredShare",
+      "localName": "PreferredShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/PreferredShare",
+      "label": "preferred share",
+      "definition": "share that pays dividends at a specified rate and has preference over common shares in the payment of dividends and liquidation of corporate assets",
+      "parents": [
+        "share"
+      ],
+      "rules": [
+        {
+          "property": "is senior to",
+          "operator": "some",
+          "value": "common share",
+          "qualifier": null
+        },
+        {
+          "property": "has dividend",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-dae-dbt:hasMaturityDate",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        }
+      ]
+    },
+    {
+      "name": "preferred share with adjustable rate dividend",
+      "technicalName": "fibo-sec-eq-eq:PreferredShareWithAdjustableRateDividend",
+      "localName": "PreferredShareWithAdjustableRateDividend",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/PreferredShareWithAdjustableRateDividend",
+      "label": "preferred share with adjustable rate dividend",
+      "definition": "preferred share whose dividend rate varies according to some benchmark",
+      "parents": [
+        "preferred share"
+      ],
+      "rules": [
+        {
+          "property": "has dividend",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "adjustable rate dividend"
+        }
+      ]
+    },
+    {
+      "name": "preferred share with auction rate dividend",
+      "technicalName": "fibo-sec-eq-eq:PreferredShareWithAuctionRateDividend",
+      "localName": "PreferredShareWithAuctionRateDividend",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/PreferredShareWithAuctionRateDividend",
+      "label": "preferred share with auction rate dividend",
+      "definition": "preferred share whose dividend rate is periodically reset through an auction, such as a Dutch auction",
+      "parents": [
+        "preferred share"
+      ],
+      "rules": [
+        {
+          "property": "has dividend",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "auction rate dividend"
+        }
+      ]
+    },
+    {
+      "name": "preferred share with fixed maturity date",
+      "technicalName": "fibo-sec-eq-eq:PreferredShareWithFixedMaturityDate",
+      "localName": "PreferredShareWithFixedMaturityDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/PreferredShareWithFixedMaturityDate",
+      "label": "preferred share with fixed maturity date",
+      "definition": "preferred share whose maturity date is set, typically according to the terms of the prospectus",
+      "parents": [
+        "preferred share"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:hasMaturityDate",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:ExplicitDate"
+        }
+      ]
+    },
+    {
+      "name": "preferred share with fixed rate dividend",
+      "technicalName": "fibo-sec-eq-eq:PreferredShareWithFixedRateDividend",
+      "localName": "PreferredShareWithFixedRateDividend",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/PreferredShareWithFixedRateDividend",
+      "label": "preferred share with fixed rate dividend",
+      "definition": "preferred share whose dividends are set, typically according to the terms of the prospectus",
+      "parents": [
+        "preferred share"
+      ],
+      "rules": [
+        {
+          "property": "has dividend",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fixed rate dividend"
+        }
+      ]
+    },
+    {
+      "name": "price per share",
+      "technicalName": "fibo-sec-eq-eq:PricePerShare",
+      "localName": "PricePerShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/PricePerShare",
+      "label": "price per share",
+      "definition": "price for one share of a given security at some point in time",
+      "parents": [
+        "fibo-fbc-fi-ip:SecurityPrice",
+        "fibo-fnd-acc-cur:UnitPrice"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-acc-cur:isPriceFor",
+          "operator": "some",
+          "value": "share",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "privately held share",
+      "technicalName": "fibo-sec-eq-eq:PrivatelyHeldShare",
+      "localName": "PrivatelyHeldShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/PrivatelyHeldShare",
+      "label": "privately held share",
+      "definition": "share in a security that signifies ownership in an entity that is not publicly traded",
+      "parents": [
+        "share"
+      ],
+      "rules": []
+    },
+    {
+      "name": "qualified dividend",
+      "technicalName": "fibo-sec-eq-eq:QualifiedDividend",
+      "localName": "QualifiedDividend",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/QualifiedDividend",
+      "label": "qualified dividend",
+      "definition": "dividend that falls under capital gains tax rates that are lower than the income tax rates on unqualified (ordinary) dividends",
+      "parents": [
+        "dividend"
+      ],
+      "rules": []
+    },
+    {
+      "name": "redeemable preferred share",
+      "technicalName": "fibo-sec-eq-eq:RedeemablePreferredShare",
+      "localName": "RedeemablePreferredShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/RedeemablePreferredShare",
+      "label": "redeemable preferred share",
+      "definition": "preferred share that gives the issuer the right to redeem the stock under specified conditions",
+      "parents": [
+        "preferred share"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasRedemptionProvision",
+          "operator": "some",
+          "value": "equity redemption provision",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "redeemable preferred share with extendable maturity date",
+      "technicalName": "fibo-sec-eq-eq:RedeemablePreferredShareWithExtendableMaturityDate",
+      "localName": "RedeemablePreferredShareWithExtendableMaturityDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/RedeemablePreferredShareWithExtendableMaturityDate",
+      "label": "redeemable preferred share with extendable maturity date",
+      "definition": "redeemable preferred share with a fixed maturity date whose issuer has the option to extend the maturity date",
+      "parents": [
+        "preferred share with fixed maturity date",
+        "redeemable preferred share"
+      ],
+      "rules": [
+        {
+          "property": "has extendable maturity date",
+          "operator": "value",
+          "value": "true",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "redeemable preferred share with extendable redemption date",
+      "technicalName": "fibo-sec-eq-eq:RedeemablePreferredShareWithExtendableRedemptionDate",
+      "localName": "RedeemablePreferredShareWithExtendableRedemptionDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/RedeemablePreferredShareWithExtendableRedemptionDate",
+      "label": "redeemable preferred share with extendable redemption date",
+      "definition": "redeemable preferred share whose redemption date can be modified",
+      "parents": [
+        "redeemable preferred share"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasExtensionProvision",
+          "operator": "some",
+          "value": "equity redemption provision with extendable redemption date",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "restricted share",
+      "technicalName": "fibo-sec-eq-eq:RestrictedShare",
+      "localName": "RestrictedShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/RestrictedShare",
+      "label": "restricted share",
+      "definition": "share whose ownership/transfer/sale is subject to special conditions including country-specific restrictions",
+      "parents": [
+        "share"
+      ],
+      "rules": []
+    },
+    {
+      "name": "restricted voting share",
+      "technicalName": "fibo-sec-eq-eq:RestrictedVotingShare",
+      "localName": "RestrictedVotingShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/RestrictedVotingShare",
+      "label": "restricted voting share",
+      "definition": "share that confers less than one vote per share",
+      "parents": [
+        "share"
+      ],
+      "rules": [
+        {
+          "property": "number of votes per share",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "retractable preferred share",
+      "technicalName": "fibo-sec-eq-eq:RetractablePreferredShare",
+      "localName": "RetractablePreferredShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/RetractablePreferredShare",
+      "label": "retractable preferred share",
+      "definition": "preferred share that gives the owner (shareholder) the right to redeem the stock under specified conditions",
+      "parents": [
+        "preferred share"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasRedemptionProvision",
+          "operator": "some",
+          "value": "equity redemption provision",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "retractable preferred share with extendable maturity date",
+      "technicalName": "fibo-sec-eq-eq:RetractablePreferredShareWithExtendableMaturityDate",
+      "localName": "RetractablePreferredShareWithExtendableMaturityDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/RetractablePreferredShareWithExtendableMaturityDate",
+      "label": "retractable preferred share with extendable maturity date",
+      "definition": "retractable preferred share with a fixed maturity date whose issuer and/or holders have the option to extend the maturity date",
+      "parents": [
+        "preferred share with fixed maturity date",
+        "retractable preferred share"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasExtensionProvision",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:ExtensionProvision",
+          "qualifier": null
+        },
+        {
+          "property": "has extendable maturity date",
+          "operator": "value",
+          "value": "true",
+          "qualifier": null
+        },
+        {
+          "property": "has extendable maturity date",
+          "operator": "value",
+          "value": "true",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "retractable preferred share with extendable redemption date",
+      "technicalName": "fibo-sec-eq-eq:RetractablePreferredShareWithExtendableRedemptionDate",
+      "localName": "RetractablePreferredShareWithExtendableRedemptionDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/RetractablePreferredShareWithExtendableRedemptionDate",
+      "label": "retractable preferred share with extendable redemption date",
+      "definition": "retractable preferred share whose redemption date can be modified",
+      "parents": [
+        "retractable preferred share"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasExtensionProvision",
+          "operator": "some",
+          "value": "equity redemption provision with extendable redemption date",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "share",
+      "technicalName": "fibo-sec-eq-eq:Share",
+      "localName": "Share",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/Share",
+      "label": "share",
+      "definition": "financial instrument that signifies a unit of equity ownership in a corporation, or a unit of ownership in a mutual fund, or interest in a general or limited partnership, or a unit of ownership in a structured product, such as a real estate investment trust",
+      "parents": [
+        "fibo-fbc-fi-fi:EquityInstrument"
+      ],
+      "rules": [
+        {
+          "property": "has share payment status",
+          "operator": "some",
+          "value": "share payment status",
+          "qualifier": null
+        },
+        {
+          "property": "confers ownership of",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:ShareholdersEquity",
+          "qualifier": null
+        },
+        {
+          "property": "number of votes per share",
+          "operator": "some",
+          "value": "xsd:decimal",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-le-cb:hasSharesAuthorized",
+          "operator": "some",
+          "value": "xsd:nonNegativeInteger",
+          "qualifier": null
+        },
+        {
+          "property": "has voting restriction",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "has share class",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "has treasury shares",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:nonNegativeInteger"
+        },
+        {
+          "property": "has shares outstanding",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:nonNegativeInteger"
+        },
+        {
+          "property": "has shares issued",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:nonNegativeInteger"
+        },
+        {
+          "property": "has floating stock",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:nonNegativeInteger"
+        },
+        {
+          "property": "has available shares",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:nonNegativeInteger"
+        }
+      ]
+    },
+    {
+      "name": "share issuer",
+      "technicalName": "fibo-sec-eq-eq:ShareIssuer",
+      "localName": "ShareIssuer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/ShareIssuer",
+      "label": "share issuer",
+      "definition": "issuer of securities that represent an ownership interest in something",
+      "parents": [
+        "fibo-fbc-fi-fi:Issuer"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:issues",
+          "operator": "some",
+          "value": "share",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "share payment status",
+      "technicalName": "fibo-sec-eq-eq:SharePaymentStatus",
+      "localName": "SharePaymentStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/SharePaymentStatus",
+      "label": "share payment status",
+      "definition": "classifier that specifies the overall payment status for shares issued",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStatus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "share",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "share yield",
+      "technicalName": "fibo-sec-eq-eq:ShareYield",
+      "localName": "ShareYield",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/ShareYield",
+      "label": "share yield",
+      "definition": "ratio of the annualized dividend per share divided by the (current) price per share",
+      "parents": [
+        "fibo-fbc-fi-ip:Yield"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "single voting share",
+      "technicalName": "fibo-sec-eq-eq:SingleVotingShare",
+      "localName": "SingleVotingShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/SingleVotingShare",
+      "label": "single voting share",
+      "definition": "share that has the right to exactly one vote",
+      "parents": [
+        "share"
+      ],
+      "rules": [
+        {
+          "property": "number of votes per share",
+          "operator": "value",
+          "value": "1",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "soft retractable preferred share",
+      "technicalName": "fibo-sec-eq-eq:SoftRetractablePreferredShare",
+      "localName": "SoftRetractablePreferredShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/SoftRetractablePreferredShare",
+      "label": "soft retractable preferred share",
+      "definition": "retractable preferred share whose retraction value may be paid in cash or in an equal value of common stock of the issuer, at the option of the issuer",
+      "parents": [
+        "retractable preferred share"
+      ],
+      "rules": []
+    },
+    {
+      "name": "special dividend",
+      "technicalName": "fibo-sec-eq-eq:SpecialDividend",
+      "localName": "SpecialDividend",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/SpecialDividend",
+      "label": "special dividend",
+      "definition": "dividend that is paid to shareholders on a one-time basis",
+      "parents": [
+        "dividend"
+      ],
+      "rules": []
+    },
+    {
+      "name": "unrestricted share",
+      "technicalName": "fibo-sec-eq-eq:UnrestrictedShare",
+      "localName": "UnrestrictedShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/UnrestrictedShare",
+      "label": "unrestricted share",
+      "definition": "share whose ownership/transfer/sale is not subject to special conditions including country-specific restrictions",
+      "parents": [
+        "fibo-fbc-fi-fi:NegotiableSecurity",
+        "share"
+      ],
+      "rules": []
+    },
+    {
+      "name": "variable interest entity share",
+      "technicalName": "fibo-sec-eq-eq:VariableInterestEntityShare",
+      "localName": "VariableInterestEntityShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/VariableInterestEntityShare",
+      "label": "variable interest entity share",
+      "definition": "share that certifies ownership of a contractual right to a percentage of a company's profits",
+      "parents": [
+        "share"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-be-le-lp:VariableInterestEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "voting right",
+      "technicalName": "fibo-sec-eq-eq:VotingRight",
+      "localName": "VotingRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/VotingRight",
+      "label": "voting right",
+      "definition": "contractual right that specifies shareholder voting entitlements, such as to elect directors, elect outside auditors, and vote on matters of corporate policy",
+      "parents": [
+        "fibo-fnd-law-lcap:ContractualRight"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:WrittenContract",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "confers ownership of",
+      "technicalName": "fibo-sec-eq-eq:confersOwnershipOf",
+      "localName": "confersOwnershipOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/confersOwnershipOf",
+      "label": "confers ownership of",
+      "definition": "grants ownership via contract",
+      "domain": [
+        "fibo-fnd-agr-ctr:Contract"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has adjustable dividend rate",
+      "technicalName": "fibo-sec-eq-eq:hasAdjustableDividendRate",
+      "localName": "hasAdjustableDividendRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasAdjustableDividendRate",
+      "label": "has adjustable dividend rate",
+      "definition": "indicates a variable dividend rate, typically specified in the prospectus as a formula based on a benchmark or set at auction",
+      "domain": [
+        "preferred dividend"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has distribution method",
+      "technicalName": "fibo-sec-eq-eq:hasDistributionMethod",
+      "localName": "hasDistributionMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasDistributionMethod",
+      "label": "has distribution method",
+      "definition": "indicates the method by which dividend payments are to be distributed",
+      "domain": [
+        "dividend"
+      ],
+      "range": [
+        "dividend distribution method"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has dividend",
+      "technicalName": "fibo-sec-eq-eq:hasDividend",
+      "localName": "hasDividend",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasDividend",
+      "label": "has dividend",
+      "definition": "relates a share to a dividend that applies to that share, or that the share may pay",
+      "domain": [
+        "share"
+      ],
+      "range": [
+        "dividend"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has declaration date",
+      "technicalName": "fibo-sec-eq-eq:hasDividendDeclarationDate",
+      "localName": "hasDividendDeclarationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasDividendDeclarationDate",
+      "label": "has declaration date",
+      "definition": "indicates a date on which an organization states that a dividend payment may be anticipated, including the the dividend amount and the ex-dividend and payment dates",
+      "domain": [
+        "share"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has dividend grace period",
+      "technicalName": "fibo-sec-eq-eq:hasDividendGracePeriod",
+      "localName": "hasDividendGracePeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasDividendGracePeriod",
+      "label": "has dividend grace period",
+      "definition": "indicates a period of time after a dividend payment becomes due, before the issuer is subject to penalties",
+      "domain": [
+        "preferred dividend"
+      ],
+      "range": [
+        "cmns-dt:Duration"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has earliest redemption date",
+      "technicalName": "fibo-sec-eq-eq:hasEarliestRedemptionDate",
+      "localName": "hasEarliestRedemptionDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasEarliestRedemptionDate",
+      "label": "has earliest redemption date",
+      "definition": "indicates a date on or after which a stock can be redeemed",
+      "domain": [
+        "equity redemption provision"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has ex-dividend date",
+      "technicalName": "fibo-sec-eq-eq:hasExDividendDate",
+      "localName": "hasExDividendDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasExDividendDate",
+      "label": "has ex-dividend date",
+      "definition": "indicates a date on which a stock 'goes ex-dividend', typically about three weeks before the dividend is paid to shareholders of record",
+      "domain": [
+        "share"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has fixed dividend rate",
+      "technicalName": "fibo-sec-eq-eq:hasFixedDividendRate",
+      "localName": "hasFixedDividendRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasFixedDividendRate",
+      "label": "has fixed dividend rate",
+      "definition": "indicates a pre-arranged fixed dividend rate, typically specified in the prospectus, for a preferred share",
+      "domain": [
+        "preferred dividend"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has minimum redemption price",
+      "technicalName": "fibo-sec-eq-eq:hasMinimumRedemptionPrice",
+      "localName": "hasMinimumRedemptionPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasMinimumRedemptionPrice",
+      "label": "has minimum redemption price",
+      "definition": "indicates the lowest market price above which a share may be redeemed",
+      "domain": [
+        "equity redemption provision"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has record date",
+      "technicalName": "fibo-sec-eq-eq:hasRecordDate",
+      "localName": "hasRecordDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasRecordDate",
+      "label": "has record date",
+      "definition": "indicates the date on which the issuer checks to determine whether a party was on the company's books as a shareholder when required (i.e., they must have been on the books prior to the ex-dividend date), to identify who is eligible to receive the next dividend",
+      "domain": [
+        "share"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has redemption premium",
+      "technicalName": "fibo-sec-eq-eq:hasRedemptionPremium",
+      "localName": "hasRedemptionPremium",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasRedemptionPremium",
+      "label": "has redemption premium",
+      "definition": "indicates the premium price per share over the market price, if any, that must be paid in order to redeem the stock",
+      "domain": [
+        "equity redemption provision"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryPrice"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has share payment status",
+      "technicalName": "fibo-sec-eq-eq:hasSharePaymentStatus",
+      "localName": "hasSharePaymentStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasSharePaymentStatus",
+      "label": "has share payment status",
+      "definition": "indicates the payment status for shares issued",
+      "domain": [
+        "share"
+      ],
+      "range": [
+        "share payment status"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is senior to",
+      "technicalName": "fibo-sec-eq-eq:isSeniorTo",
+      "localName": "isSeniorTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/isSeniorTo",
+      "label": "is senior to",
+      "definition": "indicates that a given share (share class) has higher seniority than the related share, meaning that it gives the holder a higher claim on the assets of the issuer",
+      "domain": [
+        "share"
+      ],
+      "range": [
+        "share"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "specifies conversion date",
+      "technicalName": "fibo-sec-eq-eq:specifiesConversionDate",
+      "localName": "specifiesConversionDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/specifiesConversionDate",
+      "label": "specifies conversion date",
+      "definition": "indicates the date on which, or after which, conversion may occur",
+      "domain": [
+        "equity conversion terms"
+      ],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "number of votes per share",
+      "technicalName": "fibo-sec-eq-eq:confersNumberOfVotesPerShare",
+      "localName": "confersNumberOfVotesPerShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/confersNumberOfVotesPerShare",
+      "label": "number of votes per share",
+      "definition": "grants the right to vote on a per share basis to the shareholder",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has available shares",
+      "technicalName": "fibo-sec-eq-eq:hasAvailableShares",
+      "localName": "hasAvailableShares",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasAvailableShares",
+      "label": "has available shares",
+      "definition": "indicates the number of shares outstanding less those shares that are restricted, i.e., those that are available for trading",
+      "domain": [],
+      "range": [
+        "xsd:nonNegativeInteger"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has extendable maturity date",
+      "technicalName": "fibo-sec-eq-eq:hasExtendableMaturityDate",
+      "localName": "hasExtendableMaturityDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasExtendableMaturityDate",
+      "label": "has extendable maturity date",
+      "definition": "indicates whether the issuer and/or holders of redeemable shares with a fixed maturity date have the option to extend the maturity date",
+      "domain": [
+        "preferred share"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has extendable redemption date",
+      "technicalName": "fibo-sec-eq-eq:hasExtendableRedemptionDate",
+      "localName": "hasExtendableRedemptionDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasExtendableRedemptionDate",
+      "label": "has extendable redemption date",
+      "definition": "indicates whether the issuer and/or holders of redeemable shares with a specified redemption date have the option to extend that date",
+      "domain": [
+        "equity redemption provision"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has floating stock",
+      "technicalName": "fibo-sec-eq-eq:hasFloatingStock",
+      "localName": "hasFloatingStock",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasFloatingStock",
+      "label": "has floating stock",
+      "definition": "indicates the number of shares that are available for trading, i.e., the number of shares outstanding less closely held shares (those held by insiders) and restricted shares",
+      "domain": [],
+      "range": [
+        "xsd:nonNegativeInteger"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has share class",
+      "technicalName": "fibo-sec-eq-eq:hasShareClass",
+      "localName": "hasShareClass",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasShareClass",
+      "label": "has share class",
+      "definition": "indicates the class to which the share belongs, typically differentiated by privileges, such as voting rights",
+      "domain": [
+        "share"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has shares issued",
+      "technicalName": "fibo-sec-eq-eq:hasSharesIssued",
+      "localName": "hasSharesIssued",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasSharesIssued",
+      "label": "has shares issued",
+      "definition": "indicates the actual number of shares held by shareholders (i.e., shares outstanding) and treasury shares",
+      "domain": [],
+      "range": [
+        "xsd:nonNegativeInteger"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has shares outstanding",
+      "technicalName": "fibo-sec-eq-eq:hasSharesOutstanding",
+      "localName": "hasSharesOutstanding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasSharesOutstanding",
+      "label": "has shares outstanding",
+      "definition": "indicates the number of shares currently held by shareholders, including those held by retail investors, institutional investors and insiders, and typically available for trading",
+      "domain": [],
+      "range": [
+        "xsd:nonNegativeInteger"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has treasury shares",
+      "technicalName": "fibo-sec-eq-eq:hasTreasuryShares",
+      "localName": "hasTreasuryShares",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasTreasuryShares",
+      "label": "has treasury shares",
+      "definition": "indicates the number of shares issued but not outstanding, including those that were available in the market at one time but have been repurchased by the company",
+      "domain": [],
+      "range": [
+        "xsd:nonNegativeInteger"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has voting restriction",
+      "technicalName": "fibo-sec-eq-eq:hasVotingRestriction",
+      "localName": "hasVotingRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/hasVotingRestriction",
+      "label": "has voting restriction",
+      "definition": "specifies restrictions on voting rights, if any",
+      "domain": [
+        "share"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is redeemable at issuer option",
+      "technicalName": "fibo-sec-eq-eq:isRedeemableAtIssuerOption",
+      "localName": "isRedeemableAtIssuerOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/isRedeemableAtIssuerOption",
+      "label": "is redeemable at issuer option",
+      "definition": "indicates whether the issuer has the option of initiating the buy-back, similar to a call feature",
+      "domain": [
+        "fibo-fbc-fi-fi:RedemptionProvision"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is redeemable at shareholder option",
+      "technicalName": "fibo-sec-eq-eq:isRedeemableAtShareholderOption",
+      "localName": "isRedeemableAtShareholderOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/isRedeemableAtShareholderOption",
+      "label": "is redeemable at shareholder option",
+      "definition": "indicates whether the shareholder has the option of initiating the buy-back, similar to a put feature",
+      "domain": [
+        "fibo-fbc-fi-fi:RedemptionProvision"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

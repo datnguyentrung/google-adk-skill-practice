@@ -1,0 +1,216 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Debt\\TradedShortTermDebt.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/TradedShortTermDebt/",
+  "summary": {
+    "nodes": 8,
+    "edges": 0,
+    "properties": 0,
+    "triples": 128
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/PaymentsAndSchedules/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "bankers' acceptance",
+      "technicalName": "fibo-sec-dbt-tstd:BankersAcceptance",
+      "localName": "BankersAcceptance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/TradedShortTermDebt/BankersAcceptance",
+      "label": "bankers' acceptance",
+      "definition": "short-term debt instrument that is guaranteed and paid by a bank and used as a relatively safe form of payment for large transactions",
+      "parents": [
+        "bill of exchange"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-gty:hasGuarantor",
+          "operator": "some",
+          "value": "fibo-fbc-fct-fse:Bank",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-sec-dbt-dbti:hasRelativePriceAtMaturity",
+          "operator": "value",
+          "value": "fibo-sec-dbt-dbti:ParValue",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-sec-dbt-dbti:hasRelativePriceAtIssue",
+          "operator": "value",
+          "value": "fibo-sec-dbt-dbti:AtADiscount",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "bill of exchange",
+      "technicalName": "fibo-sec-dbt-tstd:BillOfExchange",
+      "localName": "BillOfExchange",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/TradedShortTermDebt/BillOfExchange",
+      "label": "bill of exchange",
+      "definition": "short-term negotiable financial instrument consisting of an order in writing addressed by one person (the seller of goods) to another (the buyer), requiring the latter to pay a fixed amount of money on demand (a sight draft) or on a predetermined date (a time draft)",
+      "parents": [
+        "money market instrument"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "drawer",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "drawee",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-pas-psch:Payee"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-fct-fse:FinancialInstitution"
+        }
+      ]
+    },
+    {
+      "name": "commercial paper",
+      "technicalName": "fibo-sec-dbt-tstd:CommercialPaper",
+      "localName": "CommercialPaper",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/TradedShortTermDebt/CommercialPaper",
+      "label": "commercial paper",
+      "definition": "an unsecured short-term debt instrument typically issued by a bank, corporation, or foreign government to obtain funds to meet short-term debt obligations, such as accounts receivable, inventories, or payroll, backed only by an issuing bank or company promise to pay the face amount on the maturity date specified on the note",
+      "parents": [
+        "money market instrument"
+      ],
+      "rules": [
+        {
+          "property": "fibo-sec-dbt-dbti:hasRelativePriceAtMaturity",
+          "operator": "value",
+          "value": "fibo-sec-dbt-dbti:ParValue",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-sec-dbt-dbti:hasRelativePriceAtIssue",
+          "operator": "value",
+          "value": "fibo-sec-dbt-dbti:AtADiscount",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "drawee",
+      "technicalName": "fibo-sec-dbt-tstd:Drawee",
+      "localName": "Drawee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/TradedShortTermDebt/Drawee",
+      "label": "drawee",
+      "definition": "party that is required to pay the amount stated on the bill of exchange to the payee",
+      "parents": [
+        "fibo-fnd-pas-psch:Payer"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "bill of exchange",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "drawer",
+      "technicalName": "fibo-sec-dbt-tstd:Drawer",
+      "localName": "Drawer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/TradedShortTermDebt/Drawer",
+      "label": "drawer",
+      "definition": "party that requires a drawee to pay either a third party or themselves with respect to a bill of exchange",
+      "parents": [
+        "fibo-fnd-agr-agr:Obligee"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "bill of exchange",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "eurodollar deposit",
+      "technicalName": "fibo-sec-dbt-tstd:EurodollarDeposit",
+      "localName": "EurodollarDeposit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/TradedShortTermDebt/EurodollarDeposit",
+      "label": "eurodollar deposit",
+      "definition": "a certificate of deposit with a fixed interest rate issued in U.S. dollars outside the jurisdiction of the Federal Reserve, held at banks outside of the United States, including branches of U.S. banks located outside of the U.S.",
+      "parents": [
+        "fibo-fbc-pas-caa:CertificateOfDeposit"
+      ],
+      "rules": []
+    },
+    {
+      "name": "money market instrument",
+      "technicalName": "fibo-sec-dbt-tstd:MoneyMarketInstrument",
+      "localName": "MoneyMarketInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/TradedShortTermDebt/MoneyMarketInstrument",
+      "label": "money market instrument",
+      "definition": "a short-term debt security that gives the owner the unconditional right to receive a stated, fixed sum of money on a specified date",
+      "parents": [
+        "fibo-sec-dbt-dbti:FixedIncomeSecurity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "repurchase agreement",
+      "technicalName": "fibo-sec-dbt-tstd:RepurchaseAgreement",
+      "localName": "RepurchaseAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/TradedShortTermDebt/RepurchaseAgreement",
+      "label": "repurchase agreement",
+      "definition": "agreement between two parties whereby one party lends the other a security at a specified price with a commitment to take the security back at a later date for another specified price",
+      "parents": [
+        "money market instrument"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasDuration",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Duration"
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

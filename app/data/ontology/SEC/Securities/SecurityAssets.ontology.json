@@ -1,0 +1,51 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Securities\\SecurityAssets.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecurityAssets/",
+  "summary": {
+    "nodes": 2,
+    "edges": 1,
+    "properties": 0,
+    "triples": 29
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/"
+  ],
+  "classes": [
+    {
+      "name": "fibo-sec-sec-ast:Portfolio",
+      "technicalName": "fibo-sec-sec-ast:Portfolio",
+      "localName": "Portfolio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecurityAssets/Portfolio",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-sec-sec-ast:PortfolioHolding",
+      "technicalName": "fibo-sec-sec-ast:PortfolioHolding",
+      "localName": "PortfolioHolding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecurityAssets/PortfolioHolding",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "fibo-sec-sec-ast:hasAcquisitionPrice",
+      "technicalName": "fibo-sec-sec-ast:hasAcquisitionPrice",
+      "localName": "hasAcquisitionPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecurityAssets/hasAcquisitionPrice",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    }
+  ],
+  "attributes": []
+}

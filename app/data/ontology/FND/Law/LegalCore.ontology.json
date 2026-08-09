@@ -1,0 +1,108 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Law\\LegalCore.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/",
+  "summary": {
+    "nodes": 4,
+    "edges": 2,
+    "properties": 0,
+    "triples": 61
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/"
+  ],
+  "classes": [
+    {
+      "name": "constitution",
+      "technicalName": "fibo-fnd-law-cor:Constitution",
+      "localName": "Constitution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/Constitution",
+      "label": "constitution",
+      "definition": "set of basic principles by which an organization is governed, especially in relation to the rights of the people it governs",
+      "parents": [
+        "cmns-col:Collection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "law",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "court of law",
+      "technicalName": "fibo-fnd-law-cor:CourtOfLaw",
+      "localName": "CourtOfLaw",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/CourtOfLaw",
+      "label": "court of law",
+      "definition": "person or body of persons having judicial authority to hear and resolve disputes on the basis of statutes or the common law",
+      "parents": [
+        "cmns-org:FormalOrganization"
+      ],
+      "rules": []
+    },
+    {
+      "name": "law",
+      "technicalName": "fibo-fnd-law-cor:Law",
+      "localName": "Law",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/Law",
+      "label": "law",
+      "definition": "rule recognized by some community as regulating the behavior of its members and that it may enforce through the imposition of penalties",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "statute law",
+      "technicalName": "fibo-fnd-law-cor:StatuteLaw",
+      "localName": "StatuteLaw",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/StatuteLaw",
+      "label": "statute law",
+      "definition": "law enacted by a legislature",
+      "parents": [
+        "law"
+      ],
+      "rules": [
+        {
+          "property": "is in force in",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has in force",
+      "technicalName": "fibo-fnd-law-cor:hasInForce",
+      "localName": "hasInForce",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/hasInForce",
+      "label": "has in force",
+      "definition": "relates a jurisdiction or situation to a rule, regulation or law (collectively \"law\") that is currently in force in that situation or jurisdiction",
+      "domain": [],
+      "range": [
+        "law"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is in force in",
+      "technicalName": "fibo-fnd-law-cor:isInForceIn",
+      "localName": "isInForceIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/isInForceIn",
+      "label": "is in force in",
+      "definition": "identifies a jurisdiction in which some law has effect",
+      "domain": [
+        "law"
+      ],
+      "range": []
+    }
+  ],
+  "attributes": []
+}

@@ -1,0 +1,1162 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\CAE\\CorporateEvents",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\CAE\\CorporateEvents\\CorporateActions.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\CAE\\CorporateEvents\\GLEIF-CorporateActionIndividuals.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\CAE\\CorporateEvents\\ISO15022-CorporateActionIndividuals.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\CAE\\CorporateEvents\\SecurityRelatedCorporateActions.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 4,
+    "classes": 78,
+    "edges": 2,
+    "attributes": 0
+  },
+  "classes": [
+    {
+      "name": "action",
+      "technicalName": "fibo-cae-ce-act:Action",
+      "localName": "Action",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/Action",
+      "label": "action",
+      "definition": "event announced, initiated or carried out by an organization that affects a legal entity or the securities it issues and may have a material impact on that entity's stakeholders, such as shareholders and creditors",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "action classifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "action classification scheme",
+      "technicalName": "fibo-cae-ce-act:ActionClassificationScheme",
+      "localName": "ActionClassificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/ActionClassificationScheme",
+      "label": "action classification scheme",
+      "definition": "scheme for classifying the kinds of actions and events that may be announced, initiated or carried out by an organization that affects a legal entity or the securities it issues",
+      "parents": [
+        "cmns-cls:ClassificationScheme",
+        "cmns-cds:CodeSet"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "action classifier",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "only",
+          "value": "action classifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "action classifier",
+      "technicalName": "fibo-cae-ce-act:ActionClassifier",
+      "localName": "ActionClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/ActionClassifier",
+      "label": "action classifier",
+      "definition": "classifier that distinguishes the kinds of actions and events that may be announced, initiated or carried out by an organization that affects a legal entity or the securities it issues, such as income-oriented events",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind",
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "action",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "action classification scheme"
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "action classification scheme"
+        }
+      ]
+    },
+    {
+      "name": "action status",
+      "technicalName": "fibo-cae-ce-act:ActionStatus",
+      "localName": "ActionStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/ActionStatus",
+      "label": "action status",
+      "definition": "state of some action at some point in time",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStatus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "action",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "business strategy classifier",
+      "technicalName": "fibo-cae-ce-act:BusinessStrategyClassifier",
+      "localName": "BusinessStrategyClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/BusinessStrategyClassifier",
+      "label": "business strategy classifier",
+      "definition": "classifier of corporate actions that involve improving liquidity or changing the overall structure of the organization through diversification, combining and closing parts of the business, etc, to increase long-term profitability",
+      "parents": [
+        "action classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "change action",
+      "technicalName": "fibo-cae-ce-act:ChangeAction",
+      "localName": "ChangeAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/ChangeAction",
+      "label": "change action",
+      "definition": "corporate action to disseminate information regarding a change further described in the corporate action details",
+      "parents": [
+        "mandatory corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "class action",
+      "technicalName": "fibo-cae-ce-act:ClassAction",
+      "localName": "ClassAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/ClassAction",
+      "label": "class action",
+      "definition": "corporate action involving a situation where interested parties seek restitution for financial loss",
+      "parents": [
+        "voluntary corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consent solicitation",
+      "technicalName": "fibo-cae-ce-act:ConsentSolicitation",
+      "localName": "ConsentSolicitation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/ConsentSolicitation",
+      "label": "consent solicitation",
+      "definition": "corporate action that is a procedure that aims to obtain consent of holder to a proposal by the issuer or a third party without convening a meeting",
+      "parents": [
+        "voluntary corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "corporate action",
+      "technicalName": "fibo-cae-ce-act:CorporateAction",
+      "localName": "CorporateAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/CorporateAction",
+      "label": "corporate action",
+      "definition": "action carried out by or specifically relating to a legal entity that may affect the securities it issues and may have a material impact on its stakeholders, such as shareholders and creditors",
+      "parents": [
+        "action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "disclosure action",
+      "technicalName": "fibo-cae-ce-act:DisclosureAction",
+      "localName": "DisclosureAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/DisclosureAction",
+      "label": "disclosure action",
+      "definition": "corporate action involving a request for holders or beneficial owners to disclose their name, location and holdings of any issue to the issuer",
+      "parents": [
+        "voluntary corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "divestiture",
+      "technicalName": "fibo-cae-ce-act:Divestiture",
+      "localName": "Divestiture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/Divestiture",
+      "label": "divestiture",
+      "definition": "corporate action involving the sales of subsidiary business interests or investments",
+      "parents": [
+        "mandatory corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "income-oriented classifier",
+      "technicalName": "fibo-cae-ce-act:IncomeOrientedClassifier",
+      "localName": "IncomeOrientedClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/IncomeOrientedClassifier",
+      "label": "income-oriented classifier",
+      "definition": "classifier of corporate actions that impacts income to shareholders",
+      "parents": [
+        "action classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "legal form change",
+      "technicalName": "fibo-cae-ce-act:LegalFormChange",
+      "localName": "LegalFormChange",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/LegalFormChange",
+      "label": "legal form change",
+      "definition": "corporate action indicating a modification of the legal form of the organization",
+      "parents": [
+        "mandatory corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "liquidation",
+      "technicalName": "fibo-cae-ce-act:Liquidation",
+      "localName": "Liquidation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/Liquidation",
+      "label": "liquidation",
+      "definition": "corporate action related to winding up a business, including but not limited to distribution of cash, assets, or both",
+      "parents": [
+        "divestiture"
+      ],
+      "rules": []
+    },
+    {
+      "name": "mandatory corporate action",
+      "technicalName": "fibo-cae-ce-act:MandatoryCorporateAction",
+      "localName": "MandatoryCorporateAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/MandatoryCorporateAction",
+      "label": "mandatory corporate action",
+      "definition": "action initiated by the board of directors of a corporation that affects all shareholders",
+      "parents": [
+        "corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "mandatory with choice corporate action",
+      "technicalName": "fibo-cae-ce-act:MandatoryWithChoiceCorporateAction",
+      "localName": "MandatoryWithChoiceCorporateAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/MandatoryWithChoiceCorporateAction",
+      "label": "mandatory with choice corporate action",
+      "definition": "mandatory corporate action where shareholders are given an opportunity to choose among several options",
+      "parents": [
+        "mandatory corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "market action",
+      "technicalName": "fibo-cae-ce-act:MarketAction",
+      "localName": "MarketAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/MarketAction",
+      "label": "market action",
+      "definition": "action that is initiated by a market, such as a securities exchange, that affects a legal entity or the securities it issues and may have a material impact on that entity's stakeholders, such as shareholders and creditors",
+      "parents": [
+        "action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "merger / acquisition",
+      "technicalName": "fibo-cae-ce-act:MergerAcquisition",
+      "localName": "MergerAcquisition",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/MergerAcquisition",
+      "label": "merger / acquisition",
+      "definition": "corporate action involving the consolidation of legal entities or assets",
+      "parents": [
+        "mandatory corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "notification",
+      "technicalName": "fibo-cae-ce-act:Notification",
+      "localName": "Notification",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/Notification",
+      "label": "notification",
+      "definition": "corporate action involving information provided by the issuer having no accounting/financial impact on the holder",
+      "parents": [
+        "mandatory corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "organization address change",
+      "technicalName": "fibo-cae-ce-act:OrganizationAddressChange",
+      "localName": "OrganizationAddressChange",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/OrganizationAddressChange",
+      "label": "organization address change",
+      "definition": "information action that provides details of address changes for a legal entity",
+      "parents": [
+        "notification"
+      ],
+      "rules": []
+    },
+    {
+      "name": "organization name change",
+      "technicalName": "fibo-cae-ce-act:OrganizationNameChange",
+      "localName": "OrganizationNameChange",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/OrganizationNameChange",
+      "label": "organization name change",
+      "definition": "information action that provides details of name changes for a legal entity",
+      "parents": [
+        "notification"
+      ],
+      "rules": []
+    },
+    {
+      "name": "priority issue",
+      "technicalName": "fibo-cae-ce-act:PriorityIssue",
+      "localName": "PriorityIssue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/PriorityIssue",
+      "label": "priority issue",
+      "definition": "corporate action that is a public offer where, due to a limited amount of securities available, priority is given to existing shareholders",
+      "parents": [
+        "voluntary corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "regulatory action",
+      "technicalName": "fibo-cae-ce-act:RegulatoryAction",
+      "localName": "RegulatoryAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/RegulatoryAction",
+      "label": "regulatory action",
+      "definition": "action initiated by a regulatory agency that affects a legal entity or the securities it issues and may have a material impact on that entity's stakeholders, such as shareholders and creditors",
+      "parents": [
+        "action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "spin off",
+      "technicalName": "fibo-cae-ce-act:SpinOff",
+      "localName": "SpinOff",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/SpinOff",
+      "label": "spin off",
+      "definition": "corporate action involving the distribution of subsidiary stock to the shareholders of the parent company without a surrender of shares",
+      "parents": [
+        "divestiture"
+      ],
+      "rules": []
+    },
+    {
+      "name": "voluntary corporate action",
+      "technicalName": "fibo-cae-ce-act:VoluntaryCorporateAction",
+      "localName": "VoluntaryCorporateAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/CorporateActions/VoluntaryCorporateAction",
+      "label": "voluntary corporate action",
+      "definition": "event in which the shareholders elect to participate and must respond in order for the issuer to process the action",
+      "parents": [
+        "corporate action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "action group",
+      "technicalName": "fibo-cae-ce-GLEIF:ActionGroup",
+      "localName": "ActionGroup",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/GLEIF-CorporateActionIndividuals/ActionGroup",
+      "label": "action group",
+      "definition": "classifier that differentiates corporate actions based on a GLEIF specific grouping",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-cae-ce-act:Action",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "bond default event",
+      "technicalName": "fibo-cae-ce-srca:BondDefaultAction",
+      "localName": "BondDefaultAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/BondDefaultAction",
+      "label": "bond default event",
+      "definition": "corporate action which indicates a failure by the issuer to perform obligations defined as default events under the bond agreement and that have not been remedied",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction",
+        "fibo-fbc-dae-cre:ObligationDefault"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-sec-dbt-bnd:Bond",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "bonus issue",
+      "technicalName": "fibo-cae-ce-srca:BonusIssue",
+      "localName": "BonusIssue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/BonusIssue",
+      "label": "bonus issue",
+      "definition": "corporate action in which security holders are awarded additional assets free of payment from the issuer in proportion to their holding",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "bonus rights issue",
+      "technicalName": "fibo-cae-ce-srca:BonusRightsIssue",
+      "localName": "BonusRightsIssue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/BonusRightsIssue",
+      "label": "bonus rights issue",
+      "definition": "A Rights Issue in which the rights are given to the holders of the referenced shares for free.",
+      "parents": [
+        "intermediate securities distribution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "bonus share plan distribution",
+      "technicalName": "fibo-cae-ce-srca:BonusSharePlanDistribution",
+      "localName": "BonusSharePlanDistribution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/BonusSharePlanDistribution",
+      "label": "bonus share plan distribution",
+      "definition": "Event in which shares are issued from the Share Premium Reserve of the company and are considered as a capital distribution rather than a disbursement of income, with different tax implications. SWIFT Definition (adapted above) \"Typically found in Australia, shares are issued from the Share Premium Reserve of the company and are considered as a capital distribution rather than a disbursement of income, with different tax implications.\" To be researches further. There are certainly Share Plans in Australia, where you can take a dividend as shares. Thewse would be in the nature of Bonus Shares. They are a tradeoff from cash dividends. Other terms to model: A \"Scheme of Arrangment\" - does this change the capital reserves or is it just another word for restructure. An arrangement with the company's debtors, and coule potentially change the capital base by converting the debt to shares (see other diagram note with these in).",
+      "parents": [
+        "capital distribution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "call on intermediate securities",
+      "technicalName": "fibo-cae-ce-srca:CallOnIntermediateSecurities",
+      "localName": "CallOnIntermediateSecurities",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/CallOnIntermediateSecurities",
+      "label": "call on intermediate securities",
+      "definition": "corporate action that involves a call or exercise on nil paid securities or intermediate securities resulting from an intermediate securities distribution (RHDI)",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryWithChoiceCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "cancellation of shares",
+      "technicalName": "fibo-cae-ce-srca:CancellationOfShares",
+      "localName": "CancellationOfShares",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/CancellationOfShares",
+      "label": "cancellation of shares",
+      "definition": "The cancellation of shares. Further Notes Only possible with shares not publicly issued i.e. treasury shares",
+      "parents": [
+        "fibo-cae-ce-act:CorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "capital distribution",
+      "technicalName": "fibo-cae-ce-srca:CapitalDistribution",
+      "localName": "CapitalDistribution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/CapitalDistribution",
+      "label": "capital distribution",
+      "definition": "corporate action that pays shareholders an amount in cash issued from the issuer's capital account",
+      "parents": [
+        "fibo-cae-ce-act:VoluntaryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "capital gains distribution",
+      "technicalName": "fibo-cae-ce-srca:CapitalGainsDistribution",
+      "localName": "CapitalGainsDistribution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/CapitalGainsDistribution",
+      "label": "capital gains distribution",
+      "definition": "corporate action that distributes profits resulting from the sale of company assets to shareholders",
+      "parents": [
+        "fibo-cae-ce-act:VoluntaryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "cash dividend action",
+      "technicalName": "fibo-cae-ce-srca:CashDividendAction",
+      "localName": "CashDividendAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/CashDividendAction",
+      "label": "cash dividend action",
+      "definition": "corporate action that distributes cash to shareholders in proportion to their equity holding",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "change of security trading status event",
+      "technicalName": "fibo-cae-ce-srca:ChangeOfSecurityTradingStatusEvent",
+      "localName": "ChangeOfSecurityTradingStatusEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/ChangeOfSecurityTradingStatusEvent",
+      "label": "change of security trading status event",
+      "definition": "An event in which the trading status of a tradable security changes.",
+      "parents": [
+        "corporate change of status event"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-md-temx-trs:SecurityTradingStatus",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "change to smallest negotiable unit",
+      "technicalName": "fibo-cae-ce-srca:ChangeToSmallestNegotiableUnit",
+      "localName": "ChangeToSmallestNegotiableUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/ChangeToSmallestNegotiableUnit",
+      "label": "change to smallest negotiable unit",
+      "definition": "Modification of the smallest negotiable unit of shares in order to obtain a new negotiable unit. SWIFT:SMAL",
+      "parents": [
+        "fibo-cae-ce-act:CorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "conversion action",
+      "technicalName": "fibo-cae-ce-srca:ConversionAction",
+      "localName": "ConversionAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/ConversionAction",
+      "label": "conversion action",
+      "definition": "corporate action involving conversion of securities (generally convertible bonds or preferred shares) into another form of securities (usually common shares) at a pre-stated price/ratio",
+      "parents": [
+        "fibo-cae-ce-act:VoluntaryCorporateAction"
+      ],
+      "rules": [
+        {
+          "property": "converts to",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "converts from",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "conversion suspension action",
+      "technicalName": "fibo-cae-ce-srca:ConversionSuspensionAction",
+      "localName": "ConversionSuspensionAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/ConversionSuspensionAction",
+      "label": "conversion suspension action",
+      "definition": "Suspension of conversion of securities, generally a couple of weeks before a meeting takes place. SWIFT = SCOP",
+      "parents": [
+        "fibo-cae-ce-act:CorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "corporate action obligation",
+      "technicalName": "fibo-cae-ce-srca:CorporateActionObligation",
+      "localName": "CorporateActionObligation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/CorporateActionObligation",
+      "label": "corporate action obligation",
+      "definition": "An obligation related to the holding of a Security.",
+      "parents": [
+        "fibo-cae-ce-act:CorporateAction",
+        "fibo-fnd-law-lcap:Duty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "corporate action payment obligation",
+      "technicalName": "fibo-cae-ce-srca:CorporateActionPaymentObligation",
+      "localName": "CorporateActionPaymentObligation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/CorporateActionPaymentObligation",
+      "label": "corporate action payment obligation",
+      "definition": null,
+      "parents": [
+        "corporate action obligation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "corporate action securities delivery obligation",
+      "technicalName": "fibo-cae-ce-srca:CorporateActionSecuritiesDeliveryObligation",
+      "localName": "CorporateActionSecuritiesDeliveryObligation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/CorporateActionSecuritiesDeliveryObligation",
+      "label": "corporate action securities delivery obligation",
+      "definition": "Some obligation to deliver some security in the thr context of corporate actions. All cash proceeds and security proceeds can be represented a s acontractual obligation. Where does that obligation arise? Usually in the Contract itself - but there may be other answers to this. Defines what has to be delivered. or paid. Entitlement meanwhile is a calculation based on the Contract.",
+      "parents": [
+        "corporate action obligation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "corporate change of status event",
+      "technicalName": "fibo-cae-ce-srca:CorporateChangeOfStatusEvent",
+      "localName": "CorporateChangeOfStatusEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/CorporateChangeOfStatusEvent",
+      "label": "corporate change of status event",
+      "definition": "Some change to the status of some security.",
+      "parents": [
+        "fibo-cae-ce-act:CorporateAction",
+        "fibo-fnd-arr-lif:LifecycleEvent"
+      ],
+      "rules": []
+    },
+    {
+      "name": "coupon strip",
+      "technicalName": "fibo-cae-ce-srca:CouponStrip",
+      "localName": "CouponStrip",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/CouponStrip",
+      "label": "coupon strip",
+      "definition": "Coupon stripping is the process whereby interest coupons for future payment dates are separated from the security corpus that entitles the holder to the principal repayment.",
+      "parents": [
+        "fibo-cae-ce-act:CorporateAction"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-sec-dbt-bnd:Bond",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "decrease in value action",
+      "technicalName": "fibo-cae-ce-srca:DecreaseInValueAction",
+      "localName": "DecreaseInValueAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/DecreaseInValueAction",
+      "label": "decrease in value action",
+      "definition": "corporate action resulting in a reduction of face value of a share or the value of fund assets",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "dividend option action",
+      "technicalName": "fibo-cae-ce-srca:DividendOptionAction",
+      "localName": "DividendOptionAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/DividendOptionAction",
+      "label": "dividend option action",
+      "definition": "corporate action that involves distribution of a dividend to shareholders with a choice of benefit to receive",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryWithChoiceCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "dividend reinvestment action",
+      "technicalName": "fibo-cae-ce-srca:DividendReinvestmentAction",
+      "localName": "DividendReinvestmentAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/DividendReinvestmentAction",
+      "label": "dividend reinvestment action",
+      "definition": "corporate action that involves a dividend payment whereby holders can keep cash or have the cash reinvested into additional shares in the issuing company",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryWithChoiceCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "drawing",
+      "technicalName": "fibo-cae-ce-srca:Drawing",
+      "localName": "Drawing",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/Drawing",
+      "label": "drawing",
+      "definition": "Redemption in part before the scheduled final maturity date of a security.",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "dutch auction",
+      "technicalName": "fibo-cae-ce-srca:DutchAuction",
+      "localName": "DutchAuction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/DutchAuction",
+      "label": "dutch auction",
+      "definition": "corporate action by a party wishing to acquire a security",
+      "parents": [
+        "fibo-cae-ce-act:VoluntaryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exchange action",
+      "technicalName": "fibo-cae-ce-srca:ExchangeAction",
+      "localName": "ExchangeAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/ExchangeAction",
+      "label": "exchange action",
+      "definition": "corporate action that reflects an exchange of holdings for other securities and/or cash",
+      "parents": [
+        "fibo-cae-ce-act:CorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "formal offer",
+      "technicalName": "fibo-cae-ce-srca:FormalOffer",
+      "localName": "FormalOffer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/FormalOffer",
+      "label": "formal offer",
+      "definition": "corporate action involving an offer to a holder, potential holder, or other intersted party, to enter into a trade which is or would be legally binding on the part of the party making the offer (the offeror).",
+      "parents": [
+        "fibo-cae-ce-act:VoluntaryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "full call early redemption action",
+      "technicalName": "fibo-cae-ce-srca:FullCallEarlyRedemptionAction",
+      "localName": "FullCallEarlyRedemptionAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/FullCallEarlyRedemptionAction",
+      "label": "full call early redemption action",
+      "definition": "corporate action that involves redemption of an entire issue outstanding of securities prior to maturity",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interest payment action",
+      "technicalName": "fibo-cae-ce-srca:InterestPaymentAction",
+      "localName": "InterestPaymentAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/InterestPaymentAction",
+      "label": "interest payment action",
+      "definition": "corporate action that involves distribution of a regular interest payment to holders of an interest-bearing asset",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interest payment in kind",
+      "technicalName": "fibo-cae-ce-srca:InterestPaymentInKind",
+      "localName": "InterestPaymentInKind",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/InterestPaymentInKind",
+      "label": "interest payment in kind",
+      "definition": "Interest payment, in any kind except cash, distributed to holders of an interest bearing asset. SWIFT = PINK",
+      "parents": [
+        "interest payment action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interest payment with principal",
+      "technicalName": "fibo-cae-ce-srca:InterestPaymentWithPrincipal",
+      "localName": "InterestPaymentWithPrincipal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/InterestPaymentWithPrincipal",
+      "label": "interest payment with principal",
+      "definition": "A payment of a portion of the principal of an interest bearing asset, in addition to the interest payment. SWIFT = PRII",
+      "parents": [
+        "interest payment action"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interest rate adjustment",
+      "technicalName": "fibo-cae-ce-srca:InterestRateAdjustment",
+      "localName": "InterestRateAdjustment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/InterestRateAdjustment",
+      "label": "interest rate adjustment",
+      "definition": "Scheduled change to the coupon rate for a floating or adjustable rate security.",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-sec-dbt-bnd:VariableCouponBond",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "intermediate securities distribution",
+      "technicalName": "fibo-cae-ce-srca:IntermediateSecuritiesDistribution",
+      "localName": "IntermediateSecuritiesDistribution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/IntermediateSecuritiesDistribution",
+      "label": "intermediate securities distribution",
+      "definition": "corporate action involving the distribution of intermediate securities or privilege that gives the holder the right to take part in a future event",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "listing status delisting message",
+      "technicalName": "fibo-cae-ce-srca:ListingStatusDelistingMessage",
+      "localName": "ListingStatusDelistingMessage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/ListingStatusDelistingMessage",
+      "label": "listing status delisting message",
+      "definition": "Security is no longer able to comply with the listing requirements of a stock exchange and is removed from official board quotation.",
+      "parents": [
+        "cmns-doc:Notice"
+      ],
+      "rules": []
+    },
+    {
+      "name": "odd lot offer",
+      "technicalName": "fibo-cae-ce-srca:OddLotOffer",
+      "localName": "OddLotOffer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/OddLotOffer",
+      "label": "odd lot offer",
+      "definition": "Offer by issuer to allow holders of an odd lot of a security to order a commission-free transaction at market price, to sell the odd lot, or to buy an amount of shares which will bring the position to a round lot (board lot). SWIFT = ODLT",
+      "parents": [
+        "fibo-cae-ce-act:VoluntaryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "pari-passu action",
+      "technicalName": "fibo-cae-ce-srca:PariPassuAction",
+      "localName": "PariPassuAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/PariPassuAction",
+      "label": "pari-passu action",
+      "definition": "corporate action that occurs when securities with different characteristics become identical in all respects",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "partial redemption with reduction of nominal value action",
+      "technicalName": "fibo-cae-ce-srca:PartialRedemptionWithReductionOfNominalValueAction",
+      "localName": "PartialRedemptionWithReductionOfNominalValueAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/PartialRedemptionWithReductionOfNominalValueAction",
+      "label": "partial redemption with reduction of nominal value action",
+      "definition": "corporate action that involves redemption of securities in part before their scheduled final maturity date with reduction of the nominal value of the securities",
+      "parents": [
+        "fibo-cae-ce-act:CorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "partial redemption without reduction of nominal value action",
+      "technicalName": "fibo-cae-ce-srca:PartialRedemptionWithoutReductionOfNominalValueAction",
+      "localName": "PartialRedemptionWithoutReductionOfNominalValueAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/PartialRedemptionWithoutReductionOfNominalValueAction",
+      "label": "partial redemption without reduction of nominal value action",
+      "definition": "corporate action that involves redemption of securities in part before their scheduled final maturity date with no reduction in nominal value",
+      "parents": [
+        "fibo-cae-ce-act:CorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "post-merger securities exchange",
+      "technicalName": "fibo-cae-ce-srca:PostMergerSecuritiesExchange",
+      "localName": "PostMergerSecuritiesExchange",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/PostMergerSecuritiesExchange",
+      "label": "post-merger securities exchange",
+      "definition": "corporate action that involves the exchange of outstanding securities, initiated by the issuer which may include options, as the result of two or more companies combining assets, that is, an external, third party company",
+      "parents": [
+        "fibo-cae-ce-act:CorporateAction"
+      ],
+      "rules": [
+        {
+          "property": "converts to",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "converts from",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-acc-cur:hasMonetaryAmount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "put redemption action",
+      "technicalName": "fibo-cae-ce-srca:PutRedemptionAction",
+      "localName": "PutRedemptionAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/PutRedemptionAction",
+      "label": "put redemption action",
+      "definition": "corporate action involving early redemption of a security at the election of the holder subject to the terms and condition of the issue with no reduction in nominal value",
+      "parents": [
+        "fibo-cae-ce-act:VoluntaryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "redemption at maturity action",
+      "technicalName": "fibo-cae-ce-srca:RedemptionAtMaturityAction",
+      "localName": "RedemptionAtMaturityAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/RedemptionAtMaturityAction",
+      "label": "redemption at maturity action",
+      "definition": "corporate action that involves redemption of an entire issue outstanding of securities at final maturity",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "redenomination action",
+      "technicalName": "fibo-cae-ce-srca:RedenominationAction",
+      "localName": "RedenominationAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/RedenominationAction",
+      "label": "redenomination action",
+      "definition": "corporate action by which the unit (currency and/or nominal) of a security is restated",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "repurchase offer",
+      "technicalName": "fibo-cae-ce-srca:RepurchaseOffer",
+      "localName": "RepurchaseOffer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/RepurchaseOffer",
+      "label": "repurchase offer",
+      "definition": "corporate action in which an offer is made to existing shareholders by the issuing company to repurchase equity or other securities convertible into equity",
+      "parents": [
+        "fibo-cae-ce-act:VoluntaryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "reverse stock split",
+      "technicalName": "fibo-cae-ce-srca:ReverseStockSplit",
+      "localName": "ReverseStockSplit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/ReverseStockSplit",
+      "label": "reverse stock split",
+      "definition": "corporate action involving a decrease in a company's number of outstanding equities without any change in the shareholder's equity or the aggregate market value at the time of the split",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:Share",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rights exercise event",
+      "technicalName": "fibo-cae-ce-srca:RightsExerciseEvent",
+      "localName": "RightsExerciseEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/RightsExerciseEvent",
+      "label": "rights exercise event",
+      "definition": "Exercising the right to purchase the shares. Furhter Notes: This is an action on the part of the holder. SWIFT: Call/exercise on nil-paid securities/rights resulting from a rights distribution (RHDI) (To be used for the second event in case rights issue is dealt with in 2 events, first event being the RHDI).",
+      "parents": [
+        "fibo-cae-ce-act:CorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "shares premium dividend action",
+      "technicalName": "fibo-cae-ce-srca:SharesPremiumDividendAction",
+      "localName": "SharesPremiumDividendAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/SharesPremiumDividendAction",
+      "label": "shares premium dividend action",
+      "definition": "corporate action that pays shareholders an amount in cash issued from the shares premium reserve",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryWithChoiceCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "stock dividend action",
+      "technicalName": "fibo-cae-ce-srca:StockDividendAction",
+      "localName": "StockDividendAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/StockDividendAction",
+      "label": "stock dividend action",
+      "definition": "corporate action that involves distribution of a dividend to shareholders in the form of equities of the issuing corporation",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "stock split",
+      "technicalName": "fibo-cae-ce-srca:StockSplit",
+      "localName": "StockSplit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/StockSplit",
+      "label": "stock split",
+      "definition": "corporate action involving an increase in a corporation's number of outstanding equities without any change in the shareholder's equity or the aggregate market value at the time of the split",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:Share",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "tender offer",
+      "technicalName": "fibo-cae-ce-srca:TenderOffer",
+      "localName": "TenderOffer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/TenderOffer",
+      "label": "tender offer",
+      "definition": "corporate action involving an offer made to shareholders, normally by a third party, requesting them to sell (tender) or exchange their equities",
+      "parents": [
+        "fibo-cae-ce-act:VoluntaryCorporateAction"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:Share",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trading status active message",
+      "technicalName": "fibo-cae-ce-srca:TradingStatusActiveMessage",
+      "localName": "TradingStatusActiveMessage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/TradingStatusActiveMessage",
+      "label": "trading status active message",
+      "definition": "Trading in security has commenced or security has been re-activated after a supsension in trading.",
+      "parents": [
+        "trading status message"
+      ],
+      "rules": []
+    },
+    {
+      "name": "trading status message",
+      "technicalName": "fibo-cae-ce-srca:TradingStatusMessage",
+      "localName": "TradingStatusMessage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/TradingStatusMessage",
+      "label": "trading status message",
+      "definition": "A message about trading status.",
+      "parents": [
+        "cmns-doc:Notice"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-doc:isAbout",
+          "operator": "some",
+          "value": "fibo-md-temx-trs:SecurityTradingStatus",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trading status suspended message",
+      "technicalName": "fibo-cae-ce-srca:TradingStatusSuspendedMessage",
+      "localName": "TradingStatusSuspendedMessage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/TradingStatusSuspendedMessage",
+      "label": "trading status suspended message",
+      "definition": "Trading in the security has been suspended.",
+      "parents": [
+        "trading status message"
+      ],
+      "rules": []
+    },
+    {
+      "name": "warrant exercise action",
+      "technicalName": "fibo-cae-ce-srca:WarrantExerciseAction",
+      "localName": "WarrantExerciseAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/WarrantExerciseAction",
+      "label": "warrant exercise action",
+      "definition": "corporate action that offers holders the option to buy (call warrant) or to sell (put warrant) a specific amount of stock, cash, or commodity, at a predetermined price, during a predetermined period of time (which usually corresponds to the life of the issue)",
+      "parents": [
+        "fibo-cae-ce-act:CorporateAction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "worthless security action",
+      "technicalName": "fibo-cae-ce-srca:WorthlessSecurityAction",
+      "localName": "WorthlessSecurityAction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/WorthlessSecurityAction",
+      "label": "worthless security action",
+      "definition": "corporate action that involves booking out of valueless securities",
+      "parents": [
+        "fibo-cae-ce-act:MandatoryCorporateAction"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "converts from",
+      "technicalName": "fibo-cae-ce-srca:convertsFrom",
+      "localName": "convertsFrom",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/convertsFrom",
+      "label": "converts from",
+      "definition": null,
+      "domain": [
+        "fibo-cae-ce-act:CorporateAction"
+      ],
+      "range": [
+        "fibo-fbc-fi-fi:Security"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "converts to",
+      "technicalName": "fibo-cae-ce-srca:convertsTo",
+      "localName": "convertsTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/CAE/CorporateEvents/SecurityRelatedCorporateActions/convertsTo",
+      "label": "converts to",
+      "definition": null,
+      "domain": [
+        "fibo-cae-ce-act:CorporateAction"
+      ],
+      "range": [
+        "fibo-fbc-fi-fi:Security"
+      ]
+    }
+  ],
+  "attributes": []
+}

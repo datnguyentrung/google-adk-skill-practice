@@ -1,0 +1,18 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\NorthAmericanJurisdiction",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\NorthAmericanJurisdiction\\CAGovernmentEntitiesAndJurisdictions.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\NorthAmericanJurisdiction\\CaribbeanGovernmentEntitiesAndJurisdictions.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\NorthAmericanJurisdiction\\MXGovernmentEntitiesAndJurisdictions.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\NorthAmericanJurisdiction\\USGovernmentEntitiesAndJurisdictions.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 4,
+    "classes": 0,
+    "edges": 0,
+    "attributes": 0
+  },
+  "classes": [],
+  "edges": [],
+  "attributes": []
+}

@@ -1,0 +1,310 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\DER\\DerivativesContracts\\StructuredInstruments.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/",
+  "summary": {
+    "nodes": 23,
+    "edges": 0,
+    "properties": 0,
+    "triples": 191
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/SecurityBasedDerivatives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/"
+  ],
+  "classes": [
+    {
+      "name": "barrier capital protection certificate",
+      "technicalName": "fibo-der-drc-str:BarrierCapitalProtectionCertificate",
+      "localName": "BarrierCapitalProtectionCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/BarrierCapitalProtectionCertificate",
+      "label": "barrier capital protection certificate",
+      "definition": "capital-protected product whose protection is defined as a percentage of the nominal price (e.g. 100 percent), with minimum redemption at expiry equivalent to the capital protection",
+      "parents": [
+        "capital-protected product",
+        "participation certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "barrier discount certificate",
+      "technicalName": "fibo-der-drc-str:BarrierDiscountCertificate",
+      "localName": "BarrierDiscountCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/BarrierDiscountCertificate",
+      "label": "barrier discount certificate",
+      "definition": "participation certificate that enables the investor to acquire the underlying asset at a lower price in return for a limited payout, and for which the maximum redemption amount (Cap) is paid out if the barrier is never breached",
+      "parents": [
+        "participation certificate",
+        "fibo-sec-dbt-pbs:StructuredFinanceWithoutPrincipalProtection"
+      ],
+      "rules": []
+    },
+    {
+      "name": "barrier reverse convertible certificate",
+      "technicalName": "fibo-der-drc-str:BarrierReverseConvertibleCertificate",
+      "localName": "BarrierReverseConvertibleCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/BarrierReverseConvertibleCertificate",
+      "label": "barrier reverse convertible certificate",
+      "definition": "participation certificate whose payout is conditional: should the barrier never be breached, the nominal price plus coupon is paid at redemption; if the barrier is breached the product changes into a reverse convertible",
+      "parents": [
+        "participation certificate",
+        "fibo-sec-dbt-pbs:StructuredFinanceWithoutPrincipalProtection"
+      ],
+      "rules": []
+    },
+    {
+      "name": "basket certificate",
+      "technicalName": "fibo-der-drc-str:BasketCertificate",
+      "localName": "BasketCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/BasketCertificate",
+      "label": "basket certificate",
+      "definition": "certificate whose underlying asset represents a fraction of a basket of securities that corresponds to the subscription ratio",
+      "parents": [
+        "participation certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "bonus certificate",
+      "technicalName": "fibo-der-drc-str:BonusCertificate",
+      "localName": "BonusCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/BonusCertificate",
+      "label": "bonus certificate",
+      "definition": "certificate whose minimum redemption is equal to the nominal value provided the barrier has not been breached, with a greater risk in relation to multiple underlying asset(s) (worst-of), allowing for a higher bonus level or lower barrier, and with a reduced risk compared to a direct investment into the underlying asset(s)",
+      "parents": [
+        "participation certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "capital-protected product",
+      "technicalName": "fibo-der-drc-str:CapitalProtectedProduct",
+      "localName": "CapitalProtectedProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/CapitalProtectedProduct",
+      "label": "capital-protected product",
+      "definition": "structured product that participates in the performance of a financial asset, such as a stock, fund or index, while protecting the investor's capital",
+      "parents": [
+        "structured product"
+      ],
+      "rules": []
+    },
+    {
+      "name": "capital protection certificate with coupons",
+      "technicalName": "fibo-der-drc-str:CapitalProtectionCertificateWithCoupons",
+      "localName": "CapitalProtectionCertificateWithCoupons",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/CapitalProtectionCertificateWithCoupons",
+      "label": "capital protection certificate with coupons",
+      "definition": "capital-protected product whose protection is defined as a percentage of the nominal price (e.g. 100 percent), with minimum redemption at expiry equivalent to the capital protection",
+      "parents": [
+        "capital-protected product",
+        "participation certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "capital protection certificate with participation",
+      "technicalName": "fibo-der-drc-str:CapitalProtectionCertificateWithParticipation",
+      "localName": "CapitalProtectionCertificateWithParticipation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/CapitalProtectionCertificateWithParticipation",
+      "label": "capital protection certificate with participation",
+      "definition": "capital-protected product whose protection is defined as a percentage of the nominal amount (e.g. 100 percent), with minimum redemption at expiry equivalent to the capital protection",
+      "parents": [
+        "capital-protected product",
+        "participation certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "capital protection convertible certificate",
+      "technicalName": "fibo-der-drc-str:CapitalProtectionConvertibleCertificate",
+      "localName": "CapitalProtectionConvertibleCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/CapitalProtectionConvertibleCertificate",
+      "label": "capital protection convertible certificate",
+      "definition": "capital-protected product whose protection is defined as a percentage of the nominal price (e.g. 100 percent), with minimum redemption at expiry equivalent to the capital protection",
+      "parents": [
+        "capital-protected product",
+        "participation certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "discount certificate",
+      "technicalName": "fibo-der-drc-str:DiscountCertificate",
+      "localName": "DiscountCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/DiscountCertificate",
+      "label": "discount certificate",
+      "definition": "participation certificate that enables the investor to acquire the underlying asset at a lower price in return for a limited payout, and for which the underlying asset(s) and/or a cash amount is redeemed should the underlying asset close below the strike on expiry, for which, in return, the potential profit is capped",
+      "parents": [
+        "participation certificate",
+        "fibo-sec-dbt-pbs:StructuredFinanceWithoutPrincipalProtection"
+      ],
+      "rules": []
+    },
+    {
+      "name": "express certificate",
+      "technicalName": "fibo-der-drc-str:ExpressCertificate",
+      "localName": "ExpressCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/ExpressCertificate",
+      "label": "express certificate",
+      "definition": "participation certificate whose payout is conditional: should the underlying trade above the strike on the observation date, an early redemption consisting of nominal price plus an additional coupon amount is paid",
+      "parents": [
+        "participation certificate",
+        "fibo-sec-dbt-pbs:StructuredFinanceWithoutPrincipalProtection"
+      ],
+      "rules": []
+    },
+    {
+      "name": "index certificate",
+      "technicalName": "fibo-der-drc-str:IndexCertificate",
+      "localName": "IndexCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/IndexCertificate",
+      "label": "index certificate",
+      "definition": "certificate whose underlying asset is an index",
+      "parents": [
+        "participation certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "leveraged product",
+      "technicalName": "fibo-der-drc-str:LeveragedProduct",
+      "localName": "LeveragedProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/LeveragedProduct",
+      "label": "leveraged product",
+      "definition": "structured product that provides a further enhanced yield (over and above that of a yield-enhancement product), often without any limit to the upside participation, and frequently with a stop-loss in order to limit potential capital losses",
+      "parents": [
+        "structured product"
+      ],
+      "rules": []
+    },
+    {
+      "name": "outperformance bonus certificate",
+      "technicalName": "fibo-der-drc-str:OutperformanceBonusCertificate",
+      "localName": "OutperformanceBonusCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/OutperformanceBonusCertificate",
+      "label": "outperformance bonus certificate",
+      "definition": "certificate that allows disproportionate participation (outperformance) in positive performance above the strike, in which the minimum redemption is equal to the nominal value provided the barrier has not been breached, with greater risk multiple underlying asset(s) (worst-of) allow for a higher bonus level or lower barrier, and reduced risk compared to a direct investment into the underlying asset(s)",
+      "parents": [
+        "bonus certificate",
+        "outperformance certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "outperformance certificate",
+      "technicalName": "fibo-der-drc-str:OutperformanceCertificate",
+      "localName": "OutperformanceCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/OutperformanceCertificate",
+      "label": "outperformance certificate",
+      "definition": "certificate that allows disproportionate participation (outperformance) in positive performance above the strike, reflecting underlying price moves 1:1 (adjusted by the conversion ratio and any related fees), and whose risk is comparable to direct investment in the underlying asset(s)",
+      "parents": [
+        "participation certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "participation certificate",
+      "technicalName": "fibo-der-drc-str:ParticipationCertificate",
+      "localName": "ParticipationCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/ParticipationCertificate",
+      "label": "participation certificate",
+      "definition": "participation product that provides the possibility to participate in the gains or losses in the price of an asset, subject to counterparty risk",
+      "parents": [
+        "participation instrument",
+        "fibo-sec-dbt-pbs:StructuredFinanceInstrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "participation instrument",
+      "technicalName": "fibo-der-drc-str:ParticipationInstrument",
+      "localName": "ParticipationInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/ParticipationInstrument",
+      "label": "participation instrument",
+      "definition": "structured product that provides the possibility to participate in the performance of an asset or basket of assets",
+      "parents": [
+        "structured product",
+        "fibo-der-sbd-sbd:SecurityBasedDerivative"
+      ],
+      "rules": []
+    },
+    {
+      "name": "reverse convertible certificate",
+      "technicalName": "fibo-der-drc-str:ReverseConvertibleCertificate",
+      "localName": "ReverseConvertibleCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/ReverseConvertibleCertificate",
+      "label": "reverse convertible certificate",
+      "definition": "participation certificate whose payout is conditional: should the underlying asset close below the strike on expiry, the underlying asset(s) and/ or a cash amount is redeemed; should the underlying asset close above the strike at expiry, the nominal amount plus the coupon is paid at redemption",
+      "parents": [
+        "participation certificate",
+        "fibo-sec-dbt-pbs:StructuredFinanceWithoutPrincipalProtection"
+      ],
+      "rules": []
+    },
+    {
+      "name": "structured product",
+      "technicalName": "fibo-der-drc-str:StructuredProduct",
+      "localName": "StructuredProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/StructuredProduct",
+      "label": "structured product",
+      "definition": "security whose cash flow characteristics depend upon one or more indices or that have embedded forwards or options or securities where an investor's investment return and the issuer's payment obligations are contingent on, or highly sensitive to, changes in the value of underlying assets, indices, interest rates or cash flows",
+      "parents": [
+        "fibo-fbc-fi-fi:DerivativeInstrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tracker certificate",
+      "technicalName": "fibo-der-drc-str:TrackerCertificate",
+      "localName": "TrackerCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/TrackerCertificate",
+      "label": "tracker certificate",
+      "definition": "certificate that reflects underlying price moves 1:1 (adjusted by conversion ratio and any related fees), in which the associated risk is comparable to direct investment in the underlying asset(s)",
+      "parents": [
+        "participation certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "turbo certificate",
+      "technicalName": "fibo-der-drc-str:TurboCertificate",
+      "localName": "TurboCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/TurboCertificate",
+      "label": "turbo certificate",
+      "definition": "certificate that acts as a leveraged security, whose price tracks an underlying financial asset's price one for one, and that can be used to go long or short",
+      "parents": [
+        "participation certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "twin-win certificate",
+      "technicalName": "fibo-der-drc-str:TwinWinCertificate",
+      "localName": "TwinWinCertificate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/TwinWinCertificate",
+      "label": "twin-win certificate",
+      "definition": "certificate that makes profits possible with rising and falling underlying asset values, in which a falling underlying asset price converts into profit up to the barrier, and whose minimum redemption is equal to the nominal value provided the barrier has not been breached",
+      "parents": [
+        "participation certificate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "yield-enhancement product",
+      "technicalName": "fibo-der-drc-str:YieldEnhancementProduct",
+      "localName": "YieldEnhancementProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/StructuredInstruments/YieldEnhancementProduct",
+      "label": "yield-enhancement product",
+      "definition": "structured product that provides a predefined yield in return for a downside risk",
+      "parents": [
+        "structured product"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

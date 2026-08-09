@@ -1,0 +1,658 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Securities\\SecuritiesIssuance.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/",
+  "summary": {
+    "nodes": 18,
+    "edges": 11,
+    "properties": 5,
+    "triples": 451
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegistrationAuthorities/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "best efforts offering",
+      "technicalName": "fibo-sec-sec-iss:BestEffortsOffering",
+      "localName": "BestEffortsOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/BestEffortsOffering",
+      "label": "best efforts offering",
+      "definition": "securities offering whereby investment bankers commit to doing their best to sell the securities offered, but do not assume the full risk of an underwriter",
+      "parents": [
+        "securities offering"
+      ],
+      "rules": []
+    },
+    {
+      "name": "conversion terms",
+      "technicalName": "fibo-sec-sec-iss:ConversionTerms",
+      "localName": "ConversionTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/ConversionTerms",
+      "label": "conversion terms",
+      "definition": "contract terms specifying when and how a security may be converted to another security (usually of the same issuer)",
+      "parents": [
+        "fibo-fbc-fi-fi:RedemptionProvision"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "specifies conversion into",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "convertible security",
+      "technicalName": "fibo-sec-sec-iss:ConvertibleSecurity",
+      "localName": "ConvertibleSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/ConvertibleSecurity",
+      "label": "convertible security",
+      "definition": "security that can be converted into another security",
+      "parents": [
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "conversion terms",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "exempt issuer",
+      "technicalName": "fibo-sec-sec-iss:ExemptIssuer",
+      "localName": "ExemptIssuer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/ExemptIssuer",
+      "label": "exempt issuer",
+      "definition": "issuer that issues securities that are excused from certain regulatory reporting requirements",
+      "parents": [
+        "fibo-fbc-fi-fi:Issuer"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exempt offering",
+      "technicalName": "fibo-sec-sec-iss:ExemptOffering",
+      "localName": "ExemptOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/ExemptOffering",
+      "label": "exempt offering",
+      "definition": "public offering involving securities that are excused from certain regulatory reporting requirements",
+      "parents": [
+        "public offering"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:embodies",
+          "operator": "some",
+          "value": "exempt transaction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "exempt issuer",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "exempt transaction",
+      "technicalName": "fibo-sec-sec-iss:ExemptTransaction",
+      "localName": "ExemptTransaction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/ExemptTransaction",
+      "label": "exempt transaction",
+      "definition": "securities transaction for which there is no requirement to register the transaction with a regulatory agency",
+      "parents": [
+        "fibo-fbc-fi-fi:SecuritiesTransaction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "financial instrument short name",
+      "technicalName": "fibo-sec-sec-iss:FinancialInstrumentShortName",
+      "localName": "FinancialInstrumentShortName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/FinancialInstrumentShortName",
+      "label": "financial instrument short name",
+      "definition": "abbreviated name for a financial instrument within a defined structure as specified in ISO 18774",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "has issuer short name",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "has instrument description",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "firm commitment offering",
+      "technicalName": "fibo-sec-sec-iss:FirmCommitmentOffering",
+      "localName": "FirmCommitmentOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/FirmCommitmentOffering",
+      "label": "firm commitment offering",
+      "definition": "securities offering whereby the underwriter purchases the securities outright for their own account",
+      "parents": [
+        "securities offering"
+      ],
+      "rules": []
+    },
+    {
+      "name": "offering document",
+      "technicalName": "fibo-sec-sec-iss:OfferingDocument",
+      "localName": "OfferingDocument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/OfferingDocument",
+      "label": "offering document",
+      "definition": "legal document that states the objectives, risks and terms of an investment",
+      "parents": [
+        "fibo-be-fct-pub:Publication",
+        "cmns-doc:LegalDocument"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dt:hasDateOfIssuance",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "fibo-fnd-arr-doc:hasExpirationDate",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidenceFor",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "securities offering"
+        }
+      ]
+    },
+    {
+      "name": "offering statement",
+      "technicalName": "fibo-sec-sec-iss:OfferingStatement",
+      "localName": "OfferingStatement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/OfferingStatement",
+      "label": "offering statement",
+      "definition": "offering memorandum that conforms to Regulation A, Offering Statement, of the Securities Act of 1933",
+      "parents": [
+        "offering document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "private offering",
+      "technicalName": "fibo-sec-sec-iss:PrivateOffering",
+      "localName": "PrivateOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/PrivateOffering",
+      "label": "private offering",
+      "definition": "offering of securities made privately to a limited number of qualified potential investors",
+      "parents": [
+        "securities offering"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidencedBy",
+          "operator": "some",
+          "value": "private placement memorandum",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "private placement memorandum",
+      "technicalName": "fibo-sec-sec-iss:PrivatePlacementMemorandum",
+      "localName": "PrivatePlacementMemorandum",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/PrivatePlacementMemorandum",
+      "label": "private placement memorandum",
+      "definition": "legal document stating the objectives, risks and terms of investment involved with a private placement",
+      "parents": [
+        "offering document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "prospectus",
+      "technicalName": "fibo-sec-sec-iss:Prospectus",
+      "localName": "Prospectus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/Prospectus",
+      "label": "prospectus",
+      "definition": "formal, written offering document to sell securities that provides the facts an investor needs to make an informed investment decision",
+      "parents": [
+        "offering document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "public offering",
+      "technicalName": "fibo-sec-sec-iss:PublicOffering",
+      "localName": "PublicOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/PublicOffering",
+      "label": "public offering",
+      "definition": "offering of securities for sale to the investment public, after compliance with registration requirements of the relevant regulatory authorities",
+      "parents": [
+        "securities offering"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidencedBy",
+          "operator": "some",
+          "value": "prospectus",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "securities offering",
+      "technicalName": "fibo-sec-sec-iss:SecuritiesOffering",
+      "localName": "SecuritiesOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/SecuritiesOffering",
+      "label": "securities offering",
+      "definition": "offering of a security (or securities) for sale",
+      "parents": [
+        "fibo-fbc-pas-fpas:Offering",
+        "fibo-fnd-agr-agr:Agreement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidencedBy",
+          "operator": "some",
+          "value": "offering document",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasGoverningJurisdiction",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-pas-fpas:hasOfferingPrice",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryPrice"
+        },
+        {
+          "property": "is underwritten by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "security underwriter"
+        },
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-pas-fpas:ThirdPartyAgent"
+        }
+      ]
+    },
+    {
+      "name": "security form",
+      "technicalName": "fibo-sec-sec-iss:SecurityForm",
+      "localName": "SecurityForm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/SecurityForm",
+      "label": "security form",
+      "definition": "nature of the proof of ownership of a security",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractDocument"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:FinancialAsset",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "security underwriter",
+      "technicalName": "fibo-sec-sec-iss:SecurityUnderwriter",
+      "localName": "SecurityUnderwriter",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/SecurityUnderwriter",
+      "label": "security underwriter",
+      "definition": "party that has purchased from an issuer with a view to, or sells for an issuer in connection with, the distribution of any security, or participates or has a direct or indirect participation in any such undertaking, or participates or has a participation in the direct or indirect underwriting of any such undertaking",
+      "parents": [
+        "fibo-fbc-fct-fse:Underwriter",
+        "fibo-fbc-pas-fpas:ThirdPartyAgent",
+        "fibo-fnd-agr-ctr:ContractThirdParty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "security underwriting arrangement",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "securities offering",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "security underwriting arrangement",
+      "technicalName": "fibo-sec-sec-iss:SecurityUnderwritingArrangement",
+      "localName": "SecurityUnderwritingArrangement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/SecurityUnderwritingArrangement",
+      "label": "security underwriting arrangement",
+      "definition": "underwriting agreement between an organization (typically an investment bank) and a securities issuer that commits the underwriter to assuming risk involved in buying a new issue of securities and reselling it to the public",
+      "parents": [
+        "fibo-fbc-fct-fse:UnderwritingArrangement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "security underwriter",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has actual closing date",
+      "technicalName": "fibo-sec-sec-iss:hasActualClosingDate",
+      "localName": "hasActualClosingDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasActualClosingDate",
+      "label": "has actual closing date",
+      "definition": "indicates the date on which an offering or transaction officially closes, in contrast with an intended closing date",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has announcement date",
+      "technicalName": "fibo-sec-sec-iss:hasAnnouncementDate",
+      "localName": "hasAnnouncementDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasAnnouncementDate",
+      "label": "has announcement date",
+      "definition": "indicates the first day the public will receive information regarding a new security issue",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has financial instrument short name",
+      "technicalName": "fibo-sec-sec-iss:hasFinancialInstrumentShortName",
+      "localName": "hasFinancialInstrumentShortName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasFinancialInstrumentShortName",
+      "label": "has financial instrument short name",
+      "definition": "relates a security to its ISO 18774-compliant short name, which includes an issuer short name, abbreviated instrument characteristics, and abbreviated instrument description per the ISO standard",
+      "domain": [
+        "fibo-fbc-fi-fi:FinancialInstrument"
+      ],
+      "range": [
+        "financial instrument short name"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has first trade date",
+      "technicalName": "fibo-sec-sec-iss:hasFirstTradeDate",
+      "localName": "hasFirstTradeDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasFirstTradeDate",
+      "label": "has first trade date",
+      "definition": "indicates the date on which a newly issued security starts trading",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has first trade settlement date",
+      "technicalName": "fibo-sec-sec-iss:hasFirstTradeSettlementDate",
+      "localName": "hasFirstTradeSettlementDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasFirstTradeSettlementDate",
+      "label": "has first trade settlement date",
+      "definition": "indicates the date on which the first trade of a newly issued security is settled",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has subscription period",
+      "technicalName": "fibo-sec-sec-iss:hasSubscriptionPeriod",
+      "localName": "hasSubscriptionPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasSubscriptionPeriod",
+      "label": "has subscription period",
+      "definition": "indicates a period of time in which investors can commit to purchase shares (or units) to be issued",
+      "domain": [],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is issued in form",
+      "technicalName": "fibo-sec-sec-iss:isIssuedInForm",
+      "localName": "isIssuedInForm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/isIssuedInForm",
+      "label": "is issued in form",
+      "definition": "indicates the form in which the security is issued, typically in registered form",
+      "domain": [
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "range": [
+        "security form"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is registered",
+      "technicalName": "fibo-sec-sec-iss:isRegisteredWith",
+      "localName": "isRegisteredWith",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/isRegisteredWith",
+      "label": "is registered",
+      "definition": "indicates the registration authority for a given security, i.e., in the name of the owner on the books of the issuer, with the issuer's registrar, with a third-party transfer agent, with a broker-dealer, or other competent party",
+      "domain": [
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "range": [
+        "cmns-ra:RegistrationAuthority"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is underwritten by",
+      "technicalName": "fibo-sec-sec-iss:isUnderwrittenBy",
+      "localName": "isUnderwrittenBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/isUnderwrittenBy",
+      "label": "is underwritten by",
+      "definition": "relates an offering to an underwriter involved in raising capital for or distributing the instruments that are the subject of the offering",
+      "domain": [
+        "securities offering"
+      ],
+      "range": [
+        "fibo-fbc-fct-fse:Underwriter"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "specifies conversion into",
+      "technicalName": "fibo-sec-sec-iss:specifiesConversionInto",
+      "localName": "specifiesConversionInto",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/specifiesConversionInto",
+      "label": "specifies conversion into",
+      "definition": "specifies a security that will replace a convertible security under the terms of the agreement",
+      "domain": [
+        "conversion terms"
+      ],
+      "range": [
+        "fibo-fbc-fi-fi:Security"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "underwrites",
+      "technicalName": "fibo-sec-sec-iss:underwrites",
+      "localName": "underwrites",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/underwrites",
+      "label": "underwrites",
+      "definition": "identifies one or more underwriters involved in raising capital for or distributing the instruments that are the subject of the offering",
+      "domain": [
+        "fibo-fbc-fct-fse:Underwriter"
+      ],
+      "range": [
+        "securities offering"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has instrument description",
+      "technicalName": "fibo-sec-sec-iss:hasInstrumentDescription",
+      "localName": "hasInstrumentDescription",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasInstrumentDescription",
+      "label": "has instrument description",
+      "definition": "relates a financial instrument or FISN to an ISO 18774-compliant instrument description, that is, a collection of characteristics and attributes defining a financial instrument with a maximum length up to 19 alphanumeric characters",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has issuer short name",
+      "technicalName": "fibo-sec-sec-iss:hasIssuerShortName",
+      "localName": "hasIssuerShortName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasIssuerShortName",
+      "label": "has issuer short name",
+      "definition": "relates a security issuer or FISN to an ISO 18774-compliant issuer short name, that is, an abbreviation of the official issuer name, limited to a maximum of 15 alphanumeric characters",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has series",
+      "technicalName": "fibo-sec-sec-iss:hasSeries",
+      "localName": "hasSeries",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasSeries",
+      "label": "has series",
+      "definition": "indicates the series identified by the issuer in the event that the instrument is issued in several series (also known as tranches)",
+      "domain": [],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has subscription amount",
+      "technicalName": "fibo-sec-sec-iss:hasSubscriptionAmount",
+      "localName": "hasSubscriptionAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/hasSubscriptionAmount",
+      "label": "has subscription amount",
+      "definition": "indicates a number of shares or units",
+      "domain": [],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is over-allotted",
+      "technicalName": "fibo-sec-sec-iss:isOverAllotted",
+      "localName": "isOverAllotted",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/isOverAllotted",
+      "label": "is over-allotted",
+      "definition": "indicates whether or not the subscription is over-subscribed",
+      "domain": [],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

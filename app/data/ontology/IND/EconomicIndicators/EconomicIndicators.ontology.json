@@ -1,0 +1,1149 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\IND\\EconomicIndicators\\EconomicIndicators.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/",
+  "summary": {
+    "nodes": 58,
+    "edges": 5,
+    "properties": 2,
+    "triples": 732
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/ClassificationSchemes/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/Analytics/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Locations/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "average daily earnings",
+      "technicalName": "fibo-ind-ei-ei:AverageDailyEarnings",
+      "localName": "AverageDailyEarnings",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/AverageDailyEarnings",
+      "label": "average daily earnings",
+      "definition": "measure of the average daily wage an employee makes over the reporting period",
+      "parents": [
+        "average earnings"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasReferencePeriod",
+          "operator": "value",
+          "value": "daily",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "average earnings",
+      "technicalName": "fibo-ind-ei-ei:AverageEarnings",
+      "localName": "AverageEarnings",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/AverageEarnings",
+      "label": "average earnings",
+      "definition": "measure of the average wage an hourly or salaried worker makes in a given period of time",
+      "parents": [
+        "economic indicator",
+        "cmns-qtu:Expression"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasReferencePeriod",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-dt-fd:ExplicitRecurrenceInterval"
+        }
+      ]
+    },
+    {
+      "name": "average hourly earnings",
+      "technicalName": "fibo-ind-ei-ei:AverageHourlyEarnings",
+      "localName": "AverageHourlyEarnings",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/AverageHourlyEarnings",
+      "label": "average hourly earnings",
+      "definition": "measure of the average hourly wage an employee makes over the reporting period",
+      "parents": [
+        "average earnings"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasReferencePeriod",
+          "operator": "value",
+          "value": "hourly",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "average monthly earnings",
+      "technicalName": "fibo-ind-ei-ei:AverageMonthlyEarnings",
+      "localName": "AverageMonthlyEarnings",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/AverageMonthlyEarnings",
+      "label": "average monthly earnings",
+      "definition": "measure of the average monthly wage an employee makes over the reporting period",
+      "parents": [
+        "average earnings"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasReferencePeriod",
+          "operator": "value",
+          "value": "monthly",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "average weekly earnings",
+      "technicalName": "fibo-ind-ei-ei:AverageWeeklyEarnings",
+      "localName": "AverageWeeklyEarnings",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/AverageWeeklyEarnings",
+      "label": "average weekly earnings",
+      "definition": "measure of the average weekly wage an employee makes over the reporting period",
+      "parents": [
+        "average earnings"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasReferencePeriod",
+          "operator": "value",
+          "value": "weekly",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "capital-labor-energy-materials multifactor productivity",
+      "technicalName": "fibo-ind-ei-ei:CapitalLaborEnergyMaterialsMultifactorProductivity",
+      "localName": "CapitalLaborEnergyMaterialsMultifactorProductivity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/CapitalLaborEnergyMaterialsMultifactorProductivity",
+      "label": "capital-labor-energy-materials multifactor productivity",
+      "definition": "ratio of a quantity index of gross output to a quantity index of combined inputs",
+      "parents": [
+        "productivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "capital-labor multifactor productivity (MFP), based on value added",
+      "technicalName": "fibo-ind-ei-ei:CapitalLaborMultifactorProductivityValueAdded",
+      "localName": "CapitalLaborMultifactorProductivityValueAdded",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/CapitalLaborMultifactorProductivityValueAdded",
+      "label": "capital-labor multifactor productivity (MFP), based on value added",
+      "definition": "ratio of a quantity index of value added to a quantity index of combined labor and capital input",
+      "parents": [
+        "productivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "capital productivity, based on value added",
+      "technicalName": "fibo-ind-ei-ei:CapitalProductivityValueAdded",
+      "localName": "CapitalProductivityValueAdded",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/CapitalProductivityValueAdded",
+      "label": "capital productivity, based on value added",
+      "definition": "ratio of a quantity index of value added to a quantity index of capital input",
+      "parents": [
+        "productivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "civilian",
+      "technicalName": "fibo-ind-ei-ei:Civilian",
+      "localName": "Civilian",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/Civilian",
+      "label": "civilian",
+      "definition": "person that is not a member of the military (i.e., that is not on active duty)",
+      "parents": [
+        "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+      ],
+      "rules": []
+    },
+    {
+      "name": "civilian labor force",
+      "technicalName": "fibo-ind-ei-ei:CivilianLaborForce",
+      "localName": "CivilianLaborForce",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/CivilianLaborForce",
+      "label": "civilian labor force",
+      "definition": "subset of the civilian, non-institutional population considered to be part of the labor force during a given reporting period",
+      "parents": [
+        "civilian non-institutional population"
+      ],
+      "rules": []
+    },
+    {
+      "name": "civilian labor force participation rate",
+      "technicalName": "fibo-ind-ei-ei:CivilianLaborForceParticipationRate",
+      "localName": "CivilianLaborForceParticipationRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/CivilianLaborForceParticipationRate",
+      "label": "civilian labor force participation rate",
+      "definition": "economic indicator representing the rate of participation the labor force of a given economy for some specified period",
+      "parents": [
+        "economic indicator",
+        "cmns-qtu:Expression"
+      ],
+      "rules": [
+        {
+          "property": "has comparison population",
+          "operator": "some",
+          "value": "civilian labor force",
+          "qualifier": null
+        },
+        {
+          "property": "has baseline population",
+          "operator": "some",
+          "value": "civilian non-institutional population",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "civilian non-institutional person",
+      "technicalName": "fibo-ind-ei-ei:CivilianNonInstitutionalPerson",
+      "localName": "CivilianNonInstitutionalPerson",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/CivilianNonInstitutionalPerson",
+      "label": "civilian non-institutional person",
+      "definition": "legal working-age person that does not live in an institution (for example, a correctional facility, long-term care hospital, or nursing home), and is not on active military duty",
+      "parents": [
+        "fibo-fnd-aap-ppl:LegalWorkingAgePerson",
+        "civilian"
+      ],
+      "rules": []
+    },
+    {
+      "name": "civilian non-institutional population",
+      "technicalName": "fibo-ind-ei-ei:CivilianNonInstitutionalPopulation",
+      "localName": "CivilianNonInstitutionalPopulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/CivilianNonInstitutionalPopulation",
+      "label": "civilian non-institutional population",
+      "definition": "statistical universe consisting of people of a certain age who reside in a given region, do not live in institutions (for example, correctional facilities, long-term care hospitals, and nursing homes), and are not on active military duty",
+      "parents": [
+        "fibo-fnd-utl-alx:StatisticalUniverse"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "civilian non-institutional person",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "combined statistical area",
+      "technicalName": "fibo-ind-ei-ei:CombinedStatisticalArea",
+      "localName": "CombinedStatisticalArea",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/CombinedStatisticalArea",
+      "label": "combined statistical area",
+      "definition": "combination of adjacent metropolitan and micropolitan areas with economic ties measured by commuting patterns",
+      "parents": [
+        "government-specified statistical area"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "2",
+          "qualifier": "government-specified statistical area"
+        }
+      ]
+    },
+    {
+      "name": "consumer price index",
+      "technicalName": "fibo-ind-ei-ei:ConsumerPriceIndex",
+      "localName": "ConsumerPriceIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/ConsumerPriceIndex",
+      "label": "consumer price index",
+      "definition": "economic indicator representing measure of the change over time in the prices of consumer goods and services that households consume",
+      "parents": [
+        "economic indicator",
+        "cmns-qtu:Expression"
+      ],
+      "rules": [
+        {
+          "property": "has baseline population",
+          "operator": "some",
+          "value": "civilian non-institutional population",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasInput",
+          "operator": "some",
+          "value": "fixed basket",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "discouraged worker population",
+      "technicalName": "fibo-ind-ei-ei:DiscouragedWorkerPopulation",
+      "localName": "DiscouragedWorkerPopulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/DiscouragedWorkerPopulation",
+      "label": "discouraged worker population",
+      "definition": "subset of the marginally attached population that have given a job-market related reason for not currently looking for work",
+      "parents": [
+        "marginally attached population"
+      ],
+      "rules": []
+    },
+    {
+      "name": "economic indicator",
+      "technicalName": "fibo-ind-ei-ei:EconomicIndicator",
+      "localName": "EconomicIndicator",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/EconomicIndicator",
+      "label": "economic indicator",
+      "definition": "statistical measure of economic activity that is regular and comparable in the context of a statistical area (region), used for analysis of economic performance and predictions of future performance",
+      "parents": [
+        "fibo-fnd-utl-alx:ScopedMeasure"
+      ],
+      "rules": [
+        {
+          "property": "cmns-loc:hasCoverageArea",
+          "operator": "some",
+          "value": "government-specified statistical area",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-doc:hasReportingPeriod",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDatePeriod",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-utl-alx:hasReleaseDateTime",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        },
+        {
+          "property": "fibo-fnd-utl-alx:hasReleaseDate",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "has series origin",
+          "operator": "only",
+          "value": "cmns-dt:Date",
+          "qualifier": null
+        },
+        {
+          "property": "is seasonally adjusted",
+          "operator": "only",
+          "value": "xsd:boolean",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "employed population",
+      "technicalName": "fibo-ind-ei-ei:EmployedPopulation",
+      "localName": "EmployedPopulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/EmployedPopulation",
+      "label": "employed population",
+      "definition": "subset of the civilian labor force considered to be employed during the reporting period",
+      "parents": [
+        "civilian labor force"
+      ],
+      "rules": []
+    },
+    {
+      "name": "employed population part-time",
+      "technicalName": "fibo-ind-ei-ei:EmployedPopulationPartTime",
+      "localName": "EmployedPopulationPartTime",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/EmployedPopulationPartTime",
+      "label": "employed population part-time",
+      "definition": "subset of the employed population that includes persons that are working fewer than 30 to 35 hours per week based on usual working hours",
+      "parents": [
+        "employed population"
+      ],
+      "rules": []
+    },
+    {
+      "name": "employed population part-time for economic reasons",
+      "technicalName": "fibo-ind-ei-ei:EmployedPopulationPartTimeForEconomicReasons",
+      "localName": "EmployedPopulationPartTimeForEconomicReasons",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/EmployedPopulationPartTimeForEconomicReasons",
+      "label": "employed population part-time for economic reasons",
+      "definition": "subset of the employed population that includes persons that are working fewer than 30 to 35 hours per week due to slack work, unfavorable business conditions, inability to find full-time work, and seasonal declines in demand",
+      "parents": [
+        "employed population part-time",
+        "underemployed population"
+      ],
+      "rules": []
+    },
+    {
+      "name": "employed population part-time for non-economic reasons",
+      "technicalName": "fibo-ind-ei-ei:EmployedPopulationPartTimeForNonEconomicReasons",
+      "localName": "EmployedPopulationPartTimeForNonEconomicReasons",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/EmployedPopulationPartTimeForNonEconomicReasons",
+      "label": "employed population part-time for non-economic reasons",
+      "definition": "subset of the employed population that includes persons that are working fewer than 30 to 35 hours per week due to illness or other health or medical limitations, childcare problems, family or personal obligations, being in school or training, retirement or Social Security limits on earnings, and having a job where full-time work is less than 35 hours",
+      "parents": [
+        "employed population part-time"
+      ],
+      "rules": []
+    },
+    {
+      "name": "employed population temporarily not at work",
+      "technicalName": "fibo-ind-ei-ei:EmployedPopulationTemporarilyNotAtWork",
+      "localName": "EmployedPopulationTemporarilyNotAtWork",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/EmployedPopulationTemporarilyNotAtWork",
+      "label": "employed population temporarily not at work",
+      "definition": "subset of the employed population that includes persons that are temporarily absent from work for various reasons",
+      "parents": [
+        "employed population"
+      ],
+      "rules": []
+    },
+    {
+      "name": "employment-population ratio",
+      "technicalName": "fibo-ind-ei-ei:EmploymentPopulationRatio",
+      "localName": "EmploymentPopulationRatio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/EmploymentPopulationRatio",
+      "label": "employment-population ratio",
+      "definition": "economic indicator representing the ratio of the employed population with respect to the overall civilian non-institutional population of a given economy for some specified period",
+      "parents": [
+        "economic indicator",
+        "cmns-qtu:Expression"
+      ],
+      "rules": [
+        {
+          "property": "has comparison population",
+          "operator": "some",
+          "value": "employed population",
+          "qualifier": null
+        },
+        {
+          "property": "has baseline population",
+          "operator": "some",
+          "value": "civilian non-institutional population",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "enterprise",
+      "technicalName": "fibo-ind-ei-ei:Enterprise",
+      "localName": "Enterprise",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/Enterprise",
+      "label": "enterprise",
+      "definition": "functional business entity that produces and/or sells goods or services",
+      "parents": [
+        "fibo-be-fct-fct:FunctionalBusinessEntity",
+        "institutional unit"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "establishment",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "fibo-fnd-arr-cls:IndustrySectorClassifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "enterprise population",
+      "technicalName": "fibo-ind-ei-ei:EnterprisePopulation",
+      "localName": "EnterprisePopulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/EnterprisePopulation",
+      "label": "enterprise population",
+      "definition": "statistical universe consisting of enterprises designed for the purposes of supporting surveys such as those used as the basis for employment and producer price indices",
+      "parents": [
+        "fibo-fnd-utl-alx:StatisticalUniverse"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "enterprise",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "establishment",
+      "technicalName": "fibo-ind-ei-ei:Establishment",
+      "localName": "Establishment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/Establishment",
+      "label": "establishment",
+      "definition": "an enterprise (or part of an enterprise) that operates from a single physical location",
+      "parents": [
+        "institutional unit"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-plc-adr:hasAddress",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-plc-adr:PhysicalAddress"
+        },
+        {
+          "property": "cmns-col:isConstituentOf",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "enterprise"
+        }
+      ]
+    },
+    {
+      "name": "establishment employment",
+      "technicalName": "fibo-ind-ei-ei:EstablishmentEmployment",
+      "localName": "EstablishmentEmployment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/EstablishmentEmployment",
+      "label": "establishment employment",
+      "definition": "economic indicator representing the total number of persons who work in or for the establishment including working proprietors, active business partners and unpaid family workers, as well as persons working outside the establishment when paid by and under the control of the establishment, for example, sales representatives, outside service engineers and repair and maintenance personnel",
+      "parents": [
+        "economic indicator",
+        "cmns-qtu:Expression"
+      ],
+      "rules": [
+        {
+          "property": "has baseline population",
+          "operator": "some",
+          "value": "establishment population",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "establishment population",
+      "technicalName": "fibo-ind-ei-ei:EstablishmentPopulation",
+      "localName": "EstablishmentPopulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/EstablishmentPopulation",
+      "label": "establishment population",
+      "definition": "a subset of the enterprise population focused on establishments",
+      "parents": [
+        "enterprise population"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "establishment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fixed basket",
+      "technicalName": "fibo-ind-ei-ei:FixedBasket",
+      "localName": "FixedBasket",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/FixedBasket",
+      "label": "fixed basket",
+      "definition": "basket of goods and services whose quantity and quality are held fixed for some period of time",
+      "parents": [
+        "fibo-fbc-pas-fpas:Basket",
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "fixed basket constituent",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fixed basket constituent",
+      "technicalName": "fibo-ind-ei-ei:FixedBasketConstituent",
+      "localName": "FixedBasketConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/FixedBasketConstituent",
+      "label": "fixed basket constituent",
+      "definition": "component of a fixed basket",
+      "parents": [
+        "fibo-fbc-pas-fpas:BasketConstituent",
+        "fibo-fnd-dt-fd:DatedCollectionConstituent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isConstituentOf",
+          "operator": "some",
+          "value": "fixed basket",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fixed basket population",
+      "technicalName": "fibo-ind-ei-ei:FixedBasketPopulation",
+      "localName": "FixedBasketPopulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/FixedBasketPopulation",
+      "label": "fixed basket population",
+      "definition": "statistical universe consisting of specific goods and/or services designed for the purposes of supporting surveys such as those used as the basis for price indices",
+      "parents": [
+        "fibo-fnd-utl-alx:StatisticalUniverse"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "government-specified statistical area",
+      "technicalName": "fibo-ind-ei-ei:GovernmentSpecifiedStatisticalArea",
+      "localName": "GovernmentSpecifiedStatisticalArea",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/GovernmentSpecifiedStatisticalArea",
+      "label": "government-specified statistical area",
+      "definition": "statistical area defined by a government agency",
+      "parents": [
+        "fibo-fnd-utl-alx:StatisticalArea"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "some",
+          "value": "fibo-be-ge-ge:GovernmentBody",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "gross domestic product",
+      "technicalName": "fibo-ind-ei-ei:GrossDomesticProduct",
+      "localName": "GrossDomesticProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/GrossDomesticProduct",
+      "label": "gross domestic product",
+      "definition": "economic indicator representing the broadest measure of aggregate economic activity, measuring the total unduplicated market value of all final goods and services produced within a statistical area in a period",
+      "parents": [
+        "economic indicator"
+      ],
+      "rules": []
+    },
+    {
+      "name": "household",
+      "technicalName": "fibo-ind-ei-ei:Household",
+      "localName": "Household",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/Household",
+      "label": "household",
+      "definition": "individual or small group of persons who occupy a housing unit (such as a house or apartment) as their usual place of residence, who pool some, or all, of their income and wealth and who consume certain types of goods and services collectively, mainly housing and food",
+      "parents": [
+        "institutional unit"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "fibo-fnd-aap-ppl:Person",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-loc:hasLocation",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "housing unit"
+        }
+      ]
+    },
+    {
+      "name": "housing unit",
+      "technicalName": "fibo-ind-ei-ei:HousingUnit",
+      "localName": "HousingUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/HousingUnit",
+      "label": "housing unit",
+      "definition": "house, an apartment, a mobile home or trailer, a group of rooms, or a single room occupied as separate living quarters, or if vacant, intended for occupancy as separate living quarters",
+      "parents": [
+        "cmns-loc:PhysicalLocation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-plc-adr:hasAddress",
+          "operator": "only",
+          "value": "fibo-fnd-plc-adr:PhysicalAddress",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "inflation rate",
+      "technicalName": "fibo-ind-ei-ei:InflationRate",
+      "localName": "InflationRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/InflationRate",
+      "label": "inflation rate",
+      "definition": "economic indicator representing a change in prices of goods and services for a specified period, for a given statistical area",
+      "parents": [
+        "economic indicator"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "government-specified statistical area",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "input producer price index",
+      "technicalName": "fibo-ind-ei-ei:InputProducerPriceIndex",
+      "localName": "InputProducerPriceIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/InputProducerPriceIndex",
+      "label": "input producer price index",
+      "definition": "economic indicator representing measure of the rate of change over time in the prices of inputs of goods and services purchased by the producer",
+      "parents": [
+        "producer price index"
+      ],
+      "rules": []
+    },
+    {
+      "name": "institutional person",
+      "technicalName": "fibo-ind-ei-ei:InstitutionalPerson",
+      "localName": "InstitutionalPerson",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/InstitutionalPerson",
+      "label": "institutional person",
+      "definition": "person that resides in an institution for some reason, due, for example, to hospitalization, rehabilitation, or incarceration",
+      "parents": [
+        "fibo-fnd-aap-ppl:Person"
+      ],
+      "rules": []
+    },
+    {
+      "name": "institutional unit",
+      "technicalName": "fibo-ind-ei-ei:InstitutionalUnit",
+      "localName": "InstitutionalUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/InstitutionalUnit",
+      "label": "institutional unit",
+      "definition": "party that is capable, in its own right, of owning assets, incurring liabilities, and engaging in economic activities and in transactions with other parties",
+      "parents": [
+        "fibo-be-fct-fct:FunctionalEntity",
+        "cmns-pts:PartyRole"
+      ],
+      "rules": []
+    },
+    {
+      "name": "labor productivity, based on gross output",
+      "technicalName": "fibo-ind-ei-ei:LaborProductivityGrossOutput",
+      "localName": "LaborProductivityGrossOutput",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/LaborProductivityGrossOutput",
+      "label": "labor productivity, based on gross output",
+      "definition": "ratio of a quantity index of gross output to a quantity index of labor input",
+      "parents": [
+        "productivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "labor productivity, based on value added",
+      "technicalName": "fibo-ind-ei-ei:LaborProductivityValueAdded",
+      "localName": "LaborProductivityValueAdded",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/LaborProductivityValueAdded",
+      "label": "labor productivity, based on value added",
+      "definition": "ratio of a quantity index of value added to a quantity index of labor input",
+      "parents": [
+        "productivity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "marginally attached population",
+      "technicalName": "fibo-ind-ei-ei:MarginallyAttachedPopulation",
+      "localName": "MarginallyAttachedPopulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/MarginallyAttachedPopulation",
+      "label": "marginally attached population",
+      "definition": "subset of the population that includes people who currently are neither working nor looking for work but indicate that they want and are available for a job and have looked for work sometime in the past 12 months",
+      "parents": [
+        "population not in the labor force"
+      ],
+      "rules": []
+    },
+    {
+      "name": "metropolitan statistical area",
+      "technicalName": "fibo-ind-ei-ei:MetropolitanStatisticalArea",
+      "localName": "MetropolitanStatisticalArea",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/MetropolitanStatisticalArea",
+      "label": "metropolitan statistical area",
+      "definition": "one or more adjacent counties or county equivalents that have at least one urban core area of at least 50,000 population, plus adjacent territory that has a high degree of social and economic integration with the core as measured by commuting ties",
+      "parents": [
+        "government-specified statistical area"
+      ],
+      "rules": []
+    },
+    {
+      "name": "micropolitan statistical area",
+      "technicalName": "fibo-ind-ei-ei:MicropolitanStatisticalArea",
+      "localName": "MicropolitanStatisticalArea",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/MicropolitanStatisticalArea",
+      "label": "micropolitan statistical area",
+      "definition": "one or more adjacent counties or county equivalents that have at least one urban core area of at least 10,000 population but less than 50,000, plus adjacent territory that has a high degree of social and economic integration with the core as measured by commuting ties",
+      "parents": [
+        "government-specified statistical area"
+      ],
+      "rules": []
+    },
+    {
+      "name": "military person",
+      "technicalName": "fibo-ind-ei-ei:MilitaryPerson",
+      "localName": "MilitaryPerson",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/MilitaryPerson",
+      "label": "military person",
+      "definition": "person that is a member of the active duty military",
+      "parents": [
+        "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+      ],
+      "rules": []
+    },
+    {
+      "name": "output producer price index",
+      "technicalName": "fibo-ind-ei-ei:OutputProducerPriceIndex",
+      "localName": "OutputProducerPriceIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/OutputProducerPriceIndex",
+      "label": "output producer price index",
+      "definition": "economic indicator representing measure of the rate of change over time in the prices of products sold as they leave the producer",
+      "parents": [
+        "producer price index"
+      ],
+      "rules": []
+    },
+    {
+      "name": "personal consumption expenditures",
+      "technicalName": "fibo-ind-ei-ei:PersonalConsumptionExpenditures",
+      "localName": "PersonalConsumptionExpenditures",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/PersonalConsumptionExpenditures",
+      "label": "personal consumption expenditures",
+      "definition": "economic indicator representing measure of the value of the goods and services purchased by, or on the behalf of, 'persons'",
+      "parents": [
+        "economic indicator"
+      ],
+      "rules": []
+    },
+    {
+      "name": "population not in the labor force",
+      "technicalName": "fibo-ind-ei-ei:PopulationNotInLaborForce",
+      "localName": "PopulationNotInLaborForce",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/PopulationNotInLaborForce",
+      "label": "population not in the labor force",
+      "definition": "subset of the civilian, noninstitutional population, that is considered neither employed nor unemployed by the reporting agency during the reporting period",
+      "parents": [
+        "civilian non-institutional population"
+      ],
+      "rules": []
+    },
+    {
+      "name": "producer price index",
+      "technicalName": "fibo-ind-ei-ei:ProducerPriceIndex",
+      "localName": "ProducerPriceIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/ProducerPriceIndex",
+      "label": "producer price index",
+      "definition": "economic indicator representing measure of the rate of change over time in the prices of goods and services bought and sold by producers",
+      "parents": [
+        "economic indicator",
+        "cmns-qtu:Expression"
+      ],
+      "rules": [
+        {
+          "property": "has baseline population",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasInput",
+          "operator": "some",
+          "value": "fixed basket",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "productivity",
+      "technicalName": "fibo-ind-ei-ei:Productivity",
+      "localName": "Productivity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/Productivity",
+      "label": "productivity",
+      "definition": "economic indicator representing ratio of a volume measure of output to a volume measure of input use",
+      "parents": [
+        "economic indicator",
+        "cmns-qtu:Expression"
+      ],
+      "rules": []
+    },
+    {
+      "name": "statistical information publisher",
+      "technicalName": "fibo-ind-ei-ei:StatisticalInformationPublisher",
+      "localName": "StatisticalInformationPublisher",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/StatisticalInformationPublisher",
+      "label": "statistical information publisher",
+      "definition": "publisher that packages and makes analytical and statistical data available",
+      "parents": [
+        "fibo-be-fct-pub:Publisher"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "cmns-org:FormalOrganization",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ultimate consumer",
+      "technicalName": "fibo-ind-ei-ei:UltimateConsumer",
+      "localName": "UltimateConsumer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/UltimateConsumer",
+      "label": "ultimate consumer",
+      "definition": "person that is the ultimate user of a good, product or service",
+      "parents": [
+        "fibo-fnd-pas-pas:Consumer"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-fnd-aap-ppl:Person",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "underemployed population",
+      "technicalName": "fibo-ind-ei-ei:UnderemployedPopulation",
+      "localName": "UnderemployedPopulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/UnderemployedPopulation",
+      "label": "underemployed population",
+      "definition": "subset of the employed population that includes persons employed part-time for economic reasons, who want and are available for full-time work but have had to settle for a part-time schedule",
+      "parents": [
+        "employed population"
+      ],
+      "rules": []
+    },
+    {
+      "name": "underemployed population with respect to occupation",
+      "technicalName": "fibo-ind-ei-ei:UnderemployedPopulationWithRespectToOccupation",
+      "localName": "UnderemployedPopulationWithRespectToOccupation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/UnderemployedPopulationWithRespectToOccupation",
+      "label": "underemployed population with respect to occupation",
+      "definition": "subset of the underemployed population that includes persons employed in a role that does not reflect their training and experience, excluding those that change careers",
+      "parents": [
+        "underemployed population"
+      ],
+      "rules": []
+    },
+    {
+      "name": "underutilized population",
+      "technicalName": "fibo-ind-ei-ei:UnderutilizedPopulation",
+      "localName": "UnderutilizedPopulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/UnderutilizedPopulation",
+      "label": "underutilized population",
+      "definition": "subset of the civilian non-institutional population that includes persons employed part-time for economic reasons, persons that are marginally attached to the labor force, and persons that are identified as unemployed",
+      "parents": [
+        "civilian non-institutional population"
+      ],
+      "rules": []
+    },
+    {
+      "name": "unemployed population",
+      "technicalName": "fibo-ind-ei-ei:UnemployedPopulation",
+      "localName": "UnemployedPopulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/UnemployedPopulation",
+      "label": "unemployed population",
+      "definition": "subset of the civilian labor force that is considered to have had no employment but was available for work, except for temporary illness, and had made specific efforts to find employment sometime during a specified period, during the reporting period",
+      "parents": [
+        "civilian labor force"
+      ],
+      "rules": [
+        {
+          "property": "has duration of unemployment",
+          "operator": "some",
+          "value": "cmns-dt:Duration",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "unemployment rate",
+      "technicalName": "fibo-ind-ei-ei:UnemploymentRate",
+      "localName": "UnemploymentRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/UnemploymentRate",
+      "label": "unemployment rate",
+      "definition": "economic indicator representing the ratio of the unemployed population with respect to the civilian labor force of a given economy for some specified period",
+      "parents": [
+        "economic indicator",
+        "cmns-qtu:Expression"
+      ],
+      "rules": [
+        {
+          "property": "has comparison population",
+          "operator": "some",
+          "value": "unemployed population",
+          "qualifier": null
+        },
+        {
+          "property": "has baseline population",
+          "operator": "some",
+          "value": "civilian labor force",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "value-added producer price index",
+      "technicalName": "fibo-ind-ei-ei:ValueAddedProducerPriceIndex",
+      "localName": "ValueAddedProducerPriceIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/ValueAddedProducerPriceIndex",
+      "label": "value-added producer price index",
+      "definition": "economic indicator representing a weighted average of the input and output producer price indices",
+      "parents": [
+        "producer price index"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-oc:hasInput",
+          "operator": "some",
+          "value": "output producer price index",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasInput",
+          "operator": "some",
+          "value": "input producer price index",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has baseline population",
+      "technicalName": "fibo-ind-ei-ei:hasBaselinePopulation",
+      "localName": "hasBaselinePopulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/hasBaselinePopulation",
+      "label": "has baseline population",
+      "definition": "specifies the starting point statistical universe or population used for comparison or analysis",
+      "domain": [],
+      "range": [
+        "fibo-fnd-utl-alx:StatisticalUniverse"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has comparison population",
+      "technicalName": "fibo-ind-ei-ei:hasComparisonPopulation",
+      "localName": "hasComparisonPopulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/hasComparisonPopulation",
+      "label": "has comparison population",
+      "definition": "specifies the subset of the baseline statistical universe or population used for comparison or analysis",
+      "domain": [],
+      "range": [
+        "fibo-fnd-utl-alx:StatisticalUniverse"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has duration of unemployment",
+      "technicalName": "fibo-ind-ei-ei:hasDurationOfUnemployment",
+      "localName": "hasDurationOfUnemployment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/hasDurationOfUnemployment",
+      "label": "has duration of unemployment",
+      "definition": "specifies the length of time, typically in weeks, that people classified as unemployed have been continuously looking for work",
+      "domain": [],
+      "range": [
+        "cmns-dt:Duration"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has indicator value",
+      "technicalName": "fibo-ind-ei-ei:hasIndicatorValue",
+      "localName": "hasIndicatorValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/hasIndicatorValue",
+      "label": "has indicator value",
+      "definition": "specifies a quantity value for a given indicator",
+      "domain": [],
+      "range": [
+        "cmns-qtu:ScalarQuantityValue"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has series origin",
+      "technicalName": "fibo-ind-ei-ei:hasSeriesOrigin",
+      "localName": "hasSeriesOrigin",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/hasSeriesOrigin",
+      "label": "has series origin",
+      "definition": "specifies the original starting date for the time series for a given economic indicator",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "excludes energy and food",
+      "technicalName": "fibo-ind-ei-ei:excludesEnergyAndFood",
+      "localName": "excludesEnergyAndFood",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/excludesEnergyAndFood",
+      "label": "excludes energy and food",
+      "definition": "indicates whether the calculation of the index includes energy and food prices or not",
+      "domain": [
+        "consumer price index"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is seasonally adjusted",
+      "technicalName": "fibo-ind-ei-ei:isSeasonallyAdjusted",
+      "localName": "isSeasonallyAdjusted",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/isSeasonallyAdjusted",
+      "label": "is seasonally adjusted",
+      "definition": "a predicate indicating whether some published formal method is applied that compensates for seasonal variations in the population or index value",
+      "domain": [],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

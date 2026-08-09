@@ -1,0 +1,479 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Debt\\SyntheticCDOs.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/",
+  "summary": {
+    "nodes": 12,
+    "edges": 14,
+    "properties": 1,
+    "triples": 183
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/CollateralizedDebtObligations/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/PoolBackedSecurities/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Funds/Funds/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/"
+  ],
+  "classes": [
+    {
+      "name": "arbitrage synthetic c d o",
+      "technicalName": "fibo-sec-dbt-syn:ArbitrageSyntheticCDO",
+      "localName": "ArbitrageSyntheticCDO",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/ArbitrageSyntheticCDO",
+      "label": "arbitrage synthetic c d o",
+      "definition": "Arbitrage synthetic CDO deals are motivated by regulatory or practical considerations that might make a bank want to retain ownership of debt while achieving capital relief through CDSs. In this case, the sponsoring bank has a portfolio of obligations, called the reference portfolio. It retains that portfolio, but offloads its credit risk by transacting CDSs with the CDO.",
+      "parents": [
+        "fibo-sec-dbt-cdo:ArbitrageCDO",
+        "synthetic c d o"
+      ],
+      "rules": [
+        {
+          "property": "issues",
+          "operator": "some",
+          "value": "synthetic c d o tranche",
+          "qualifier": null
+        },
+        {
+          "property": "assets managed by",
+          "operator": "some",
+          "value": "fibo-sec-dbt-cdo:CDOPortfolioManager",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "synthetic amortizing security",
+      "technicalName": "fibo-sec-dbt-syn:SyntheticAmortizingSecurity",
+      "localName": "SyntheticAmortizingSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/SyntheticAmortizingSecurity",
+      "label": "synthetic amortizing security",
+      "definition": "Security constructed to emulate an amortizing security.",
+      "parents": [
+        "synthetic structured finance instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "synthetic balance sheet c d o",
+      "technicalName": "fibo-sec-dbt-syn:SyntheticBalanceSheetCDO",
+      "localName": "SyntheticBalanceSheetCDO",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/SyntheticBalanceSheetCDO",
+      "label": "synthetic balance sheet c d o",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-cdo:BalanceSheetCDO",
+        "synthetic c d o"
+      ],
+      "rules": [
+        {
+          "property": "issues",
+          "operator": "some",
+          "value": "synthetic c d o tranche",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "synthetic c d o",
+      "technicalName": "fibo-sec-dbt-syn:SyntheticCDO",
+      "localName": "SyntheticCDO",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/SyntheticCDO",
+      "label": "synthetic c d o",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-cdo:CDODeal"
+      ],
+      "rules": [
+        {
+          "property": "issues",
+          "operator": "some",
+          "value": "synthetic c d o tranche",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "synthetic c d o portfolio",
+      "technicalName": "fibo-sec-dbt-syn:SyntheticCDOPortfolio",
+      "localName": "SyntheticCDOPortfolio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/SyntheticCDOPortfolio",
+      "label": "synthetic c d o portfolio",
+      "definition": null,
+      "parents": [],
+      "rules": [
+        {
+          "property": "notionally holds",
+          "operator": "some",
+          "value": "synthetic c d o portfolio constituent",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "synthetic c d o portfolio constituent",
+      "technicalName": "fibo-sec-dbt-syn:SyntheticCDOPortfolioConstituent",
+      "localName": "SyntheticCDOPortfolioConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/SyntheticCDOPortfolioConstituent",
+      "label": "synthetic c d o portfolio constituent",
+      "definition": "An instrument which is defined as a constituent of a synthetic pool of instruments. These are not holdings because they are not held, but in all other respects they are the constituents of the portfolio.",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "synthetic c d o tranche",
+      "technicalName": "fibo-sec-dbt-syn:SyntheticCDOTranche",
+      "localName": "SyntheticCDOTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/SyntheticCDOTranche",
+      "label": "synthetic c d o tranche",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-cdo:CollateralizedDebtObligation"
+      ],
+      "rules": [
+        {
+          "property": "is tranche of",
+          "operator": "some",
+          "value": "synthetic debt instrument pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "synthetic debt instrument pool",
+      "technicalName": "fibo-sec-dbt-syn:SyntheticDebtInstrumentPool",
+      "localName": "SyntheticDebtInstrumentPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/SyntheticDebtInstrumentPool",
+      "label": "synthetic debt instrument pool",
+      "definition": "A cash flow structure which synthesizes the behavior of a portfolio of debt securities. For example a synthesized portfolio of CDO / Bonds / ABS using Total Returns Swaps and CDS. This does exist, it is just manufactured from different instruments.",
+      "parents": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "rules": [
+        {
+          "property": "makes reference to",
+          "operator": "some",
+          "value": "synthetic c d o portfolio",
+          "qualifier": null
+        },
+        {
+          "property": "has underlying contract",
+          "operator": "some",
+          "value": "fibo-der-cr-cds:CreditDefaultSwap",
+          "qualifier": null
+        },
+        {
+          "property": "funded by",
+          "operator": "some",
+          "value": "synthetic debt instrument pool funding asset",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "synthetic debt instrument pool funding asset",
+      "technicalName": "fibo-sec-dbt-syn:SyntheticDebtInstrumentPoolFundingAsset",
+      "localName": "SyntheticDebtInstrumentPoolFundingAsset",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/SyntheticDebtInstrumentPoolFundingAsset",
+      "label": "synthetic debt instrument pool funding asset",
+      "definition": "An asset which provides the funding for a synthetic debt instrument pool, as used in a synthetic CDO.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "has investment grade",
+          "operator": "some",
+          "value": "fibo-fbc-dae-crt:InstrumentCreditRating",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "synthetic debt s p v",
+      "technicalName": "fibo-sec-dbt-syn:SyntheticDebtSPV",
+      "localName": "SyntheticDebtSPV",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/SyntheticDebtSPV",
+      "label": "synthetic debt s p v",
+      "definition": "A Special Purpose Vehicle set up for the issuance of synthetics CDOs. This entity (like all SPVs) its itself registered as some kind of legal entity, distinct from the sponsoring organization. It becomes the Issuer of Synthetic CDO issues.",
+      "parents": [
+        "fibo-be-le-lp:SpecialPurposeVehicle"
+      ],
+      "rules": [
+        {
+          "property": "holds",
+          "operator": "some",
+          "value": "synthetic debt instrument pool funding asset",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "synthetic pool asset",
+      "technicalName": "fibo-sec-dbt-syn:SyntheticPoolAsset",
+      "localName": "SyntheticPoolAsset",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/SyntheticPoolAsset",
+      "label": "synthetic pool asset",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-oac-own:FinancialAsset"
+      ],
+      "rules": [
+        {
+          "property": "simulated by",
+          "operator": "some",
+          "value": "fibo-der-cr-cds:CreditDefaultSwap",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "synthetic structured finance instrument",
+      "technicalName": "fibo-sec-dbt-syn:SyntheticStructuredFinanceInstrument",
+      "localName": "SyntheticStructuredFinanceInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/SyntheticStructuredFinanceInstrument",
+      "label": "synthetic structured finance instrument",
+      "definition": null,
+      "parents": [
+        "fibo-sec-dbt-pbs:StructuredFinanceInstrument"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "synthetic pool asset",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "assets managed by",
+      "technicalName": "fibo-sec-dbt-syn:assetsManagedBy",
+      "localName": "assetsManagedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/assetsManagedBy",
+      "label": "assets managed by",
+      "definition": null,
+      "domain": [
+        "arbitrage synthetic c d o"
+      ],
+      "range": [
+        "fibo-sec-dbt-cdo:CDOPortfolioManager"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "funded by",
+      "technicalName": "fibo-sec-dbt-syn:fundedBy",
+      "localName": "fundedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/fundedBy",
+      "label": "funded by",
+      "definition": null,
+      "domain": [
+        "synthetic debt instrument pool"
+      ],
+      "range": [
+        "synthetic debt instrument pool funding asset"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has investment grade",
+      "technicalName": "fibo-sec-dbt-syn:hasInvestmentGrade",
+      "localName": "hasInvestmentGrade",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/hasInvestmentGrade",
+      "label": "has investment grade",
+      "definition": null,
+      "domain": [
+        "synthetic debt instrument pool funding asset"
+      ],
+      "range": [
+        "fibo-fbc-dae-crt:InstrumentCreditRating"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has underlying contract",
+      "technicalName": "fibo-sec-dbt-syn:hasUnderlyingContract",
+      "localName": "hasUnderlyingContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/hasUnderlyingContract",
+      "label": "has underlying contract",
+      "definition": "The underlying CDS which is created to mechanise the cash flows in the synthetic portfolio.",
+      "domain": [
+        "synthetic debt instrument pool"
+      ],
+      "range": [
+        "fibo-der-cr-cds:CreditDefaultSwap"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "holds",
+      "technicalName": "fibo-sec-dbt-syn:holds",
+      "localName": "holds",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/holds",
+      "label": "holds",
+      "definition": null,
+      "domain": [
+        "synthetic debt s p v"
+      ],
+      "range": [
+        "synthetic debt instrument pool funding asset"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is tranche of",
+      "technicalName": "fibo-sec-dbt-syn:isTrancheOf",
+      "localName": "isTrancheOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/isTrancheOf",
+      "label": "is tranche of",
+      "definition": null,
+      "domain": [
+        "synthetic c d o tranche"
+      ],
+      "range": [
+        "synthetic debt instrument pool"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "issues",
+      "technicalName": "fibo-sec-dbt-syn:issues",
+      "localName": "issues",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/issues",
+      "label": "issues",
+      "definition": null,
+      "domain": [
+        "synthetic c d o"
+      ],
+      "range": [
+        "synthetic c d o tranche"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "makes reference to",
+      "technicalName": "fibo-sec-dbt-syn:makesReferenceTo",
+      "localName": "makesReferenceTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/makesReferenceTo",
+      "label": "makes reference to",
+      "definition": null,
+      "domain": [
+        "synthetic debt instrument pool"
+      ],
+      "range": [
+        "synthetic c d o portfolio"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "notionally holds",
+      "technicalName": "fibo-sec-dbt-syn:notionallyHolds",
+      "localName": "notionallyHolds",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/notionallyHolds",
+      "label": "notionally holds",
+      "definition": null,
+      "domain": [
+        "synthetic c d o portfolio"
+      ],
+      "range": [
+        "synthetic c d o portfolio constituent"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "percentage of defaults this tranche",
+      "technicalName": "fibo-sec-dbt-syn:percentageOfDefaultsThisTranche",
+      "localName": "percentageOfDefaultsThisTranche",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/percentageOfDefaultsThisTranche",
+      "label": "percentage of defaults this tranche",
+      "definition": "The percentage of defaults which holders of this are exposed to, that is the percentage of defaults that this tranche represents. Further Notes Review session notes 21 April: The first, second and so on, to stop paying out when there is a default. In each case you get the first, second etc. x% of defaults. Base underlying may be high or low quality. Create the pool by buying or selling protection depending on hich way you want to go, e..g. have high quality funds, (borrowers), would sell protection. If low quality, would buy protection to improve quality. So risk is no longer bound to the funding. REVIEW: More likely this is a band of percentages (from and to); review and formalize. See also note on attachment and detachment points.",
+      "domain": [
+        "synthetic c d o tranche"
+      ],
+      "range": [
+        "cmns-qtu:Percentage"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "simulated by",
+      "technicalName": "fibo-sec-dbt-syn:simulatedBy",
+      "localName": "simulatedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/simulatedBy",
+      "label": "simulated by",
+      "definition": "The underlying CDS which is created to mechanise the cash flows in the synthetic portfolio.",
+      "domain": [
+        "synthetic pool asset"
+      ],
+      "range": [
+        "fibo-der-cr-cds:CreditDefaultSwap"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "simulates",
+      "technicalName": "fibo-sec-dbt-syn:simulates",
+      "localName": "simulates",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/simulates",
+      "label": "simulates",
+      "definition": null,
+      "domain": [
+        "synthetic pool asset"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "simulates",
+      "technicalName": "fibo-sec-dbt-syn:simulates.1",
+      "localName": "simulates.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/simulates.1",
+      "label": "simulates",
+      "definition": null,
+      "domain": [
+        "synthetic debt instrument pool"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "tranche type",
+      "technicalName": "fibo-sec-dbt-syn:trancheType",
+      "localName": "trancheType",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/trancheType",
+      "label": "tranche type",
+      "definition": null,
+      "domain": [
+        "synthetic c d o tranche"
+      ],
+      "range": [
+        "fibo-sec-dbt-cdo:CDOTrancheSenioritySelection"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "is cash",
+      "technicalName": "fibo-sec-dbt-syn:isCash",
+      "localName": "isCash",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/SyntheticCDOs/isCash",
+      "label": "is cash",
+      "definition": "Whether the CDO has an underlying pool of real assets. This is No: the CDO has a synthetic pool of underlying assets.",
+      "domain": [
+        "synthetic c d o tranche"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

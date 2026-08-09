@@ -1,0 +1,246 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Securities\\ParametricSchedules.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/",
+  "summary": {
+    "nodes": 15,
+    "edges": 0,
+    "properties": 0,
+    "triples": 130
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Designators/"
+  ],
+  "classes": [
+    {
+      "name": "auction date rule",
+      "technicalName": "fibo-sec-sec-sch:AuctionDateRule",
+      "localName": "AuctionDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/AuctionDateRule",
+      "label": "auction date rule",
+      "definition": "business recurrence interval convention that is a published rule for defining the date of some auction event",
+      "parents": [
+        "fibo-fnd-dt-bd:BusinessRecurrenceIntervalConvention"
+      ],
+      "rules": []
+    },
+    {
+      "name": "date returned by settlement date rule",
+      "technicalName": "fibo-sec-sec-sch:DateReturnedBySettlementDateRule",
+      "localName": "DateReturnedBySettlementDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/DateReturnedBySettlementDateRule",
+      "label": "date returned by settlement date rule",
+      "definition": "calculated date that is determined via a settlement rule",
+      "parents": [
+        "fibo-fnd-dt-fd:CalculatedDate"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "only",
+          "value": "settlement date rule",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "date returned by trading date rule",
+      "technicalName": "fibo-sec-sec-sch:DateReturnedByTradingDateRule",
+      "localName": "DateReturnedByTradingDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/DateReturnedByTradingDateRule",
+      "label": "date returned by trading date rule",
+      "definition": "calculated date that is determined via a trading rule",
+      "parents": [
+        "fibo-fnd-dt-fd:CalculatedDate"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "only",
+          "value": "trading date rule",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "floating-rate note date",
+      "technicalName": "fibo-sec-sec-sch:FloatingRateNoteDate",
+      "localName": "FloatingRateNoteDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/FloatingRateNoteDate",
+      "label": "floating-rate note date",
+      "definition": "calculated date associated with a floating-rate note, also known as a floater or FRN, which is a debt instrument with a variable interest rate",
+      "parents": [
+        "fibo-fnd-dt-fd:CalculatedDate"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-bd:hasBusinessDayConvention",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "floating-rate note date rule"
+        }
+      ]
+    },
+    {
+      "name": "floating-rate note date rule",
+      "technicalName": "fibo-sec-sec-sch:FloatingRateNoteDateRule",
+      "localName": "FloatingRateNoteDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/FloatingRateNoteDateRule",
+      "label": "floating-rate note date rule",
+      "definition": "business day adjustment rule applied to floating-rate note instruments",
+      "parents": [
+        "fibo-fnd-dt-bd:BusinessRecurrenceIntervalConvention"
+      ],
+      "rules": []
+    },
+    {
+      "name": "International Money Market (IMM) Australian Dollar (AUD) trading date rule",
+      "technicalName": "fibo-sec-sec-sch:InternationalMoneyMarketAustralianDollarTradingDateRule",
+      "localName": "InternationalMoneyMarketAustralianDollarTradingDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/InternationalMoneyMarketAustralianDollarTradingDateRule",
+      "label": "International Money Market (IMM) Australian Dollar (AUD) trading date rule",
+      "definition": "trading date rule defined as the last trading day of an Australian Stock Exchange (ASX) 90-Day Bank Accepted Futures and Options product, one Sydney business day preceding the second Friday of the relevant settlement month",
+      "parents": [
+        "trading date rule"
+      ],
+      "rules": []
+    },
+    {
+      "name": "International Money Market (IMM) Canadian Dollar (CAD) trading date rule",
+      "technicalName": "fibo-sec-sec-sch:InternationalMoneyMarketCanadianDollarTradingDateRule",
+      "localName": "InternationalMoneyMarketCanadianDollarTradingDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/InternationalMoneyMarketCanadianDollarTradingDateRule",
+      "label": "International Money Market (IMM) Canadian Dollar (CAD) trading date rule",
+      "definition": "trading date rule defined as the last trading day / expiration day of the Canadian Derivatives Exchange (Bourse do Montreal Inc.), three month Bankers' Acceptance Futures (Ticker symbol BAX), the second London banking day prior to the third Wednesday of the contract month",
+      "parents": [
+        "trading date rule"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-bd:hasBusinessDayConvention",
+          "operator": "value",
+          "value": "fibo-fnd-dt-bd:BusinessDayPreceding",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "International Money Market (IMM) New Zealand Dollar (NZD) trading date rule",
+      "technicalName": "fibo-sec-sec-sch:InternationalMoneyMarketNewZealandDollarTradingDateRule",
+      "localName": "InternationalMoneyMarketNewZealandDollarTradingDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/InternationalMoneyMarketNewZealandDollarTradingDateRule",
+      "label": "International Money Market (IMM) New Zealand Dollar (NZD) trading date rule",
+      "definition": "trading date rule defined as the last trading day of an Australian Stock Exchange (ASX) New Zealand (NZ) 90-Day Bank Accepted Futures and Options product, the first Wednesday after the ninth day of the relevant settlement month",
+      "parents": [
+        "trading date rule"
+      ],
+      "rules": []
+    },
+    {
+      "name": "International Money Market (IMM) settlement date rule",
+      "technicalName": "fibo-sec-sec-sch:InternationalMoneyMarketSettlementDateRule",
+      "localName": "InternationalMoneyMarketSettlementDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/InternationalMoneyMarketSettlementDateRule",
+      "label": "International Money Market (IMM) settlement date rule",
+      "definition": "settlement date rule as defined in the International Money Market (IMM) settlement dates calendar",
+      "parents": [
+        "settlement date rule"
+      ],
+      "rules": []
+    },
+    {
+      "name": "scheduled calculation period end event",
+      "technicalName": "fibo-sec-sec-sch:ScheduledCalculationPeriodEndEvent",
+      "localName": "ScheduledCalculationPeriodEndEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/ScheduledCalculationPeriodEndEvent",
+      "label": "scheduled calculation period end event",
+      "definition": "the end date of a specific calculation period",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": []
+    },
+    {
+      "name": "scheduled calculation period start event",
+      "technicalName": "fibo-sec-sec-sch:ScheduledCalculationPeriodStartEvent",
+      "localName": "ScheduledCalculationPeriodStartEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/ScheduledCalculationPeriodStartEvent",
+      "label": "scheduled calculation period start event",
+      "definition": "the start of a specific calculation period",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": []
+    },
+    {
+      "name": "settlement date rule",
+      "technicalName": "fibo-sec-sec-sch:SettlementDateRule",
+      "localName": "SettlementDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/SettlementDateRule",
+      "label": "settlement date rule",
+      "definition": "convention for determining settlement dates by reference to some jurisdiction or as set by a given exchange or similar venue",
+      "parents": [
+        "fibo-fnd-dt-bd:BusinessRecurrenceIntervalConvention"
+      ],
+      "rules": []
+    },
+    {
+      "name": "trading date rule",
+      "technicalName": "fibo-sec-sec-sch:TradingDateRule",
+      "localName": "TradingDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/TradingDateRule",
+      "label": "trading date rule",
+      "definition": "convention for determining trading dates defined with reference to some trading date calendar published by some trading facility or exchange",
+      "parents": [
+        "fibo-fnd-dt-bd:BusinessRecurrenceIntervalConvention"
+      ],
+      "rules": []
+    },
+    {
+      "name": "US Treasury bill auction date rule",
+      "technicalName": "fibo-sec-sec-sch:USTreasuryBillAuctionDateRule",
+      "localName": "USTreasuryBillAuctionDateRule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/USTreasuryBillAuctionDateRule",
+      "label": "US Treasury bill auction date rule",
+      "definition": "rule for setting auction dates for US Treasury bills",
+      "parents": [
+        "auction date rule"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-bd:hasBusinessDayConvention",
+          "operator": "value",
+          "value": "fibo-fnd-dt-bd:BusinessDayFollowing",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "US Treasury bill date",
+      "technicalName": "fibo-sec-sec-sch:USTreasuryBillDate",
+      "localName": "USTreasuryBillDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/ParametricSchedules/USTreasuryBillDate",
+      "label": "US Treasury bill date",
+      "definition": "auction date for US 13 week and 26 week Treasury bills",
+      "parents": [
+        "fibo-fnd-dt-fd:CalculatedDate"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-bd:hasBusinessDayConvention",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "US Treasury bill auction date rule"
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

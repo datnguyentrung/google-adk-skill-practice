@@ -1,0 +1,915 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Debt\\DebtInstruments.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/",
+  "summary": {
+    "nodes": 31,
+    "edges": 11,
+    "properties": 13,
+    "triples": 532
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Guaranty/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/InstrumentPricing/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/BusinessDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/EconomicIndicators/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/"
+  ],
+  "classes": [
+    {
+      "name": "call event",
+      "technicalName": "fibo-sec-dbt-dbti:CallEvent",
+      "localName": "CallEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/CallEvent",
+      "label": "call event",
+      "definition": "an event associated with the call schedule for a debt instrument",
+      "parents": [
+        "redemption event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "call feature",
+      "technicalName": "fibo-sec-dbt-dbti:CallFeature",
+      "localName": "CallFeature",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/CallFeature",
+      "label": "call feature",
+      "definition": "redemption provision defining the rights of the issuer to buy back a security at a call price after a call protection period",
+      "parents": [
+        "fibo-fbc-fi-fi:RedemptionProvision"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "call schedule",
+          "qualifier": null
+        },
+        {
+          "property": "has notification provision",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "call notification provision"
+        }
+      ]
+    },
+    {
+      "name": "call notification provision",
+      "technicalName": "fibo-sec-dbt-dbti:CallNotificationProvision",
+      "localName": "CallNotificationProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/CallNotificationProvision",
+      "label": "call notification provision",
+      "definition": "provision of a call feature defining notification requirements",
+      "parents": [
+        "notification provision"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasDatePeriod",
+          "operator": "only",
+          "value": "call window",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "call premium",
+      "technicalName": "fibo-sec-dbt-dbti:CallPremium",
+      "localName": "CallPremium",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/CallPremium",
+      "label": "call premium",
+      "definition": "the price over par paid by an issuer to redeem securities when exercising a call provision",
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryPrice"
+      ],
+      "rules": []
+    },
+    {
+      "name": "call schedule",
+      "technicalName": "fibo-sec-dbt-dbti:CallSchedule",
+      "localName": "CallSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/CallSchedule",
+      "label": "call schedule",
+      "definition": "a schedule of call prices and when they are in effect",
+      "parents": [
+        "fibo-fnd-dt-fd:Schedule"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "call event",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "call window",
+      "technicalName": "fibo-sec-dbt-dbti:CallWindow",
+      "localName": "CallWindow",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/CallWindow",
+      "label": "call window",
+      "definition": "an explicit period of time prior to a call date during which an issuer or agent must give notice to holders",
+      "parents": [
+        "cmns-dt:DatePeriod"
+      ],
+      "rules": []
+    },
+    {
+      "name": "debt offering",
+      "technicalName": "fibo-sec-dbt-dbti:DebtOffering",
+      "localName": "DebtOffering",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/DebtOffering",
+      "label": "debt offering",
+      "definition": "an offering of one or more debt instruments for sale",
+      "parents": [
+        "fibo-sec-sec-iss:SecuritiesOffering"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:DebtInstrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fixed income security",
+      "technicalName": "fibo-sec-dbt-dbti:FixedIncomeSecurity",
+      "localName": "FixedIncomeSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/FixedIncomeSecurity",
+      "label": "fixed income security",
+      "definition": "tradeable debt instrument that provides a return in the form of fixed periodic payments and typically the return of principal at maturity",
+      "parents": [
+        "tradable debt instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fully-indexed interest rate",
+      "technicalName": "fibo-sec-dbt-dbti:FullyIndexedInterestRate",
+      "localName": "FullyIndexedInterestRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/FullyIndexedInterestRate",
+      "label": "fully-indexed interest rate",
+      "definition": "a variable interest rate that is calculated by adding a margin to a specified index rate",
+      "parents": [
+        "fibo-fbc-dae-dbt:FloatingInterestRate",
+        "cmns-qtu:Expression"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "margin",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-ind-ir-ir:BaseRate"
+        }
+      ]
+    },
+    {
+      "name": "interest-only strip",
+      "technicalName": "fibo-sec-dbt-dbti:InterestOnlyStrip",
+      "localName": "InterestOnlyStrip",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/InterestOnlyStrip",
+      "label": "interest-only strip",
+      "definition": "a strip that represents the non-principal portion of the monthly payments on the underlying debt instrument, such as a bond",
+      "parents": [
+        "strip"
+      ],
+      "rules": []
+    },
+    {
+      "name": "issued debt",
+      "technicalName": "fibo-sec-dbt-dbti:IssuedDebt",
+      "localName": "IssuedDebt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/IssuedDebt",
+      "label": "issued debt",
+      "definition": "debt that is set out by the borrower in some form of financial security in which the lender is the holder or counterparty of that security",
+      "parents": [
+        "fibo-fbc-dae-dbt:Debt"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:hasDebtAmount",
+          "operator": "only",
+          "value": "fibo-fnd-acc-cur:MonetaryAmount",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "only",
+          "value": "fibo-fbc-fi-fi:DebtInstrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "make whole feature",
+      "technicalName": "fibo-sec-dbt-dbti:MakeWholeFeature",
+      "localName": "MakeWholeFeature",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/MakeWholeFeature",
+      "label": "make whole feature",
+      "definition": "a call provision allowing the issuer to pay off remaining debt early",
+      "parents": [
+        "call feature"
+      ],
+      "rules": []
+    },
+    {
+      "name": "margin",
+      "technicalName": "fibo-sec-dbt-dbti:Margin",
+      "localName": "Margin",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/Margin",
+      "label": "margin",
+      "definition": "a variable that is added to a specified index rate to determine the fully indexed interest rate charged to a borrower on a credit balance",
+      "parents": [
+        "cmns-qtu:Variable"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non-tradable debt instrument",
+      "technicalName": "fibo-sec-dbt-dbti:NonTradableDebtInstrument",
+      "localName": "NonTradableDebtInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/NonTradableDebtInstrument",
+      "label": "non-tradable debt instrument",
+      "definition": "a debt instrument that may not be bought or sold",
+      "parents": [
+        "fibo-fbc-fi-fi:DebtInstrument",
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": [
+        {
+          "property": "has relative price at redemption",
+          "operator": "some",
+          "value": "relative price",
+          "qualifier": null
+        },
+        {
+          "property": "has relative price at issue",
+          "operator": "some",
+          "value": "relative price",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-fi-fi:hasRedemptionProvision",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-fi-fi:RedemptionProvision"
+        }
+      ]
+    },
+    {
+      "name": "notification provision",
+      "technicalName": "fibo-sec-dbt-dbti:NotificationProvision",
+      "localName": "NotificationProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/NotificationProvision",
+      "label": "notification provision",
+      "definition": "provision of a redemption feature defining notification requirements",
+      "parents": [
+        "fibo-fbc-fi-fi:RedemptionProvision"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasDatePeriod",
+          "operator": "only",
+          "value": "cmns-dt:DatePeriod",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "prescriptive event",
+      "technicalName": "fibo-sec-dbt-dbti:PrescriptiveEvent",
+      "localName": "PrescriptiveEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/PrescriptiveEvent",
+      "label": "prescriptive event",
+      "definition": "event related to the imposition or enforcement of a rule, method, formula, etc.",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": []
+    },
+    {
+      "name": "principal-only strip",
+      "technicalName": "fibo-sec-dbt-dbti:PrincipalOnlyStrip",
+      "localName": "PrincipalOnlyStrip",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/PrincipalOnlyStrip",
+      "label": "principal-only strip",
+      "definition": "a strip that represents the principal portion of the monthly payments on the underlying debt instrument, such as a bond",
+      "parents": [
+        "strip"
+      ],
+      "rules": []
+    },
+    {
+      "name": "publicly issued debt",
+      "technicalName": "fibo-sec-dbt-dbti:PubliclyIssuedDebt",
+      "localName": "PubliclyIssuedDebt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/PubliclyIssuedDebt",
+      "label": "publicly issued debt",
+      "definition": "an issued debt in the form of a tradable debt instrument (security)",
+      "parents": [
+        "issued debt"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "only",
+          "value": "tradable debt instrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "put event",
+      "technicalName": "fibo-sec-dbt-dbti:PutEvent",
+      "localName": "PutEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/PutEvent",
+      "label": "put event",
+      "definition": "an event associated with the put schedule for a debt instrument, i.e., an event involving the 'put', or surrender of the instrument by the holder",
+      "parents": [
+        "redemption event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "put feature",
+      "technicalName": "fibo-sec-dbt-dbti:PutFeature",
+      "localName": "PutFeature",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/PutFeature",
+      "label": "put feature",
+      "definition": "redemption provision giving the holder the right, but not the obligation, to sell a specified amount of the debt instrument (i.e., redeem it), prior to maturity",
+      "parents": [
+        "fibo-fbc-dae-dbt:DebtTerms",
+        "fibo-fbc-fi-fi:RedemptionProvision"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "put schedule",
+          "qualifier": null
+        },
+        {
+          "property": "has notification provision",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "put notification provision"
+        }
+      ]
+    },
+    {
+      "name": "put notification provision",
+      "technicalName": "fibo-sec-dbt-dbti:PutNotificationProvision",
+      "localName": "PutNotificationProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/PutNotificationProvision",
+      "label": "put notification provision",
+      "definition": "a provision of a put feature defining notification requirements",
+      "parents": [
+        "notification provision"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasDatePeriod",
+          "operator": "only",
+          "value": "put window",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "put premium",
+      "technicalName": "fibo-sec-dbt-dbti:PutPremium",
+      "localName": "PutPremium",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/PutPremium",
+      "label": "put premium",
+      "definition": "an amount over par that a debt instrument holder must pay to sell the security early",
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryPrice"
+      ],
+      "rules": []
+    },
+    {
+      "name": "put schedule",
+      "technicalName": "fibo-sec-dbt-dbti:PutSchedule",
+      "localName": "PutSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/PutSchedule",
+      "label": "put schedule",
+      "definition": "a schedule that defines the events associated with the put feature of a debt instrument, i.e, the dates on which the debt instrument may be sold at what price by the holder",
+      "parents": [
+        "fibo-fnd-dt-fd:Schedule"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "put event",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "put window",
+      "technicalName": "fibo-sec-dbt-dbti:PutWindow",
+      "localName": "PutWindow",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/PutWindow",
+      "label": "put window",
+      "definition": "an explicit period of time prior to a put date during which holder or agent must give notice to an issuer",
+      "parents": [
+        "cmns-dt:DatePeriod"
+      ],
+      "rules": []
+    },
+    {
+      "name": "redemption event",
+      "technicalName": "fibo-sec-dbt-dbti:RedemptionEvent",
+      "localName": "RedemptionEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/RedemptionEvent",
+      "label": "redemption event",
+      "definition": "a prescriptive event involving the return of an investor's principal in a fixed-income security, such as a preferred stock or bond, or the sale of units in a mutual fund",
+      "parents": [
+        "prescriptive event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "relative price",
+      "technicalName": "fibo-sec-dbt-dbti:RelativePrice",
+      "localName": "RelativePrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/RelativePrice",
+      "label": "relative price",
+      "definition": "security price specified in comparison with either a stated or market value for a debt instrument at some point in time",
+      "parents": [
+        "fibo-fbc-fi-ip:SecurityPrice"
+      ],
+      "rules": []
+    },
+    {
+      "name": "step event",
+      "technicalName": "fibo-sec-dbt-dbti:StepEvent",
+      "localName": "StepEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/StepEvent",
+      "label": "step event",
+      "definition": "event that prescribes a change in a contractual term, such as a rate or notional amount, for a given contract",
+      "parents": [
+        "fibo-fnd-dt-oc:CalculationEvent",
+        "prescriptive event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "step schedule",
+      "technicalName": "fibo-sec-dbt-dbti:StepSchedule",
+      "localName": "StepSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/StepSchedule",
+      "label": "step schedule",
+      "definition": "schedule specifying the date(s) and change in a contractual term(s), e.g., rate or notional amount, for a contract that has a feature where stipulated changes occur at specified intervals or on specified dates",
+      "parents": [
+        "fibo-fnd-dt-fd:Schedule"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "step event",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "strip",
+      "technicalName": "fibo-sec-dbt-dbti:Strip",
+      "localName": "Strip",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/Strip",
+      "label": "strip",
+      "definition": "a tradeable debt instrument created either through the process of removing coupons from a bond and then selling the separate parts as a zero coupon bond and an interest paying coupon bond or through taking the opposite position from some variant in the options market",
+      "parents": [
+        "fixed income security"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tradable debt instrument",
+      "technicalName": "fibo-sec-dbt-dbti:TradableDebtInstrument",
+      "localName": "TradableDebtInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/TradableDebtInstrument",
+      "label": "tradable debt instrument",
+      "definition": "a debt instrument that is also a security, i.e., that can be bought and sold by the holder",
+      "parents": [
+        "fibo-fbc-fi-fi:DebtInstrument",
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "rules": [
+        {
+          "property": "is subordinated to",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "tradable debt instrument"
+        },
+        {
+          "property": "fibo-fbc-dae-gty:hasGuarantor",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-dae-gty:Guarantor"
+        }
+      ]
+    },
+    {
+      "name": "variable income security",
+      "technicalName": "fibo-sec-dbt-dbti:VariableIncomeSecurity",
+      "localName": "VariableIncomeSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/VariableIncomeSecurity",
+      "label": "variable income security",
+      "definition": "tradeable debt instrument that provide their owners with a rate of return that is dynamic and determined by market forces",
+      "parents": [
+        "tradable debt instrument"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has call feature",
+      "technicalName": "fibo-sec-dbt-dbti:hasCallFeature",
+      "localName": "hasCallFeature",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/hasCallFeature",
+      "label": "has call feature",
+      "definition": "indicates the specific terms related to any inherent call feature as specified in the offering/instrument",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "call feature"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has dated date",
+      "technicalName": "fibo-sec-dbt-dbti:hasDatedDate",
+      "localName": "hasDatedDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/hasDatedDate",
+      "label": "has dated date",
+      "definition": "specifies the date on which interest begins to accrue on a fixed-income security",
+      "domain": [
+        "fibo-fbc-dae-dbt:InterestPaymentTerms"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has interest payment terms",
+      "technicalName": "fibo-sec-dbt-dbti:hasInterestPaymentTerms",
+      "localName": "hasInterestPaymentTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/hasInterestPaymentTerms",
+      "label": "has interest payment terms",
+      "definition": "indicates the specific terms related to interest payments on the principal as specified in the instrument or a related contract document",
+      "domain": [],
+      "range": [
+        "fibo-fbc-dae-dbt:InterestPaymentTerms"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has notification provision",
+      "technicalName": "fibo-sec-dbt-dbti:hasNotificationProvision",
+      "localName": "hasNotificationProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/hasNotificationProvision",
+      "label": "has notification provision",
+      "definition": "relates the redemption provision of a debt instrument to a notification provision (e.g., call or put notification)",
+      "domain": [
+        "fibo-fbc-fi-fi:RedemptionProvision"
+      ],
+      "range": [
+        "notification provision"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has price and yield day count convention",
+      "technicalName": "fibo-sec-dbt-dbti:hasPriceAndYieldDayCountConvention",
+      "localName": "hasPriceAndYieldDayCountConvention",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/hasPriceAndYieldDayCountConvention",
+      "label": "has price and yield day count convention",
+      "definition": "indicates the convention used to determine the number of days in a month and days in a year that are counted when performing calculations for yield and price figures",
+      "domain": [],
+      "range": [
+        "fibo-fbc-dae-dbt:DayCountConvention"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has put feature",
+      "technicalName": "fibo-sec-dbt-dbti:hasPutFeature",
+      "localName": "hasPutFeature",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/hasPutFeature",
+      "label": "has put feature",
+      "definition": "indicates the specific terms related to any inherent put feature as specified in the offering/instrument",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "put feature"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has relative price at issue",
+      "technicalName": "fibo-sec-dbt-dbti:hasRelativePriceAtIssue",
+      "localName": "hasRelativePriceAtIssue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/hasRelativePriceAtIssue",
+      "label": "has relative price at issue",
+      "definition": "indicates a relative price with respect to the face value at which an instrument is issued, namely par, premium or discount",
+      "domain": [],
+      "range": [
+        "relative price"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has relative price at maturity",
+      "technicalName": "fibo-sec-dbt-dbti:hasRelativePriceAtMaturity",
+      "localName": "hasRelativePriceAtMaturity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/hasRelativePriceAtMaturity",
+      "label": "has relative price at maturity",
+      "definition": "indicates a relative price with respect to the face value at the time an instrument matures, namely par, discount or premium",
+      "domain": [],
+      "range": [
+        "relative price"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has relative price at redemption",
+      "technicalName": "fibo-sec-dbt-dbti:hasRelativePriceAtRedemption",
+      "localName": "hasRelativePriceAtRedemption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/hasRelativePriceAtRedemption",
+      "label": "has relative price at redemption",
+      "definition": "indicates a relative price with respect to the face value at the time an instrument is redeemed, namely par, discount or premium",
+      "domain": [],
+      "range": [
+        "relative price"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has repayment terms",
+      "technicalName": "fibo-sec-dbt-dbti:hasRepaymentTerms",
+      "localName": "hasRepaymentTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/hasRepaymentTerms",
+      "label": "has repayment terms",
+      "definition": "indicates the specific terms related to repayment of principal as specified in the instrument or a related contract document",
+      "domain": [],
+      "range": [
+        "fibo-fbc-dae-dbt:PrincipalRepaymentTerms"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is subordinated to",
+      "technicalName": "fibo-sec-dbt-dbti:isSubordinatedTo",
+      "localName": "isSubordinatedTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/isSubordinatedTo",
+      "label": "is subordinated to",
+      "definition": "indicates the target security (i.e., the one in the range) has a higher priority than the security in question",
+      "domain": [
+        "tradable debt instrument"
+      ],
+      "range": [
+        "tradable debt instrument"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "allows auto-reinvestment",
+      "technicalName": "fibo-sec-dbt-dbti:allowsAutoReinvestment",
+      "localName": "allowsAutoReinvestment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/allowsAutoReinvestment",
+      "label": "allows auto-reinvestment",
+      "definition": "indicates whether the security allows automatically re-investing the interest on that security towards purchasing additional shares or units of the same security",
+      "domain": [
+        "fibo-fbc-dae-dbt:InterestPaymentTerms"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "allows payment in kind",
+      "technicalName": "fibo-sec-dbt-dbti:allowsPaymentInKind",
+      "localName": "allowsPaymentInKind",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/allowsPaymentInKind",
+      "label": "allows payment in kind",
+      "definition": "indicates whether the principal may be repaid in kind (i.e., replaced with another instrument) rather than in cash",
+      "domain": [
+        "fibo-fbc-fi-fi:RedemptionProvision"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has default lot size",
+      "technicalName": "fibo-sec-dbt-dbti:hasDefaultLotSize",
+      "localName": "hasDefaultLotSize",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/hasDefaultLotSize",
+      "label": "has default lot size",
+      "definition": "indicates the default number of units of the security that may be held at any one time",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has estate or death put feature",
+      "technicalName": "fibo-sec-dbt-dbti:hasEstateOrDeathPutFeature",
+      "localName": "hasEstateOrDeathPutFeature",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/hasEstateOrDeathPutFeature",
+      "label": "has estate or death put feature",
+      "definition": "indicates that a security is subject to redemption upon the passing of the holder",
+      "domain": [
+        "put feature"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has pool number",
+      "technicalName": "fibo-sec-dbt-dbti:hasPoolNumber",
+      "localName": "hasPoolNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/hasPoolNumber",
+      "label": "has pool number",
+      "definition": "indicates the pool number of the debt",
+      "domain": [
+        "publicly issued debt"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "right to retain",
+      "technicalName": "fibo-sec-dbt-dbti:hasRightToRetain",
+      "localName": "hasRightToRetain",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/hasRightToRetain",
+      "label": "right to retain",
+      "definition": "indicates whether the holder has an option to retain the security in the event of an issuer exercising the put feature",
+      "domain": [
+        "put feature"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is callable",
+      "technicalName": "fibo-sec-dbt-dbti:isCallable",
+      "localName": "isCallable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/isCallable",
+      "label": "is callable",
+      "definition": "indicates whether the issuer (writer) of the debt contract (the debtor) can call the debt prior to maturity",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is exchangeable",
+      "technicalName": "fibo-sec-dbt-dbti:isExchangeable",
+      "localName": "isExchangeable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/isExchangeable",
+      "label": "is exchangeable",
+      "definition": "indicates whether the security can be exchanged for another security at the issuers discretion",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is extendable by holder",
+      "technicalName": "fibo-sec-dbt-dbti:isExtendableByHolder",
+      "localName": "isExtendableByHolder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/isExtendableByHolder",
+      "label": "is extendable by holder",
+      "definition": "indicates whether the expiration date or maturity date can be extended by the holder",
+      "domain": [
+        "fibo-fbc-fi-fi:RedemptionProvision"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is extendable by issuer",
+      "technicalName": "fibo-sec-dbt-dbti:isExtendableByIssuer",
+      "localName": "isExtendableByIssuer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/isExtendableByIssuer",
+      "label": "is extendable by issuer",
+      "definition": "indicates whether the issuer has the option to extend the debt rather than refinancing",
+      "domain": [
+        "fibo-fbc-fi-fi:RedemptionProvision"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is putable",
+      "technicalName": "fibo-sec-dbt-dbti:isPutable",
+      "localName": "isPutable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/isPutable",
+      "label": "is putable",
+      "definition": "indicates whether the holder has the right to ask for redemption of the security prior to final maturity",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is strippable",
+      "technicalName": "fibo-sec-dbt-dbti:isStrippable",
+      "localName": "isStrippable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/isStrippable",
+      "label": "is strippable",
+      "definition": "indicates whether or not the instrument can be stripped, so that interest and principal may be traded separately",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is subordinated",
+      "technicalName": "fibo-sec-dbt-dbti:isSubordinated",
+      "localName": "isSubordinated",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/isSubordinated",
+      "label": "is subordinated",
+      "definition": "indicates whether the security is a subordinated security, meaning that the security has a lower priority than another security so that when the assets are liquidated this one is not first in line",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

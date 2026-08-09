@@ -1,0 +1,105 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Securities\\EuropeanSecurities\\EUSecuritiesRestrictions.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/EuropeanSecurities/EUSecuritiesRestrictions/",
+  "summary": {
+    "nodes": 2,
+    "edges": 0,
+    "properties": 2,
+    "triples": 99
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Locations/"
+  ],
+  "classes": [
+    {
+      "name": "Basel III Designation",
+      "technicalName": "fibo-sec-sec-eurst:BaselIIIDesignation",
+      "localName": "BaselIIIDesignation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/EuropeanSecurities/EUSecuritiesRestrictions/BaselIIIDesignation",
+      "label": "Basel III Designation",
+      "definition": "European Union wide securities designation, defined by the Basel Committee on Banking Supervision (BCBS), that classifies securities based on the quality of capital underlying the instrument",
+      "parents": [
+        "fibo-sec-sec-cls:FinancialInstrumentClassifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "value",
+          "value": "cmns-loc:GeographicRegion",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "MiFID regulated security",
+      "technicalName": "fibo-sec-sec-eurst:MiFIDRegulatedSecurity",
+      "localName": "MiFIDRegulatedSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/EuropeanSecurities/EUSecuritiesRestrictions/MiFIDRegulatedSecurity",
+      "label": "MiFID regulated security",
+      "definition": "security for which MiFID reporting is required",
+      "parents": [
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "rules": [
+        {
+          "property": "has upper limit on floating shares",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "is MiFID reporting required",
+          "operator": "value",
+          "value": "true",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has upper limit on floating shares",
+      "technicalName": "fibo-sec-sec-eurst:hasUpperLimitOnFloatingShares",
+      "localName": "hasUpperLimitOnFloatingShares",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/EuropeanSecurities/EUSecuritiesRestrictions/hasUpperLimitOnFloatingShares",
+      "label": "has upper limit on floating shares",
+      "definition": "indicates the upper limit on the number of free float shares to be reported, if applicable",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is MiFID reporting required",
+      "technicalName": "fibo-sec-sec-eurst:isMiFIDReportingRequired",
+      "localName": "isMiFIDReportingRequired",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/EuropeanSecurities/EUSecuritiesRestrictions/isMiFIDReportingRequired",
+      "label": "is MiFID reporting required",
+      "definition": "indicates whether reporting on the security is required by the Markets in Financial Instruments Directive (MiFID)",
+      "domain": [
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

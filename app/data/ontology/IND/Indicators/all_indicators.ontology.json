@@ -1,0 +1,296 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\IND\\Indicators",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\IND\\Indicators\\Indicators.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 1,
+    "classes": 13,
+    "edges": 2,
+    "attributes": 1
+  },
+  "classes": [
+    {
+      "name": "daily average market rate",
+      "technicalName": "fibo-ind-ind-ind:DailyAverageMarketRate",
+      "localName": "DailyAverageMarketRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/DailyAverageMarketRate",
+      "label": "daily average market rate",
+      "definition": "overall level of a given rate, calculated as the sum of some selected observed values of the rates for a particular reference rate, foreign exchange rate, lending rate, or other market rate divided by the number of samples collected over the course of a twenty-four (24) hour period for a specific date",
+      "parents": [
+        "market rate"
+      ],
+      "rules": [
+        {
+          "property": "has quotation date and time",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        }
+      ]
+    },
+    {
+      "name": "end-of-day market rate",
+      "technicalName": "fibo-ind-ind-ind:EndOfDayMarketRate",
+      "localName": "EndOfDayMarketRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/EndOfDayMarketRate",
+      "label": "end-of-day market rate",
+      "definition": "value of a given market rate of the end of the business day for a specific date",
+      "parents": [
+        "market rate"
+      ],
+      "rules": [
+        {
+          "property": "has quotation date and time",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        }
+      ]
+    },
+    {
+      "name": "historical price volatility",
+      "technicalName": "fibo-ind-ind-ind:HistoricalPriceVolatility",
+      "localName": "HistoricalPriceVolatility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/HistoricalPriceVolatility",
+      "label": "historical price volatility",
+      "definition": "historical volatility measure of past trading ranges of prices of underlying securities and indexes",
+      "parents": [
+        "historical volatility",
+        "price volatility"
+      ],
+      "rules": []
+    },
+    {
+      "name": "historical volatility",
+      "technicalName": "fibo-ind-ind-ind:HistoricalVolatility",
+      "localName": "HistoricalVolatility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/HistoricalVolatility",
+      "label": "historical volatility",
+      "definition": "measure of volatility that uses actual values for pricing, rates, and other measurements calculated over some prior period",
+      "parents": [
+        "volatility"
+      ],
+      "rules": []
+    },
+    {
+      "name": "implied price volatility",
+      "technicalName": "fibo-ind-ind-ind:ImpliedPriceVolatility",
+      "localName": "ImpliedPriceVolatility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/ImpliedPriceVolatility",
+      "label": "implied price volatility",
+      "definition": "measure of volatility that represents the expected fluctuations of an underlying stock or index over a specific time frame",
+      "parents": [
+        "implied volatility",
+        "price volatility"
+      ],
+      "rules": []
+    },
+    {
+      "name": "implied volatility",
+      "technicalName": "fibo-ind-ind-ind:ImpliedVolatility",
+      "localName": "ImpliedVolatility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/ImpliedVolatility",
+      "label": "implied volatility",
+      "definition": "measure of volatility that is a forward-looking metric used to calculate probability",
+      "parents": [
+        "volatility"
+      ],
+      "rules": []
+    },
+    {
+      "name": "market rate",
+      "technicalName": "fibo-ind-ind-ind:MarketRate",
+      "localName": "MarketRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/MarketRate",
+      "label": "market rate",
+      "definition": "value of a rate established in the marketplace for a set of instruments or that describes the economic climate for an industry and/or political region (e.g., SOFR, Prime)",
+      "parents": [
+        "cmns-qtu:Ratio"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-acc-cur:hasRateValue",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "has quotation date and time",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        },
+        {
+          "property": "cmns-qtu:isValueOf",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-utl-alx:ScopedMeasure"
+        }
+      ]
+    },
+    {
+      "name": "market spread",
+      "technicalName": "fibo-ind-ind-ind:MarketSpread",
+      "localName": "MarketSpread",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/MarketSpread",
+      "label": "market spread",
+      "definition": "statistical measure providing the difference (or spread) between two market rates",
+      "parents": [
+        "fibo-fnd-utl-alx:ScopedMeasure"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "market rate"
+        }
+      ]
+    },
+    {
+      "name": "price structure",
+      "technicalName": "fibo-ind-ind-ind:PriceStructure",
+      "localName": "PriceStructure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/PriceStructure",
+      "label": "price structure",
+      "definition": "structured collection of prices, such as market prices for some index or security, such that volatility or other analyses may be performed over the structure",
+      "parents": [
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryPrice",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "price volatility",
+      "technicalName": "fibo-ind-ind-ind:PriceVolatility",
+      "localName": "PriceVolatility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/PriceVolatility",
+      "label": "price volatility",
+      "definition": "statistical measure of the rate of change in pricing for a given security or market index",
+      "parents": [
+        "volatility"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "price structure",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "quoted price",
+      "technicalName": "fibo-ind-ind-ind:QuotedPrice",
+      "localName": "QuotedPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/QuotedPrice",
+      "label": "quoted price",
+      "definition": "a monetary price quoted by some publisher on a given date",
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryPrice"
+      ],
+      "rules": [
+        {
+          "property": "has quotation date and time",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        }
+      ]
+    },
+    {
+      "name": "term structure",
+      "technicalName": "fibo-ind-ind-ind:TermStructure",
+      "localName": "TermStructure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/TermStructure",
+      "label": "term structure",
+      "definition": "structured collection of rates, such as interest rates, or bond yields with different terms to maturity, such that a yield curve may be constructed for the structure",
+      "parents": [
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "market rate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "volatility",
+      "technicalName": "fibo-ind-ind-ind:Volatility",
+      "localName": "Volatility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/Volatility",
+      "label": "volatility",
+      "definition": "statistical measure of the dispersion around the average of some random variable over some period of time",
+      "parents": [
+        "fibo-fnd-utl-alx:Dispersion"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "fibo-fnd-dt-fd:DatedStructuredCollection",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dt:hasDatePeriod",
+          "operator": "some",
+          "value": "cmns-dt:DatePeriod",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has quotation date",
+      "technicalName": "fibo-ind-ind-ind:hasQuotationDate",
+      "localName": "hasQuotationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/hasQuotationDate",
+      "label": "has quotation date",
+      "definition": "indicates the quotation date for a given market rate or indicator",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is volatility of",
+      "technicalName": "fibo-ind-ind-ind:isVolatilityOf",
+      "localName": "isVolatilityOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/isVolatilityOf",
+      "label": "is volatility of",
+      "definition": "indicates something to which the volatility measure applies and of which it is a measure",
+      "domain": [
+        "volatility"
+      ],
+      "range": []
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has quotation date and time",
+      "technicalName": "fibo-ind-ind-ind:hasQuotationDateTime",
+      "localName": "hasQuotationDateTime",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/hasQuotationDateTime",
+      "label": "has quotation date and time",
+      "definition": "indicates a quotation date and possibly a time for a given market rate, interest rate, indicator, or other quoted pricing information",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    }
+  ]
+}

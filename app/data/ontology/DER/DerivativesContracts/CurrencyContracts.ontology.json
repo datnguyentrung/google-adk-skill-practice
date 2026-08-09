@@ -1,0 +1,273 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\DER\\DerivativesContracts\\CurrencyContracts.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CurrencyContracts/",
+  "summary": {
+    "nodes": 10,
+    "edges": 2,
+    "properties": 0,
+    "triples": 174
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/FuturesAndForwards/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Options/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/Markets/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "currency derivative",
+      "technicalName": "fibo-der-drc-cur:CurrencyDerivative",
+      "localName": "CurrencyDerivative",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CurrencyContracts/CurrencyDerivative",
+      "label": "currency derivative",
+      "definition": "agreement to deliver and settle a given amount of money in one currency, in exchange for a given amount in another currency at an agreed rate of exchange",
+      "parents": [
+        "fibo-fbc-fi-fi:CurrencyInstrument",
+        "fibo-fbc-fi-fi:DerivativeInstrument"
+      ],
+      "rules": [
+        {
+          "property": "fibo-ind-fx-fx:hasExchangeRateQuotationSource",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "currency forward",
+      "technicalName": "fibo-der-drc-cur:CurrencyForward",
+      "localName": "CurrencyForward",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CurrencyContracts/CurrencyForward",
+      "label": "currency forward",
+      "definition": "agreement to deliver and settle a given amount of money in one currency, in exchange for a given amount in another currency, at an agreed date in the future and at an agreed rate of exchange",
+      "parents": [
+        "currency derivative",
+        "fibo-der-drc-ff:Forward"
+      ],
+      "rules": [
+        {
+          "property": "has forward exchange rate",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:ExchangeRate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "currency forward outright",
+      "technicalName": "fibo-der-drc-cur:CurrencyForwardOutright",
+      "localName": "CurrencyForwardOutright",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CurrencyContracts/CurrencyForwardOutright",
+      "label": "currency forward outright",
+      "definition": "forward contract in a foreign exchange market that locks in the price at which an entity must buy or sell a currency on a future date",
+      "parents": [
+        "currency forward"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasPart",
+          "operator": "some",
+          "value": "currency swap",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasPart",
+          "operator": "some",
+          "value": "currency spot contract",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "currency option",
+      "technicalName": "fibo-der-drc-cur:CurrencyOption",
+      "localName": "CurrencyOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CurrencyContracts/CurrencyOption",
+      "label": "currency option",
+      "definition": "option giving the buyer (holder) the right, but not the obligation, to buy or sell currency at a specified exchange rate during a specified period of time",
+      "parents": [
+        "currency derivative",
+        "fibo-der-drc-opt:VanillaOption"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-ind-fx-fx:CurrencySpotBuyRate"
+        },
+        {
+          "property": "fibo-der-drc-opt:hasStrikeRate",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:ExchangeRate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "currency spot contract",
+      "technicalName": "fibo-der-drc-cur:CurrencySpotContract",
+      "localName": "CurrencySpotContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CurrencyContracts/CurrencySpotContract",
+      "label": "currency spot contract",
+      "definition": "foreign-exchange contract for immediate delivery",
+      "parents": [
+        "fibo-fbc-fi-fi:CurrencyInstrument",
+        "fibo-fbc-fi-fi:SpotContract"
+      ],
+      "rules": [
+        {
+          "property": "has spot exchange rate",
+          "operator": "some",
+          "value": "fibo-ind-fx-fx:QuotedExchangeRate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "currency spot forward swap",
+      "technicalName": "fibo-der-drc-cur:CurrencySpotForwardSwap",
+      "localName": "CurrencySpotForwardSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CurrencyContracts/CurrencySpotForwardSwap",
+      "label": "currency spot forward swap",
+      "definition": "foreign exchange agreement between two parties involving an exchange of two currencies at agreed fixed rates: a) on the spot settlement date and b) a reverse exchange on a later specified date",
+      "parents": [
+        "currency swap"
+      ],
+      "rules": [
+        {
+          "property": "fibo-der-drc-swp:hasLeg",
+          "operator": "some",
+          "value": "currency spot contract",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "currency swap",
+      "technicalName": "fibo-der-drc-cur:CurrencySwap",
+      "localName": "CurrencySwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CurrencyContracts/CurrencySwap",
+      "label": "currency swap",
+      "definition": "foreign exchange agreement between two parties to exchange a given amount of one currency for another currency for spot delivery or for forward delivery at an agreed rate after a specified period of time",
+      "parents": [
+        "currency derivative",
+        "fibo-der-drc-swp:Swap"
+      ],
+      "rules": [
+        {
+          "property": "fibo-der-drc-swp:hasLeg",
+          "operator": "some",
+          "value": "currency forward",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "currency volatility option",
+      "technicalName": "fibo-der-drc-cur:CurrencyVolatilityOption",
+      "localName": "CurrencyVolatilityOption",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CurrencyContracts/CurrencyVolatilityOption",
+      "label": "currency volatility option",
+      "definition": "currency option whose underlying asset is based on the volatility of a foreign exchange rate",
+      "parents": [
+        "currency option"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-ind-fx-fx:CurrencySpotVolatility",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "foreign exchange master agreement",
+      "technicalName": "fibo-der-drc-cur:ForeignExchangeMasterAgreement",
+      "localName": "ForeignExchangeMasterAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CurrencyContracts/ForeignExchangeMasterAgreement",
+      "label": "foreign exchange master agreement",
+      "definition": "product-specific master agreement intended to reflect best market practice and to provide a standard agreement for participants in the foreign exchange markets",
+      "parents": [
+        "fibo-fnd-agr-ctr:MasterAgreement"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "foreign exchange settlement netting provision",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "foreign exchange settlement netting provision",
+      "technicalName": "fibo-der-drc-cur:ForeignExchangeSettlementNettingProvision",
+      "localName": "ForeignExchangeSettlementNettingProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CurrencyContracts/ForeignExchangeSettlementNettingProvision",
+      "label": "foreign exchange settlement netting provision",
+      "definition": "settlement netting provision that is specific to foreign exchange contracts",
+      "parents": [
+        "fibo-fnd-agr-ctr:SettlementNettingProvision"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has forward exchange rate",
+      "technicalName": "fibo-der-drc-cur:hasForwardExchangeRate",
+      "localName": "hasForwardExchangeRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CurrencyContracts/hasForwardExchangeRate",
+      "label": "has forward exchange rate",
+      "definition": "rate of exchange between two currencies as specified in a forward contract",
+      "domain": [
+        "currency forward"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:ExchangeRate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has spot exchange rate",
+      "technicalName": "fibo-der-drc-cur:hasSpotExchangeRate",
+      "localName": "hasSpotExchangeRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/CurrencyContracts/hasSpotExchangeRate",
+      "label": "has spot exchange rate",
+      "definition": "rate of exchange between two currencies as specified as of some date and time as quoted by a specific source, typically for a spot contract",
+      "domain": [],
+      "range": [
+        "fibo-ind-fx-fx:QuotedExchangeRate"
+      ]
+    }
+  ],
+  "attributes": []
+}

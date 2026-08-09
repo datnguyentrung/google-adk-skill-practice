@@ -1,0 +1,524 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FBC\\DebtAndEquities\\CreditRatings.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/",
+  "summary": {
+    "nodes": 20,
+    "edges": 4,
+    "properties": 0,
+    "triples": 313
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "credit inquiry",
+      "technicalName": "fibo-fbc-dae-crt:CreditInquiry",
+      "localName": "CreditInquiry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditInquiry",
+      "label": "credit inquiry",
+      "definition": "request from a lender to a credit repository to obtain information regarding a prospective borrower's creditworthiness",
+      "parents": [
+        "fibo-fnd-arr-rep:RequestActivity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "credit inquiry type",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-rep:isRequestedOf",
+          "operator": "some",
+          "value": "credit rating agency",
+          "qualifier": null
+        },
+        {
+          "property": "concerns party",
+          "operator": "some",
+          "value": "cmns-pts:Party",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit inquiry type",
+      "technicalName": "fibo-fbc-dae-crt:CreditInquiryType",
+      "localName": "CreditInquiryType",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditInquiryType",
+      "label": "credit inquiry type",
+      "definition": "classifier indicating whether a credit inquiry is a result of a borrower's direct authorization or by some indirect means",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit message",
+      "technicalName": "fibo-fbc-dae-crt:CreditMessage",
+      "localName": "CreditMessage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditMessage",
+      "label": "credit message",
+      "definition": "notice on a credit report to alert a reviewer of special or exceptional information",
+      "parents": [
+        "cmns-doc:Notice"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "credit message type",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit message type",
+      "technicalName": "fibo-fbc-dae-crt:CreditMessageType",
+      "localName": "CreditMessageType",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditMessageType",
+      "label": "credit message type",
+      "definition": "classifier that categorizes credit messages",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit quality",
+      "technicalName": "fibo-fbc-dae-crt:CreditQuality",
+      "localName": "CreditQuality",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditQuality",
+      "label": "credit quality",
+      "definition": "classifier for borrowers, rates, or holdings in the lending market with respect to the quality of the credit",
+      "parents": [
+        "fibo-fnd-arr-rt:RatingScore"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit rating",
+      "technicalName": "fibo-fbc-dae-crt:CreditRating",
+      "localName": "CreditRating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditRating",
+      "label": "credit rating",
+      "definition": "assessment of creditworthiness of a borrower generally or with respect to a particular debt or financial obligation",
+      "parents": [
+        "fibo-fnd-arr-rt:Rating"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "credit rating agency",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-qtu:isDerivedFrom",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit rating model"
+        }
+      ]
+    },
+    {
+      "name": "credit rating agency",
+      "technicalName": "fibo-fbc-dae-crt:CreditRatingAgency",
+      "localName": "CreditRatingAgency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditRatingAgency",
+      "label": "credit rating agency",
+      "definition": "rating agency that publishes reports assessing the creditworthiness of a borrower or legal entity, either generally or with respect to a specific obligation",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider",
+        "fibo-fnd-arr-rt:RatingAgency"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:manages",
+          "operator": "some",
+          "value": "credit rating scale",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:issues",
+          "operator": "some",
+          "value": "credit rating",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit rating model",
+      "technicalName": "fibo-fbc-dae-crt:CreditRatingModel",
+      "localName": "CreditRatingModel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditRatingModel",
+      "label": "credit rating model",
+      "definition": "algorithm for computing a credit rating",
+      "parents": [
+        "cmns-qtu:Expression"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTextualName",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "credit score model type",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:produces",
+          "operator": "some",
+          "value": "fibo-fnd-arr-rt:RatingScore",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit score model type",
+      "technicalName": "fibo-fbc-dae-crt:CreditRatingModelType",
+      "localName": "CreditRatingModelType",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditRatingModelType",
+      "label": "credit score model type",
+      "definition": "a type corresonding to a family of credit scoring algorithms sharing common characteristics",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit rating scale",
+      "technicalName": "fibo-fbc-dae-crt:CreditRatingScale",
+      "localName": "CreditRatingScale",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditRatingScale",
+      "label": "credit rating scale",
+      "definition": "rating scale for assigning a credit rating to individual, entity, or instrument, including defining a set of codes or numeric scores and indicating how an assessment that is assigned a score based on that scale means",
+      "parents": [
+        "fibo-fnd-arr-rt:RatingScale"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "some",
+          "value": "credit rating agency",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit report",
+      "technicalName": "fibo-fbc-dae-crt:CreditReport",
+      "localName": "CreditReport",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditReport",
+      "label": "credit report",
+      "definition": "report describing the creditworthiness and related credit attributes of a borrower",
+      "parents": [
+        "fibo-fnd-arr-rt:RatingReport"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-fd:hasAsOfDate",
+          "operator": "some",
+          "value": "cmns-dt:Date",
+          "qualifier": null
+        },
+        {
+          "property": "has coverage period",
+          "operator": "some",
+          "value": "cmns-dt:DatePeriod",
+          "qualifier": null
+        },
+        {
+          "property": "concerns party",
+          "operator": "some",
+          "value": "cmns-pts:Party",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-doc:hasDataSource",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "credit rating agency",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-id:Identifier"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit tradeline"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit report product"
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit report category"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isProducedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit rating agency"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit rating"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit message"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "credit inquiry"
+        }
+      ]
+    },
+    {
+      "name": "credit report category",
+      "technicalName": "fibo-fbc-dae-crt:CreditReportCategory",
+      "localName": "CreditReportCategory",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditReportCategory",
+      "label": "credit report category",
+      "definition": "classifier for credit reports, often available from multiple vendors",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit report product",
+      "technicalName": "fibo-fbc-dae-crt:CreditReportProduct",
+      "localName": "CreditReportProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditReportProduct",
+      "label": "credit report product",
+      "definition": "branded credit report offered in the marketplace",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialProduct",
+        "fibo-fnd-pas-pas:OffTheShelfProduct"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isProducedBy",
+          "operator": "some",
+          "value": "credit rating agency",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit tradeline",
+      "technicalName": "fibo-fbc-dae-crt:CreditTradeline",
+      "localName": "CreditTradeline",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditTradeline",
+      "label": "credit tradeline",
+      "definition": "report derived from the transaction history of a credit account",
+      "parents": [
+        "fibo-fnd-arr-rep:Report"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:isDerivedFrom",
+          "operator": "some",
+          "value": "fibo-fbc-pas-caa:Account",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "some",
+          "value": "credit report",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit watch direction",
+      "technicalName": "fibo-fbc-dae-crt:CreditWatchDirection",
+      "localName": "CreditWatchDirection",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditWatchDirection",
+      "label": "credit watch direction",
+      "definition": null,
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit watch outlook",
+      "technicalName": "fibo-fbc-dae-crt:CreditWatchOutlook",
+      "localName": "CreditWatchOutlook",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/CreditWatchOutlook",
+      "label": "credit watch outlook",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-arr-rt:Rating"
+      ],
+      "rules": []
+    },
+    {
+      "name": "instrument credit rating",
+      "technicalName": "fibo-fbc-dae-crt:InstrumentCreditRating",
+      "localName": "InstrumentCreditRating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/InstrumentCreditRating",
+      "label": "instrument credit rating",
+      "definition": "investment credit rating that provides an opinion of creditworthiness of an instrument, typically with some relationship to the creditworthiness of the issuer(s)",
+      "parents": [
+        "investment credit rating"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-rt:rates",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:FinancialInstrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "investment credit rating",
+      "technicalName": "fibo-fbc-dae-crt:InvestmentCreditRating",
+      "localName": "InvestmentCreditRating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/InvestmentCreditRating",
+      "label": "investment credit rating",
+      "definition": "credit rating that provides an opinion of creditworthiness of an investment, including but not limited to an instrument or organization",
+      "parents": [
+        "credit rating"
+      ],
+      "rules": []
+    },
+    {
+      "name": "organization credit rating",
+      "technicalName": "fibo-fbc-dae-crt:OrganizationCreditRating",
+      "localName": "OrganizationCreditRating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/OrganizationCreditRating",
+      "label": "organization credit rating",
+      "definition": "credit rating that provides an opinion of creditworthiness of an organization",
+      "parents": [
+        "credit rating"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-rt:rates",
+          "operator": "some",
+          "value": "cmns-org:FormalOrganization",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "short term credit rating",
+      "technicalName": "fibo-fbc-dae-crt:ShortTermCreditRating",
+      "localName": "ShortTermCreditRating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/ShortTermCreditRating",
+      "label": "short term credit rating",
+      "definition": "credit rating that provides an opinion of the probability of an individual or organization going into default within a year",
+      "parents": [
+        "investment credit rating"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "concerns party",
+      "technicalName": "fibo-fbc-dae-crt:concernsParty",
+      "localName": "concernsParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/concernsParty",
+      "label": "concerns party",
+      "definition": "indicates the party for which something is being or has been requested",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has coverage period",
+      "technicalName": "fibo-fbc-dae-crt:hasCoveragePeriod",
+      "localName": "hasCoveragePeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/hasCoveragePeriod",
+      "label": "has coverage period",
+      "definition": "relates something (e.g. a credit report or insurance policy) to the specific time period that it covers",
+      "domain": [],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "watch direction",
+      "technicalName": "fibo-fbc-dae-crt:hasWatchDirection",
+      "localName": "hasWatchDirection",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/hasWatchDirection",
+      "label": "watch direction",
+      "definition": "indicates direction in which an investment credit rating is expected to move in cases where that rating is on watch",
+      "domain": [
+        "investment credit rating"
+      ],
+      "range": [
+        "credit watch direction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "watch outlook",
+      "technicalName": "fibo-fbc-dae-crt:hasWatchOutlook",
+      "localName": "hasWatchOutlook",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditRatings/hasWatchOutlook",
+      "label": "watch outlook",
+      "definition": "indicates the expected outlook for the rated entity",
+      "domain": [
+        "investment credit rating"
+      ],
+      "range": [
+        "credit watch outlook"
+      ]
+    }
+  ],
+  "attributes": []
+}

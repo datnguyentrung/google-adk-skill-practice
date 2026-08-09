@@ -1,0 +1,513 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FND\\GoalsAndObjectives",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FND\\GoalsAndObjectives\\Objectives.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 1,
+    "classes": 21,
+    "edges": 6,
+    "attributes": 0
+  },
+  "classes": [
+    {
+      "name": "aim",
+      "technicalName": "fibo-fnd-gao-obj:Aim",
+      "localName": "Aim",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/Aim",
+      "label": "aim",
+      "definition": "intention specifying a desired direction, condition, or situation toward which an agent's actions are directed, without requiring precise scope or measurable criteria",
+      "parents": [],
+      "rules": [
+        {
+          "property": "is addressed by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "approach"
+        }
+      ]
+    },
+    {
+      "name": "approach",
+      "technicalName": "fibo-fnd-gao-obj:Approach",
+      "localName": "Approach",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/Approach",
+      "label": "approach",
+      "definition": "way of addressing an aim or problem characterized by high-level planning and systematic execution, without presupposing scope or granularity",
+      "parents": [],
+      "rules": [
+        {
+          "property": "has objective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "objective"
+        },
+        {
+          "property": "addresses",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "aim"
+        }
+      ]
+    },
+    {
+      "name": "business objective",
+      "technicalName": "fibo-fnd-gao-obj:BusinessObjective",
+      "localName": "BusinessObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/BusinessObjective",
+      "label": "business objective",
+      "definition": "objective that reflects the strategic goals and direction of a business within a time frame and available resources",
+      "parents": [
+        "objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "business strategy",
+      "technicalName": "fibo-fnd-gao-obj:BusinessStrategy",
+      "localName": "BusinessStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/BusinessStrategy",
+      "label": "business strategy",
+      "definition": "strategy for achieving a specific business goal, objective, solution or outcome",
+      "parents": [
+        "strategy"
+      ],
+      "rules": [
+        {
+          "property": "has objective",
+          "operator": "some",
+          "value": "business objective",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "distribution strategy",
+      "technicalName": "fibo-fnd-gao-obj:DistributionStrategy",
+      "localName": "DistributionStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/DistributionStrategy",
+      "label": "distribution strategy",
+      "definition": "strategy for making a product or service available, or for distributing funds, such as in the form of a dividend or coupon",
+      "parents": [
+        "strategy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "financial objective",
+      "technicalName": "fibo-fnd-gao-obj:FinancialObjective",
+      "localName": "FinancialObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/FinancialObjective",
+      "label": "financial objective",
+      "definition": "objective that reflects the strategic financial goals and direction of a party within a time frame and available resources",
+      "parents": [
+        "objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "goal",
+      "technicalName": "fibo-fnd-gao-obj:Goal",
+      "localName": "Goal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/Goal",
+      "label": "goal",
+      "definition": "aim distinguished by broad scope and aspirational character, often qualitative and long-term, in order to achieve a desired state",
+      "parents": [
+        "aim"
+      ],
+      "rules": []
+    },
+    {
+      "name": "investment objective",
+      "technicalName": "fibo-fnd-gao-obj:InvestmentObjective",
+      "localName": "InvestmentObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/InvestmentObjective",
+      "label": "investment objective",
+      "definition": "financial objective used by an investor to determine whether or not a given potential investment is appropriate for themselves or on behalf of another party",
+      "parents": [
+        "financial objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "local investment objective",
+      "technicalName": "fibo-fnd-gao-obj:LocalInvestmentObjective",
+      "localName": "LocalInvestmentObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/LocalInvestmentObjective",
+      "label": "local investment objective",
+      "definition": "financial objective that aims to support geographically centralized, community development needs",
+      "parents": [
+        "investment objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "method",
+      "technicalName": "fibo-fnd-gao-obj:Method",
+      "localName": "Method",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/Method",
+      "label": "method",
+      "definition": "approach distinguished by systematic, repeatable procedures and operational specificity for doing or calculating something, consisting of defined steps or rules to achieve a result",
+      "parents": [
+        "approach"
+      ],
+      "rules": []
+    },
+    {
+      "name": "objective",
+      "technicalName": "fibo-fnd-gao-obj:Objective",
+      "localName": "Objective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/Objective",
+      "label": "objective",
+      "definition": "aim distinguished by specific scope and measurable criteria, often quantitative and short-term that a party seeks to attain, typically in order to achieve its long-term goals",
+      "parents": [
+        "aim"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasDatePeriod",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:DatePeriod"
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "goal"
+        }
+      ]
+    },
+    {
+      "name": "program",
+      "technicalName": "fibo-fnd-gao-obj:Program",
+      "localName": "Program",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/Program",
+      "label": "program",
+      "definition": "state of affairs and coordinated set of activities designed to obtain benefits not available from managing them individually",
+      "parents": [
+        "cmns-pts:Situation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasDescription",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "project"
+        },
+        {
+          "property": "cmns-dsg:hasName",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "program name"
+        },
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "program identifier"
+        },
+        {
+          "property": "has objective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "objective"
+        },
+        {
+          "property": "has goal",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "goal"
+        }
+      ]
+    },
+    {
+      "name": "program identifier",
+      "technicalName": "fibo-fnd-gao-obj:ProgramIdentifier",
+      "localName": "ProgramIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/ProgramIdentifier",
+      "label": "program identifier",
+      "definition": "sequence of characters uniquely identifying a specific program within the context in which that program is administered",
+      "parents": [
+        "cmns-cxtid:ContextualIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "program",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "program name",
+      "technicalName": "fibo-fnd-gao-obj:ProgramName",
+      "localName": "ProgramName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/ProgramName",
+      "label": "program name",
+      "definition": "contextual designation for a program within the context in which that program is administered",
+      "parents": [
+        "cmns-cxtdsg:ContextualName"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isNameOf",
+          "operator": "some",
+          "value": "program",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "project",
+      "technicalName": "fibo-fnd-gao-obj:Project",
+      "localName": "Project",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/Project",
+      "label": "project",
+      "definition": "state of affairs and unique and temporary organization, designed to deliver a tangible output",
+      "parents": [
+        "cmns-pts:Situation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasDescription",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:hasName",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "project name"
+        },
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "project identifier"
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "program"
+        },
+        {
+          "property": "has objective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "objective"
+        },
+        {
+          "property": "has goal",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "goal"
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasOutput",
+          "operator": "min",
+          "value": "0",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasInput",
+          "operator": "min",
+          "value": "0",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "project identifier",
+      "technicalName": "fibo-fnd-gao-obj:ProjectIdentifier",
+      "localName": "ProjectIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/ProjectIdentifier",
+      "label": "project identifier",
+      "definition": "sequence of characters uniquely identifying a specific project within the context in which that project or an overarching program is administered",
+      "parents": [
+        "cmns-cxtid:ContextualIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "project",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "project name",
+      "technicalName": "fibo-fnd-gao-obj:ProjectName",
+      "localName": "ProjectName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/ProjectName",
+      "label": "project name",
+      "definition": "contextual designation for a project",
+      "parents": [
+        "cmns-cxtdsg:ContextualName"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isNameOf",
+          "operator": "some",
+          "value": "project",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "sales strategy",
+      "technicalName": "fibo-fnd-gao-obj:SalesStrategy",
+      "localName": "SalesStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/SalesStrategy",
+      "label": "sales strategy",
+      "definition": "strategy for selling something, including allocating resources to the sales process, reducing costs, and optimizing revenues",
+      "parents": [
+        "business strategy"
+      ],
+      "rules": []
+    },
+    {
+      "name": "strategy",
+      "technicalName": "fibo-fnd-gao-obj:Strategy",
+      "localName": "Strategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/Strategy",
+      "label": "strategy",
+      "definition": "high-level approach that guides decision-making and the coordination of actions and plans in pursuit of some aim",
+      "parents": [
+        "approach"
+      ],
+      "rules": [
+        {
+          "property": "has goal",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "goal"
+        }
+      ]
+    },
+    {
+      "name": "study",
+      "technicalName": "fibo-fnd-gao-obj:Study",
+      "localName": "Study",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/Study",
+      "label": "study",
+      "definition": "analytical activity that investigates a specified area of interest, to determine its characteristics, relationships, constraints, or implications",
+      "parents": [
+        "cmns-pts:Situation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-cxtdsg:Context"
+        },
+        {
+          "property": "has goal",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "goal"
+        }
+      ]
+    },
+    {
+      "name": "triple bottom line objective",
+      "technicalName": "fibo-fnd-gao-obj:TripleBottomLineObjective",
+      "localName": "TripleBottomLineObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/TripleBottomLineObjective",
+      "label": "triple bottom line objective",
+      "definition": "financial objective that integrates economic performance, environmental stewardship, and social responsibility as co-equal criteria for success",
+      "parents": [
+        "investment objective"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "addresses",
+      "technicalName": "fibo-fnd-gao-obj:addresses",
+      "localName": "addresses",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/addresses",
+      "label": "addresses",
+      "definition": "deals with, handles, or gives attention to",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has goal",
+      "technicalName": "fibo-fnd-gao-obj:hasGoal",
+      "localName": "hasGoal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/hasGoal",
+      "label": "has goal",
+      "definition": "has long-term, desired outcome",
+      "domain": [],
+      "range": [
+        "goal"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has objective",
+      "technicalName": "fibo-fnd-gao-obj:hasObjective",
+      "localName": "hasObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/hasObjective",
+      "label": "has objective",
+      "definition": "aims to achieve within a time frame and with available resources",
+      "domain": [],
+      "range": [
+        "objective"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has strategy",
+      "technicalName": "fibo-fnd-gao-obj:hasStrategy",
+      "localName": "hasStrategy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/hasStrategy",
+      "label": "has strategy",
+      "definition": "applies strategy",
+      "domain": [],
+      "range": [
+        "strategy"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is addressed by",
+      "technicalName": "fibo-fnd-gao-obj:isAddressedBy",
+      "localName": "isAddressedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/isAddressedBy",
+      "label": "is addressed by",
+      "definition": "indicates something, such a goal or objective, that is dealt with by",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "uses method",
+      "technicalName": "fibo-fnd-gao-obj:usesMethod",
+      "localName": "usesMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/usesMethod",
+      "label": "uses method",
+      "definition": "employs method",
+      "domain": [],
+      "range": [
+        "method"
+      ]
+    }
+  ],
+  "attributes": []
+}

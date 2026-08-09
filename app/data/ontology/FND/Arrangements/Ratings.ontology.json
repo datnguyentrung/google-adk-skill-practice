@@ -1,0 +1,450 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Arrangements\\Ratings.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/",
+  "summary": {
+    "nodes": 12,
+    "edges": 5,
+    "properties": 3,
+    "triples": 244
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Reporting/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "qualitative rating score",
+      "technicalName": "fibo-fnd-arr-rt:QualitativeRatingScore",
+      "localName": "QualitativeRatingScore",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/QualitativeRatingScore",
+      "label": "qualitative rating score",
+      "definition": "rating score that is represented as a qualitative code with respect to some rating scale",
+      "parents": [
+        "rating score",
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "quantitative rating score",
+      "technicalName": "fibo-fnd-arr-rt:QuantitativeRatingScore",
+      "localName": "QuantitativeRatingScore",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/QuantitativeRatingScore",
+      "label": "quantitative rating score",
+      "definition": "rating score that is a simple numeric value on some scale, such as a credit rating for an individual",
+      "parents": [
+        "rating score"
+      ],
+      "rules": [
+        {
+          "property": "has measure within scale",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    },
+    {
+      "name": "rating",
+      "technicalName": "fibo-fnd-arr-rt:Rating",
+      "localName": "Rating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/Rating",
+      "label": "rating",
+      "definition": "standing of something at a particular time, indicated by at least one scores with respect to some scale, based on an assessment by some party",
+      "parents": [
+        "fibo-fnd-arr-asmt:Opinion"
+      ],
+      "rules": [
+        {
+          "property": "has rating score",
+          "operator": "some",
+          "value": "rating score",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dt:hasDateOfIssuance",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isGeneratedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "rating party"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "rating issuer"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasEffectiveDate",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "rates",
+          "operator": "exactly",
+          "value": "1",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rating agency",
+      "technicalName": "fibo-fnd-arr-rt:RatingAgency",
+      "localName": "RatingAgency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingAgency",
+      "label": "rating agency",
+      "definition": "rating issuer that is also a rating scale publisher, frequently but not always an independent rating service",
+      "parents": [
+        "rating issuer",
+        "rating scale publisher"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "cmns-org:FormalOrganization",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rating assessment activity",
+      "technicalName": "fibo-fnd-arr-rt:RatingAssessmentActivity",
+      "localName": "RatingAssessmentActivity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingAssessmentActivity",
+      "label": "rating assessment activity",
+      "definition": "assessment activity resulting in a grade or score and potentially a report describing the score and the process used to determine that score",
+      "parents": [
+        "fibo-fnd-arr-asmt:AssessmentActivity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "rating party",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rating assessment event",
+      "technicalName": "fibo-fnd-arr-rt:RatingAssessmentEvent",
+      "localName": "RatingAssessmentEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingAssessmentEvent",
+      "label": "rating assessment event",
+      "definition": "individual assessment resulting in a grade or score and potentially a report describing the score",
+      "parents": [
+        "fibo-fnd-arr-asmt:AssessmentEvent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "rating party",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasOutput",
+          "operator": "some",
+          "value": "rating",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "rating assessment activity"
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasOutput",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "rating report"
+        }
+      ]
+    },
+    {
+      "name": "rating issuer",
+      "technicalName": "fibo-fnd-arr-rt:RatingIssuer",
+      "localName": "RatingIssuer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingIssuer",
+      "label": "rating issuer",
+      "definition": "party that is responsible for issuing ratings",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:issues",
+          "operator": "some",
+          "value": "rating",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rating party",
+      "technicalName": "fibo-fnd-arr-rt:RatingParty",
+      "localName": "RatingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingParty",
+      "label": "rating party",
+      "definition": "person, organization or group that analyzes some aspect of something and develops a rating",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:generates",
+          "operator": "some",
+          "value": "rating",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rating report",
+      "technicalName": "fibo-fnd-arr-rt:RatingReport",
+      "localName": "RatingReport",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingReport",
+      "label": "rating report",
+      "definition": "report describing a set of ratings",
+      "parents": [
+        "fibo-fnd-arr-asmt:AssessmentReport"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-rep:reportsOn",
+          "operator": "some",
+          "value": "rating",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rating scale",
+      "technicalName": "fibo-fnd-arr-rt:RatingScale",
+      "localName": "RatingScale",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingScale",
+      "label": "rating scale",
+      "definition": "system for assigning a value to something according to some scale with respect to quality, a standard, or ranking",
+      "parents": [
+        "cmns-cls:ClassificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "rating score",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "rating scale publisher"
+        },
+        {
+          "property": "has worst measure",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "has best measure",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    },
+    {
+      "name": "rating scale publisher",
+      "technicalName": "fibo-fnd-arr-rt:RatingScalePublisher",
+      "localName": "RatingScalePublisher",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingScalePublisher",
+      "label": "rating scale publisher",
+      "definition": "party responsible for managing one or more rating schemes and potentially publishing ratings based on those schemes",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:manages",
+          "operator": "some",
+          "value": "rating scale",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "rating score",
+      "technicalName": "fibo-fnd-arr-rt:RatingScore",
+      "localName": "RatingScore",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/RatingScore",
+      "label": "rating score",
+      "definition": "grade, classification, or ranking of for something in accordance with some rating scale",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "rating scale"
+        },
+        {
+          "property": "has measure within scale",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has rating",
+      "technicalName": "fibo-fnd-arr-rt:hasRating",
+      "localName": "hasRating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/hasRating",
+      "label": "has rating",
+      "definition": "indicates the rating assigned to a thing based on a grade or score according to a particular rating scale",
+      "domain": [],
+      "range": [
+        "rating"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has rating score",
+      "technicalName": "fibo-fnd-arr-rt:hasRatingScore",
+      "localName": "hasRatingScore",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/hasRatingScore",
+      "label": "has rating score",
+      "definition": "indicates the grade or score associated with a rating with respect to a particular rating scale",
+      "domain": [
+        "rating"
+      ],
+      "range": [
+        "rating score"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "produces ratings for",
+      "technicalName": "fibo-fnd-arr-rt:producesRatingsFor",
+      "localName": "producesRatingsFor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/producesRatingsFor",
+      "label": "produces ratings for",
+      "definition": "issuer for which ratings are produced or posted through",
+      "domain": [
+        "rating party"
+      ],
+      "range": [
+        "rating issuer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "rates",
+      "technicalName": "fibo-fnd-arr-rt:rates",
+      "localName": "rates",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/rates",
+      "label": "rates",
+      "definition": "indicates the instrument, party or something else to which a rating applies",
+      "domain": [
+        "rating"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "uses rating performer",
+      "technicalName": "fibo-fnd-arr-rt:usesRatingParty",
+      "localName": "usesRatingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/usesRatingParty",
+      "label": "uses rating performer",
+      "definition": "rating performer an issuer uses to assess ratings",
+      "domain": [
+        "rating issuer"
+      ],
+      "range": [
+        "rating party"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has best measure",
+      "technicalName": "fibo-fnd-arr-rt:hasBestMeasure",
+      "localName": "hasBestMeasure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/hasBestMeasure",
+      "label": "has best measure",
+      "definition": "indicates the 'best' (most desirable) possible value for a rating score's hasMeasureWithinScale property",
+      "domain": [
+        "rating scale"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has measure within scale",
+      "technicalName": "fibo-fnd-arr-rt:hasMeasureWithinScale",
+      "localName": "hasMeasureWithinScale",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/hasMeasureWithinScale",
+      "label": "has measure within scale",
+      "definition": "indicates a relative, numeric measure or ordering on a rating scale",
+      "domain": [
+        "rating score"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has worst measure",
+      "technicalName": "fibo-fnd-arr-rt:hasWorstMeasure",
+      "localName": "hasWorstMeasure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Ratings/hasWorstMeasure",
+      "label": "has worst measure",
+      "definition": "indicates the 'worst' (least desirable) possible value for a rating score's hasMeasureWithinScale property",
+      "domain": [
+        "rating scale"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    }
+  ]
+}

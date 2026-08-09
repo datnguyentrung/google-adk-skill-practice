@@ -1,0 +1,24 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\IND\\InterestRates\\CommonInterestRates.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/CommonInterestRates/",
+  "summary": {
+    "nodes": 0,
+    "edges": 0,
+    "properties": 0,
+    "triples": 3499
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/CommercialRegistrationAuthorities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/ISO4217-CurrencyCodes/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/MarketDataProviders/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Organizations/"
+  ],
+  "classes": [],
+  "edges": [],
+  "attributes": []
+}

@@ -1,0 +1,116 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\BP\\SecuritiesIssuance\\IssuanceDocuments.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceDocuments/",
+  "summary": {
+    "nodes": 6,
+    "edges": 0,
+    "properties": 0,
+    "triples": 57
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesIssuance/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/"
+  ],
+  "classes": [
+    {
+      "name": "final prospectus",
+      "technicalName": "fibo-bp-iss-doc:FinalProspectus",
+      "localName": "FinalProspectus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceDocuments/FinalProspectus",
+      "label": "final prospectus",
+      "definition": "The final Prospectus for an issue describes the Offer Issue, including facts about the issue itself such as closing dates, and known facts about the securities that will form part of that issue.",
+      "parents": [
+        "fibo-sec-sec-iss:Prospectus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:succeeds",
+          "operator": "some",
+          "value": "preliminary prospectus",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "offering document terms",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "indenture",
+      "technicalName": "fibo-bp-iss-doc:Indenture",
+      "localName": "Indenture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceDocuments/Indenture",
+      "label": "indenture",
+      "definition": "A written contract, also known as a \"Deed of Trust\", under which bonds and debentures are issued, setting forth maturity date, interest rate, redemption rights, call privileges and other terms. Under the rules of the Trust Indenture Act of 1939, the contract is executed by the issuer and a trustee who acts on behalf of the bondholders.",
+      "parents": [
+        "securities issuance agreement",
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": []
+    },
+    {
+      "name": "issuance trust agreement",
+      "technicalName": "fibo-bp-iss-doc:IssuanceTrustAgreement",
+      "localName": "IssuanceTrustAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceDocuments/IssuanceTrustAgreement",
+      "label": "issuance trust agreement",
+      "definition": null,
+      "parents": [
+        "securities issuance agreement",
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": []
+    },
+    {
+      "name": "offering document terms",
+      "technicalName": "fibo-bp-iss-doc:OfferingDocumentTerms",
+      "localName": "OfferingDocumentTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceDocuments/OfferingDocumentTerms",
+      "label": "offering document terms",
+      "definition": "terms included in an offering document that become legally binding at issue",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractualElement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "preliminary prospectus",
+      "technicalName": "fibo-bp-iss-doc:PreliminaryProspectus",
+      "localName": "PreliminaryProspectus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceDocuments/PreliminaryProspectus",
+      "label": "preliminary prospectus",
+      "definition": "The draft prospectus for the issue, as determined prior to marketing the issue. Certain terms in the draft prospectus will be finalized later in the issuance process to become the actual Prospectus. Term origin:DTCC issuance Reviews",
+      "parents": [
+        "fibo-sec-sec-iss:Prospectus"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "offering document terms",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "securities issuance agreement",
+      "technicalName": "fibo-bp-iss-doc:SecuritiesIssuanceAgreement",
+      "localName": "SecuritiesIssuanceAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/SecuritiesIssuance/IssuanceDocuments/SecuritiesIssuanceAgreement",
+      "label": "securities issuance agreement",
+      "definition": "A formal agreement, deed or contract in respect of some intended securities issuance.",
+      "parents": [
+        "fibo-sec-sec-iss:OfferingDocument"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

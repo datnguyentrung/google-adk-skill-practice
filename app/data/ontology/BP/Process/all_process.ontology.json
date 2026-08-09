@@ -1,0 +1,419 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BP\\Process",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BP\\Process\\FinancialContextAndProcess.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 1,
+    "classes": 32,
+    "edges": 1,
+    "attributes": 0
+  },
+  "classes": [
+    {
+      "name": "clearing",
+      "technicalName": "fibo-bp-prc-fcp:Clearing",
+      "localName": "Clearing",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/Clearing",
+      "label": "clearing",
+      "definition": "The process by which securities trades are cleared.",
+      "parents": [
+        "clearing and settlement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "clearing and settlement",
+      "technicalName": "fibo-bp-prc-fcp:ClearingAndSettlement",
+      "localName": "ClearingAndSettlement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/ClearingAndSettlement",
+      "label": "clearing and settlement",
+      "definition": "The business process or service area of securities clearing and settlement.",
+      "parents": [
+        "financial industry context"
+      ],
+      "rules": []
+    },
+    {
+      "name": "financial industry context",
+      "technicalName": "fibo-bp-prc-fcp:FinancialIndustryContext",
+      "localName": "FinancialIndustryContext",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/FinancialIndustryContext",
+      "label": "financial industry context",
+      "definition": "The context in which business activites take place within the financial industry, i.e. investment management, wholesale financial markets trading and so on.",
+      "parents": [
+        "cmns-cxtdsg:Context"
+      ],
+      "rules": []
+    },
+    {
+      "name": "financial markets regulation",
+      "technicalName": "fibo-bp-prc-fcp:FinancialMarketsRegulation",
+      "localName": "FinancialMarketsRegulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/FinancialMarketsRegulation",
+      "label": "financial markets regulation",
+      "definition": null,
+      "parents": [
+        "financial industry context"
+      ],
+      "rules": []
+    },
+    {
+      "name": "investment management",
+      "technicalName": "fibo-bp-prc-fcp:InvestmentManagement",
+      "localName": "InvestmentManagement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/InvestmentManagement",
+      "label": "investment management",
+      "definition": null,
+      "parents": [
+        "financial industry context"
+      ],
+      "rules": []
+    },
+    {
+      "name": "market data provision",
+      "technicalName": "fibo-bp-prc-fcp:MarketDataProvision",
+      "localName": "MarketDataProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/MarketDataProvision",
+      "label": "market data provision",
+      "definition": null,
+      "parents": [
+        "pre trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "portfolio management",
+      "technicalName": "fibo-bp-prc-fcp:PortfolioManagement",
+      "localName": "PortfolioManagement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/PortfolioManagement",
+      "label": "portfolio management",
+      "definition": null,
+      "parents": [
+        "investment management"
+      ],
+      "rules": []
+    },
+    {
+      "name": "pre trade",
+      "technicalName": "fibo-bp-prc-fcp:PreTrade",
+      "localName": "PreTrade",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/PreTrade",
+      "label": "pre trade",
+      "definition": null,
+      "parents": [
+        "investment management"
+      ],
+      "rules": []
+    },
+    {
+      "name": "pretrade quotes",
+      "technicalName": "fibo-bp-prc-fcp:PretradeQuotes",
+      "localName": "PretradeQuotes",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/PretradeQuotes",
+      "label": "pretrade quotes",
+      "definition": null,
+      "parents": [
+        "pre trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "pretrade reference data provision",
+      "technicalName": "fibo-bp-prc-fcp:PretradeReferenceDataProvision",
+      "localName": "PretradeReferenceDataProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/PretradeReferenceDataProvision",
+      "label": "pretrade reference data provision",
+      "definition": null,
+      "parents": [
+        "pre trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "primary market",
+      "technicalName": "fibo-bp-prc-fcp:PrimaryMarket",
+      "localName": "PrimaryMarket",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/PrimaryMarket",
+      "label": "primary market",
+      "definition": "Issuance and primary market trading of new Traded Financial Instruments",
+      "parents": [
+        "financial industry context"
+      ],
+      "rules": []
+    },
+    {
+      "name": "primary market closing",
+      "technicalName": "fibo-bp-prc-fcp:PrimaryMarketClosing",
+      "localName": "PrimaryMarketClosing",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/PrimaryMarketClosing",
+      "label": "primary market closing",
+      "definition": null,
+      "parents": [
+        "primary market"
+      ],
+      "rules": []
+    },
+    {
+      "name": "primary market indications of interest",
+      "technicalName": "fibo-bp-prc-fcp:PrimaryMarketIndicationsOfInterest",
+      "localName": "PrimaryMarketIndicationsOfInterest",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/PrimaryMarketIndicationsOfInterest",
+      "label": "primary market indications of interest",
+      "definition": null,
+      "parents": [
+        "pre trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "secondary market trading context",
+      "technicalName": "fibo-bp-prc-fcp:SecondaryMarketTradingContext",
+      "localName": "SecondaryMarketTradingContext",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/SecondaryMarketTradingContext",
+      "label": "secondary market trading context",
+      "definition": null,
+      "parents": [
+        "financial industry context"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities custody",
+      "technicalName": "fibo-bp-prc-fcp:SecuritiesCustody",
+      "localName": "SecuritiesCustody",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/SecuritiesCustody",
+      "label": "securities custody",
+      "definition": null,
+      "parents": [
+        "financial industry context"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities post trade",
+      "technicalName": "fibo-bp-prc-fcp:SecuritiesPostTrade",
+      "localName": "SecuritiesPostTrade",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/SecuritiesPostTrade",
+      "label": "securities post trade",
+      "definition": null,
+      "parents": [
+        "financial industry context"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities post trade position management",
+      "technicalName": "fibo-bp-prc-fcp:SecuritiesPostTradePositionManagement",
+      "localName": "SecuritiesPostTradePositionManagement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/SecuritiesPostTradePositionManagement",
+      "label": "securities post trade position management",
+      "definition": null,
+      "parents": [
+        "securities post trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities trade",
+      "technicalName": "fibo-bp-prc-fcp:SecuritiesTrade",
+      "localName": "SecuritiesTrade",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/SecuritiesTrade",
+      "label": "securities trade",
+      "definition": null,
+      "parents": [
+        "financial industry context"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities trade allocation",
+      "technicalName": "fibo-bp-prc-fcp:SecuritiesTradeAllocation",
+      "localName": "SecuritiesTradeAllocation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/SecuritiesTradeAllocation",
+      "label": "securities trade allocation",
+      "definition": null,
+      "parents": [
+        "securities post trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities trade capture and validation",
+      "technicalName": "fibo-bp-prc-fcp:SecuritiesTradeCaptureAndValidation",
+      "localName": "SecuritiesTradeCaptureAndValidation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/SecuritiesTradeCaptureAndValidation",
+      "label": "securities trade capture and validation",
+      "definition": null,
+      "parents": [
+        "securities post trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities trade confirmation affirmation",
+      "technicalName": "fibo-bp-prc-fcp:SecuritiesTradeConfirmationAffirmation",
+      "localName": "SecuritiesTradeConfirmationAffirmation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/SecuritiesTradeConfirmationAffirmation",
+      "label": "securities trade confirmation affirmation",
+      "definition": null,
+      "parents": [
+        "securities post trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities trade date position reporting",
+      "technicalName": "fibo-bp-prc-fcp:SecuritiesTradeDatePositionReporting",
+      "localName": "SecuritiesTradeDatePositionReporting",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/SecuritiesTradeDatePositionReporting",
+      "label": "securities trade date position reporting",
+      "definition": null,
+      "parents": [
+        "securities trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities trade execution",
+      "technicalName": "fibo-bp-prc-fcp:SecuritiesTradeExecution",
+      "localName": "SecuritiesTradeExecution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/SecuritiesTradeExecution",
+      "label": "securities trade execution",
+      "definition": null,
+      "parents": [
+        "securities trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities trade order routing",
+      "technicalName": "fibo-bp-prc-fcp:SecuritiesTradeOrderRouting",
+      "localName": "SecuritiesTradeOrderRouting",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/SecuritiesTradeOrderRouting",
+      "label": "securities trade order routing",
+      "definition": null,
+      "parents": [
+        "securities trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities trades matching",
+      "technicalName": "fibo-bp-prc-fcp:SecuritiesTradesMatching",
+      "localName": "SecuritiesTradesMatching",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/SecuritiesTradesMatching",
+      "label": "securities trades matching",
+      "definition": "Matching of trade allegations to identify confirmed trades, on an Over the Counter market in Traded Securities.",
+      "parents": [
+        "securities post trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities trades reporting",
+      "technicalName": "fibo-bp-prc-fcp:SecuritiesTradesReporting",
+      "localName": "SecuritiesTradesReporting",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/SecuritiesTradesReporting",
+      "label": "securities trades reporting",
+      "definition": null,
+      "parents": [
+        "securities post trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "security retirement",
+      "technicalName": "fibo-bp-prc-fcp:SecurityRetirement",
+      "localName": "SecurityRetirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/SecurityRetirement",
+      "label": "security retirement",
+      "definition": null,
+      "parents": [],
+      "rules": [
+        {
+          "property": "is retirement of",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "short sale locate",
+      "technicalName": "fibo-bp-prc-fcp:ShortSaleLocate",
+      "localName": "ShortSaleLocate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/ShortSaleLocate",
+      "label": "short sale locate",
+      "definition": null,
+      "parents": [
+        "pre trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "trade advertisements",
+      "technicalName": "fibo-bp-prc-fcp:TradeAdvertisements",
+      "localName": "TradeAdvertisements",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/TradeAdvertisements",
+      "label": "trade advertisements",
+      "definition": null,
+      "parents": [
+        "pre trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "traded security lifecycle",
+      "technicalName": "fibo-bp-prc-fcp:TradedSecurityLifecycle",
+      "localName": "TradedSecurityLifecycle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/TradedSecurityLifecycle",
+      "label": "traded security lifecycle",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "trades reference data provision",
+      "technicalName": "fibo-bp-prc-fcp:TradesReferenceDataProvision",
+      "localName": "TradesReferenceDataProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/TradesReferenceDataProvision",
+      "label": "trades reference data provision",
+      "definition": null,
+      "parents": [
+        "securities trade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "when issued trading",
+      "technicalName": "fibo-bp-prc-fcp:WhenIssuedTrading",
+      "localName": "WhenIssuedTrading",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/WhenIssuedTrading",
+      "label": "when issued trading",
+      "definition": null,
+      "parents": [
+        "primary market"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "is retirement of",
+      "technicalName": "fibo-bp-prc-fcp:isRetirementOf",
+      "localName": "isRetirementOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BP/Process/FinancialContextAndProcess/isRetirementOf",
+      "label": "is retirement of",
+      "definition": null,
+      "domain": [
+        "security retirement"
+      ],
+      "range": [
+        "fibo-fbc-fi-fi:Security"
+      ]
+    }
+  ],
+  "attributes": []
+}

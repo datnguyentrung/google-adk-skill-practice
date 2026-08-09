@@ -1,0 +1,2161 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\MD",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\MD\\CIVTemporal\\all_civ_temporal.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\MD\\DebtTemporal\\all_debt_temporal.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\MD\\DerivativesTemporal\\all_derivatives_temporal.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\MD\\TemporalCore\\all_temporal_core.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 4,
+    "classes": 103,
+    "edges": 27,
+    "attributes": 10
+  },
+  "classes": [
+    {
+      "name": "accrued fees",
+      "technicalName": "fibo-md-civx-fun:AccruedFees",
+      "localName": "AccruedFees",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/AccruedFees",
+      "label": "accrued fees",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "accrued income",
+      "technicalName": "fibo-md-civx-fun:AccruedIncome",
+      "localName": "AccruedIncome",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/AccruedIncome",
+      "label": "accrued income",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "accrued taxes",
+      "technicalName": "fibo-md-civx-fun:AccruedTaxes",
+      "localName": "AccruedTaxes",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/AccruedTaxes",
+      "label": "accrued taxes",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "annualized performance determination method",
+      "technicalName": "fibo-md-civx-fun:AnnualizedPerformanceDeterminationMethod",
+      "localName": "AnnualizedPerformanceDeterminationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/AnnualizedPerformanceDeterminationMethod",
+      "label": "annualized performance determination method",
+      "definition": "Annualized performance determination.",
+      "parents": [
+        "performance determination method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fee payable",
+      "technicalName": "fibo-md-civx-fun:FeePayable",
+      "localName": "FeePayable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/FeePayable",
+      "label": "fee payable",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fund price",
+      "technicalName": "fibo-md-civx-fun:FundPrice",
+      "localName": "FundPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/FundPrice",
+      "label": "fund price",
+      "definition": null,
+      "parents": [
+        "fibo-fbc-fi-ip:SecurityPrice"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fund unit performance",
+      "technicalName": "fibo-md-civx-fun:FundUnitPerformance",
+      "localName": "FundUnitPerformance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/FundUnitPerformance",
+      "label": "fund unit performance",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "funds tax",
+      "technicalName": "fibo-md-civx-fun:FundsTax",
+      "localName": "FundsTax",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/FundsTax",
+      "label": "funds tax",
+      "definition": null,
+      "parents": [],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-be-oac-opty:Investor",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "gross of fee performance determination method",
+      "technicalName": "fibo-md-civx-fun:GrossOfFeePerformanceDeterminationMethod",
+      "localName": "GrossOfFeePerformanceDeterminationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/GrossOfFeePerformanceDeterminationMethod",
+      "label": "gross of fee performance determination method",
+      "definition": "Performance determined gross of fee. Review: Is this mutually exclusive with the other listed method? It sounds like it is not.",
+      "parents": [
+        "performance determination method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "money weighted rate of return performance determination method",
+      "technicalName": "fibo-md-civx-fun:MoneyWeightedRateOfReturnPerformanceDeterminationMethod",
+      "localName": "MoneyWeightedRateOfReturnPerformanceDeterminationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/MoneyWeightedRateOfReturnPerformanceDeterminationMethod",
+      "label": "money weighted rate of return performance determination method",
+      "definition": "Money weighted rate of return.",
+      "parents": [
+        "performance determination method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "performance determination method",
+      "technicalName": "fibo-md-civx-fun:PerformanceDeterminationMethod",
+      "localName": "PerformanceDeterminationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/PerformanceDeterminationMethod",
+      "label": "performance determination method",
+      "definition": "A method for performance determination (e.g. Time weighted and money weighted, annualized, gross of fee) along with the time frame in which this is determined. PLUS Performances NamePeriod",
+      "parents": [
+        "fibo-fnd-gao-obj:Method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "sigma value of holdings",
+      "technicalName": "fibo-md-civx-fun:SigmaValueOfHoldings",
+      "localName": "SigmaValueOfHoldings",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/SigmaValueOfHoldings",
+      "label": "sigma value of holdings",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "swing",
+      "technicalName": "fibo-md-civx-fun:Swing",
+      "localName": "Swing",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/Swing",
+      "label": "swing",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "swing price",
+      "technicalName": "fibo-md-civx-fun:SwingPrice",
+      "localName": "SwingPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/SwingPrice",
+      "label": "swing price",
+      "definition": null,
+      "parents": [
+        "fund price"
+      ],
+      "rules": []
+    },
+    {
+      "name": "time weighted rate of return performance determination method",
+      "technicalName": "fibo-md-civx-fun:TimeWeightedRateOfReturnPerformanceDeterminationMethod",
+      "localName": "TimeWeightedRateOfReturnPerformanceDeterminationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/TimeWeightedRateOfReturnPerformanceDeterminationMethod",
+      "label": "time weighted rate of return performance determination method",
+      "definition": "Time weighted rate of return.",
+      "parents": [
+        "performance determination method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "bond equivalent yield",
+      "technicalName": "fibo-md-dbtx-aly:BondEquivalentYield",
+      "localName": "BondEquivalentYield",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/BondEquivalentYield",
+      "label": "bond equivalent yield",
+      "definition": "Yield determined on an equivalent basis to the yield of another bond. This is used to be able to realistically compare prices between debt instruments across different markets.",
+      "parents": [
+        "relatively defined debt instrument yield"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "equivalent yield calculation method",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit spread",
+      "technicalName": "fibo-md-dbtx-aly:CreditSpread",
+      "localName": "CreditSpread",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/CreditSpread",
+      "label": "credit spread",
+      "definition": "yield spread that reflects the additional net yield an investor can earn from a security with more credit risk relative to one with less credit risk",
+      "parents": [
+        "fibo-fbc-fi-ip:YieldSpread"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "fibo-ind-ir-ir:ReferenceInterestRate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "current yield calculation method",
+      "technicalName": "fibo-md-dbtx-aly:CurrentYieldCalculationMethod",
+      "localName": "CurrentYieldCalculationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/CurrentYieldCalculationMethod",
+      "label": "current yield calculation method",
+      "definition": "The ratio of the interest payment amount to the clean price.",
+      "parents": [
+        "yield calculation method"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "fibo-fbc-fi-ip:CleanPrice",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "debt convexity analytic",
+      "technicalName": "fibo-md-dbtx-aly:DebtConvexityAnalytic",
+      "localName": "DebtConvexityAnalytic",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/DebtConvexityAnalytic",
+      "label": "debt convexity analytic",
+      "definition": "The second derivative of a security's price with respect to its yield, divided by the security's price. A security exhibits positive convexity when its price rises more for a downward move in its yield than its price declines for an equal upward move in its yield. Further notes: A measure of the change in price for a given change in Modified Duration. This always (necessarily) refers to Modified Duration. This is used as another risk measurement. Numerator is always (a) duration - either MacCaulays or Modified. Always rate of change of (one of the) Duration against some other parameter. The other paramater can be characterised as a Yield (it may be the Price, but that has a relationship to the Yield in any case). REVIEW: Inconsistency in the above - is it always necessarily Modified Duration that is referred to, or \"any\" Duration measure (Macaulays and.or Modified)? notes 9 Dec A measure of the sensitivity of the price with reference to interest rates. This is normally determined with reference to maturity, but since there are different maturity dates, this figure gives an estimate of the equitvalent if you had a homogenous portfolio, i.e. this is an estimate based on a pure equivalent, homogenous portfolio. Convexity of instrument versus portfolio. Sees instrument in terms of the set of cashflows. The term Convexity can be applied either to a bond or to a portfolio. More notes: When you get Convexit in MD, it will tell you what Duration it is refrfering to, along with Redemption Date (logically). Also if there is Option Adjusted Yield, there is a third set of analytics. What are they? i.e. OA Convexity, Duration Yield and the rest. Conclusions: Agreed to revisit this in OTC.",
+      "parents": [
+        "fibo-fnd-dt-fd:DatedCollectionConstituent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "fibo-ind-ind-ind:MarketSpread",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "debt instrument yield",
+          "qualifier": null
+        },
+        {
+          "property": "is rate of change of",
+          "operator": "some",
+          "value": "duration analytic",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "debt instrument yield",
+      "technicalName": "fibo-md-dbtx-aly:DebtInstrumentYield",
+      "localName": "DebtInstrumentYield",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/DebtInstrumentYield",
+      "label": "debt instrument yield",
+      "definition": "The return on the debt instrument at the stated price.",
+      "parents": [
+        "fibo-fbc-fi-ip:Yield"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "fibo-fbc-fi-ip:SecurityPrice",
+          "qualifier": null
+        },
+        {
+          "property": "has outlook period",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-dae-dbt:hasOriginalTimeToMaturity",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDuration",
+          "qualifier": null
+        },
+        {
+          "property": "calculation following",
+          "operator": "some",
+          "value": "yield calculation method",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "debt price spread",
+      "technicalName": "fibo-md-dbtx-aly:DebtPriceSpread",
+      "localName": "DebtPriceSpread",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/DebtPriceSpread",
+      "label": "debt price spread",
+      "definition": "The difference between the [what?] of a security and the fair price value of a different security which is used as a point of reference. The spread is used to determine the price of the instrument. (draft definition)",
+      "parents": [
+        "fibo-ind-ind-ind:MarketSpread"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-ip:SecurityPrice",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "debt securities market maker",
+      "technicalName": "fibo-md-dbtx-aly:DebtSecuritiesMarketMaker",
+      "localName": "DebtSecuritiesMarketMaker",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/DebtSecuritiesMarketMaker",
+      "label": "debt securities market maker",
+      "definition": "An actor which has the role of Market Maker in a given market.",
+      "parents": [
+        "cmns-org:ServiceProvider"
+      ],
+      "rules": [
+        {
+          "property": "determines market price for debt",
+          "operator": "some",
+          "value": "o t c bond market price",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "debt yield to average life",
+      "technicalName": "fibo-md-dbtx-aly:DebtYieldToAverageLife",
+      "localName": "DebtYieldToAverageLife",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/DebtYieldToAverageLife",
+      "label": "debt yield to average life",
+      "definition": "The yield achieved by substituting a bond's average life for the issue's final maturity date.",
+      "parents": [
+        "debt instrument yield"
+      ],
+      "rules": [
+        {
+          "property": "has outlook period",
+          "operator": "some",
+          "value": "fibo-sec-dbt-pbs:WeightedAverageLife",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "debt yield to equivalent life",
+      "technicalName": "fibo-md-dbtx-aly:DebtYieldToEquivalentLife",
+      "localName": "DebtYieldToEquivalentLife",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/DebtYieldToEquivalentLife",
+      "label": "debt yield to equivalent life",
+      "definition": "The yield achieved by substituting a bond's equivalent life for the issue's final maturity date.",
+      "parents": [
+        "debt instrument yield"
+      ],
+      "rules": [
+        {
+          "property": "has outlook period",
+          "operator": "some",
+          "value": "equivalent life analytic",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "debt yield to maturity",
+      "technicalName": "fibo-md-dbtx-aly:DebtYieldToMaturity",
+      "localName": "DebtYieldToMaturity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/DebtYieldToMaturity",
+      "label": "debt yield to maturity",
+      "definition": "The internal rate of return an investor would achieve if he or she purchased that bond at its current dirty price, and held it to maturity, assuming all coupon and principal payments are received as scheduled.",
+      "parents": [
+        "debt instrument yield"
+      ],
+      "rules": [
+        {
+          "property": "has outlook period",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-dae-dbt:hasOriginalTimeToMaturity",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDuration",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "debt yield to next call",
+      "technicalName": "fibo-md-dbtx-aly:DebtYieldToNextCall",
+      "localName": "DebtYieldToNextCall",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/DebtYieldToNextCall",
+      "label": "debt yield to next call",
+      "definition": "The yield of a bond to the next possible call date.",
+      "parents": [
+        "debt instrument yield"
+      ],
+      "rules": [
+        {
+          "property": "has outlook period",
+          "operator": "some",
+          "value": "next call",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "debt yield to worst",
+      "technicalName": "fibo-md-dbtx-aly:DebtYieldToWorst",
+      "localName": "DebtYieldToWorst",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/DebtYieldToWorst",
+      "label": "debt yield to worst",
+      "definition": "Yield to the worst case of when the instrument might be called.",
+      "parents": [
+        "debt instrument yield"
+      ],
+      "rules": [
+        {
+          "property": "has outlook period",
+          "operator": "some",
+          "value": "worst call",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "discounted instrument yield",
+      "technicalName": "fibo-md-dbtx-aly:DiscountedInstrumentYield",
+      "localName": "DiscountedInstrumentYield",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/DiscountedInstrumentYield",
+      "label": "discounted instrument yield",
+      "definition": "Yield quoted for a discount instrument. This is the ratio of the discount to the face value, divided by the period to maturity as a fraction of a year.",
+      "parents": [
+        "debt instrument yield"
+      ],
+      "rules": []
+    },
+    {
+      "name": "duration analytic",
+      "technicalName": "fibo-md-dbtx-aly:DurationAnalytic",
+      "localName": "DurationAnalytic",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/DurationAnalytic",
+      "label": "duration analytic",
+      "definition": "Weighted average time to receipt of all the payments.",
+      "parents": [
+        "fibo-sec-dbt-pbs:DebtPoolStatisticalMeasure"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "debt instrument yield",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "effective duration",
+      "technicalName": "fibo-md-dbtx-aly:EffectiveDuration",
+      "localName": "EffectiveDuration",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/EffectiveDuration",
+      "label": "effective duration",
+      "definition": null,
+      "parents": [
+        "duration analytic"
+      ],
+      "rules": []
+    },
+    {
+      "name": "effective yield",
+      "technicalName": "fibo-md-dbtx-aly:EffectiveYield",
+      "localName": "EffectiveYield",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/EffectiveYield",
+      "label": "effective yield",
+      "definition": null,
+      "parents": [
+        "debt instrument yield"
+      ],
+      "rules": []
+    },
+    {
+      "name": "equivalent life analytic",
+      "technicalName": "fibo-md-dbtx-aly:EquivalentLifeAnalytic",
+      "localName": "EquivalentLifeAnalytic",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/EquivalentLifeAnalytic",
+      "label": "equivalent life analytic",
+      "definition": null,
+      "parents": [
+        "life analytic"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "fibo-sec-dbt-bnd:BondWithPartialCall",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "partial calls estimation model",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "equivalent yield calculation method",
+      "technicalName": "fibo-md-dbtx-aly:EquivalentYieldCalculationMethod",
+      "localName": "EquivalentYieldCalculationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/EquivalentYieldCalculationMethod",
+      "label": "equivalent yield calculation method",
+      "definition": null,
+      "parents": [
+        "relative yield calculation method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exchange traded bond price",
+      "technicalName": "fibo-md-dbtx-aly:ExchangeTradedBondPrice",
+      "localName": "ExchangeTradedBondPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/ExchangeTradedBondPrice",
+      "label": "exchange traded bond price",
+      "definition": null,
+      "parents": [
+        "fibo-fbc-fi-ip:SecurityPrice"
+      ],
+      "rules": []
+    },
+    {
+      "name": "f f i e c down 300 prepay speed",
+      "technicalName": "fibo-md-dbtx-aly:FFIECDown300PrepaySpeed",
+      "localName": "FFIECDown300PrepaySpeed",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/FFIECDown300PrepaySpeed",
+      "label": "f f i e c down 300 prepay speed",
+      "definition": "Public Securities Association (PSA) speed used for the underlying collateral for cash-flow calculations in the \"down 300\" scenario.",
+      "parents": [
+        "fibo-sec-dbt-pbs:PrepaymentSpeed"
+      ],
+      "rules": []
+    },
+    {
+      "name": "f f i e c up 300 prepay speed",
+      "technicalName": "fibo-md-dbtx-aly:FFIECUp300PrepaySpeed",
+      "localName": "FFIECUp300PrepaySpeed",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/FFIECUp300PrepaySpeed",
+      "label": "f f i e c up 300 prepay speed",
+      "definition": "Public Securities Association (PSA) speed used for the underlying collateral for cash-flow calculations in the \"up 300\" scenario.",
+      "parents": [
+        "fibo-sec-dbt-pbs:PrepaymentSpeed"
+      ],
+      "rules": []
+    },
+    {
+      "name": "i c m a yield formula",
+      "technicalName": "fibo-md-dbtx-aly:ICMAYieldFormula",
+      "localName": "ICMAYieldFormula",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/ICMAYieldFormula",
+      "label": "i c m a yield formula",
+      "definition": "The calculation method specified by ICMA (formerly ISMA) for determination of yield for fixed-rate bonds.",
+      "parents": [
+        "yield calculation formula"
+      ],
+      "rules": []
+    },
+    {
+      "name": "implied forward rate",
+      "technicalName": "fibo-md-dbtx-aly:ImpliedForwardRate",
+      "localName": "ImpliedForwardRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/ImpliedForwardRate",
+      "label": "implied forward rate",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-acc-cur:InterestRate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "internally determined price spread",
+      "technicalName": "fibo-md-dbtx-aly:InternallyDeterminedPriceSpread",
+      "localName": "InternallyDeterminedPriceSpread",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/InternallyDeterminedPriceSpread",
+      "label": "internally determined price spread",
+      "definition": "The spread determined internally within the organisation from information available at their own trading desks. Further Notes Internal prices within a bank would be determined by surveying their own traders. So e.g. corporate desk trades these 30 bonds, get the daily spreads on those at the end of the day and calculate the price. The traders determine the pricing during the based on market movements. (this is all for OTC traded bonds, not exchange traded bonds).",
+      "parents": [
+        "debt price spread"
+      ],
+      "rules": []
+    },
+    {
+      "name": "japanese compound yield calculation method",
+      "technicalName": "fibo-md-dbtx-aly:JapaneseCompoundYieldCalculationMethod",
+      "localName": "JapaneseCompoundYieldCalculationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/JapaneseCompoundYieldCalculationMethod",
+      "label": "japanese compound yield calculation method",
+      "definition": "No definition in selection list.",
+      "parents": [
+        "yield calculation method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "japanese simple yield calculation method",
+      "technicalName": "fibo-md-dbtx-aly:JapaneseSimpleYieldCalculationMethod",
+      "localName": "JapaneseSimpleYieldCalculationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/JapaneseSimpleYieldCalculationMethod",
+      "label": "japanese simple yield calculation method",
+      "definition": "No definition.Term put here from memory. 02 Dec changed from Japanese Yield to Japanese Simple Yield. note hat Japanese Compound yield also here (from FIBIM or anothe rlist, added 25 nov with the rest).",
+      "parents": [
+        "yield calculation method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "key rate duration",
+      "technicalName": "fibo-md-dbtx-aly:KeyRateDuration",
+      "localName": "KeyRateDuration",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/KeyRateDuration",
+      "label": "key rate duration",
+      "definition": null,
+      "parents": [
+        "duration analytic"
+      ],
+      "rules": []
+    },
+    {
+      "name": "life analytic",
+      "technicalName": "fibo-md-dbtx-aly:LifeAnalytic",
+      "localName": "LifeAnalytic",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/LifeAnalytic",
+      "label": "life analytic",
+      "definition": "Some measure of the life of a security, other than the actual time to maturity itself. This is a derived figure, based on certain parameters as appropriate to that type of instrument, to give a figure that is equivalent to and similar to the basic maturity of the instrument, for the purposes of analysing that security.",
+      "parents": [
+        "fibo-sec-dbt-pbs:DebtPoolStatisticalMeasure"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan pool prepayment model",
+      "technicalName": "fibo-md-dbtx-aly:LoanPoolPrepaymentModel",
+      "localName": "LoanPoolPrepaymentModel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/LoanPoolPrepaymentModel",
+      "label": "loan pool prepayment model",
+      "definition": "Model of the prepayments of loans in a pool of individual loans, such as a mortgage pool or loan pool.",
+      "parents": [
+        "fibo-fnd-utl-alx:Formula"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "loan prepayment formula",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "loan prepayment formula",
+      "technicalName": "fibo-md-dbtx-aly:LoanPrepaymentFormula",
+      "localName": "LoanPrepaymentFormula",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/LoanPrepaymentFormula",
+      "label": "loan prepayment formula",
+      "definition": "The formula which embodies the model for loan pool prepayment speed.",
+      "parents": [
+        "fibo-fnd-utl-alx:Formula"
+      ],
+      "rules": []
+    },
+    {
+      "name": "MacCaulays Duration Analytic",
+      "technicalName": "fibo-md-dbtx-aly:MacCaulaysDurationAnalytic",
+      "localName": "MacCaulaysDurationAnalytic",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/MacCaulaysDurationAnalytic",
+      "label": "MacCaulays Duration Analytic",
+      "definition": null,
+      "parents": [
+        "duration analytic"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-ip:InternalRateOfReturn",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "maturity equivalent p s a",
+      "technicalName": "fibo-md-dbtx-aly:MaturityEquivalentPSA",
+      "localName": "MaturityEquivalentPSA",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/MaturityEquivalentPSA",
+      "label": "maturity equivalent p s a",
+      "definition": "Prepayment speed that results in the same average life as that computed for the Collateralized Mortgage Obligation (CMO), Asset Backed Securities (ABS) or Mortgage Backed Securities (MBS) using the Maturity Prepay Model.",
+      "parents": [
+        "fibo-sec-dbt-pbs:PrepaymentSpeed"
+      ],
+      "rules": []
+    },
+    {
+      "name": "modified duration analytic",
+      "technicalName": "fibo-md-dbtx-aly:ModifiedDurationAnalytic",
+      "localName": "ModifiedDurationAnalytic",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/ModifiedDurationAnalytic",
+      "label": "modified duration analytic",
+      "definition": "The percentage price change of a security for a given change in yield. The higher the modified duration of a security, the higher its risk. Ad/ModDuration = [duration / {1 + (IRR/M)}]; where IRR is the internal rate of return and M is the number of compounding periods per year.",
+      "parents": [
+        "duration analytic"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "MacCaulays Duration Analytic",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "native yield",
+      "technicalName": "fibo-md-dbtx-aly:NativeYield",
+      "localName": "NativeYield",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/NativeYield",
+      "label": "native yield",
+      "definition": "The yield of the security as determined using the Yield Calculation Method that is the default for the market that the security is traded in.",
+      "parents": [
+        "relatively defined debt instrument yield"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "native yield calculation method",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "native yield calculation method",
+      "technicalName": "fibo-md-dbtx-aly:NativeYieldCalculationMethod",
+      "localName": "NativeYieldCalculationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/NativeYieldCalculationMethod",
+      "label": "native yield calculation method",
+      "definition": "The convention used in the marketplace for that security.",
+      "parents": [
+        "relative yield calculation method"
+      ],
+      "rules": [
+        {
+          "property": "is default method for",
+          "operator": "some",
+          "value": "fibo-sec-dbt-dbti:TradableDebtInstrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "next call",
+      "technicalName": "fibo-md-dbtx-aly:NextCall",
+      "localName": "NextCall",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/NextCall",
+      "label": "next call",
+      "definition": "The next call of the issue, as at the current time.",
+      "parents": [
+        "fibo-sec-dbt-dbti:CallEvent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasDate",
+          "operator": "some",
+          "value": "next call date",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "next call date",
+      "technicalName": "fibo-md-dbtx-aly:NextCallDate",
+      "localName": "NextCallDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/NextCallDate",
+      "label": "next call date",
+      "definition": "The next date on which the issue can be called, from the present date.",
+      "parents": [
+        "cmns-dt:Date"
+      ],
+      "rules": []
+    },
+    {
+      "name": "next put",
+      "technicalName": "fibo-md-dbtx-aly:NextPut",
+      "localName": "NextPut",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/NextPut",
+      "label": "next put",
+      "definition": "The next available put date for the issue, as at the current time.",
+      "parents": [
+        "fibo-sec-dbt-dbti:PutEvent"
+      ],
+      "rules": []
+    },
+    {
+      "name": "o t c bond market price",
+      "technicalName": "fibo-md-dbtx-aly:OTCBondMarketPrice",
+      "localName": "OTCBondMarketPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/OTCBondMarketPrice",
+      "label": "o t c bond market price",
+      "definition": "The price determined for the marketplace for a bond which is traded over the counter.",
+      "parents": [
+        "fibo-fbc-fi-ip:SecurityPrice"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-ip:hasPricingSource",
+          "operator": "some",
+          "value": "debt securities market maker",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "option adjusted yield",
+      "technicalName": "fibo-md-dbtx-aly:OptionAdjustedYield",
+      "localName": "OptionAdjustedYield",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/OptionAdjustedYield",
+      "label": "option adjusted yield",
+      "definition": "NB specified as a spread. synonym: OAS Based on different Int Rate paths. There are different OAS models just like there are different Yield methods. Also would make reference to the Yield Curve - but these are parameters that go into that model. Limit this model at the point where it distinguishes the difference between things - we are not in a position to mathematically model the things themselves, just capture the basic facts.",
+      "parents": [
+        "debt instrument yield"
+      ],
+      "rules": []
+    },
+    {
+      "name": "partial calls estimation model",
+      "technicalName": "fibo-md-dbtx-aly:PartialCallsEstimationModel",
+      "localName": "PartialCallsEstimationModel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/PartialCallsEstimationModel",
+      "label": "partial calls estimation model",
+      "definition": "A model of how the early partial calls are estimated.",
+      "parents": [
+        "fibo-fnd-utl-alx:Formula"
+      ],
+      "rules": []
+    },
+    {
+      "name": "pool factor",
+      "technicalName": "fibo-md-dbtx-aly:PoolFactor",
+      "localName": "PoolFactor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/PoolFactor",
+      "label": "pool factor",
+      "definition": "How much of the original pool is still outstanding. This is a number below one. Expressed as percentage.",
+      "parents": [
+        "cmns-qtu:Percentage"
+      ],
+      "rules": []
+    },
+    {
+      "name": "pool paydown rate",
+      "technicalName": "fibo-md-dbtx-aly:PoolPaydownRate",
+      "localName": "PoolPaydownRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/PoolPaydownRate",
+      "label": "pool paydown rate",
+      "definition": "The rate at which the pool is paying down. This is based on observed factor. CPR, SMM, etc. etc. Measured differently for different kinds of security. CBO might have a prepayment rate for example if the underlying bond is callable. with a non agency mortgge dela, defualts will effect this. so for instance there is principal is no lnger inthe pool because the mortgagee defaults. With agency these are not taken out in the case of default but for non agency these mortgages are removed from the pool if and when a mortgagee defualts.",
+      "parents": [
+        "cmns-qtu:Ratio"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "pool factor",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-acc-cur:hasRateValue",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    },
+    {
+      "name": "price value of basis point",
+      "technicalName": "fibo-md-dbtx-aly:PriceValueOfBasisPoint",
+      "localName": "PriceValueOfBasisPoint",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/PriceValueOfBasisPoint",
+      "label": "price value of basis point",
+      "definition": "Sensitivity of the price for one basis point change in yield, defined as the difference in price given 1 bp change in yield.",
+      "parents": [
+        "fibo-sec-dbt-pbs:DebtPoolStatisticalMeasure"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "debt instrument yield",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "relative yield calculation method",
+      "technicalName": "fibo-md-dbtx-aly:RelativeYieldCalculationMethod",
+      "localName": "RelativeYieldCalculationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/RelativeYieldCalculationMethod",
+      "label": "relative yield calculation method",
+      "definition": null,
+      "parents": [
+        "yield calculation method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "relatively defined debt instrument yield",
+      "technicalName": "fibo-md-dbtx-aly:RelativelyDefinedDebtInstrumentYield",
+      "localName": "RelativelyDefinedDebtInstrumentYield",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/RelativelyDefinedDebtInstrumentYield",
+      "label": "relatively defined debt instrument yield",
+      "definition": null,
+      "parents": [
+        "debt instrument yield"
+      ],
+      "rules": []
+    },
+    {
+      "name": "russian yield calculation method",
+      "technicalName": "fibo-md-dbtx-aly:RussianYieldCalculationMethod",
+      "localName": "RussianYieldCalculationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/RussianYieldCalculationMethod",
+      "label": "russian yield calculation method",
+      "definition": "The method used in determining Yield in the Russian markets. This is based on an effective yield with fundamentally different math. To give an example of the use of a different \"yield type\", we have Russia, which trades based on an effective yield. The price-yield math is fundamentally different. Notes Origin:Fidessa Uses a trade space and effective yield formula. MAy have same day types but different math.",
+      "parents": [
+        "yield calculation method"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasFormula",
+          "operator": "some",
+          "value": "russian yield formula",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "russian yield formula",
+      "technicalName": "fibo-md-dbtx-aly:RussianYieldFormula",
+      "localName": "RussianYieldFormula",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/RussianYieldFormula",
+      "label": "russian yield formula",
+      "definition": "This is based on a different Effective Yield than on another market.",
+      "parents": [
+        "yield calculation formula"
+      ],
+      "rules": []
+    },
+    {
+      "name": "simple yield calculation method",
+      "technicalName": "fibo-md-dbtx-aly:SimpleYieldCalculationMethod",
+      "localName": "SimpleYieldCalculationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/SimpleYieldCalculationMethod",
+      "label": "simple yield calculation method",
+      "definition": "The annual rate of return expressed as a percentage. This is the return divided by the outlay and multiplied by 100 to express the figure as a percentage.",
+      "parents": [
+        "yield calculation method"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "fibo-fbc-fi-ip:DirtyPrice",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "spanish yield calculation method",
+      "technicalName": "fibo-md-dbtx-aly:SpanishYieldCalculationMethod",
+      "localName": "SpanishYieldCalculationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/SpanishYieldCalculationMethod",
+      "label": "spanish yield calculation method",
+      "definition": "The method used in determining annual yield in Spanish corporate bonds.",
+      "parents": [
+        "yield calculation method"
+      ],
+      "rules": []
+    },
+    {
+      "name": "u s corporate bond yield calculation method",
+      "technicalName": "fibo-md-dbtx-aly:USCorporateBondYieldCalculationMethod",
+      "localName": "USCorporateBondYieldCalculationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/USCorporateBondYieldCalculationMethod",
+      "label": "u s corporate bond yield calculation method",
+      "definition": "This has 30/360 and semi-annual compounding.",
+      "parents": [
+        "yield calculation method"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasFormula",
+          "operator": "some",
+          "value": "i c m a yield formula",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "u s treasury yield calculation method",
+      "technicalName": "fibo-md-dbtx-aly:USTreasuryYieldCalculationMethod",
+      "localName": "USTreasuryYieldCalculationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/USTreasuryYieldCalculationMethod",
+      "label": "u s treasury yield calculation method",
+      "definition": null,
+      "parents": [
+        "yield calculation method"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasFormula",
+          "operator": "some",
+          "value": "i c m a yield formula",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "wall street yield calculation method",
+      "technicalName": "fibo-md-dbtx-aly:WallStreetYieldCalculationMethod",
+      "localName": "WallStreetYieldCalculationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/WallStreetYieldCalculationMethod",
+      "label": "wall street yield calculation method",
+      "definition": "No definition.Term put here from memory.",
+      "parents": [
+        "yield calculation method"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasFormula",
+          "operator": "some",
+          "value": "i c m a yield formula",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "weighted average time to receipt of cashflows",
+      "technicalName": "fibo-md-dbtx-aly:WeightedAverageTimeToReceiptOfCashflows",
+      "localName": "WeightedAverageTimeToReceiptOfCashflows",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/WeightedAverageTimeToReceiptOfCashflows",
+      "label": "weighted average time to receipt of cashflows",
+      "definition": "The weighted average time to the receipt of cashflows for an instrument.",
+      "parents": [
+        "fibo-fnd-utl-alx:Formula"
+      ],
+      "rules": []
+    },
+    {
+      "name": "worst call",
+      "technicalName": "fibo-md-dbtx-aly:WorstCall",
+      "localName": "WorstCall",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/WorstCall",
+      "label": "worst call",
+      "definition": "call event representing the worst case with respect to when the instrument might be called",
+      "parents": [
+        "fibo-sec-dbt-dbti:CallEvent"
+      ],
+      "rules": []
+    },
+    {
+      "name": "yield calculation formula",
+      "technicalName": "fibo-md-dbtx-aly:YieldCalculationFormula",
+      "localName": "YieldCalculationFormula",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/YieldCalculationFormula",
+      "label": "yield calculation formula",
+      "definition": "The formula used in determining the Yield.",
+      "parents": [
+        "fibo-fnd-utl-alx:Formula"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "debt instrument yield",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "yield calculation method",
+      "technicalName": "fibo-md-dbtx-aly:YieldCalculationMethod",
+      "localName": "YieldCalculationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/YieldCalculationMethod",
+      "label": "yield calculation method",
+      "definition": "The method by which the yield is calculated. This includes a formula for calculation and a specific day count convention and compounding. You would apply this calculation method on top of the underlying terms and conditions, do for example the holiday calenders and so on, are used in these formulae. For final cash flow: Japanese yield will round down accrued interest. Add: The actual underlying math. Wall Street uses the same ICMA formula.",
+      "parents": [
+        "fibo-fnd-utl-alx:Formula"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-utl-alx:hasFormula",
+          "operator": "some",
+          "value": "yield calculation formula",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "only",
+          "value": "cmns-qtu:Variable",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-dae-dbt:hasCompoundingFrequency",
+          "operator": "only",
+          "value": "fibo-fnd-dt-fd:RecurrenceInterval",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "yield to next put",
+      "technicalName": "fibo-md-dbtx-aly:YieldToNextPut",
+      "localName": "YieldToNextPut",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/YieldToNextPut",
+      "label": "yield to next put",
+      "definition": null,
+      "parents": [
+        "debt instrument yield"
+      ],
+      "rules": [
+        {
+          "property": "has outlook period",
+          "operator": "some",
+          "value": "next put",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "delta",
+      "technicalName": "fibo-md-derx-eto:Delta",
+      "localName": "Delta",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/ETOptionsTemporal/Delta",
+      "label": "delta",
+      "definition": "First derivative of option value with respect to theoretical price is a delta (or on a position). Theoretical price",
+      "parents": [
+        "options greek"
+      ],
+      "rules": []
+    },
+    {
+      "name": "option daily settlement price",
+      "technicalName": "fibo-md-derx-eto:OptionDailySettlementPrice",
+      "localName": "OptionDailySettlementPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/ETOptionsTemporal/OptionDailySettlementPrice",
+      "label": "option daily settlement price",
+      "definition": "The official price at the end of a trading session. This price is established by The Options Clearing Corporation and is used to determine changes in account equity, margin requirements, and for other purposes.",
+      "parents": [
+        "fibo-fbc-fi-ip:ClosingPrice",
+        "fibo-fbc-fi-ip:SecurityPrice"
+      ],
+      "rules": [
+        {
+          "property": "fibo-be-fct-pub:hasPublisher",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "option theoretical value",
+      "technicalName": "fibo-md-derx-eto:OptionTheoreticalValue",
+      "localName": "OptionTheoreticalValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/ETOptionsTemporal/OptionTheoreticalValue",
+      "label": "option theoretical value",
+      "definition": "fair value of the option as determined by an option pricing model",
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-ip:PricingModel",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "options greek",
+      "technicalName": "fibo-md-derx-eto:OptionsGreek",
+      "localName": "OptionsGreek",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/ETOptionsTemporal/OptionsGreek",
+      "label": "options greek",
+      "definition": "quantity representing the sensitivity of the price of an option or options to a change in underlying parameters on which the value depends",
+      "parents": [
+        "fibo-fbc-fi-ip:PriceAnalytic"
+      ],
+      "rules": []
+    },
+    {
+      "name": "options theta",
+      "technicalName": "fibo-md-derx-eto:OptionsTheta",
+      "localName": "OptionsTheta",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/ETOptionsTemporal/OptionsTheta",
+      "label": "options theta",
+      "definition": "A measure of the rate of change in an option's theoretical value for a one-unit change in time to the option's expiration date. Action: add terms that define or influence this.",
+      "parents": [
+        "options greek"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "option theoretical value",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "options vega",
+      "technicalName": "fibo-md-derx-eto:OptionsVega",
+      "localName": "OptionsVega",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/ETOptionsTemporal/OptionsVega",
+      "label": "options vega",
+      "definition": "A measure of the rate of change in an option's theoretical value for a one-unit change in the volatility assumption. Action: add terms that define or influence this.",
+      "parents": [
+        "options greek"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "option theoretical value",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "exchange futures price",
+      "technicalName": "fibo-md-der-fut:ExchangeFuturesPrice",
+      "localName": "ExchangeFuturesPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/ExchangeFuturesPrice",
+      "label": "exchange futures price",
+      "definition": null,
+      "parents": [
+        "fibo-fbc-fi-ip:SecurityPrice"
+      ],
+      "rules": []
+    },
+    {
+      "name": "futures closing price",
+      "technicalName": "fibo-md-der-fut:FuturesClosingPrice",
+      "localName": "FuturesClosingPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/FuturesClosingPrice",
+      "label": "futures closing price",
+      "definition": null,
+      "parents": [
+        "exchange futures price"
+      ],
+      "rules": []
+    },
+    {
+      "name": "futures daily settlement price",
+      "technicalName": "fibo-md-der-fut:FuturesDailySettlementPrice",
+      "localName": "FuturesDailySettlementPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/FuturesDailySettlementPrice",
+      "label": "futures daily settlement price",
+      "definition": "Review whether this exists",
+      "parents": [
+        "fibo-fbc-fi-ip:SecurityPrice"
+      ],
+      "rules": []
+    },
+    {
+      "name": "futures greek",
+      "technicalName": "fibo-md-der-fut:FuturesGreek",
+      "localName": "FuturesGreek",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/FuturesGreek",
+      "label": "futures greek",
+      "definition": "quantity representing the sensitivity of the price of a future or futures to a change in underlying parameters on which the value depends",
+      "parents": [
+        "fibo-fbc-fi-ip:PriceAnalytic"
+      ],
+      "rules": []
+    },
+    {
+      "name": "futures theta",
+      "technicalName": "fibo-md-der-fut:FuturesTheta",
+      "localName": "FuturesTheta",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/FuturesTheta",
+      "label": "futures theta",
+      "definition": null,
+      "parents": [
+        "futures greek"
+      ],
+      "rules": []
+    },
+    {
+      "name": "futures trading account holder",
+      "technicalName": "fibo-md-der-fut:FuturesTradingAccountHolder",
+      "localName": "FuturesTradingAccountHolder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/FuturesTradingAccountHolder",
+      "label": "futures trading account holder",
+      "definition": "A party who has an account for futures trading at a derivatives exchange. Further notes: The trader opens an account with a given amount known as a margin.",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "futures vega",
+      "technicalName": "fibo-md-der-fut:FuturesVega",
+      "localName": "FuturesVega",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/FuturesVega",
+      "label": "futures vega",
+      "definition": null,
+      "parents": [
+        "futures greek"
+      ],
+      "rules": []
+    },
+    {
+      "name": "initial margin",
+      "technicalName": "fibo-md-der-fut:InitialMargin",
+      "localName": "InitialMargin",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/InitialMargin",
+      "label": "initial margin",
+      "definition": "money or securities put up as a good faith deposit assuring that a future contract will be fulfilled",
+      "parents": [
+        "fibo-fnd-oac-own:Asset"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isHeldBy",
+          "operator": "some",
+          "value": "futures trading account holder",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasAsOfDate",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "minimum margin",
+      "technicalName": "fibo-md-der-fut:MinimumMargin",
+      "localName": "MinimumMargin",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DerivativesTemporal/FuturesTemporal/MinimumMargin",
+      "label": "minimum margin",
+      "definition": "The lowest amount an account can reach before needing to be replenished.",
+      "parents": [
+        "fibo-fnd-oac-own:Asset"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isHeldBy",
+          "operator": "some",
+          "value": "futures trading account holder",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasAsOfDate",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit o k",
+      "technicalName": "fibo-md-temx-crs:CreditOK",
+      "localName": "CreditOK",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/CreditOK",
+      "label": "credit o k",
+      "definition": "Not defaulted.",
+      "parents": [
+        "security credit status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "in default",
+      "technicalName": "fibo-md-temx-crs:InDefault",
+      "localName": "InDefault",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/InDefault",
+      "label": "in default",
+      "definition": "The issuer has failed to pay somthing that they are contractually obliged to pay.",
+      "parents": [
+        "security credit status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "security cashflow status",
+      "technicalName": "fibo-md-temx-crs:SecurityCashflowStatus",
+      "localName": "SecurityCashflowStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/SecurityCashflowStatus",
+      "label": "security cashflow status",
+      "definition": "The status of the cashflow due to the holder from the security.",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStatus"
+      ],
+      "rules": []
+    },
+    {
+      "name": "security credit status",
+      "technicalName": "fibo-md-temx-crs:SecurityCreditStatus",
+      "localName": "SecurityCreditStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/SecurityCreditStatus",
+      "label": "security credit status",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStatus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "active",
+      "technicalName": "fibo-md-temx-trs:Active",
+      "localName": "Active",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/Active",
+      "label": "active",
+      "definition": "Security is actively traded",
+      "parents": [
+        "security trading status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "actively trading",
+      "technicalName": "fibo-md-temx-trs:ActivelyTrading",
+      "localName": "ActivelyTrading",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/ActivelyTrading",
+      "label": "actively trading",
+      "definition": "Security is actively traded on the exchange or trading facility",
+      "parents": [
+        "exchange security trading status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exchange security trading status",
+      "technicalName": "fibo-md-temx-trs:ExchangeSecurityTradingStatus",
+      "localName": "ExchangeSecurityTradingStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/ExchangeSecurityTradingStatus",
+      "label": "exchange security trading status",
+      "definition": "trading status of a listed security on a given trading exchange",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStatus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-sec-sec-lst:Listing",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "inactive",
+      "technicalName": "fibo-md-temx-trs:Inactive",
+      "localName": "Inactive",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/Inactive",
+      "label": "inactive",
+      "definition": null,
+      "parents": [
+        "security trading status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "issued",
+      "technicalName": "fibo-md-temx-trs:Issued",
+      "localName": "Issued",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/Issued",
+      "label": "issued",
+      "definition": "The security has been issued into the secondary market.",
+      "parents": [
+        "security lifecycle status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "security lifecycle status",
+      "technicalName": "fibo-md-temx-trs:SecurityLifecycleStatus",
+      "localName": "SecurityLifecycleStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/SecurityLifecycleStatus",
+      "label": "security lifecycle status",
+      "definition": "status of a security within its lifecycle",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStatus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "security trading status",
+      "technicalName": "fibo-md-temx-trs:SecurityTradingStatus",
+      "localName": "SecurityTradingStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/SecurityTradingStatus",
+      "label": "security trading status",
+      "definition": "status of the security in terms of whether it is trading or not, and any special considerations relating to trading",
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStatus"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trading halted",
+      "technicalName": "fibo-md-temx-trs:TradingHalted",
+      "localName": "TradingHalted",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/TradingHalted",
+      "label": "trading halted",
+      "definition": null,
+      "parents": [
+        "exchange security trading status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "when distributed",
+      "technicalName": "fibo-md-temx-trs:WhenDistributed",
+      "localName": "WhenDistributed",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/WhenDistributed",
+      "label": "when distributed",
+      "definition": "Used to refer to a security that trades after the date of issue but before the time at which the certificates are delivered",
+      "parents": [
+        "security lifecycle status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "when issued",
+      "technicalName": "fibo-md-temx-trs:WhenIssued",
+      "localName": "WhenIssued",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/WhenIssued",
+      "label": "when issued",
+      "definition": "When Issued or Gray Market trading is when a security is traded ahead of the date at which it is to be issued.",
+      "parents": [
+        "security lifecycle status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "worthless",
+      "technicalName": "fibo-md-temx-trs:Worthless",
+      "localName": "Worthless",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityTradingStatuses/Worthless",
+      "label": "worthless",
+      "definition": "Announcement by the regulator that the security has become worthless.",
+      "parents": [
+        "security lifecycle status"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "determination date",
+      "technicalName": "fibo-md-civx-fun:determinationDate.1",
+      "localName": "determinationDate.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/determinationDate.1",
+      "label": "determination date",
+      "definition": null,
+      "domain": [
+        "fund unit performance"
+      ],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "determination period",
+      "technicalName": "fibo-md-civx-fun:determinationPeriod",
+      "localName": "determinationPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/determinationPeriod",
+      "label": "determination period",
+      "definition": "THe period for which the performance is determined",
+      "domain": [
+        "fund unit performance"
+      ],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "determines",
+      "technicalName": "fibo-md-civx-fun:determines",
+      "localName": "determines",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/determines",
+      "label": "determines",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "fee payable"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has performance",
+      "technicalName": "fibo-md-civx-fun:hasPerformance",
+      "localName": "hasPerformance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/hasPerformance",
+      "label": "has performance",
+      "definition": null,
+      "domain": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "range": [
+        "fund unit performance"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has performance determination method",
+      "technicalName": "fibo-md-civx-fun:hasPerformanceDeterminationMethod",
+      "localName": "hasPerformanceDeterminationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/hasPerformanceDeterminationMethod",
+      "label": "has performance determination method",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:CollectiveInvestmentVehicle"
+      ],
+      "range": [
+        "performance determination method"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "incurs",
+      "technicalName": "fibo-md-civx-fun:incurs",
+      "localName": "incurs",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/incurs",
+      "label": "incurs",
+      "definition": null,
+      "domain": [
+        "fibo-sec-fund-civ:FundPortfolio"
+      ],
+      "range": [
+        "funds tax"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "incurs fees",
+      "technicalName": "fibo-md-civx-fun:incursFees",
+      "localName": "incursFees",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/incursFees",
+      "label": "incurs fees",
+      "definition": null,
+      "domain": [
+        "fibo-be-oac-opty:Investor"
+      ],
+      "range": [
+        "fee payable"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "incurs fees",
+      "technicalName": "fibo-md-civx-fun:incursFees.1",
+      "localName": "incursFees.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/incursFees.1",
+      "label": "incurs fees",
+      "definition": null,
+      "domain": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "range": [
+        "fee payable"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "incurs tax",
+      "technicalName": "fibo-md-civx-fun:incursTax",
+      "localName": "incursTax",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/incursTax",
+      "label": "incurs tax",
+      "definition": null,
+      "domain": [
+        "fibo-be-oac-opty:Investor"
+      ],
+      "range": [
+        "funds tax"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "incurs tax",
+      "technicalName": "fibo-md-civx-fun:incursTax.1",
+      "localName": "incursTax.1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/incursTax.1",
+      "label": "incurs tax",
+      "definition": null,
+      "domain": [
+        "fibo-sec-fund-fund:FundUnit"
+      ],
+      "range": [
+        "funds tax"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "incurs transaction fee",
+      "technicalName": "fibo-md-civx-fun:incursTransactionFee",
+      "localName": "incursTransactionFee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/incursTransactionFee",
+      "label": "incurs transaction fee",
+      "definition": null,
+      "domain": [
+        "fibo-sec-fund-civ:FundPortfolio"
+      ],
+      "range": [
+        "fee payable"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "performance determination timeframe",
+      "technicalName": "fibo-md-civx-fun:performanceDeterminationTimeframe",
+      "localName": "performanceDeterminationTimeframe",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/performanceDeterminationTimeframe",
+      "label": "performance determination timeframe",
+      "definition": "The timeframe on which the performance is reported (e.g. 1month, 1 year, YTD).",
+      "domain": [
+        "performance determination method"
+      ],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "calculation following",
+      "technicalName": "fibo-md-dbtx-aly:calculationFollowing",
+      "localName": "calculationFollowing",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/calculationFollowing",
+      "label": "calculation following",
+      "definition": null,
+      "domain": [
+        "debt instrument yield"
+      ],
+      "range": [
+        "yield calculation method"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "default rate value",
+      "technicalName": "fibo-md-dbtx-aly:defaultRateValue",
+      "localName": "defaultRateValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/defaultRateValue",
+      "label": "default rate value",
+      "definition": null,
+      "domain": [
+        "fibo-sec-dbt-pbs:DefaultRate"
+      ],
+      "range": [
+        "cmns-qtu:Percentage"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "determines market price for debt",
+      "technicalName": "fibo-md-dbtx-aly:determinesMarketPriceForDebt",
+      "localName": "determinesMarketPriceForDebt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/determinesMarketPriceForDebt",
+      "label": "determines market price for debt",
+      "definition": null,
+      "domain": [
+        "debt securities market maker"
+      ],
+      "range": [
+        "o t c bond market price"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "equivalent life value",
+      "technicalName": "fibo-md-dbtx-aly:equivalentLifeValue",
+      "localName": "equivalentLifeValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/equivalentLifeValue",
+      "label": "equivalent life value",
+      "definition": "The Equivalent Life in years at the stated date.",
+      "domain": [
+        "equivalent life analytic"
+      ],
+      "range": [
+        "cmns-dt:Duration"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has analytic",
+      "technicalName": "fibo-md-dbtx-aly:hasAnalytic",
+      "localName": "hasAnalytic",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/hasAnalytic",
+      "label": "has analytic",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "range": [
+        "fibo-sec-dbt-pbs:DebtPoolStatisticalMeasure"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has default rate",
+      "technicalName": "fibo-md-dbtx-aly:hasDefaultRate",
+      "localName": "hasDefaultRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/hasDefaultRate",
+      "label": "has default rate",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "range": [
+        "fibo-sec-dbt-pbs:DefaultRate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has factor",
+      "technicalName": "fibo-md-dbtx-aly:hasFactor",
+      "localName": "hasFactor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/hasFactor",
+      "label": "has factor",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "range": [
+        "pool factor"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has measure",
+      "technicalName": "fibo-md-dbtx-aly:hasMeasure",
+      "localName": "hasMeasure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/hasMeasure",
+      "label": "has measure",
+      "definition": null,
+      "domain": [
+        "fibo-sec-sec-pls:DebtPool"
+      ],
+      "range": [
+        "fibo-sec-dbt-pbs:PrepaymentSpeed"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has outlook period",
+      "technicalName": "fibo-md-dbtx-aly:hasOutlookPeriod",
+      "localName": "hasOutlookPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/hasOutlookPeriod",
+      "label": "has outlook period",
+      "definition": null,
+      "domain": [
+        "debt instrument yield"
+      ],
+      "range": [
+        "anonymous restriction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has wac",
+      "technicalName": "fibo-md-dbtx-aly:hasWac",
+      "localName": "hasWac",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/hasWac",
+      "label": "has wac",
+      "definition": null,
+      "domain": [
+        "fibo-sec-dbt-mbs:MortgageBackedSecurity"
+      ],
+      "range": [
+        "fibo-sec-dbt-pbs:WeightedAverageCoupon"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has yield",
+      "technicalName": "fibo-md-dbtx-aly:hasYield",
+      "localName": "hasYield",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/hasYield",
+      "label": "has yield",
+      "definition": null,
+      "domain": [
+        "fibo-sec-dbt-dbti:TradableDebtInstrument"
+      ],
+      "range": [
+        "debt instrument yield"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is aggregate of",
+      "technicalName": "fibo-md-dbtx-aly:isAggregateOf",
+      "localName": "isAggregateOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/isAggregateOf",
+      "label": "is aggregate of",
+      "definition": null,
+      "domain": [
+        "fibo-sec-dbt-pbs:DebtPoolStatisticalMeasure"
+      ],
+      "range": [
+        "fibo-sec-dbt-pbs:DebtPoolStatisticalMeasure"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is default method for",
+      "technicalName": "fibo-md-dbtx-aly:isDefaultMethodFor",
+      "localName": "isDefaultMethodFor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/isDefaultMethodFor",
+      "label": "is default method for",
+      "definition": null,
+      "domain": [
+        "native yield calculation method"
+      ],
+      "range": [
+        "fibo-sec-dbt-dbti:TradableDebtInstrument"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is rate of change of",
+      "technicalName": "fibo-md-dbtx-aly:isRateOfChangeOf",
+      "localName": "isRateOfChangeOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/isRateOfChangeOf",
+      "label": "is rate of change of",
+      "definition": null,
+      "domain": [
+        "debt convexity analytic"
+      ],
+      "range": [
+        "duration analytic"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "modified duration value",
+      "technicalName": "fibo-md-dbtx-aly:modifiedDurationValue",
+      "localName": "modifiedDurationValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/modifiedDurationValue",
+      "label": "modified duration value",
+      "definition": "The Modified Duration in Years.",
+      "domain": [
+        "modified duration analytic"
+      ],
+      "range": [
+        "cmns-dt:Duration"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "net or gross of fees",
+      "technicalName": "fibo-md-civx-fun:netOrGrossOfFees",
+      "localName": "netOrGrossOfFees",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/CIVTemporal/FundsTemporal/netOrGrossOfFees",
+      "label": "net or gross of fees",
+      "definition": null,
+      "domain": [
+        "fund unit performance"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "decimal places",
+      "technicalName": "fibo-md-dbtx-aly:decimalPlaces",
+      "localName": "decimalPlaces",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/decimalPlaces",
+      "label": "decimal places",
+      "definition": "The number of decimal places used in the publication of the factor value.",
+      "domain": [
+        "pool factor"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is compounded",
+      "technicalName": "fibo-md-dbtx-aly:isCompounded",
+      "localName": "isCompounded",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/isCompounded",
+      "label": "is compounded",
+      "definition": "Definition needed Moved from Yield - assume this can only be about debt instrument or loan / debt yields i..e where the income relates to interest payments. .",
+      "domain": [
+        "debt instrument yield"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "price is traded",
+      "technicalName": "fibo-md-dbtx-aly:priceIsTraded",
+      "localName": "priceIsTraded",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/priceIsTraded",
+      "label": "price is traded",
+      "definition": "The highest valuation over the period specified. Notes from Equity review, may apply to Debt also: this can be regarded as a derived price. See also note in LowPrice Difference: different rules used. May be based on trade OR quote price Analytic or Price?? this is a derived type but with a much simpler rule.",
+      "domain": [
+        "exchange traded bond price"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "price quoted ex dividend",
+      "technicalName": "fibo-md-dbtx-aly:priceQuotedExDividend",
+      "localName": "priceQuotedExDividend",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/priceQuotedExDividend",
+      "label": "price quoted ex dividend",
+      "definition": "Whether or not the yield is based on a price which is quoted ex-dividend. When a bond is said to trade ex-dividend it means that there is a period of time prior to each coupon payment during which a bond purchaser does not receive custody of the next coupon. That payment is made to the previous bond holder and accrued interest is therefore negative during the ex-dividend period.",
+      "domain": [
+        "debt instrument yield"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "quoted ex dividend",
+      "technicalName": "fibo-md-dbtx-aly:quotedExDividend",
+      "localName": "quotedExDividend",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/quotedExDividend",
+      "label": "quoted ex dividend",
+      "definition": "Whether or not the price is quoted ex-dividend. When a bond is said to trade ex-dividend it means that there is a period of time prior to each coupon payment during which a bond purchaser does not receive custody of the next coupon. That payment is made to the previous bond holder and accrued interest is therefore negative during the ex-dividend period.",
+      "domain": [
+        "fibo-fbc-fi-ip:SecurityPrice"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "rounding convention",
+      "technicalName": "fibo-md-dbtx-aly:roundingConvention",
+      "localName": "roundingConvention",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/DebtTemporal/DebtAnalytics/roundingConvention",
+      "label": "rounding convention",
+      "definition": "The rounding convention used in the calculation method.",
+      "domain": [
+        "yield calculation method"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "accelerated principal payments expected",
+      "technicalName": "fibo-md-temx-crs:acceleratedPrincipalPaymentsExpected",
+      "localName": "acceleratedPrincipalPaymentsExpected",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/acceleratedPrincipalPaymentsExpected",
+      "label": "accelerated principal payments expected",
+      "definition": null,
+      "domain": [
+        "security cashflow status"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "interest payments expected",
+      "technicalName": "fibo-md-temx-crs:interestPaymentsExpected",
+      "localName": "interestPaymentsExpected",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/interestPaymentsExpected",
+      "label": "interest payments expected",
+      "definition": null,
+      "domain": [
+        "security cashflow status"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "principal payments expected",
+      "technicalName": "fibo-md-temx-crs:principalPaymentsExpected",
+      "localName": "principalPaymentsExpected",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/MD/TemporalCore/SecurityCreditStatuses/principalPaymentsExpected",
+      "label": "principal payments expected",
+      "definition": null,
+      "domain": [
+        "security cashflow status"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

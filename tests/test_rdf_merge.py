@@ -36,44 +36,86 @@ def test_folder_output_path_uses_snake_case_folder_name(tmp_path):
     )
 
 
-def test_write_merged_ontology_folders_merges_each_folder_direct_inputs(tmp_path):
-    loans_general = tmp_path / "LOAN" / "LoansGeneral"
-    nested = loans_general / "Nested"
+def test_write_merged_ontology_folders_merges_nested_folders_bottom_up(tmp_path):
+    be = tmp_path / "BE"
+    corporations = be / "Corporations"
+    nested = corporations / "Nested"
+    loan = tmp_path / "LOAN"
     _write_ontology(
-        loans_general / "LoanApplications.ontology.json",
-        classes=[{"iri": "loan-application"}],
+        be / "AllBE.ontology.json",
+        classes=[{"iri": "be-root"}, {"iri": "shared"}],
     )
     _write_ontology(
-        loans_general / "Loans.ontology.json",
-        classes=[{"iri": "loan"}],
+        corporations / "Corporations.ontology.json",
+        classes=[{"iri": "corporation"}, {"iri": "shared"}],
     )
     _write_ontology(
-        nested / "NestedLoan.ontology.json",
-        classes=[{"iri": "nested-loan"}],
+        nested / "NestedCorporation.ontology.json",
+        classes=[{"iri": "nested-corporation"}],
+    )
+    _write_ontology(
+        loan / "AllLOAN.ontology.json",
+        classes=[{"iri": "loan-root"}, {"iri": "shared"}],
     )
 
     results = rdf_merge.write_merged_ontology_folders(tmp_path)
 
     outputs = {Path(item["output"]).name: item for item in results}
     assert set(outputs) == {
-        "all_loans_general.ontology.json",
+        "all.ontology.json",
+        "all_be.ontology.json",
+        "all_corporations.ontology.json",
+        "all_loan.ontology.json",
         "all_nested.ontology.json",
     }
 
-    loans_general_data = json.loads(
-        (loans_general / "all_loans_general.ontology.json").read_text(
-            encoding="utf-8"
-        )
+    corporations_data = json.loads(
+        (corporations / "all_corporations.ontology.json").read_text(encoding="utf-8")
     )
-    assert loans_general_data["summary"]["sourceFiles"] == 2
-    assert loans_general_data["summary"]["classes"] == 2
-    assert all(
-        Path(source_file).parent == loans_general
-        for source_file in loans_general_data["sourceFiles"]
+    assert corporations_data["summary"]["sourceFiles"] == 2
+    assert {item["iri"] for item in corporations_data["classes"]} == {
+        "corporation",
+        "shared",
+        "nested-corporation",
+    }
+
+    be_data = json.loads((be / "all_be.ontology.json").read_text(encoding="utf-8"))
+    assert be_data["summary"]["sourceFiles"] == 2
+    assert {Path(source_file).name for source_file in be_data["sourceFiles"]} == {
+        "AllBE.ontology.json",
+        "all_corporations.ontology.json",
+    }
+    assert {item["iri"] for item in be_data["classes"]} == {
+        "be-root",
+        "shared",
+        "corporation",
+        "nested-corporation",
+    }
+    assert (
+        len([item for item in be_data["classes"] if item["iri"] == "shared"])
+        == 1
+    )
+
+    root_data = json.loads((tmp_path / "all.ontology.json").read_text(encoding="utf-8"))
+    assert root_data["summary"]["sourceFiles"] == 2
+    assert {Path(source_file).name for source_file in root_data["sourceFiles"]} == {
+        "all_be.ontology.json",
+        "all_loan.ontology.json",
+    }
+    assert {item["iri"] for item in root_data["classes"]} == {
+        "be-root",
+        "corporation",
+        "loan-root",
+        "nested-corporation",
+        "shared",
+    }
+    assert (
+        len([item for item in root_data["classes"] if item["iri"] == "shared"])
+        == 1
     )
 
 
-def test_load_all_ontologies_skips_existing_all_files(tmp_path):
+def test_load_all_ontologies_skips_existing_lowercase_outputs(tmp_path):
     folder = tmp_path / "BE" / "Corporations"
     _write_ontology(
         folder / "Corporations.ontology.json",
@@ -84,8 +126,8 @@ def test_load_all_ontologies_skips_existing_all_files(tmp_path):
         classes=[{"iri": "old-output"}],
     )
     _write_ontology(
-        folder / "AllCorporations.ontology.json",
-        classes=[{"iri": "old-all-output"}],
+        folder / "all.ontology.json",
+        classes=[{"iri": "old-root-output"}],
     )
 
     merged = rdf_merge.load_all_ontologies(

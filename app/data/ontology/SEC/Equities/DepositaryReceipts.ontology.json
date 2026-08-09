@@ -1,0 +1,402 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Equities\\DepositaryReceipts.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/",
+  "summary": {
+    "nodes": 16,
+    "edges": 2,
+    "properties": 2,
+    "triples": 241
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/AsianJurisdiction/EasternAsiaGovernmentEntitiesAndJurisdictions/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/AsianJurisdiction/SouthernAsiaGovernmentEntitiesAndJurisdictions/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/EuropeanJurisdiction/EUGovernmentEntitiesAndJurisdictions/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/EuropeanJurisdiction/WesternEuropeGovernmentEntitiesAndJurisdictions/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/NorthAmericanJurisdiction/USGovernmentEntitiesAndJurisdictions/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Debt/DebtInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/NorthAmericanSecurities/USSecuritiesRestrictions/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Designators/"
+  ],
+  "classes": [
+    {
+      "name": "American depositary receipt",
+      "technicalName": "fibo-sec-eq-dr:AmericanDepositaryReceipt",
+      "localName": "AmericanDepositaryReceipt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/AmericanDepositaryReceipt",
+      "label": "American depositary receipt",
+      "definition": "depositary receipt that represents securities of a foreign company and allows that company's securities to trade in the U.S. financial markets",
+      "parents": [
+        "depositary receipt"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "American depositary receipt level"
+        },
+        {
+          "property": "fibo-fbc-fi-fi:isLegallyRecordedIn",
+          "operator": "value",
+          "value": "fibo-be-ge-usj:UnitedStatesJurisdiction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "American depositary receipt level",
+      "technicalName": "fibo-sec-eq-dr:AmericanDepositaryReceiptLevel",
+      "localName": "AmericanDepositaryReceiptLevel",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/AmericanDepositaryReceiptLevel",
+      "label": "American depositary receipt level",
+      "definition": "classifier for American depositary receipts that categorizes ADRs into levels based on the extent to which the foreign company has access to the U.S. market",
+      "parents": [
+        "fibo-sec-sec-cls:FinancialInstrumentClassifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "American depositary receipt level scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "American depositary receipt",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "American depositary receipt level scheme",
+      "technicalName": "fibo-sec-eq-dr:AmericanDepositaryReceiptLevelScheme",
+      "localName": "AmericanDepositaryReceiptLevelScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/AmericanDepositaryReceiptLevelScheme",
+      "label": "American depositary receipt level scheme",
+      "definition": "classifier for American depositary receipts that categorizes ADRs into levels based on the extent to which the foreign company has access to the U.S. market",
+      "parents": [
+        "fibo-sec-sec-cls:FinancialInstrumentClassificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "American depositary receipt level",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Chinese depositary receipt",
+      "technicalName": "fibo-sec-eq-dr:ChineseDepositaryReceipt",
+      "localName": "ChineseDepositaryReceipt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/ChineseDepositaryReceipt",
+      "label": "Chinese depositary receipt",
+      "definition": "global depositary receipt that represents ownership in the securities of a non-Chinese company that trades on a public exchange in China",
+      "parents": [
+        "global depositary receipt"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:isLegallyRecordedIn",
+          "operator": "value",
+          "value": "fibo-be-ge-easj:JurisdictionOfTheRepublicOfChina",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "depositary receipt",
+      "technicalName": "fibo-sec-eq-dr:DepositaryReceipt",
+      "localName": "DepositaryReceipt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/DepositaryReceipt",
+      "label": "depositary receipt",
+      "definition": "negotiable financial instrument issued by a trust company, security depositary, or bank that is evidence of the deposit of publicly traded securities and that facilitates the ownership of securities traded in other jurisdictions",
+      "parents": [
+        "fibo-fbc-fi-fi:Security"
+      ],
+      "rules": [
+        {
+          "property": "has traded security",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        },
+        {
+          "property": "has multiplier",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    },
+    {
+      "name": "European depositary receipt",
+      "technicalName": "fibo-sec-eq-dr:EuropeanDepositaryReceipt",
+      "localName": "EuropeanDepositaryReceipt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/EuropeanDepositaryReceipt",
+      "label": "European depositary receipt",
+      "definition": "global depositary receipt that represents ownership in the securities of a non-European company that trades in European financial markets",
+      "parents": [
+        "global depositary receipt"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:isLegallyRecordedIn",
+          "operator": "value",
+          "value": "fibo-be-ge-euj:EuropeanUnionJurisdiction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "global depositary receipt",
+      "technicalName": "fibo-sec-eq-dr:GlobalDepositaryReceipt",
+      "localName": "GlobalDepositaryReceipt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/GlobalDepositaryReceipt",
+      "label": "global depositary receipt",
+      "definition": "depositary receipt where a certificate issued by a depositary bank, which purchases securities of foreign companies, creates a security on a local exchange backed by those securities",
+      "parents": [
+        "depositary receipt"
+      ],
+      "rules": []
+    },
+    {
+      "name": "Hong Kong depositary receipt",
+      "technicalName": "fibo-sec-eq-dr:HongKongDepositaryReceipt",
+      "localName": "HongKongDepositaryReceipt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/HongKongDepositaryReceipt",
+      "label": "Hong Kong depositary receipt",
+      "definition": "global depositary receipt that represents the purchase, or ownership, of foreign assets which are deposited in a depositary bank in Hong Kong",
+      "parents": [
+        "global depositary receipt"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:isLegallyRecordedIn",
+          "operator": "value",
+          "value": "fibo-be-ge-easj:JurisdictionOfHongKong",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Indian depositary receipt",
+      "technicalName": "fibo-sec-eq-dr:IndianDepositoryReceipt",
+      "localName": "IndianDepositoryReceipt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/IndianDepositoryReceipt",
+      "label": "Indian depositary receipt",
+      "definition": "global depositary receipt that represents the purchase, or ownership, of foreign assets which are deposited in a Indian account managed by the Domestic Depository in India",
+      "parents": [
+        "global depositary receipt"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:isLegallyRecordedIn",
+          "operator": "value",
+          "value": "fibo-be-ge-sasj:JurisdictionOfIndia",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Japanese depositary receipt",
+      "technicalName": "fibo-sec-eq-dr:JapaneseDepositaryReceipt",
+      "localName": "JapaneseDepositaryReceipt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/JapaneseDepositaryReceipt",
+      "label": "Japanese depositary receipt",
+      "definition": "global depositary receipt that represents the purchase, or ownership, of foreign assets which are deposited in a trust bank in Japan",
+      "parents": [
+        "global depositary receipt"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:isLegallyRecordedIn",
+          "operator": "value",
+          "value": "fibo-be-ge-easj:JurisdictionOfJapan",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Luxembourg depositary receipt",
+      "technicalName": "fibo-sec-eq-dr:LuxembourgDepositaryReceipt",
+      "localName": "LuxembourgDepositaryReceipt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/LuxembourgDepositaryReceipt",
+      "label": "Luxembourg depositary receipt",
+      "definition": "global depositary receipt that represents the purchase, or ownership, of foreign assets which are deposited in a Luxembourg-based account",
+      "parents": [
+        "global depositary receipt"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:isLegallyRecordedIn",
+          "operator": "value",
+          "value": "fibo-be-ge-weuj:JurisdictionOfLuxembourg",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "offshore depositary receipt",
+      "technicalName": "fibo-sec-eq-dr:OffshoreDepositaryReceipt",
+      "localName": "OffshoreDepositaryReceipt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/OffshoreDepositaryReceipt",
+      "label": "offshore depositary receipt",
+      "definition": "depositary receipt issued under SEC Regulation S",
+      "parents": [
+        "sponsored depositary receipt"
+      ],
+      "rules": [
+        {
+          "property": "fibo-sec-sec-rst:hasRestriction",
+          "operator": "value",
+          "value": "fibo-sec-sec-usrst:RegulationS",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "participatory note",
+      "technicalName": "fibo-sec-eq-dr:ParticipatoryNote",
+      "localName": "ParticipatoryNote",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/ParticipatoryNote",
+      "label": "participatory note",
+      "definition": "tradable debt instrument that facilitates the ownership of securities traded in other jurisdictions",
+      "parents": [
+        "fibo-sec-dbt-dbti:TradableDebtInstrument",
+        "depositary receipt"
+      ],
+      "rules": [
+        {
+          "property": "has traded security",
+          "operator": "some",
+          "value": "fibo-sec-dbt-dbti:TradableDebtInstrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "privately placed depositary receipt",
+      "technicalName": "fibo-sec-eq-dr:PrivatelyPlacedDepositaryReceipt",
+      "localName": "PrivatelyPlacedDepositaryReceipt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/PrivatelyPlacedDepositaryReceipt",
+      "label": "privately placed depositary receipt",
+      "definition": "depositary receipt that represents shares in a private placement under the SEC Rule 144-A",
+      "parents": [
+        "sponsored depositary receipt"
+      ],
+      "rules": [
+        {
+          "property": "fibo-sec-sec-rst:hasRestriction",
+          "operator": "value",
+          "value": "fibo-sec-sec-usrst:Rule144A",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "sponsored depositary receipt",
+      "technicalName": "fibo-sec-eq-dr:SponsoredDepositaryReceipt",
+      "localName": "SponsoredDepositaryReceipt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/SponsoredDepositaryReceipt",
+      "label": "sponsored depositary receipt",
+      "definition": "depositary receipt that is issued in collaboration with the foreign company enabling them to tap into international capital markets directly",
+      "parents": [
+        "American depositary receipt"
+      ],
+      "rules": []
+    },
+    {
+      "name": "unsponsored depositary receipt",
+      "technicalName": "fibo-sec-eq-dr:UnsponsoredDepositaryReceipt",
+      "localName": "UnsponsoredDepositaryReceipt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/UnsponsoredDepositaryReceipt",
+      "label": "unsponsored depositary receipt",
+      "definition": "depositary receipt that is established without the company's cooperation",
+      "parents": [
+        "American depositary receipt"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "value",
+          "value": "Level I American depositary receipt",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has traded security",
+      "technicalName": "fibo-sec-eq-dr:hasTradedSecurity",
+      "localName": "hasTradedSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/hasTradedSecurity",
+      "label": "has traded security",
+      "definition": "links a depositary receipt to the instrument that it represents",
+      "domain": [
+        "depositary receipt"
+      ],
+      "range": [
+        "fibo-fbc-fi-fi:Security"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has traded share",
+      "technicalName": "fibo-sec-eq-dr:hasTradedShare",
+      "localName": "hasTradedShare",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/hasTradedShare",
+      "label": "has traded share",
+      "definition": "links a depositary receipt to the instrument (equity or exchange-traded fund) that it represents",
+      "domain": [
+        "depositary receipt"
+      ],
+      "range": [
+        "fibo-sec-eq-eq:Share"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has multiplier",
+      "technicalName": "fibo-sec-eq-dr:hasMultiplier",
+      "localName": "hasMultiplier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/hasMultiplier",
+      "label": "has multiplier",
+      "definition": "indicates the number of underlying shares (whether multiple or fractional) represented by a single depositary receipt",
+      "domain": [
+        "depositary receipt"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has number of depositary receipts issued",
+      "technicalName": "fibo-sec-eq-dr:hasNumberOfDepositaryReceiptsIssued",
+      "localName": "hasNumberOfDepositaryReceiptsIssued",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/DepositaryReceipts/hasNumberOfDepositaryReceiptsIssued",
+      "label": "has number of depositary receipts issued",
+      "definition": "indicates the number of receipts issued to the general public",
+      "domain": [
+        "depositary receipt"
+      ],
+      "range": [
+        "xsd:positiveInteger"
+      ]
+    }
+  ]
+}

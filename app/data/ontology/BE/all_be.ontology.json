@@ -1,0 +1,5052 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\Corporations\\all_corporations.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\FunctionalEntities\\all_functional_entities.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\all_government_entities.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\LegalEntities\\all_legal_entities.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\OwnershipAndControl\\all_ownership_and_control.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\Partnerships\\all_partnerships.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\PrivateLimitedCompanies\\all_private_limited_companies.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\SoleProprietorships\\all_sole_proprietorships.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\Trusts\\all_trusts.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 9,
+    "classes": 199,
+    "edges": 83,
+    "attributes": 9
+  },
+  "classes": [
+    {
+      "name": "fibo-be-corp-corp:BoardAgreement",
+      "technicalName": "fibo-be-corp-corp:BoardAgreement",
+      "localName": "BoardAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/BoardAgreement",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-corp-corp:JointStockCompany",
+      "technicalName": "fibo-be-corp-corp:JointStockCompany",
+      "localName": "JointStockCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/JointStockCompany",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-corp-corp:PrivatelyHeldCompany",
+      "technicalName": "fibo-be-corp-corp:PrivatelyHeldCompany",
+      "localName": "PrivatelyHeldCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/PrivatelyHeldCompany",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-corp-corp:PubliclyHeldCompany",
+      "technicalName": "fibo-be-corp-corp:PubliclyHeldCompany",
+      "localName": "PubliclyHeldCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/PubliclyHeldCompany",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-corp-corp:RegistrationIdentifier",
+      "technicalName": "fibo-be-corp-corp:RegistrationIdentifier",
+      "localName": "RegistrationIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/RegistrationIdentifier",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-corp-corp:RegistrationIdentifierScheme",
+      "technicalName": "fibo-be-corp-corp:RegistrationIdentifierScheme",
+      "localName": "RegistrationIdentifierScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/RegistrationIdentifierScheme",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-corp-corp:ReligiousCorporation",
+      "technicalName": "fibo-be-corp-corp:ReligiousCorporation",
+      "localName": "ReligiousCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/ReligiousCorporation",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "association",
+      "technicalName": "fibo-be-fct-fct:Association",
+      "localName": "Association",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/Association",
+      "label": "association",
+      "definition": "not-for-profit organization that is owned by and acts on behalf of its members",
+      "parents": [
+        "fibo-be-le-fbo:NotForProfitOrganization"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cooperative society"
+        }
+      ]
+    },
+    {
+      "name": "cooperative society",
+      "technicalName": "fibo-be-fct-fct:CooperativeSociety",
+      "localName": "CooperativeSociety",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/CooperativeSociety",
+      "label": "cooperative society",
+      "definition": "organization owned by and operated for the benefit of those using its services",
+      "parents": [
+        "functional business entity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "family office",
+      "technicalName": "fibo-be-fct-fct:FamilyOffice",
+      "localName": "FamilyOffice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/FamilyOffice",
+      "label": "family office",
+      "definition": "organization that assumes the day-to-day administration and management of a family's affairs",
+      "parents": [
+        "functional business entity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "functional business entity",
+      "technicalName": "fibo-be-fct-fct:FunctionalBusinessEntity",
+      "localName": "FunctionalBusinessEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/FunctionalBusinessEntity",
+      "label": "functional business entity",
+      "definition": "functional entity defined in terms of the nature of the commercial activity it conducts",
+      "parents": [
+        "functional entity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-org:FormalOrganization"
+        }
+      ]
+    },
+    {
+      "name": "functional entity",
+      "technicalName": "fibo-be-fct-fct:FunctionalEntity",
+      "localName": "FunctionalEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/FunctionalEntity",
+      "label": "functional entity",
+      "definition": "party defined in terms of a function they or it performs",
+      "parents": [
+        "cmns-rlcmp:FunctionalRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-pts:Party"
+        }
+      ]
+    },
+    {
+      "name": "merchant",
+      "technicalName": "fibo-be-fct-fct:Merchant",
+      "localName": "Merchant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/Merchant",
+      "label": "merchant",
+      "definition": "party engaged in the purchase and sales of goods produced by others for profit",
+      "parents": [
+        "functional business entity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "some",
+          "value": "merchant identifier",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "merchant category code",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "merchant category code",
+      "technicalName": "fibo-be-fct-fct:MerchantCategoryCode",
+      "localName": "MerchantCategoryCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/MerchantCategoryCode",
+      "label": "merchant category code",
+      "definition": "code used internationally to classify a merchant",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier",
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "merchant",
+          "qualifier": null
+        },
+        {
+          "property": "has merchant category description",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "merchant category code scheme"
+        }
+      ]
+    },
+    {
+      "name": "merchant category code scheme",
+      "technicalName": "fibo-be-fct-fct:MerchantCategoryCodeScheme",
+      "localName": "MerchantCategoryCodeScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/MerchantCategoryCodeScheme",
+      "label": "merchant category code scheme",
+      "definition": "scheme defining a set of codes for classifying merchant services",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "merchant category code",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "merchant identifier",
+      "technicalName": "fibo-be-fct-fct:MerchantIdentifier",
+      "localName": "MerchantIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/MerchantIdentifier",
+      "label": "merchant identifier",
+      "definition": "unique identifier for a merchant that is used, for example, for transaction interchange purposes",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "merchant"
+        }
+      ]
+    },
+    {
+      "name": "syndicate",
+      "technicalName": "fibo-be-fct-fct:Syndicate",
+      "localName": "Syndicate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/Syndicate",
+      "label": "syndicate",
+      "definition": "temporary, self-organizing group of people, companies, corporations or entities organized as an alliance whose purpose is to transact some specific business, or to pursue or promote a shared interest",
+      "parents": [
+        "cmns-org:Organization"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "cmns-pts:Party",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "syndicate member",
+      "technicalName": "fibo-be-fct-fct:SyndicateMember",
+      "localName": "SyndicateMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/SyndicateMember",
+      "label": "syndicate member",
+      "definition": "role of an individual or organization that is a member of an alliance set up to pool resources and share risk with respect to a large transaction",
+      "parents": [
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "only",
+          "value": "syndicate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "API-first market data provider",
+      "technicalName": "fibo-be-fct-pub:APIFirstMarketDataProvider",
+      "localName": "APIFirstMarketDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/APIFirstMarketDataProvider",
+      "label": "API-first market data provider",
+      "definition": "market data provider that delivers financial information primarily through programmatic interfaces, offering real-time or historical data via APIs for automated consumption",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "alternative data provider",
+      "technicalName": "fibo-be-fct-pub:AlternativeDataProvider",
+      "localName": "AlternativeDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/AlternativeDataProvider",
+      "label": "alternative data provider",
+      "definition": "market data provider that supplies non-traditional datasets derived from sources such as web activity, sentiment analysis, geospatial signals, or other alternative information channels",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "crypto and digital-asset data provider",
+      "technicalName": "fibo-be-fct-pub:CryptoDigitalAssetDataProvider",
+      "localName": "CryptoDigitalAssetDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/CryptoDigitalAssetDataProvider",
+      "label": "crypto and digital-asset data provider",
+      "definition": "market data provider that supplies pricing, reference data, and analytics for digital tokens and crypto-assets",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "derivatives and volatility data provider",
+      "technicalName": "fibo-be-fct-pub:DerivativesVolatilityDataProvider",
+      "localName": "DerivativesVolatilityDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/DerivativesVolatilityDataProvider",
+      "label": "derivatives and volatility data provider",
+      "definition": "market data provider that supplies pricing, implied-volatility surfaces, and analytics for derivatives, including options, futures, and structured products",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exchange-sourced data provider",
+      "technicalName": "fibo-be-fct-pub:ExchangeSourcedDataProvider",
+      "localName": "ExchangeSourcedDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/ExchangeSourcedDataProvider",
+      "label": "exchange-sourced data provider",
+      "definition": "market data provider that distributes financial information originating directly from trading venues, including order-book data, trades, quotes, and venue-specific reference data",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fixed income specialist provider",
+      "technicalName": "fibo-be-fct-pub:FixedIncomeSpecialistProvider",
+      "localName": "FixedIncomeSpecialistProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/FixedIncomeSpecialistProvider",
+      "label": "fixed income specialist provider",
+      "definition": "market data provider that focuses on pricing, reference data, and analytics for fixed-income instruments such as bonds, credit products, and money-market securities",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "institutional market data provider",
+      "technicalName": "fibo-be-fct-pub:InstitutionalMarketDataProvider",
+      "localName": "InstitutionalMarketDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/InstitutionalMarketDataProvider",
+      "label": "institutional market data provider",
+      "definition": "market data provider that supplies multi-asset financial information, analytics, and reference data to financial institutions such as banks, asset managers, and trading firms",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "market data provider",
+      "technicalName": "fibo-be-fct-pub:MarketDataProvider",
+      "localName": "MarketDataProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/MarketDataProvider",
+      "label": "market data provider",
+      "definition": "publisher that supplies financial information, reference data, analytics, or related datasets used in financial markets",
+      "parents": [
+        "publisher"
+      ],
+      "rules": []
+    },
+    {
+      "name": "publication",
+      "technicalName": "fibo-be-fct-pub:Publication",
+      "localName": "Publication",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/Publication",
+      "label": "publication",
+      "definition": "document offered for general distribution and usually produced in multiple copies",
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": []
+    },
+    {
+      "name": "publisher",
+      "technicalName": "fibo-be-fct-pub:Publisher",
+      "localName": "Publisher",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/Publisher",
+      "label": "publisher",
+      "definition": "role of person(s) or organization(s) responsible for the printing or distribution of an item, whether in digital or print (physical) form",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-pts:Party"
+        }
+      ]
+    },
+    {
+      "name": "reference data specialist provider",
+      "technicalName": "fibo-be-fct-pub:ReferenceDataSpecialistProvider",
+      "localName": "ReferenceDataSpecialistProvider",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/ReferenceDataSpecialistProvider",
+      "label": "reference data specialist provider",
+      "definition": "market data provider that focuses on authoritative reference data, including corporate actions, instrument identifiers, classifications, and entity information aligned with ISO standards",
+      "parents": [
+        "market data provider"
+      ],
+      "rules": []
+    },
+    {
+      "name": "branch of government",
+      "technicalName": "fibo-be-ge-ge:BranchOfGovernment",
+      "localName": "BranchOfGovernment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/BranchOfGovernment",
+      "label": "branch of government",
+      "definition": "division of the government of a state, with separate and independent powers and areas of responsibility so that the powers of one branch are not in conflict with the powers associated with the other branches",
+      "parents": [
+        "government body"
+      ],
+      "rules": []
+    },
+    {
+      "name": "devolved government",
+      "technicalName": "fibo-be-ge-ge:DevolvedGovernment",
+      "localName": "DevolvedGovernment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/DevolvedGovernment",
+      "label": "devolved government",
+      "definition": "government and the politicians that that run a subnational territory with powers that may be temporary and reversible, ultimately residing with the central government",
+      "parents": [
+        "government"
+      ],
+      "rules": []
+    },
+    {
+      "name": "executive branch",
+      "technicalName": "fibo-be-ge-ge:ExecutiveBranch",
+      "localName": "ExecutiveBranch",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/ExecutiveBranch",
+      "label": "executive branch",
+      "definition": "the branch of government that is authorized and responsible for the daily administration of the government",
+      "parents": [
+        "branch of government"
+      ],
+      "rules": []
+    },
+    {
+      "name": "federal government",
+      "technicalName": "fibo-be-ge-ge:FederalGovernment",
+      "localName": "FederalGovernment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/FederalGovernment",
+      "label": "federal government",
+      "definition": "union of states under a central government distinct from the individual governments of the separate states",
+      "parents": [
+        "national government"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "cmns-loc:FederalState",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rga:governs",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-loc:FederalCapitalArea"
+        }
+      ]
+    },
+    {
+      "name": "federated sovereignty",
+      "technicalName": "fibo-be-ge-ge:FederatedSovereignty",
+      "localName": "FederatedSovereignty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/FederatedSovereignty",
+      "label": "federated sovereignty",
+      "definition": "polity characterized by a union of partially self-governing states or regions under a central (federal) government",
+      "parents": [
+        "sovereign state"
+      ],
+      "rules": [
+        {
+          "property": "is represented by",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "federal government"
+        },
+        {
+          "property": "is represented by",
+          "operator": "some",
+          "value": "regional government",
+          "qualifier": null
+        },
+        {
+          "property": "has shared sovereignty over",
+          "operator": "some",
+          "value": "cmns-loc:FederalState",
+          "qualifier": null
+        },
+        {
+          "property": "has full sovereignty over",
+          "operator": "some",
+          "value": "cmns-loc:Country",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "government",
+      "technicalName": "fibo-be-ge-ge:Government",
+      "localName": "Government",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/Government",
+      "label": "government",
+      "definition": "system by which a state or community is controlled",
+      "parents": [
+        "fibo-be-fct-fct:FunctionalEntity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "cmns-loc:GeopoliticalEntity",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        }
+      ]
+    },
+    {
+      "name": "government agency",
+      "technicalName": "fibo-be-ge-ge:GovernmentAgency",
+      "localName": "GovernmentAgency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/GovernmentAgency",
+      "label": "government agency",
+      "definition": "permanent or semi-permanent organization, often an appointed commission, in the machinery of government that is responsible for the oversight and administration of specific functions",
+      "parents": [
+        "government body"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "government appointee"
+        }
+      ]
+    },
+    {
+      "name": "government appointee",
+      "technicalName": "fibo-be-ge-ge:GovernmentAppointee",
+      "localName": "GovernmentAppointee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/GovernmentAppointee",
+      "label": "government appointee",
+      "definition": "individual designated by government decree to lead, or participate in some capacity in a government body",
+      "parents": [
+        "government official",
+        "fibo-be-oac-exec:Executive"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "cmns-org:isDesignatedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "government body"
+        }
+      ]
+    },
+    {
+      "name": "government body",
+      "technicalName": "fibo-be-ge-ge:GovernmentBody",
+      "localName": "GovernmentBody",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/GovernmentBody",
+      "label": "government body",
+      "definition": "formal organization that is an agency, instrumentality, or other body of a supranational, national, federal, state, or local government, including certain multijurisdictional agencies and departments that carry out the business of government",
+      "parents": [
+        "cmns-org:FormalOrganization"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-le-lp:PublicPurpose"
+        }
+      ]
+    },
+    {
+      "name": "government department",
+      "technicalName": "fibo-be-ge-ge:GovernmentDepartment",
+      "localName": "GovernmentDepartment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/GovernmentDepartment",
+      "label": "government department",
+      "definition": "specialized organization responsible for a sector of government public administration",
+      "parents": [
+        "government body"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "government minister"
+        }
+      ]
+    },
+    {
+      "name": "government minister",
+      "technicalName": "fibo-be-ge-ge:GovernmentMinister",
+      "localName": "GovernmentMinister",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/GovernmentMinister",
+      "label": "government minister",
+      "definition": "government official that is an executive, who is either appointed or elected to a high office in the government",
+      "parents": [
+        "government official",
+        "fibo-be-oac-exec:Executive"
+      ],
+      "rules": []
+    },
+    {
+      "name": "government official",
+      "technicalName": "fibo-be-ge-ge:GovernmentOfficial",
+      "localName": "GovernmentOfficial",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/GovernmentOfficial",
+      "label": "government official",
+      "definition": "person elected or appointed to administer some aspect of a government",
+      "parents": [
+        "cmns-bauth:ResponsibleParty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "government body"
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    },
+    {
+      "name": "instrumentality",
+      "technicalName": "fibo-be-ge-ge:Instrumentality",
+      "localName": "Instrumentality",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/Instrumentality",
+      "label": "instrumentality",
+      "definition": "organization that serves a public purpose and is closely tied to a government, but is not a government agency",
+      "parents": [
+        "government body",
+        "cmns-org:LegalEntity"
+      ],
+      "rules": [
+        {
+          "property": "is an instrument of",
+          "operator": "some",
+          "value": "government",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isMandatedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-law-cor:StatuteLaw"
+        }
+      ]
+    },
+    {
+      "name": "judiciary",
+      "technicalName": "fibo-be-ge-ge:Judiciary",
+      "localName": "Judiciary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/Judiciary",
+      "label": "judiciary",
+      "definition": "branch of government that comprises the system of courts that interprets and applies the law in the name of the supranational, national, federal, or regional government, depending on its jurisdiction",
+      "parents": [
+        "branch of government"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasPart",
+          "operator": "some",
+          "value": "fibo-fnd-law-cor:CourtOfLaw",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "legislature",
+      "technicalName": "fibo-be-ge-ge:Legislature",
+      "localName": "Legislature",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/Legislature",
+      "label": "legislature",
+      "definition": "the law-making body of a political unit, usually a national government, that has power to enact, amend, and repeal public policy",
+      "parents": [
+        "branch of government"
+      ],
+      "rules": []
+    },
+    {
+      "name": "municipal entity",
+      "technicalName": "fibo-be-ge-ge:MunicipalEntity",
+      "localName": "MunicipalEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/MunicipalEntity",
+      "label": "municipal entity",
+      "definition": "polity that typically represents a city, township, or other administrative subdivision having corporate status and powers of self-government or jurisdiction",
+      "parents": [
+        "polity"
+      ],
+      "rules": [
+        {
+          "property": "is represented by",
+          "operator": "some",
+          "value": "municipal government",
+          "qualifier": null
+        },
+        {
+          "property": "has sovereignty over",
+          "operator": "some",
+          "value": "cmns-loc:Municipality",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "municipal government",
+      "technicalName": "fibo-be-ge-ge:MunicipalGovernment",
+      "localName": "MunicipalGovernment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/MunicipalGovernment",
+      "label": "municipal government",
+      "definition": "regional government of a city, township, or other administrative subdivision",
+      "parents": [
+        "government"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "cmns-loc:Municipality",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "national government",
+      "technicalName": "fibo-be-ge-ge:NationalGovernment",
+      "localName": "NationalGovernment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/NationalGovernment",
+      "label": "national government",
+      "definition": "government and the politicians that that run a country as a whole (as opposed to local government)",
+      "parents": [
+        "government"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "cmns-loc:Country",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "polity",
+      "technicalName": "fibo-be-ge-ge:Polity",
+      "localName": "Polity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/Polity",
+      "label": "polity",
+      "definition": "legal person that is a supranational entity, crown, state, or subordinate civil authority, such as a province, prefecture, county, municipality, city, or district representing the people of that entity",
+      "parents": [
+        "government body",
+        "cmns-org:LegalPerson"
+      ],
+      "rules": [
+        {
+          "property": "is represented by",
+          "operator": "some",
+          "value": "government",
+          "qualifier": null
+        },
+        {
+          "property": "has sovereignty over",
+          "operator": "some",
+          "value": "cmns-loc:GeopoliticalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "regional government",
+      "technicalName": "fibo-be-ge-ge:RegionalGovernment",
+      "localName": "RegionalGovernment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/RegionalGovernment",
+      "label": "regional government",
+      "definition": "administrative body for a geographic area, such as a county, smaller town, or other similar community",
+      "parents": [
+        "government"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "cmns-loc:GeopoliticalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "regional sovereignty",
+      "technicalName": "fibo-be-ge-ge:RegionalSovereignty",
+      "localName": "RegionalSovereignty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/RegionalSovereignty",
+      "label": "regional sovereignty",
+      "definition": "legal person that corresponds to an administrative division, administrative unit, administrative entity or country subdivision (or, sometimes, geopolitical division or subnational entity), that has the capacity to incur debt, issue contracts, and enter into relations with other similar entities",
+      "parents": [
+        "polity"
+      ],
+      "rules": [
+        {
+          "property": "is represented by",
+          "operator": "some",
+          "value": "regional government",
+          "qualifier": null
+        },
+        {
+          "property": "has shared sovereignty over",
+          "operator": "some",
+          "value": "cmns-loc:GeopoliticalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "sovereign state",
+      "technicalName": "fibo-be-ge-ge:SovereignState",
+      "localName": "SovereignState",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/SovereignState",
+      "label": "sovereign state",
+      "definition": "non-physical juridical entity that is represented by one centralized government that has sovereignty over a geographic area",
+      "parents": [
+        "polity"
+      ],
+      "rules": [
+        {
+          "property": "is represented by",
+          "operator": "some",
+          "value": "national government",
+          "qualifier": null
+        },
+        {
+          "property": "has full sovereignty over",
+          "operator": "some",
+          "value": "cmns-loc:Country",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "supranational entity",
+      "technicalName": "fibo-be-ge-ge:SupranationalEntity",
+      "localName": "SupranationalEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/SupranationalEntity",
+      "label": "supranational entity",
+      "definition": "governmental or non-governmental entity that is established by international law or treaty or incorporated at an international level",
+      "parents": [
+        "polity"
+      ],
+      "rules": [
+        {
+          "property": "is represented by",
+          "operator": "some",
+          "value": "government body",
+          "qualifier": null
+        },
+        {
+          "property": "has shared sovereignty over",
+          "operator": "some",
+          "value": "cmns-loc:Country",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "tribal area",
+      "technicalName": "fibo-be-ge-ge:TribalArea",
+      "localName": "TribalArea",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/TribalArea",
+      "label": "tribal area",
+      "definition": "designation for geographic region administered by a group of indigenous people rather than by a sovereign state or regional governmental entity",
+      "parents": [
+        "cmns-loc:GeopoliticalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "tribal entity",
+      "technicalName": "fibo-be-ge-ge:TribalEntity",
+      "localName": "TribalEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/TribalEntity",
+      "label": "tribal entity",
+      "definition": "legal entity that represents fundamental unit of sovereign tribal (indigenous) government",
+      "parents": [
+        "polity"
+      ],
+      "rules": [
+        {
+          "property": "is represented by",
+          "operator": "some",
+          "value": "tribal government",
+          "qualifier": null
+        },
+        {
+          "property": "has shared sovereignty over",
+          "operator": "some",
+          "value": "tribal area",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "tribal government",
+      "technicalName": "fibo-be-ge-ge:TribalGovernment",
+      "localName": "TribalGovernment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/TribalGovernment",
+      "label": "tribal government",
+      "definition": "government representing a group of indigenous people that has legal authority to govern those people, including authority to legislate the existence of tribal entities",
+      "parents": [
+        "government"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "tribal area",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "benefit corporation",
+      "technicalName": "fibo-be-le-cb:BenefitCorporation",
+      "localName": "BenefitCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/BenefitCorporation",
+      "label": "benefit corporation",
+      "definition": "not-for-profit corporation set up under specific state legislation, typically to provide some social benefit, without an obligation to maximize shareholder return",
+      "parents": [
+        "not-for-profit corporation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "board agreement",
+      "technicalName": "fibo-be-le-cb:BoardAgreement",
+      "localName": "BoardAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/BoardAgreement",
+      "label": "board agreement",
+      "definition": "formal, legally binding agreement between members of the Board of Directors of the organization",
+      "parents": [
+        "fibo-be-le-fbo:OrganizationCoveringAgreement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "common interest development corporation",
+      "technicalName": "fibo-be-le-cb:CommonInterestDevelopmentCorporation",
+      "localName": "CommonInterestDevelopmentCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/CommonInterestDevelopmentCorporation",
+      "label": "common interest development corporation",
+      "definition": "not-for-profit corporation set up under specific state legislation as a business entity for homeowners' associations",
+      "parents": [
+        "not-for-profit corporation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "corporation",
+      "technicalName": "fibo-be-le-cb:Corporation",
+      "localName": "Corporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/Corporation",
+      "label": "corporation",
+      "definition": "formal organization that is a legal entity (artificial person) distinct from its owners, created under the jurisdiction of the laws of a state or nation",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:hasLegalName",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "is incorporated in",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-rga:Jurisdiction"
+        },
+        {
+          "property": "is constituted by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "instrument of incorporation"
+        }
+      ]
+    },
+    {
+      "name": "for profit corporation",
+      "technicalName": "fibo-be-le-cb:ForProfitCorporation",
+      "localName": "ForProfitCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/ForProfitCorporation",
+      "label": "for profit corporation",
+      "definition": "corporation whose objective is to make money, i.e., to ensure realization of a financial benefit such that the amount of revenue gained from a business activity exceeds the expenses, costs and taxes needed to sustain that activity",
+      "parents": [
+        "corporation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-le-lp:ProfitObjective"
+        }
+      ]
+    },
+    {
+      "name": "incorporation guarantee",
+      "technicalName": "fibo-be-le-cb:IncorporationGuarantee",
+      "localName": "IncorporationGuarantee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/IncorporationGuarantee",
+      "label": "incorporation guarantee",
+      "definition": "guarantee that is part of the financial basis by which some legal entity is incorporated",
+      "parents": [
+        "fibo-fnd-law-cor:Constitution"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-acc-cur:hasNotionalAmount",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "exactly",
+          "value": "1",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "instrument of incorporation",
+      "technicalName": "fibo-be-le-cb:InstrumentOfIncorporation",
+      "localName": "InstrumentOfIncorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/InstrumentOfIncorporation",
+      "label": "instrument of incorporation",
+      "definition": "memorandum and articles of association by which some legal entity is established",
+      "parents": [
+        "fibo-fnd-law-cor:Constitution"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-rga:Jurisdiction"
+        }
+      ]
+    },
+    {
+      "name": "joint stock company",
+      "technicalName": "fibo-be-le-cb:JointStockCompany",
+      "localName": "JointStockCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/JointStockCompany",
+      "label": "joint stock company",
+      "definition": "for-profit, unincorporated business that has some characteristics of a corporation and some features of a partnership, with ownership interests represented by shares of stock",
+      "parents": [
+        "fibo-be-le-lp:BusinessEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "not-for-profit corporation",
+      "technicalName": "fibo-be-le-cb:NotForProfitCorporation",
+      "localName": "NotForProfitCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/NotForProfitCorporation",
+      "label": "not-for-profit corporation",
+      "definition": "corporation approved by its jurisdictional oversight and tax authorities as operating for educational, charitable, social, religious, civic or humanitarian purposes",
+      "parents": [
+        "corporation",
+        "fibo-be-le-fbo:NotForProfitOrganization"
+      ],
+      "rules": []
+    },
+    {
+      "name": "privately held company",
+      "technicalName": "fibo-be-le-cb:PrivatelyHeldCompany",
+      "localName": "PrivatelyHeldCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/PrivatelyHeldCompany",
+      "label": "privately held company",
+      "definition": "corporation whose issued shares are all held by a family or a small group of investors and, therefore, cannot be bought by the public",
+      "parents": [
+        "stock corporation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "publicly held company",
+      "technicalName": "fibo-be-le-cb:PubliclyHeldCompany",
+      "localName": "PubliclyHeldCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/PubliclyHeldCompany",
+      "label": "publicly held company",
+      "definition": "corporation whose shares are traded and held publicly",
+      "parents": [
+        "stock corporation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "registration identifier",
+      "technicalName": "fibo-be-le-cb:RegistrationIdentifier",
+      "localName": "RegistrationIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/RegistrationIdentifier",
+      "label": "registration identifier",
+      "definition": "identifier that is officially allocated to an organization at the time of registration, typically in a jurisdiction in which said organization is organized or registered and used in that jurisdiction to identify the organization",
+      "parents": [
+        "cmns-org:OrganizationIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "registration identifier scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:FormalOrganization"
+        },
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-rga:Jurisdiction"
+        }
+      ]
+    },
+    {
+      "name": "registration identifier scheme",
+      "technicalName": "fibo-be-le-cb:RegistrationIdentifierScheme",
+      "localName": "RegistrationIdentifierScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/RegistrationIdentifierScheme",
+      "label": "registration identifier scheme",
+      "definition": "scheme that defines the registration identifier per the issuing registration authority",
+      "parents": [
+        "cmns-org:OrganizationIdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "registration identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "religious corporation",
+      "technicalName": "fibo-be-le-cb:ReligiousCorporation",
+      "localName": "ReligiousCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/ReligiousCorporation",
+      "label": "religious corporation",
+      "definition": "not-for-profit corporation whose objective is specific to some fundamental set of beliefs and practices generally agreed upon by a number of people, and that is incorporated under the law",
+      "parents": [
+        "not-for-profit corporation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "some",
+          "value": "fibo-be-le-lp:ReligiousObjective",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "stock corporation",
+      "technicalName": "fibo-be-le-cb:StockCorporation",
+      "localName": "StockCorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/StockCorporation",
+      "label": "stock corporation",
+      "definition": "corporation that has shareholders, each of whom receives a portion of the ownership of the corporation through shares of stock",
+      "parents": [
+        "corporation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "some",
+          "value": "board agreement",
+          "qualifier": null
+        },
+        {
+          "property": "has date of incorporation",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "has issued capital",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "has date of registration",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        }
+      ]
+    },
+    {
+      "name": "branch",
+      "technicalName": "fibo-be-le-fbo:Branch",
+      "localName": "Branch",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/Branch",
+      "label": "branch",
+      "definition": "part of a larger organization that might not be co-located with it",
+      "parents": [
+        "cmns-org:OrganizationalSubUnit"
+      ],
+      "rules": []
+    },
+    {
+      "name": "division",
+      "technicalName": "fibo-be-le-fbo:Division",
+      "localName": "Division",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/Division",
+      "label": "division",
+      "definition": "part of an organization, such as a line of business, that may have separate accounting and reporting requirements",
+      "parents": [
+        "cmns-org:OrganizationalSubUnit"
+      ],
+      "rules": []
+    },
+    {
+      "name": "joint venture",
+      "technicalName": "fibo-be-le-fbo:JointVenture",
+      "localName": "JointVenture",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/JointVenture",
+      "label": "joint venture",
+      "definition": "legal entity that is formed between parties that pool their resources for the purpose of accomplishing a specific task but otherwise retain their distinct identities",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non-governmental organization",
+      "technicalName": "fibo-be-le-fbo:NonGovernmentalOrganization",
+      "localName": "NonGovernmentalOrganization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/NonGovernmentalOrganization",
+      "label": "non-governmental organization",
+      "definition": "not-for-profit organization that functions independently of government",
+      "parents": [
+        "not for profit organization"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-le-lp:PublicPurpose"
+        }
+      ]
+    },
+    {
+      "name": "not for profit organization",
+      "technicalName": "fibo-be-le-fbo:NotForProfitOrganization",
+      "localName": "NotForProfitOrganization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/NotForProfitOrganization",
+      "label": "not for profit organization",
+      "definition": "organization that uses its surplus revenues to further achieve its purpose rather than distributing its surplus income to the organization's owners (directors, investors, and equivalents) as profit / dividends",
+      "parents": [
+        "cmns-org:FormalOrganization"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-le-lp:NotForProfitObjective"
+        }
+      ]
+    },
+    {
+      "name": "organization covering agreement",
+      "technicalName": "fibo-be-le-fbo:OrganizationCoveringAgreement",
+      "localName": "OrganizationCoveringAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/OrganizationCoveringAgreement",
+      "label": "organization covering agreement",
+      "definition": "contract between the principals in a formal organization that specifies the relationship between the principals, and between the principals and the entity",
+      "parents": [
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": []
+    },
+    {
+      "name": "value-added tax identification number",
+      "technicalName": "fibo-be-le-fbo:ValueAddedTaxIdentificationNumber",
+      "localName": "ValueAddedTaxIdentificationNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/ValueAddedTaxIdentificationNumber",
+      "label": "value-added tax identification number",
+      "definition": "tax identifier that identifies a taxable person (business) or non-taxable legal entity for a consumption tax that is assessed incrementally, levied on the price of a product or service at each stage of production, distribution, and sale to the end consumer",
+      "parents": [
+        "fibo-fnd-pty-pty:TaxIdentifier",
+        "cmns-org:OrganizationIdentifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "business entity",
+      "technicalName": "fibo-be-le-lp:BusinessEntity",
+      "localName": "BusinessEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/BusinessEntity",
+      "label": "business entity",
+      "definition": "entity that is formed and administered as per commercial law in order to engage in business activities",
+      "parents": [
+        "cmns-org:FormalOrganization"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:holds",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-law-lcap:License"
+        },
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-gao-obj:BusinessObjective"
+        }
+      ]
+    },
+    {
+      "name": "business license",
+      "technicalName": "fibo-be-le-lp:BusinessLicense",
+      "localName": "BusinessLicense",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/BusinessLicense",
+      "label": "business license",
+      "definition": "license that allows the holder to conduct business or carry out a specific profession within some jurisdiction for some period of time",
+      "parents": [
+        "fibo-fnd-law-lcap:License"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isRecognizedIn",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "business entity"
+        }
+      ]
+    },
+    {
+      "name": "chartered legal person",
+      "technicalName": "fibo-be-le-lp:CharteredLegalPerson",
+      "localName": "CharteredLegalPerson",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/CharteredLegalPerson",
+      "label": "chartered legal person",
+      "definition": "a legal person created by a royal charter or decree",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "legally competent natural person",
+      "technicalName": "fibo-be-le-lp:LegallyCompetentNaturalPerson",
+      "localName": "LegallyCompetentNaturalPerson",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/LegallyCompetentNaturalPerson",
+      "label": "legally competent natural person",
+      "definition": "person who is considered competent, under the circumstances, to enter into a contract, conduct business, or participate in other activities that generally require the mental ability to understand problems and make decisions on his or her own behalf",
+      "parents": [
+        "fibo-fnd-aap-ppl:Person",
+        "cmns-org:LegalPerson"
+      ],
+      "rules": []
+    },
+    {
+      "name": "not for profit objective",
+      "technicalName": "fibo-be-le-lp:NotForProfitObjective",
+      "localName": "NotForProfitObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/NotForProfitObjective",
+      "label": "not for profit objective",
+      "definition": "objective that reflects the charitable, educational, religious, humanitarian, public services, or other not for profit goals of an organization",
+      "parents": [
+        "fibo-fnd-gao-obj:Objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "power of attorney",
+      "technicalName": "fibo-be-le-lp:PowerOfAttorney",
+      "localName": "PowerOfAttorney",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/PowerOfAttorney",
+      "label": "power of attorney",
+      "definition": "legal authorization given by one party (the principal) to another (the agent or attorney-in-fact) to perform certain acts on the principal's behalf",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalCapacity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-law-lcap:isConferredOn",
+          "operator": "some",
+          "value": "legally competent natural person",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasEffectiveDate",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        }
+      ]
+    },
+    {
+      "name": "profit objective",
+      "technicalName": "fibo-be-le-lp:ProfitObjective",
+      "localName": "ProfitObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/ProfitObjective",
+      "label": "profit objective",
+      "definition": "objective that reflects pursuit of a financial benefit that may be realized when the amount of revenue gained from a business activity exceeds the expenses, costs and taxes needed to sustain that activity",
+      "parents": [
+        "fibo-fnd-gao-obj:BusinessObjective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "public purpose",
+      "technicalName": "fibo-be-le-lp:PublicPurpose",
+      "localName": "PublicPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/PublicPurpose",
+      "label": "public purpose",
+      "definition": "objective that reflects values generally thought to be shared by and that is intended to benefit the populace as a whole",
+      "parents": [
+        "fibo-fnd-gao-obj:Objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "religious objective",
+      "technicalName": "fibo-be-le-lp:ReligiousObjective",
+      "localName": "ReligiousObjective",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/ReligiousObjective",
+      "label": "religious objective",
+      "definition": "not-for-profit objective that reflects the religious goals of an organization",
+      "parents": [
+        "not for profit objective"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fonds commun de placement",
+      "technicalName": "fibo-be-le-lp:SpecialPurposeVehicle",
+      "localName": "SpecialPurposeVehicle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/SpecialPurposeVehicle",
+      "label": "fonds commun de placement",
+      "definition": "legal entity created to fulfill narrow, specific, and frequently temporary objectives",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": [
+        {
+          "property": "has intended liquidation date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        }
+      ]
+    },
+    {
+      "name": "statutory body",
+      "technicalName": "fibo-be-le-lp:StatutoryBody",
+      "localName": "StatutoryBody",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/StatutoryBody",
+      "label": "statutory body",
+      "definition": "legal entity established by a government to consider evidence and make judgements in some field of activity",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "variable interest entity",
+      "technicalName": "fibo-be-le-lp:VariableInterestEntity",
+      "localName": "VariableInterestEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/VariableInterestEntity",
+      "label": "variable interest entity",
+      "definition": "legal entity whose shareholders are entitled to a percentage of a named company's profits via a private contract",
+      "parents": [
+        "cmns-org:LegalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "accounting framework",
+      "technicalName": "fibo-be-le-lei:AccountingFramework",
+      "localName": "AccountingFramework",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/AccountingFramework",
+      "label": "accounting framework",
+      "definition": "framework, including policies, methods, rules, and processes, used to measure, recognize, present, and disclose the information appearing in an entity's financial statements, and, from a legal ownership perspective, that is applied for accounting consolidation determination",
+      "parents": [
+        "relationship qualifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contractually capable entity",
+      "technicalName": "fibo-be-le-lei:ContractuallyCapableEntity",
+      "localName": "ContractuallyCapableEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/ContractuallyCapableEntity",
+      "label": "contractually capable entity",
+      "definition": "a unique entity that is legally or financially responsible for the performance of financial transactions, or has the legal right in its jurisdiction to enter independently into legal contracts, regardless of whether it is incorporated or constituted in some other way (e.g. trust, partnership, contractual). This excludes natural persons, but includes governmental organizations and supranationals.",
+      "parents": [
+        "cmns-pts:AgentRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:LegalEntity"
+        }
+      ]
+    },
+    {
+      "name": "entity legal form",
+      "technicalName": "fibo-be-le-lei:EntityLegalForm",
+      "localName": "EntityLegalForm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/EntityLegalForm",
+      "label": "entity legal form",
+      "definition": "a classifier for a legal entity that indicates the nature of that entity as defined from a legal or regulatory perspective, in the jurisdiction in which it was established",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "entity legal form scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:hasTextualName",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        },
+        {
+          "property": "has transliterated name",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        },
+        {
+          "property": "has transliterated legal form abbreviation",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        },
+        {
+          "property": "has legal form abbreviation",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-txt:Text"
+        }
+      ]
+    },
+    {
+      "name": "entity legal form identifier",
+      "technicalName": "fibo-be-le-lei:EntityLegalFormIdentifier",
+      "localName": "EntityLegalFormIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/EntityLegalFormIdentifier",
+      "label": "entity legal form identifier",
+      "definition": "code that denotes an entity legal form as defined in ISO 20275",
+      "parents": [
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "entity legal form scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:denotes",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "entity legal form"
+        }
+      ]
+    },
+    {
+      "name": "entity legal form scheme",
+      "technicalName": "fibo-be-le-lei:EntityLegalFormScheme",
+      "localName": "EntityLegalFormScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/EntityLegalFormScheme",
+      "label": "entity legal form scheme",
+      "definition": "scheme that specifies the elements of the codes for entity legal forms, such as those that are sanctioned in a given jurisdiction as defined in ISO 20725",
+      "parents": [
+        "cmns-cls:ClassificationScheme",
+        "cmns-cds:CodeSet"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "entity legal form identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "LEI registered entity",
+      "technicalName": "fibo-be-le-lei:LEIRegisteredEntity",
+      "localName": "LEIRegisteredEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/LEIRegisteredEntity",
+      "label": "LEI registered entity",
+      "definition": "a legal person that has registered for and is identified by a legal entity identifier",
+      "parents": [
+        "cmns-org:LegalPerson"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "some",
+          "value": "legal entity identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "legal entity identifier",
+      "technicalName": "fibo-be-le-lei:LegalEntityIdentifier",
+      "localName": "LegalEntityIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/LegalEntityIdentifier",
+      "label": "legal entity identifier",
+      "definition": "an organization identifier that uniquely identifies a legal person as defined in ISO 17442",
+      "parents": [
+        "cmns-org:OrganizationIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "some",
+          "value": "legal entity identifier scheme",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:LegalPerson"
+        }
+      ]
+    },
+    {
+      "name": "legal entity identifier scheme",
+      "technicalName": "fibo-be-le-lei:LegalEntityIdentifierScheme",
+      "localName": "LegalEntityIdentifierScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/LegalEntityIdentifierScheme",
+      "label": "legal entity identifier scheme",
+      "definition": "a scheme that specifies the elements of an unambiguous legal entity identifier (LEI) scheme to identify the legal entities relevant to any financial transaction",
+      "parents": [
+        "cmns-org:OrganizationIdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "legal entity identifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "relationship period qualifier",
+      "technicalName": "fibo-be-le-lei:RelationshipPeriodQualifier",
+      "localName": "RelationshipPeriodQualifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/RelationshipPeriodQualifier",
+      "label": "relationship period qualifier",
+      "definition": "a classifier that qualifies something about the reporting period specified, such as that the date period reflects an accounting or document filing period",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "relationship qualifier",
+      "technicalName": "fibo-be-le-lei:RelationshipQualifier",
+      "localName": "RelationshipQualifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/RelationshipQualifier",
+      "label": "relationship qualifier",
+      "definition": "a classifier that qualifies something about the relationship between consolidated entities during the reporting period, such as the accounting framework used",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "relationship record",
+      "technicalName": "fibo-be-le-lei:RelationshipRecord",
+      "localName": "RelationshipRecord",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/RelationshipRecord",
+      "label": "relationship record",
+      "definition": "a record describing relationships between legal entities",
+      "parents": [
+        "cmns-col:Constituent"
+      ],
+      "rules": [
+        {
+          "property": "is quantified by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:isQualifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "relationship qualifier"
+        }
+      ]
+    },
+    {
+      "name": "relationship status",
+      "technicalName": "fibo-be-le-lei:RelationshipStatus",
+      "localName": "RelationshipStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/RelationshipStatus",
+      "label": "relationship status",
+      "definition": "a classifier that specifies the status of the relationship between consolidated entities during the reporting period (active or inactive)",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contractual control",
+      "technicalName": "fibo-be-oac-cpty:ContractualControl",
+      "localName": "ContractualControl",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/ContractualControl",
+      "label": "contractual control",
+      "definition": "control established through the terms of some contract",
+      "parents": [
+        "fibo-fnd-oac-ctl:DeJureControl"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:Contract",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "controlled party",
+      "technicalName": "fibo-be-oac-cpty:ControlledParty",
+      "localName": "ControlledParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/ControlledParty",
+      "label": "controlled party",
+      "definition": "person or organization over which some party exercises some form of authority or influence with respect to some situation",
+      "parents": [
+        "fibo-fnd-oac-ctl:ControlledThing"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-pts:Party"
+        }
+      ]
+    },
+    {
+      "name": "controlling alliance",
+      "technicalName": "fibo-be-oac-cpty:ControllingAlliance",
+      "localName": "ControllingAlliance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/ControllingAlliance",
+      "label": "controlling alliance",
+      "definition": "group that has formed some alliance to jointly exercise control over some entity",
+      "parents": [
+        "fibo-fnd-org-fm:Group"
+      ],
+      "rules": []
+    },
+    {
+      "name": "court appointed control",
+      "technicalName": "fibo-be-oac-cpty:CourtAppointedControl",
+      "localName": "CourtAppointedControl",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/CourtAppointedControl",
+      "label": "court appointed control",
+      "definition": "control conferred by the actions of some court, for example in the context of receivership",
+      "parents": [
+        "fibo-fnd-oac-ctl:DeJureControl"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "only",
+          "value": "fibo-fnd-law-cor:CourtOfLaw",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "de facto controlling interest party",
+      "technicalName": "fibo-be-oac-cpty:DeFactoControllingInterestParty",
+      "localName": "DeFactoControllingInterestParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/DeFactoControllingInterestParty",
+      "label": "de facto controlling interest party",
+      "definition": "party that exercises some control over an entity other than via explicit, legal means",
+      "parents": [
+        "fibo-fnd-oac-ctl:ControllingParty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-ctl:isControllingPartyIn",
+          "operator": "some",
+          "value": "fibo-fnd-oac-ctl:DeFactoControl",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "de jure controlling interest party",
+      "technicalName": "fibo-be-oac-cpty:DeJureControllingInterestParty",
+      "localName": "DeJureControllingInterestParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/DeJureControllingInterestParty",
+      "label": "de jure controlling interest party",
+      "definition": "party that has the legal authority to exercise control",
+      "parents": [
+        "fibo-fnd-oac-ctl:ControllingParty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-ctl:isControllingPartyIn",
+          "operator": "some",
+          "value": "fibo-fnd-oac-ctl:DeJureControl",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "entity controlling party",
+      "technicalName": "fibo-be-oac-cpty:EntityControllingParty",
+      "localName": "EntityControllingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/EntityControllingParty",
+      "label": "entity controlling party",
+      "definition": "party that has the authority to control some legal entity",
+      "parents": [
+        "fibo-fnd-oac-ctl:ControllingParty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-ctl:isControllingPartyOf",
+          "operator": "some",
+          "value": "cmns-org:LegalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "influence-based de facto control",
+      "technicalName": "fibo-be-oac-cpty:InfluenceBasedDeFactoControl",
+      "localName": "InfluenceBasedDeFactoControl",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/InfluenceBasedDeFactoControl",
+      "label": "influence-based de facto control",
+      "definition": "informal control that involves influence over some party",
+      "parents": [
+        "fibo-fnd-oac-ctl:DeFactoControl"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-ctl:hasPartyInControl",
+          "operator": "some",
+          "value": "influence-based de facto controlling party",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "influence-based de facto controlling party",
+      "technicalName": "fibo-be-oac-cpty:InfluenceBasedDeFactoControllingParty",
+      "localName": "InfluenceBasedDeFactoControllingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/InfluenceBasedDeFactoControllingParty",
+      "label": "influence-based de facto controlling party",
+      "definition": "party that holds influence-based control over some other party",
+      "parents": [
+        "de facto controlling interest party"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-ctl:isControllingPartyIn",
+          "operator": "some",
+          "value": "influence-based de facto control",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "investment-based de facto control",
+      "technicalName": "fibo-be-oac-cpty:InvestmentBasedDeFactoControl",
+      "localName": "InvestmentBasedDeFactoControl",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/InvestmentBasedDeFactoControl",
+      "label": "investment-based de facto control",
+      "definition": "control that arises through some investment in some entity, other than via the holding of constitutional equity (shares etc.) in that entity",
+      "parents": [
+        "fibo-fnd-oac-ctl:DeFactoControl"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-ctl:hasPartyInControl",
+          "operator": "some",
+          "value": "investment-based de facto controlling interest party",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "only",
+          "value": "fibo-be-oac-opty:InvestmentEquity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "investment-based de facto controlling interest party",
+      "technicalName": "fibo-be-oac-cpty:InvestmentBasedDeFactoControllingInterestParty",
+      "localName": "InvestmentBasedDeFactoControllingInterestParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/InvestmentBasedDeFactoControllingInterestParty",
+      "label": "investment-based de facto controlling interest party",
+      "definition": "party that holds investment-based control over some other party",
+      "parents": [
+        "de facto controlling interest party",
+        "fibo-be-oac-opty:Investor"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-ctl:isControllingPartyIn",
+          "operator": "only",
+          "value": "investment-based de facto control",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "joint controlling party",
+      "technicalName": "fibo-be-oac-cpty:JointControllingParty",
+      "localName": "JointControllingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/JointControllingParty",
+      "label": "joint controlling party",
+      "definition": "party that collectively has the authority to control the affairs of some business organization",
+      "parents": [
+        "entity controlling party"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "controlling alliance",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "majority controlling party",
+      "technicalName": "fibo-be-oac-cpty:MajorityControllingParty",
+      "localName": "MajorityControllingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/MajorityControllingParty",
+      "label": "majority controlling party",
+      "definition": "controlling party that possesses, either directly or indirectly, the power to direct or cause the direction of the management and policies of a legal person, whether through the ownership of a majority of voting securities, by contract, or otherwise",
+      "parents": [
+        "entity controlling party"
+      ],
+      "rules": []
+    },
+    {
+      "name": "receiver",
+      "technicalName": "fibo-be-oac-cpty:Receiver",
+      "localName": "Receiver",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/Receiver",
+      "label": "receiver",
+      "definition": "party appointed by some court for the purposes of winding up the affairs of some entity which is no longer solvent",
+      "parents": [
+        "de jure controlling interest party"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-ctl:isControllingPartyIn",
+          "operator": "some",
+          "value": "court appointed control",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "sole controlling party",
+      "technicalName": "fibo-be-oac-cpty:SoleControllingParty",
+      "localName": "SoleControllingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/SoleControllingParty",
+      "label": "sole controlling party",
+      "definition": "party that has sole control over and directs the affairs of some legal entity",
+      "parents": [
+        "entity controlling party"
+      ],
+      "rules": []
+    },
+    {
+      "name": "total owner",
+      "technicalName": "fibo-be-oac-cpty:TotalOwner",
+      "localName": "TotalOwner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/TotalOwner",
+      "label": "total owner",
+      "definition": "party that has 100 percent ownership some legal entity",
+      "parents": [
+        "fibo-be-oac-opty:ConstitutionalOwner"
+      ],
+      "rules": []
+    },
+    {
+      "name": "affiliate",
+      "technicalName": "fibo-be-oac-cctl:Affiliate",
+      "localName": "Affiliate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/Affiliate",
+      "label": "affiliate",
+      "definition": "party that is related to a legal entity, directly, or indirectly through one or more intermediaries, and controls, or is controlled by, or is under common control with that entity, typically determined by the degree of ownership",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "is affiliate of",
+          "operator": "some",
+          "value": "affiliate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "affiliation",
+      "technicalName": "fibo-be-oac-cctl:Affiliation",
+      "localName": "Affiliation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/Affiliation",
+      "label": "affiliation",
+      "definition": "situation in which a controlled party is affiliated with a controlling party for some period of time",
+      "parents": [
+        "fibo-fnd-oac-ctl:Control"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasUndergoer",
+          "operator": "some",
+          "value": "controlled affiliate",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:hasActor",
+          "operator": "some",
+          "value": "controlling affiliate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "controlled affiliate",
+      "technicalName": "fibo-be-oac-cctl:ControlledAffiliate",
+      "localName": "ControlledAffiliate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/ControlledAffiliate",
+      "label": "controlled affiliate",
+      "definition": "controlled party in an affiliation situation",
+      "parents": [
+        "fibo-be-oac-cpty:ControlledParty",
+        "affiliate"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "cmns-org:LegalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "controlling affiliate",
+      "technicalName": "fibo-be-oac-cctl:ControllingAffiliate",
+      "localName": "ControllingAffiliate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/ControllingAffiliate",
+      "label": "controlling affiliate",
+      "definition": "controlling party in an affiliation situation",
+      "parents": [
+        "fibo-be-oac-cpty:MajorityControllingParty",
+        "affiliate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "domestic ultimate parent",
+      "technicalName": "fibo-be-oac-cctl:DomesticUltimateParent",
+      "localName": "DomesticUltimateParent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/DomesticUltimateParent",
+      "label": "domestic ultimate parent",
+      "definition": "party that is recognized as the ultimate parent of a given organization within the country or jurisdiction of incorporation or organization",
+      "parents": [
+        "total controlling interest party"
+      ],
+      "rules": []
+    },
+    {
+      "name": "global ultimate parent",
+      "technicalName": "fibo-be-oac-cctl:GlobalUltimateParent",
+      "localName": "GlobalUltimateParent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/GlobalUltimateParent",
+      "label": "global ultimate parent",
+      "definition": "party that is recognized as the ultimate parent of a given organization world-wide",
+      "parents": [
+        "total controlling interest party"
+      ],
+      "rules": []
+    },
+    {
+      "name": "joint venture partner",
+      "technicalName": "fibo-be-oac-cctl:JointVenturePartner",
+      "localName": "JointVenturePartner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/JointVenturePartner",
+      "label": "joint venture partner",
+      "definition": "party that shares capital, technology, human resources, risks, and benefits of an entity under shared control",
+      "parents": [
+        "fibo-be-oac-cpty:EntityControllingParty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-ctl:isControllingPartyOf",
+          "operator": "some",
+          "value": "fibo-be-le-fbo:JointVenture",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "significant shareholder",
+      "technicalName": "fibo-be-oac-cctl:SignificantShareholder",
+      "localName": "SignificantShareholder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/SignificantShareholder",
+      "label": "significant shareholder",
+      "definition": "party that owns a significant voting stake in an organization that is less than 50 percent but greater than some threshold",
+      "parents": [
+        "voting shareholder"
+      ],
+      "rules": []
+    },
+    {
+      "name": "subsidiary",
+      "technicalName": "fibo-be-oac-cctl:Subsidiary",
+      "localName": "Subsidiary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/Subsidiary",
+      "label": "subsidiary",
+      "definition": "legal entity that is entirely or majority owned and controlled by another legal entity",
+      "parents": [
+        "controlled affiliate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "total controlling interest party",
+      "technicalName": "fibo-be-oac-cctl:TotalControllingInterestParty",
+      "localName": "TotalControllingInterestParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/TotalControllingInterestParty",
+      "label": "total controlling interest party",
+      "definition": "voting shareholder that owns 100 percent of the voting shares in some legal entity",
+      "parents": [
+        "fibo-be-oac-cpty:TotalOwner",
+        "significant shareholder"
+      ],
+      "rules": []
+    },
+    {
+      "name": "voting shareholder",
+      "technicalName": "fibo-be-oac-cctl:VotingShareholder",
+      "localName": "VotingShareholder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/VotingShareholder",
+      "label": "voting shareholder",
+      "definition": "shareholder whose shares confer the right to vote in corporate elections, including the right to elect directors at annual or special meetings, and to express their views to corporate management and directors on significant issues that may affect the value of those shares",
+      "parents": [
+        "fibo-be-oac-cpty:DeJureControllingInterestParty",
+        "fibo-be-oac-cown:Shareholder"
+      ],
+      "rules": []
+    },
+    {
+      "name": "beneficial owner",
+      "technicalName": "fibo-be-oac-cown:BeneficialOwner",
+      "localName": "BeneficialOwner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/BeneficialOwner",
+      "label": "beneficial owner",
+      "definition": "party that enjoys the benefits of ownership (such as receipt of income) of something even though its ownership (title) may be in the name of another party (called a nominee or registered owner)",
+      "parents": [
+        "fibo-fnd-oac-own:Owner"
+      ],
+      "rules": [
+        {
+          "property": "is beneficial owner of",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:Asset",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    },
+    {
+      "name": "beneficial ownership",
+      "technicalName": "fibo-be-oac-cown:BeneficialOwnership",
+      "localName": "BeneficialOwnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/BeneficialOwnership",
+      "label": "beneficial ownership",
+      "definition": "situation linking party that enjoys the benefits of ownership (such as receipt of income) of something even though its ownership (title) may be in the name of another party (called a nominee or registered owner) to the asset that they own",
+      "parents": [
+        "fibo-fnd-oac-own:Ownership"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-own:hasOwningParty",
+          "operator": "some",
+          "value": "beneficial owner",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-own:hasOwnedAsset",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:Asset",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "purchase lot",
+      "technicalName": "fibo-be-oac-cown:PurchaseLot",
+      "localName": "PurchaseLot",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/PurchaseLot",
+      "label": "purchase lot",
+      "definition": "financial asset that is a block of securities or other financial assets bought in one transaction on a given date at a specific price",
+      "parents": [
+        "fibo-fnd-oac-own:FinancialAsset"
+      ],
+      "rules": [
+        {
+          "property": "consists of number of units",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    },
+    {
+      "name": "shareholder",
+      "technicalName": "fibo-be-oac-cown:Shareholder",
+      "localName": "Shareholder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/Shareholder",
+      "label": "shareholder",
+      "definition": "party that owns shares in and has rights and responsibilities with respect to some asset, provided in exchange for investment",
+      "parents": [
+        "fibo-be-oac-opty:ConstitutionalOwner",
+        "fibo-fnd-agr-ctr:Counterparty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "shareholding",
+      "technicalName": "fibo-be-oac-cown:Shareholding",
+      "localName": "Shareholding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/Shareholding",
+      "label": "shareholding",
+      "definition": "ownership interest in the equity of a company, represented by shares that confer financial rights and governance privileges",
+      "parents": [
+        "fibo-fnd-oac-own:FinancialAsset"
+      ],
+      "rules": [
+        {
+          "property": "consists of number of units",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    },
+    {
+      "name": "tax lot",
+      "technicalName": "fibo-be-oac-cown:TaxLot",
+      "localName": "TaxLot",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/TaxLot",
+      "label": "tax lot",
+      "definition": "financial asset that is a block of securities or other financial assets with a distinct cost basis for tax reporting purposes",
+      "parents": [
+        "fibo-fnd-oac-own:FinancialAsset"
+      ],
+      "rules": [
+        {
+          "property": "consists of number of units",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    },
+    {
+      "name": "articles of incorporation",
+      "technicalName": "fibo-be-oac-exec:ArticlesOfIncorporation",
+      "localName": "ArticlesOfIncorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/ArticlesOfIncorporation",
+      "label": "articles of incorporation",
+      "definition": "contract that establishes a new corporation or, when amended, adjusts the legal basis for the corporation, and outlines basic information about the corporation, including the type of business, and a description of the business' operational characteristics",
+      "parents": [
+        "fibo-be-le-cb:InstrumentOfIncorporation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "auditor",
+      "technicalName": "fibo-be-oac-exec:Auditor",
+      "localName": "Auditor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/Auditor",
+      "label": "auditor",
+      "definition": "party qualified and authorized to review and verify the accuracy of financial records and ensure that companies comply with tax laws",
+      "parents": [
+        "cmns-bauth:AuthorizedParty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-oac-exec:Authorization",
+      "technicalName": "fibo-be-oac-exec:Authorization",
+      "localName": "Authorization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/Authorization",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "authorized individual",
+      "technicalName": "fibo-be-oac-exec:AuthorizedIndividual",
+      "localName": "AuthorizedIndividual",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/AuthorizedIndividual",
+      "label": "authorized individual",
+      "definition": "role of an individual that has been given the responsibility to act on behalf of another party under some set of guidelines",
+      "parents": [
+        "cmns-bauth:ResponsibleParty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    },
+    {
+      "name": "fibo-be-oac-exec:AuthorizedParty",
+      "technicalName": "fibo-be-oac-exec:AuthorizedParty",
+      "localName": "AuthorizedParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/AuthorizedParty",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-oac-exec:AuthorizingParty",
+      "technicalName": "fibo-be-oac-exec:AuthorizingParty",
+      "localName": "AuthorizingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/AuthorizingParty",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "board capacity",
+      "technicalName": "fibo-be-oac-exec:BoardCapacity",
+      "localName": "BoardCapacity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/BoardCapacity",
+      "label": "board capacity",
+      "definition": "authority to act in a fiduciary capacity with respect to the organization, including but not limited to determining and executing corporate policy",
+      "parents": [
+        "fibo-fnd-law-lcap:DelegatedLegalAuthority"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-law-lcap:isConferredOn",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "board member",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "company law"
+        }
+      ]
+    },
+    {
+      "name": "board composition control",
+      "technicalName": "fibo-be-oac-exec:BoardCompositionControl",
+      "localName": "BoardCompositionControl",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/BoardCompositionControl",
+      "label": "board composition control",
+      "definition": "situation in which a voting shareholder, entity owner, or some other party in the case of a not-for-profit organization, appoints and/or nominates someone to the board of directors of an organization for some period of time",
+      "parents": [
+        "fibo-fnd-oac-ctl:Control"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-ctl:involvesControlledThing",
+          "operator": "some",
+          "value": "board member",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-ctl:hasPartyInControl",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        }
+      ]
+    },
+    {
+      "name": "board member",
+      "technicalName": "fibo-be-oac-exec:BoardMember",
+      "localName": "BoardMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/BoardMember",
+      "label": "board member",
+      "definition": "party that has fiduciary responsibility with respect to the organization, including but not limited to determining and executing corporate policy",
+      "parents": [
+        "cmns-bauth:LegallyDelegatedAuthority",
+        "cmns-bauth:ResponsibleParty",
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "fibo-be-le-cb:BoardAgreement",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "board of directors",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "board membership",
+      "technicalName": "fibo-be-oac-exec:BoardMembership",
+      "localName": "BoardMembership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/BoardMembership",
+      "label": "board membership",
+      "definition": "situation relating an individual member of the board of directors to the organization",
+      "parents": [
+        "fibo-fnd-oac-ctl:Control"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-oac-ctl:involvesControlledThing",
+          "operator": "some",
+          "value": "fibo-be-oac-cpty:ControlledParty",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-ctl:hasPartyInControl",
+          "operator": "some",
+          "value": "board member",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "board of directors",
+      "technicalName": "fibo-be-oac-exec:BoardOfDirectors",
+      "localName": "BoardOfDirectors",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/BoardOfDirectors",
+      "label": "board of directors",
+      "definition": "group of people comprising the governing body of an organization that has the authority to set organizational strategy and policies as well as to select and, to some degree manage, leadership",
+      "parents": [
+        "fibo-be-oac-cpty:EntityControllingParty"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "board member",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-law-lcap:hasCapacity",
+          "operator": "some",
+          "value": "board capacity",
+          "qualifier": null
+        },
+        {
+          "property": "nominates",
+          "operator": "some",
+          "value": "corporate officer",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "bylaws",
+      "technicalName": "fibo-be-oac-exec:Bylaws",
+      "localName": "Bylaws",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/Bylaws",
+      "label": "bylaws",
+      "definition": "written rules for conduct of a corporation, association, partnership or any organization",
+      "parents": [
+        "fibo-fnd-law-cor:Law"
+      ],
+      "rules": []
+    },
+    {
+      "name": "chief executive officer",
+      "technicalName": "fibo-be-oac-exec:ChiefExecutiveOfficer",
+      "localName": "ChiefExecutiveOfficer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/ChiefExecutiveOfficer",
+      "label": "chief executive officer",
+      "definition": "top corporate officer responsible for an organization's overall operations and performance",
+      "parents": [
+        "corporate officer",
+        "executive board member",
+        "principal party"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:manages",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "chief financial officer",
+      "technicalName": "fibo-be-oac-exec:ChiefFinancialOfficer",
+      "localName": "ChiefFinancialOfficer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/ChiefFinancialOfficer",
+      "label": "chief financial officer",
+      "definition": "senior-most corporate officer responsible for financial control and planning for an organization or project",
+      "parents": [
+        "corporate officer"
+      ],
+      "rules": []
+    },
+    {
+      "name": "company law",
+      "technicalName": "fibo-be-oac-exec:CompanyLaw",
+      "localName": "CompanyLaw",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/CompanyLaw",
+      "label": "company law",
+      "definition": "legislation under which the formation, registration or incorporation, governance, and dissolution of a firm is administered and controlled",
+      "parents": [
+        "fibo-fnd-law-cor:StatuteLaw"
+      ],
+      "rules": []
+    },
+    {
+      "name": "company secretary",
+      "technicalName": "fibo-be-oac-exec:CompanySecretary",
+      "localName": "CompanySecretary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/CompanySecretary",
+      "label": "company secretary",
+      "definition": "corporate officer appointed by the directors of an organization, responsible for ensuring compliance with legal obligations related to corporate governance",
+      "parents": [
+        "corporate officer"
+      ],
+      "rules": []
+    },
+    {
+      "name": "controlling nominee",
+      "technicalName": "fibo-be-oac-exec:ControllingNominee",
+      "localName": "ControllingNominee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/ControllingNominee",
+      "label": "controlling nominee",
+      "definition": "party that holds legal title to an asset (e.g., stocks, bonds, or property) on behalf of the beneficial owner",
+      "parents": [
+        "cmns-bauth:LegallyDelegatedAuthority"
+      ],
+      "rules": [
+        {
+          "property": "cmns-bauth:hasDelegatedControlOf",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:Asset",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "corporate bylaws",
+      "technicalName": "fibo-be-oac-exec:CorporateBylaws",
+      "localName": "CorporateBylaws",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/CorporateBylaws",
+      "label": "corporate bylaws",
+      "definition": "written rules for conduct of a corporation, adopted by the board of directors",
+      "parents": [
+        "bylaws"
+      ],
+      "rules": [
+        {
+          "property": "fibo-be-le-cb:hasSharesAuthorized",
+          "operator": "some",
+          "value": "xsd:nonNegativeInteger",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "corporate officer",
+      "technicalName": "fibo-be-oac-exec:CorporateOfficer",
+      "localName": "CorporateOfficer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/CorporateOfficer",
+      "label": "corporate officer",
+      "definition": "high-level management executive of a corporation or other organization, hired by the board of directors or the business owner(s), charged with certain operational responsibilities, and who has the authority to act on behalf of the organization, including the authority to enter into contracts on behalf of the organization",
+      "parents": [
+        "executive",
+        "signatory",
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": []
+    },
+    {
+      "name": "executive",
+      "technicalName": "fibo-be-oac-exec:Executive",
+      "localName": "Executive",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/Executive",
+      "label": "executive",
+      "definition": "person appointed and given the responsibility to manage the affairs of an organization and the authority to make decisions within specified role-specific boundaries",
+      "parents": [
+        "cmns-bauth:LegallyDelegatedAuthority"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    },
+    {
+      "name": "executive board member",
+      "technicalName": "fibo-be-oac-exec:ExecutiveBoardMember",
+      "localName": "ExecutiveBoardMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/ExecutiveBoardMember",
+      "label": "executive board member",
+      "definition": "member of a board of directors that is also an employee of the organization",
+      "parents": [
+        "board member",
+        "fibo-fnd-org-fm:Employee"
+      ],
+      "rules": []
+    },
+    {
+      "name": "external auditor",
+      "technicalName": "fibo-be-oac-exec:ExternalAuditor",
+      "localName": "ExternalAuditor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/ExternalAuditor",
+      "label": "external auditor",
+      "definition": "independent party qualified and authorized to examine and report on the accuracy of financial records and ensure that companies comply with tax laws",
+      "parents": [
+        "auditor"
+      ],
+      "rules": []
+    },
+    {
+      "name": "internal auditor",
+      "technicalName": "fibo-be-oac-exec:InternalAuditor",
+      "localName": "InternalAuditor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/InternalAuditor",
+      "label": "internal auditor",
+      "definition": "employee who is qualified and authorized to review and verify the accuracy of financial records and evaluate internal controls and compliance",
+      "parents": [
+        "auditor",
+        "fibo-fnd-org-fm:Employee"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fibo-be-oac-exec:LegallyDelegatedAuthority",
+      "technicalName": "fibo-be-oac-exec:LegallyDelegatedAuthority",
+      "localName": "LegallyDelegatedAuthority",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/LegallyDelegatedAuthority",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "non-executive board member",
+      "technicalName": "fibo-be-oac-exec:NonExecutiveBoardMember",
+      "localName": "NonExecutiveBoardMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/NonExecutiveBoardMember",
+      "label": "non-executive board member",
+      "definition": "member of the board of directors of an organization that has no executive responsibilities towards the running of that organization",
+      "parents": [
+        "board member"
+      ],
+      "rules": []
+    },
+    {
+      "name": "principal party",
+      "technicalName": "fibo-be-oac-exec:PrincipalParty",
+      "localName": "PrincipalParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/PrincipalParty",
+      "label": "principal party",
+      "definition": "controlling party that is responsible for the management of daily business operations of an organization",
+      "parents": [
+        "signatory",
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": []
+    },
+    {
+      "name": "signatory",
+      "technicalName": "fibo-be-oac-exec:Signatory",
+      "localName": "Signatory",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/Signatory",
+      "label": "signatory",
+      "definition": "responsible party authorized to sign agreements on behalf of themselves, another person, or an organization",
+      "parents": [
+        "authorized individual",
+        "cmns-bauth:LegallyDelegatedAuthority"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-law-lcap:hasCapacity",
+          "operator": "some",
+          "value": "fibo-fnd-law-lcap:SignatoryCapacity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "constitutional owner",
+      "technicalName": "fibo-be-oac-opty:ConstitutionalOwner",
+      "localName": "ConstitutionalOwner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/ConstitutionalOwner",
+      "label": "constitutional owner",
+      "definition": "entity owner that holds an equity stake in said entity, in the form of shareholders' equity",
+      "parents": [
+        "entity owner"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:holds",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:ShareholdersEquity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "controlling equity",
+      "technicalName": "fibo-be-oac-opty:ControllingEquity",
+      "localName": "ControllingEquity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/ControllingEquity",
+      "label": "controlling equity",
+      "definition": "shareholders's equity that formally confers control in the entity, either by law or as explicitly stated in a corresponding equity instrument",
+      "parents": [
+        "fibo-fnd-oac-own:ShareholdersEquity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:confers",
+          "operator": "only",
+          "value": "fibo-fnd-oac-ctl:DeJureControl",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "direct consolidation",
+      "technicalName": "fibo-be-oac-opty:DirectConsolidation",
+      "localName": "DirectConsolidation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/DirectConsolidation",
+      "label": "direct consolidation",
+      "definition": "direct ownership of an entity recorded as accounting consolidation",
+      "parents": [
+        "entity ownership"
+      ],
+      "rules": []
+    },
+    {
+      "name": "entity owner",
+      "technicalName": "fibo-be-oac-opty:EntityOwner",
+      "localName": "EntityOwner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/EntityOwner",
+      "label": "entity owner",
+      "definition": "owner (person, group of people, or other business entity) that owns, or holds an ownership interest in, a formal business organization",
+      "parents": [
+        "fibo-fnd-oac-own:Owner"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:holds",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:OwnersEquity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "entity ownership",
+      "technicalName": "fibo-be-oac-opty:EntityOwnership",
+      "localName": "EntityOwnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/EntityOwnership",
+      "label": "entity ownership",
+      "definition": "ownership by some party of an interest in some non-governmental formal organization",
+      "parents": [
+        "fibo-fnd-oac-own:Ownership"
+      ],
+      "rules": [
+        {
+          "property": "has owning entity",
+          "operator": "some",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        },
+        {
+          "property": "has owned entity",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lei:RelationshipStatus"
+        },
+        {
+          "property": "fibo-be-le-lei:hasOwnershipPercentage",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:isQualifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-le-lei:RelationshipQualifier"
+        }
+      ]
+    },
+    {
+      "name": "foreign branch ownership",
+      "technicalName": "fibo-be-oac-opty:ForeignBranchOwnership",
+      "localName": "ForeignBranchOwnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/ForeignBranchOwnership",
+      "label": "foreign branch ownership",
+      "definition": "ownership by some party of some formal organization or organizational sub-unit that is a foreign affiliate and legally part of the owning entity",
+      "parents": [
+        "entity ownership"
+      ],
+      "rules": []
+    },
+    {
+      "name": "investment equity",
+      "technicalName": "fibo-be-oac-opty:InvestmentEquity",
+      "localName": "InvestmentEquity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/InvestmentEquity",
+      "label": "investment equity",
+      "definition": "equity that represents an ownership interest in some entity, but may or may not take the form of shareholders's equity",
+      "parents": [
+        "fibo-fnd-oac-own:OwnersEquity"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isHeldBy",
+          "operator": "some",
+          "value": "investor",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "investor",
+      "technicalName": "fibo-be-oac-opty:Investor",
+      "localName": "Investor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/Investor",
+      "label": "investor",
+      "definition": "party that owns some stake in some organization by way of investment",
+      "parents": [
+        "entity owner",
+        "fibo-fnd-agr-ctr:ContractParty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:holds",
+          "operator": "some",
+          "value": "investment equity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "investor contract",
+      "technicalName": "fibo-be-oac-opty:InvestorContract",
+      "localName": "InvestorContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/InvestorContract",
+      "label": "investor contract",
+      "definition": "Contract setting out the terms under which some investor invests in the entity and setting out the rights which are conferred on that investor.",
+      "parents": [
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:definesTermsFor",
+          "operator": "some",
+          "value": "investment equity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ultimate ownership",
+      "technicalName": "fibo-be-oac-opty:UltimateConsolidation",
+      "localName": "UltimateConsolidation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/UltimateConsolidation",
+      "label": "ultimate ownership",
+      "definition": "highest-level (top, end) ancestral ownership, evidenced by accounting consolidation, by some party of some other legal entity",
+      "parents": [
+        "entity ownership"
+      ],
+      "rules": []
+    },
+    {
+      "name": "general partner",
+      "technicalName": "fibo-be-ptr-ptr:GeneralPartner",
+      "localName": "GeneralPartner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/GeneralPartner",
+      "label": "general partner",
+      "definition": "partner and part-owner that is responsible for managing the day to day operations of the partnership and that may be jointly and severally liable for the obligations of the partnership",
+      "parents": [
+        "fibo-be-oac-cpty:DeJureControllingInterestParty",
+        "partner"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-law-lcap:hasCapacity",
+          "operator": "some",
+          "value": "fibo-fnd-law-lcap:LiabilityCapacity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "general partnership",
+      "technicalName": "fibo-be-ptr-ptr:GeneralPartnership",
+      "localName": "GeneralPartnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/GeneralPartnership",
+      "label": "general partnership",
+      "definition": "partnership that has at least two general partners that agree to share in all assets, profits, and financial and legal liabilities of the business",
+      "parents": [
+        "partnership"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "minQualified",
+          "value": "2",
+          "qualifier": "general partner"
+        },
+        {
+          "property": "has general partner",
+          "operator": "some",
+          "value": "general partner",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "limited liability limited partnership",
+      "technicalName": "fibo-be-ptr-ptr:LimitedLiabilityLimitedPartnership",
+      "localName": "LimitedLiabilityLimitedPartnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/LimitedLiabilityLimitedPartnership",
+      "label": "limited liability limited partnership",
+      "definition": "limited partnership that consists of one or more general partners who are liable for the obligations of the entity as well as one or more protected limited liability partners",
+      "parents": [
+        "limited partnership"
+      ],
+      "rules": []
+    },
+    {
+      "name": "limited liability partnership",
+      "technicalName": "fibo-be-ptr-ptr:LimitedLiabilityPartnership",
+      "localName": "LimitedLiabilityPartnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/LimitedLiabilityPartnership",
+      "label": "limited liability partnership",
+      "definition": "partnership that has general partners but provides its individual partners some level of protection against personal liability for certain partnership liabilities",
+      "parents": [
+        "partnership"
+      ],
+      "rules": [
+        {
+          "property": "has general partner",
+          "operator": "some",
+          "value": "general partner",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "limited partner",
+      "technicalName": "fibo-be-ptr-ptr:LimitedPartner",
+      "localName": "LimitedPartner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/LimitedPartner",
+      "label": "limited partner",
+      "definition": "partner whose liabilities are limited to the extent of their investment or guarantees and that has no involvement in the day to day operations of the partnership",
+      "parents": [
+        "partner"
+      ],
+      "rules": []
+    },
+    {
+      "name": "limited partnership",
+      "technicalName": "fibo-be-ptr-ptr:LimitedPartnership",
+      "localName": "LimitedPartnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/LimitedPartnership",
+      "label": "limited partnership",
+      "definition": "partnership that has at least one general partner and at least one limited partner",
+      "parents": [
+        "partnership"
+      ],
+      "rules": [
+        {
+          "property": "has limited partner",
+          "operator": "some",
+          "value": "limited partner",
+          "qualifier": null
+        },
+        {
+          "property": "has general partner",
+          "operator": "some",
+          "value": "general partner",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "partner",
+      "technicalName": "fibo-be-ptr-ptr:Partner",
+      "localName": "Partner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/Partner",
+      "label": "partner",
+      "definition": "co-owner, member, and agent of a partnership whose participation level, including proportional liabilities and share in the profit / loss of the business is specified in a partnership agreement",
+      "parents": [
+        "fibo-be-oac-opty:ConstitutionalOwner",
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "partnership agreement",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "some",
+          "value": "partnership",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:LegalPerson"
+        }
+      ]
+    },
+    {
+      "name": "partnership",
+      "technicalName": "fibo-be-ptr-ptr:Partnership",
+      "localName": "Partnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/Partnership",
+      "label": "partnership",
+      "definition": "association of two or more legal persons to carry on as co-owners a business for profit",
+      "parents": [
+        "fibo-be-le-lp:BusinessEntity",
+        "cmns-org:LegalEntity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "some",
+          "value": "partnership agreement",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "partner",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-gao-obj:hasObjective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-le-lp:ProfitObjective"
+        }
+      ]
+    },
+    {
+      "name": "partnership agreement",
+      "technicalName": "fibo-be-ptr-ptr:PartnershipAgreement",
+      "localName": "PartnershipAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/PartnershipAgreement",
+      "label": "partnership agreement",
+      "definition": "contract between partners in a partnership that establishes the terms and conditions of the relationship between the partners",
+      "parents": [
+        "fibo-be-le-fbo:OrganizationCoveringAgreement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "partner",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "limited liability company",
+      "technicalName": "fibo-be-plc-plc:LimitedLiabilityCompany",
+      "localName": "LimitedLiabilityCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/LimitedLiabilityCompany",
+      "label": "limited liability company",
+      "definition": "private limited company that combines the pass through taxation of a sole proprietorship or partnership with the limited liability of a corporation",
+      "parents": [
+        "private company with limited liability"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-oac-cpty:hasControllingOrganizationMember",
+          "operator": "some",
+          "value": "limited liability company member",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "has managing member",
+          "operator": "some",
+          "value": "managing member",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "limited liability company member",
+      "technicalName": "fibo-be-plc-plc:LimitedLiabilityCompanyMember",
+      "localName": "LimitedLiabilityCompanyMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/LimitedLiabilityCompanyMember",
+      "label": "limited liability company member",
+      "definition": "owner of an interest in a limited liability company",
+      "parents": [
+        "fibo-be-oac-cpty:DeJureControllingInterestParty",
+        "fibo-be-oac-cpty:EntityControllingParty",
+        "fibo-be-oac-opty:EntityOwner",
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "some",
+          "value": "limited liability company",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        },
+        {
+          "property": "fibo-be-oac-cpty:isControllingMemberOf",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "anonymous restriction"
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "limited liability company",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "limited liability company taxed as a corporation",
+      "technicalName": "fibo-be-plc-plc:LimitedLiabilityCompanyTaxedAsACorporation",
+      "localName": "LimitedLiabilityCompanyTaxedAsACorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/LimitedLiabilityCompanyTaxedAsACorporation",
+      "label": "limited liability company taxed as a corporation",
+      "definition": "limited liability company that has elected to have corporate tax status",
+      "parents": [
+        "limited liability company"
+      ],
+      "rules": []
+    },
+    {
+      "name": "manager-managed limited liability company",
+      "technicalName": "fibo-be-plc-plc:ManagerManagedLimitedLiabilityCompany",
+      "localName": "ManagerManagedLimitedLiabilityCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/ManagerManagedLimitedLiabilityCompany",
+      "label": "manager-managed limited liability company",
+      "definition": "limited liability company in which the members appoint one or more managers to handle the daily operations and administrative responsibilities of the organization",
+      "parents": [
+        "limited liability company"
+      ],
+      "rules": []
+    },
+    {
+      "name": "managing member",
+      "technicalName": "fibo-be-plc-plc:ManagingMember",
+      "localName": "ManagingMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/ManagingMember",
+      "label": "managing member",
+      "definition": "owner of an interest in a limited liability company who also runs the day-to-day business operations",
+      "parents": [
+        "fibo-be-oac-exec:PrincipalParty",
+        "limited liability company member"
+      ],
+      "rules": [
+        {
+          "property": "is managing member of",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "limited liability company",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "private company with limited liability",
+      "technicalName": "fibo-be-plc-plc:PrivateCompanyWithLimitedLiability",
+      "localName": "PrivateCompanyWithLimitedLiability",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/PrivateCompanyWithLimitedLiability",
+      "label": "private company with limited liability",
+      "definition": "hybrid business entity having characteristics of both a corporation and a partnership or sole proprietorship (depending on how many owners there are)",
+      "parents": [
+        "fibo-be-le-lp:BusinessEntity",
+        "cmns-org:LegalEntity"
+      ],
+      "rules": []
+    },
+    {
+      "name": "private limited company",
+      "technicalName": "fibo-be-plc-plc:PrivateLimitedCompany",
+      "localName": "PrivateLimitedCompany",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/PrivateLimitedCompany",
+      "label": "private limited company",
+      "definition": "private limited company whose shareholders' liability is limited to the capital they originally invested",
+      "parents": [
+        "private company with limited liability"
+      ],
+      "rules": []
+    },
+    {
+      "name": "sole proprietor",
+      "technicalName": "fibo-be-sps-sps:SoleProprietor",
+      "localName": "SoleProprietor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/SoleProprietorships/SoleProprietorships/SoleProprietor",
+      "label": "sole proprietor",
+      "definition": "party that owns a business, has the rights to all profits from that business and is considered a single entity (unincorporated) together with that business for tax and liability purposes",
+      "parents": [
+        "fibo-be-oac-opty:EntityOwner"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-oac:ownsAndControls",
+          "operator": "some",
+          "value": "sole proprietorship",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-oac-opty:hasInvestmentEntity",
+          "operator": "some",
+          "value": "sole proprietorship",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    },
+    {
+      "name": "sole proprietorship",
+      "technicalName": "fibo-be-sps-sps:SoleProprietorship",
+      "localName": "SoleProprietorship",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/SoleProprietorships/SoleProprietorships/SoleProprietorship",
+      "label": "sole proprietorship",
+      "definition": "unincorporated business owned by a single person",
+      "parents": [
+        "fibo-be-le-lp:BusinessEntity",
+        "cmns-org:LegalPerson"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-law-lcap:hasCapacity",
+          "operator": "some",
+          "value": "fibo-fnd-law-lcap:LiabilityCapacity",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-oac:isOwnedAndControlledBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-le-lp:LegallyCompetentNaturalPerson"
+        }
+      ]
+    },
+    {
+      "name": "irrevocable trust",
+      "technicalName": "fibo-be-tr-tr:IrrevocableTrust",
+      "localName": "IrrevocableTrust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/IrrevocableTrust",
+      "label": "irrevocable trust",
+      "definition": "trust that cannot be modified, amended or terminated except under certain legal circumstances and typically not without the permission of the grantor's named beneficiary or beneficiaries",
+      "parents": [
+        "trust"
+      ],
+      "rules": []
+    },
+    {
+      "name": "living trust",
+      "technicalName": "fibo-be-tr-tr:LivingTrust",
+      "localName": "LivingTrust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/LivingTrust",
+      "label": "living trust",
+      "definition": "trust created during an individual's lifetime where a designated person, the trustee, is given responsibility for managing that individual's assets for the benefit of the eventual beneficiary",
+      "parents": [
+        "trust"
+      ],
+      "rules": []
+    },
+    {
+      "name": "revocable trust",
+      "technicalName": "fibo-be-tr-tr:RevocableTrust",
+      "localName": "RevocableTrust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/RevocableTrust",
+      "label": "revocable trust",
+      "definition": "trust in which legal ownership of the trust property is transferred to the trustee, but the trustor retains full power to revoke, modify or amend the trust",
+      "parents": [
+        "trust"
+      ],
+      "rules": []
+    },
+    {
+      "name": "testamentary trust",
+      "technicalName": "fibo-be-tr-tr:TestamentaryTrust",
+      "localName": "TestamentaryTrust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/TestamentaryTrust",
+      "label": "testamentary trust",
+      "definition": "trust established in accordance with the instructions contained in a last will and testament",
+      "parents": [
+        "irrevocable trust"
+      ],
+      "rules": []
+    },
+    {
+      "name": "trust",
+      "technicalName": "fibo-be-tr-tr:Trust",
+      "localName": "Trust",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/Trust",
+      "label": "trust",
+      "definition": "fiduciary relationship and legal entity in which one party, known as a trustor, gives another party, the trustee, the right to hold title to and manage assets for the benefit of a third party, the beneficiary",
+      "parents": [
+        "fibo-be-le-lp:BusinessEntity",
+        "cmns-org:LegalEntity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "trustor",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "trustee",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "trust beneficiary",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "trust agreement"
+        }
+      ]
+    },
+    {
+      "name": "trust agreement",
+      "technicalName": "fibo-be-tr-tr:TrustAgreement",
+      "localName": "TrustAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/TrustAgreement",
+      "label": "trust agreement",
+      "definition": "formal agreement that establishes a trust, whereby the trustor(s) gives the trustee(s) the responsibility to hold and manage assets for the beneficiary(ies)",
+      "parents": [
+        "fibo-be-le-fbo:OrganizationCoveringAgreement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "trustor",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "trustee",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "trust beneficiary",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trust beneficiary",
+      "technicalName": "fibo-be-tr-tr:TrustBeneficiary",
+      "localName": "TrustBeneficiary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/TrustBeneficiary",
+      "label": "trust beneficiary",
+      "definition": "party for whose interest (benefit) an annuity, assignment (such as a letter of credit), contract, insurance policy, judgment, promise, trust, will, etc., is made",
+      "parents": [
+        "fibo-fnd-agr-agr:Beneficiary"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "only",
+          "value": "trust agreement",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trust fund manager",
+      "technicalName": "fibo-be-tr-tr:TrustFundManager",
+      "localName": "TrustFundManager",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/TrustFundManager",
+      "label": "trust fund manager",
+      "definition": "party empowered to act on behalf of the trustee to manage the assets of the trust",
+      "parents": [
+        "cmns-bauth:LegallyDelegatedAuthority"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:manages",
+          "operator": "only",
+          "value": "trust",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trustee",
+      "technicalName": "fibo-be-tr-tr:Trustee",
+      "localName": "Trustee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/Trustee",
+      "label": "trustee",
+      "definition": "party that holds and manages assets for the benefit of another",
+      "parents": [
+        "cmns-bauth:LegallyDelegatedAuthority",
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "trust agreement"
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:manages",
+          "operator": "only",
+          "value": "trust",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "only",
+          "value": "trust",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trustor",
+      "technicalName": "fibo-be-tr-tr:Trustor",
+      "localName": "Trustor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/Trustor",
+      "label": "trustor",
+      "definition": "party that establishes a trust and places property under the protection and management of one or more trustees for the benefit of at least one beneficiary",
+      "parents": [
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "trust agreement"
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "cmns-pts:Party",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "fibo-be-corp-corp:hasDateOfIncorporation",
+      "technicalName": "fibo-be-corp-corp:hasDateOfIncorporation",
+      "localName": "hasDateOfIncorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/hasDateOfIncorporation",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-corp-corp:hasDateOfRegistration",
+      "technicalName": "fibo-be-corp-corp:hasDateOfRegistration",
+      "localName": "hasDateOfRegistration",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/hasDateOfRegistration",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-corp-corp:hasIssuedCapital",
+      "technicalName": "fibo-be-corp-corp:hasIssuedCapital",
+      "localName": "hasIssuedCapital",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/hasIssuedCapital",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has publisher",
+      "technicalName": "fibo-be-fct-pub:hasPublisher",
+      "localName": "hasPublisher",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/hasPublisher",
+      "label": "has publisher",
+      "definition": "indicates the party in the role of issuing the information",
+      "domain": [
+        "publication"
+      ],
+      "range": [
+        "publisher"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is published by",
+      "technicalName": "fibo-be-fct-pub:isPublishedBy",
+      "localName": "isPublishedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/isPublishedBy",
+      "label": "is published by",
+      "definition": "identifies the independent party (i.e., the individual or organization) that disseminates the material",
+      "domain": [
+        "publication"
+      ],
+      "range": [
+        "cmns-pts:Party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "publishes",
+      "technicalName": "fibo-be-fct-pub:publishes",
+      "localName": "publishes",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/publishes",
+      "label": "publishes",
+      "definition": "prepares and issues material for public consumption",
+      "domain": [
+        "publisher"
+      ],
+      "range": [
+        "publication"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has full sovereignty over",
+      "technicalName": "fibo-be-ge-ge:hasFullSovereigntyOver",
+      "localName": "hasFullSovereigntyOver",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/hasFullSovereigntyOver",
+      "label": "has full sovereignty over",
+      "definition": "relates a polity to a geopolitical entity where the polity has absolute, supreme and ultimate dominion and authority of a political state subject to no higher power, expressed within its territory in full self-government and in complete freedom from any outside influence",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has shared sovereignty over",
+      "technicalName": "fibo-be-ge-ge:hasSharedSovereigntyOver",
+      "localName": "hasSharedSovereigntyOver",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/hasSharedSovereigntyOver",
+      "label": "has shared sovereignty over",
+      "definition": "relates a polity to a geopolitical entity where the polity exercises shared dominion and authority of a political state",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has sovereignty over",
+      "technicalName": "fibo-be-ge-ge:hasSovereigntyOver",
+      "localName": "hasSovereigntyOver",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/hasSovereigntyOver",
+      "label": "has sovereignty over",
+      "definition": "relates a polity to a geopolitical entity where the polity exercises dominion and authority of a political state",
+      "domain": [
+        "polity"
+      ],
+      "range": [
+        "cmns-loc:GeopoliticalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is elected by",
+      "technicalName": "fibo-be-ge-ge:isElectedBy",
+      "localName": "isElectedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/isElectedBy",
+      "label": "is elected by",
+      "definition": "identifies an official or government chosen to hold office by voting",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is an instrument of",
+      "technicalName": "fibo-be-ge-ge:isInstrumentOf",
+      "localName": "isInstrumentOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/isInstrumentOf",
+      "label": "is an instrument of",
+      "definition": "relates an instrumentality of some government to the government that it supports",
+      "domain": [
+        "instrumentality"
+      ],
+      "range": [
+        "government"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is represented by",
+      "technicalName": "fibo-be-ge-ge:isRepresentedBy",
+      "localName": "isRepresentedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/isRepresentedBy",
+      "label": "is represented by",
+      "definition": "relates a system of governance to its chosen representatives",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has date of incorporation",
+      "technicalName": "fibo-be-le-cb:hasDateOfIncorporation",
+      "localName": "hasDateOfIncorporation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/hasDateOfIncorporation",
+      "label": "has date of incorporation",
+      "definition": "indicates the formal date of incorporation as stated in filing documents",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has date of registration",
+      "technicalName": "fibo-be-le-cb:hasDateOfRegistration",
+      "localName": "hasDateOfRegistration",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/hasDateOfRegistration",
+      "label": "has date of registration",
+      "definition": "indicates the date on which the corporation has registered in some jurisdiction for regulatory and / or for tax purposes",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has issued capital",
+      "technicalName": "fibo-be-le-cb:hasIssuedCapital",
+      "localName": "hasIssuedCapital",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/hasIssuedCapital",
+      "label": "has issued capital",
+      "definition": "indicates the aggregate value of all shares held by shareholders",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is constituted by",
+      "technicalName": "fibo-be-le-cb:isConstitutedBy",
+      "localName": "isConstitutedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/isConstitutedBy",
+      "label": "is constituted by",
+      "definition": "the instrument by which an entity is incorporated",
+      "domain": [
+        "corporation"
+      ],
+      "range": [
+        "fibo-fnd-law-cor:Constitution"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is incorporated in",
+      "technicalName": "fibo-be-le-cb:isIncorporatedIn",
+      "localName": "isIncorporatedIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/isIncorporatedIn",
+      "label": "is incorporated in",
+      "definition": "the legal jurisdiction under which the legal entity is incorporated",
+      "domain": [
+        "corporation"
+      ],
+      "range": [
+        "cmns-rga:Jurisdiction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has equity",
+      "technicalName": "fibo-be-le-fbo:hasEquity",
+      "localName": "hasEquity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/hasEquity",
+      "label": "has equity",
+      "definition": "indicates owners' equity associated with the entity",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "fibo-fnd-oac-own:OwnersEquity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has headquarters address",
+      "technicalName": "fibo-be-le-fbo:hasHeadquartersAddress",
+      "localName": "hasHeadquartersAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/hasHeadquartersAddress",
+      "label": "has headquarters address",
+      "definition": "indicates the main address at which communications may be delivered for the organization",
+      "domain": [],
+      "range": [
+        "fibo-fnd-plc-adr:PhysicalAddress"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has operating address",
+      "technicalName": "fibo-be-le-fbo:hasOperatingAddress",
+      "localName": "hasOperatingAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/hasOperatingAddress",
+      "label": "has operating address",
+      "definition": "indicates an address at which an organization carries out operations",
+      "domain": [
+        "cmns-org:Organization"
+      ],
+      "range": [
+        "fibo-fnd-plc-adr:PhysicalAddress"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has registered address",
+      "technicalName": "fibo-be-le-fbo:hasRegisteredAddress",
+      "localName": "hasRegisteredAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/hasRegisteredAddress",
+      "label": "has registered address",
+      "definition": "identifies an address that is officially recorded with some government authority and at which legal papers may be served",
+      "domain": [
+        "cmns-pts:Party"
+      ],
+      "range": [
+        "fibo-fnd-plc-adr:ConventionalStreetAddress"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has intended liquidation date",
+      "technicalName": "fibo-be-le-lp:hasIntendedLiquidationDate",
+      "localName": "hasIntendedLiquidationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/hasIntendedLiquidationDate",
+      "label": "has intended liquidation date",
+      "definition": "links an agreement, contract, or legal entity to a date on which it is scheduled to be sold",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has legal address",
+      "technicalName": "fibo-be-le-lei:hasLegalAddress",
+      "localName": "hasLegalAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasLegalAddress",
+      "label": "has legal address",
+      "definition": "indicates the legal address for the entity, in the jurisdiction in which the entity is established, used for registration purposes with respect to obtaining an LEI",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "fibo-fnd-plc-adr:ConventionalStreetAddress"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has legal form",
+      "technicalName": "fibo-be-le-lei:hasLegalForm",
+      "localName": "hasLegalForm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasLegalForm",
+      "label": "has legal form",
+      "definition": "indicates the nature of the entity as defined from a legal or regulatory perspective in a given jurisdiction",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "entity legal form"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is consolidated by",
+      "technicalName": "fibo-be-le-lei:isConsolidatedBy",
+      "localName": "isConsolidatedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isConsolidatedBy",
+      "label": "is consolidated by",
+      "definition": "indicates the entity considered the 'end node' or consolidating entity (parent) from an ISO 17442 perspective",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is consolidation of",
+      "technicalName": "fibo-be-le-lei:isConsolidationOf",
+      "localName": "isConsolidationOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isConsolidationOf",
+      "label": "is consolidation of",
+      "definition": "indicates the entity considered the 'start node' or consolidated entity from an ISO 17442 perspective",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is directly consolidated by",
+      "technicalName": "fibo-be-le-lei:isDirectlyConsolidatedBy",
+      "localName": "isDirectlyConsolidatedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isDirectlyConsolidatedBy",
+      "label": "is directly consolidated by",
+      "definition": "indicates that the entity considered the 'end node' or consolidating entity (parent) fully consolidates the accounting of the 'start node' (child) per the accounting rules specified, and is the closest consolidating entity to that child in any applicable ownership hierarchy",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is an international branch of",
+      "technicalName": "fibo-be-le-lei:isInternationalBranchOf",
+      "localName": "isInternationalBranchOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isInternationalBranchOf",
+      "label": "is an international branch of",
+      "definition": "indicates that the entity considered the 'start node' or consolidated entity (child) is an international subsidiary of the 'end node' (parent) in the jurisdiction of the child",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is ultimately consolidated by",
+      "technicalName": "fibo-be-le-lei:isUltimatelyConsolidatedBy",
+      "localName": "isUltimatelyConsolidatedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isUltimatelyConsolidatedBy",
+      "label": "is ultimately consolidated by",
+      "definition": "indicates that the entity considered the 'end node' or consolidating entity (parent) fully consolidates the accounting of the 'start node' (child) per the accounting rules specified, and is the most distant consolidating entity to that child in any applicable ownership hierarchy",
+      "domain": [],
+      "range": [
+        "cmns-org:LegalEntity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "advises",
+      "technicalName": "fibo-be-oac-cpty:advises",
+      "localName": "advises",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/advises",
+      "label": "advises",
+      "definition": "provides counsel or guidance to",
+      "domain": [
+        "fibo-fnd-oac-ctl:ControllingParty"
+      ],
+      "range": [
+        "controlled party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has controlling organization member",
+      "technicalName": "fibo-be-oac-cpty:hasControllingOrganizationMember",
+      "localName": "hasControllingOrganizationMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/hasControllingOrganizationMember",
+      "label": "has controlling organization member",
+      "definition": "relates a controlled party to a controlling member of the organization",
+      "domain": [
+        "controlled party"
+      ],
+      "range": [
+        "cmns-org:OrganizationMember"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has majority controlling party",
+      "technicalName": "fibo-be-oac-cpty:hasMajorityControllingParty",
+      "localName": "hasMajorityControllingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/hasMajorityControllingParty",
+      "label": "has majority controlling party",
+      "definition": "indicates a party that owns a controlling stake (over 50 percent) in the entity",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "majority controlling party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has advisor",
+      "technicalName": "fibo-be-oac-cpty:isAdvisedBy",
+      "localName": "isAdvisedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/isAdvisedBy",
+      "label": "has advisor",
+      "definition": "indicates the party that acts in an advisory capacity to the controlled party",
+      "domain": [
+        "controlled party"
+      ],
+      "range": [
+        "fibo-fnd-oac-ctl:ControllingParty"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is based on investment equity",
+      "technicalName": "fibo-be-oac-cpty:isBasedOnInvestmentEquity",
+      "localName": "isBasedOnInvestmentEquity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/isBasedOnInvestmentEquity",
+      "label": "is based on investment equity",
+      "definition": "indicates investment-based de facto control, which is is based on the holding of some investment equity by some party",
+      "domain": [
+        "investment-based de facto control"
+      ],
+      "range": [
+        "fibo-be-oac-opty:InvestmentEquity"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is controlling member of",
+      "technicalName": "fibo-be-oac-cpty:isControllingMemberOf",
+      "localName": "isControllingMemberOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/ControlParties/isControllingMemberOf",
+      "label": "is controlling member of",
+      "definition": "identifies a controlled organization over which the member has some measure of control",
+      "domain": [
+        "cmns-org:OrganizationMember"
+      ],
+      "range": [
+        "controlled party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has affiliate",
+      "technicalName": "fibo-be-oac-cctl:hasAffiliate",
+      "localName": "hasAffiliate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/hasAffiliate",
+      "label": "has affiliate",
+      "definition": "has a party which directly, or indirectly through one or more intermediaries, controls, or is controlled by, or is under common control with the company",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "affiliate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has controlling affiliate",
+      "technicalName": "fibo-be-oac-cctl:hasControllingAffiliate",
+      "localName": "hasControllingAffiliate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/hasControllingAffiliate",
+      "label": "has controlling affiliate",
+      "definition": "is directly, or indirectly through one or more intermediaries, controlled by",
+      "domain": [
+        "controlled affiliate"
+      ],
+      "range": [
+        "controlling affiliate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has domestic ultimate parent",
+      "technicalName": "fibo-be-oac-cctl:hasDomesticUltimateParent",
+      "localName": "hasDomesticUltimateParent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/hasDomesticUltimateParent",
+      "label": "has domestic ultimate parent",
+      "definition": "relates an organization to another recognized as its ultimate parent, within its country or jurisdiction of incorporation, if it has one",
+      "domain": [],
+      "range": [
+        "domestic ultimate parent"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has global ultimate parent",
+      "technicalName": "fibo-be-oac-cctl:hasGlobalUltimateParent",
+      "localName": "hasGlobalUltimateParent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/hasGlobalUltimateParent",
+      "label": "has global ultimate parent",
+      "definition": "relates an organization to another recognized as its ultimate parent, if it has one",
+      "domain": [],
+      "range": [
+        "global ultimate parent"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has subsidiary",
+      "technicalName": "fibo-be-oac-cctl:hasSubsidiary",
+      "localName": "hasSubsidiary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/hasSubsidiary",
+      "label": "has subsidiary",
+      "definition": "relates a legal entity to another organization that it owns at least 50 percent of",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "subsidiary"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is affiliate of",
+      "technicalName": "fibo-be-oac-cctl:isAffiliateOf",
+      "localName": "isAffiliateOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/isAffiliateOf",
+      "label": "is affiliate of",
+      "definition": "relates a party which directly, or indirectly through one or more intermediaries, controls, or is controlled by, or is under common control by another party to that party",
+      "domain": [
+        "affiliate"
+      ],
+      "range": [
+        "affiliate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is controlling affiliate of",
+      "technicalName": "fibo-be-oac-cctl:isControllingAffiliateOf",
+      "localName": "isControllingAffiliateOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/isControllingAffiliateOf",
+      "label": "is controlling affiliate of",
+      "definition": "controls directly, or indirectly through one or more intermediaries",
+      "domain": [
+        "controlling affiliate"
+      ],
+      "range": [
+        "controlled affiliate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is parent company of",
+      "technicalName": "fibo-be-oac-cctl:isParentCompanyOf",
+      "localName": "isParentCompanyOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/isParentCompanyOf",
+      "label": "is parent company of",
+      "definition": "indicates a controlled affiliate that it owns at least 50 percent of",
+      "domain": [
+        "controlling affiliate"
+      ],
+      "range": [
+        "subsidiary"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is subsidiary of",
+      "technicalName": "fibo-be-oac-cctl:isSubsidiaryOf",
+      "localName": "isSubsidiaryOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/isSubsidiaryOf",
+      "label": "is subsidiary of",
+      "definition": "is controlled directly, or indirectly through one or more intermediaries and owned at least 50 percent by",
+      "domain": [
+        "subsidiary"
+      ],
+      "range": [
+        "controlling affiliate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is wholly owned by",
+      "technicalName": "fibo-be-oac-cctl:isWhollyOwnedBy",
+      "localName": "isWhollyOwnedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateControl/isWhollyOwnedBy",
+      "label": "is wholly owned by",
+      "definition": "relates a legal entity to a party that has 100 percent ownership and control over it",
+      "domain": [
+        "cmns-org:LegalEntity"
+      ],
+      "range": [
+        "total controlling interest party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has beneficial owner",
+      "technicalName": "fibo-be-oac-cown:hasBeneficialOwner",
+      "localName": "hasBeneficialOwner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/hasBeneficialOwner",
+      "label": "has beneficial owner",
+      "definition": "indicates the party that retains rights in the asset they own in a beneficial ownership situation",
+      "domain": [
+        "fibo-fnd-oac-own:Asset"
+      ],
+      "range": [
+        "beneficial owner"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is beneficial owner of",
+      "technicalName": "fibo-be-oac-cown:isBeneficialOwnerOf",
+      "localName": "isBeneficialOwnerOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/isBeneficialOwnerOf",
+      "label": "is beneficial owner of",
+      "definition": "indicates an asset in which the beneficial owner holds rights (typically voting rights, management rights, etc.) in a beneficial ownership situation",
+      "domain": [
+        "beneficial owner"
+      ],
+      "range": [
+        "fibo-fnd-oac-own:Asset"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:authorizes",
+      "technicalName": "fibo-be-oac-exec:authorizes",
+      "localName": "authorizes",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/authorizes",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:authorizesThrough",
+      "technicalName": "fibo-be-oac-exec:authorizesThrough",
+      "localName": "authorizesThrough",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/authorizesThrough",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:delegatesControlTo",
+      "technicalName": "fibo-be-oac-exec:delegatesControlTo",
+      "localName": "delegatesControlTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/delegatesControlTo",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "designates signatory",
+      "technicalName": "fibo-be-oac-exec:designatesSignatory",
+      "localName": "designatesSignatory",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/designatesSignatory",
+      "label": "designates signatory",
+      "definition": "authorizes to sign agreements, access accounts and/or perform other similar tasks",
+      "domain": [],
+      "range": [
+        "signatory"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "elects",
+      "technicalName": "fibo-be-oac-exec:elects",
+      "localName": "elects",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/elects",
+      "label": "elects",
+      "definition": "chooses someone, or a group of individuals, to hold office or some other position by voting",
+      "domain": [
+        "cmns-pts:PartyRole"
+      ],
+      "range": [
+        "cmns-pts:PartyRole"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:hasAuthorizedParty",
+      "technicalName": "fibo-be-oac-exec:hasAuthorizedParty",
+      "localName": "hasAuthorizedParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasAuthorizedParty",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:hasAuthorizingParty",
+      "technicalName": "fibo-be-oac-exec:hasAuthorizingParty",
+      "localName": "hasAuthorizingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasAuthorizingParty",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has corporate officer",
+      "technicalName": "fibo-be-oac-exec:hasCorporateOfficer",
+      "localName": "hasCorporateOfficer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasCorporateOfficer",
+      "label": "has corporate officer",
+      "definition": "indicates an officer of the organization",
+      "domain": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ],
+      "range": [
+        "corporate officer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:hasDelegatedControlOf",
+      "technicalName": "fibo-be-oac-exec:hasDelegatedControlOf",
+      "localName": "hasDelegatedControlOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasDelegatedControlOf",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has director",
+      "technicalName": "fibo-be-oac-exec:hasDirector",
+      "localName": "hasDirector",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasDirector",
+      "label": "has director",
+      "definition": "indicates a member of the board of directors of the organization",
+      "domain": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ],
+      "range": [
+        "board member"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has principal managing party",
+      "technicalName": "fibo-be-oac-exec:hasPrincipalManagingParty",
+      "localName": "hasPrincipalManagingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasPrincipalManagingParty",
+      "label": "has principal managing party",
+      "definition": "indicates a controlling party that is responsible for the management of daily business operations",
+      "domain": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ],
+      "range": [
+        "principal party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has responsibility",
+      "technicalName": "fibo-be-oac-exec:hasResponsibility",
+      "localName": "hasResponsibility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasResponsibility",
+      "label": "has responsibility",
+      "definition": "specifies a commitment or obligation that an independent party has",
+      "domain": [
+        "cmns-pts:Party"
+      ],
+      "range": [
+        "fibo-fnd-law-lcap:Duty"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:hasResponsibleParty",
+      "technicalName": "fibo-be-oac-exec:hasResponsibleParty",
+      "localName": "hasResponsibleParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasResponsibleParty",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has signing authority for",
+      "technicalName": "fibo-be-oac-exec:hasSigningAuthorityFor",
+      "localName": "hasSigningAuthorityFor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasSigningAuthorityFor",
+      "label": "has signing authority for",
+      "definition": "indicates the party for which a signatory has the ability to sign agreements, access accounts and perform related tasks",
+      "domain": [
+        "signatory"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has vested in it",
+      "technicalName": "fibo-be-oac-exec:hasVestedInIt",
+      "localName": "hasVestedInIt",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/hasVestedInIt",
+      "label": "has vested in it",
+      "definition": "indicates the delegated legal authority that is vested in the controlling party",
+      "domain": [
+        "cmns-bauth:LegallyDelegatedAuthority"
+      ],
+      "range": [
+        "fibo-fnd-law-lcap:DelegatedLegalAuthority"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:isAuthorizedBy",
+      "technicalName": "fibo-be-oac-exec:isAuthorizedBy",
+      "localName": "isAuthorizedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/isAuthorizedBy",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-be-oac-exec:isAuthorizedThrough",
+      "technicalName": "fibo-be-oac-exec:isAuthorizedThrough",
+      "localName": "isAuthorizedThrough",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/isAuthorizedThrough",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is director of",
+      "technicalName": "fibo-be-oac-exec:isDirectorOf",
+      "localName": "isDirectorOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/isDirectorOf",
+      "label": "is director of",
+      "definition": "indicates the organization that the board member oversees",
+      "domain": [
+        "board member"
+      ],
+      "range": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is officer of",
+      "technicalName": "fibo-be-oac-exec:isOfficerOf",
+      "localName": "isOfficerOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/isOfficerOf",
+      "label": "is officer of",
+      "definition": "indicates the organization that the person has some authority over and managerial responsibility for",
+      "domain": [
+        "corporate officer"
+      ],
+      "range": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is principal party of",
+      "technicalName": "fibo-be-oac-exec:isPrincipalPartyOf",
+      "localName": "isPrincipalPartyOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/isPrincipalPartyOf",
+      "label": "is principal party of",
+      "definition": "identifies a legal entity (controlled party) over which a principal has some measure of control",
+      "domain": [
+        "principal party"
+      ],
+      "range": [
+        "fibo-be-oac-cpty:ControlledParty"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "nominates",
+      "technicalName": "fibo-be-oac-exec:nominates",
+      "localName": "nominates",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/nominates",
+      "label": "nominates",
+      "definition": "appoints or proposes for appointment to an office or place",
+      "domain": [
+        "cmns-pts:PartyRole"
+      ],
+      "range": [
+        "cmns-pts:PartyRole"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "guarantees",
+      "technicalName": "fibo-be-oac-opty:guarantees",
+      "localName": "guarantees",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/guarantees",
+      "label": "guarantees",
+      "definition": "provides a formal assurance or promise, esp. that certain conditions shall be fulfilled relating to a product, service, or transaction",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has direct ownership",
+      "technicalName": "fibo-be-oac-opty:hasDirectOwnership",
+      "localName": "hasDirectOwnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/hasDirectOwnership",
+      "label": "has direct ownership",
+      "definition": "relates a formal organization to the situation in which it is owned directly by another entity",
+      "domain": [
+        "anonymous restriction"
+      ],
+      "range": [
+        "entity ownership"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has direct owning entity",
+      "technicalName": "fibo-be-oac-opty:hasDirectOwningEntity",
+      "localName": "hasDirectOwningEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/hasDirectOwningEntity",
+      "label": "has direct owning entity",
+      "definition": "relates a formal organization to a direct legal person / owner",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has investment entity",
+      "technicalName": "fibo-be-oac-opty:hasInvestmentEntity",
+      "localName": "hasInvestmentEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/hasInvestmentEntity",
+      "label": "has investment entity",
+      "definition": "relates a legal person to a directly owned formal organization or subsidiary, depending on the percent ownership interest",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has investment ownership",
+      "technicalName": "fibo-be-oac-opty:hasInvestmentOwnership",
+      "localName": "hasInvestmentOwnership",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/hasInvestmentOwnership",
+      "label": "has investment ownership",
+      "definition": "relates a legal person to the context in which it owns a formal organization",
+      "domain": [
+        "cmns-org:LegalPerson"
+      ],
+      "range": [
+        "entity ownership"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has owned entity",
+      "technicalName": "fibo-be-oac-opty:hasOwnedEntity",
+      "localName": "hasOwnedEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/hasOwnedEntity",
+      "label": "has owned entity",
+      "definition": "indicates a formal organization, including potentially a sole proprietorship, that is owned by a legal person",
+      "domain": [
+        "entity ownership"
+      ],
+      "range": [
+        "anonymous restriction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has owning entity",
+      "technicalName": "fibo-be-oac-opty:hasOwningEntity",
+      "localName": "hasOwningEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/hasOwningEntity",
+      "label": "has owning entity",
+      "definition": "indicates a party that owns a formal organization",
+      "domain": [
+        "entity ownership"
+      ],
+      "range": [
+        "cmns-org:LegalPerson"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has general partner",
+      "technicalName": "fibo-be-ptr-ptr:hasGeneralPartner",
+      "localName": "hasGeneralPartner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/hasGeneralPartner",
+      "label": "has general partner",
+      "definition": "indicates an actor that has some measure of control over the partnership",
+      "domain": [
+        "partnership"
+      ],
+      "range": [
+        "general partner"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has limited partner",
+      "technicalName": "fibo-be-ptr-ptr:hasLimitedPartner",
+      "localName": "hasLimitedPartner",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/hasLimitedPartner",
+      "label": "has limited partner",
+      "definition": "indicates an actor that may have some measure of influence over the partnership",
+      "domain": [
+        "partnership"
+      ],
+      "range": [
+        "limited partner"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is general partner of",
+      "technicalName": "fibo-be-ptr-ptr:isGeneralPartnerOf",
+      "localName": "isGeneralPartnerOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/isGeneralPartnerOf",
+      "label": "is general partner of",
+      "definition": "indicates the organization that the general partner manages",
+      "domain": [
+        "general partner"
+      ],
+      "range": [
+        "partnership"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is limited partner of",
+      "technicalName": "fibo-be-ptr-ptr:isLimitedPartnerOf",
+      "localName": "isLimitedPartnerOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Partnerships/Partnerships/isLimitedPartnerOf",
+      "label": "is limited partner of",
+      "definition": "indicates the organization that the limited partner participates in",
+      "domain": [
+        "limited partner"
+      ],
+      "range": [
+        "partnership"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has managing member",
+      "technicalName": "fibo-be-plc-plc:hasManagingMember",
+      "localName": "hasManagingMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/hasManagingMember",
+      "label": "has managing member",
+      "definition": "indicates a managing member in a controlling role of a limited liability company that has responsibility for the day-to-day business operations",
+      "domain": [],
+      "range": [
+        "managing member"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is managing member of",
+      "technicalName": "fibo-be-plc-plc:isManagingMemberOf",
+      "localName": "isManagingMemberOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/PrivateLimitedCompanies/PrivateLimitedCompanies/isManagingMemberOf",
+      "label": "is managing member of",
+      "definition": "indicates the controlled limited liability company that the managing member runs",
+      "domain": [
+        "managing member"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has trustee",
+      "technicalName": "fibo-be-tr-tr:hasTrustee",
+      "localName": "hasTrustee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/hasTrustee",
+      "label": "has trustee",
+      "definition": "links a trust to a named trustee",
+      "domain": [
+        "trust"
+      ],
+      "range": [
+        "trustee"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is trustee of",
+      "technicalName": "fibo-be-tr-tr:isTrusteeOf",
+      "localName": "isTrusteeOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Trusts/Trusts/isTrusteeOf",
+      "label": "is trustee of",
+      "definition": "identifies the trust over which a trustee has some measure of control",
+      "domain": [
+        "trustee"
+      ],
+      "range": [
+        "trust"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "fibo-be-corp-corp:hasSharesAuthorized",
+      "technicalName": "fibo-be-corp-corp:hasSharesAuthorized",
+      "localName": "hasSharesAuthorized",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/Corporations/Corporations/hasSharesAuthorized",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has merchant category description",
+      "technicalName": "fibo-be-fct-fct:hasMerchantCategoryDescription",
+      "localName": "hasMerchantCategoryDescription",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/FunctionalEntities/hasMerchantCategoryDescription",
+      "label": "has merchant category description",
+      "definition": "provides a text description of the sector to which the code applies",
+      "domain": [
+        "merchant category code"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has shares authorized",
+      "technicalName": "fibo-be-le-cb:hasSharesAuthorized",
+      "localName": "hasSharesAuthorized",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/hasSharesAuthorized",
+      "label": "has shares authorized",
+      "definition": "indicates the maximum number of shares that are permitted to be issued, as established by the board of directors",
+      "domain": [],
+      "range": [
+        "xsd:nonNegativeInteger"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has legal form abbreviation",
+      "technicalName": "fibo-be-le-lei:hasLegalFormAbbreviation",
+      "localName": "hasLegalFormAbbreviation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasLegalFormAbbreviation",
+      "label": "has legal form abbreviation",
+      "definition": "the precise abbreviation for the entity legal form as defined in the jurisdiction in which it is registered, for example LLC, LLP, Ltd, PLC, Corp.",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has ownership percentage",
+      "technicalName": "fibo-be-le-lei:hasOwnershipPercentage",
+      "localName": "hasOwnershipPercentage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasOwnershipPercentage",
+      "label": "has ownership percentage",
+      "definition": "the percentage ownership interest in the owned entity owned by owning entity, if known",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has transliterated legal form abbreviation",
+      "technicalName": "fibo-be-le-lei:hasTransliteratedLegalFormAbbreviation",
+      "localName": "hasTransliteratedLegalFormAbbreviation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasTransliteratedLegalFormAbbreviation",
+      "label": "has transliterated legal form abbreviation",
+      "definition": "a transliterated (i.e., in Latin or Romanized ASCII) representation of the abbreviation for the entity legal form",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has transliterated name",
+      "technicalName": "fibo-be-le-lei:hasTransliteratedName",
+      "localName": "hasTransliteratedName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/hasTransliteratedName",
+      "label": "has transliterated name",
+      "definition": "a transliterated (i.e., in Latin or Romanized ASCII) representation of a name for the entity",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "is quantified by",
+      "technicalName": "fibo-be-le-lei:isQuantifiedBy",
+      "localName": "isQuantifiedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/isQuantifiedBy",
+      "label": "is quantified by",
+      "definition": "indicates that something is limited to or conditional due to some rate or other statistical value",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "consists of number of units",
+      "technicalName": "fibo-be-oac-cown:consistsOfNumberOfUnits",
+      "localName": "consistsOfNumberOfUnits",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/consistsOfNumberOfUnits",
+      "label": "consists of number of units",
+      "definition": "indicates the number of units of",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    }
+  ]
+}

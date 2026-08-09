@@ -1,0 +1,1204 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Agreements\\Contracts.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+  "summary": {
+    "nodes": 43,
+    "edges": 27,
+    "properties": 3,
+    "triples": 634
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Agreements/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "assignable contract",
+      "technicalName": "fibo-fnd-agr-ctr:AssignableContract",
+      "localName": "AssignableContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/AssignableContract",
+      "label": "assignable contract",
+      "definition": "contract in which contract holder (assignor) may transfer some or all of their rights and obligations to another party (assignee)",
+      "parents": [
+        "transferable contract"
+      ],
+      "rules": [
+        {
+          "property": "is assignable",
+          "operator": "value",
+          "value": "true",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "bilateral contract",
+      "technicalName": "fibo-fnd-agr-ctr:BilateralContract",
+      "localName": "BilateralContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/BilateralContract",
+      "label": "bilateral contract",
+      "definition": "contract where two parties commit to perform specific actions or obligations towards each other",
+      "parents": [
+        "fibo-fnd-agr-agr:BilateralAgreement",
+        "written contract"
+      ],
+      "rules": []
+    },
+    {
+      "name": "bilateral netting provision",
+      "technicalName": "fibo-fnd-agr-ctr:BilateralNettingProvision",
+      "localName": "BilateralNettingProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/BilateralNettingProvision",
+      "label": "bilateral netting provision",
+      "definition": "netting provision that occurs between two parties, in which mutual obligations are offset to determine a single net payment",
+      "parents": [
+        "netting provision"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "bilateral contract",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "breach of contract",
+      "technicalName": "fibo-fnd-agr-ctr:BreachOfContract",
+      "localName": "BreachOfContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/BreachOfContract",
+      "label": "breach of contract",
+      "definition": "classifier of events representing a violation of an express, or implied, condition of a contract to do or not to do something, without a legitimate excuse",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "contractual commitment",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "contract",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "breach of covenant",
+      "technicalName": "fibo-fnd-agr-ctr:BreachOfCovenant",
+      "localName": "BreachOfCovenant",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/BreachOfCovenant",
+      "label": "breach of covenant",
+      "definition": "classifier of events representing breaking a promise specified in a contract to do or not to do something, without a legitimate excuse",
+      "parents": [
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "contractual commitment",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "contract",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "close-out netting provision",
+      "technicalName": "fibo-fnd-agr-ctr:CloseOutNettingProvision",
+      "localName": "CloseOutNettingProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/CloseOutNettingProvision",
+      "label": "close-out netting provision",
+      "definition": "netting provision that may be triggered when a counterparty defaults, leading to the termination of all outstanding transactions between the parties",
+      "parents": [
+        "netting provision"
+      ],
+      "rules": []
+    },
+    {
+      "name": "collateral agreement",
+      "technicalName": "fibo-fnd-agr-ctr:CollateralAgreement",
+      "localName": "CollateralAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/CollateralAgreement",
+      "label": "collateral agreement",
+      "definition": "written contract related to another contract designed to provide clarity and additional protection for all parties involved, that is separate from the primary contract and that can be independently enforced",
+      "parents": [
+        "written contract"
+      ],
+      "rules": [
+        {
+          "property": "is subordinate to",
+          "operator": "some",
+          "value": "written contract",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "condition precedent",
+      "technicalName": "fibo-fnd-agr-ctr:ConditionPrecedent",
+      "localName": "ConditionPrecedent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/ConditionPrecedent",
+      "label": "condition precedent",
+      "definition": "stipulation that specifies conditions that must be met before some aspect of a contract takes effect",
+      "parents": [
+        "contractual element"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contract",
+      "technicalName": "fibo-fnd-agr-ctr:Contract",
+      "localName": "Contract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/Contract",
+      "label": "contract",
+      "definition": "voluntary, deliberate agreement between competent parties to which the parties agree to be legally bound, and for which the parties provide valuable consideration",
+      "parents": [
+        "fibo-fnd-agr-agr:Agreement"
+      ],
+      "rules": [
+        {
+          "property": "has contractual element",
+          "operator": "some",
+          "value": "contractual element",
+          "qualifier": null
+        },
+        {
+          "property": "has contract party",
+          "operator": "minQualified",
+          "value": "2",
+          "qualifier": "contract party"
+        },
+        {
+          "property": "has effective date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        }
+      ]
+    },
+    {
+      "name": "contract document",
+      "technicalName": "fibo-fnd-agr-ctr:ContractDocument",
+      "localName": "ContractDocument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/ContractDocument",
+      "label": "contract document",
+      "definition": "legal document that records the formal terms and conditions of some contract",
+      "parents": [
+        "cmns-doc:LegalDocument"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:records",
+          "operator": "some",
+          "value": "contract",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "contract milestone",
+      "technicalName": "fibo-fnd-agr-ctr:ContractMilestone",
+      "localName": "ContractMilestone",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/ContractMilestone",
+      "label": "contract milestone",
+      "definition": "classifier for an event (milestone), or set of events related to the status or level of completion of a designated activity, task, or segment of work required for contract fulfillment",
+      "parents": [
+        "condition precedent",
+        "fibo-fnd-dt-oc:OccurrenceKind"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "contract",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "milestone event"
+        }
+      ]
+    },
+    {
+      "name": "contract party",
+      "technicalName": "fibo-fnd-agr-ctr:ContractParty",
+      "localName": "ContractParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/ContractParty",
+      "label": "contract party",
+      "definition": "legally competent party that has entered into a binding agreement, accepting and conceding obligations, responsibilities, and benefits as specified",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "contract",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-org:LegalPerson"
+        }
+      ]
+    },
+    {
+      "name": "contract principal",
+      "technicalName": "fibo-fnd-agr-ctr:ContractPrincipal",
+      "localName": "ContractPrincipal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/ContractPrincipal",
+      "label": "contract principal",
+      "definition": "party that originates a contract and is identified as the first party to that contract, in the event that the contract distinguishes any party as such",
+      "parents": [
+        "contract party"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contract third party",
+      "technicalName": "fibo-fnd-agr-ctr:ContractThirdParty",
+      "localName": "ContractThirdParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/ContractThirdParty",
+      "label": "contract third party",
+      "definition": "party that is indirectly involved in, but not a counterparty to, an agreement",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contractual commitment",
+      "technicalName": "fibo-fnd-agr-ctr:ContractualCommitment",
+      "localName": "ContractualCommitment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/ContractualCommitment",
+      "label": "contractual commitment",
+      "definition": "provision specifying something that the contracting parties agree to, i.e., a promise or pledge made by one of the parties to perform some action or fulfill some duty",
+      "parents": [
+        "contractual element"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isMandatedBy",
+          "operator": "some",
+          "value": "contract",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasPart",
+          "operator": "only",
+          "value": "contractual commitment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "contractual definition",
+      "technicalName": "fibo-fnd-agr-ctr:ContractualDefinition",
+      "localName": "ContractualDefinition",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/ContractualDefinition",
+      "label": "contractual definition",
+      "definition": "contractual element that specifies the meaning of a term in a legal document, whose definition is substitutable for the term whenever it occurs in the body of that document",
+      "parents": [
+        "contractual element"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contractual element",
+      "technicalName": "fibo-fnd-agr-ctr:ContractualElement",
+      "localName": "ContractualElement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/ContractualElement",
+      "label": "contractual element",
+      "definition": "element, such as an arrangement, provision, requirement, rule, specification, and standard that forms an integral part of an agreement",
+      "parents": [
+        "cmns-col:Constituent"
+      ],
+      "rules": [
+        {
+          "property": "has legal description",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "counterparty",
+      "technicalName": "fibo-fnd-agr-ctr:Counterparty",
+      "localName": "Counterparty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/Counterparty",
+      "label": "counterparty",
+      "definition": "party to a contract with whom one negotiates on a given agreement",
+      "parents": [
+        "contract party"
+      ],
+      "rules": []
+    },
+    {
+      "name": "disclosure provision",
+      "technicalName": "fibo-fnd-agr-ctr:DisclosureProvision",
+      "localName": "DisclosureProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/DisclosureProvision",
+      "label": "disclosure provision",
+      "definition": "contractual provision that outlines the requirements and responsibilities of one or both parties to reveal certain information to each other",
+      "parents": [
+        "contractual commitment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "early termination provision",
+      "technicalName": "fibo-fnd-agr-ctr:EarlyTerminationProvision",
+      "localName": "EarlyTerminationProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/EarlyTerminationProvision",
+      "label": "early termination provision",
+      "definition": "termination of an agreement for any reason prior to its expiration date",
+      "parents": [
+        "termination provision"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-doc:hasExpirationDate",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "extension provision",
+      "technicalName": "fibo-fnd-agr-ctr:ExtensionProvision",
+      "localName": "ExtensionProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/ExtensionProvision",
+      "label": "extension provision",
+      "definition": "contract terms that specify the conditions under which a contract can be extended",
+      "parents": [
+        "contractual commitment"
+      ],
+      "rules": [
+        {
+          "property": "has extendable period",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDatePeriod"
+        }
+      ]
+    },
+    {
+      "name": "master agreement",
+      "technicalName": "fibo-fnd-agr-ctr:MasterAgreement",
+      "localName": "MasterAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/MasterAgreement",
+      "label": "master agreement",
+      "definition": "contract between named parties that outlines the terms and conditions designed to apply to a number of accounts, transactions, or other activities between the parties, and that consolidates and provides overarching terms for separate but related agreements",
+      "parents": [
+        "written contract"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "contract"
+        }
+      ]
+    },
+    {
+      "name": "milestone event",
+      "technicalName": "fibo-fnd-agr-ctr:MilestoneEvent",
+      "localName": "MilestoneEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/MilestoneEvent",
+      "label": "milestone event",
+      "definition": "event related to the status or level of completion of a designated activity, task, or segment of work required for contract fulfillment",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "contract milestone",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "milestone schedule",
+      "technicalName": "fibo-fnd-agr-ctr:MilestoneSchedule",
+      "localName": "MilestoneSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/MilestoneSchedule",
+      "label": "milestone schedule",
+      "definition": "schedule of milestone events, observations, or other occurrences and the associated dates and/or times when they will be done",
+      "parents": [
+        "fibo-fnd-dt-fd:Schedule"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "milestone event",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "multilateral contract",
+      "technicalName": "fibo-fnd-agr-ctr:MultilateralContract",
+      "localName": "MultilateralContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/MultilateralContract",
+      "label": "multilateral contract",
+      "definition": "contract where multiple parties (i.e., more than two) commit to perform specific actions or obligations towards each other",
+      "parents": [
+        "fibo-fnd-agr-agr:MultilateralAgreement",
+        "written contract"
+      ],
+      "rules": []
+    },
+    {
+      "name": "multilateral netting provision",
+      "technicalName": "fibo-fnd-agr-ctr:MultilateralNettingProvision",
+      "localName": "MultilateralNettingProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/MultilateralNettingProvision",
+      "label": "multilateral netting provision",
+      "definition": "netting provision that, when triggered, is facilitated by a central clearinghouse or financial institution",
+      "parents": [
+        "netting provision"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "multilateral contract",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "netting provision",
+      "technicalName": "fibo-fnd-agr-ctr:NettingProvision",
+      "localName": "NettingProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/NettingProvision",
+      "label": "netting provision",
+      "definition": "contractual element that specifies the method of reducing credit, settlement and other risks by aggregating (combining) two or more obligations to achieve a reduced net obligation",
+      "parents": [
+        "contractual commitment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non-binding term",
+      "technicalName": "fibo-fnd-agr-ctr:NonBindingTerm",
+      "localName": "NonBindingTerm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/NonBindingTerm",
+      "label": "non-binding term",
+      "definition": "contractual element that is not legally binding on any party to the agreement",
+      "parents": [
+        "contractual element"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non-transferable contract",
+      "technicalName": "fibo-fnd-agr-ctr:NonTransferableContract",
+      "localName": "NonTransferableContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/NonTransferableContract",
+      "label": "non-transferable contract",
+      "definition": "contract between whose individual rights and obligations are not transferable to another party without prior written permission",
+      "parents": [
+        "written contract"
+      ],
+      "rules": []
+    },
+    {
+      "name": "notification provision",
+      "technicalName": "fibo-fnd-agr-ctr:NotificationProvision",
+      "localName": "NotificationProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/NotificationProvision",
+      "label": "notification provision",
+      "definition": "provision indicating that notification is required prior to the occurrence of a relevant event",
+      "parents": [
+        "contractual commitment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "novateable contract",
+      "technicalName": "fibo-fnd-agr-ctr:NovateableContract",
+      "localName": "NovateableContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/NovateableContract",
+      "label": "novateable contract",
+      "definition": "contract that may be replaced by another contract, and in that event, extinguishes the rights and obligations in effect under the original contract with those in the new agreement",
+      "parents": [
+        "transferable contract"
+      ],
+      "rules": []
+    },
+    {
+      "name": "novation netting provision",
+      "technicalName": "fibo-fnd-agr-ctr:NovationNettingProvision",
+      "localName": "NovationNettingProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/NovationNettingProvision",
+      "label": "novation netting provision",
+      "definition": "contractual element that specifies what should be done with respect to netting when a given contract is replaced with another",
+      "parents": [
+        "netting provision"
+      ],
+      "rules": []
+    },
+    {
+      "name": "payment netting provision",
+      "technicalName": "fibo-fnd-agr-ctr:PaymentNettingProvision",
+      "localName": "PaymentNettingProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/PaymentNettingProvision",
+      "label": "payment netting provision",
+      "definition": "netting provision that specifies the way in which all payments in a single currency owed between parties will be aggregated for each traded currency per value date and within the larger aggregate obligation",
+      "parents": [
+        "netting provision"
+      ],
+      "rules": []
+    },
+    {
+      "name": "representation",
+      "technicalName": "fibo-fnd-agr-ctr:Representation",
+      "localName": "Representation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/Representation",
+      "label": "representation",
+      "definition": "contractual element that is a statement made by a party to the contract, before or at the time of making the contract, in regard to some fact, circumstance, or state of affairs pertinent to the contract, which the counterparty(ies) rely on, or is influential in bringing about the contract",
+      "parents": [
+        "contractual commitment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "settlement netting provision",
+      "technicalName": "fibo-fnd-agr-ctr:SettlementNettingProvision",
+      "localName": "SettlementNettingProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/SettlementNettingProvision",
+      "label": "settlement netting provision",
+      "definition": "netting provision that specifies the way in which on a given payment date, each party will aggregate the amounts of a currency to be delivered by it, and only the difference in the aggregate amounts will be delivered by the party with the larger aggregate obligation",
+      "parents": [
+        "netting provision"
+      ],
+      "rules": []
+    },
+    {
+      "name": "term sheet",
+      "technicalName": "fibo-fnd-agr-ctr:TermSheet",
+      "localName": "TermSheet",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/TermSheet",
+      "label": "term sheet",
+      "definition": "nonbinding agreement setting forth the basic terms and conditions under which a proposed business deal may be made",
+      "parents": [
+        "fibo-fnd-agr-agr:Agreement"
+      ],
+      "rules": [
+        {
+          "property": "has non-binding term",
+          "operator": "some",
+          "value": "non-binding term",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "termination provision",
+      "technicalName": "fibo-fnd-agr-ctr:TerminationProvision",
+      "localName": "TerminationProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/TerminationProvision",
+      "label": "termination provision",
+      "definition": "contractual element that specifies the circumstances under which the parties can dissolve their legal relationship and discontinue the fulfillment of their obligations under the contract",
+      "parents": [
+        "contractual commitment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "transferable contract",
+      "technicalName": "fibo-fnd-agr-ctr:TransferableContract",
+      "localName": "TransferableContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/TransferableContract",
+      "label": "transferable contract",
+      "definition": "contract in which the rights and obligations of one party may be transferred to another party",
+      "parents": [
+        "written contract"
+      ],
+      "rules": []
+    },
+    {
+      "name": "unilateral contract",
+      "technicalName": "fibo-fnd-agr-ctr:UnilateralContract",
+      "localName": "UnilateralContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/UnilateralContract",
+      "label": "unilateral contract",
+      "definition": "contract in which one party makes an offer that can only be accepted through performance rather than a return promise",
+      "parents": [
+        "written contract"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:confers",
+          "operator": "only",
+          "value": "fibo-fnd-agr-agr:UnilateralCommitment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "use of proceeds provision",
+      "technicalName": "fibo-fnd-agr-ctr:UseOfProceedsProvision",
+      "localName": "UseOfProceedsProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/UseOfProceedsProvision",
+      "label": "use of proceeds provision",
+      "definition": "contract provision specifying how funds obtained through financing, such as through a credit agreement, offering, warrant, or other instrument are intended to be used",
+      "parents": [
+        "contractual commitment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "verbal contract",
+      "technicalName": "fibo-fnd-agr-ctr:VerbalContract",
+      "localName": "VerbalContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/VerbalContract",
+      "label": "verbal contract",
+      "definition": "contract that exists as a result of some verbal exchange",
+      "parents": [
+        "contract"
+      ],
+      "rules": []
+    },
+    {
+      "name": "warranty",
+      "technicalName": "fibo-fnd-agr-ctr:Warranty",
+      "localName": "Warranty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/Warranty",
+      "label": "warranty",
+      "definition": "contractual element that is a statement of fact",
+      "parents": [
+        "contractual commitment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "written contract",
+      "technicalName": "fibo-fnd-agr-ctr:WrittenContract",
+      "localName": "WrittenContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/WrittenContract",
+      "label": "written contract",
+      "definition": "formal contract that is written and signed by the parties thereto",
+      "parents": [
+        "contract"
+      ],
+      "rules": [
+        {
+          "property": "is evidenced by",
+          "operator": "some",
+          "value": "contract document",
+          "qualifier": null
+        },
+        {
+          "property": "has principal party",
+          "operator": "some",
+          "value": "contract principal",
+          "qualifier": null
+        },
+        {
+          "property": "has counterparty",
+          "operator": "some",
+          "value": "counterparty",
+          "qualifier": null
+        },
+        {
+          "property": "is assignable",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:boolean"
+        },
+        {
+          "property": "has execution date time stamp",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:DateTimeStamp"
+        },
+        {
+          "property": "has effective date time stamp",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:DateTimeStamp"
+        },
+        {
+          "property": "cmns-dt:hasDateOfIssuance",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "has execution date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "defines terms for",
+      "technicalName": "fibo-fnd-agr-ctr:definesTermsFor",
+      "localName": "definesTermsFor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/definesTermsFor",
+      "label": "defines terms for",
+      "definition": "relates a contract to something for which the contract defines legally binding terms and conditions",
+      "domain": [
+        "contract"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has beneficiary",
+      "technicalName": "fibo-fnd-agr-ctr:hasBeneficiary",
+      "localName": "hasBeneficiary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasBeneficiary",
+      "label": "has beneficiary",
+      "definition": "party that receives some benefit or advantage or profits from something as specified in the agreement",
+      "domain": [],
+      "range": [
+        "fibo-fnd-agr-agr:Beneficiary"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has contract duration",
+      "technicalName": "fibo-fnd-agr-ctr:hasContractDuration",
+      "localName": "hasContractDuration",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasContractDuration",
+      "label": "has contract duration",
+      "definition": "indicates the period of time during which a contract is intended to be in force once it has been executed",
+      "domain": [
+        "contract"
+      ],
+      "range": [
+        "cmns-dt:Duration"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has contract party",
+      "technicalName": "fibo-fnd-agr-ctr:hasContractParty",
+      "localName": "hasContractParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasContractParty",
+      "label": "has contract party",
+      "definition": "indicates a party that has entered into a binding agreement, accepting and conceding obligations, responsibilities, and benefits as specified",
+      "domain": [
+        "contract"
+      ],
+      "range": [
+        "contract party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has contractual element",
+      "technicalName": "fibo-fnd-agr-ctr:hasContractualElement",
+      "localName": "hasContractualElement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasContractualElement",
+      "label": "has contractual element",
+      "definition": "indicates something that is a component of an agreement",
+      "domain": [
+        "fibo-fnd-agr-agr:Agreement"
+      ],
+      "range": [
+        "contractual element"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has counterparty",
+      "technicalName": "fibo-fnd-agr-ctr:hasCounterparty",
+      "localName": "hasCounterparty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasCounterparty",
+      "label": "has counterparty",
+      "definition": "identifies a party to a contract, typically not the contract principal",
+      "domain": [
+        "contract"
+      ],
+      "range": [
+        "counterparty"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has early termination date",
+      "technicalName": "fibo-fnd-agr-ctr:hasEarlyTerminationDate",
+      "localName": "hasEarlyTerminationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasEarlyTerminationDate",
+      "label": "has early termination date",
+      "definition": "indicates a termination date that occurs prior to an explicit expiration date",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has effective date",
+      "technicalName": "fibo-fnd-agr-ctr:hasEffectiveDate",
+      "localName": "hasEffectiveDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasEffectiveDate",
+      "label": "has effective date",
+      "definition": "indicates the date a contract, relationship, or policy comes into force",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has effective date time stamp",
+      "technicalName": "fibo-fnd-agr-ctr:hasEffectiveDateTimeStamp",
+      "localName": "hasEffectiveDateTimeStamp",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasEffectiveDateTimeStamp",
+      "label": "has effective date time stamp",
+      "definition": "indicates the date and time, including time zone, something comes into force",
+      "domain": [],
+      "range": [
+        "cmns-dt:DateTimeStamp"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has execution date",
+      "technicalName": "fibo-fnd-agr-ctr:hasExecutionDate",
+      "localName": "hasExecutionDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasExecutionDate",
+      "label": "has execution date",
+      "definition": "indicates the date a contract has been signed by all the necessary parties",
+      "domain": [],
+      "range": [
+        "cmns-dt:Date"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has execution date time stamp",
+      "technicalName": "fibo-fnd-agr-ctr:hasExecutionDateTimeStamp",
+      "localName": "hasExecutionDateTimeStamp",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasExecutionDateTimeStamp",
+      "label": "has execution date time stamp",
+      "definition": "indicates the date and time, including time zone, a contract has been signed by all the necessary parties",
+      "domain": [],
+      "range": [
+        "cmns-dt:DateTimeStamp"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has extendable period",
+      "technicalName": "fibo-fnd-agr-ctr:hasExtendablePeriod",
+      "localName": "hasExtendablePeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasExtendablePeriod",
+      "label": "has extendable period",
+      "definition": "indicates the window of time during which an extension is allowed under the terms of the contract",
+      "domain": [
+        "extension provision"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has extension provision",
+      "technicalName": "fibo-fnd-agr-ctr:hasExtensionProvision",
+      "localName": "hasExtensionProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasExtensionProvision",
+      "label": "has extension provision",
+      "definition": "specifies the details of a contract provision allowing extension of some aspect of the contract",
+      "domain": [
+        "contract"
+      ],
+      "range": [
+        "extension provision"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has governing jurisdiction",
+      "technicalName": "fibo-fnd-agr-ctr:hasGoverningJurisdiction",
+      "localName": "hasGoverningJurisdiction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasGoverningJurisdiction",
+      "label": "has governing jurisdiction",
+      "definition": "indicates the jurisdiction governing the contract, as agreed by all parties",
+      "domain": [
+        "contract"
+      ],
+      "range": [
+        "cmns-rga:Jurisdiction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has milestone provision",
+      "technicalName": "fibo-fnd-agr-ctr:hasMilestoneProvision",
+      "localName": "hasMilestoneProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasMilestoneProvision",
+      "label": "has milestone provision",
+      "definition": "refers to a requirement included in an agreement related to fulfillment as of some point in time in the lifetime of the contract",
+      "domain": [
+        "fibo-fnd-agr-agr:Agreement"
+      ],
+      "range": [
+        "contract milestone"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has non-binding term",
+      "technicalName": "fibo-fnd-agr-ctr:hasNonBindingTerm",
+      "localName": "hasNonBindingTerm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasNonBindingTerm",
+      "label": "has non-binding term",
+      "definition": "refers to a term that is included in an agreement that is not considered legally binding",
+      "domain": [
+        "fibo-fnd-agr-agr:Agreement"
+      ],
+      "range": [
+        "non-binding term"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has principal party",
+      "technicalName": "fibo-fnd-agr-ctr:hasPrincipalParty",
+      "localName": "hasPrincipalParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasPrincipalParty",
+      "label": "has principal party",
+      "definition": "identifies the main or principal party to a contract",
+      "domain": [
+        "contract"
+      ],
+      "range": [
+        "contract principal"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has term",
+      "technicalName": "fibo-fnd-agr-ctr:hasTerm",
+      "localName": "hasTerm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasTerm",
+      "label": "has term",
+      "definition": "indicates a fixed or limited period for which something, e.g., a contract, an investment, or an offer, lasts or is intended to last",
+      "domain": [],
+      "range": [
+        "cmns-dt:Duration"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has third party",
+      "technicalName": "fibo-fnd-agr-ctr:hasThirdParty",
+      "localName": "hasThirdParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasThirdParty",
+      "label": "has third party",
+      "definition": "identifies a party which is not signatory to the party but has some role in the overall context defined by the contract.",
+      "domain": [
+        "contract"
+      ],
+      "range": [
+        "contract third party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is beneficiary of",
+      "technicalName": "fibo-fnd-agr-ctr:isBeneficiaryOf",
+      "localName": "isBeneficiaryOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/isBeneficiaryOf",
+      "label": "is beneficiary of",
+      "definition": "specifies the agreement that a beneficiary is named in",
+      "domain": [
+        "fibo-fnd-agr-agr:Beneficiary"
+      ],
+      "range": [
+        "fibo-fnd-agr-agr:Agreement"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is evidence for",
+      "technicalName": "fibo-fnd-agr-ctr:isEvidenceFor",
+      "localName": "isEvidenceFor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/isEvidenceFor",
+      "label": "is evidence for",
+      "definition": "corroborates",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is evidenced by",
+      "technicalName": "fibo-fnd-agr-ctr:isEvidencedBy",
+      "localName": "isEvidencedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/isEvidencedBy",
+      "label": "is evidenced by",
+      "definition": "is attested by",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is primary contract for",
+      "technicalName": "fibo-fnd-agr-ctr:isPrimaryContractFor",
+      "localName": "isPrimaryContractFor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/isPrimaryContractFor",
+      "label": "is primary contract for",
+      "definition": "indicates any subordinate agreement, such as a collateral agreement",
+      "domain": [
+        "written contract"
+      ],
+      "range": [
+        "written contract"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is qualified by",
+      "technicalName": "fibo-fnd-agr-ctr:isQualifiedBy",
+      "localName": "isQualifiedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/isQualifiedBy",
+      "label": "is qualified by",
+      "definition": "indicates a constraint, limitation or refinement on something",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is subordinate to",
+      "technicalName": "fibo-fnd-agr-ctr:isSubordinateTo",
+      "localName": "isSubordinateTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/isSubordinateTo",
+      "label": "is subordinate to",
+      "definition": "indicates the primary contract referenced by a subordinate agreement, such as a collateral agreement",
+      "domain": [
+        "written contract"
+      ],
+      "range": [
+        "written contract"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "qualifies",
+      "technicalName": "fibo-fnd-agr-ctr:qualifies",
+      "localName": "qualifies",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/qualifies",
+      "label": "qualifies",
+      "definition": "limits, constrains or refines",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "supersedes",
+      "technicalName": "fibo-fnd-agr-ctr:supersedes",
+      "localName": "supersedes",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/supersedes",
+      "label": "supersedes",
+      "definition": "indicates a contract that was executed prior to and is replaced by this contract",
+      "domain": [
+        "contract"
+      ],
+      "range": [
+        "contract"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has legal description",
+      "technicalName": "fibo-fnd-agr-ctr:hasLegalDescription",
+      "localName": "hasLegalDescription",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/hasLegalDescription",
+      "label": "has legal description",
+      "definition": "provides the text, or a summary thereof, expressed in legal terms, of the contract provision, clause, or other element",
+      "domain": [
+        "contractual element"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is assignable",
+      "technicalName": "fibo-fnd-agr-ctr:isAssignable",
+      "localName": "isAssignable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/isAssignable",
+      "label": "is assignable",
+      "definition": "indicates whether the contract and the rights thereunder may be assigned by one of the signatories to some other party",
+      "domain": [
+        "contract"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is netting automatic",
+      "technicalName": "fibo-fnd-agr-ctr:isNettingAutomatic",
+      "localName": "isNettingAutomatic",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/isNettingAutomatic",
+      "label": "is netting automatic",
+      "definition": "indicates whether netting takes place automatically under the scope of the agreement",
+      "domain": [
+        "netting provision"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

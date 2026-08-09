@@ -1,0 +1,259 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\OwnershipAndControl\\Control.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/",
+  "summary": {
+    "nodes": 5,
+    "edges": 8,
+    "properties": 1,
+    "triples": 139
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/"
+  ],
+  "classes": [
+    {
+      "name": "control",
+      "technicalName": "fibo-fnd-oac-ctl:Control",
+      "localName": "Control",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/Control",
+      "label": "control",
+      "definition": "situation in which some party has the power to direct or strongly influence the direction of the management and policies related to something",
+      "parents": [
+        "cmns-pts:Situation"
+      ],
+      "rules": [
+        {
+          "property": "involves controlled thing",
+          "operator": "some",
+          "value": "controlled thing",
+          "qualifier": null
+        },
+        {
+          "property": "has party in control",
+          "operator": "some",
+          "value": "controlling party",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "controlled thing",
+      "technicalName": "fibo-fnd-oac-ctl:ControlledThing",
+      "localName": "ControlledThing",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/ControlledThing",
+      "label": "controlled thing",
+      "definition": "something over which some party exercises some form of control with respect to some situation",
+      "parents": [
+        "cmns-pts:Undergoer"
+      ],
+      "rules": [
+        {
+          "property": "is controlled thing in",
+          "operator": "some",
+          "value": "control",
+          "qualifier": null
+        },
+        {
+          "property": "has controlling party",
+          "operator": "some",
+          "value": "controlling party",
+          "qualifier": null
+        },
+        {
+          "property": "is initially controlled on",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        }
+      ]
+    },
+    {
+      "name": "controlling party",
+      "technicalName": "fibo-fnd-oac-ctl:ControllingParty",
+      "localName": "ControllingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/ControllingParty",
+      "label": "controlling party",
+      "definition": "actor that exercises some form of control in the context of some situation",
+      "parents": [
+        "cmns-pts:Actor"
+      ],
+      "rules": [
+        {
+          "property": "is party controlling",
+          "operator": "some",
+          "value": "controlled thing",
+          "qualifier": null
+        },
+        {
+          "property": "is controlling party in",
+          "operator": "some",
+          "value": "control",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "de facto control",
+      "technicalName": "fibo-fnd-oac-ctl:DeFactoControl",
+      "localName": "DeFactoControl",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/DeFactoControl",
+      "label": "de facto control",
+      "definition": "control that exists informally and is accepted, although not formally recognized",
+      "parents": [
+        "control"
+      ],
+      "rules": []
+    },
+    {
+      "name": "de jure control",
+      "technicalName": "fibo-fnd-oac-ctl:DeJureControl",
+      "localName": "DeJureControl",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/DeJureControl",
+      "label": "de jure control",
+      "definition": "control that exists as a matter of law, i.e., legitimate, legal control of something",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalConstruct",
+        "control"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has controlling party",
+      "technicalName": "fibo-fnd-oac-ctl:hasControllingParty",
+      "localName": "hasControllingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/hasControllingParty",
+      "label": "has controlling party",
+      "definition": "indicates the party that exercises authority or influence over something",
+      "domain": [
+        "controlled thing"
+      ],
+      "range": [
+        "controlling party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has party in control",
+      "technicalName": "fibo-fnd-oac-ctl:hasPartyInControl",
+      "localName": "hasPartyInControl",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/hasPartyInControl",
+      "label": "has party in control",
+      "definition": "indicates the actor in the context of a control situation",
+      "domain": [
+        "control"
+      ],
+      "range": [
+        "controlling party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "involves controlled thing",
+      "technicalName": "fibo-fnd-oac-ctl:involvesControlledThing",
+      "localName": "involvesControlledThing",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/involvesControlledThing",
+      "label": "involves controlled thing",
+      "definition": "indicates something controlled in the context of a control situation",
+      "domain": [
+        "control"
+      ],
+      "range": [
+        "controlled thing"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is controlled party of",
+      "technicalName": "fibo-fnd-oac-ctl:isControlledPartyOf",
+      "localName": "isControlledPartyOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/isControlledPartyOf",
+      "label": "is controlled party of",
+      "definition": "indicates a controlling party that has some amount of authority or influence over it",
+      "domain": [],
+      "range": [
+        "controlling party"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is controlled thing in",
+      "technicalName": "fibo-fnd-oac-ctl:isControlledThingIn",
+      "localName": "isControlledThingIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/isControlledThingIn",
+      "label": "is controlled thing in",
+      "definition": "indicates the context of control in which something is being controlled",
+      "domain": [
+        "controlled thing"
+      ],
+      "range": [
+        "control"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is controlling party in",
+      "technicalName": "fibo-fnd-oac-ctl:isControllingPartyIn",
+      "localName": "isControllingPartyIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/isControllingPartyIn",
+      "label": "is controlling party in",
+      "definition": "indicates the context of control in which the party plays the role of controlling something",
+      "domain": [
+        "controlling party"
+      ],
+      "range": [
+        "control"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is controlling party of",
+      "technicalName": "fibo-fnd-oac-ctl:isControllingPartyOf",
+      "localName": "isControllingPartyOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/isControllingPartyOf",
+      "label": "is controlling party of",
+      "definition": "indicates something that a controlling party has some amount of authority or influence over",
+      "domain": [
+        "controlling party"
+      ],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is party controlling",
+      "technicalName": "fibo-fnd-oac-ctl:isPartyControlling",
+      "localName": "isPartyControlling",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/isPartyControlling",
+      "label": "is party controlling",
+      "definition": "indicates something controlled that a controlling party has some amount of authority or influence over",
+      "domain": [
+        "controlling party"
+      ],
+      "range": [
+        "controlled thing"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "is initially controlled on",
+      "technicalName": "fibo-fnd-oac-ctl:isInitiallyControlledOn",
+      "localName": "isInitiallyControlledOn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Control/isInitiallyControlledOn",
+      "label": "is initially controlled on",
+      "definition": "indicates the date or date and time that some level of authority or influence was first put in place",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    }
+  ]
+}

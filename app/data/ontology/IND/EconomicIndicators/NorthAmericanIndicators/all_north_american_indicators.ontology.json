@@ -1,0 +1,388 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\IND\\EconomicIndicators\\NorthAmericanIndicators",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\IND\\EconomicIndicators\\NorthAmericanIndicators\\CAEconomicIndicators.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\IND\\EconomicIndicators\\NorthAmericanIndicators\\USEconomicIndicators.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 2,
+    "classes": 17,
+    "edges": 0,
+    "attributes": 0
+  },
+  "classes": [
+    {
+      "name": "Canadian consumer price index",
+      "technicalName": "fibo-ind-ei-caei:CanadianConsumerPriceIndex",
+      "localName": "CanadianConsumerPriceIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/CAEconomicIndicators/CanadianConsumerPriceIndex",
+      "label": "Canadian consumer price index",
+      "definition": "economic indicator representing a measure of changes over time in the prices of a fixed basket of consumer goods and services that Canadian private households consume",
+      "parents": [
+        "fibo-ind-ei-ei:ConsumerPriceIndex"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "fibo-ind-ei-ei:FixedBasket",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "Canadian households consumers universe",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "Canadian households consumers universe"
+        },
+        {
+          "property": "fibo-be-fct-pub:isPublishedBy",
+          "operator": "value",
+          "value": "Statistics Canada",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-fct-pub:hasPublisher",
+          "operator": "value",
+          "value": "Canadian statistics publisher",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Canadian households consumers universe",
+      "technicalName": "fibo-ind-ei-caei:CanadianHouseholdsConsumersUniverse",
+      "localName": "CanadianHouseholdsConsumersUniverse",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/CAEconomicIndicators/CanadianHouseholdsConsumersUniverse",
+      "label": "Canadian households consumers universe",
+      "definition": "a statistical universe consisting of all private households in Canada, with the exception of soldiers on military bases, people living on First Nations reserves, institutionalized persons, and households living in the rural areas of the three northern territories",
+      "parents": [
+        "fibo-ind-ei-ei:CivilianNonInstitutionalPopulation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "fibo-ind-ei-ei:Household",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "fibo-ind-ei-ei:UltimateConsumer",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Canadian producer price index",
+      "technicalName": "fibo-ind-ei-caei:CanadianProducerPriceIndex",
+      "localName": "CanadianProducerPriceIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/CAEconomicIndicators/CanadianProducerPriceIndex",
+      "label": "Canadian producer price index",
+      "definition": "an economic indicator representing a measure of the change over time in the prices of a fixed-basket of domestic producer goods and services",
+      "parents": [
+        "fibo-ind-ei-ei:ProducerPriceIndex"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-fct-pub:isPublishedBy",
+          "operator": "value",
+          "value": "Statistics Canada",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-fct-pub:hasPublisher",
+          "operator": "value",
+          "value": "Canadian statistics publisher",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "industrial products sector",
+      "technicalName": "fibo-ind-ei-caei:IndustrialProductsSector",
+      "localName": "IndustrialProductsSector",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/CAEconomicIndicators/IndustrialProductsSector",
+      "label": "industrial products sector",
+      "definition": "a classifier for a sector of the economy used for price indices focused on major commodities sold by manufacturers in Canada",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "new housing sector",
+      "technicalName": "fibo-ind-ei-caei:NewHousingSector",
+      "localName": "NewHousingSector",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/CAEconomicIndicators/NewHousingSector",
+      "label": "new housing sector",
+      "definition": "a classifier for a sector of the economy used for price indices focused on contractors' selling prices of new residential houses, where detailed specifications pertaining to each house remain the same between two consecutive periods",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "raw materials sector",
+      "technicalName": "fibo-ind-ei-caei:RawMaterialsSector",
+      "localName": "RawMaterialsSector",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/CAEconomicIndicators/RawMaterialsSector",
+      "label": "raw materials sector",
+      "definition": "a classifier used for price indices related to raw materials purchased by industries in Canada for further processing",
+      "parents": [
+        "fibo-fnd-arr-cls:IndustrySectorClassifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "American statistics publisher",
+      "technicalName": "fibo-ind-ei-usei:AmericanStatisticsPublisher",
+      "localName": "AmericanStatisticsPublisher",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/USEconomicIndicators/AmericanStatisticsPublisher",
+      "label": "American statistics publisher",
+      "definition": "statistical information publisher comprised of the government agencies and departments that publish statistical information on behalf of the U.S. Federal Government",
+      "parents": [
+        "fibo-ind-ei-ei:StatisticalInformationPublisher"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consumer expenditure survey",
+      "technicalName": "fibo-ind-ei-usei:ConsumerExpenditureSurvey",
+      "localName": "ConsumerExpenditureSurvey",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/USEconomicIndicators/ConsumerExpenditureSurvey",
+      "label": "consumer expenditure survey",
+      "definition": "statistical program conducted on a regular basis that provides information on the buying habits of consumers, including data on their expenditures, income, and consumer unit (families and single consumers) characteristics",
+      "parents": [
+        "fibo-fnd-utl-alx:StatisticalProgram"
+      ],
+      "rules": []
+    },
+    {
+      "name": "current employment statistics",
+      "technicalName": "fibo-ind-ei-usei:CurrentEmploymentStatistics",
+      "localName": "CurrentEmploymentStatistics",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/USEconomicIndicators/CurrentEmploymentStatistics",
+      "label": "current employment statistics",
+      "definition": "survey conducted on a regular basis that presents analytical information related to businesses and government agencies, in order to provide detailed industry data on employment, hours, and earnings of workers",
+      "parents": [
+        "fibo-fnd-utl-alx:StatisticalProgram"
+      ],
+      "rules": []
+    },
+    {
+      "name": "current population survey",
+      "technicalName": "fibo-ind-ei-usei:CurrentPopulationSurvey",
+      "localName": "CurrentPopulationSurvey",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/USEconomicIndicators/CurrentPopulationSurvey",
+      "label": "current population survey",
+      "definition": "survey conducted on a regular basis that presents analytical information related to the general population of a given statistical area with respect to labor force, employment, unemployment, persons not in the labor force, hours of work, earnings, and other demographic and labor force characteristics",
+      "parents": [
+        "fibo-fnd-utl-alx:StatisticalProgram"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:specifies",
+          "operator": "some",
+          "value": "fibo-ind-ei-ei:CivilianNonInstitutionalPopulation",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "employment situation establishment survey",
+      "technicalName": "fibo-ind-ei-usei:EmploymentSituationEstablishmentSurvey",
+      "localName": "EmploymentSituationEstablishmentSurvey",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/USEconomicIndicators/EmploymentSituationEstablishmentSurvey",
+      "label": "employment situation establishment survey",
+      "definition": "survey conducted on a regular basis that presents analytical information related to the labor force of a given statistical area, surveyed with respect to businesses, and is, for the most part, seasonally adjusted",
+      "parents": [
+        "employment situation survey"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "fibo-ind-ei-ei:Establishment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "employment situation household survey",
+      "technicalName": "fibo-ind-ei-usei:EmploymentSituationHouseholdSurvey",
+      "localName": "EmploymentSituationHouseholdSurvey",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/USEconomicIndicators/EmploymentSituationHouseholdSurvey",
+      "label": "employment situation household survey",
+      "definition": "a survey conducted on a regular basis that presents analytical information related to the labor force of a given statistical area, surveyed with respect to households, and is, for the most part, seasonally adjusted",
+      "parents": [
+        "employment situation survey"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "fibo-ind-ei-ei:Household",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "employment situation survey",
+      "technicalName": "fibo-ind-ei-usei:EmploymentSituationSurvey",
+      "localName": "EmploymentSituationSurvey",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/USEconomicIndicators/EmploymentSituationSurvey",
+      "label": "employment situation survey",
+      "definition": "a survey conducted on a regular basis that presents analytical information focused on the employment characteristics of a given statistical area",
+      "parents": [
+        "current employment statistics",
+        "current population survey"
+      ],
+      "rules": [
+        {
+          "property": "fibo-ind-ei-ei:isSeasonallyAdjusted",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:boolean"
+        }
+      ]
+    },
+    {
+      "name": "point of purchase survey",
+      "technicalName": "fibo-ind-ei-usei:PointOfPurchaseSurvey",
+      "localName": "PointOfPurchaseSurvey",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/USEconomicIndicators/PointOfPurchaseSurvey",
+      "label": "point of purchase survey",
+      "definition": "a program conducted on a regular basis that provides information on purchases of various items and services by consumers",
+      "parents": [
+        "fibo-fnd-utl-alx:StatisticalProgram"
+      ],
+      "rules": []
+    },
+    {
+      "name": "U.S. producer price index",
+      "technicalName": "fibo-ind-ei-usei:USProducerPriceIndex",
+      "localName": "USProducerPriceIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/USEconomicIndicators/USProducerPriceIndex",
+      "label": "U.S. producer price index",
+      "definition": "an economic indicator representing a measure of the change over time in the selling prices received by domestic producers for their output",
+      "parents": [
+        "fibo-ind-ei-ei:ProducerPriceIndex"
+      ],
+      "rules": [
+        {
+          "property": "fibo-be-fct-pub:hasPublisher",
+          "operator": "some",
+          "value": "American statistics publisher",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-fct-pub:isPublishedBy",
+          "operator": "value",
+          "value": "Bureau of Labor Statistics",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "urban consumer price index",
+      "technicalName": "fibo-ind-ei-usei:UrbanConsumerPriceIndex",
+      "localName": "UrbanConsumerPriceIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/USEconomicIndicators/UrbanConsumerPriceIndex",
+      "label": "urban consumer price index",
+      "definition": "an economic indicator representing a measure of the average change over time in the prices paid by urban consumers for a market basket of consumer goods and services",
+      "parents": [
+        "fibo-ind-ei-ei:ConsumerPriceIndex"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "fibo-fbc-pas-fpas:Basket",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "urban consumers universe",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-fct-pub:hasPublisher",
+          "operator": "some",
+          "value": "American statistics publisher",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "urban consumers universe"
+        },
+        {
+          "property": "fibo-be-fct-pub:isPublishedBy",
+          "operator": "value",
+          "value": "Bureau of Labor Statistics",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "urban consumers universe",
+      "technicalName": "fibo-ind-ei-usei:UrbanConsumersUniverse",
+      "localName": "UrbanConsumersUniverse",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/EconomicIndicators/NorthAmericanIndicators/USEconomicIndicators/UrbanConsumersUniverse",
+      "label": "urban consumers universe",
+      "definition": "a statistical universe for consumer expenditure surveys consisting of people within a household that make joint expenditure decisions",
+      "parents": [
+        "fibo-ind-ei-ei:CivilianNonInstitutionalPopulation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "point of purchase survey",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "some",
+          "value": "consumer expenditure survey",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:playsRole",
+          "operator": "some",
+          "value": "fibo-ind-ei-ei:UltimateConsumer",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

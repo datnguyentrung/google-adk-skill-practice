@@ -1,0 +1,160 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FBC\\FunctionalEntities\\EuropeanEntities",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FBC\\FunctionalEntities\\EuropeanEntities\\EUFinancialServicesEntities.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FBC\\FunctionalEntities\\EuropeanEntities\\EURegulatoryAgencies.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\FBC\\FunctionalEntities\\EuropeanEntities\\EuropeanFinancialServicesEntitiesIndividuals.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 3,
+    "classes": 9,
+    "edges": 0,
+    "attributes": 0
+  },
+  "classes": [
+    {
+      "name": "CRD credit institution",
+      "technicalName": "fibo-fbc-fct-eufse:CRDCreditInstitution",
+      "localName": "CRDCreditInstitution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EUFinancialServicesEntities/CRDCreditInstitution",
+      "label": "CRD credit institution",
+      "definition": "an undertaking whose business is to receive deposits or other repayable funds from the public and to grant credits for its own account as defined by the European Banking Authority (EBA)",
+      "parents": [
+        "credit institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit institution",
+      "technicalName": "fibo-fbc-fct-eufse:CreditInstitution",
+      "localName": "CreditInstitution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EUFinancialServicesEntities/CreditInstitution",
+      "label": "credit institution",
+      "definition": "an undertaking the business of which is to take deposits or other repayable funds from the public and to grant credits for its own account, and to which authorisation has been granted to operate within the European Union and European Economic Area countries (EEA)",
+      "parents": [
+        "credit institution / investment firm"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit institution / investment firm",
+      "technicalName": "fibo-fbc-fct-eufse:CreditInstitutionInvestmentFirm",
+      "localName": "CreditInstitutionInvestmentFirm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EUFinancialServicesEntities/CreditInstitutionInvestmentFirm",
+      "label": "credit institution / investment firm",
+      "definition": "classification specific to European financial institutions that designates them as credit institutions / investment firms as defined by the European Banking Authority (EBA)",
+      "parents": [
+        "fibo-fbc-fct-fse:FinancialInstitution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "European Economic Area branch",
+      "technicalName": "fibo-fbc-fct-eufse:EuropeanEconomicAreaBranch",
+      "localName": "EuropeanEconomicAreaBranch",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EUFinancialServicesEntities/EuropeanEconomicAreaBranch",
+      "label": "European Economic Area branch",
+      "definition": "a branch of a credit institution authorised in another European Economic Area (EEA) country that has the right to passport its activities",
+      "parents": [
+        "credit institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "investment firm",
+      "technicalName": "fibo-fbc-fct-eufse:InvestmentFirm",
+      "localName": "InvestmentFirm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EUFinancialServicesEntities/InvestmentFirm",
+      "label": "investment firm",
+      "definition": "any legal person whose regular occupation or business is the provision of one or more investment services to third parties and/or the performance of one or more investment activities on a professional basis",
+      "parents": [
+        "credit institution / investment firm"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:provides",
+          "operator": "some",
+          "value": "fibo-fbc-fct-fse:InvestmentService",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "local firm",
+      "technicalName": "fibo-fbc-fct-eufse:LocalFirm",
+      "localName": "LocalFirm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EUFinancialServicesEntities/LocalFirm",
+      "label": "local firm",
+      "definition": "a firm dealing for its own account on markets in financial futures or options or other derivatives and on cash markets for the sole purpose of hedging positions on derivatives markets, or dealing for the accounts of other members of those markets and being guaranteed by clearing members of the same markets, where responsibility for ensuring the performance of contracts entered into by such a firm is assumed by clearing members of the same markets",
+      "parents": [
+        "credit institution / investment firm",
+        "fibo-fbc-fct-fse:BrokerageFirm"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non European Economic Area branch",
+      "technicalName": "fibo-fbc-fct-eufse:NonEuropeanEconomicAreaBranch",
+      "localName": "NonEuropeanEconomicAreaBranch",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EUFinancialServicesEntities/NonEuropeanEconomicAreaBranch",
+      "label": "non European Economic Area branch",
+      "definition": "a branch of a credit institution whose Head Office is in a third country",
+      "parents": [
+        "credit institution"
+      ],
+      "rules": []
+    },
+    {
+      "name": "payment institution",
+      "technicalName": "fibo-fbc-fct-eufse:PaymentInstitution",
+      "localName": "PaymentInstitution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EUFinancialServicesEntities/PaymentInstitution",
+      "label": "payment institution",
+      "definition": "a legal person that has been granted authorisation in accordance with Article 10 to provide and execute payment services throughout the European community",
+      "parents": [
+        "credit institution / investment firm"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:provides",
+          "operator": "some",
+          "value": "fibo-fbc-fct-fse:PaymentService",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Credit Institution Register entry",
+      "technicalName": "fibo-fbc-fct-eurga:CreditInstitutionRegisterEntry",
+      "localName": "CreditInstitutionRegisterEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/EuropeanEntities/EURegulatoryAgencies/CreditInstitutionRegisterEntry",
+      "label": "Credit Institution Register entry",
+      "definition": "entry in the Credit Institution Register, a repository of credit institutions collected by the European Banking Authority (EBA) as provided by the various national banking authorities for those institutions that qualify",
+      "parents": [
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-fbc-fct-eufse:CreditInstitution",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "value",
+          "value": "Credit Institution Register",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "only",
+          "value": "fibo-fbc-fct-eufse:CreditInstitution",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

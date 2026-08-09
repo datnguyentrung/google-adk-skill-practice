@@ -1,0 +1,713 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\DER\\RateDerivatives",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\DER\\RateDerivatives\\IRSwaps.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\DER\\RateDerivatives\\RateDerivatives.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 2,
+    "classes": 31,
+    "edges": 4,
+    "attributes": 2
+  },
+  "classes": [
+    {
+      "name": "cross-currency interest rate swap",
+      "technicalName": "fibo-der-rtd-irswp:CrossCurrencyInterestRateSwap",
+      "localName": "CrossCurrencyInterestRateSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/CrossCurrencyInterestRateSwap",
+      "label": "cross-currency interest rate swap",
+      "definition": "interest rate swap in which the two streams of interest payments are in different currencies",
+      "parents": [
+        "interest rate swap"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:specifies",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "fibo-fnd-acc-cur:Currency"
+        }
+      ]
+    },
+    {
+      "name": "fixed fixed interest rate swap",
+      "technicalName": "fibo-der-rtd-irswp:FixedFixedInterestRateSwap",
+      "localName": "FixedFixedInterestRateSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/FixedFixedInterestRateSwap",
+      "label": "fixed fixed interest rate swap",
+      "definition": "interest rate swap in which both parties pay a fixed interest rate that they could not otherwise obtain outside of a swap arrangement",
+      "parents": [
+        "interest rate swap"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:exchanges",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "fixed interest rate leg"
+        }
+      ]
+    },
+    {
+      "name": "fixed float cross-currency interest rate swap",
+      "technicalName": "fibo-der-rtd-irswp:FixedFloatCrossCurrencyInterestRateSwap",
+      "localName": "FixedFloatCrossCurrencyInterestRateSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/FixedFloatCrossCurrencyInterestRateSwap",
+      "label": "fixed float cross-currency interest rate swap",
+      "definition": "interest rate swap in which fixed interest payments on the notional are exchanged for floating interest payments and the two streams of interest payments are in different currencies",
+      "parents": [
+        "cross-currency interest rate swap",
+        "fixed float interest rate swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fixed float interest rate swap",
+      "technicalName": "fibo-der-rtd-irswp:FixedFloatInterestRateSwap",
+      "localName": "FixedFloatInterestRateSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/FixedFloatInterestRateSwap",
+      "label": "fixed float interest rate swap",
+      "definition": "interest rate swap in which fixed interest payments on the notional are exchanged for floating interest payments",
+      "parents": [
+        "interest rate swap"
+      ],
+      "rules": [
+        {
+          "property": "fibo-der-drc-swp:hasLeg",
+          "operator": "some",
+          "value": "floating interest rate leg",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-der-drc-swp:hasLeg",
+          "operator": "some",
+          "value": "fixed interest rate leg",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exchanges",
+          "operator": "some",
+          "value": "floating interest rate leg",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exchanges",
+          "operator": "some",
+          "value": "fixed interest rate leg",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fixed float single currency interest rate swap",
+      "technicalName": "fibo-der-rtd-irswp:FixedFloatSingleCurrencyInterestRateSwap",
+      "localName": "FixedFloatSingleCurrencyInterestRateSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/FixedFloatSingleCurrencyInterestRateSwap",
+      "label": "fixed float single currency interest rate swap",
+      "definition": "interest rate swap in which fixed interest payments on the notional are exchanged for floating interest payments and where both payment streams are expressed in terms of the same currency",
+      "parents": [
+        "fixed float interest rate swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "fixed interest rate leg",
+      "technicalName": "fibo-der-rtd-irswp:FixedInterestRateLeg",
+      "localName": "FixedInterestRateLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/FixedInterestRateLeg",
+      "label": "fixed interest rate leg",
+      "definition": "fixed leg that specifies fixed interest amounts and terms for the payment of that interest",
+      "parents": [
+        "fibo-der-drc-swp:FixedLeg",
+        "interest rate swap leg"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:hasInterestRate",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:FixedInterestRate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "float float cross-currency interest rate swap",
+      "technicalName": "fibo-der-rtd-irswp:FloatFloatCrossCurrencyInterestRateSwap",
+      "localName": "FloatFloatCrossCurrencyInterestRateSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/FloatFloatCrossCurrencyInterestRateSwap",
+      "label": "float float cross-currency interest rate swap",
+      "definition": "interest rate swap that exchanges cashflows based on two different interest rates in different currencies",
+      "parents": [
+        "float float interest rate swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "float float interest rate swap",
+      "technicalName": "fibo-der-rtd-irswp:FloatFloatInterestRateSwap",
+      "localName": "FloatFloatInterestRateSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/FloatFloatInterestRateSwap",
+      "label": "float float interest rate swap",
+      "definition": "interest rate swap that exchanges cashflows based on two different floating interest rates",
+      "parents": [
+        "fibo-der-drc-swp:BasisSwap",
+        "interest rate swap"
+      ],
+      "rules": [
+        {
+          "property": "fibo-der-drc-swp:hasLeg",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "floating interest rate leg"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exchanges",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "floating interest rate leg"
+        }
+      ]
+    },
+    {
+      "name": "float float single currency interest rate swap",
+      "technicalName": "fibo-der-rtd-irswp:FloatFloatSingleCurrencyInterestRateSwap",
+      "localName": "FloatFloatSingleCurrencyInterestRateSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/FloatFloatSingleCurrencyInterestRateSwap",
+      "label": "float float single currency interest rate swap",
+      "definition": "interest rate swap that exchanges cashflows based on two different floating interest rates in the same currency",
+      "parents": [
+        "float float interest rate swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "floating interest rate leg",
+      "technicalName": "fibo-der-rtd-irswp:FloatingInterestRateLeg",
+      "localName": "FloatingInterestRateLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/FloatingInterestRateLeg",
+      "label": "floating interest rate leg",
+      "definition": "floating leg in which variable interest is paid on some notional amount, linked to some underlying interest reference rate",
+      "parents": [
+        "fibo-der-drc-swp:FloatingLeg",
+        "interest rate swap leg"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:hasInterestRate",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:FloatingInterestRate",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-doc:specifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-dae-dbt:InterestRateSettingEvent"
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasSchedule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-dae-dbt:InterestRateResetSchedule"
+        },
+        {
+          "property": "cmns-doc:specifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-dae-dbt:InterestRateReset"
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasSchedule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-dae-dbt:InterestCalculationSchedule"
+        }
+      ]
+    },
+    {
+      "name": "inflation leg",
+      "technicalName": "fibo-der-rtd-irswp:InflationLeg",
+      "localName": "InflationLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/InflationLeg",
+      "label": "inflation leg",
+      "definition": "floating rate leg of an inflation swap linked to an inflation index, such as the Consumer Price Index (CPI)",
+      "parents": [
+        "fibo-der-drc-swp:FloatingLeg"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-ind-ei-ei:EconomicIndicator",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "inflation swap",
+      "technicalName": "fibo-der-rtd-irswp:InflationSwap",
+      "localName": "InflationSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/InflationSwap",
+      "label": "inflation swap",
+      "definition": "rate swap in which one party pays an amount calculated using an inflation rate index, and the other party pays an amount calculated using another inflation rate index, or a fixed or floating interest rate",
+      "parents": [
+        "fibo-der-drc-bsc:RateBasedDerivative",
+        "fibo-der-drc-swp:RatesSwap"
+      ],
+      "rules": [
+        {
+          "property": "fibo-der-drc-swp:hasLeg",
+          "operator": "some",
+          "value": "inflation leg",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-sec-dbt-bnd:isLinkedToFallback",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "fibo-sec-dbt-bnd:GovernmentBond"
+        }
+      ]
+    },
+    {
+      "name": "interest rate swap",
+      "technicalName": "fibo-der-rtd-irswp:InterestRateSwap",
+      "localName": "InterestRateSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/InterestRateSwap",
+      "label": "interest rate swap",
+      "definition": "swap in which the reference (underlier) for at least one leg is an interest rate",
+      "parents": [
+        "fibo-der-drc-bsc:InterestRateDerivative",
+        "fibo-der-drc-swp:RatesSwap"
+      ],
+      "rules": [
+        {
+          "property": "fibo-der-drc-swp:hasLeg",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "interest rate swap leg"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:exchanges",
+          "operator": "exactlyQualified",
+          "value": "2",
+          "qualifier": "interest rate swap leg"
+        }
+      ]
+    },
+    {
+      "name": "interest rate swap leg",
+      "technicalName": "fibo-der-rtd-irswp:InterestRateSwapLeg",
+      "localName": "InterestRateSwapLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/InterestRateSwapLeg",
+      "label": "interest rate swap leg",
+      "definition": "swap leg that has an interest rate payment stream, including both a parametric and cashflow representation for the stream of payments",
+      "parents": [
+        "fibo-der-drc-swp:RateBasedLeg"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:hasInterestRate",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:InterestRate",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-doc:specifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:Currency"
+        },
+        {
+          "property": "fibo-fnd-pas-psch:hasPaymentSchedule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-dae-dbt:InterestPaymentSchedule"
+        },
+        {
+          "property": "cmns-doc:specifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-dae-dbt:InterestCalculationSchedule"
+        },
+        {
+          "property": "fibo-fnd-dt-bd:hasBusinessRecurrenceIntervalConvention",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-dae-dbt:DayCountConvention"
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasSchedule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "notional step schedule"
+        }
+      ]
+    },
+    {
+      "name": "notional step amount",
+      "technicalName": "fibo-der-rtd-irswp:NotionalStepAmount",
+      "localName": "NotionalStepAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/NotionalStepAmount",
+      "label": "notional step amount",
+      "definition": "the amount of money that is subtracted from the notional on each step date",
+      "parents": [
+        "cmns-qtu:ScalarQuantityValue"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-acc-cur:hasNotionalAmount",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "notional step change event",
+      "technicalName": "fibo-der-rtd-irswp:NotionalStepChangeEvent",
+      "localName": "NotionalStepChangeEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/NotionalStepChangeEvent",
+      "label": "notional step change event",
+      "definition": "event in which a step change in the notional amount for a given swap leg occurs",
+      "parents": [
+        "fibo-fbc-pas-fpas:ContractLifecycleEventOccurrence",
+        "fibo-sec-dbt-dbti:StepEvent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:specifies",
+          "operator": "some",
+          "value": "notional step amount",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "notional step period length",
+      "technicalName": "fibo-der-rtd-irswp:NotionalStepPeriodLength",
+      "localName": "NotionalStepPeriodLength",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/NotionalStepPeriodLength",
+      "label": "notional step period length",
+      "definition": "recurrence interval indicating the frequency with which step changes occur, which is a multiple of the calculation period in the calculation schedule",
+      "parents": [
+        "fibo-fnd-dt-fd:RecurrenceInterval"
+      ],
+      "rules": []
+    },
+    {
+      "name": "notional step schedule",
+      "technicalName": "fibo-der-rtd-irswp:NotionalStepSchedule",
+      "localName": "NotionalStepSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/NotionalStepSchedule",
+      "label": "notional step schedule",
+      "definition": "schedule of changes in the notional amount on which interest is paid, comprising the regular sequence of step events",
+      "parents": [
+        "fibo-fbc-dae-dbt:ProjectedContractEventSchedule",
+        "fibo-sec-dbt-dbti:StepSchedule"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-dt-oc:hasOccurrence",
+          "operator": "some",
+          "value": "notional step change event",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasRecurrenceInterval",
+          "operator": "some",
+          "value": "notional step period length",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "overnight index swap",
+      "technicalName": "fibo-der-rtd-irswp:OvernightIndexSwap",
+      "localName": "OvernightIndexSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/OvernightIndexSwap",
+      "label": "overnight index swap",
+      "definition": "swap in which the periodic payments for one leg are based on an overnight interest rate index multiplied by the same notional amount upon which payments for the other leg of the swap are based",
+      "parents": [
+        "interest rate swap"
+      ],
+      "rules": [
+        {
+          "property": "fibo-der-drc-swp:hasLeg",
+          "operator": "some",
+          "value": "overnight rate index leg",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "overnight rate index leg",
+      "technicalName": "fibo-der-rtd-irswp:OvernightRateIndexLeg",
+      "localName": "OvernightRateIndexLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/OvernightRateIndexLeg",
+      "label": "overnight rate index leg",
+      "definition": "floating leg in which periodic payments are based on an overnight interest rate index multiplied by the same notional amount on which the payments for the other leg of the swap are based",
+      "parents": [
+        "floating interest rate leg"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:hasInterestRate",
+          "operator": "some",
+          "value": "fibo-ind-ir-ir:OvernightRate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "plain vanilla interest rate swap",
+      "technicalName": "fibo-der-rtd-irswp:PlainVanillaInterestRateSwap",
+      "localName": "PlainVanillaInterestRateSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/PlainVanillaInterestRateSwap",
+      "label": "plain vanilla interest rate swap",
+      "definition": "fixed-float single currency interest rate swap in which interest payments are netted, the notional principal does not change, and there are no embedded options",
+      "parents": [
+        "fixed float single currency interest rate swap"
+      ],
+      "rules": [
+        {
+          "property": "fibo-der-drc-swp:hasLeg",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasSchedule",
+          "operator": "maxQualified",
+          "value": "0",
+          "qualifier": "notional step schedule"
+        },
+        {
+          "property": "fibo-der-drc-swp:hasLeg",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-doc:specifies",
+          "operator": "maxQualified",
+          "value": "0",
+          "qualifier": "notional step change event"
+        },
+        {
+          "property": "fibo-fnd-acc-cur:hasNotionalAmount",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "single currency interest rate swap",
+      "technicalName": "fibo-der-rtd-irswp:SingleCurrencyInterestRateSwap",
+      "localName": "SingleCurrencyInterestRateSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/SingleCurrencyInterestRateSwap",
+      "label": "single currency interest rate swap",
+      "definition": "interest rate swap in which the two streams of interest payments are in the same currency",
+      "parents": [
+        "interest rate swap"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:specifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:Currency"
+        }
+      ]
+    },
+    {
+      "name": "zero coupon interest rate swap",
+      "technicalName": "fibo-der-rtd-irswp:ZeroCouponInterestRateSwap",
+      "localName": "ZeroCouponInterestRateSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/ZeroCouponInterestRateSwap",
+      "label": "zero coupon interest rate swap",
+      "definition": "interest rate swap in which the fixed rate cash flows are compounded and paid once on the expiration date, rather than periodically; the payments on the other side (which can be based on a floating interest rate or a fixed rate) follow typical swap payment schedules",
+      "parents": [
+        "interest rate swap"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-acc-cur:hasNotionalAmount",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "fibo-der-rtd-rtd:EconomicRateBasedDerivativeInstrument",
+      "technicalName": "fibo-der-rtd-rtd:EconomicRateBasedDerivativeInstrument",
+      "localName": "EconomicRateBasedDerivativeInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/EconomicRateBasedDerivativeInstrument",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-der-rtd-rtd:EconomicRateObservable",
+      "technicalName": "fibo-der-rtd-rtd:EconomicRateObservable",
+      "localName": "EconomicRateObservable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/EconomicRateObservable",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-der-rtd-rtd:ForeignExchangeRateObservable",
+      "technicalName": "fibo-der-rtd-rtd:ForeignExchangeRateObservable",
+      "localName": "ForeignExchangeRateObservable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/ForeignExchangeRateObservable",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-der-rtd-rtd:ForwardRateAgreement",
+      "technicalName": "fibo-der-rtd-rtd:ForwardRateAgreement",
+      "localName": "ForwardRateAgreement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/ForwardRateAgreement",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-der-rtd-rtd:InterestRateDerivativeInstrument",
+      "technicalName": "fibo-der-rtd-rtd:InterestRateDerivativeInstrument",
+      "localName": "InterestRateDerivativeInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/InterestRateDerivativeInstrument",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-der-rtd-rtd:InterestRateObservable",
+      "technicalName": "fibo-der-rtd-rtd:InterestRateObservable",
+      "localName": "InterestRateObservable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/InterestRateObservable",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-der-rtd-rtd:RateBasedDerivativeInstrument",
+      "technicalName": "fibo-der-rtd-rtd:RateBasedDerivativeInstrument",
+      "localName": "RateBasedDerivativeInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/RateBasedDerivativeInstrument",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-der-rtd-rtd:RateBasedObservable",
+      "technicalName": "fibo-der-rtd-rtd:RateBasedObservable",
+      "localName": "RateBasedObservable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/RateDerivatives/RateBasedObservable",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has first notional step date",
+      "technicalName": "fibo-der-rtd-irswp:hasFirstNotionalStepDate",
+      "localName": "hasFirstNotionalStepDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/hasFirstNotionalStepDate",
+      "label": "has first notional step date",
+      "definition": "indicates the initial date in a notional step schedule",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has floating rate cap",
+      "technicalName": "fibo-der-rtd-irswp:hasFloatingRateCap",
+      "localName": "hasFloatingRateCap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/hasFloatingRateCap",
+      "label": "has floating rate cap",
+      "definition": "indicates an optional ceiling (cap) on interest rates on floating rate debts",
+      "domain": [],
+      "range": [
+        "fibo-fbc-dae-dbt:FloatingInterestRate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has floating rate floor",
+      "technicalName": "fibo-der-rtd-irswp:hasFloatingRateFloor",
+      "localName": "hasFloatingRateFloor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/hasFloatingRateFloor",
+      "label": "has floating rate floor",
+      "definition": "indicates an optional lower bound on interest rates on floating rate debts",
+      "domain": [],
+      "range": [
+        "fibo-fbc-dae-dbt:FloatingInterestRate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has last notional step date",
+      "technicalName": "fibo-der-rtd-irswp:hasLastNotionalStepDate",
+      "localName": "hasLastNotionalStepDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/hasLastNotionalStepDate",
+      "label": "has last notional step date",
+      "definition": "indicates the final date in a notional step schedule",
+      "domain": [],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has floating rate spread",
+      "technicalName": "fibo-der-rtd-irswp:hasFloatingRateSpread",
+      "localName": "hasFloatingRateSpread",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/hasFloatingRateSpread",
+      "label": "has floating rate spread",
+      "definition": "defines the spread rate that can optionally be used to adjust the floating rate",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has rate multiplier",
+      "technicalName": "fibo-der-rtd-irswp:hasRateMultiplier",
+      "localName": "hasRateMultiplier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/RateDerivatives/IRSwaps/hasRateMultiplier",
+      "label": "has rate multiplier",
+      "definition": "indicates a multiplier applied to the coupon before adding the floating rate spread",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    }
+  ]
+}

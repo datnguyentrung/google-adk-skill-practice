@@ -1,0 +1,276 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\DER\\SecurityBasedDerivatives\\EquitySwaps.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/EquitySwaps/",
+  "summary": {
+    "nodes": 13,
+    "edges": 0,
+    "properties": 0,
+    "triples": 170
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/SecurityBasedDerivatives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/Analytics/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "dispersion swap index constituents leg",
+      "technicalName": "fibo-der-sbd-eqs:DispersionSwapIndexConstituentsLeg",
+      "localName": "DispersionSwapIndexConstituentsLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/EquitySwaps/DispersionSwapIndexConstituentsLeg",
+      "label": "dispersion swap index constituents leg",
+      "definition": "dispersion leg whose underlier is a defined set of constituents of a given equity index",
+      "parents": [
+        "fibo-der-drc-swp:DispersionLeg"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-ind-mkt-bas:BasketOfEquities",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "dispersion swap index leg",
+      "technicalName": "fibo-der-sbd-eqs:DispersionSwapIndexLeg",
+      "localName": "DispersionSwapIndexLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/EquitySwaps/DispersionSwapIndexLeg",
+      "label": "dispersion swap index leg",
+      "definition": "dispersion leg whose underlier is an equity index",
+      "parents": [
+        "fibo-der-drc-swp:DispersionLeg"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-ind-mkt-bas:ReferenceIndex",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "dividend leg",
+      "technicalName": "fibo-der-sbd-eqs:DividendLeg",
+      "localName": "DividendLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/EquitySwaps/DividendLeg",
+      "label": "dividend leg",
+      "definition": "floating leg of a dividend swap",
+      "parents": [
+        "fibo-der-drc-swp:SimpleReturnLeg"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dt:hasDatePeriod",
+          "operator": "some",
+          "value": "qualifying dividend period",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "special dividend leg terms"
+        }
+      ]
+    },
+    {
+      "name": "dividend swap",
+      "technicalName": "fibo-der-sbd-eqs:DividendSwap",
+      "localName": "DividendSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/EquitySwaps/DividendSwap",
+      "label": "dividend swap",
+      "definition": "equity swap that has at least one leg whose underlier is a dividend stream",
+      "parents": [
+        "equity swap"
+      ],
+      "rules": [
+        {
+          "property": "fibo-der-drc-swp:hasLeg",
+          "operator": "some",
+          "value": "dividend leg",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "equity correlation swap",
+      "technicalName": "fibo-der-sbd-eqs:EquityCorrelationSwap",
+      "localName": "EquityCorrelationSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/EquitySwaps/EquityCorrelationSwap",
+      "label": "equity correlation swap",
+      "definition": "correlation swap that allows one to hedge risks associated with the observed average correlation of a collection of underlying equity products",
+      "parents": [
+        "fibo-der-drc-swp:CorrelationSwap",
+        "equity swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "equity price return swap",
+      "technicalName": "fibo-der-sbd-eqs:EquityPriceReturnSwap",
+      "localName": "EquityPriceReturnSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/EquitySwaps/EquityPriceReturnSwap",
+      "label": "equity price return swap",
+      "definition": "return swap whose return leg underlier is based on equities",
+      "parents": [
+        "fibo-der-drc-swp:ReturnSwap",
+        "equity swap"
+      ],
+      "rules": [
+        {
+          "property": "fibo-der-drc-swp:hasReturnLeg",
+          "operator": "some",
+          "value": "equity return leg",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "equity return leg",
+      "technicalName": "fibo-der-sbd-eqs:EquityReturnLeg",
+      "localName": "EquityReturnLeg",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/EquitySwaps/EquityReturnLeg",
+      "label": "equity return leg",
+      "definition": "return leg whose income is based on equities",
+      "parents": [
+        "fibo-der-drc-swp:ReturnLeg"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-fi-fi:hasUnderlier",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "equity swap",
+      "technicalName": "fibo-der-sbd-eqs:EquitySwap",
+      "localName": "EquitySwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/EquitySwaps/EquitySwap",
+      "label": "equity swap",
+      "definition": "swap whose payments are linked to the change in value of underlying equities (e.g. shares, basket of equities or index) or their cashflow(s)",
+      "parents": [
+        "fibo-der-drc-swp:Swap",
+        "fibo-der-sbd-sbd:EquityDerivative"
+      ],
+      "rules": []
+    },
+    {
+      "name": "equity total return swap",
+      "technicalName": "fibo-der-sbd-eqs:EquityTotalReturnSwap",
+      "localName": "EquityTotalReturnSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/EquitySwaps/EquityTotalReturnSwap",
+      "label": "equity total return swap",
+      "definition": "total return swap whose return leg underlier is based on equities",
+      "parents": [
+        "fibo-der-drc-swp:TotalReturnSwap",
+        "equity swap"
+      ],
+      "rules": [
+        {
+          "property": "fibo-der-drc-swp:hasReturnLeg",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "equity variance swap",
+      "technicalName": "fibo-der-sbd-eqs:EquityVarianceSwap",
+      "localName": "EquityVarianceSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/EquitySwaps/EquityVarianceSwap",
+      "label": "equity variance swap",
+      "definition": "dispersion swap in which the parties agree to exchange payments based on the difference between (i) the realized variance of the price changes of a specified equity underlier over a stated observation period and (ii) a fixed amount of variance that is agreed when the contract is executed",
+      "parents": [
+        "fibo-der-drc-swp:DispersionSwap",
+        "equity swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "equity volatility swap",
+      "technicalName": "fibo-der-sbd-eqs:EquityVolatilitySwap",
+      "localName": "EquityVolatilitySwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/EquitySwaps/EquityVolatilitySwap",
+      "label": "equity volatility swap",
+      "definition": "dispersion swap that is a forward contract on the variability of movements in the price of its underlying equities",
+      "parents": [
+        "fibo-der-drc-swp:DispersionSwap",
+        "equity swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "qualifying dividend period",
+      "technicalName": "fibo-der-sbd-eqs:QualifyingDividendPeriod",
+      "localName": "QualifyingDividendPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/EquitySwaps/QualifyingDividendPeriod",
+      "label": "qualifying dividend period",
+      "definition": "date period over which the sum of all qualifying dividends paid by the relevant issuers as identified in the swap terms is calculated",
+      "parents": [
+        "cmns-dt:ExplicitDatePeriod"
+      ],
+      "rules": []
+    },
+    {
+      "name": "special dividend leg terms",
+      "technicalName": "fibo-der-sbd-eqs:SpecialDividendLegTerms",
+      "localName": "SpecialDividendLegTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/SecurityBasedDerivatives/EquitySwaps/SpecialDividendLegTerms",
+      "label": "special dividend leg terms",
+      "definition": "terms that are invoked if special dividend and memorial dividends are applicable",
+      "parents": [
+        "fibo-der-drc-bsc:CashflowTerms"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

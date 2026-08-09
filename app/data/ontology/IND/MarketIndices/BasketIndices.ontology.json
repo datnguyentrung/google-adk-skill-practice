@@ -1,0 +1,404 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\IND\\MarketIndices\\BasketIndices.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/",
+  "summary": {
+    "nodes": 8,
+    "edges": 5,
+    "properties": 4,
+    "triples": 223
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/ClassificationSchemes/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/Analytics/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Equities/EquityInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Baskets/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesClassification/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/"
+  ],
+  "classes": [
+    {
+      "name": "basket of credit risks",
+      "technicalName": "fibo-ind-mkt-bas:BasketOfCreditRisks",
+      "localName": "BasketOfCreditRisks",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/BasketOfCreditRisks",
+      "label": "basket of credit risks",
+      "definition": "basket of instruments, legal entities, or a combination thereof collected for the purpose of analyzing risk",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasket",
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "credit index constituent",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "basket of equities",
+      "technicalName": "fibo-ind-mkt-bas:BasketOfEquities",
+      "localName": "BasketOfEquities",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/BasketOfEquities",
+      "label": "basket of equities",
+      "definition": "basket of securities whose constituents are listed shares",
+      "parents": [
+        "fibo-sec-sec-bsk:BasketOfSecurities"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "only",
+          "value": "fibo-sec-eq-eq:ListedShare",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "capitalization-based weighting function",
+      "technicalName": "fibo-ind-mkt-bas:CapitalizationBasedWeightingFunction",
+      "localName": "CapitalizationBasedWeightingFunction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/CapitalizationBasedWeightingFunction",
+      "label": "capitalization-based weighting function",
+      "definition": "weighting function derived from the relative market capitalization (share price times the number of shares outstanding) of the companies tracked by an index",
+      "parents": [
+        "fibo-fnd-utl-alx:WeightingFunction"
+      ],
+      "rules": [
+        {
+          "property": "has market capitalization",
+          "operator": "some",
+          "value": "market capitalization",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit index",
+      "technicalName": "fibo-ind-mkt-bas:CreditIndex",
+      "localName": "CreditIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/CreditIndex",
+      "label": "credit index",
+      "definition": "reference index that is a function of credit events that change the value of an underlying portfolio",
+      "parents": [
+        "reference index"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "basket of credit risks",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit index constituent",
+      "technicalName": "fibo-ind-mkt-bas:CreditIndexConstituent",
+      "localName": "CreditIndexConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/CreditIndexConstituent",
+      "label": "credit index constituent",
+      "definition": "constituent of a basket of credit risks",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasketConstituent",
+        "fibo-fnd-dt-fd:DatedCollectionConstituent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isConstituentOf",
+          "operator": "some",
+          "value": "basket of credit risks",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "fibo-fbc-dae-cre:CreditEvent",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-acc-cur:hasCurrency",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:Currency",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "equity index",
+      "technicalName": "fibo-ind-mkt-bas:EquityIndex",
+      "localName": "EquityIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/EquityIndex",
+      "label": "equity index",
+      "definition": "benchmark whose constituents are exclusively equity instruments",
+      "parents": [
+        "reference index"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "basket of equities",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "market capitalization",
+      "technicalName": "fibo-ind-mkt-bas:MarketCapitalization",
+      "localName": "MarketCapitalization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/MarketCapitalization",
+      "label": "market capitalization",
+      "definition": "expression representing the perceived value of a company as determined by the stock market at a specific point in time",
+      "parents": [
+        "cmns-qtu:Expression"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:PricePerShare",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dt:hasObservedDateTime",
+          "operator": "some",
+          "value": "cmns-dt:CombinedDateTime",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-sec-eq-eq:ShareIssuer",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-sec-eq-eq:hasSharesOutstanding",
+          "operator": "some",
+          "value": "xsd:nonNegativeInteger",
+          "qualifier": null
+        },
+        {
+          "property": "has market capitalization value",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryAmount",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "reference index",
+      "technicalName": "fibo-ind-mkt-bas:ReferenceIndex",
+      "localName": "ReferenceIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/ReferenceIndex",
+      "label": "reference index",
+      "definition": "measure of change in the value of the contents of a basket over a given period of time",
+      "parents": [
+        "fibo-fnd-utl-alx:ScopedMeasure"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "fibo-fbc-pas-fpas:WeightedBasket",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-doc:hasReportingPeriod",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:ExplicitDatePeriod"
+        },
+        {
+          "property": "fibo-fnd-utl-alx:hasReleaseDateTime",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        },
+        {
+          "property": "fibo-fnd-utl-alx:hasReleaseDate",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Date"
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-sec-sec-cls:AssetClass"
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-arr-cls:IndustrySectorClassifier"
+        },
+        {
+          "property": "fibo-fnd-utl-alx:hasPeriodicity",
+          "operator": "only",
+          "value": "fibo-fnd-dt-fd:RecurrenceInterval",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has market capitalization",
+      "technicalName": "fibo-ind-mkt-bas:hasMarketCapitalization",
+      "localName": "hasMarketCapitalization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/hasMarketCapitalization",
+      "label": "has market capitalization",
+      "definition": "indicates the market capitalization of some issuer as of some date",
+      "domain": [
+        "fibo-sec-eq-eq:ShareIssuer"
+      ],
+      "range": [
+        "market capitalization"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has market capitalization value",
+      "technicalName": "fibo-ind-mkt-bas:hasMarketCapitalizationValue",
+      "localName": "hasMarketCapitalizationValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/hasMarketCapitalizationValue",
+      "label": "has market capitalization value",
+      "definition": "indicates the monetary amount representing the market capitalization of some issuer as of some date",
+      "domain": [
+        "market capitalization"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has original notional value",
+      "technicalName": "fibo-ind-mkt-bas:hasOriginalNotionalValue",
+      "localName": "hasOriginalNotionalValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/hasOriginalNotionalValue",
+      "label": "has original notional value",
+      "definition": "indicates the notional amount represented by the index when it is first constituted",
+      "domain": [
+        "credit index"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has premium",
+      "technicalName": "fibo-ind-mkt-bas:hasPremium",
+      "localName": "hasPremium",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/hasPremium",
+      "label": "has premium",
+      "definition": "indicates a premium payable for a contract based on the index",
+      "domain": [
+        "credit index"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has up front fee",
+      "technicalName": "fibo-ind-mkt-bas:hasUpFrontFee",
+      "localName": "hasUpFrontFee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/hasUpFrontFee",
+      "label": "has up front fee",
+      "definition": "specifies a fee payable by any party that wishes to participate in a contract based on the index after the start of its life",
+      "domain": [
+        "credit index"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has debt ranking",
+      "technicalName": "fibo-ind-mkt-bas:hasDebtRanking",
+      "localName": "hasDebtRanking",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/hasDebtRanking",
+      "label": "has debt ranking",
+      "definition": "indicates the ranking of this debt instrument with respect to the credit index as a whole",
+      "domain": [
+        "credit index constituent"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has index name",
+      "technicalName": "fibo-ind-mkt-bas:hasIndexName",
+      "localName": "hasIndexName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/hasIndexName",
+      "label": "has index name",
+      "definition": "specifies a formal name for the index",
+      "domain": [
+        "reference index"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has index value",
+      "technicalName": "fibo-ind-mkt-bas:hasIndexValue",
+      "localName": "hasIndexValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/hasIndexValue",
+      "label": "has index value",
+      "definition": "specifies the value of a given index as of the release date",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has spread range",
+      "technicalName": "fibo-ind-mkt-bas:hasSpreadRange",
+      "localName": "hasSpreadRange",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/hasSpreadRange",
+      "label": "has spread range",
+      "definition": "the range of credit spread for the constituents of the index",
+      "domain": [
+        "credit index"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    }
+  ]
+}

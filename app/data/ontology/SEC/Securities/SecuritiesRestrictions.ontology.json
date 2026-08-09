@@ -1,0 +1,222 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Securities\\SecuritiesRestrictions.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/",
+  "summary": {
+    "nodes": 9,
+    "edges": 2,
+    "properties": 0,
+    "triples": 145
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/OwnershipParties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCore/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesListings/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "contractual restriction",
+      "technicalName": "fibo-sec-sec-rst:ContractualRestriction",
+      "localName": "ContractualRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/ContractualRestriction",
+      "label": "contractual restriction",
+      "definition": "contract terms setting out restrictions on either the holder or the issuer of the security, as specified in the terms of the instrument itself",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractualCommitment",
+        "securities restriction"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isMandatedBy",
+          "operator": "only",
+          "value": "fibo-fnd-agr-ctr:Contract",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "individual investor",
+      "technicalName": "fibo-sec-sec-rst:IndividualInvestor",
+      "localName": "IndividualInvestor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/IndividualInvestor",
+      "label": "individual investor",
+      "definition": "investor that is a person, rather than an organization, who may or may not be considered a qualified investor from a legal perspective",
+      "parents": [
+        "fibo-be-oac-opty:Investor"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "fibo-be-le-lp:LegallyCompetentNaturalPerson",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "institutional investor",
+      "technicalName": "fibo-sec-sec-rst:InstitutionalInvestor",
+      "localName": "InstitutionalInvestor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/InstitutionalInvestor",
+      "label": "institutional investor",
+      "definition": "investor that pools money to purchase securities, real property, and other investment assets or originates loans",
+      "parents": [
+        "fibo-be-oac-opty:Investor"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "only",
+          "value": "cmns-org:LegalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "investors' domicile restriction",
+      "technicalName": "fibo-sec-sec-rst:InvestorsDomicileRestriction",
+      "localName": "InvestorsDomicileRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/InvestorsDomicileRestriction",
+      "label": "investors' domicile restriction",
+      "definition": "legal holding restriction that specifies where holders of a security may be domiciled",
+      "parents": [
+        "legal holding restriction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "legal holding restriction",
+      "technicalName": "fibo-sec-sec-rst:LegalHoldingRestriction",
+      "localName": "LegalHoldingRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/LegalHoldingRestriction",
+      "label": "legal holding restriction",
+      "definition": "security restriction applicable to holding the security",
+      "parents": [
+        "securities restriction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "qualified investor restriction",
+      "technicalName": "fibo-sec-sec-rst:QualifiedInvestorRestriction",
+      "localName": "QualifiedInvestorRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/QualifiedInvestorRestriction",
+      "label": "qualified investor restriction",
+      "definition": "legal holding restriction that defines the concept of a qualified investor for a given purpose and specifies that only such qualified investors may hold the security",
+      "parents": [
+        "legal holding restriction"
+      ],
+      "rules": [
+        {
+          "property": "has holding period",
+          "operator": "only",
+          "value": "cmns-dt:DatePeriod",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "securities regulation",
+      "technicalName": "fibo-sec-sec-rst:SecuritiesRegulation",
+      "localName": "SecuritiesRegulation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/SecuritiesRegulation",
+      "label": "securities regulation",
+      "definition": "regulation codified in law specific to securities and investments",
+      "parents": [
+        "fibo-fnd-law-lcap:Regulation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isConferredBy",
+          "operator": "some",
+          "value": "fibo-fnd-law-cor:StatuteLaw",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "only",
+          "value": "securities restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "securities restriction",
+      "technicalName": "fibo-sec-sec-rst:SecuritiesRestriction",
+      "localName": "SecuritiesRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/SecuritiesRestriction",
+      "label": "securities restriction",
+      "definition": "legal obligation that is applicable to a financial instrument or listing as mandated in a law or by contract",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalObligation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isMandatedBy",
+          "operator": "only",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "only",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "trading restriction",
+      "technicalName": "fibo-sec-sec-rst:TradingRestriction",
+      "localName": "TradingRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/TradingRestriction",
+      "label": "trading restriction",
+      "definition": "restriction that limits trading in some manner, typically summarized on term sheets or in other documentation, including but not limited to restrictions on day trading",
+      "parents": [
+        "securities restriction"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has holding period",
+      "technicalName": "fibo-sec-sec-rst:hasHoldingPeriod",
+      "localName": "hasHoldingPeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/hasHoldingPeriod",
+      "label": "has holding period",
+      "definition": "identifies a holding period applicable to some financial asset",
+      "domain": [],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has restriction",
+      "technicalName": "fibo-sec-sec-rst:hasRestriction",
+      "localName": "hasRestriction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/SecuritiesRestrictions/hasRestriction",
+      "label": "has restriction",
+      "definition": "identifies a restriction applicable to a given financial instrument or listing",
+      "domain": [],
+      "range": [
+        "securities restriction"
+      ]
+    }
+  ],
+  "attributes": []
+}

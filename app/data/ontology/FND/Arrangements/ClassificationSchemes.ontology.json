@@ -1,0 +1,59 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Arrangements\\ClassificationSchemes.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/ClassificationSchemes/",
+  "summary": {
+    "nodes": 2,
+    "edges": 0,
+    "properties": 0,
+    "triples": 45
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Arrangements/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/Designators/"
+  ],
+  "classes": [
+    {
+      "name": "industry sector classification scheme",
+      "technicalName": "fibo-fnd-arr-cls:IndustrySectorClassificationScheme",
+      "localName": "IndustrySectorClassificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/ClassificationSchemes/IndustrySectorClassificationScheme",
+      "label": "industry sector classification scheme",
+      "definition": "system for allocating classifiers to organizations by industry sector",
+      "parents": [
+        "cmns-cls:ClassificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "industry sector classifier",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "industry sector classifier",
+      "technicalName": "fibo-fnd-arr-cls:IndustrySectorClassifier",
+      "localName": "IndustrySectorClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/ClassificationSchemes/IndustrySectorClassifier",
+      "label": "industry sector classifier",
+      "definition": "standardized classification or delineation for an organization, or possibly for a security representing an interest in a given organization, per some scheme for such delineation, by industry",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "industry sector classification scheme"
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

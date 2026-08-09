@@ -1,0 +1,214 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\TransactionsExt\\SecuritiesTransactions.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/SecuritiesTransactions/",
+  "summary": {
+    "nodes": 7,
+    "edges": 3,
+    "properties": 1,
+    "triples": 95
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/MarketTransactions/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/REATransactions/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/"
+  ],
+  "classes": [
+    {
+      "name": "financial primary market transaction",
+      "technicalName": "fibo-fnd-txn-sec:FinancialPrimaryMarketTransaction",
+      "localName": "FinancialPrimaryMarketTransaction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/SecuritiesTransactions/FinancialPrimaryMarketTransaction",
+      "label": "financial primary market transaction",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-txn-mkt:MarketTransaction",
+        "fibo-fnd-txn-rea:ContractualTransaction"
+      ],
+      "rules": [
+        {
+          "property": "follows",
+          "operator": "some",
+          "value": "settlement process",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "financial securities secondary market transaction",
+      "technicalName": "fibo-fnd-txn-sec:FinancialSecuritiesSecondaryMarketTransaction",
+      "localName": "FinancialSecuritiesSecondaryMarketTransaction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/SecuritiesTransactions/FinancialSecuritiesSecondaryMarketTransaction",
+      "label": "financial securities secondary market transaction",
+      "definition": "A Transaction in which some negotiable security is provided in exchange for some Consideration.",
+      "parents": [
+        "fibo-fnd-txn-mkt:MarketTransaction",
+        "fibo-fnd-txn-rea:ContractualTransaction"
+      ],
+      "rules": [
+        {
+          "property": "embodies",
+          "operator": "some",
+          "value": "securities transaction contract",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-txn-rea:subject",
+          "operator": "some",
+          "value": "<https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/Security>",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-txn-mkt:consideration",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasPrincipalParty",
+          "operator": "some",
+          "value": "securities transaction principal",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasCounterparty",
+          "operator": "some",
+          "value": "securities transaction counterparty",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "securities transaction contract",
+      "technicalName": "fibo-fnd-txn-sec:SecuritiesTransactionContract",
+      "localName": "SecuritiesTransactionContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/SecuritiesTransactions/SecuritiesTransactionContract",
+      "label": "securities transaction contract",
+      "definition": "The contract (written or implied) which governs the transaction of securities in the secondary Market.",
+      "parents": [
+        "fibo-fnd-txn-rea:EconomicContract"
+      ],
+      "rules": [
+        {
+          "property": "governs",
+          "operator": "some",
+          "value": "financial securities secondary market transaction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "securities transaction counterparty",
+      "technicalName": "fibo-fnd-txn-sec:SecuritiesTransactionCounterparty",
+      "localName": "SecuritiesTransactionCounterparty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/SecuritiesTransactions/SecuritiesTransactionCounterparty",
+      "label": "securities transaction counterparty",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-txn-mkt:TransactionCounterparty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities transaction principal",
+      "technicalName": "fibo-fnd-txn-sec:SecuritiesTransactionPrincipal",
+      "localName": "SecuritiesTransactionPrincipal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/SecuritiesTransactions/SecuritiesTransactionPrincipal",
+      "label": "securities transaction principal",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-txn-mkt:TransactionPrincipal"
+      ],
+      "rules": []
+    },
+    {
+      "name": "settlement process",
+      "technicalName": "fibo-fnd-txn-sec:SettlementProcess",
+      "localName": "SettlementProcess",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/SecuritiesTransactions/SettlementProcess",
+      "label": "settlement process",
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "when issued transaction",
+      "technicalName": "fibo-fnd-txn-sec:WhenIssuedTransaction",
+      "localName": "WhenIssuedTransaction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/SecuritiesTransactions/WhenIssuedTransaction",
+      "label": "when issued transaction",
+      "definition": "Trading in securities ahead of them being traded.",
+      "parents": [
+        "financial securities secondary market transaction"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "embodies",
+      "technicalName": "fibo-fnd-txn-sec:embodies",
+      "localName": "embodies",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/SecuritiesTransactions/embodies",
+      "label": "embodies",
+      "definition": null,
+      "domain": [
+        "financial securities secondary market transaction"
+      ],
+      "range": [
+        "securities transaction contract"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "follows",
+      "technicalName": "fibo-fnd-txn-sec:follows",
+      "localName": "follows",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/SecuritiesTransactions/follows",
+      "label": "follows",
+      "definition": null,
+      "domain": [
+        "financial primary market transaction"
+      ],
+      "range": [
+        "settlement process"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "governs",
+      "technicalName": "fibo-fnd-txn-sec:governs",
+      "localName": "governs",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/SecuritiesTransactions/governs",
+      "label": "governs",
+      "definition": null,
+      "domain": [
+        "securities transaction contract"
+      ],
+      "range": [
+        "financial securities secondary market transaction"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "offset for w i issue date",
+      "technicalName": "fibo-fnd-txn-sec:offsetForWIIssueDate",
+      "localName": "offsetForWIIssueDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/TransactionsExt/SecuritiesTransactions/offsetForWIIssueDate",
+      "label": "offset for w i issue date",
+      "definition": "Used to calculate actual settlement date from given WI issue date. If issue date is unknwn, this determines how many days form the issue date it's going to settle.",
+      "domain": [
+        "when issued transaction"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    }
+  ]
+}

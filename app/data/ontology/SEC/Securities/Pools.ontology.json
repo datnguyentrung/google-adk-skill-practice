@@ -1,0 +1,242 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\SEC\\Securities\\Pools.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/",
+  "summary": {
+    "nodes": 12,
+    "edges": 0,
+    "properties": 0,
+    "triples": 139
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LegalPersons/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "collective investment vehicle",
+      "technicalName": "fibo-sec-sec-pls:CollectiveInvestmentVehicle",
+      "localName": "CollectiveInvestmentVehicle",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/CollectiveInvestmentVehicle",
+      "label": "collective investment vehicle",
+      "definition": "assets pooled by investors whose share capital remains separate from the assets of the vehicle",
+      "parents": [
+        "pooled fund"
+      ],
+      "rules": []
+    },
+    {
+      "name": "debt pool",
+      "technicalName": "fibo-sec-sec-pls:DebtPool",
+      "localName": "DebtPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/DebtPool",
+      "label": "debt pool",
+      "definition": "pool consisting of debt instruments, such as bonds, loans or mortgages",
+      "parents": [
+        "instrument pool"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:DebtInstrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fund family",
+      "technicalName": "fibo-sec-sec-pls:FundFamily",
+      "localName": "FundFamily",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/FundFamily",
+      "label": "fund family",
+      "definition": "collection of managed investments that are all managed by a single investment institution",
+      "parents": [
+        "cmns-col:Collection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "managed investment",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fct-fse:FinancialInstitution"
+        }
+      ]
+    },
+    {
+      "name": "instrument pool",
+      "technicalName": "fibo-sec-sec-pls:InstrumentPool",
+      "localName": "InstrumentPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/InstrumentPool",
+      "label": "instrument pool",
+      "definition": "pool consisting of financial instruments that may be included in the same investment vehicle",
+      "parents": [
+        "pool"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:FinancialInstrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "instrument pool as asset",
+      "technicalName": "fibo-sec-sec-pls:InstrumentPoolAsAsset",
+      "localName": "InstrumentPoolAsAsset",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/InstrumentPoolAsAsset",
+      "label": "instrument pool as asset",
+      "definition": "financial asset in the form of an instrument pool",
+      "parents": [
+        "fibo-fnd-oac-own:FinancialAsset"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "instrument pool",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-oac-own:isAssetOf",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-be-le-lp:SpecialPurposeVehicle",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "managed investment",
+      "technicalName": "fibo-sec-sec-pls:ManagedInvestment",
+      "localName": "ManagedInvestment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/ManagedInvestment",
+      "label": "managed investment",
+      "definition": "investment pool that is controlled by a professional investment manager who invests the pool in various financial instruments and assets that align with their investment objectives and is overseen by a board of directors",
+      "parents": [
+        "collective investment vehicle"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isManagedBy",
+          "operator": "some",
+          "value": "fibo-fbc-fct-fse:FinancialInstitution",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pool",
+      "technicalName": "fibo-sec-sec-pls:Pool",
+      "localName": "Pool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/Pool",
+      "label": "pool",
+      "definition": "combination of resources for a common purpose or benefit",
+      "parents": [
+        "cmns-col:Collection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "pool constituent",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pool constituent",
+      "technicalName": "fibo-sec-sec-pls:PoolConstituent",
+      "localName": "PoolConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/PoolConstituent",
+      "label": "pool constituent",
+      "definition": "component of a pool",
+      "parents": [
+        "cmns-col:Constituent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "some",
+          "value": "pool",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pooled fund",
+      "technicalName": "fibo-sec-sec-pls:PooledFund",
+      "localName": "PooledFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/PooledFund",
+      "label": "pooled fund",
+      "definition": "pool of funds that a group of investors combines for common benefit",
+      "parents": [
+        "pool"
+      ],
+      "rules": []
+    },
+    {
+      "name": "private fund",
+      "technicalName": "fibo-sec-sec-pls:PrivateFund",
+      "localName": "PrivateFund",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/PrivateFund",
+      "label": "private fund",
+      "definition": "managed investment that cannot offer securities to the public",
+      "parents": [
+        "managed investment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities pool",
+      "technicalName": "fibo-sec-sec-pls:SecuritiesPool",
+      "localName": "SecuritiesPool",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/SecuritiesPool",
+      "label": "securities pool",
+      "definition": "pool of securities organized for the purpose of issuing notes against those securities",
+      "parents": [
+        "instrument pool"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "fibo-fbc-fi-fi:Security",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "fibo-sec-sec-pls:SecuritiesPoolConstituent",
+      "technicalName": "fibo-sec-sec-pls:SecuritiesPoolConstituent",
+      "localName": "SecuritiesPoolConstituent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/SEC/Securities/Pools/SecuritiesPoolConstituent",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

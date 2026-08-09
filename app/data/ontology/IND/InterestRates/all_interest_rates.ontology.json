@@ -1,0 +1,282 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\IND\\InterestRates",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\IND\\InterestRates\\CommonInterestRates.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\IND\\InterestRates\\InterestRates.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\IND\\InterestRates\\MarketDataProviders.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 3,
+    "classes": 11,
+    "edges": 3,
+    "attributes": 0
+  },
+  "classes": [
+    {
+      "name": "base rate",
+      "technicalName": "fibo-ind-ir-ir:BaseRate",
+      "localName": "BaseRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/BaseRate",
+      "label": "base rate",
+      "definition": "basic rate of interest on which the actual rate a bank charges on loans to its customers is calculated",
+      "parents": [
+        "reference interest rate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interbank bid rate",
+      "technicalName": "fibo-ind-ir-ir:InterbankBidRate",
+      "localName": "InterbankBidRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/InterbankBidRate",
+      "label": "interbank bid rate",
+      "definition": "interbank rate that is the interest rate at which participating banks are willing to borrow deposits from other banks",
+      "parents": [
+        "interbank rate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interbank mid rate",
+      "technicalName": "fibo-ind-ir-ir:InterbankMidRate",
+      "localName": "InterbankMidRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/InterbankMidRate",
+      "label": "interbank mid rate",
+      "definition": "interbank rate that represents the mid-point between bid and offer rates",
+      "parents": [
+        "interbank rate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interbank offered rate",
+      "technicalName": "fibo-ind-ir-ir:InterbankOfferedRate",
+      "localName": "InterbankOfferedRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/InterbankOfferedRate",
+      "label": "interbank offered rate",
+      "definition": "interbank rate that is the interest rate at which participating banks lend money",
+      "parents": [
+        "interbank rate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interbank rate",
+      "technicalName": "fibo-ind-ir-ir:InterbankRate",
+      "localName": "InterbankRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/InterbankRate",
+      "label": "interbank rate",
+      "definition": "reference rate that is the rate of interest charged on short-term loans between banks",
+      "parents": [
+        "reference interest rate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interest rate authority",
+      "technicalName": "fibo-ind-ir-ir:InterestRateAuthority",
+      "localName": "InterestRateAuthority",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/InterestRateAuthority",
+      "label": "interest rate authority",
+      "definition": "financial service provider/publisher responsible for specifying some benchmark interest rate",
+      "parents": [
+        "fibo-be-fct-pub:Publisher",
+        "fibo-fbc-pas-fpas:FinancialServiceProvider"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:produces",
+          "operator": "some",
+          "value": "reference interest rate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "interest rate benchmark",
+      "technicalName": "fibo-ind-ir-ir:InterestRateBenchmark",
+      "localName": "InterestRateBenchmark",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/InterestRateBenchmark",
+      "label": "interest rate benchmark",
+      "definition": "classifier for regularly updated interest rates that are publicly accessible, typically set by a central bank or group of financial institutions",
+      "parents": [
+        "cmns-qtu:QuantityKind"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "reference interest rate",
+          "qualifier": null
+        },
+        {
+          "property": "has reference currency",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:Currency"
+        },
+        {
+          "property": "has tenor",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:Duration"
+        },
+        {
+          "property": "has rate reset time of day",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:DateTime"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isProducedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-fct-pub:Publisher"
+        },
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-be-fct-pub:MarketDataProvider"
+        }
+      ]
+    },
+    {
+      "name": "interest rate benchmark classification scheme",
+      "technicalName": "fibo-ind-ir-ir:InterestRateBenchmarkClassificationScheme",
+      "localName": "InterestRateBenchmarkClassificationScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/InterestRateBenchmarkClassificationScheme",
+      "label": "interest rate benchmark classification scheme",
+      "definition": "scheme for classifying interest rate benchmarks, such as the FpML classification scheme",
+      "parents": [
+        "cmns-cls:ClassificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "interest rate benchmark",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "overnight rate",
+      "technicalName": "fibo-ind-ir-ir:OvernightRate",
+      "localName": "OvernightRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/OvernightRate",
+      "label": "overnight rate",
+      "definition": "reference rate that is an interest rate at which a depository institution lends funds to another depository institution (short-term), or the interest rate the central bank charges a financial institution to borrow money overnight",
+      "parents": [
+        "reference interest rate"
+      ],
+      "rules": [
+        {
+          "property": "has tenor",
+          "operator": "value",
+          "value": "one day",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "reference interest rate",
+      "technicalName": "fibo-ind-ir-ir:ReferenceInterestRate",
+      "localName": "ReferenceInterestRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/ReferenceInterestRate",
+      "label": "reference interest rate",
+      "definition": "market rate that is a rate of interest paid by or agreed among some bank or set of banks",
+      "parents": [
+        "fibo-fnd-acc-cur:InterestRate",
+        "fibo-ind-ind-ind:MarketRate"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasQuantityKind",
+          "operator": "some",
+          "value": "interest rate benchmark",
+          "qualifier": null
+        },
+        {
+          "property": "has reference currency",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:Currency"
+        },
+        {
+          "property": "has rate reset time of day",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:DateTime"
+        },
+        {
+          "property": "has tenor",
+          "operator": "only",
+          "value": "cmns-dt:Duration",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "specific-provider interest rate benchmark",
+      "technicalName": "fibo-ind-ir-ir:SpecificProviderInterestRateBenchmark",
+      "localName": "SpecificProviderInterestRateBenchmark",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/SpecificProviderInterestRateBenchmark",
+      "label": "specific-provider interest rate benchmark",
+      "definition": "interest rate benchmark that is made available by a specific market data provider for reference purposes",
+      "parents": [
+        "interest rate benchmark"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-fct-pub:MarketDataProvider"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has rate reset time of day",
+      "technicalName": "fibo-ind-ir-ir:hasRateResetTimeOfDay",
+      "localName": "hasRateResetTimeOfDay",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/hasRateResetTimeOfDay",
+      "label": "has rate reset time of day",
+      "definition": "indicates the time of day when a change in a benchmark rate is published, typically the same time every business day",
+      "domain": [],
+      "range": [
+        "cmns-dt:DateTime"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has reference currency",
+      "technicalName": "fibo-ind-ir-ir:hasReferenceCurrency",
+      "localName": "hasReferenceCurrency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/hasReferenceCurrency",
+      "label": "has reference currency",
+      "definition": "relates something to the currency it is based on",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:Currency"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has tenor",
+      "technicalName": "fibo-ind-ir-ir:hasTenor",
+      "localName": "hasTenor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/InterestRates/InterestRates/hasTenor",
+      "label": "has tenor",
+      "definition": "indicates the length of time for which a given rate, such as an interbank rate, exchange rate, other market rate is quoted, or a debt instrument has remaining prior to maturity or expiration",
+      "domain": [],
+      "range": [
+        "cmns-dt:Duration"
+      ]
+    }
+  ],
+  "attributes": []
+}

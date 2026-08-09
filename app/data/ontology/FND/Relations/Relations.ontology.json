@@ -1,0 +1,367 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Relations\\Relations.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+  "summary": {
+    "nodes": 1,
+    "edges": 24,
+    "properties": 6,
+    "triples": 162
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/",
+    "https://www.omg.org/spec/Commons/TextDatatype/"
+  ],
+  "classes": [
+    {
+      "name": "referent",
+      "technicalName": "fibo-fnd-rel-rel:Referent",
+      "localName": "Referent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/Referent",
+      "label": "referent",
+      "definition": "something that another concept stands for, exemplifies, symbolizes, or otherwise mentions",
+      "parents": [],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "causes",
+      "technicalName": "fibo-fnd-rel-rel:causes",
+      "localName": "causes",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/causes",
+      "label": "causes",
+      "definition": "relationship between an event or set of events or factors (the cause) and a second event, phenomenon, situation, or result (the effect), where the second event or outcome is understood as a consequence of the first",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "confers",
+      "technicalName": "fibo-fnd-rel-rel:confers",
+      "localName": "confers",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/confers",
+      "label": "confers",
+      "definition": "grants or bestows by virtue of some authority",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "controls",
+      "technicalName": "fibo-fnd-rel-rel:controls",
+      "localName": "controls",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/controls",
+      "label": "controls",
+      "definition": "exercises authority or influence over",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "embodies",
+      "technicalName": "fibo-fnd-rel-rel:embodies",
+      "localName": "embodies",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/embodies",
+      "label": "embodies",
+      "definition": "is an expression of, gives a tangible or visible form to (an idea, quality, or feeling), makes concrete and perceptible",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "evaluates",
+      "technicalName": "fibo-fnd-rel-rel:evaluates",
+      "localName": "evaluates",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/evaluates",
+      "label": "evaluates",
+      "definition": "assesses the nature, quality, or ability of someone or something",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "exchanges",
+      "technicalName": "fibo-fnd-rel-rel:exchanges",
+      "localName": "exchanges",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/exchanges",
+      "label": "exchanges",
+      "definition": "gives something in return something else",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "exemplifies",
+      "technicalName": "fibo-fnd-rel-rel:exemplifies",
+      "localName": "exemplifies",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/exemplifies",
+      "label": "exemplifies",
+      "definition": "is a concrete realization or example of",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "generates",
+      "technicalName": "fibo-fnd-rel-rel:generates",
+      "localName": "generates",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/generates",
+      "label": "generates",
+      "definition": "produces through the application of one or more mathematical or logical steps or rules",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "fibo-fnd-rel-rel:hasDesignation",
+      "technicalName": "fibo-fnd-rel-rel:hasDesignation",
+      "localName": "hasDesignation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/hasDesignation",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "holds",
+      "technicalName": "fibo-fnd-rel-rel:holds",
+      "localName": "holds",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/holds",
+      "label": "holds",
+      "definition": "is the relationship between a party and something it possesses, or over which it exercises some ownership or control or has at its discretion the ability to dispose of it as it sees fit",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "involves",
+      "technicalName": "fibo-fnd-rel-rel:involves",
+      "localName": "involves",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/involves",
+      "label": "involves",
+      "definition": "(of a situation or event) includes (something) as a necessary part or result",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is caused by",
+      "technicalName": "fibo-fnd-rel-rel:isCausedBy",
+      "localName": "isCausedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/isCausedBy",
+      "label": "is caused by",
+      "definition": "is the relationship between an event (the effect) and a second event (the cause), where the first event is understood as a consequence of the second; also, the relationship between a set of factors (causes) and a phenomenon (the effect)",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is conferred by",
+      "technicalName": "fibo-fnd-rel-rel:isConferredBy",
+      "localName": "isConferredBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/isConferredBy",
+      "label": "is conferred by",
+      "definition": "a relationship between a right or obligation and the vehicle, such as an agreement or contract, that vests (or confers) said right or obligation",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is controlled by",
+      "technicalName": "fibo-fnd-rel-rel:isControlledBy",
+      "localName": "isControlledBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/isControlledBy",
+      "label": "is controlled by",
+      "definition": "is influenced, managed, or directed by",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is evaluated by",
+      "technicalName": "fibo-fnd-rel-rel:isEvaluatedBy",
+      "localName": "isEvaluatedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/isEvaluatedBy",
+      "label": "is evaluated by",
+      "definition": "is ascertained or determined by",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is exemplified by",
+      "technicalName": "fibo-fnd-rel-rel:isExemplifiedBy",
+      "localName": "isExemplifiedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/isExemplifiedBy",
+      "label": "is exemplified by",
+      "definition": "is made concrete or is realized by",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is generated by",
+      "technicalName": "fibo-fnd-rel-rel:isGeneratedBy",
+      "localName": "isGeneratedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/isGeneratedBy",
+      "label": "is generated by",
+      "definition": "identifies some party or something that produces something via some equation, logic, or rules",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is held by",
+      "technicalName": "fibo-fnd-rel-rel:isHeldBy",
+      "localName": "isHeldBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/isHeldBy",
+      "label": "is held by",
+      "definition": "indicates the party that possesses and has at least partial control of something, regardless of ownership",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is issued by",
+      "technicalName": "fibo-fnd-rel-rel:isIssuedBy",
+      "localName": "isIssuedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/isIssuedBy",
+      "label": "is issued by",
+      "definition": "indicates a functional entity or party responsible for circulating, distributing, or publishing something",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is mandated by",
+      "technicalName": "fibo-fnd-rel-rel:isMandatedBy",
+      "localName": "isMandatedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/isMandatedBy",
+      "label": "is mandated by",
+      "definition": "relates a responsibility, capacity, or action to that which requires it",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is produced by",
+      "technicalName": "fibo-fnd-rel-rel:isProducedBy",
+      "localName": "isProducedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/isProducedBy",
+      "label": "is produced by",
+      "definition": "identifies the producer that fabricates, manufactures or otherwise creates something through some production process",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "issues",
+      "technicalName": "fibo-fnd-rel-rel:issues",
+      "localName": "issues",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/issues",
+      "label": "issues",
+      "definition": "officially makes something available",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "mandates",
+      "technicalName": "fibo-fnd-rel-rel:mandates",
+      "localName": "mandates",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/mandates",
+      "label": "mandates",
+      "definition": "relates something to a commitment, contract, law, obligation, requirement, regulation, or similar concept that requires it",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "produces",
+      "technicalName": "fibo-fnd-rel-rel:produces",
+      "localName": "produces",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/produces",
+      "label": "produces",
+      "definition": "creates through a fabrication, manufacturing or production process",
+      "domain": [],
+      "range": []
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has alias",
+      "technicalName": "fibo-fnd-rel-rel:hasAlias",
+      "localName": "hasAlias",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/hasAlias",
+      "label": "has alias",
+      "definition": "indicates an alternate name of by which something is known",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has common name",
+      "technicalName": "fibo-fnd-rel-rel:hasCommonName",
+      "localName": "hasCommonName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/hasCommonName",
+      "label": "has common name",
+      "definition": "indicates a name by which something is frequently referred, without reference to any formal usage or structure",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has formal name",
+      "technicalName": "fibo-fnd-rel-rel:hasFormalName",
+      "localName": "hasFormalName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/hasFormalName",
+      "label": "has formal name",
+      "definition": "indicates a name by which something is known for some official purpose or context, or which is structured in some way such as to always follow the same format regardless of usage",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has legal name",
+      "technicalName": "fibo-fnd-rel-rel:hasLegalName",
+      "localName": "hasLegalName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/hasLegalName",
+      "label": "has legal name",
+      "definition": "specifies the name used to refer to a party in legal communications",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "fibo-fnd-rel-rel:hasTag",
+      "technicalName": "fibo-fnd-rel-rel:hasTag",
+      "localName": "hasTag",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/hasTag",
+      "label": null,
+      "definition": null,
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "was formerly known as",
+      "technicalName": "fibo-fnd-rel-rel:wasFormerlyKnownAs",
+      "localName": "wasFormerlyKnownAs",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/wasFormerlyKnownAs",
+      "label": "was formerly known as",
+      "definition": "indicates a name by which something was known in the past",
+      "domain": [],
+      "range": []
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FBC\\FunctionalEntities\\NorthAmericanEntities\\USNationalInformationCenterControlledVocabularies.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USNationalInformationCenterControlledVocabularies/",
+  "summary": {
+    "nodes": 2,
+    "edges": 0,
+    "properties": 0,
+    "triples": 478
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USFinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/TextDatatype/"
+  ],
+  "classes": [
+    {
+      "name": "National Information Center (NIC) entity type classifier",
+      "technicalName": "fibo-fbc-fct-usnic:NICEntityTypeClassifier",
+      "localName": "NICEntityTypeClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USNationalInformationCenterControlledVocabularies/NICEntityTypeClassifier",
+      "label": "National Information Center (NIC) entity type classifier",
+      "definition": "controlled vocabulary and codes for describing the nature of the functional entities managed by the National Information Center (NIC) repository",
+      "parents": [
+        "National Information Center (NIC) controlled vocabulary"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-pas-fpas:FinancialServiceProvider"
+        }
+      ]
+    },
+    {
+      "name": "National Information Center (NIC) controlled vocabulary",
+      "technicalName": "fibo-fbc-fct-usnic:NationalInformationCenterControlledVocabulary",
+      "localName": "NationalInformationCenterControlledVocabulary",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USNationalInformationCenterControlledVocabularies/NationalInformationCenterControlledVocabulary",
+      "label": "National Information Center (NIC) controlled vocabulary",
+      "definition": "controlled vocabulary that characterizes some feature or aspect of content about a financial service provider managed in the National Information Center (NIC) repository",
+      "parents": [
+        "cmns-cls:Classifier",
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "National Information Center (NIC) Classification Scheme And Code Set",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "value",
+          "value": "National Information Center (NIC) Classification Scheme And Code Set",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

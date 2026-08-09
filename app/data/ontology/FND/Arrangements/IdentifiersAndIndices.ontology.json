@@ -1,0 +1,136 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Arrangements\\IdentifiersAndIndices.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/",
+  "summary": {
+    "nodes": 3,
+    "edges": 1,
+    "properties": 2,
+    "triples": 94
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Arrangements/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualIdentifiers/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Identifiers/"
+  ],
+  "classes": [
+    {
+      "name": "index",
+      "technicalName": "fibo-fnd-arr-id:Index",
+      "localName": "Index",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/Index",
+      "label": "index",
+      "definition": "indirect shortcut derived from and pointing into, a greater volume of values, data, information or knowledge",
+      "parents": [
+        "cmns-doc:Reference"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "indexing scheme"
+        },
+        {
+          "property": "is index to",
+          "operator": "exactly",
+          "value": "1",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "indexing scheme",
+      "technicalName": "fibo-fnd-arr-id:IndexingScheme",
+      "localName": "IndexingScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/IndexingScheme",
+      "label": "indexing scheme",
+      "definition": "system for indexing values, data, information, or knowledge",
+      "parents": [
+        "fibo-fnd-arr-arr:Scheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "some",
+          "value": "index",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "reassignable identifier",
+      "technicalName": "fibo-fnd-arr-id:ReassignableIdentifier",
+      "localName": "ReassignableIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/ReassignableIdentifier",
+      "label": "reassignable identifier",
+      "definition": "identifier that uniquely identifies something for a given time period, and that may be reused to identify something else at a different point in time",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "has initial assignment date",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        },
+        {
+          "property": "has assignment termination date",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:CombinedDateTime"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "is index to",
+      "technicalName": "fibo-fnd-arr-id:isIndexTo",
+      "localName": "isIndexTo",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/isIndexTo",
+      "label": "is index to",
+      "definition": "that to which the index refers",
+      "domain": [
+        "index"
+      ],
+      "range": []
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has assignment termination date",
+      "technicalName": "fibo-fnd-arr-id:hasAssignmentTerminationDate",
+      "localName": "hasAssignmentTerminationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/hasAssignmentTerminationDate",
+      "label": "has assignment termination date",
+      "definition": "the date on which an identifier is released from its assignment to some resource",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has initial assignment date",
+      "technicalName": "fibo-fnd-arr-id:hasInitialAssignmentDate",
+      "localName": "hasInitialAssignmentDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/hasInitialAssignmentDate",
+      "label": "has initial assignment date",
+      "definition": "the date on which an identifier is first assigned to some resource",
+      "domain": [],
+      "range": [
+        "cmns-dt:CombinedDateTime"
+      ]
+    }
+  ]
+}

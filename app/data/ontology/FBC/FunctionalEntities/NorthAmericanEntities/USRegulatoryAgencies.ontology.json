@@ -1,0 +1,625 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FBC\\FunctionalEntities\\NorthAmericanEntities\\USRegulatoryAgencies.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/",
+  "summary": {
+    "nodes": 23,
+    "edges": 2,
+    "properties": 0,
+    "triples": 1710
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/GovernmentEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/GovernmentEntities/NorthAmericanJurisdiction/USGovernmentEntitiesAndJurisdictions/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/CorporateBodies/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/LEIEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/Executives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessCentersIndividuals/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/BusinessRegistries/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/CommercialRegistrationAuthorities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USFinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Parties/Parties/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Locations/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/RegistrationAuthorities/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/",
+    "https://www.omg.org/spec/LCC/Countries/ISO3166-1-CountryCodes/",
+    "https://www.omg.org/spec/LCC/Countries/Regions/ISO3166-2-SubdivisionCodes-US/"
+  ],
+  "classes": [
+    {
+      "name": "ABA IIN registry entry",
+      "technicalName": "fibo-fbc-fct-usjrga:ABAIINRegistryEntry",
+      "localName": "ABAIINRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/ABAIINRegistryEntry",
+      "label": "ABA IIN registry entry",
+      "definition": "an entry in the ABA IIN registry, a repository of financial institution characteristics collected by the ABA for those institutions to which they issue IINs",
+      "parents": [
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "issuer identification number",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "value",
+          "value": "ABA IIN Registry",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "only",
+          "value": "fibo-fbc-fct-fse:FinancialInstitution",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ABA RTN registry entry",
+      "technicalName": "fibo-fbc-fct-usjrga:ABARTNRegistryEntry",
+      "localName": "ABARTNRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/ABARTNRegistryEntry",
+      "label": "ABA RTN registry entry",
+      "definition": "an entry in the ABA RTN registry, a repository of financial institution characteristics collected by the ABA Registrar on behalf of the ABA",
+      "parents": [
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "routing transit number",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "value",
+          "value": "ABA RTN Registry",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "only",
+          "value": "fibo-fbc-fct-fse:FinancialInstitution",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "employer identification number",
+      "technicalName": "fibo-fbc-fct-usjrga:EmployerIdentificationNumber",
+      "localName": "EmployerIdentificationNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/EmployerIdentificationNumber",
+      "label": "employer identification number",
+      "definition": "unique nine-digit number assigned by the Internal Revenue Service (IRS) to business entities operating in the United States for the purposes of identification",
+      "parents": [
+        "taxpayer identification number",
+        "cmns-org:OrganizationIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "employer identification numbering scheme"
+        }
+      ]
+    },
+    {
+      "name": "employer identification numbering scheme",
+      "technicalName": "fibo-fbc-fct-usjrga:EmployerIdentificationNumberingScheme",
+      "localName": "EmployerIdentificationNumberingScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/EmployerIdentificationNumberingScheme",
+      "label": "employer identification numbering scheme",
+      "definition": "taxpayer identification numbering scheme used in the United States to identify business entities",
+      "parents": [
+        "taxpayer identification numbering scheme"
+      ],
+      "rules": []
+    },
+    {
+      "name": "FDIC Certificate Number",
+      "technicalName": "fibo-fbc-fct-usjrga:FDICCertificateNumber",
+      "localName": "FDICCertificateNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/FDICCertificateNumber",
+      "label": "FDIC Certificate Number",
+      "definition": "identifier issued to a depository institution by the FDIC on approval of that institution's application for insurance",
+      "parents": [
+        "fibo-fbc-fct-fse:FinancialServiceProviderIdentifier",
+        "cmns-ra:RegisteredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "federal deposit insurer and regulator",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "value",
+          "value": "FDIC Institution Directory",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "FDIC registry entry",
+      "technicalName": "fibo-fbc-fct-usjrga:FDICRegistryEntry",
+      "localName": "FDICRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/FDICRegistryEntry",
+      "label": "FDIC registry entry",
+      "definition": "an entry in the FDIC institution directory, a repository of financial institution characteristics collected by the FDIC related to the institutions they insure",
+      "parents": [
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "FDIC Certificate Number",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "value",
+          "value": "FDIC Institution Directory",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "only",
+          "value": "fibo-fbc-fct-fse:DepositoryInstitution",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "federal government entity",
+      "technicalName": "fibo-fbc-fct-usjrga:FederalGovernmentEntity",
+      "localName": "FederalGovernmentEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/FederalGovernmentEntity",
+      "label": "federal government entity",
+      "definition": "formal organization that is an independent agency, instrumentality or other permanent or semi-permanent organization in the machinery of government in the United States, authorized by the executive branch or by Congress, that operates at the national (federal) level",
+      "parents": [
+        "fibo-be-ge-ge:GovernmentBody"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:hasJurisdiction",
+          "operator": "value",
+          "value": "fibo-be-ge-usj:UnitedStatesJurisdiction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Federal Reserve district",
+      "technicalName": "fibo-fbc-fct-usjrga:FederalReserveDistrict",
+      "localName": "FederalReserveDistrict",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/FederalReserveDistrict",
+      "label": "Federal Reserve district",
+      "definition": "a region of the US identifying the jurisdiction of a Federal Reserve Bank, numbered and named for the city in which that reserve bank is located",
+      "parents": [
+        "cmns-rga:Jurisdiction"
+      ],
+      "rules": []
+    },
+    {
+      "name": "Federal Reserve district bank",
+      "technicalName": "fibo-fbc-fct-usjrga:FederalReserveDistrictBank",
+      "localName": "FederalReserveDistrictBank",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/FederalReserveDistrictBank",
+      "label": "Federal Reserve district bank",
+      "definition": "Federal Reserve district and member bank, with jurisdiction over a specific region of the US, named for the city in which the reserve bank is located",
+      "parents": [
+        "fibo-fbc-fct-fse:CentralBank",
+        "Federal Reserve System member"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:hasJurisdiction",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "Federal Reserve district"
+        },
+        {
+          "property": "cmns-col:isPartOf",
+          "operator": "value",
+          "value": "Federal Reserve regulatory agency and central bank",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Federal Reserve district identifier",
+      "technicalName": "fibo-fbc-fct-usjrga:FederalReserveDistrictIdentifier",
+      "localName": "FederalReserveDistrictIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/FederalReserveDistrictIdentifier",
+      "label": "Federal Reserve district identifier",
+      "definition": "identifier associated with a Federal Reserve district",
+      "parents": [
+        "cmns-loc:GeographicRegionIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "Federal Reserve district"
+        }
+      ]
+    },
+    {
+      "name": "Federal Reserve System member",
+      "technicalName": "fibo-fbc-fct-usjrga:FederalReserveSystemMember",
+      "localName": "FederalReserveSystemMember",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/FederalReserveSystemMember",
+      "label": "Federal Reserve System member",
+      "definition": "financial institution that is a member of the Federal Reserve System (FRS)",
+      "parents": [
+        "fibo-fbc-fct-fse:FinancialInstitution",
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "value",
+          "value": "Federal Reserve System",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "Federal Reserve System non-member institution",
+      "technicalName": "fibo-fbc-fct-usjrga:FederalReserveSystemNonMemberInstitution",
+      "localName": "FederalReserveSystemNonMemberInstitution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/FederalReserveSystemNonMemberInstitution",
+      "label": "Federal Reserve System non-member institution",
+      "definition": "depository institution that is not member of the Federal Reserve System (FRS)",
+      "parents": [
+        "fibo-fbc-fct-fse:DepositoryInstitution"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-be-le-cb:isIncorporatedIn",
+          "operator": "value",
+          "value": "fibo-be-ge-usj:UnitedStatesJurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-org:isDomiciledIn",
+          "operator": "value",
+          "value": "lcc-3166-1:UnitedStatesOfAmerica",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "issuer identification number",
+      "technicalName": "fibo-fbc-fct-usjrga:IssuerIdentificationNumber",
+      "localName": "IssuerIdentificationNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/IssuerIdentificationNumber",
+      "label": "issuer identification number",
+      "definition": "a numbering system that allows a credit, debit, or other card to be identified as having been issued by a particular financial institution",
+      "parents": [
+        "fibo-fbc-fct-fse:FinancialServiceProviderIdentifier",
+        "cmns-ra:RegisteredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fbc-fct-fse:FinancialInstitution"
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "American Bankers Association Registration Authority",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:hasRegistrationAuthority",
+          "operator": "value",
+          "value": "American Bankers Association Registration Authority",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "value",
+          "value": "ABA IIN Registry",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "National Information Center (NIC) registry entry",
+      "technicalName": "fibo-fbc-fct-usjrga:NICRegistryEntry",
+      "localName": "NICRegistryEntry",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/NICRegistryEntry",
+      "label": "National Information Center (NIC) registry entry",
+      "definition": "an entry in the the National Information Center (NIC) repository, a repository of financial data and institution characteristics collected by the Federal Reserve System",
+      "parents": [
+        "cmns-ra:RegistryEntry"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "Research, Statistics, Supervision and Regulation, and Discount and Credit identifier",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "value",
+          "value": "National Information Center (NIC) Repository",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "only",
+          "value": "fibo-fbc-pas-fpas:FinancialServiceProvider",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "non-depository trust company - member institution",
+      "technicalName": "fibo-fbc-fct-usjrga:NonDepositoryTrustCompany-MemberInstitution",
+      "localName": "NonDepositoryTrustCompany-MemberInstitution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/NonDepositoryTrustCompany-MemberInstitution",
+      "label": "non-depository trust company - member institution",
+      "definition": "non-depository trust company that is a member of the Federal Reserve system",
+      "parents": [
+        "fibo-fbc-fct-usfse:NonDepositoryTrustCompany",
+        "Federal Reserve System member"
+      ],
+      "rules": []
+    },
+    {
+      "name": "non-depository trust company - non-member institution",
+      "technicalName": "fibo-fbc-fct-usjrga:NonDepositoryTrustCompany-NonMemberInstitution",
+      "localName": "NonDepositoryTrustCompany-NonMemberInstitution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/NonDepositoryTrustCompany-NonMemberInstitution",
+      "label": "non-depository trust company - non-member institution",
+      "definition": "non-depository trust company that is not a member of the Federal Reserve system",
+      "parents": [
+        "fibo-fbc-fct-usfse:NonDepositoryTrustCompany"
+      ],
+      "rules": []
+    },
+    {
+      "name": "primary federal regulator",
+      "technicalName": "fibo-fbc-fct-usjrga:PrimaryFederalRegulator",
+      "localName": "PrimaryFederalRegulator",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/PrimaryFederalRegulator",
+      "label": "primary federal regulator",
+      "definition": "federal regulatory agency that is designated as the main agency responsible for oversight of a given institution for an institution",
+      "parents": [
+        "cmns-rga:RegulatoryAgency"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-be-ge-ge:GovernmentBody"
+        }
+      ]
+    },
+    {
+      "name": "Research, Statistics, Supervision and Regulation, and Discount and Credit identifier",
+      "technicalName": "fibo-fbc-fct-usjrga:ResearchStatisticsSupervisionDiscountIdentifier",
+      "localName": "ResearchStatisticsSupervisionDiscountIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/ResearchStatisticsSupervisionDiscountIdentifier",
+      "label": "Research, Statistics, Supervision and Regulation, and Discount and Credit identifier",
+      "definition": "unique identifier assigned by the Federal Reserve to financial institutions for regulatory and oversight purposes",
+      "parents": [
+        "fibo-fbc-fct-fse:FinancialServiceProviderIdentifier",
+        "cmns-ra:RegisteredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "value",
+          "value": "National Information Center (NIC) Repository",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "Federal Reserve regulatory agency and central bank",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "routing transit number",
+      "technicalName": "fibo-fbc-fct-usjrga:RoutingTransitNumber",
+      "localName": "RoutingTransitNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/RoutingTransitNumber",
+      "label": "routing transit number",
+      "definition": "unique nine digit identifier, used primarily in the United States, to identify a banking or other financial institution for clearing funds, and, as it appears on a check, denotes the banking institution that holds the account from which funds are to be drawn",
+      "parents": [
+        "fibo-fbc-fct-fse:FinancialServiceProviderIdentifier",
+        "cmns-ra:RegisteredIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-ra:hasRegistrationAuthority",
+          "operator": "value",
+          "value": "American Bankers Association Registration Authority",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredBy",
+          "operator": "value",
+          "value": "American Bankers Association RTN Registrar",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-ra:isRegisteredIn",
+          "operator": "value",
+          "value": "ABA RTN Registry",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "state government entity or agency",
+      "technicalName": "fibo-fbc-fct-usjrga:StateGovernmentEntity",
+      "localName": "StateGovernmentEntity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/StateGovernmentEntity",
+      "label": "state government entity or agency",
+      "definition": "formal organization that is an independent agency, instrumentality or other permanent or semi-permanent organization in the machinery of government of any one of the states or territories of the United States",
+      "parents": [
+        "fibo-be-ge-ge:GovernmentBody"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:hasJurisdiction",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rga:hasReach",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-loc:isSubregionOf",
+          "operator": "value",
+          "value": "lcc-3166-1:UnitedStatesOfAmerica",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "state member bank",
+      "technicalName": "fibo-fbc-fct-usjrga:StateMemberBank",
+      "localName": "StateMemberBank",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/StateMemberBank",
+      "label": "state member bank",
+      "definition": "state-chartered bank that is a member of the Federal Reserve System (FRS)",
+      "parents": [
+        "fibo-fbc-fct-usfse:StateCharteredBank",
+        "Federal Reserve System member"
+      ],
+      "rules": []
+    },
+    {
+      "name": "taxpayer identification number",
+      "technicalName": "fibo-fbc-fct-usjrga:TaxpayerIdentificationNumber",
+      "localName": "TaxpayerIdentificationNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/TaxpayerIdentificationNumber",
+      "label": "taxpayer identification number",
+      "definition": "identification number used by the Internal Revenue Service (IRS) in the administration of tax laws in the United States",
+      "parents": [
+        "fibo-fnd-pty-pty:TaxIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "taxpayer identification numbering scheme"
+        },
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "value",
+          "value": "fibo-be-ge-usj:UnitedStatesJurisdiction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "taxpayer identification numbering scheme",
+      "technicalName": "fibo-fbc-fct-usjrga:TaxpayerIdentificationNumberingScheme",
+      "localName": "TaxpayerIdentificationNumberingScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/TaxpayerIdentificationNumberingScheme",
+      "label": "taxpayer identification numbering scheme",
+      "definition": "tax identification scheme used in the United States",
+      "parents": [
+        "fibo-fnd-pty-pty:TaxIdentificationScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "value",
+          "value": "fibo-be-ge-usj:UnitedStatesJurisdiction",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has primary federal regulator",
+      "technicalName": "fibo-fbc-fct-usjrga:hasPrimaryFederalRegulator",
+      "localName": "hasPrimaryFederalRegulator",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/hasPrimaryFederalRegulator",
+      "label": "has primary federal regulator",
+      "definition": "identifies the primary federal regulator for an institution",
+      "domain": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider"
+      ],
+      "range": [
+        "primary federal regulator"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has secondary federal regulator",
+      "technicalName": "fibo-fbc-fct-usjrga:hasSecondaryFederalRegulator",
+      "localName": "hasSecondaryFederalRegulator",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/NorthAmericanEntities/USRegulatoryAgencies/hasSecondaryFederalRegulator",
+      "label": "has secondary federal regulator",
+      "definition": "identifies an additional federal regulator, over and above the primary federal regulator, for an institution",
+      "domain": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider"
+      ],
+      "range": [
+        "cmns-rga:RegulatoryAgency"
+      ]
+    }
+  ],
+  "attributes": []
+}

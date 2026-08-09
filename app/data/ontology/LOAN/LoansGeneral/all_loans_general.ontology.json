@@ -1,0 +1,1915 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\LOAN\\LoansGeneral",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\LOAN\\LoansGeneral\\LoanApplications.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\LOAN\\LoansGeneral\\LoanEvents.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\LOAN\\LoansGeneral\\Loans.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\LOAN\\LoansGeneral\\LoansRegulatory.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 4,
+    "classes": 70,
+    "edges": 24,
+    "attributes": 12
+  },
+  "classes": [
+    {
+      "name": "all borrowers' monthly income",
+      "technicalName": "fibo-loan-ln-app:AllBorrowersMonthlyIncome",
+      "localName": "AllBorrowersMonthlyIncome",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/AllBorrowersMonthlyIncome",
+      "label": "all borrowers' monthly income",
+      "definition": "total monthly qualifying income for all borrowers on the loan",
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryAmount",
+        "fibo-fnd-oac-own:Income"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "borrower monthly income",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "borrower assessment",
+      "technicalName": "fibo-loan-ln-app:BorrowerAssessment",
+      "localName": "BorrowerAssessment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/BorrowerAssessment",
+      "label": "borrower assessment",
+      "definition": "assessment report detailing information about the borrower and their credit history that may be relevant to the loan application",
+      "parents": [
+        "fibo-fnd-arr-asmt:AssessmentReport"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:isAbout",
+          "operator": "some",
+          "value": "loan application",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-doc:isAbout",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:Borrower",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-asmt:hasDateOfAssessment",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDate",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-loan-ln-ln:PaymentHistory"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "individual person credit rating"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "income verification report"
+        }
+      ]
+    },
+    {
+      "name": "borrower monthly income",
+      "technicalName": "fibo-loan-ln-app:BorrowerMonthlyIncome",
+      "localName": "BorrowerMonthlyIncome",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/BorrowerMonthlyIncome",
+      "label": "borrower monthly income",
+      "definition": "total monthly qualifying income of a potential borrower",
+      "parents": [
+        "fibo-fnd-acc-cur:MonetaryAmount",
+        "fibo-fnd-oac-own:Income"
+      ],
+      "rules": [
+        {
+          "property": "cmns-pts:hasPartyRole",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:Borrower",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit risk assessment",
+      "technicalName": "fibo-loan-ln-app:CreditRiskAssessment",
+      "localName": "CreditRiskAssessment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/CreditRiskAssessment",
+      "label": "credit risk assessment",
+      "definition": "risk assessment that focuses on determining the likelihood of a potential borrower repaying a loan",
+      "parents": [
+        "fibo-fnd-arr-asmt:AssessmentActivity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-loan-ln-ln:Loan",
+          "qualifier": null
+        },
+        {
+          "property": "uses factor",
+          "operator": "some",
+          "value": "fibo-loan-ln-ln:CombinedLoanToValueRatio",
+          "qualifier": null
+        },
+        {
+          "property": "uses factor",
+          "operator": "some",
+          "value": "total debt expense ratio",
+          "qualifier": null
+        },
+        {
+          "property": "uses factor",
+          "operator": "some",
+          "value": "borrower monthly income",
+          "qualifier": null
+        },
+        {
+          "property": "uses factor",
+          "operator": "some",
+          "value": "all borrowers' monthly income",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasOutput",
+          "operator": "some",
+          "value": "underwriting decision",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasInput",
+          "operator": "some",
+          "value": "public record",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasInput",
+          "operator": "some",
+          "value": "pre-approval request",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasInput",
+          "operator": "some",
+          "value": "pre-approval contract",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasInput",
+          "operator": "some",
+          "value": "fibo-fbc-dae-crt:CreditReport",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "income verification report",
+      "technicalName": "fibo-loan-ln-app:IncomeVerificationReport",
+      "localName": "IncomeVerificationReport",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/IncomeVerificationReport",
+      "label": "income verification report",
+      "definition": "report providing the methodology and supporting documentation used to verify the borrower's income",
+      "parents": [
+        "fibo-fnd-arr-asmt:AssessmentReport"
+      ],
+      "rules": []
+    },
+    {
+      "name": "individual person credit rating",
+      "technicalName": "fibo-loan-ln-app:IndividualPersonCreditRating",
+      "localName": "IndividualPersonCreditRating",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/IndividualPersonCreditRating",
+      "label": "individual person credit rating",
+      "definition": "credit rating that provides an opinion of the creditworthiness of a person",
+      "parents": [
+        "fibo-fbc-dae-crt:CreditRating"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan application",
+      "technicalName": "fibo-loan-ln-app:LoanApplication",
+      "localName": "LoanApplication",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/LoanApplication",
+      "label": "loan application",
+      "definition": "request by a potential borrower to a potential lender to borrow money containing information used to decide whether to grant the loan",
+      "parents": [
+        "cmns-doc:Document"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "total debt expense ratio",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "borrower monthly income",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "all borrowers' monthly income",
+          "qualifier": null
+        },
+        {
+          "property": "is pre-approval requested",
+          "operator": "some",
+          "value": "xsd:boolean",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-rep:isSubmittedBy",
+          "operator": "some",
+          "value": "fibo-fnd-arr-rep:Requester",
+          "qualifier": null
+        },
+        {
+          "property": "has application date",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "fibo-fnd-dt-fd:hasDateReceived",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-loan-ln-ln:LoanToValueRatio"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-loan-ln-ln:CombinedLoanToValueRatio"
+        }
+      ]
+    },
+    {
+      "name": "loan application at agreement stage",
+      "technicalName": "fibo-loan-ln-app:LoanApplicationAtAgreementStage",
+      "localName": "LoanApplicationAtAgreementStage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/LoanApplicationAtAgreementStage",
+      "label": "loan application at agreement stage",
+      "definition": null,
+      "parents": [
+        "loan application status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan application at disbursement stage",
+      "technicalName": "fibo-loan-ln-app:LoanApplicationAtDisbursementStage",
+      "localName": "LoanApplicationAtDisbursementStage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/LoanApplicationAtDisbursementStage",
+      "label": "loan application at disbursement stage",
+      "definition": null,
+      "parents": [
+        "loan application status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan application phase",
+      "technicalName": "fibo-loan-ln-app:LoanApplicationPhase",
+      "localName": "LoanApplicationPhase",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/LoanApplicationPhase",
+      "label": "loan application phase",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStage"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan application status",
+      "technicalName": "fibo-loan-ln-app:LoanApplicationStatus",
+      "localName": "LoanApplicationStatus",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/LoanApplicationStatus",
+      "label": "loan application status",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStatus"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan at application stage",
+      "technicalName": "fibo-loan-ln-app:LoanAtApplicationStage",
+      "localName": "LoanAtApplicationStage",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/LoanAtApplicationStage",
+      "label": "loan at application stage",
+      "definition": null,
+      "parents": [
+        "loan application status"
+      ],
+      "rules": []
+    },
+    {
+      "name": "pre-approval contract",
+      "technicalName": "fibo-loan-ln-app:PreApprovalContract",
+      "localName": "PreApprovalContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/PreApprovalContract",
+      "label": "pre-approval contract",
+      "definition": "written commitment to lend when specified conditions are met, such as finding suitable property, and unchanged creditworthiness",
+      "parents": [
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": [
+        {
+          "property": "has approved amount",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryAmount",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-dae-dbt:hasInterestRate",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:InterestRate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pre-approval request",
+      "technicalName": "fibo-loan-ln-app:PreApprovalRequest",
+      "localName": "PreApprovalRequest",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/PreApprovalRequest",
+      "label": "pre-approval request",
+      "definition": "request from a potential borrower that a lender commit to pre-approving the borrower for a loan of up to a specified amount of money",
+      "parents": [
+        "fibo-fnd-arr-rep:RequestActivity"
+      ],
+      "rules": [
+        {
+          "property": "has requested amount",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryAmount",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-dae-dbt:hasBorrower",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:Borrower",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "public record",
+      "technicalName": "fibo-loan-ln-app:PublicRecord",
+      "localName": "PublicRecord",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/PublicRecord",
+      "label": "public record",
+      "definition": "record about an action involving a party that is publicly available from a court or other government agency",
+      "parents": [
+        "cmns-doc:Record"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "public record category",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:isEvidencedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-doc:LegalDocument"
+        },
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-pas-caa:Account"
+        }
+      ]
+    },
+    {
+      "name": "public record category",
+      "technicalName": "fibo-loan-ln-app:PublicRecordCategory",
+      "localName": "PublicRecordCategory",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/PublicRecordCategory",
+      "label": "public record category",
+      "definition": "classifier of public records relevant to a loan application, e.g. tax lien, wage garnishment, foreclosure",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "total debt expense ratio",
+      "technicalName": "fibo-loan-ln-app:TotalDebtExpenseRatio",
+      "localName": "TotalDebtExpenseRatio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/TotalDebtExpenseRatio",
+      "label": "total debt expense ratio",
+      "definition": "ratio of all monthly debt payments of all borrowers, including proposed expenses, with respect to the income of the borrowers as relied upon to make a credit decision",
+      "parents": [
+        "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+      ],
+      "rules": []
+    },
+    {
+      "name": "underwriting automation",
+      "technicalName": "fibo-loan-ln-app:UnderwritingAutomation",
+      "localName": "UnderwritingAutomation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/UnderwritingAutomation",
+      "label": "underwriting automation",
+      "definition": "classifier indicating whether a loan was underwritten manually or using an automated underwriting system",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "underwriting decision",
+      "technicalName": "fibo-loan-ln-app:UnderwritingDecision",
+      "localName": "UnderwritingDecision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/UnderwritingDecision",
+      "label": "underwriting decision",
+      "definition": "classifier providing a loan approval recommendation determined either manually or by an automated underwriting system",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "collateral valuation",
+      "technicalName": "fibo-loan-ln-ev:CollateralValuation",
+      "localName": "CollateralValuation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/CollateralValuation",
+      "label": "collateral valuation",
+      "definition": "assessment activity resulting in the valuation of real property as collateral",
+      "parents": [
+        "fibo-fnd-arr-asmt:AssessmentActivity"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "fibo-fnd-arr-asmt:Appraiser",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:evaluates",
+          "operator": "only",
+          "value": "fibo-fbc-dae-dbt:Collateral",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "court judgment",
+      "technicalName": "fibo-loan-ln-ev:CourtJudgment",
+      "localName": "CourtJudgment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/CourtJudgment",
+      "label": "court judgment",
+      "definition": "decision by a court or other tribunal that resolves a controversy and determines the rights and obligations of the parties",
+      "parents": [
+        "legal proceeding"
+      ],
+      "rules": [
+        {
+          "property": "is delivered by",
+          "operator": "some",
+          "value": "fibo-fnd-law-cor:CourtOfLaw",
+          "qualifier": null
+        },
+        {
+          "property": "has judgement amount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "legal proceeding",
+      "technicalName": "fibo-loan-ln-ev:LegalProceeding",
+      "localName": "LegalProceeding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/LegalProceeding",
+      "label": "legal proceeding",
+      "definition": "legal step or action taken at the direction of, or by the authority of, a court or agency",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:isGovernedBy",
+          "operator": "some",
+          "value": "cmns-rga:Jurisdiction",
+          "qualifier": null
+        },
+        {
+          "property": "is against",
+          "operator": "some",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "loan default proceeding",
+      "technicalName": "fibo-loan-ln-ev:LoanDefaultProceeding",
+      "localName": "LoanDefaultProceeding",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/LoanDefaultProceeding",
+      "label": "loan default proceeding",
+      "definition": "[no definition] Further Review This is typically part of mortgagte servicing. THere would typically be a whole department dealing with this. Dealing with default, helping borrowers make payment Collections Default admin Foreclosure Reselling All dealt with by several sub departments. This requires subject matter experts in this area. 1. scoping Identify default as a possible state. This hands off to other business processes. Once you get into the default scenario we are talking about a proces that is going to fall into place over a period of time. The bank works out what to do with the default scenario, e.g. whether it restructures, forecloses, seeks restitution from the security (collateral). It does nto help us to understand the structure of the loan, rather tha consequences of the loan. If we were to further explore the default detail we would bring in other SMEs. And we would have to model a process flow. 1.1 impact on the pool of an MBS Loan Default Proceeding (special ase of legal thing) is an aspect of Default Management / Administratoin. there is also the State of the Loan. Sale / something / fulfilment / fiunduing / approved = servicing mode. Something happens (non payment) =&gt; Default Grace Period followed by negotiation. Some threshold whereby after a given amount of delinquency it needs to go into some other process moving towards foreclosure. Do State Diagram. Stages of loan.",
+      "parents": [
+        "legal proceeding"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan paid in full",
+      "technicalName": "fibo-loan-ln-ev:LoanPaidInFull",
+      "localName": "LoanPaidInFull",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/LoanPaidInFull",
+      "label": "loan paid in full",
+      "definition": null,
+      "parents": [
+        "loan phase"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan phase",
+      "technicalName": "fibo-loan-ln-ev:LoanPhase",
+      "localName": "LoanPhase",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/LoanPhase",
+      "label": "loan phase",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-arr-lif:LifecycleStage"
+      ],
+      "rules": []
+    },
+    {
+      "name": "prepayment",
+      "technicalName": "fibo-loan-ln-ev:Prepayment",
+      "localName": "Prepayment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/Prepayment",
+      "label": "prepayment",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-pas-psch:Payment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "repayment phase",
+      "technicalName": "fibo-loan-ln-ev:RepaymentPhase",
+      "localName": "RepaymentPhase",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/RepaymentPhase",
+      "label": "repayment phase",
+      "definition": null,
+      "parents": [
+        "loan phase"
+      ],
+      "rules": []
+    },
+    {
+      "name": "closed-end credit",
+      "technicalName": "fibo-loan-ln-ln:ClosedEndCredit",
+      "localName": "ClosedEndCredit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/ClosedEndCredit",
+      "label": "closed-end credit",
+      "definition": "credit agreement in which the loan principal cannot be increased after funds are dispersed in full when the loan closes",
+      "parents": [
+        "fibo-fbc-dae-dbt:CreditAgreement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "collateralized loan",
+      "technicalName": "fibo-loan-ln-ln:CollateralizedLoan",
+      "localName": "CollateralizedLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/CollateralizedLoan",
+      "label": "collateralized loan",
+      "definition": "secured loan that is secured with cash or other acceptable collateral (real property, securities or other assets) provided by the borrower as specified in the collateral agreement",
+      "parents": [
+        "secured loan"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-agr-ctr:isPrimaryContractFor",
+          "operator": "some",
+          "value": "fibo-fnd-agr-ctr:CollateralAgreement",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-dae-dbt:isCollateralizedBy",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:Collateral",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "co-maker",
+      "technicalName": "fibo-loan-ln-ln:Comaker",
+      "localName": "Comaker",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/Comaker",
+      "label": "co-maker",
+      "definition": "party that signs a borrower's promissory note, providing additional security and potentially improving the quality of the debt",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractThirdParty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "combined loan-to-value ratio",
+      "technicalName": "fibo-loan-ln-ln:CombinedLoanToValueRatio",
+      "localName": "CombinedLoanToValueRatio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/CombinedLoanToValueRatio",
+      "label": "combined loan-to-value ratio",
+      "definition": "ratio of the total amount of debt that is secured by the asset(s) and the appraised value of the asset(s) securing the financing",
+      "parents": [
+        "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "total outstanding principal",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "fibo-fnd-arr-asmt:AppraisedValue",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "fibo-fnd-arr-asmt:Appraisal",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:Asset",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "guaranteed loan",
+      "technicalName": "fibo-loan-ln-ln:GuaranteedLoan",
+      "localName": "GuaranteedLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/GuaranteedLoan",
+      "label": "guaranteed loan",
+      "definition": "loan that is secured with respect to repayment of principal and interest by guaranty",
+      "parents": [
+        "secured loan"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-fbc-dae-gty:Guaranty",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-dae-gty:hasGuarantor",
+          "operator": "some",
+          "value": "fibo-fbc-dae-gty:Guarantor",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "individual payment transaction",
+      "technicalName": "fibo-loan-ln-ln:IndividualPaymentTransaction",
+      "localName": "IndividualPaymentTransaction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/IndividualPaymentTransaction",
+      "label": "individual payment transaction",
+      "definition": "actual payment of principal, interest, fees, or other related amounts towards fulfillment of a debt obligation",
+      "parents": [
+        "fibo-fbc-pas-caa:IndividualTransaction",
+        "fibo-fnd-pas-psch:Payment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "lender lien position",
+      "technicalName": "fibo-loan-ln-ln:LenderLienPosition",
+      "localName": "LenderLienPosition",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/LenderLienPosition",
+      "label": "lender lien position",
+      "definition": "classifier indicating whether the lender has the primary lien position with respect to an asset used as collateral for the loan",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan",
+      "technicalName": "fibo-loan-ln-ln:Loan",
+      "localName": "Loan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/Loan",
+      "label": "loan",
+      "definition": "debt instrument whereby one party extends money or credit to another party (or parties) with the understanding that the borrowed money will be repaid according to the terms of the contract",
+      "parents": [
+        "fibo-fbc-dae-dbt:CreditAgreementRepaidPeriodically",
+        "fibo-fbc-fi-fi:DebtInstrument"
+      ],
+      "rules": [
+        {
+          "property": "has principal amount",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryAmount",
+          "qualifier": null
+        },
+        {
+          "property": "is interest only",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:boolean"
+        },
+        {
+          "property": "has negative amortization",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:boolean"
+        },
+        {
+          "property": "fibo-fbc-dae-dbt:hasMaturityDate",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        },
+        {
+          "property": "is performed by",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "servicer"
+        },
+        {
+          "property": "fibo-fbc-pas-caa:hasCorrespondingAccount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "loan-specific customer account"
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "lender lien position"
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasThirdParty",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-agr-ctr:ContractThirdParty"
+        },
+        {
+          "property": "has total points and fees",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "has total closing costs",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "fibo-fbc-dae-gty:hasGuarantor",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-dae-gty:Guarantor"
+        }
+      ]
+    },
+    {
+      "name": "loan payment schedule",
+      "technicalName": "fibo-loan-ln-ln:LoanPaymentSchedule",
+      "localName": "LoanPaymentSchedule",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/LoanPaymentSchedule",
+      "label": "loan payment schedule",
+      "definition": "regular or explicit (ad hoc) payment schedule associated with a given loan-specific account",
+      "parents": [
+        "fibo-fnd-pas-psch:PaymentSchedule"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "loan-specific customer account",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-dae-dbt:hasAnticipatedNumberOfPayments",
+          "operator": "some",
+          "value": "xsd:positiveInteger",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "loan-specific customer account",
+      "technicalName": "fibo-loan-ln-ln:LoanSpecificCustomerAccount",
+      "localName": "LoanSpecificCustomerAccount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/LoanSpecificCustomerAccount",
+      "label": "loan-specific customer account",
+      "definition": "account held by the borrower associated with a specific loan",
+      "parents": [
+        "fibo-fbc-pas-caa:CustomerAccount",
+        "fibo-fbc-pas-caa:LoanOrCreditAccount"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isHeldBy",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:Borrower",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-pas-fpas:relatesTo",
+          "operator": "some",
+          "value": "loan",
+          "qualifier": null
+        },
+        {
+          "property": "has payment history",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "payment history"
+        },
+        {
+          "property": "fibo-fnd-pas-psch:hasPaymentSchedule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "loan payment schedule"
+        },
+        {
+          "property": "has loan balance",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-pas-caa:Balance"
+        }
+      ]
+    },
+    {
+      "name": "loan-to-value ratio",
+      "technicalName": "fibo-loan-ln-ln:LoanToValueRatio",
+      "localName": "LoanToValueRatio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/LoanToValueRatio",
+      "label": "loan-to-value ratio",
+      "definition": "ratio, expressed as a percentage, between the principal amount of the loan and the appraised value of the asset securing the financing",
+      "parents": [
+        "fibo-fnd-acc-cur:PercentageMonetaryAmount"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "fibo-fnd-arr-asmt:AppraisedValue",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:Principal",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-doc:refersTo",
+          "operator": "some",
+          "value": "fibo-fnd-arr-asmt:Appraisal",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:Asset",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "open-end credit",
+      "technicalName": "fibo-loan-ln-ln:OpenEndCredit",
+      "localName": "OpenEndCredit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/OpenEndCredit",
+      "label": "open-end credit",
+      "definition": "credit agreement that may be extended up to an agreed credit limit and paid down at any time within the period of the line, if any, and on which interest is charged only on the outstanding balance",
+      "parents": [
+        "fibo-fbc-dae-dbt:CreditAgreement"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:hasCreditLimit",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "ownership interest",
+      "technicalName": "fibo-loan-ln-ln:OwnershipInterest",
+      "localName": "OwnershipInterest",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/OwnershipInterest",
+      "label": "ownership interest",
+      "definition": "classifier indicating the nature of the applicant's or borrower's ownership or leasehold interest in an asset used as collateral for the loan",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "fibo-fnd-oac-own:Ownership",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "payment history",
+      "technicalName": "fibo-loan-ln-ln:PaymentHistory",
+      "localName": "PaymentHistory",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/PaymentHistory",
+      "label": "payment history",
+      "definition": "record of actual payments of principal, interest, and other related amounts made by a borrower to a lender or servicer in order to fulfill their re-payment obligation",
+      "parents": [
+        "fibo-fbc-pas-caa:TransactionRecord"
+      ],
+      "rules": [
+        {
+          "property": "has individual payment",
+          "operator": "some",
+          "value": "individual payment transaction",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-pas-caa:appliesToAccount",
+          "operator": "some",
+          "value": "loan-specific customer account",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "pre-payment terms",
+      "technicalName": "fibo-loan-ln-ln:PrepaymentTerms",
+      "localName": "PrepaymentTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/PrepaymentTerms",
+      "label": "pre-payment terms",
+      "definition": "principal repayment terms related to payment of the loan prior to maturity",
+      "parents": [
+        "fibo-fbc-dae-dbt:PrincipalRepaymentTerms"
+      ],
+      "rules": [
+        {
+          "property": "has pre-payment penalty term",
+          "operator": "some",
+          "value": "cmns-dt:ExplicitDuration",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "secured loan",
+      "technicalName": "fibo-loan-ln-ln:SecuredLoan",
+      "localName": "SecuredLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/SecuredLoan",
+      "label": "secured loan",
+      "definition": "loan in which the borrower pledges some asset via a security agreement as collateral for the loan, or that is secured via third-party guarantee",
+      "parents": [
+        "loan"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-fbc-dae-gty:Guaranty",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:SecurityAgreement",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "servicer",
+      "technicalName": "fibo-loan-ln-ln:Servicer",
+      "localName": "Servicer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/Servicer",
+      "label": "servicer",
+      "definition": "party that collects principal and interest payments on behalf of the lender",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialServiceProvider",
+        "fibo-fnd-agr-ctr:ContractThirdParty"
+      ],
+      "rules": []
+    },
+    {
+      "name": "total outstanding principal",
+      "technicalName": "fibo-loan-ln-ln:TotalOutstandingPrincipal",
+      "localName": "TotalOutstandingPrincipal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/TotalOutstandingPrincipal",
+      "label": "total outstanding principal",
+      "definition": "the principal balance of all loans secured by the property",
+      "parents": [
+        "fibo-fbc-dae-dbt:Principal"
+      ],
+      "rules": []
+    },
+    {
+      "name": "unsecured loan",
+      "technicalName": "fibo-loan-ln-ln:UnsecuredLoan",
+      "localName": "UnsecuredLoan",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/UnsecuredLoan",
+      "label": "unsecured loan",
+      "definition": "loan granted based on the strength of the borrower's credit history or reputation in the community",
+      "parents": [
+        "loan"
+      ],
+      "rules": []
+    },
+    {
+      "name": "borrower data protection requirement",
+      "technicalName": "fibo-loan-ln-reg:BorrowerDataProtectionRequirement",
+      "localName": "BorrowerDataProtectionRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/BorrowerDataProtectionRequirement",
+      "label": "borrower data protection requirement",
+      "definition": null,
+      "parents": [
+        "data protection requirement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "consumer credit reference agency",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "borrower disclosure requirement",
+      "technicalName": "fibo-loan-ln-reg:BorrowerDisclosureRequirement",
+      "localName": "BorrowerDisclosureRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/BorrowerDisclosureRequirement",
+      "label": "borrower disclosure requirement",
+      "definition": null,
+      "parents": [
+        "disclosure requirement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "fibo-loan-ln-app:BorrowerAssessment",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:confers",
+          "operator": "some",
+          "value": "product disclosure right",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "borrower right",
+      "technicalName": "fibo-loan-ln-reg:BorrowerRight",
+      "localName": "BorrowerRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/BorrowerRight",
+      "label": "borrower right",
+      "definition": null,
+      "parents": [
+        "consumer right"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consumer credit equal treatment requirement",
+      "technicalName": "fibo-loan-ln-reg:ConsumerCreditEqualTreatmentRequirement",
+      "localName": "ConsumerCreditEqualTreatmentRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ConsumerCreditEqualTreatmentRequirement",
+      "label": "consumer credit equal treatment requirement",
+      "definition": null,
+      "parents": [
+        "consumer credit requirement"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:confers",
+          "operator": "some",
+          "value": "equal treatment right",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "consumer credit protection law",
+      "technicalName": "fibo-loan-ln-reg:ConsumerCreditProtectionLaw",
+      "localName": "ConsumerCreditProtectionLaw",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ConsumerCreditProtectionLaw",
+      "label": "consumer credit protection law",
+      "definition": null,
+      "parents": [
+        "consumer protection law"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consumer credit reference agency",
+      "technicalName": "fibo-loan-ln-reg:ConsumerCreditReferenceAgency",
+      "localName": "ConsumerCreditReferenceAgency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ConsumerCreditReferenceAgency",
+      "label": "consumer credit reference agency",
+      "definition": "Applicable regulations: vary by jurisdiciton. for example, only being allowed ot divulge actual judgements against a party, but not things that are not substantiated by judgements. For example, slow payments which are not covered by some judgement against the party. There will be different regulatory requirments about: 1. What the CR Agency can hold 2. Who they can divulge it to 3. What information they must provide the borrower at his/her request Some of the third thing there is covered in the EU the Data Protection Directive and local acts that implement this.",
+      "parents": [
+        "cmns-org:FormalOrganization"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consumer credit requirement",
+      "technicalName": "fibo-loan-ln-reg:ConsumerCreditRequirement",
+      "localName": "ConsumerCreditRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ConsumerCreditRequirement",
+      "label": "consumer credit requirement",
+      "definition": "Requirement set out on the lender about how they must treat the appliction to a loan",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalObligation"
+      ],
+      "rules": [
+        {
+          "property": "overseen by",
+          "operator": "some",
+          "value": "consumer protection agency",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:confers",
+          "operator": "some",
+          "value": "consumer right",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "consumer protection agency",
+      "technicalName": "fibo-loan-ln-reg:ConsumerProtectionAgency",
+      "localName": "ConsumerProtectionAgency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ConsumerProtectionAgency",
+      "label": "consumer protection agency",
+      "definition": "Some agency tasked with regulating consumer protection in some jurisdiction.",
+      "parents": [
+        "cmns-rga:RegulatoryAgency"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consumer protection law",
+      "technicalName": "fibo-loan-ln-reg:ConsumerProtectionLaw",
+      "localName": "ConsumerProtectionLaw",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ConsumerProtectionLaw",
+      "label": "consumer protection law",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-law-cor:StatuteLaw"
+      ],
+      "rules": []
+    },
+    {
+      "name": "consumer right",
+      "technicalName": "fibo-loan-ln-reg:ConsumerRight",
+      "localName": "ConsumerRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ConsumerRight",
+      "label": "consumer right",
+      "definition": null,
+      "parents": [
+        "fibo-fnd-law-lcap:LegalRight"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit reference agency requirements",
+      "technicalName": "fibo-loan-ln-reg:CreditReferenceAgencyRequirements",
+      "localName": "CreditReferenceAgencyRequirements",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/CreditReferenceAgencyRequirements",
+      "label": "credit reference agency requirements",
+      "definition": "REquirements other than data protection, governing what a credit reference agency can or cannot do.",
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "data protection requirement",
+      "technicalName": "fibo-loan-ln-reg:DataProtectionRequirement",
+      "localName": "DataProtectionRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/DataProtectionRequirement",
+      "label": "data protection requirement",
+      "definition": "Requirements defining how data about individuals is held. Example is the EU DA directive and laws, which make the data the property of the individual that data is about. Covers - what information i sheld - who information can be divulged to. - the individual's rights in respect of that information Privacy regulations cover most of this. EU defines \"Personal Data\" and \"Sensitive Personal Data\". For credit reference agencies the latter would be covered. More detail about whether they can divulge facts which are not subject to formal judgements etc.",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalObligation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "disclosure requirement",
+      "technicalName": "fibo-loan-ln-reg:DisclosureRequirement",
+      "localName": "DisclosureRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/DisclosureRequirement",
+      "label": "disclosure requirement",
+      "definition": "Requirement for disclosure to borrowers or potential borrowers. There are two kinds of disclosure requirement: 1. Disclosure about the information held on the borrower 2. Disclsure about the product.",
+      "parents": [
+        "consumer credit requirement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "equal treatment right",
+      "technicalName": "fibo-loan-ln-reg:EqualTreatmentRight",
+      "localName": "EqualTreatmentRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/EqualTreatmentRight",
+      "label": "equal treatment right",
+      "definition": "The right to equal treatment under the law.",
+      "parents": [
+        "borrower right"
+      ],
+      "rules": []
+    },
+    {
+      "name": "good faith estimate",
+      "technicalName": "fibo-loan-ln-reg:GoodFaithEstimate",
+      "localName": "GoodFaithEstimate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/GoodFaithEstimate",
+      "label": "good faith estimate",
+      "definition": "GFE - representation by the lender on the costs and implications of settlement (early termination) of the loan.",
+      "parents": [
+        "loan product representations"
+      ],
+      "rules": []
+    },
+    {
+      "name": "information right",
+      "technicalName": "fibo-loan-ln-reg:InformationRight",
+      "localName": "InformationRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/InformationRight",
+      "label": "information right",
+      "definition": "The right to some information in some context, for example when purchasing some product. The right to full and fair disclosure of",
+      "parents": [
+        "borrower right"
+      ],
+      "rules": []
+    },
+    {
+      "name": "lender right",
+      "technicalName": "fibo-loan-ln-reg:LenderRight",
+      "localName": "LenderRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/LenderRight",
+      "label": "lender right",
+      "definition": "Rights on the lender to protect them against loss. furthe rNtoes: Logically, considering the two parties, they both have protecxtion mechanisms. so while the lender has protecxtion mechanisms through mortgage insurance, and the consumer has protextion mechanisms such as good faith estimates. also the agencies (see Consumer Protection Agency), an instance of which is the CFPB in the US (just set up). Lender rights are: - expressed in the Contract Consumer protection develops becaues the contract is written by the potential Lender. So the rights are introcued to rectify the imbalance between the two parties. Same goes for insurance. consumer protection laws (governe dby the relevant consumer protection agency. So the lender protexts itself as it writes th contract AND does the things it needs to do to protext itself, but on the approval process, and with later instruments such as insurance. Interestingly., it is the Borrower who pays for this by paying for credit reports etc. So the borrower protects itself by other mechanisms. Caveat emptor - displaced by regulation (the buyer is protected by regulation). Uberimae Fidae - in the utmost good faith. Mortgage Insurance is an additional means of mitigating the risk, that the lended may have., so if the information assessed is not accurate, or if the borrower's situation changes for the worse. then the risk rating may go down. So the Mortgage Insurance is a further strategy which mitigates any shortfall in the Lender Righrs that you may have - ie someone guarantees. In the US you can also avoid that by having paid a deposit. PIMI: Principal, Interst and Morgage Insurance. So the Borrower pays towards the MI, esxcept if they have paid a given amount as deposit. there are 2 types of MI: 1. protects the lender in the event of borrower degault 2. Insurance for \"Incapacity to pay the mortage\" (these can be bought off the shelf - can combine health, unemployment etc.). - this is the Borrower mitigating their own risk. Prevents foreclosure. Similar to general sickness etc. Where the lender charges for MI, the cost is passed onto the Borrower. e.g. if there is a % valuation (e.g. 70% in Aus, 80% in US for example) then no insurance is required.",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalRight"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan product representations",
+      "technicalName": "fibo-loan-ln-reg:LoanProductRepresentations",
+      "localName": "LoanProductRepresentations",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/LoanProductRepresentations",
+      "label": "loan product representations",
+      "definition": "Representations about the loan product and the appropriateness of this for the borrower.",
+      "parents": [
+        "fibo-fnd-agr-ctr:Representation"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan regulatory requirement",
+      "technicalName": "fibo-loan-ln-reg:LoanRegulatoryRequirement",
+      "localName": "LoanRegulatoryRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/LoanRegulatoryRequirement",
+      "label": "loan regulatory requirement",
+      "definition": "A regulatory requirement defined in regulations by a comsumer credit act or other legislation.",
+      "parents": [
+        "fibo-fnd-law-lcap:LegalObligation"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:regulates",
+          "operator": "some",
+          "value": "fibo-loan-ln-ln:Loan",
+          "qualifier": null
+        },
+        {
+          "property": "administered by",
+          "operator": "some",
+          "value": "cmns-rga:RegulatoryAgency",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:isMandatedBy",
+          "operator": "some",
+          "value": "consumer credit protection law",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "product disclosure requirement",
+      "technicalName": "fibo-loan-ln-reg:ProductDisclosureRequirement",
+      "localName": "ProductDisclosureRequirement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ProductDisclosureRequirement",
+      "label": "product disclosure requirement",
+      "definition": "A requirement governing what representations can be made about a product, as it affects the consumer.",
+      "parents": [
+        "disclosure requirement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "loan product representations",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-rga:governs",
+          "operator": "some",
+          "value": "good faith estimate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "product disclosure right",
+      "technicalName": "fibo-loan-ln-reg:ProductDisclosureRight",
+      "localName": "ProductDisclosureRight",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/ProductDisclosureRight",
+      "label": "product disclosure right",
+      "definition": "The right to information about products at the point of purchasing these.",
+      "parents": [
+        "information right"
+      ],
+      "rules": []
+    },
+    {
+      "name": "reg b",
+      "technicalName": "fibo-loan-ln-reg:RegB",
+      "localName": "RegB",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/RegB",
+      "label": "reg b",
+      "definition": "US regulation concerning \"Equal credit opportunity act\" Electronic delivery of disclosures",
+      "parents": [
+        "consumer credit equal treatment requirement",
+        "disclosure requirement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "reg z",
+      "technicalName": "fibo-loan-ln-reg:RegZ",
+      "localName": "RegZ",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/RegZ",
+      "label": "reg z",
+      "definition": "US Fed regulation \"Truth in Lending Act\" uniform standards for electronic delivery of disclosures",
+      "parents": [
+        "product disclosure requirement"
+      ],
+      "rules": []
+    },
+    {
+      "name": "right of credit record correction",
+      "technicalName": "fibo-loan-ln-reg:RightOfCreditRecordCorrection",
+      "localName": "RightOfCreditRecordCorrection",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/RightOfCreditRecordCorrection",
+      "label": "right of credit record correction",
+      "definition": "The right to have a credit record corrected.",
+      "parents": [
+        "credit reference agency requirements"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has application date",
+      "technicalName": "fibo-loan-ln-app:hasApplicationDate",
+      "localName": "hasApplicationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/hasApplicationDate",
+      "label": "has application date",
+      "definition": "date on which an application was signed and submitted",
+      "domain": [
+        "loan application"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has application phase",
+      "technicalName": "fibo-loan-ln-app:hasApplicationPhase",
+      "localName": "hasApplicationPhase",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/hasApplicationPhase",
+      "label": "has application phase",
+      "definition": "The phase within the application lifecycle, that this Loan Application is at,",
+      "domain": [
+        "loan application"
+      ],
+      "range": [
+        "loan application phase"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has approved amount",
+      "technicalName": "fibo-loan-ln-app:hasApprovedAmount",
+      "localName": "hasApprovedAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/hasApprovedAmount",
+      "label": "has approved amount",
+      "definition": "relates something, e.g. a loan, to the amount of funds approved",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has gross income",
+      "technicalName": "fibo-loan-ln-app:hasGrossIncome",
+      "localName": "hasGrossIncome",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/hasGrossIncome",
+      "label": "has gross income",
+      "definition": "indicates the personal gross income of the borrower",
+      "domain": [
+        "borrower assessment"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has requested amount",
+      "technicalName": "fibo-loan-ln-app:hasRequestedAmount",
+      "localName": "hasRequestedAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/hasRequestedAmount",
+      "label": "has requested amount",
+      "definition": "relates something, e.g. a request for a loan, to the amount of funds requested",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "uses factor",
+      "technicalName": "fibo-loan-ln-app:usesFactor",
+      "localName": "usesFactor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/usesFactor",
+      "label": "uses factor",
+      "definition": "relates e.g. a risk assessment to something used as a factor to make the assessment",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has default amount",
+      "technicalName": "fibo-loan-ln-ev:hasDefaultAmount",
+      "localName": "hasDefaultAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/hasDefaultAmount",
+      "label": "has default amount",
+      "definition": "amount before the application of sale proceeds and recoveries",
+      "domain": [
+        "loan default proceeding"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "disbursement date",
+      "technicalName": "fibo-loan-ln-ev:hasDisbursementDate",
+      "localName": "hasDisbursementDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/hasDisbursementDate",
+      "label": "disbursement date",
+      "definition": null,
+      "domain": [
+        "fibo-loan-ln-ln:Loan"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has judgement amount",
+      "technicalName": "fibo-loan-ln-ev:hasJudgementAmount",
+      "localName": "hasJudgementAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/hasJudgementAmount",
+      "label": "has judgement amount",
+      "definition": "Undefined PoC SDM Notes: Total value of CCJs or equivalent recorded against the primary borrower that were satisfied / unsatsified (at time of underwriting ) is computed by selecting the satisfaction code value of interest and aggregating against all borrower CC Judgements &lt;/p&gt;",
+      "domain": [
+        "court judgment"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is against",
+      "technicalName": "fibo-loan-ln-ev:isAgainst",
+      "localName": "isAgainst",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/isAgainst",
+      "label": "is against",
+      "definition": null,
+      "domain": [
+        "legal proceeding"
+      ],
+      "range": [
+        "cmns-org:LegalPerson"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is delivered by",
+      "technicalName": "fibo-loan-ln-ev:isDeliveredBy",
+      "localName": "isDeliveredBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/isDeliveredBy",
+      "label": "is delivered by",
+      "definition": null,
+      "domain": [
+        "court judgment"
+      ],
+      "range": [
+        "fibo-fnd-law-cor:CourtOfLaw"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has cost",
+      "technicalName": "fibo-loan-ln-ln:hasCost",
+      "localName": "hasCost",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/hasCost",
+      "label": "has cost",
+      "definition": "has amount payable for principal, interest, fees or other expenses",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has first rate change term",
+      "technicalName": "fibo-loan-ln-ln:hasFirstRateChangeTerm",
+      "localName": "hasFirstRateChangeTerm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/hasFirstRateChangeTerm",
+      "label": "has first rate change term",
+      "definition": "specifies a period of time in months after origination during which the interest rate cannot change",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has individual payment",
+      "technicalName": "fibo-loan-ln-ln:hasIndividualPayment",
+      "localName": "hasIndividualPayment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/hasIndividualPayment",
+      "label": "has individual payment",
+      "definition": "links an actual payment of principal, interest, and other related amounts to the overall payment history for an account",
+      "domain": [
+        "payment history"
+      ],
+      "range": [
+        "individual payment transaction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has loan balance",
+      "technicalName": "fibo-loan-ln-ln:hasLoanBalance",
+      "localName": "hasLoanBalance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/hasLoanBalance",
+      "label": "has loan balance",
+      "definition": "indicates the balance with respect to the principal on the loan as of some date",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has payment history",
+      "technicalName": "fibo-loan-ln-ln:hasPaymentHistory",
+      "localName": "hasPaymentHistory",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/hasPaymentHistory",
+      "label": "has payment history",
+      "definition": "relates a credit agreement, loan, or commitment to any history of payments that have been made by the borrower up to the point that payment history is requested",
+      "domain": [],
+      "range": [
+        "payment history"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has pre-payment penalty term",
+      "technicalName": "fibo-loan-ln-ln:hasPrePaymentPenaltyTerm",
+      "localName": "hasPrePaymentPenaltyTerm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/hasPrePaymentPenaltyTerm",
+      "label": "has pre-payment penalty term",
+      "definition": "relates a loan to a period of time in months after which there is no prepayment penalty",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has principal amount",
+      "technicalName": "fibo-loan-ln-ln:hasPrincipalAmount",
+      "localName": "hasPrincipalAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/hasPrincipalAmount",
+      "label": "has principal amount",
+      "definition": "indicates the nominal amount of the loan that must be paid at or before maturity",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has scheduled unpaid balance",
+      "technicalName": "fibo-loan-ln-ln:hasScheduledUnpaidBalance",
+      "localName": "hasScheduledUnpaidBalance",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/hasScheduledUnpaidBalance",
+      "label": "has scheduled unpaid balance",
+      "definition": "indicates what the balance should be after a scheduled payment is made according to contract terms",
+      "domain": [],
+      "range": [
+        "fibo-fbc-pas-caa:Balance"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has total closing costs",
+      "technicalName": "fibo-loan-ln-ln:hasTotalClosingCosts",
+      "localName": "hasTotalClosingCosts",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/hasTotalClosingCosts",
+      "label": "has total closing costs",
+      "definition": "indicates the total the amount paid at the closing of a real estate transaction, i.e., at the time when the title to the property is conveyed (transferred) to the buyer",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "has total points and fees",
+      "technicalName": "fibo-loan-ln-ln:hasTotalPointsAndFees",
+      "localName": "hasTotalPointsAndFees",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/hasTotalPointsAndFees",
+      "label": "has total points and fees",
+      "definition": "indicates a form of pre-paid interest, charged by the lender as an alternative to charging a higher rate of interest on the mortgage loan",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "edge",
+      "name": "is performed by",
+      "technicalName": "fibo-loan-ln-ln:isServicedBy",
+      "localName": "isServicedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/isServicedBy",
+      "label": "is performed by",
+      "definition": "relates a loan to the financial service provider that services it",
+      "domain": [],
+      "range": [
+        "servicer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "administered by",
+      "technicalName": "fibo-loan-ln-reg:administeredBy",
+      "localName": "administeredBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/administeredBy",
+      "label": "administered by",
+      "definition": null,
+      "domain": [
+        "loan regulatory requirement"
+      ],
+      "range": [
+        "cmns-rga:RegulatoryAgency"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "overseen by",
+      "technicalName": "fibo-loan-ln-reg:overseenBy",
+      "localName": "overseenBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/overseenBy",
+      "label": "overseen by",
+      "definition": null,
+      "domain": [
+        "consumer credit requirement"
+      ],
+      "range": [
+        "consumer protection agency"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has intended loan purpose",
+      "technicalName": "fibo-loan-ln-app:hasIntendedLoanPurpose",
+      "localName": "hasIntendedLoanPurpose",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/hasIntendedLoanPurpose",
+      "label": "has intended loan purpose",
+      "definition": "indicates the purpose to which the loaned funds are to be put",
+      "domain": [
+        "loan application"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has original loan debt-to-income ratio",
+      "technicalName": "fibo-loan-ln-app:hasOriginalLoanDebtToIncomeRatio",
+      "localName": "hasOriginalLoanDebtToIncomeRatio",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/hasOriginalLoanDebtToIncomeRatio",
+      "label": "has original loan debt-to-income ratio",
+      "definition": "indicates the debt-to-income (DTI) ratio at the time when the loan was advanced; for combined income",
+      "domain": [
+        "borrower assessment"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is pre-approval requested",
+      "technicalName": "fibo-loan-ln-app:isPreApprovalRequested",
+      "localName": "isPreApprovalRequested",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanApplications/isPreApprovalRequested",
+      "label": "is pre-approval requested",
+      "definition": "indicates whether a pre-approval has been requested, in conjunction with a loan application",
+      "domain": [],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "in default",
+      "technicalName": "fibo-loan-ln-ev:inDefault",
+      "localName": "inDefault",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/inDefault",
+      "label": "in default",
+      "definition": "Whether the loan is in default.",
+      "domain": [
+        "fibo-loan-ln-ln:Loan"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is deferred",
+      "technicalName": "fibo-loan-ln-ev:isDeferred",
+      "localName": "isDeferred",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoanEvents/isDeferred",
+      "label": "is deferred",
+      "definition": null,
+      "domain": [
+        "fibo-loan-ln-ln:Loan"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has balloon payment",
+      "technicalName": "fibo-loan-ln-ln:hasBalloonPayment",
+      "localName": "hasBalloonPayment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/hasBalloonPayment",
+      "label": "has balloon payment",
+      "definition": "indicates whether the contractual terms include or would have included repayment of the outstanding principal sum at the end of a loan period, prior to which only partial or no payments were made on the principal",
+      "domain": [],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has negative amortization",
+      "technicalName": "fibo-loan-ln-ln:hasNegativeAmortization",
+      "localName": "hasNegativeAmortization",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/hasNegativeAmortization",
+      "label": "has negative amortization",
+      "definition": "indicates whether the contractual terms include or would have included a feature that allows unpaid interest to be added to the balance of unpaid principal",
+      "domain": [],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is assumable",
+      "technicalName": "fibo-loan-ln-ln:isAssumable",
+      "localName": "isAssumable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/isAssumable",
+      "label": "is assumable",
+      "definition": "indicates whether or not another borrower may assume the payments on this loan",
+      "domain": [
+        "loan"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is initially payable",
+      "technicalName": "fibo-loan-ln-ln:isInitiallyPayable",
+      "localName": "isInitiallyPayable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/isInitiallyPayable",
+      "label": "is initially payable",
+      "definition": "indicates whether the obligation arising from the covered loan was, or in the case of an application, would have been initially payable to the financial institution",
+      "domain": [],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is interest only",
+      "technicalName": "fibo-loan-ln-ln:isInterestOnly",
+      "localName": "isInterestOnly",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/Loans/isInterestOnly",
+      "label": "is interest only",
+      "definition": "indicates whether the contractual terms include or would have included interest only payments",
+      "domain": [],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "requirement act reference",
+      "technicalName": "fibo-loan-ln-reg:requirementActReference",
+      "localName": "requirementActReference",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/requirementActReference",
+      "label": "requirement act reference",
+      "definition": null,
+      "domain": [
+        "loan regulatory requirement"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "requirement section and paragraph",
+      "technicalName": "fibo-loan-ln-reg:requirementSectionAndParagraph",
+      "localName": "requirementSectionAndParagraph",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/LOAN/LoansGeneral/LoansRegulatory/requirementSectionAndParagraph",
+      "label": "requirement section and paragraph",
+      "definition": null,
+      "domain": [
+        "loan regulatory requirement"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,469 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\DER\\CreditDerivatives\\CreditDefaultSwaps.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/",
+  "summary": {
+    "nodes": 21,
+    "edges": 4,
+    "properties": 1,
+    "triples": 304
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/DerivativesBasics/",
+    "https://spec.edmcouncil.org/fibo/ontology/DER/DerivativesContracts/Swaps/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/InstrumentPricing/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/Settlement/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/Markets/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Documents/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/MarketIndices/BasketIndices/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/"
+  ],
+  "classes": [
+    {
+      "name": "asset-backed credit default swap",
+      "technicalName": "fibo-der-cr-cds:AssetBackedCreditDefaultSwap",
+      "localName": "AssetBackedCreditDefaultSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/AssetBackedCreditDefaultSwap",
+      "label": "asset-backed credit default swap",
+      "definition": "credit default swap whose underlying reference obligation is an asset-backed security rather than corporate credit",
+      "parents": [
+        "credit default swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "basket credit default swap",
+      "technicalName": "fibo-der-cr-cds:BasketCreditDefaultSwap",
+      "localName": "BasketCreditDefaultSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/BasketCreditDefaultSwap",
+      "label": "basket credit default swap",
+      "definition": "credit default swap that references a bespoke, synthetic portfolio of underlying assets whose components have been agreed to for a specific OTC derivative by the parties to the transaction",
+      "parents": [
+        "multi-name credit default swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "basket of credit default swaps",
+      "technicalName": "fibo-der-cr-cds:BasketOfCreditDefaultSwaps",
+      "localName": "BasketOfCreditDefaultSwaps",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/BasketOfCreditDefaultSwaps",
+      "label": "basket of credit default swaps",
+      "definition": "basket of reference obligations are credit default swap instruments",
+      "parents": [
+        "fibo-fbc-pas-fpas:WeightedBasket",
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "credit default swap",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "cash settlement method",
+      "technicalName": "fibo-der-cr-cds:CashSettlementMethod",
+      "localName": "CashSettlementMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/CashSettlementMethod",
+      "label": "cash settlement method",
+      "definition": "strategy for calculating or otherwise establishing a reference final price for the contract",
+      "parents": [
+        "fibo-fbc-fi-ip:PriceDeterminationMethod"
+      ],
+      "rules": []
+    },
+    {
+      "name": "contingent credit default swap",
+      "technicalName": "fibo-der-cr-cds:ContingentCreditDefaultSwap",
+      "localName": "ContingentCreditDefaultSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/ContingentCreditDefaultSwap",
+      "label": "contingent credit default swap",
+      "definition": "credit default swap in which an additional triggering event is required",
+      "parents": [
+        "credit default swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit default swap",
+      "technicalName": "fibo-der-cr-cds:CreditDefaultSwap",
+      "localName": "CreditDefaultSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/CreditDefaultSwap",
+      "label": "credit default swap",
+      "definition": "bilateral contract in which one party (protection seller) agrees to provide payment to the other party (protection buyer) should a credit event occur against the underlying, which could be a specified debt (the reference obligation), a specific debt issuer (reference entity), a basket of reference entities and/or reference obligations, or a credit index (reference index)",
+      "parents": [
+        "fibo-der-drc-bsc:CreditDerivative",
+        "fibo-der-drc-swp:Swap"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:specifies",
+          "operator": "some",
+          "value": "triggering event",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-agr-ctr:hasContractualElement",
+          "operator": "some",
+          "value": "credit protection terms",
+          "qualifier": null
+        },
+        {
+          "property": "has contract price",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:MonetaryPrice",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasOccurrence",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "settlement auction"
+        }
+      ]
+    },
+    {
+      "name": "credit default swap index",
+      "technicalName": "fibo-der-cr-cds:CreditDefaultSwapIndex",
+      "localName": "CreditDefaultSwapIndex",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/CreditDefaultSwapIndex",
+      "label": "credit default swap index",
+      "definition": "index whose underlying reference obligations are credit default swap instruments",
+      "parents": [
+        "fibo-ind-mkt-bas:ReferenceIndex"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:isBasedOn",
+          "operator": "some",
+          "value": "basket of credit default swaps",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit event notice",
+      "technicalName": "fibo-der-cr-cds:CreditEventNotice",
+      "localName": "CreditEventNotice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/CreditEventNotice",
+      "label": "credit event notice",
+      "definition": "irrevocable written or verbal notice that states that a triggering event has occurred",
+      "parents": [
+        "cmns-doc:Notice"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "notifying party",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-doc:isAbout",
+          "operator": "some",
+          "value": "triggering event",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "credit protection terms",
+      "technicalName": "fibo-der-cr-cds:CreditProtectionTerms",
+      "localName": "CreditProtectionTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/CreditProtectionTerms",
+      "label": "credit protection terms",
+      "definition": "legal terms that define triggering events and associated conditions related to settlement",
+      "parents": [
+        "fibo-der-drc-bsc:DerivativeTerms"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:specifies",
+          "operator": "some",
+          "value": "triggering event",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-doc:specifies",
+          "operator": "some",
+          "value": "deliverable asset",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-pas-pas:hasSeller",
+          "operator": "some",
+          "value": "deliverable obligation seller",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-pas-pas:hasBuyer",
+          "operator": "some",
+          "value": "deliverable obligation buyer",
+          "qualifier": null
+        },
+        {
+          "property": "allows substitution",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:boolean"
+        },
+        {
+          "property": "has scheduled termination date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        }
+      ]
+    },
+    {
+      "name": "deliverable asset",
+      "technicalName": "fibo-der-cr-cds:DeliverableObligation",
+      "localName": "DeliverableObligation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/DeliverableObligation",
+      "label": "deliverable asset",
+      "definition": "asset that must be delivered as a part of the process of settling a credit default swap",
+      "parents": [
+        "fibo-fnd-oac-own:Asset"
+      ],
+      "rules": []
+    },
+    {
+      "name": "deliverable obligation buyer",
+      "technicalName": "fibo-der-cr-cds:DeliverableObligationBuyer",
+      "localName": "DeliverableObligationBuyer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/DeliverableObligationBuyer",
+      "label": "deliverable obligation buyer",
+      "definition": "contract party that is obliged to purchase a deliverable obligation (asset) if a triggering event occurs, depending on the event and the contract",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractParty",
+        "fibo-fnd-pas-pas:Buyer"
+      ],
+      "rules": []
+    },
+    {
+      "name": "deliverable obligation seller",
+      "technicalName": "fibo-der-cr-cds:DeliverableObligationSeller",
+      "localName": "DeliverableObligationSeller",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/DeliverableObligationSeller",
+      "label": "deliverable obligation seller",
+      "definition": "contract party that is obliged to sell a deliverable obligation (asset) if a triggering event occurs, depending on the event and the contract",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractParty",
+        "fibo-fnd-pas-pas:Seller"
+      ],
+      "rules": []
+    },
+    {
+      "name": "escrow agent",
+      "technicalName": "fibo-der-cr-cds:EscrowAgent",
+      "localName": "EscrowAgent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/EscrowAgent",
+      "label": "escrow agent",
+      "definition": "third party that holds an asset or funds before they are formally transferred from one party to another party, per the terms of a contract, within some specified time period and/or when a triggering event occurs",
+      "parents": [
+        "fibo-fbc-pas-fpas:RegisteredAgent",
+        "fibo-fnd-agr-ctr:ContractThirdParty"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:holds",
+          "operator": "some",
+          "value": "deliverable asset",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "index credit default swap",
+      "technicalName": "fibo-der-cr-cds:IndexCreditDefaultSwap",
+      "localName": "IndexCreditDefaultSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/IndexCreditDefaultSwap",
+      "label": "index credit default swap",
+      "definition": "credit default swap that references a family of standardized credit derivative indices, where the underlying reference entities are a defined basket of credit from a particular geographic region (e.g. Asia, North America, Europe), and/or credit rating level (e.g. emerging markets, high yield, investment grade)",
+      "parents": [
+        "multi-name credit default swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "index tranche credit default swap",
+      "technicalName": "fibo-der-cr-cds:IndexTrancheCreditDefaultSwap",
+      "localName": "IndexTrancheCreditDefaultSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/IndexTrancheCreditDefaultSwap",
+      "label": "index tranche credit default swap",
+      "definition": "credit default swap that references a synthetic collateralized debt obligation (CDO) based on a credit index where each tranche references a different segment of the loss distribution of the underlying index",
+      "parents": [
+        "multi-name credit default swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "loan credit default swap",
+      "technicalName": "fibo-der-cr-cds:LoanCreditDefaultSwap",
+      "localName": "LoanCreditDefaultSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/LoanCreditDefaultSwap",
+      "label": "loan credit default swap",
+      "definition": "credit default swap whose underlying reference obligation is limited strictly to syndicated secured loans, rather than any type of corporate debt",
+      "parents": [
+        "credit default swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "multi-name credit default swap",
+      "technicalName": "fibo-der-cr-cds:MultiNameCreditDefaultSwap",
+      "localName": "MultiNameCreditDefaultSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/MultiNameCreditDefaultSwap",
+      "label": "multi-name credit default swap",
+      "definition": "credit default swap that references more than one obligation or borrower",
+      "parents": [
+        "credit default swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "notifying party",
+      "technicalName": "fibo-der-cr-cds:NotifyingParty",
+      "localName": "NotifyingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/NotifyingParty",
+      "label": "notifying party",
+      "definition": "party responsible for issuing one or more formal notices indicating that an event that is relevant to a given contract has taken place",
+      "parents": [
+        "cmns-pts:PartyRole"
+      ],
+      "rules": []
+    },
+    {
+      "name": "settlement auction",
+      "technicalName": "fibo-der-cr-cds:SettlementAuction",
+      "localName": "SettlementAuction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/SettlementAuction",
+      "label": "settlement auction",
+      "definition": "independently administered synthetic auction process on a set of defined deliverable obligations that sets the reference final price that can be used to facilitate cash settlement of all covered transactions following a credit event",
+      "parents": [
+        "fibo-fbc-fi-stl:SettlementEvent"
+      ],
+      "rules": []
+    },
+    {
+      "name": "single name credit default swap",
+      "technicalName": "fibo-der-cr-cds:SingleNameCreditDefaultSwap",
+      "localName": "SingleNameCreditDefaultSwap",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/SingleNameCreditDefaultSwap",
+      "label": "single name credit default swap",
+      "definition": "credit default swap whose underlying risk is a single reference obligation, or a single reference entity, such as a corporation or a sovereign borrower",
+      "parents": [
+        "credit default swap"
+      ],
+      "rules": []
+    },
+    {
+      "name": "triggering event",
+      "technicalName": "fibo-der-cr-cds:TriggeringEvent",
+      "localName": "TriggeringEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/TriggeringEvent",
+      "label": "triggering event",
+      "definition": "event that relates to or triggers some aspect of a credit default swap",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has contract price",
+      "technicalName": "fibo-der-cr-cds:hasContractPrice",
+      "localName": "hasContractPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/hasContractPrice",
+      "label": "has contract price",
+      "definition": "specifies a predetermined price at which the buyer purchases the credit default swap contract",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryPrice"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has minimum quotation amount",
+      "technicalName": "fibo-der-cr-cds:hasMinimumQuotationAmount",
+      "localName": "hasMinimumQuotationAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/hasMinimumQuotationAmount",
+      "label": "has minimum quotation amount",
+      "definition": "indicates a minimum intended threshold amount of outstanding principal balance of the reference obligation for which the quote should be obtained",
+      "domain": [
+        "fibo-fbc-fi-stl:CashSettlementTerms"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has quotation method",
+      "technicalName": "fibo-der-cr-cds:hasQuotationMethod",
+      "localName": "hasQuotationMethod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/hasQuotationMethod",
+      "label": "has quotation method",
+      "definition": "indicates the nature of the pricing quotations to be requested from banks and/or dealers when determining the market value of the reference obligation for purposes of cash settlement",
+      "domain": [
+        "fibo-fbc-fi-stl:CashSettlementTerms"
+      ],
+      "range": [
+        "cash settlement method"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has scheduled termination date",
+      "technicalName": "fibo-der-cr-cds:hasScheduledTerminationDate",
+      "localName": "hasScheduledTerminationDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/hasScheduledTerminationDate",
+      "label": "has scheduled termination date",
+      "definition": "date on which credit protection is due to expire as agreed by both parties",
+      "domain": [
+        "credit protection terms"
+      ],
+      "range": [
+        "cmns-dt:ExplicitDate"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "allows substitution",
+      "technicalName": "fibo-der-cr-cds:allowsSubstitution",
+      "localName": "allowsSubstitution",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/DER/CreditDerivatives/CreditDefaultSwaps/allowsSubstitution",
+      "label": "allows substitution",
+      "definition": "indicates whether it is possible to substitute other obligations in place of the specified deliverable obligation",
+      "domain": [
+        "credit protection terms"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

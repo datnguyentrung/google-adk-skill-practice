@@ -1,0 +1,673 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FBC\\FinancialInstruments\\FinancialInstruments.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/",
+  "summary": {
+    "nodes": 24,
+    "edges": 13,
+    "properties": 1,
+    "triples": 419
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/LegalEntities/FormalBusinessOrganizations/",
+    "https://spec.edmcouncil.org/fibo/ontology/BE/OwnershipAndControl/CorporateOwnership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/"
+  ],
+  "classes": [
+    {
+      "name": "calculation agent",
+      "technicalName": "fibo-fbc-fi-fi:CalculationAgent",
+      "localName": "CalculationAgent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/CalculationAgent",
+      "label": "calculation agent",
+      "definition": "party that is responsible for determining the value of an instrument and in some cases, determines how much the parties owe one another",
+      "parents": [
+        "fibo-fbc-pas-fpas:ThirdPartyAgent"
+      ],
+      "rules": []
+    },
+    {
+      "name": "cash instrument",
+      "technicalName": "fibo-fbc-fi-fi:CashInstrument",
+      "localName": "CashInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/CashInstrument",
+      "label": "cash instrument",
+      "definition": "financial instrument whose value is determined by the market and that is readily transferable (highly liquid)",
+      "parents": [
+        "financial instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "commodity instrument",
+      "technicalName": "fibo-fbc-fi-fi:CommodityInstrument",
+      "localName": "CommodityInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/CommodityInstrument",
+      "label": "commodity instrument",
+      "definition": "financial instrument representing an ownership interest in bulk goods, such as raw materials and primary agricultural products",
+      "parents": [
+        "financial instrument"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasQuantityValue",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-qtu:ScalarQuantityValue"
+        },
+        {
+          "property": "fibo-fnd-rel-rel:involves",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-pas-pas:Commodity"
+        },
+        {
+          "property": "has commodity value as of execution date",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "currency instrument",
+      "technicalName": "fibo-fbc-fi-fi:CurrencyInstrument",
+      "localName": "CurrencyInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/CurrencyInstrument",
+      "label": "currency instrument",
+      "definition": "financial instrument used for the purposes of currency trading",
+      "parents": [
+        "financial instrument"
+      ],
+      "rules": [
+        {
+          "property": "has selling currency",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:Currency"
+        },
+        {
+          "property": "has buying currency",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:Currency"
+        }
+      ]
+    },
+    {
+      "name": "debt instrument",
+      "technicalName": "fibo-fbc-fi-fi:DebtInstrument",
+      "localName": "DebtInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/DebtInstrument",
+      "label": "debt instrument",
+      "definition": "financial instrument and credit agreement evidencing monies owed by the issuer to the holder on terms as specified",
+      "parents": [
+        "fibo-fbc-dae-dbt:CreditAgreement",
+        "financial instrument"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:hasLender",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:Lender",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fbc-dae-dbt:hasBorrower",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:Borrower",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "derivative instrument",
+      "technicalName": "fibo-fbc-fi-fi:DerivativeInstrument",
+      "localName": "DerivativeInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/DerivativeInstrument",
+      "label": "derivative instrument",
+      "definition": "financial instrument that confers on its holders certain rights or obligations, whose value is derived from one or more underlying assets",
+      "parents": [
+        "financial instrument"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-dae-dbt:hasInitialExchangeDate",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-dt:ExplicitDate"
+        }
+      ]
+    },
+    {
+      "name": "entitlement",
+      "technicalName": "fibo-fbc-fi-fi:Entitlement",
+      "localName": "Entitlement",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/Entitlement",
+      "label": "entitlement",
+      "definition": "financial instrument that provides the holder an interest in, or the privilege to subscribe to, or to receive specific assets under terms specified",
+      "parents": [
+        "financial instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "equity instrument",
+      "technicalName": "fibo-fbc-fi-fi:EquityInstrument",
+      "localName": "EquityInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/EquityInstrument",
+      "label": "equity instrument",
+      "definition": "financial instrument representing an ownership interest in an entity or pool of assets",
+      "parents": [
+        "security"
+      ],
+      "rules": []
+    },
+    {
+      "name": "exempt security",
+      "technicalName": "fibo-fbc-fi-fi:ExemptSecurity",
+      "localName": "ExemptSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/ExemptSecurity",
+      "label": "exempt security",
+      "definition": "security that is exempt from certain regulatory rules",
+      "parents": [
+        "security"
+      ],
+      "rules": []
+    },
+    {
+      "name": "financial instrument",
+      "technicalName": "fibo-fbc-fi-fi:FinancialInstrument",
+      "localName": "FinancialInstrument",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/FinancialInstrument",
+      "label": "financial instrument",
+      "definition": "written contract that gives rise to both a financial asset of one entity and a financial liability of another entity",
+      "parents": [
+        "fibo-fnd-agr-ctr:WrittenContract"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isIssuedBy",
+          "operator": "some",
+          "value": "issuer",
+          "qualifier": null
+        },
+        {
+          "property": "is denominated in",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:Currency",
+          "qualifier": null
+        },
+        {
+          "property": "is negotiable",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:boolean"
+        },
+        {
+          "property": "is legally recorded in",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-rga:Jurisdiction"
+        },
+        {
+          "property": "has nominal value",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        },
+        {
+          "property": "cmns-id:isIdentifiedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "financial instrument identifier"
+        }
+      ]
+    },
+    {
+      "name": "financial instrument identifier",
+      "technicalName": "fibo-fbc-fi-fi:FinancialInstrumentIdentifier",
+      "localName": "FinancialInstrumentIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/FinancialInstrumentIdentifier",
+      "label": "financial instrument identifier",
+      "definition": "sequence of characters uniquely identifying a financial instrument for some purpose and within a specified context",
+      "parents": [
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "financial instrument"
+        }
+      ]
+    },
+    {
+      "name": "future",
+      "technicalName": "fibo-fbc-fi-fi:Future",
+      "localName": "Future",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/Future",
+      "label": "future",
+      "definition": "derivative instrument that obligates the buyer to receive and the seller to deliver the assets specified at an agreed price, at some later point in time",
+      "parents": [
+        "derivative instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "issuer",
+      "technicalName": "fibo-fbc-fi-fi:Issuer",
+      "localName": "Issuer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/Issuer",
+      "label": "issuer",
+      "definition": "role of a party that issues (or proposes to issue in a formal filing) one or more financial instruments",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractPrincipal"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-pts:isAPartyTo",
+          "operator": "some",
+          "value": "financial instrument",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:issues",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "negotiable security",
+      "technicalName": "fibo-fbc-fi-fi:NegotiableSecurity",
+      "localName": "NegotiableSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/NegotiableSecurity",
+      "label": "negotiable security",
+      "definition": "security that can be transferred to another party",
+      "parents": [
+        "security",
+        "fibo-fnd-agr-ctr:TransferableContract"
+      ],
+      "rules": [
+        {
+          "property": "is negotiable",
+          "operator": "value",
+          "value": "true",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "non-negotiable security",
+      "technicalName": "fibo-fbc-fi-fi:NonNegotiableSecurity",
+      "localName": "NonNegotiableSecurity",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/NonNegotiableSecurity",
+      "label": "non-negotiable security",
+      "definition": "security that is not transferable to another party",
+      "parents": [
+        "security"
+      ],
+      "rules": []
+    },
+    {
+      "name": "option",
+      "technicalName": "fibo-fbc-fi-fi:Option",
+      "localName": "Option",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/Option",
+      "label": "option",
+      "definition": "derivative instrument that grants to the holder either the privilege to purchase or the privilege to sell the assets specified at a predetermined price or formula at or within a time period in the future",
+      "parents": [
+        "derivative instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "packaged financial product",
+      "technicalName": "fibo-fbc-fi-fi:PackagedFinancialProduct",
+      "localName": "PackagedFinancialProduct",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/PackagedFinancialProduct",
+      "label": "packaged financial product",
+      "definition": "financial product that acts as a container for at least one financial instrument, including other financial products, and whose value is derived from, or based on a reference asset, market measure, or investment strategy",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialProduct",
+        "fibo-fnd-pas-pas:ContractualProduct"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isIncludedIn",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fbc-pas-fpas:FinancialProductCatalog"
+        }
+      ]
+    },
+    {
+      "name": "promissory note",
+      "technicalName": "fibo-fbc-fi-fi:PromissoryNote",
+      "localName": "PromissoryNote",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/PromissoryNote",
+      "label": "promissory note",
+      "definition": "debt instrument that is a written promise by one party to another that commits that party to pay a specified sum on demand or within a specified time frame under specified terms",
+      "parents": [
+        "debt instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "redemption provision",
+      "technicalName": "fibo-fbc-fi-fi:RedemptionProvision",
+      "localName": "RedemptionProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/RedemptionProvision",
+      "label": "redemption provision",
+      "definition": "contract provision enabling the issuer (writer) to regain possession through repayment of some stipulated price",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractualCommitment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "securities transaction",
+      "technicalName": "fibo-fbc-fi-fi:SecuritiesTransaction",
+      "localName": "SecuritiesTransaction",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/SecuritiesTransaction",
+      "label": "securities transaction",
+      "definition": "transaction between two or more parties involving the exchange of commonly defined financial products",
+      "parents": [
+        "fibo-fbc-pas-fpas:Trade"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "financial instrument",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "security",
+      "technicalName": "fibo-fbc-fi-fi:Security",
+      "localName": "Security",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/Security",
+      "label": "security",
+      "definition": "financial instrument that can be bought or sold",
+      "parents": [
+        "financial instrument"
+      ],
+      "rules": [
+        {
+          "property": "is legally recorded in",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-rga:Jurisdiction"
+        }
+      ]
+    },
+    {
+      "name": "spot contract",
+      "technicalName": "fibo-fbc-fi-fi:SpotContract",
+      "localName": "SpotContract",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/SpotContract",
+      "label": "spot contract",
+      "definition": "financial instrument that settles for immediate delivery on a specified date",
+      "parents": [
+        "financial instrument"
+      ],
+      "rules": []
+    },
+    {
+      "name": "standardized terms",
+      "technicalName": "fibo-fbc-fi-fi:StandardizedTerms",
+      "localName": "StandardizedTerms",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/StandardizedTerms",
+      "label": "standardized terms",
+      "definition": "contract terms that, grouped together, that are generally and consistently reused across many contracts, published by some organization, and capable of being incorporated into a contract by reference",
+      "parents": [
+        "fibo-fnd-agr-ctr:ContractualCommitment"
+      ],
+      "rules": []
+    },
+    {
+      "name": "underlier",
+      "technicalName": "fibo-fbc-fi-fi:Underlier",
+      "localName": "Underlier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/Underlier",
+      "label": "underlier",
+      "definition": "something that can be assigned a value in the marketplace that forms the basis for a derivative or pool-backed instrument",
+      "parents": [
+        "cmns-pts:Undergoer"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has buying currency",
+      "technicalName": "fibo-fbc-fi-fi:hasBuyingCurrency",
+      "localName": "hasBuyingCurrency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/hasBuyingCurrency",
+      "label": "has buying currency",
+      "definition": "indicates the currency purchased with respect to a currency or related instrument",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:Currency"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has calculation agent",
+      "technicalName": "fibo-fbc-fi-fi:hasCalculationAgent",
+      "localName": "hasCalculationAgent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/hasCalculationAgent",
+      "label": "has calculation agent",
+      "definition": "indicates a party (role) responsible for determining the value of an instrument",
+      "domain": [],
+      "range": [
+        "calculation agent"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has commodity value as of execution date",
+      "technicalName": "fibo-fbc-fi-fi:hasCommodityValueAsOfExecutionDate",
+      "localName": "hasCommodityValueAsOfExecutionDate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/hasCommodityValueAsOfExecutionDate",
+      "label": "has commodity value as of execution date",
+      "definition": "indicates the per unit value of a given commodity as of the date that the contract is executed",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has nominal value",
+      "technicalName": "fibo-fbc-fi-fi:hasNominalValue",
+      "localName": "hasNominalValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/hasNominalValue",
+      "label": "has nominal value",
+      "definition": "indicates the face value of a contract",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has principal executive office address",
+      "technicalName": "fibo-fbc-fi-fi:hasPrincipalExecutiveOfficeAddress",
+      "localName": "hasPrincipalExecutiveOfficeAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/hasPrincipalExecutiveOfficeAddress",
+      "label": "has principal executive office address",
+      "definition": "relates an organization, specifically the issuer of a financial instrument, to its principal executive address, as required for issuance of that instrument",
+      "domain": [
+        "cmns-org:LegalPerson"
+      ],
+      "range": [
+        "fibo-fnd-plc-adr:ConventionalStreetAddress"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has redemption terms",
+      "technicalName": "fibo-fbc-fi-fi:hasRedemptionProvision",
+      "localName": "hasRedemptionProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/hasRedemptionProvision",
+      "label": "has redemption terms",
+      "definition": "indicates the specific terms related to redemption as specified in the instrument or a related contract document",
+      "domain": [],
+      "range": [
+        "redemption provision"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has selling currency",
+      "technicalName": "fibo-fbc-fi-fi:hasSellingCurrency",
+      "localName": "hasSellingCurrency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/hasSellingCurrency",
+      "label": "has selling currency",
+      "definition": "indicates the currency sold with respect to a currency or related instrument",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:Currency"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has shareholder",
+      "technicalName": "fibo-fbc-fi-fi:hasShareholder",
+      "localName": "hasShareholder",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/hasShareholder",
+      "label": "has shareholder",
+      "definition": "indicates a party that holds shares in the issuer",
+      "domain": [
+        "issuer"
+      ],
+      "range": [
+        "fibo-be-oac-cown:Shareholder"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has underlier",
+      "technicalName": "fibo-fbc-fi-fi:hasUnderlier",
+      "localName": "hasUnderlier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/hasUnderlier",
+      "label": "has underlier",
+      "definition": "relates a derivative to something on which the contract is based",
+      "domain": [],
+      "range": [
+        "underlier"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has value expressed in",
+      "technicalName": "fibo-fbc-fi-fi:hasValueExpressedIn",
+      "localName": "hasValueExpressedIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/hasValueExpressedIn",
+      "label": "has value expressed in",
+      "definition": "relates something, such as an instrument or index, to the currency its value is typically expressed in",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:Currency"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "holds shares in",
+      "technicalName": "fibo-fbc-fi-fi:holdsSharesIn",
+      "localName": "holdsSharesIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/holdsSharesIn",
+      "label": "holds shares in",
+      "definition": "specifies the issuer in which a shareholder holds an equity position",
+      "domain": [
+        "fibo-be-oac-cown:Shareholder"
+      ],
+      "range": [
+        "issuer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is denominated in",
+      "technicalName": "fibo-fbc-fi-fi:isDenominatedIn",
+      "localName": "isDenominatedIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/isDenominatedIn",
+      "label": "is denominated in",
+      "definition": "indicates the currency in which the financial instrument was issued",
+      "domain": [
+        "financial instrument"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:Currency"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is legally recorded in",
+      "technicalName": "fibo-fbc-fi-fi:isLegallyRecordedIn",
+      "localName": "isLegallyRecordedIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/isLegallyRecordedIn",
+      "label": "is legally recorded in",
+      "definition": "jurisdiction (country, county, state, province, city) in which the financial instrument is legally recorded for regulatory and/or tax purposes",
+      "domain": [
+        "financial instrument"
+      ],
+      "range": [
+        "cmns-rga:Jurisdiction"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "is negotiable",
+      "technicalName": "fibo-fbc-fi-fi:isNegotiable",
+      "localName": "isNegotiable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/FinancialInstruments/FinancialInstruments/isNegotiable",
+      "label": "is negotiable",
+      "definition": "specifies whether a particular financial instrument is or is not transferable",
+      "domain": [
+        "financial instrument"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,458 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FBC\\DebtAndEquities\\CreditEvents.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/",
+  "summary": {
+    "nodes": 23,
+    "edges": 3,
+    "properties": 3,
+    "triples": 218
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/Debt/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Agreements/Contracts/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Law/LegalCapacity/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/PaymentsAndSchedules/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Organizations/"
+  ],
+  "classes": [
+    {
+      "name": "bankruptcy",
+      "technicalName": "fibo-fbc-dae-cre:Bankruptcy",
+      "localName": "Bankruptcy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/Bankruptcy",
+      "label": "bankruptcy",
+      "definition": "credit event involving a change in state or condition in which a party becomes insolvent",
+      "parents": [
+        "entity-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "credit event",
+      "technicalName": "fibo-fbc-dae-cre:CreditEvent",
+      "localName": "CreditEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/CreditEvent",
+      "label": "credit event",
+      "definition": "event signifying a sudden change in credit standing, such as bankruptcy or a violation of a bond indenture or loan agreement, that raises doubts about the party's ability to meet current or future obligations",
+      "parents": [
+        "fibo-fnd-dt-oc:Occurrence"
+      ],
+      "rules": []
+    },
+    {
+      "name": "cross default provision",
+      "technicalName": "fibo-fbc-dae-cre:CrossDefaultProvision",
+      "localName": "CrossDefaultProvision",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/CrossDefaultProvision",
+      "label": "cross default provision",
+      "definition": "contract provision that triggers a default under one contract if the borrower defaults on another related obligation",
+      "parents": [
+        "fibo-fnd-agr-ctr:ConditionPrecedent"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:CreditAgreement",
+          "qualifier": null
+        },
+        {
+          "property": "has default threshold amount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "default event",
+      "technicalName": "fibo-fbc-dae-cre:DefaultEvent",
+      "localName": "DefaultEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/DefaultEvent",
+      "label": "default event",
+      "definition": "credit event representing a failure to meet a contractual obligation, such as failure to repay a debt including interest or principal on a loan or security",
+      "parents": [
+        "obligation-specific credit event"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:exemplifies",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-agr-ctr:BreachOfCovenant"
+        }
+      ]
+    },
+    {
+      "name": "distressed ratings downgrade",
+      "technicalName": "fibo-fbc-dae-cre:DistressedRatingsDowngrade",
+      "localName": "DistressedRatingsDowngrade",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/DistressedRatingsDowngrade",
+      "label": "distressed ratings downgrade",
+      "definition": "credit event triggered when the credit rating of an obligation is downgraded to a distressed debt level",
+      "parents": [
+        "downgrade"
+      ],
+      "rules": []
+    },
+    {
+      "name": "downgrade",
+      "technicalName": "fibo-fbc-dae-cre:Downgrade",
+      "localName": "Downgrade",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/Downgrade",
+      "label": "downgrade",
+      "definition": "credit event triggered when the credit rating of a party or obligation is lowered",
+      "parents": [
+        "credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "entity-specific credit event",
+      "technicalName": "fibo-fbc-dae-cre:EntitySpecificCreditEvent",
+      "localName": "EntitySpecificCreditEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/EntitySpecificCreditEvent",
+      "label": "entity-specific credit event",
+      "definition": "credit event that applies to a given legal person",
+      "parents": [
+        "credit event"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "failure to pay",
+      "technicalName": "fibo-fbc-dae-cre:FailureToPay",
+      "localName": "FailureToPay",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/FailureToPay",
+      "label": "failure to pay",
+      "definition": "default event that is triggered following any applicable grace period in which a payment obligation is missed",
+      "parents": [
+        "default event"
+      ],
+      "rules": [
+        {
+          "property": "has grace period",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:DatePeriod"
+        }
+      ]
+    },
+    {
+      "name": "failure to pay interest",
+      "technicalName": "fibo-fbc-dae-cre:FailureToPayInterest",
+      "localName": "FailureToPayInterest",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/FailureToPayInterest",
+      "label": "failure to pay interest",
+      "definition": "default event that where either an expected interest payment is missed altogether or the amount paid is less than the required amount",
+      "parents": [
+        "failure to pay"
+      ],
+      "rules": []
+    },
+    {
+      "name": "failure to pay principal",
+      "technicalName": "fibo-fbc-dae-cre:FailureToPayPrincipal",
+      "localName": "FailureToPayPrincipal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/FailureToPayPrincipal",
+      "label": "failure to pay principal",
+      "definition": "default event that where either an expected principal payment is missed altogether or the amount paid is less than the required amount",
+      "parents": [
+        "failure to pay"
+      ],
+      "rules": []
+    },
+    {
+      "name": "filing for bankruptcy",
+      "technicalName": "fibo-fbc-dae-cre:FilingForBankruptcy",
+      "localName": "FilingForBankruptcy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/FilingForBankruptcy",
+      "label": "filing for bankruptcy",
+      "definition": "credit event that involves a request to a court to be recognized as bankrupt",
+      "parents": [
+        "entity-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "hard credit event",
+      "technicalName": "fibo-fbc-dae-cre:HardCreditEvent",
+      "localName": "HardCreditEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/HardCreditEvent",
+      "label": "hard credit event",
+      "definition": "default event that is not repairable",
+      "parents": [
+        "default event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "installment default",
+      "technicalName": "fibo-fbc-dae-cre:InstallmentDefault",
+      "localName": "InstallmentDefault",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/InstallmentDefault",
+      "label": "installment default",
+      "definition": "default event involving non-payment of several installment payments as scheduled in the terms of the agreement, or non-payment of a call by the beneficial owner",
+      "parents": [
+        "default event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "interest obligation in light of default",
+      "technicalName": "fibo-fbc-dae-cre:InterestObligationInLightOfDefault",
+      "localName": "InterestObligationInLightOfDefault",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/InterestObligationInLightOfDefault",
+      "label": "interest obligation in light of default",
+      "definition": "obligation in respect of default(s) in the performance of any payment obligation",
+      "parents": [
+        "fibo-fnd-law-lcap:ContingentObligation",
+        "fibo-fnd-law-lcap:ContractualObligation"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isMandatedBy",
+          "operator": "some",
+          "value": "fibo-fnd-pas-psch:PaymentObligation",
+          "qualifier": null
+        },
+        {
+          "property": "is default interest applicable",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "xsd:boolean"
+        },
+        {
+          "property": "has default interest compounding basis",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-dt:DatePeriod"
+        }
+      ]
+    },
+    {
+      "name": "maturity extension",
+      "technicalName": "fibo-fbc-dae-cre:MaturityExtension",
+      "localName": "MaturityExtension",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/MaturityExtension",
+      "label": "maturity extension",
+      "definition": "credit event involving extension of payments beyond the original maturity date of the obligation",
+      "parents": [
+        "obligation-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "moratorium",
+      "technicalName": "fibo-fbc-dae-cre:Moratorium",
+      "localName": "Moratorium",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/Moratorium",
+      "label": "moratorium",
+      "definition": "entity-specific credit event involving a temporary suspension of payments until related issues are resolved",
+      "parents": [
+        "entity-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "obligation acceleration",
+      "technicalName": "fibo-fbc-dae-cre:ObligationAcceleration",
+      "localName": "ObligationAcceleration",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/ObligationAcceleration",
+      "label": "obligation acceleration",
+      "definition": "credit event triggered when one or more reference obligations become immediately due and payable as a result of a default or covenant breach on the reference entity's other debt instruments, subject to a materiality threshold",
+      "parents": [
+        "obligation-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "obligation default",
+      "technicalName": "fibo-fbc-dae-cre:ObligationDefault",
+      "localName": "ObligationDefault",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/ObligationDefault",
+      "label": "obligation default",
+      "definition": "credit event triggered as a result of an obligation-specific default",
+      "parents": [
+        "default event",
+        "obligation-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "obligation restructuring",
+      "technicalName": "fibo-fbc-dae-cre:ObligationRestructuring",
+      "localName": "ObligationRestructuring",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/ObligationRestructuring",
+      "label": "obligation restructuring",
+      "definition": "credit event that materially impacts an obligation, such as an interest rate reduction, principal reduction, deferral of interest or principal, change in priority ranking, or change in currency or composition of payment",
+      "parents": [
+        "obligation-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "obligation-specific credit event",
+      "technicalName": "fibo-fbc-dae-cre:ObligationSpecificCreditEvent",
+      "localName": "ObligationSpecificCreditEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/ObligationSpecificCreditEvent",
+      "label": "obligation-specific credit event",
+      "definition": "credit event that relates to an individual credit agreement or debt instrument (reference obligation)",
+      "parents": [
+        "credit event"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:appliesTo",
+          "operator": "some",
+          "value": "fibo-fbc-dae-dbt:CreditAgreement",
+          "qualifier": null
+        },
+        {
+          "property": "has default threshold amount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-acc-cur:MonetaryAmount"
+        }
+      ]
+    },
+    {
+      "name": "repudiation",
+      "technicalName": "fibo-fbc-dae-cre:Repudiation",
+      "localName": "Repudiation",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/Repudiation",
+      "label": "repudiation",
+      "definition": "credit event involving the refusal to honor the terms of a contract",
+      "parents": [
+        "obligation-specific credit event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "soft credit event",
+      "technicalName": "fibo-fbc-dae-cre:SoftCreditEvent",
+      "localName": "SoftCreditEvent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/SoftCreditEvent",
+      "label": "soft credit event",
+      "definition": "default event that is repairable",
+      "parents": [
+        "default event"
+      ],
+      "rules": []
+    },
+    {
+      "name": "write-down",
+      "technicalName": "fibo-fbc-dae-cre:WriteDown",
+      "localName": "WriteDown",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/WriteDown",
+      "label": "write-down",
+      "definition": "obligation-specific credit event whereby the book value of the obligation, such as the outstanding principal amount, is reduced",
+      "parents": [
+        "obligation-specific credit event"
+      ],
+      "rules": []
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has default interest compounding basis",
+      "technicalName": "fibo-fbc-dae-cre:hasDefaultInterestCompoundingBasis",
+      "localName": "hasDefaultInterestCompoundingBasis",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/hasDefaultInterestCompoundingBasis",
+      "label": "has default interest compounding basis",
+      "definition": "indicates the basis on which default interest is to be calculated, as a period of time",
+      "domain": [
+        "interest obligation in light of default"
+      ],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has default threshold amount",
+      "technicalName": "fibo-fbc-dae-cre:hasDefaultThresholdAmount",
+      "localName": "hasDefaultThresholdAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/hasDefaultThresholdAmount",
+      "label": "has default threshold amount",
+      "definition": "specifies an amount of money that triggers a failure to pay, repudiation/moratorium or restructuring event",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has grace period",
+      "technicalName": "fibo-fbc-dae-cre:hasGracePeriod",
+      "localName": "hasGracePeriod",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/hasGracePeriod",
+      "label": "has grace period",
+      "definition": "window following any payment due date during which a party must fulfill its obligations before a failure to pay credit event occurs",
+      "domain": [],
+      "range": [
+        "cmns-dt:DatePeriod"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "involves multiple events",
+      "technicalName": "fibo-fbc-dae-cre:involvesMultipleEvents",
+      "localName": "involvesMultipleEvents",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/involvesMultipleEvents",
+      "label": "involves multiple events",
+      "definition": "indicates that the restructuring spans more than one credit event",
+      "domain": [
+        "obligation restructuring"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is default interest applicable",
+      "technicalName": "fibo-fbc-dae-cre:isDefaultInterestApplicable",
+      "localName": "isDefaultInterestApplicable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/isDefaultInterestApplicable",
+      "label": "is default interest applicable",
+      "definition": "indicates whether a party that defaults in the performance of any payment obligation is, to the extent permitted by law and the applicable agreement, required to pay interest (before as well as after judgment) on the overdue amount to the other party on demand in the same currency as such overdue amount, for the period from (and including) the original due date for payment to (but excluding) the date of actual payment",
+      "domain": [
+        "interest obligation in light of default"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is grace period extendable",
+      "technicalName": "fibo-fbc-dae-cre:isGracePeriodExtendable",
+      "localName": "isGracePeriodExtendable",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/DebtAndEquities/CreditEvents/isGracePeriodExtendable",
+      "label": "is grace period extendable",
+      "definition": "indicates whether or not the grace period may be extended, which may be jurisdiction specific",
+      "domain": [],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

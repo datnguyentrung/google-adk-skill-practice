@@ -1,0 +1,577 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Accounting\\CurrencyAmount.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+  "summary": {
+    "nodes": 18,
+    "edges": 7,
+    "properties": 5,
+    "triples": 321
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Locations/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/",
+    "https://www.omg.org/spec/Commons/TextDatatype/"
+  ],
+  "classes": [
+    {
+      "name": "amount of money",
+      "technicalName": "fibo-fnd-acc-cur:AmountOfMoney",
+      "localName": "AmountOfMoney",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/AmountOfMoney",
+      "label": "amount of money",
+      "definition": "amount of readily available cash in banknotes and coins",
+      "parents": [
+        "cmns-qtu:ScalarQuantityValue"
+      ],
+      "rules": [
+        {
+          "property": "has currency",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "currency"
+        }
+      ]
+    },
+    {
+      "name": "calculated price",
+      "technicalName": "fibo-fnd-acc-cur:CalculatedPrice",
+      "localName": "CalculatedPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/CalculatedPrice",
+      "label": "calculated price",
+      "definition": "monetary price determined by a formula",
+      "parents": [
+        "monetary price"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasExpression",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-qtu:Expression"
+        }
+      ]
+    },
+    {
+      "name": "currency",
+      "technicalName": "fibo-fnd-acc-cur:Currency",
+      "localName": "Currency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/Currency",
+      "label": "currency",
+      "definition": "medium of exchange value, defined by reference to the geographical location of the monetary authorities responsible for it",
+      "parents": [
+        "cmns-qtu:MeasurementUnit"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTextualName",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cxtdsg:isUsedBy",
+          "operator": "some",
+          "value": "cmns-loc:GeopoliticalEntity",
+          "qualifier": null
+        },
+        {
+          "property": "has numeric code",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "has minor unit",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "currency basket",
+      "technicalName": "fibo-fnd-acc-cur:CurrencyBasket",
+      "localName": "CurrencyBasket",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/CurrencyBasket",
+      "label": "currency basket",
+      "definition": "selected group of currencies, in which the weighted average is used as a measure of the value or the amount of an obligation",
+      "parents": [
+        "cmns-col:StructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "currency",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "currency identifier",
+      "technicalName": "fibo-fnd-acc-cur:CurrencyIdentifier",
+      "localName": "CurrencyIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/CurrencyIdentifier",
+      "label": "currency identifier",
+      "definition": "sequence of characters representing some currency",
+      "parents": [
+        "cmns-cds:CodeElement",
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "currency",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "exchange rate",
+      "technicalName": "fibo-fnd-acc-cur:ExchangeRate",
+      "localName": "ExchangeRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/ExchangeRate",
+      "label": "exchange rate",
+      "definition": "rate at which one currency can be exchanged for another",
+      "parents": [
+        "cmns-qtu:Ratio"
+      ],
+      "rules": [
+        {
+          "property": "has rate value",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "has dealt currency",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "currency"
+        },
+        {
+          "property": "has base currency",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "currency"
+        }
+      ]
+    },
+    {
+      "name": "funds",
+      "technicalName": "fibo-fnd-acc-cur:Funds",
+      "localName": "Funds",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/Funds",
+      "label": "funds",
+      "definition": "artificial currency used as calculation basis for another currency(s) and accounting purposes",
+      "parents": [
+        "currency"
+      ],
+      "rules": [
+        {
+          "property": "has currency",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "currency"
+        }
+      ]
+    },
+    {
+      "name": "funds identifier",
+      "technicalName": "fibo-fnd-acc-cur:FundsIdentifier",
+      "localName": "FundsIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/FundsIdentifier",
+      "label": "funds identifier",
+      "definition": "sequence of characters that can be used to uniquely identify funds",
+      "parents": [
+        "cmns-cds:CodeElement",
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "funds",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "interest rate",
+      "technicalName": "fibo-fnd-acc-cur:InterestRate",
+      "localName": "InterestRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/InterestRate",
+      "label": "interest rate",
+      "definition": "amount charged, expressed as a percentage of principal, in exchange for the use of assets",
+      "parents": [
+        "percentage monetary amount"
+      ],
+      "rules": [
+        {
+          "property": "has rate value",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        }
+      ]
+    },
+    {
+      "name": "monetary amount",
+      "technicalName": "fibo-fnd-acc-cur:MonetaryAmount",
+      "localName": "MonetaryAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/MonetaryAmount",
+      "label": "monetary amount",
+      "definition": "measure that is an amount of money specified in monetary units",
+      "parents": [
+        "cmns-qtu:ScalarQuantityValue"
+      ],
+      "rules": [
+        {
+          "property": "has amount",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "has currency",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "currency"
+        }
+      ]
+    },
+    {
+      "name": "monetary price",
+      "technicalName": "fibo-fnd-acc-cur:MonetaryPrice",
+      "localName": "MonetaryPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/MonetaryPrice",
+      "label": "monetary price",
+      "definition": "price that that is expressed as a monetary amount",
+      "parents": [
+        "monetary amount",
+        "price"
+      ],
+      "rules": []
+    },
+    {
+      "name": "percentage monetary amount",
+      "technicalName": "fibo-fnd-acc-cur:PercentageMonetaryAmount",
+      "localName": "PercentageMonetaryAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/PercentageMonetaryAmount",
+      "label": "percentage monetary amount",
+      "definition": "measure of some amount of money expressed as a percentage of some other amount, some notional amount or some concrete money amount",
+      "parents": [
+        "cmns-qtu:Percentage"
+      ],
+      "rules": [
+        {
+          "property": "has currency",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "currency"
+        }
+      ]
+    },
+    {
+      "name": "precious metal",
+      "technicalName": "fibo-fnd-acc-cur:PreciousMetal",
+      "localName": "PreciousMetal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/PreciousMetal",
+      "label": "precious metal",
+      "definition": "metal that is considered to be rare and/or have a high economic value",
+      "parents": [],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTextualName",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "has numeric code",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "precious metal identifier",
+      "technicalName": "fibo-fnd-acc-cur:PreciousMetalIdentifier",
+      "localName": "PreciousMetalIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/PreciousMetalIdentifier",
+      "label": "precious metal identifier",
+      "definition": "sequence of characters uniquely identifying the precious metal in some context",
+      "parents": [
+        "cmns-cds:CodeElement",
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "precious metal",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "price",
+      "technicalName": "fibo-fnd-acc-cur:Price",
+      "localName": "Price",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/Price",
+      "label": "price",
+      "definition": "amount of money, goods, or services requested, expected, required, or given in exchange for something else",
+      "parents": [
+        "cmns-qtu:ScalarQuantityValue"
+      ],
+      "rules": []
+    },
+    {
+      "name": "unit of account",
+      "technicalName": "fibo-fnd-acc-cur:UnitOfAccount",
+      "localName": "UnitOfAccount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/UnitOfAccount",
+      "label": "unit of account",
+      "definition": "nominal monetary unit of measure used to represent the real value (or cost) of any economic item; i.e. goods, services, assets, liabilities, income, expenses",
+      "parents": [
+        "currency"
+      ],
+      "rules": []
+    },
+    {
+      "name": "unit of account identifier",
+      "technicalName": "fibo-fnd-acc-cur:UnitOfAccountIdentifier",
+      "localName": "UnitOfAccountIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/UnitOfAccountIdentifier",
+      "label": "unit of account identifier",
+      "definition": "sequence of characters that can be used to uniquely identify a nominal monetary unit",
+      "parents": [
+        "cmns-cds:CodeElement",
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "some",
+          "value": "unit of account",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "unit price",
+      "technicalName": "fibo-fnd-acc-cur:UnitPrice",
+      "localName": "UnitPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/UnitPrice",
+      "label": "unit price",
+      "definition": "monetary price expressed in relation to a well-known measurable unit by which the goods or services are allocated",
+      "parents": [
+        "monetary price"
+      ],
+      "rules": [
+        {
+          "property": "is price for",
+          "operator": "some",
+          "value": "owl:Thing",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has base currency",
+      "technicalName": "fibo-fnd-acc-cur:hasBaseCurrency",
+      "localName": "hasBaseCurrency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/hasBaseCurrency",
+      "label": "has base currency",
+      "definition": "specifies a unit of currency representing R units of the dealt currency, where R is the exchange rate value, in an exchange rate",
+      "domain": [],
+      "range": [
+        "currency"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has currency",
+      "technicalName": "fibo-fnd-acc-cur:hasCurrency",
+      "localName": "hasCurrency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/hasCurrency",
+      "label": "has currency",
+      "definition": "specifies the medium of exchange value in which something, such as a monetary amount is denominated",
+      "domain": [],
+      "range": [
+        "currency"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has dealt currency",
+      "technicalName": "fibo-fnd-acc-cur:hasDealtCurrency",
+      "localName": "hasDealtCurrency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/hasDealtCurrency",
+      "label": "has dealt currency",
+      "definition": "specifies a unit of currency representing the exchanged (target) currency in an exchange rate; R units of this currency represent one unit of the base currency",
+      "domain": [],
+      "range": [
+        "currency"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has monetary amount",
+      "technicalName": "fibo-fnd-acc-cur:hasMonetaryAmount",
+      "localName": "hasMonetaryAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/hasMonetaryAmount",
+      "label": "has monetary amount",
+      "definition": "specifies a value for something in terms of an amount of money and the currency in which it is denoted",
+      "domain": [],
+      "range": [
+        "monetary amount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has notional amount",
+      "technicalName": "fibo-fnd-acc-cur:hasNotionalAmount",
+      "localName": "hasNotionalAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/hasNotionalAmount",
+      "label": "has notional amount",
+      "definition": "has a generally unchangeable value used for certain calculations, expressed as some monetary amount",
+      "domain": [],
+      "range": [
+        "monetary amount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has price",
+      "technicalName": "fibo-fnd-acc-cur:hasPrice",
+      "localName": "hasPrice",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/hasPrice",
+      "label": "has price",
+      "definition": "indicates the value of something expressed as an amount of money or goods",
+      "domain": [],
+      "range": [
+        "price"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is price for",
+      "technicalName": "fibo-fnd-acc-cur:isPriceFor",
+      "localName": "isPriceFor",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/isPriceFor",
+      "label": "is price for",
+      "definition": "links a price to something it provides a value for",
+      "domain": [
+        "price"
+      ],
+      "range": []
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has amount",
+      "technicalName": "fibo-fnd-acc-cur:hasAmount",
+      "localName": "hasAmount",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/hasAmount",
+      "label": "has amount",
+      "definition": "total number or quantity",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has funds type",
+      "technicalName": "fibo-fnd-acc-cur:hasFundsType",
+      "localName": "hasFundsType",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/hasFundsType",
+      "label": "has funds type",
+      "definition": "indicates the type of funds, such as next day for US funds",
+      "domain": [
+        "funds"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has minor unit",
+      "technicalName": "fibo-fnd-acc-cur:hasMinorUnit",
+      "localName": "hasMinorUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/hasMinorUnit",
+      "label": "has minor unit",
+      "definition": "relates a code for the minor unit of currency to the currency or fund",
+      "domain": [],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has numeric code",
+      "technicalName": "fibo-fnd-acc-cur:hasNumericCode",
+      "localName": "hasNumericCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/hasNumericCode",
+      "label": "has numeric code",
+      "definition": "relates a numeric code to something, such as a currency or fund",
+      "domain": [],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has rate value",
+      "technicalName": "fibo-fnd-acc-cur:hasRateValue",
+      "localName": "hasRateValue",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/hasRateValue",
+      "label": "has rate value",
+      "definition": "has a value for a rate expressed as a number (may be a percentage or raw number)",
+      "domain": [],
+      "range": [
+        "xsd:decimal"
+      ]
+    }
+  ]
+}

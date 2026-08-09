@@ -1,0 +1,898 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Places\\Addresses.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/",
+  "summary": {
+    "nodes": 28,
+    "edges": 11,
+    "properties": 7,
+    "triples": 609
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/IdentifiersAndIndices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/Analytics/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Classifiers/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Locations/",
+    "https://www.omg.org/spec/Commons/SitesAndFacilities/",
+    "https://www.omg.org/spec/Commons/TextDatatype/"
+  ],
+  "classes": [
+    {
+      "name": "address",
+      "technicalName": "fibo-fnd-plc-adr:Address",
+      "localName": "Address",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/Address",
+      "label": "address",
+      "definition": "index to a location to which communications may be delivered",
+      "parents": [
+        "fibo-fnd-arr-id:Index"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-arr-id:isIndexTo",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "cmns-loc:Location"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "addressing scheme"
+        }
+      ]
+    },
+    {
+      "name": "address component",
+      "technicalName": "fibo-fnd-plc-adr:AddressComponent",
+      "localName": "AddressComponent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/AddressComponent",
+      "label": "address component",
+      "definition": "aspect of an address",
+      "parents": [
+        "cmns-cls:Aspect"
+      ],
+      "rules": []
+    },
+    {
+      "name": "addressing scheme",
+      "technicalName": "fibo-fnd-plc-adr:AddressingScheme",
+      "localName": "AddressingScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/AddressingScheme",
+      "label": "addressing scheme",
+      "definition": "system for allocating addresses to objects",
+      "parents": [
+        "fibo-fnd-arr-id:IndexingScheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "only",
+          "value": "address",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "conventional street address",
+      "technicalName": "fibo-fnd-plc-adr:ConventionalStreetAddress",
+      "localName": "ConventionalStreetAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/ConventionalStreetAddress",
+      "label": "conventional street address",
+      "definition": "physical address that identifies a location on a street to which communications may be delivered",
+      "parents": [
+        "physical address"
+      ],
+      "rules": [
+        {
+          "property": "has address line 3",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "rdfs:Literal"
+        },
+        {
+          "property": "has address line 2",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "rdfs:Literal"
+        },
+        {
+          "property": "has address line 1",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "rdfs:Literal"
+        },
+        {
+          "property": "has street address",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "street address"
+        }
+      ]
+    },
+    {
+      "name": "geographic directional symbol",
+      "technicalName": "fibo-fnd-plc-adr:GeographicDirectionalSymbol",
+      "localName": "GeographicDirectionalSymbol",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/GeographicDirectionalSymbol",
+      "label": "geographic directional symbol",
+      "definition": "code element that gives directional information for postal delivery",
+      "parents": [
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "physical address",
+      "technicalName": "fibo-fnd-plc-adr:PhysicalAddress",
+      "localName": "PhysicalAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/PhysicalAddress",
+      "label": "physical address",
+      "definition": "physical address where communications can be addressed, papers served or representatives located for any kind of organization or person",
+      "parents": [
+        "address"
+      ],
+      "rules": [
+        {
+          "property": "cmns-loc:hasSubdivision",
+          "operator": "some",
+          "value": "cmns-loc:CountrySubdivision",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-arr-id:isIndexTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-loc:PhysicalLocation"
+        },
+        {
+          "property": "cmns-loc:hasCityName",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "rdfs:Literal"
+        },
+        {
+          "property": "has postal code",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "rdfs:Literal"
+        },
+        {
+          "property": "cmns-loc:hasMunicipality",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-loc:Municipality"
+        },
+        {
+          "property": "cmns-loc:hasCountry",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "cmns-loc:Country"
+        },
+        {
+          "property": "has individual postcode",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "postcode"
+        }
+      ]
+    },
+    {
+      "name": "physical address identifier",
+      "technicalName": "fibo-fnd-plc-adr:PhysicalAddressIdentifier",
+      "localName": "PhysicalAddressIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/PhysicalAddressIdentifier",
+      "label": "physical address identifier",
+      "definition": "unique identifier for a physical address",
+      "parents": [
+        "cmns-cds:CodeElement",
+        "cmns-id:Identifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "physical addressing scheme"
+        },
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "physical address"
+        }
+      ]
+    },
+    {
+      "name": "physical addressing scheme",
+      "technicalName": "fibo-fnd-plc-adr:PhysicalAddressingScheme",
+      "localName": "PhysicalAddressingScheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/PhysicalAddressingScheme",
+      "label": "physical addressing scheme",
+      "definition": "scheme for specifying physical addresses according to a country specific standard",
+      "parents": [
+        "addressing scheme"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "physical address"
+        },
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "physical address identifier"
+        }
+      ]
+    },
+    {
+      "name": "post code area",
+      "technicalName": "fibo-fnd-plc-adr:PostCodeArea",
+      "localName": "PostCodeArea",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/PostCodeArea",
+      "label": "post code area",
+      "definition": "physical area uniquely identified by some postal code",
+      "parents": [
+        "cmns-loc:GeographicRegion"
+      ],
+      "rules": []
+    },
+    {
+      "name": "post office box",
+      "technicalName": "fibo-fnd-plc-adr:PostOfficeBox",
+      "localName": "PostOfficeBox",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/PostOfficeBox",
+      "label": "post office box",
+      "definition": "post office box associated with an address",
+      "parents": [
+        "supplemental address component"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "post office box designator"
+        }
+      ]
+    },
+    {
+      "name": "post office box address",
+      "technicalName": "fibo-fnd-plc-adr:PostOfficeBoxAddress",
+      "localName": "PostOfficeBoxAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/PostOfficeBoxAddress",
+      "label": "post office box address",
+      "definition": "physical address used to deliver communications to a designated container at a local post office or the local equivalent for the jurisdiction, where mail is held until the recipient collects it, rather than to a given house, building, or other location",
+      "parents": [
+        "physical address"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "post office box"
+        }
+      ]
+    },
+    {
+      "name": "post office box designator",
+      "technicalName": "fibo-fnd-plc-adr:PostOfficeBoxDesignator",
+      "localName": "PostOfficeBoxDesignator",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/PostOfficeBoxDesignator",
+      "label": "post office box designator",
+      "definition": "designator used, together with an identifier, for a post office box",
+      "parents": [
+        "supplemental address designator"
+      ],
+      "rules": []
+    },
+    {
+      "name": "postcode",
+      "technicalName": "fibo-fnd-plc-adr:Postcode",
+      "localName": "Postcode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/Postcode",
+      "label": "postcode",
+      "definition": "sequence of characters used to assist in the sorting of mail",
+      "parents": [
+        "cmns-cds:CodeElement",
+        "cmns-loc:GeographicRegionIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "post code area"
+        }
+      ]
+    },
+    {
+      "name": "postdirectional symbol",
+      "technicalName": "fibo-fnd-plc-adr:PostdirectionalSymbol",
+      "localName": "PostdirectionalSymbol",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/PostdirectionalSymbol",
+      "label": "postdirectional symbol",
+      "definition": "geographic directional symbol that follows the street name and street suffix in a street address",
+      "parents": [
+        "geographic directional symbol"
+      ],
+      "rules": []
+    },
+    {
+      "name": "predirectional symbol",
+      "technicalName": "fibo-fnd-plc-adr:PredirectionalSymbol",
+      "localName": "PredirectionalSymbol",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/PredirectionalSymbol",
+      "label": "predirectional symbol",
+      "definition": "geographic directional symbol that occurs after the primary street number but before the street name in a street address",
+      "parents": [
+        "geographic directional symbol"
+      ],
+      "rules": []
+    },
+    {
+      "name": "primary address number",
+      "technicalName": "fibo-fnd-plc-adr:PrimaryAddressNumber",
+      "localName": "PrimaryAddressNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/PrimaryAddressNumber",
+      "label": "primary address number",
+      "definition": "address component that identifies a location with respect to a given street",
+      "parents": [
+        "address component"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "region-specific identifier",
+      "technicalName": "fibo-fnd-plc-adr:RegionSpecificIdentifier",
+      "localName": "RegionSpecificIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/RegionSpecificIdentifier",
+      "label": "region-specific identifier",
+      "definition": "geographic region or subdivision identifier used internally by a country or other region",
+      "parents": [
+        "cmns-loc:GeographicRegionIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cxtdsg:isUsedBy",
+          "operator": "some",
+          "value": "cmns-loc:GeopoliticalEntity",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "secondary unit",
+      "technicalName": "fibo-fnd-plc-adr:SecondaryUnit",
+      "localName": "SecondaryUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/SecondaryUnit",
+      "label": "secondary unit",
+      "definition": "address component that identifies an individual unit within a larger structure, such as an apartment, office, hangar, slip, mailbox, and so forth, at a given street address",
+      "parents": [
+        "address component"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "secondary unit designator"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "secondary unit indicator"
+        }
+      ]
+    },
+    {
+      "name": "secondary unit designator",
+      "technicalName": "fibo-fnd-plc-adr:SecondaryUnitDesignator",
+      "localName": "SecondaryUnitDesignator",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/SecondaryUnitDesignator",
+      "label": "secondary unit designator",
+      "definition": "classifier for a smaller structure or component within a larger facility, such as an apartment, office, mail stop, or other similar designation",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "requires secondary unit range",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:boolean"
+        }
+      ]
+    },
+    {
+      "name": "secondary unit indicator",
+      "technicalName": "fibo-fnd-plc-adr:SecondaryUnitIndicator",
+      "localName": "SecondaryUnitIndicator",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/SecondaryUnitIndicator",
+      "label": "secondary unit indicator",
+      "definition": "index to the specific unit within a secondary unit, such as a building or apartment, at a particular street address",
+      "parents": [
+        "address component"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "street address",
+      "technicalName": "fibo-fnd-plc-adr:StreetAddress",
+      "localName": "StreetAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/StreetAddress",
+      "label": "street address",
+      "definition": "index to a location that consists of a primary address number, predirectional, street name, suffix, postdirectional, and an optional secondary unit",
+      "parents": [
+        "address component"
+      ],
+      "rules": [
+        {
+          "property": "has street name",
+          "operator": "some",
+          "value": "street name",
+          "qualifier": null
+        },
+        {
+          "property": "has street suffix",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "street suffix"
+        },
+        {
+          "property": "has secondary unit",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "secondary unit"
+        },
+        {
+          "property": "has predirectional symbol",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "predirectional symbol"
+        },
+        {
+          "property": "has postdirectional symbol",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "postdirectional symbol"
+        },
+        {
+          "property": "has primary address number",
+          "operator": "maxQualified",
+          "value": "1",
+          "qualifier": "primary address number"
+        }
+      ]
+    },
+    {
+      "name": "street name",
+      "technicalName": "fibo-fnd-plc-adr:StreetName",
+      "localName": "StreetName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/StreetName",
+      "label": "street name",
+      "definition": "identifier for a street in some context (e.g., city, municipality, geographic region)",
+      "parents": [
+        "address component",
+        "cmns-dsg:Name"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "street suffix",
+      "technicalName": "fibo-fnd-plc-adr:StreetSuffix",
+      "localName": "StreetSuffix",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/StreetSuffix",
+      "label": "street suffix",
+      "definition": "classifier for a street or other delivery location, such as a dwelling located along a waterway",
+      "parents": [
+        "address component",
+        "cmns-cls:Classifier"
+      ],
+      "rules": []
+    },
+    {
+      "name": "structure name",
+      "technicalName": "fibo-fnd-plc-adr:StructureName",
+      "localName": "StructureName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/StructureName",
+      "label": "structure name",
+      "definition": "name for a building, house, office complex, shopping center, or other structure or group of structures",
+      "parents": [
+        "address component",
+        "cmns-dsg:Name"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "supplemental address component",
+      "technicalName": "fibo-fnd-plc-adr:SupplementalAddressComponent",
+      "localName": "SupplementalAddressComponent",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/SupplementalAddressComponent",
+      "label": "supplemental address component",
+      "definition": "address component that provides additional information that is important to ensuring proper delivery of communications",
+      "parents": [
+        "address component"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:comprises",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "supplemental address designator"
+        },
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "rdfs:Literal"
+        },
+        {
+          "property": "cmns-col:comprises",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "supplemental address unit"
+        }
+      ]
+    },
+    {
+      "name": "supplemental address designator",
+      "technicalName": "fibo-fnd-plc-adr:SupplementalAddressDesignator",
+      "localName": "SupplementalAddressDesignator",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/SupplementalAddressDesignator",
+      "label": "supplemental address designator",
+      "definition": "classifier for supplemental address information, such as a highway contract route, rural route, building complex, shopping center, condominium complex, mail box, or other similar designation",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "supplemental address component",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "supplemental address unit",
+      "technicalName": "fibo-fnd-plc-adr:SupplementalAddressUnit",
+      "localName": "SupplementalAddressUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/SupplementalAddressUnit",
+      "label": "supplemental address unit",
+      "definition": "address component that includes a specific route, box, apartment, condominium or other indicator or unit associated with a specific address",
+      "parents": [
+        "address component"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "virtual address",
+      "technicalName": "fibo-fnd-plc-adr:VirtualAddress",
+      "localName": "VirtualAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/VirtualAddress",
+      "label": "virtual address",
+      "definition": "address identifying a virtual, i.e. non-physical, location",
+      "parents": [
+        "address"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has address",
+      "technicalName": "fibo-fnd-plc-adr:hasAddress",
+      "localName": "hasAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasAddress",
+      "label": "has address",
+      "definition": "indicates a means by which something (in the case of a network address) or some entity may be located or contacted or may receive correspondence",
+      "domain": [],
+      "range": [
+        "address"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has individual postcode",
+      "technicalName": "fibo-fnd-plc-adr:hasIndividualPostcode",
+      "localName": "hasIndividualPostcode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasIndividualPostcode",
+      "label": "has individual postcode",
+      "definition": "indicates the local or international postcode element of a delivery address as specified by the local postal service",
+      "domain": [
+        "physical address"
+      ],
+      "range": [
+        "postcode"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has postdirectional symbol",
+      "technicalName": "fibo-fnd-plc-adr:hasPostdirectionalSymbol",
+      "localName": "hasPostdirectionalSymbol",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasPostdirectionalSymbol",
+      "label": "has postdirectional symbol",
+      "definition": "specifies a geographic directional symbol that follows the street name and street suffix in a street address",
+      "domain": [
+        "street address"
+      ],
+      "range": [
+        "postdirectional symbol"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has predirectional symbol",
+      "technicalName": "fibo-fnd-plc-adr:hasPredirectionalSymbol",
+      "localName": "hasPredirectionalSymbol",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasPredirectionalSymbol",
+      "label": "has predirectional symbol",
+      "definition": "specifies a geographic directional symbol that occurs after the primary street number but before the street name in a street address",
+      "domain": [
+        "street address"
+      ],
+      "range": [
+        "predirectional symbol"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has primary address number",
+      "technicalName": "fibo-fnd-plc-adr:hasPrimaryAddressNumber",
+      "localName": "hasPrimaryAddressNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasPrimaryAddressNumber",
+      "label": "has primary address number",
+      "definition": "specifies a a location with respect to a given street",
+      "domain": [
+        "street address"
+      ],
+      "range": [
+        "primary address number"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has secondary unit",
+      "technicalName": "fibo-fnd-plc-adr:hasSecondaryUnit",
+      "localName": "hasSecondaryUnit",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasSecondaryUnit",
+      "label": "has secondary unit",
+      "definition": "specifies an individual unit within a larger structure, such as an apartment, office, hangar, slip, mailbox, and so forth, at a given street address",
+      "domain": [
+        "street address"
+      ],
+      "range": [
+        "secondary unit"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has street address",
+      "technicalName": "fibo-fnd-plc-adr:hasStreetAddress",
+      "localName": "hasStreetAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasStreetAddress",
+      "label": "has street address",
+      "definition": "indicates a fully-specified address component that consists of a primary address number, predirectional, street name, suffix, postdirectional, and an optional secondary unit",
+      "domain": [
+        "conventional street address"
+      ],
+      "range": [
+        "street address"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has street name",
+      "technicalName": "fibo-fnd-plc-adr:hasStreetName",
+      "localName": "hasStreetName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasStreetName",
+      "label": "has street name",
+      "definition": "specifies an identifier for a street in some context (e.g., 'Baker', 'First', 'Main')",
+      "domain": [
+        "street address"
+      ],
+      "range": [
+        "street name"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has street suffix",
+      "technicalName": "fibo-fnd-plc-adr:hasStreetSuffix",
+      "localName": "hasStreetSuffix",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasStreetSuffix",
+      "label": "has street suffix",
+      "definition": "specifies an additional qualifier for a street or other delivery location, such as a dwelling located along a waterway",
+      "domain": [
+        "street address"
+      ],
+      "range": [
+        "street suffix"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has structure name",
+      "technicalName": "fibo-fnd-plc-adr:hasStructureName",
+      "localName": "hasStructureName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasStructureName",
+      "label": "has structure name",
+      "definition": "specifies an identifier for a building, house, office complex, shopping center, or other structure or group of structures",
+      "domain": [
+        "physical address"
+      ],
+      "range": [
+        "structure name"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has transliterated address",
+      "technicalName": "fibo-fnd-plc-adr:hasTransliteratedAddress",
+      "localName": "hasTransliteratedAddress",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasTransliteratedAddress",
+      "label": "has transliterated address",
+      "definition": "identifies a transliterated (i.e., in Latin or Romanized ASCII) address for the registered entity",
+      "domain": [],
+      "range": [
+        "address"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has address line 1",
+      "technicalName": "fibo-fnd-plc-adr:hasAddressLine1",
+      "localName": "hasAddressLine1",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasAddressLine1",
+      "label": "has address line 1",
+      "definition": "the first line of the street address",
+      "domain": [
+        "physical address"
+      ],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has address line 2",
+      "technicalName": "fibo-fnd-plc-adr:hasAddressLine2",
+      "localName": "hasAddressLine2",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasAddressLine2",
+      "label": "has address line 2",
+      "definition": "the second line of the street address",
+      "domain": [
+        "physical address"
+      ],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has address line 3",
+      "technicalName": "fibo-fnd-plc-adr:hasAddressLine3",
+      "localName": "hasAddressLine3",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasAddressLine3",
+      "label": "has address line 3",
+      "definition": "the third line of the street address",
+      "domain": [
+        "physical address"
+      ],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has attention line",
+      "technicalName": "fibo-fnd-plc-adr:hasAttentionLine",
+      "localName": "hasAttentionLine",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasAttentionLine",
+      "label": "has attention line",
+      "definition": "an optional, free text address line denoting the intended recipient",
+      "domain": [
+        "physical address"
+      ],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has mail routing",
+      "technicalName": "fibo-fnd-plc-adr:hasMailRouting",
+      "localName": "hasMailRouting",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasMailRouting",
+      "label": "has mail routing",
+      "definition": "an optional, free text address line containing explicit routing information (this elements's presence indicates that this address is a routing / 'care of' address)",
+      "domain": [
+        "physical address"
+      ],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has postal code",
+      "technicalName": "fibo-fnd-plc-adr:hasPostalCode",
+      "localName": "hasPostalCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/hasPostalCode",
+      "label": "has postal code",
+      "definition": "the postal code of this address as specified by the local postal service",
+      "domain": [
+        "physical address"
+      ],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "requires secondary unit range",
+      "technicalName": "fibo-fnd-plc-adr:requiresSecondaryUnitRange",
+      "localName": "requiresSecondaryUnitRange",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/requiresSecondaryUnitRange",
+      "label": "requires secondary unit range",
+      "definition": "if true, indicates that an additional qualifier is needed to complete the delivery point description, such as an apartment number",
+      "domain": [],
+      "range": [
+        "xsd:boolean"
+      ]
+    }
+  ]
+}

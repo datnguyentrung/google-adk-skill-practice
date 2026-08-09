@@ -1,0 +1,253 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Organizations\\FormalOrganizations.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/",
+  "summary": {
+    "nodes": 4,
+    "edges": 8,
+    "properties": 0,
+    "triples": 149
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/AgentsAndPeople/People/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/GoalsAndObjectives/Objectives/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Designators/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RolesAndCompositions/",
+    "https://www.omg.org/spec/Commons/TextDatatype/"
+  ],
+  "classes": [
+    {
+      "name": "employee",
+      "technicalName": "fibo-fnd-org-fm:Employee",
+      "localName": "Employee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/Employee",
+      "label": "employee",
+      "definition": "person in the service of another under any contract of hire, express or implied, oral or written, where the employer has the right to control and direct that person in the material details of how the work is to be performed",
+      "parents": [
+        "cmns-org:OrganizationMember"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "fibo-fnd-aap-ppl:Person",
+          "qualifier": null
+        },
+        {
+          "property": "is employee of",
+          "operator": "some",
+          "value": "employer",
+          "qualifier": null
+        },
+        {
+          "property": "is employed in",
+          "operator": "some",
+          "value": "employment",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "employer",
+      "technicalName": "fibo-fnd-org-fm:Employer",
+      "localName": "Employer",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/Employer",
+      "label": "employer",
+      "definition": "party that provides compensation, including wages or a salary and potentially other benefits, in exchange for work performed by one or more people, and that has the right to control and direct the employee in the material details of how the work is to be performed",
+      "parents": [
+        "cmns-org:MemberBearingOrganization"
+      ],
+      "rules": [
+        {
+          "property": "cmns-rlcmp:isPlayedBy",
+          "operator": "some",
+          "value": "cmns-org:LegalPerson",
+          "qualifier": null
+        },
+        {
+          "property": "is employing party",
+          "operator": "some",
+          "value": "employment",
+          "qualifier": null
+        },
+        {
+          "property": "has employee",
+          "operator": "some",
+          "value": "employee",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "employment",
+      "technicalName": "fibo-fnd-org-fm:Employment",
+      "localName": "Employment",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/Employment",
+      "label": "employment",
+      "definition": "situation representing the state of being employed, i.e., the relationship that holds between an employer and employee for some period of time",
+      "parents": [
+        "cmns-org:Membership"
+      ],
+      "rules": [
+        {
+          "property": "has employing party",
+          "operator": "some",
+          "value": "employer",
+          "qualifier": null
+        },
+        {
+          "property": "has employed party",
+          "operator": "some",
+          "value": "employee",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "group",
+      "technicalName": "fibo-fnd-org-fm:Group",
+      "localName": "Group",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/Group",
+      "label": "group",
+      "definition": "collection of agents (people, organizations, software agents, etc.) that are considered as a unit",
+      "parents": [
+        "cmns-col:Collection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "only",
+          "value": "cmns-pts:Agent",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "employs",
+      "technicalName": "fibo-fnd-org-fm:employs",
+      "localName": "employs",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/employs",
+      "label": "employs",
+      "definition": "indicates someone that is employed by the legal person",
+      "domain": [
+        "cmns-org:LegalPerson"
+      ],
+      "range": [
+        "fibo-fnd-aap-ppl:Person"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has employed party",
+      "technicalName": "fibo-fnd-org-fm:hasEmployedParty",
+      "localName": "hasEmployedParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/hasEmployedParty",
+      "label": "has employed party",
+      "definition": "identifies the employee in an employment situation",
+      "domain": [
+        "employment"
+      ],
+      "range": [
+        "employee"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has employee",
+      "technicalName": "fibo-fnd-org-fm:hasEmployee",
+      "localName": "hasEmployee",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/hasEmployee",
+      "label": "has employee",
+      "definition": "indicates an employee that is employed by the employer",
+      "domain": [
+        "employer"
+      ],
+      "range": [
+        "employee"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has employing party",
+      "technicalName": "fibo-fnd-org-fm:hasEmployingParty",
+      "localName": "hasEmployingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/hasEmployingParty",
+      "label": "has employing party",
+      "definition": "identifies employer in an employment situation",
+      "domain": [
+        "employment"
+      ],
+      "range": [
+        "employer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is employed by",
+      "technicalName": "fibo-fnd-org-fm:isEmployedBy",
+      "localName": "isEmployedBy",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/isEmployedBy",
+      "label": "is employed by",
+      "definition": "indicates the party (legal person or formal organization) that employs someone",
+      "domain": [
+        "fibo-fnd-aap-ppl:Person"
+      ],
+      "range": [
+        "cmns-org:LegalPerson"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is employed in",
+      "technicalName": "fibo-fnd-org-fm:isEmployedIn",
+      "localName": "isEmployedIn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/isEmployedIn",
+      "label": "is employed in",
+      "definition": "indicates the context of employment in which someone is employed",
+      "domain": [
+        "employee"
+      ],
+      "range": [
+        "employment"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is employee of",
+      "technicalName": "fibo-fnd-org-fm:isEmployeeOf",
+      "localName": "isEmployeeOf",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/isEmployeeOf",
+      "label": "is employee of",
+      "definition": "identifies the formal organization for which the employee works",
+      "domain": [
+        "employee"
+      ],
+      "range": [
+        "employer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is employing party",
+      "technicalName": "fibo-fnd-org-fm:isEmployingParty",
+      "localName": "isEmployingParty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Organizations/FormalOrganizations/isEmployingParty",
+      "label": "is employing party",
+      "definition": "relates a party in the role of employer to the context of employment",
+      "domain": [
+        "employer"
+      ],
+      "range": [
+        "employment"
+      ]
+    }
+  ],
+  "attributes": []
+}

@@ -1,0 +1,19 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\AsianJurisdiction",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\AsianJurisdiction\\CentralAsiaGovernmentEntitiesAndJurisdictions.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\AsianJurisdiction\\EasternAsiaGovernmentEntitiesAndJurisdictions.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\AsianJurisdiction\\SoutheasternAsiaGovernmentEntitiesAndJurisdictions.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\AsianJurisdiction\\SouthernAsiaGovernmentEntitiesAndJurisdictions.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\BE\\GovernmentEntities\\AsianJurisdiction\\WesternAsiaGovernmentEntitiesAndJurisdictions.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 5,
+    "classes": 0,
+    "edges": 0,
+    "attributes": 0
+  },
+  "classes": [],
+  "edges": [],
+  "attributes": []
+}

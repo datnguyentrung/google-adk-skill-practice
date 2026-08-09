@@ -1,0 +1,323 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\IND\\ForeignExchange\\ForeignExchange.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/",
+  "summary": {
+    "nodes": 13,
+    "edges": 6,
+    "properties": 0,
+    "triples": 169
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/BE/FunctionalEntities/Publishers/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/FinancialServicesEntities/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/FunctionalEntities/Markets/",
+    "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/FinancialDates/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://spec.edmcouncil.org/fibo/ontology/IND/Indicators/Indicators/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/DatesAndTimes/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/QuantitiesAndUnits/"
+  ],
+  "classes": [
+    {
+      "name": "currency conversion service",
+      "technicalName": "fibo-ind-fx-fx:CurrencyConversionService",
+      "localName": "CurrencyConversionService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/CurrencyConversionService",
+      "label": "currency conversion service",
+      "definition": "foreign exchange service involving the conversion of currency of one country or group of countries for another, typically, but not always, as a counter transaction",
+      "parents": [
+        "foreign exchange service"
+      ],
+      "rules": []
+    },
+    {
+      "name": "currency forward rate",
+      "technicalName": "fibo-ind-fx-fx:CurrencyForwardRate",
+      "localName": "CurrencyForwardRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/CurrencyForwardRate",
+      "label": "currency forward rate",
+      "definition": "rate of exchange between two currencies for settlement at some future point in time, expressed as a premium on the spot rate",
+      "parents": [
+        "quoted exchange rate"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fbc-pas-fpas:hasSettlementDate",
+          "operator": "only",
+          "value": "cmns-dt:Date",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "currency forward rate volatility",
+      "technicalName": "fibo-ind-fx-fx:CurrencyForwardRateVolatility",
+      "localName": "CurrencyForwardRateVolatility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/CurrencyForwardRateVolatility",
+      "label": "currency forward rate volatility",
+      "definition": "measure of exchange rate fluctuation based on a range of projected values for exchange rates",
+      "parents": [
+        "exchange rate volatility",
+        "fibo-ind-ind-ind:ImpliedVolatility"
+      ],
+      "rules": [
+        {
+          "property": "fibo-ind-ind-ind:isVolatilityOf",
+          "operator": "only",
+          "value": "currency forward rate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "currency spot buy rate",
+      "technicalName": "fibo-ind-fx-fx:CurrencySpotBuyRate",
+      "localName": "CurrencySpotBuyRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/CurrencySpotBuyRate",
+      "label": "currency spot buy rate",
+      "definition": "indicative spot buying market rate as observed by the reporting source",
+      "parents": [
+        "currency spot rate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "currency spot mid rate",
+      "technicalName": "fibo-ind-fx-fx:CurrencySpotMidRate",
+      "localName": "CurrencySpotMidRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/CurrencySpotMidRate",
+      "label": "currency spot mid rate",
+      "definition": "indicative middle market (mean of spot buying and selling) rate as observed by the reporting source",
+      "parents": [
+        "currency spot rate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "currency spot rate",
+      "technicalName": "fibo-ind-fx-fx:CurrencySpotRate",
+      "localName": "CurrencySpotRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/CurrencySpotRate",
+      "label": "currency spot rate",
+      "definition": "rate at which one currency may be exchanged for another for immediate delivery",
+      "parents": [
+        "quoted exchange rate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "currency spot sell rate",
+      "technicalName": "fibo-ind-fx-fx:CurrencySpotSellRate",
+      "localName": "CurrencySpotSellRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/CurrencySpotSellRate",
+      "label": "currency spot sell rate",
+      "definition": "indicative spot selling market rate as observed by the reporting source",
+      "parents": [
+        "currency spot rate"
+      ],
+      "rules": []
+    },
+    {
+      "name": "currency spot volatility",
+      "technicalName": "fibo-ind-fx-fx:CurrencySpotVolatility",
+      "localName": "CurrencySpotVolatility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/CurrencySpotVolatility",
+      "label": "currency spot volatility",
+      "definition": "measure of exchange rate fluctuation based on a range of past actual values for exchange rates",
+      "parents": [
+        "exchange rate volatility",
+        "fibo-ind-ind-ind:HistoricalVolatility"
+      ],
+      "rules": [
+        {
+          "property": "fibo-ind-ind-ind:isVolatilityOf",
+          "operator": "only",
+          "value": "currency spot rate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "exchange rate structure",
+      "technicalName": "fibo-ind-fx-fx:ExchangeRateStructure",
+      "localName": "ExchangeRateStructure",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/ExchangeRateStructure",
+      "label": "exchange rate structure",
+      "definition": "structured collection of quoted or projected exchange rates, such that volatility may be constructed for the structure",
+      "parents": [
+        "fibo-fnd-dt-fd:DatedStructuredCollection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-col:hasMember",
+          "operator": "some",
+          "value": "fibo-fnd-acc-cur:ExchangeRate",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "exchange rate volatility",
+      "technicalName": "fibo-ind-fx-fx:ExchangeRateVolatility",
+      "localName": "ExchangeRateVolatility",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/ExchangeRateVolatility",
+      "label": "exchange rate volatility",
+      "definition": "statistical measure of the rate of change in the rate at which one currency can be exchanged for another",
+      "parents": [
+        "fibo-ind-ind-ind:Volatility"
+      ],
+      "rules": [
+        {
+          "property": "cmns-qtu:hasArgument",
+          "operator": "some",
+          "value": "exchange rate structure",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "foreign exchange service",
+      "technicalName": "fibo-ind-fx-fx:ForeignExchangeService",
+      "localName": "ForeignExchangeService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/ForeignExchangeService",
+      "label": "foreign exchange service",
+      "definition": "financial service involving the exchange of one currency for another, conversion of one currency for another, and transfer of money from one country to another whereby currency conversion is required",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialService"
+      ],
+      "rules": []
+    },
+    {
+      "name": "international electronic funds transfer service",
+      "technicalName": "fibo-ind-fx-fx:InternationalElectronicFundsTransferService",
+      "localName": "InternationalElectronicFundsTransferService",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/InternationalElectronicFundsTransferService",
+      "label": "international electronic funds transfer service",
+      "definition": "electronic funds transfer (EFT) service involving the transfer of funds across national borders, that may also involve currency conversion",
+      "parents": [
+        "fibo-fbc-fct-fse:ElectronicFundsTransferService",
+        "foreign exchange service"
+      ],
+      "rules": []
+    },
+    {
+      "name": "quoted exchange rate",
+      "technicalName": "fibo-ind-fx-fx:QuotedExchangeRate",
+      "localName": "QuotedExchangeRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/QuotedExchangeRate",
+      "label": "quoted exchange rate",
+      "definition": "exchange rate quoted at a specific point in time, for a given block amount of currency as quoted against another (base) currency",
+      "parents": [
+        "fibo-fnd-acc-cur:ExchangeRate",
+        "fibo-ind-ind-ind:MarketRate"
+      ],
+      "rules": [
+        {
+          "property": "has exchange rate quotation source",
+          "operator": "some",
+          "value": "anonymous restriction",
+          "qualifier": null
+        },
+        {
+          "property": "has quote currency",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "fibo-fnd-acc-cur:Currency"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has exchange rate quotation source",
+      "technicalName": "fibo-ind-fx-fx:hasExchangeRateQuotationSource",
+      "localName": "hasExchangeRateQuotationSource",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/hasExchangeRateQuotationSource",
+      "label": "has exchange rate quotation source",
+      "definition": "indicates the origin of a quoted exchange rate",
+      "domain": [],
+      "range": [
+        "anonymous restriction"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has quotation block amount basis",
+      "technicalName": "fibo-ind-fx-fx:hasQuotationBlockAmountBasis",
+      "localName": "hasQuotationBlockAmountBasis",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/hasQuotationBlockAmountBasis",
+      "label": "has quotation block amount basis",
+      "definition": "indicates the amount of the dealt currency which would be exchanged in a trade for which the stated spot rate applies",
+      "domain": [
+        "quoted exchange rate"
+      ],
+      "range": [
+        "fibo-fnd-acc-cur:MonetaryAmount"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has quotation settlement basis",
+      "technicalName": "fibo-ind-fx-fx:hasQuotationSettlementBasis",
+      "localName": "hasQuotationSettlementBasis",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/hasQuotationSettlementBasis",
+      "label": "has quotation settlement basis",
+      "definition": "indicates the settlement period for a trade for which the stated spot rate applies",
+      "domain": [
+        "quoted exchange rate"
+      ],
+      "range": [
+        "cmns-dt:Duration"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has quote currency",
+      "technicalName": "fibo-ind-fx-fx:hasQuoteCurrency",
+      "localName": "hasQuoteCurrency",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/hasQuoteCurrency",
+      "label": "has quote currency",
+      "definition": "indicates the quote currency in an exchange rate; R units of this currency represent one unit of the base currency",
+      "domain": [],
+      "range": [
+        "fibo-fnd-acc-cur:Currency"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has quoted exchange rate",
+      "technicalName": "fibo-ind-fx-fx:hasQuotedExchangeRate",
+      "localName": "hasQuotedExchangeRate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/hasQuotedExchangeRate",
+      "label": "has quoted exchange rate",
+      "definition": "rate of exchange between two currencies as specified as of some date and time as quoted by a specific source",
+      "domain": [],
+      "range": [
+        "quoted exchange rate"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "is premium on",
+      "technicalName": "fibo-ind-fx-fx:isPremiumOn",
+      "localName": "isPremiumOn",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/IND/ForeignExchange/ForeignExchange/isPremiumOn",
+      "label": "is premium on",
+      "definition": "an exchange rate expressed as a premium on the spot rate for the currency pair",
+      "domain": [
+        "currency forward rate"
+      ],
+      "range": [
+        "quoted exchange rate"
+      ]
+    }
+  ],
+  "attributes": []
+}

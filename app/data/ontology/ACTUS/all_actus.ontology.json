@@ -1,0 +1,278 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\ACTUS",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\ACTUS\\ACTUSContractTermMapping.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\ACTUS\\ACTUSContractTerms.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\ontology\\ACTUS\\ACTUSTaxonomy.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 3,
+    "classes": 8,
+    "edges": 0,
+    "attributes": 4
+  },
+  "classes": [
+    {
+      "name": "ACTUS business day convention",
+      "technicalName": "fibo-actus-act:ACTUSBusinessDayConvention",
+      "localName": "ACTUSBusinessDayConvention",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/ACTUS/ACTUSContractTerms/ACTUSBusinessDayConvention",
+      "label": "ACTUS business day convention",
+      "definition": "code element for one of a set of conventions that ACTUS supports",
+      "parents": [
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Algorithmic Contract Types data dictionary",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ACTUS calendar code",
+      "technicalName": "fibo-actus-act:ACTUSCalendarCode",
+      "localName": "ACTUSCalendarCode",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/ACTUS/ACTUSContractTerms/ACTUSCalendarCode",
+      "label": "ACTUS calendar code",
+      "definition": "code for a calendar that applies to a particular contract",
+      "parents": [
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Algorithmic Contract Types data dictionary",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ACTUS contract role classifier",
+      "technicalName": "fibo-actus-act:ACTUSContractRoleClassifier",
+      "localName": "ACTUSContractRoleClassifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/ACTUS/ACTUSContractTerms/ACTUSContractRoleClassifier",
+      "label": "ACTUS contract role classifier",
+      "definition": "classifier for various roles that are relevant to how the contract is processed by a particular contract party",
+      "parents": [
+        "ACTUS contract term",
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:denotes",
+          "operator": "some",
+          "value": "cmns-rlcmp:Role",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "cmns-rlcmp:Role",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "value",
+          "value": "ACTUS dictionary term group - contract identification",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ACTUS contract term",
+      "technicalName": "fibo-actus-act:ACTUSContractTerm",
+      "localName": "ACTUSContractTerm",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/ACTUS/ACTUSContractTerms/ACTUSContractTerm",
+      "label": "ACTUS contract term",
+      "definition": "code denoting a term describing an aspect of one or more ACTUS contract type(s)",
+      "parents": [
+        "cmns-cds:CodeElement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:hasTextualName",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:hasTag",
+          "operator": "some",
+          "value": "xsd:string",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:isClassifiedBy",
+          "operator": "some",
+          "value": "ACTUS dictionary term group",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-cls:characterizes",
+          "operator": "some",
+          "value": "fibo-actus-acv:ACTUSContractType",
+          "qualifier": null
+        },
+        {
+          "property": "has parameter name",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Algorithmic Contract Types data dictionary",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-col:isMemberOf",
+          "operator": "value",
+          "value": "Algorithmic Contract Types data dictionary",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ACTUS dictionary term group",
+      "technicalName": "fibo-actus-act:ACTUSContractTermGroup",
+      "localName": "ACTUSContractTermGroup",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/ACTUS/ACTUSContractTerms/ACTUSContractTermGroup",
+      "label": "ACTUS dictionary term group",
+      "definition": "classifier for a collection of ACTUS dictionary parameters that tend to be applied together",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-cls:classifies",
+          "operator": "some",
+          "value": "ACTUS contract term",
+          "qualifier": null
+        },
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Algorithmic Contract Types data dictionary",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "ACTUS contract type",
+      "technicalName": "fibo-actus-acv:ACTUSContractType",
+      "localName": "ACTUSContractType",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/ACTUS/ACTUSTaxonomy/ACTUSContractType",
+      "label": "ACTUS contract type",
+      "definition": "classifier for an algorithmic capability, i.e., the rules, from which the cashflows for a credit agreement, financial instrument or related contract, based on their characteristics, can be analyzed",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Algorithmic Contract Types classification scheme",
+          "qualifier": null
+        },
+        {
+          "property": "has coverage description",
+          "operator": "only",
+          "value": "xsd:string",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "algorithmic contract category",
+      "technicalName": "fibo-actus-acv:AlgorithmicContractCategory",
+      "localName": "AlgorithmicContractCategory",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/ACTUS/ACTUSTaxonomy/AlgorithmicContractCategory",
+      "label": "algorithmic contract category",
+      "definition": "classifier for the cashflows generated by a group of credit agreements, financial instruments, or related contracts, within an ACTUS cashflow family, based on their more specific, common characteristics",
+      "parents": [
+        "cmns-cls:Classifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Algorithmic Contract Types classification scheme",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "algorithmic contract family",
+      "technicalName": "fibo-actus-acv:AlgorithmicContractFamily",
+      "localName": "AlgorithmicContractFamily",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/ACTUS/ACTUSTaxonomy/AlgorithmicContractFamily",
+      "label": "algorithmic contract family",
+      "definition": "classifier for a collection of types of contracts, such as credit agreements, financial instruments, or related kinds of contracts, based on their common characteristics from an ACTUS perspective",
+      "parents": [
+        "cmns-col:Collection"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:isDefinedIn",
+          "operator": "value",
+          "value": "Algorithmic Contract Types classification scheme",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has option sequence number",
+      "technicalName": "fibo-actus-act:hasOptionSequenceNumber",
+      "localName": "hasOptionSequenceNumber",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/ACTUS/ACTUSContractTerms/hasOptionSequenceNumber",
+      "label": "has option sequence number",
+      "definition": "specifies the order of occurance of an optional element in an enumerated list",
+      "domain": [],
+      "range": [
+        "xsd:nonNegativeInteger"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "has parameter mapping",
+      "technicalName": "fibo-actus-act:hasParameterMapping",
+      "localName": "hasParameterMapping",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/ACTUS/ACTUSContractTerms/hasParameterMapping",
+      "label": "has parameter mapping",
+      "definition": "maps a quantitative or qualitative parameter defined in the ACTUS data dictionary with something else, such as a property specified in FIBO",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has parameter name",
+      "technicalName": "fibo-actus-act:hasParameterName",
+      "localName": "hasParameterName",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/ACTUS/ACTUSContractTerms/hasParameterName",
+      "label": "has parameter name",
+      "definition": "associates a name with a quantitative or qualitative factor defined in the ACTUS data dictionary used as a condition for classification of one or more contract type",
+      "domain": [],
+      "range": []
+    },
+    {
+      "kind": "property",
+      "name": "has coverage description",
+      "technicalName": "fibo-actus-acv:hasCoverageDescription",
+      "localName": "hasCoverageDescription",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/ACTUS/ACTUSTaxonomy/hasCoverageDescription",
+      "label": "has coverage description",
+      "definition": "describes the contracts that the classifier applies to",
+      "domain": [],
+      "range": []
+    }
+  ]
+}

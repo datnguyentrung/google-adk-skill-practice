@@ -1,0 +1,54 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Arrangements\\Arrangements.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Arrangements/",
+  "summary": {
+    "nodes": 1,
+    "edges": 0,
+    "properties": 1,
+    "triples": 39
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/CodesAndCodeSets/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/Designators/"
+  ],
+  "classes": [
+    {
+      "name": "scheme",
+      "technicalName": "fibo-fnd-arr-arr:Scheme",
+      "localName": "Scheme",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Arrangements/Scheme",
+      "label": "scheme",
+      "definition": "structure or means of organizing information such as a blueprint, schema, numbering system, organization structure, measurement system, plan, taxonomy, or language for organizing information",
+      "parents": [
+        "cmns-col:Arrangement"
+      ],
+      "rules": [
+        {
+          "property": "cmns-dsg:defines",
+          "operator": "min",
+          "value": "0",
+          "qualifier": null
+        }
+      ]
+    }
+  ],
+  "edges": [],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "has collection size",
+      "technicalName": "fibo-fnd-arr-arr:hasCollectionSize",
+      "localName": "hasCollectionSize",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Arrangements/hasCollectionSize",
+      "label": "has collection size",
+      "definition": "indicates the number of elements in a given collection",
+      "domain": [],
+      "range": [
+        "xsd:nonNegativeInteger"
+      ]
+    }
+  ]
+}

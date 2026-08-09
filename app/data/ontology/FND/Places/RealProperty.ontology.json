@@ -1,0 +1,204 @@
+{
+  "file": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\app\\data\\fibo\\FND\\Places\\RealProperty.rdf",
+  "ontologyBase": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/",
+  "summary": {
+    "nodes": 9,
+    "edges": 0,
+    "properties": 0,
+    "triples": 127
+  },
+  "imports": [
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Arrangements/Assessments/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/DatesAndTimes/Occurrences/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/OwnershipAndControl/Ownership/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Places/Addresses/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Relations/Relations/",
+    "https://spec.edmcouncil.org/fibo/ontology/FND/Utilities/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/AnnotationVocabulary/",
+    "https://www.omg.org/spec/Commons/Collections/",
+    "https://www.omg.org/spec/Commons/ContextualDesignators/",
+    "https://www.omg.org/spec/Commons/ContextualIdentifiers/",
+    "https://www.omg.org/spec/Commons/Documents/",
+    "https://www.omg.org/spec/Commons/Identifiers/",
+    "https://www.omg.org/spec/Commons/Locations/",
+    "https://www.omg.org/spec/Commons/Organizations/",
+    "https://www.omg.org/spec/Commons/PartiesAndSituations/",
+    "https://www.omg.org/spec/Commons/RegulatoryAgencies/",
+    "https://www.omg.org/spec/Commons/SitesAndFacilities/"
+  ],
+  "classes": [
+    {
+      "name": "personal property",
+      "technicalName": "fibo-fnd-plc-rp:PersonalProperty",
+      "localName": "PersonalProperty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/PersonalProperty",
+      "label": "personal property",
+      "definition": "asset that is a movable item or possession not fixed to land",
+      "parents": [
+        "fibo-fnd-oac-own:Asset"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isEvaluatedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "fibo-fnd-arr-asmt:Appraisal"
+        }
+      ]
+    },
+    {
+      "name": "property inspection",
+      "technicalName": "fibo-fnd-plc-rp:PropertyInspection",
+      "localName": "PropertyInspection",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/PropertyInspection",
+      "label": "property inspection",
+      "definition": "event that involves analyzing one or more aspects of a real property",
+      "parents": [
+        "fibo-fnd-arr-asmt:AssessmentEvent"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:evaluates",
+          "operator": "some",
+          "value": "real property",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasOutput",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "property inspection report"
+        }
+      ]
+    },
+    {
+      "name": "property inspection report",
+      "technicalName": "fibo-fnd-plc-rp:PropertyInspectionReport",
+      "localName": "PropertyInspectionReport",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/PropertyInspectionReport",
+      "label": "property inspection report",
+      "definition": "report covering the findings of a property inspection",
+      "parents": [
+        "fibo-fnd-arr-asmt:AssessmentReport"
+      ],
+      "rules": [
+        {
+          "property": "cmns-doc:isAbout",
+          "operator": "some",
+          "value": "real property",
+          "qualifier": null
+        }
+      ]
+    },
+    {
+      "name": "real estate",
+      "technicalName": "fibo-fnd-plc-rp:RealEstate",
+      "localName": "RealEstate",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/RealEstate",
+      "label": "real estate",
+      "definition": "real property, interests in mortgages on real property (including interests in mortgages on leaseholds of land or improvements thereon), and shares in qualified real estate investment trusts",
+      "parents": [
+        "fibo-fnd-oac-own:Asset"
+      ],
+      "rules": []
+    },
+    {
+      "name": "real property",
+      "technicalName": "fibo-fnd-plc-rp:RealProperty",
+      "localName": "RealProperty",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/RealProperty",
+      "label": "real property",
+      "definition": "physical asset defined as land together with any structures that are permanently attached to that land, such as houses, trees, fences and improvements",
+      "parents": [
+        "fibo-fnd-oac-own:PhysicalAsset",
+        "real estate"
+      ],
+      "rules": [
+        {
+          "property": "fibo-fnd-rel-rel:isEvaluatedBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "real property appraisal"
+        }
+      ]
+    },
+    {
+      "name": "real property appraisal",
+      "technicalName": "fibo-fnd-plc-rp:RealPropertyAppraisal",
+      "localName": "RealPropertyAppraisal",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/RealPropertyAppraisal",
+      "label": "real property appraisal",
+      "definition": "value assessment that estimates the amount of money some real property is worth",
+      "parents": [
+        "fibo-fnd-arr-asmt:Appraisal"
+      ],
+      "rules": [
+        {
+          "property": "cmns-org:isProvidedBy",
+          "operator": "some",
+          "value": "fibo-fnd-arr-asmt:Appraiser",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-rel-rel:evaluates",
+          "operator": "some",
+          "value": "real property",
+          "qualifier": null
+        },
+        {
+          "property": "fibo-fnd-dt-oc:hasInput",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "property inspection report"
+        }
+      ]
+    },
+    {
+      "name": "real property identifier",
+      "technicalName": "fibo-fnd-plc-rp:RealPropertyIdentifier",
+      "localName": "RealPropertyIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/RealPropertyIdentifier",
+      "label": "real property identifier",
+      "definition": "unique identifier given to identify a specific real property in some jurisidiction",
+      "parents": [
+        "cmns-cxtid:ContextualIdentifier"
+      ],
+      "rules": [
+        {
+          "property": "cmns-id:identifies",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "real property"
+        },
+        {
+          "property": "cmns-cxtdsg:isApplicableIn",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "cmns-rga:Jurisdiction"
+        }
+      ]
+    },
+    {
+      "name": "fibo-fnd-plc-rp:TractIdentifier",
+      "technicalName": "fibo-fnd-plc-rp:TractIdentifier",
+      "localName": "TractIdentifier",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/TractIdentifier",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    },
+    {
+      "name": "fibo-fnd-plc-rp:TractOfLand",
+      "technicalName": "fibo-fnd-plc-rp:TractOfLand",
+      "localName": "TractOfLand",
+      "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Places/RealProperty/TractOfLand",
+      "label": null,
+      "definition": null,
+      "parents": [],
+      "rules": []
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}
