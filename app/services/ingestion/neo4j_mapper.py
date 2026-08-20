@@ -28,7 +28,10 @@ class Neo4jMapper:
                 f"{class_technical_name}"
             )
 
-        return ontology_class.local_name
+        return self._validate_identifier(
+            ontology_class.local_name,
+            kind="label",
+        )
 
     def property_to_key(
         self,
@@ -44,7 +47,10 @@ class Neo4jMapper:
                 f"{property_technical_name}"
             )
 
-        return attribute.local_name
+        return self._validate_identifier(
+            attribute.local_name,
+            kind="property",
+        )
 
     def edge_to_type(
         self,
@@ -60,8 +66,12 @@ class Neo4jMapper:
                 f"{edge_technical_name}"
             )
 
-        return self._camel_to_upper_snake(
+        relationship_type = self._camel_to_upper_snake(
             edge.local_name
+        )
+        return self._validate_identifier(
+            relationship_type,
+            kind="relationship type",
         )
 
     def properties_to_neo4j(
@@ -78,6 +88,17 @@ class Neo4jMapper:
             result[key] = value
 
         return result
+
+    @staticmethod
+    def _validate_identifier(
+        value: str,
+        kind: str,
+    ) -> str:
+        if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", value):
+            raise Neo4jMappingError(
+                f"Unsafe Neo4j {kind} derived from ontology: {value}"
+            )
+        return value
 
     @staticmethod
     def _camel_to_upper_snake(

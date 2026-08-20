@@ -8,6 +8,7 @@ class NodeIdentity(BaseModel):
 
     strategy: Literal[
         "natural_key",
+        "source_scoped",
         "unresolved",
     ]
 

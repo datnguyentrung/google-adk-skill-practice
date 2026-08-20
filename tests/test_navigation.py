@@ -698,4 +698,4 @@ def test_root_agent_activates_navigation_tools_only_after_skill_load():
 
     asyncio.run(run())
     assert root_agent.sub_agents == []
-    assert "navigation" in {skill.name for skill in root_skill_toolset.skills}
+    assert root_skill_toolset.skills == []

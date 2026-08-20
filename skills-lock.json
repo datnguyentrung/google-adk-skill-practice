@@ -18,6 +18,12 @@
       "sourceType": "github",
       "skillPath": "skills/ontology/SKILL.md",
       "computedHash": "f2c7a17aa00f8571b5ff94411c14bb277e4b7f04cdff768ad6aea9ca1727a1ba"
+    },
+    "senior-architect": {
+      "source": "alirezarezvani/claude-skills",
+      "sourceType": "github",
+      "skillPath": "engineering-team/skills/senior-architect/SKILL.md",
+      "computedHash": "2b463626bf730b21872768447388c18a4387a7a307e00013b696c0f15e5659e3"
     }
   }
 }

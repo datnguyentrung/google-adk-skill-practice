@@ -81,7 +81,7 @@ class OntologyValidator:
             )
         )
 
-        return errors
+        return list(dict.fromkeys(errors))
 
     def _validate_attribute_rules(
         self,
@@ -116,7 +116,9 @@ class OntologyValidator:
                 if expected is None:
                     continue
 
-                if count != expected:
+                if count == 0 and expected == 1:
+                    errors.append(f"Missing required property: {rule.property}")
+                elif count != expected:
                     errors.append(
                         f"Property {rule.property} must occur "
                         f"exactly {expected} time(s); got {count}"
@@ -133,7 +135,9 @@ class OntologyValidator:
                 if minimum is None:
                     continue
 
-                if count < minimum:
+                if count == 0 and minimum > 0:
+                    errors.append(f"Missing required property: {rule.property}")
+                elif count < minimum:
                     errors.append(
                         f"Property {rule.property} must occur "
                         f"at least {minimum} time(s); got {count}"
@@ -170,7 +174,7 @@ class OntologyValidator:
         """
 
         if value is None:
-            return [f"Property {rule.property} is required by some constraint"]
+            return [f"Missing required property: {rule.property}"]
 
         # rule.value là datatype hoặc giá trị bắt buộc đứng sau toán tử some.
         expected = rule.value

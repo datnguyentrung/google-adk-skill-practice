@@ -23,6 +23,7 @@ def test_valid_banking_product_node():
             "pskg:productCode": "CARD-001",
             "pskg:bankingProductName": "Flexi Rewards",
             "pskg:bankingProductStatus": "Published",
+            "pskg:bankingProductEffectiveFrom": "2026-08-01",
         },
     )
 
@@ -51,8 +52,7 @@ def test_unknown_property():
         },
     )
 
-    assert len(errors) == 1
-    assert "Unknown ontology property" in errors[0]
+    assert any("Unknown ontology property" in error for error in errors)
 
 
 def test_property_does_not_belong_to_class():
@@ -65,8 +65,7 @@ def test_property_does_not_belong_to_class():
         },
     )
 
-    assert len(errors) == 1
-    assert "does not belong" in errors[0]
+    assert any("does not belong" in error for error in errors)
 
 
 def test_invalid_property_datatype():
@@ -79,8 +78,7 @@ def test_invalid_property_datatype():
         },
     )
 
-    assert len(errors) == 1
-    assert "Invalid datatype" in errors[0]
+    assert any("Invalid datatype" in error for error in errors)
 
 def test_missing_required_product_code():
     validator = create_validator()

@@ -44,3 +44,19 @@ def test_document_contains_campaign():
     chunks = reader.read(DOCUMENT_PATH)
 
     assert any("Flexi Dining & Shopping" in chunk.content for chunk in chunks)
+
+
+def test_read_uploaded_markdown_bytes():
+    reader = DocumentReader()
+    data = b"# Product\n\nCode: CARD-001\n"
+
+    chunks = reader.read_bytes(
+        filename="product.md",
+        data=data,
+        mime_type="text/markdown",
+    )
+
+    assert len(chunks) == 1
+    assert chunks[0].source == "product.md"
+    assert chunks[0].section == "Product"
+    assert "CARD-001" in chunks[0].content

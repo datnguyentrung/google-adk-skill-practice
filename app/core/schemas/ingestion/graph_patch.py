@@ -1,6 +1,6 @@
-from openai import BaseModel
-from pydantic import Field
-from sqlalchemy.dialects.postgresql import Any
+from typing import Any
+
+from pydantic import BaseModel, Field
 
 
 ## Chứng cứ
@@ -34,4 +34,4 @@ class ExtractedEdge(BaseModel):
 class GraphPatch(BaseModel):
     nodes: list[ExtractedNode]  # Danh sách các nút được trích xuất
     edges: list[ExtractedEdge]  # Danh sách các cạnh được trích xuất
-    warnings: list[str] = []  # Danh sách các cảnh báo
+    warnings: list[str] = Field(default_factory=list)  # Danh sách các cảnh báo

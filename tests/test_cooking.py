@@ -398,4 +398,4 @@ def test_root_agent_activates_cooking_tools_only_after_skill_load():
         assert COOKING_TOOL_NAMES <= active_names
 
     asyncio.run(run())
-    assert "cooking" in {skill.name for skill in root_skill_toolset.skills}
+    assert root_skill_toolset.skills == []

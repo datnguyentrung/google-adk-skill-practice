@@ -1,9 +1,10 @@
 ---
 name: ingestion
 description: >
-  Extract structured Product Sales Knowledge Graph data from business
-  documents using the Product Sales ontology, validate the resulting
-  GraphPatch, and optionally persist it to Neo4j.
+  Ingest uploaded Product Sales business documents into the Product Sales
+  Knowledge Graph in Neo4j by extracting ontology-grounded GraphPatch data,
+  validating it, and safely persisting it.
+  Also supports extract-only and validate-only requests.
 metadata:
   adk_additional_tools:
     - prepare_extraction_context
@@ -64,6 +65,19 @@ Neo4j
 
 `FILL` must never invent or infer missing knowledge.
 
+If the user explicitly asks to ingest/import/load/write an uploaded document,
+this is an end-to-end persistence request. Continue automatically through:
+
+```text
+uploaded artifact
+→ prepare
+→ extract GraphPatch
+→ validate
+→ fill Neo4j
+```
+
+Do not stop after extraction or validation when persistence was requested.
+
 ---
 
 # EXTRACT
@@ -77,10 +91,15 @@ Convert the supplied source document into a `GraphPatch` grounded in:
 
 The root model performs the semantic mapping.
 
-## Step 1 — Read the document
+## Step 1 — Read the uploaded document
 
-Use the document preparation/reading capability to obtain document
-chunks containing:
+When the user uploads a file in ADK Web, use the artifact name exposed in the
+message (for example `[Uploaded Artifact: "product.md"]`). Do not ask the user
+for a local filesystem path.
+
+Call `$prepare_extraction_context_tool(artifact_name)` to load that artifact
+from the current ADK session and obtain document chunks plus ontology context.
+The returned chunks contain:
 
 - source
 - section
@@ -367,8 +386,9 @@ every product mention → new BankingProduct
 
 # Validation
 
-After constructing a GraphPatch, validate it using the ontology
-validator.
+After constructing a GraphPatch, call
+`$validate_graph_patch_tool(graph_patch)` and treat its result as the
+source of truth for ontology validation.
 
 Validation covers, where supported:
 
@@ -398,7 +418,8 @@ Do not write invalid data to Neo4j.
 
 ## Goal
 
-Persist an already-created GraphPatch safely.
+Persist an already-created GraphPatch safely. Only after validation succeeds
+and persistence is requested, call `$fill_graph_patch_tool(graph_patch)`.
 
 FILL performs:
 
@@ -424,20 +445,18 @@ FILL must not invent missing properties or relationships.
 
 ## Identity handling
 
-Some ontology entities have reliable operational identity policies.
+Use a natural-key identity when the ingestion policy defines one. For ontology
+classes without a natural key, FILL may use the deterministic source-scoped
+`_ingestionKey` technical metadata generated from source document, class, and
+normalized ontology properties.
 
-Others may have unresolved identity.
+`_ingestionKey` and `_ingestionSource` are Neo4j persistence metadata only;
+they are not ontology properties and must never be emitted by the root model in
+`GraphPatch.properties`.
 
-If identity cannot be resolved safely:
-
-```text
-do not silently create a duplicate node
-```
-
-Return/report the unresolved identity instead.
-
-Do not create arbitrary UUID-based identity merely to make persistence
-succeed unless the ingestion policy explicitly permits it.
+Do not create random UUID identity merely to make persistence succeed. If a
+node has neither a usable natural key nor source evidence for deterministic
+source-scoped identity, stop FILL and report the unresolved identity.
 
 ---
 

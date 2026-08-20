@@ -8,54 +8,88 @@ from google.adk.skills import models
 
 
 @dataclass(frozen=True)
-class LoadedSkill:
-    """A discovered ADK skill and its Python tools."""
+class SkillDescriptor:
+    """Lightweight local skill metadata discovered from SKILL.md frontmatter."""
 
+    code: str
+    directory: Path
+    frontmatter: models.Frontmatter
+
+    @property
+    def name(self) -> str:
+        return self.frontmatter.name
+
+    @property
+    def description(self) -> str:
+        return self.frontmatter.description
+
+
+@dataclass(frozen=True)
+class LoadedSkill:
+    """A fully loaded ADK skill and its Python tools."""
     code: str
     directory: Path
     skill: models.Skill
     tools: tuple[Any, ...]
 
 
-def discover_skills(skills_dir: Path) -> list[LoadedSkill]:
-    """
-    Discover every skill directory containing a SKILL.md file.
+def discover_skill_descriptors(
+    skills_dir: Path,
+) -> list[SkillDescriptor]:
+    """Discover only frontmatter metadata; do not load full skill bodies."""
 
-    A skill may optionally expose Python tools through:
-        app.skills.<skill_code>.tools:get_tools
-    """
+    listed = skills.list_skills_in_dir(skills_dir)
+
+    return [
+        SkillDescriptor(
+            code=code,
+            directory=skills_dir / code,
+            frontmatter=frontmatter,
+        )
+        for code, frontmatter in listed.items()
+    ]
+
+
+def discover_skill_tools(
+    descriptors: list[SkillDescriptor],
+) -> list[Any]:
+    """Load only Python tool callables needed by SkillToolset."""
+
+    return [
+        tool
+        for descriptor in descriptors
+        for tool in _load_skill_tools(descriptor.code)
+    ]
+
+
+def load_skill_descriptor(
+    descriptor: SkillDescriptor,
+) -> models.Skill:
+    """Load one complete skill on demand."""
+
+    return _load_skill(descriptor.directory)
+
+
+def discover_skills(skills_dir: Path) -> list[LoadedSkill]:
+    """Backward-compatible eager loader for tests or explicit callers."""
 
     discovered: list[LoadedSkill] = []
 
-    for skill_dir in sorted(skills_dir.iterdir()):
-        if not skill_dir.is_dir():
-            continue
-
-        if skill_dir.name.startswith("_"):
-            continue
-
-        skill_file = skill_dir / "SKILL.md"
-
-        if not skill_file.is_file():
-            continue
-
-        skill_code = skill_dir.name
-        loaded_skill = _load_skill(skill_dir)
-        loaded_tools = _load_skill_tools(skill_code)
-
+    for descriptor in discover_skill_descriptors(skills_dir):
         discovered.append(
             LoadedSkill(
-                code=skill_code,
-                directory=skill_dir,
-                skill=loaded_skill,
-                tools=tuple(loaded_tools),
+                code=descriptor.code,
+                directory=descriptor.directory,
+                skill=load_skill_descriptor(descriptor),
+                tools=tuple(_load_skill_tools(descriptor.code)),
             )
         )
+
     return discovered
 
 
 def _load_skill(skill_dir: Path) -> models.Skill:
-    """Load a rendered Python skill when available, otherwise load SKILL.md."""
+    """Load a rendered Python skill when available, otherwise raw SKILL.md."""
 
     skill_code = skill_dir.name
     module_name = f"app.skills.{skill_code}.{skill_code}"
@@ -74,39 +108,27 @@ def _load_skill(skill_dir: Path) -> models.Skill:
         return skills.load_skill_from_dir(skill_dir)
 
     if not isinstance(loaded_skill, models.Skill):
-        raise RuntimeError(f"{module_name}:{object_name} must be an ADK Skill.")
+        raise RuntimeError(
+            f"{module_name}:{object_name} must be an ADK Skill."
+        )
 
     return loaded_skill
 
 
 def _load_skill_tools(skill_code: str) -> list[Any]:
-    """
-    Load tools using the convention:
+    """Load tool callables without importing the full skill module."""
 
-        app.skills.<skill_code>.tools:get_tools
-    """
+    module_name = f"app.skills.{skill_code}.tools"
 
-    module_names = [
-        f"app.skills.{skill_code}.{skill_code}",
-        f"app.skills.{skill_code}.tools",
-    ]
+    try:
+        module = import_module(module_name)
+    except ModuleNotFoundError as exc:
+        if exc.name == module_name:
+            return []
+        raise
 
-    for module_name in module_names:
-        try:
-            module = import_module(module_name)
-        except ModuleNotFoundError as exc:
-            # Skill có thể chỉ chứa prompt và không có Python tool.
-            if exc.name == module_name:
-                continue
+    get_tools = getattr(module, "get_tools", None)
+    if get_tools is None:
+        return []
 
-            # Nếu lỗi xảy ra bên trong module thì phải báo lỗi thật.
-            raise
-
-        get_tools = getattr(module, "get_tools", None)
-
-        if get_tools is None:
-            continue
-
-        return list(get_tools())
-
-    return []
+    return list(get_tools())
