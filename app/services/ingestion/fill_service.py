@@ -49,3 +49,6 @@ class FillService:
             "edges": len(patch.edges),
             "nodeIds": node_ids,
         }
+
+    def close(self) -> None:
+        self.client.close()

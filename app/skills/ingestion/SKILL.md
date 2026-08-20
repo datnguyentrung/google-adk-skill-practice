@@ -1,9 +1,14 @@
 ---
-name: product-sales-kg-ingestion
+name: ingestion
 description: >
   Extract structured Product Sales Knowledge Graph data from business
   documents using the Product Sales ontology, validate the resulting
   GraphPatch, and optionally persist it to Neo4j.
+metadata:
+  adk_additional_tools:
+    - prepare_extraction_context
+    - validate_graph_patch
+    - fill_graph_patch
 ---
 
 # Product Sales Knowledge Graph Ingestion

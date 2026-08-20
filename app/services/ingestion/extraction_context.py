@@ -13,54 +13,52 @@ class ExtractionContextBuilder:
         lines: list[str] = []
 
         for class_name in self.registry.list_classes():
-            ontology_class = self.registry.get_class(
-                class_name
-            )
+            ontology_class = self.registry.get_class(class_name)
 
             if ontology_class is None:
                 continue
 
-            lines.append(
-                f"CLASS {ontology_class.technical_name}"
-            )
+            lines.append(f"CLASS: {ontology_class.technical_name}")
 
-            lines.append(
-                f"  name: {ontology_class.name}"
-            )
+            lines.append(f"NAME: {ontology_class.name}")
 
-            lines.append(
-                f"  definition: "
-                f"{ontology_class.definition}"
-            )
+            lines.append(f"DEFINITION: {ontology_class.definition}")
 
-            attributes = (
-                self.registry.properties_from_class(
-                    ontology_class.technical_name
-                )
-            )
-
-            if attributes:
-                lines.append("  properties:")
-
-                for attribute in attributes:
-                    lines.append(
-                        f"    - "
-                        f"{attribute.technical_name}"
-                        f" -> {attribute.range}"
-                    )
-
-            edges = self.registry.edges_from_class(
+            properties = self.registry.properties_from_class(
                 ontology_class.technical_name
             )
 
+            if properties:
+                lines.append("PROPERTIES:")
+
+                for attribute in properties:
+                    lines.append(
+                        f"  - {attribute.technical_name} | range={attribute.range}"
+                    )
+
+            edges = self.registry.edges_from_class(ontology_class.technical_name)
+
             if edges:
-                lines.append("  outgoing_edges:")
+                lines.append("OUTGOING EDGES:")
 
                 for edge in edges:
                     lines.append(
-                        f"    - "
+                        "  - "
                         f"{edge.technical_name}"
-                        f" -> {edge.range}"
+                        f" | domain={edge.domain}"
+                        f" | range={edge.range}"
+                    )
+
+            if ontology_class.rules:
+                lines.append("RULES:")
+
+                for rule in ontology_class.rules:
+                    lines.append(
+                        "  - "
+                        f"{rule.property}"
+                        f" | operator={rule.operator}"
+                        f" | value={rule.value}"
+                        f" | qualifier={rule.qualifier}"
                     )
 
             lines.append("")
@@ -79,10 +77,7 @@ class ExtractionContextBuilder:
                     [
                         f"[CHUNK {chunk.index}]",
                         f"SOURCE: {chunk.source}",
-                        (
-                            f"SECTION: "
-                            f"{chunk.section or 'N/A'}"
-                        ),
+                        (f"SECTION: {chunk.section or 'N/A'}"),
                         chunk.content,
                     ]
                 )

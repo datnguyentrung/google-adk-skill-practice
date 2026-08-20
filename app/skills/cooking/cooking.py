@@ -1,12 +1,11 @@
 """Cooking skill instructions for the root agent."""
 
-from app.tools.cooking_tools import get_cooking_tools
 import json
 from pathlib import Path
 
 from app.core.schemas.cooking import COOKING_STATE_KEY, CookingState
 from app.skills.skill_template import load_rendered_skill_from_dir
-from app.tools.cooking_tools import COOKING_TOOLS
+from app.tools.cooking_tools import COOKING_TOOLS, get_cooking_tools
 
 _SKILL_DIR = Path(__file__).resolve().parent
 _DEFAULT_TOP_K = 5
@@ -43,8 +42,10 @@ cooking_skill = load_rendered_skill_from_dir(
     _build_cooking_substitutions(),
 )
 
+
 def get_tools() -> list:
     """Return all Python tools available to the cooking skill."""
     return list(get_cooking_tools())
+
 
 __all__ = ["cooking_skill"]
