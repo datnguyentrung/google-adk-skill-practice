@@ -3,7 +3,6 @@ import inspect
 from pathlib import Path
 from types import SimpleNamespace
 
-from google.adk.skills import load_skill_from_dir
 from google.adk.agents.invocation_context import (
     InvocationContext,
     new_invocation_context_id,
@@ -11,6 +10,7 @@ from google.adk.agents.invocation_context import (
 from google.adk.agents.readonly_context import ReadonlyContext
 from google.adk.agents.run_config import RunConfig
 from google.adk.sessions import InMemorySessionService
+from google.adk.skills import load_skill_from_dir
 from google.adk.tools import FunctionTool
 
 from app.agent import root_agent, root_skill_toolset

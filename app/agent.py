@@ -3,7 +3,6 @@ from pathlib import Path
 from google.adk.agents import Agent
 from google.adk.tools.skill_toolset import SkillToolset
 
-from app.services.agent_ops.adk_instrumentation import build_agent
 from app.skills.root_prompt_renderer import render_root_agent_prompt
 from app.skills.skill_loader import discover_skills
 
@@ -33,8 +32,7 @@ def create_root_agent() -> Agent:
         additional_tools=additional_tools,
     )
 
-    return build_agent(
-        Agent,
+    return Agent(
         name="root_agent",
         model="gemini-3.1-flash-lite",
         description=(

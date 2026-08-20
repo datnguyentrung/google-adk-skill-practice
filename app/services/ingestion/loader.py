@@ -1,5 +1,5 @@
-from fastapi import Path
-from fsspec import json
+import json
+from pathlib import Path
 
 from app.core.schemas.ingestion.models import OntologyDefinition
 
@@ -7,7 +7,7 @@ from app.core.schemas.ingestion.models import OntologyDefinition
 class OntologyLoader:
     # Load ontology từ file JSON
     @staticmethod
-    def load(path: str | Path()) -> OntologyDefinition:
+    def load(path: str | Path) -> OntologyDefinition:
         ontology_path = Path(path)
 
         # 1. Kiểm tra sự tồn tại của file
