@@ -1,6 +1,6 @@
 # Ingestion correction examples
 
-## Property shape
+## Property shape and evidence
 
 Wrong:
 
@@ -8,49 +8,62 @@ Wrong:
 "properties": {"pskg:productCode": "CC-FLEXI-001"}
 ```
 
+Also wrong: a property entry without evidence.
+
 Correct:
 
 ```json
-"properties": [
-  {"propertyName": "pskg:productCode", "value": "CC-FLEXI-001"}
-]
+"properties": [{
+  "propertyName": "pskg:productCode",
+  "value": "CC-FLEXI-001",
+  "evidence": [{
+    "source": "example.md",
+    "chunkIndex": 1,
+    "section": "Product information",
+    "text": "Product code: CC-FLEXI-001"
+  }]
+}]
 ```
 
-## Technical names
+Evidence text must be a verbatim excerpt from that exact chunk.
 
-Wrong: `pskg`, `productCode`, or `pskg:`.
+## Missing coverage
 
-Correct: `pskg:BankingProduct`, `pskg:productCode`, and
-`pskg:hasEligibilityRule`.
+If prepare returns chunks `0..12` but coverage mentions only chunks 0 and 5, validation returns `COVERAGE_MISSING`.
+
+Do not simply mark all missing chunks `NOT_RELEVANT`. Inspect each missing chunk and map any ontology-relevant business facts first.
+
+A `MAPPED` chunk must be referenced by at least one node/property/edge evidence item.
+
+## Hallucinated status
+
+Source:
+
+```text
+Product code: CC-FLEXI-001
+Effective date: 01/08/2026
+```
+
+Wrong:
+
+```json
+{"propertyName":"pskg:bankingProductStatus","value":"Published", "evidence":[...]}
+```
+
+Because the cited source does not state `Published`, validation returns `PROPERTY_VALUE_NOT_GROUNDED`. Omit the status and allow persistence readiness to report the missing governance value.
+
+## Granularity
+
+If one document contains a named campaign, four distinct customer segments, several required document types, and multiple eligibility conditions, do not compress all of that into one generic `SalesKnowledge` node.
+
+Prefer the most specific ontology classes and preserve independently queryable units. Use `SalesKnowledge` only for explanatory content that has no more specific representation.
 
 ## Date mapping
 
-If a Vietnamese source clearly states an effective date `01/08/2026`, emit
-`2026-08-01`. If the locale or meaning is ambiguous, warn and do not guess.
-
-## Missing status
-
-If the document supports product code and effective date but never states a
-status, omit status. Expected validation shape:
-
-```json
-{
-  "validForExtraction": true,
-  "validForPersistence": false,
-  "errors": [],
-  "readinessIssues": [
-    {"code": "ONTOLOGY_RULE_UNSATISFIED"}
-  ]
-}
-```
-
-Do not add `Published` to make fill possible.
+If source context makes `01/08/2026` unambiguously 1 August 2026, emit `2026-08-01`. If locale/meaning is ambiguous, warn and do not guess.
 
 ## Correction and revalidation
 
-If validation reports `PROPERTY_DATATYPE_MISMATCH` for an emitted date:
+For `COVERAGE_MISSING`, revisit each missing chunk. For `EVIDENCE_TEXT_NOT_IN_SOURCE`, replace the paraphrase with a real excerpt. For `PROPERTY_VALUE_NOT_GROUNDED`, remove or correct the unsupported literal value.
 
-1. Re-read the date and locale from the source.
-2. Correct it to ISO only if unambiguous.
-3. Submit the entire corrected draft to validation.
-4. Fill only after both validation flags return true.
+After any change, submit the complete draft to validation again. Fill only after both validation flags are true in the same invocation.

@@ -5,36 +5,41 @@ from app.services.ingestion.graph_patch_compiler import CompiledGraphPatch
 from app.services.ingestion.validate_graph_patch import GraphPatchValidationService
 
 
+def source_chunks():
+    return [
+        {
+            "index": 0,
+            "source": "source.md",
+            "section": "Fixture",
+            "content": "P-1 Published 01/08/2026 Rule Eligibility",
+        }
+    ]
+
+
 def ready_patch() -> dict:
+    product_ev = [{"source": "source.md", "chunkIndex": 0, "section": "Fixture", "text": "P-1 Published 01/08/2026"}]
+    rule_ev = [{"source": "source.md", "chunkIndex": 0, "section": "Fixture", "text": "Rule"}]
+    edge_ev = [{"source": "source.md", "chunkIndex": 0, "section": "Fixture", "text": "Eligibility"}]
     return {
         "nodes": [
             {
                 "tempId": "product-1",
                 "className": "pskg:BankingProduct",
                 "properties": [
-                    {"propertyName": "pskg:productCode", "value": "P-1"},
-                    {
-                        "propertyName": "pskg:bankingProductStatus",
-                        "value": "Published",
-                    },
-                    {
-                        "propertyName": "pskg:bankingProductEffectiveFrom",
-                        "value": "2026-08-01",
-                    },
+                    {"propertyName": "pskg:productCode", "value": "P-1", "evidence": product_ev},
+                    {"propertyName": "pskg:bankingProductStatus", "value": "Published", "evidence": product_ev},
+                    {"propertyName": "pskg:bankingProductEffectiveFrom", "value": "2026-08-01", "evidence": product_ev},
                 ],
-                "evidence": [{"source": "source.md", "text": "P-1"}],
+                "evidence": product_ev,
                 "confidence": 1.0,
             },
             {
                 "tempId": "rule-1",
                 "className": "pskg:BusinessRule",
                 "properties": [
-                    {
-                        "propertyName": "pskg:businessRuleStatus",
-                        "value": "Published",
-                    }
+                    {"propertyName": "pskg:businessRuleStatus", "value": "Published", "evidence": product_ev}
                 ],
-                "evidence": [{"source": "source.md", "text": "Rule"}],
+                "evidence": rule_ev,
                 "confidence": 1.0,
             },
         ],
@@ -43,10 +48,11 @@ def ready_patch() -> dict:
                 "edgeName": "pskg:hasEligibilityRule",
                 "sourceTempId": "product-1",
                 "targetTempId": "rule-1",
-                "evidence": [{"source": "source.md", "text": "Eligibility"}],
+                "evidence": edge_ev,
                 "confidence": 1.0,
             }
         ],
+        "coverage": [{"chunkIndex": 0, "decision": "MAPPED", "reason": "Fixture facts"}],
         "warnings": [],
     }
 
@@ -142,7 +148,7 @@ def test_persistence_not_ready_patch_does_not_acquire_driver():
     )
 
     with pytest.raises(FillValidationError):
-        service.fill(patch, None)
+        service.fill(patch, None, source_chunks())
 
     assert client.driver_calls == 0
 
@@ -156,7 +162,7 @@ def test_valid_patch_writes_compiled_patch_atomically():
         writer=writer,
     )
 
-    result = service.fill(ready_patch(), "artifact")
+    result = service.fill(ready_patch(), "artifact", source_chunks())
 
     assert result["status"] == "success"
     assert isinstance(writer.patch, CompiledGraphPatch)
@@ -173,7 +179,7 @@ def test_failure_during_graph_write_rolls_back_transaction():
     )
 
     with pytest.raises(RuntimeError, match="edge write failed"):
-        service.fill(ready_patch(), "artifact")
+        service.fill(ready_patch(), "artifact", source_chunks())
 
     assert client.driver.last_session.tx.committed is False
     assert client.driver.last_session.tx.rolled_back is True

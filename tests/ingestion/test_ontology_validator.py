@@ -2,17 +2,23 @@ from app.services.ingestion.validate_graph_patch import GraphPatchValidationServ
 
 
 def node_patch(class_name: str, properties: list[dict]) -> dict:
+    evidence = [{"source": "source.md", "chunkIndex": 0, "text": "Evidence"}]
+    normalized_properties = [
+        {**item, "evidence": item.get("evidence", evidence)}
+        for item in properties
+    ]
     return {
         "nodes": [
             {
                 "tempId": "node-1",
                 "className": class_name,
-                "properties": properties,
-                "evidence": [{"source": "source.md", "text": "Evidence"}],
+                "properties": normalized_properties,
+                "evidence": evidence,
                 "confidence": 1.0,
             }
         ],
         "edges": [],
+        "coverage": [{"chunkIndex": 0, "decision": "MAPPED", "reason": "Fixture evidence"}],
         "warnings": [],
     }
 

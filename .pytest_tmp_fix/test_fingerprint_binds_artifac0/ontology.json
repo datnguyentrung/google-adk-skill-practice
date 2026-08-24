@@ -1,0 +1,2770 @@
+{
+  "sourceDir": "ProductSalesKnowledgeGraphBase",
+  "sourceFiles": [
+    "PRODUCT_SALES_KNOWLEDGE_GRAPH_BASE.xlsx"
+  ],
+  "summary": {
+    "sourceFiles": 1,
+    "classes": 15,
+    "edges": 36,
+    "attributes": 82
+  },
+  "classes": [
+    {
+      "name": "banking product",
+      "technicalName": "pskg:BankingProduct",
+      "localName": "BankingProduct",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#BankingProduct",
+      "label": "banking product",
+      "definition": "A retail financial product managed in the catalog and made available for customer sale/advice, e.g. cards, loans, deposits, payment accounts, or attached insurance. [AI-sales projection] Recommendation/advice uses only Published products that are currently effective and pass eligibility.",
+      "parents": [
+        "fibo-fbc-pas-fpas:FinancialProduct"
+      ],
+      "rules": [
+        {
+          "property": "pskg:productCode",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:bankingProductName",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:productClassification",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:anyURI"
+        },
+        {
+          "property": "pskg:bankingProductPrice",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "pskg:fee",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "pskg:bankingProductVersionNumber",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:bankingProductStatus",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:bankingProductEffectiveFrom",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:date"
+        },
+        {
+          "property": "pskg:bankingProductEffectiveTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:date"
+        },
+        {
+          "property": "pskg:productAttributes",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:hasOffer",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "product offer"
+        },
+        {
+          "property": "pskg:inCampaign",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "campaign"
+        },
+        {
+          "property": "pskg:classifiedAs",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "product category"
+        },
+        {
+          "property": "pskg:targetsSegment",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "customer segment"
+        },
+        {
+          "property": "pskg:satisfiesNeed",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "customer need"
+        },
+        {
+          "property": "pskg:hasEligibilityRule",
+          "operator": "some",
+          "value": "business rule",
+          "qualifier": null
+        },
+        {
+          "property": "pskg:hasSalesConditionRule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "business rule"
+        },
+        {
+          "property": "pskg:governedByPolicy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "business rule"
+        },
+        {
+          "property": "pskg:hasScript",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "sales script"
+        },
+        {
+          "property": "pskg:hasSkill",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "sales skill"
+        },
+        {
+          "property": "pskg:hasKnowledge",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "sales knowledge"
+        },
+        {
+          "property": "pskg:requiresDocument",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "required document"
+        },
+        {
+          "property": "pskg:crossSellWith",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "banking product"
+        },
+        {
+          "property": "pskg:upsellTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "banking product"
+        },
+        {
+          "property": "pskg:substituteFor",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "banking product"
+        },
+        {
+          "property": "pskg:complements",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "banking product"
+        },
+        {
+          "property": "pskg:excludes",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "banking product"
+        },
+        {
+          "property": "pskg:partOfBundle",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "product bundle"
+        },
+        {
+          "property": "pskg:bankingProductStatus",
+          "operator": "some",
+          "value": "Published",
+          "qualifier": null
+        },
+        {
+          "property": "pskg:bankingProductEffectiveFrom",
+          "operator": "some",
+          "value": "xsd:date",
+          "qualifier": null
+        },
+        {
+          "property": "pskg:hasVersion",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "version"
+        }
+      ]
+    },
+    {
+      "name": "product offer",
+      "technicalName": "pskg:ProductOffer",
+      "localName": "ProductOffer",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#ProductOffer",
+      "label": "product offer",
+      "definition": "A sale-specific offer attached to exactly one BankingProduct, with price/discount/benefit, conditions and validity.",
+      "parents": [
+        "fibo-fbc-pas-fpas:Offering"
+      ],
+      "rules": [
+        {
+          "property": "pskg:productOfferPrice",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "pskg:discount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "pskg:benefit",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:productOfferCondition",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:productOfferEffectiveFrom",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:date"
+        },
+        {
+          "property": "pskg:productOfferEffectiveTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:date"
+        },
+        {
+          "property": "pskg:productOfferStatus",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:productOfferVersionNumber",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:offerInCampaign",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "campaign"
+        },
+        {
+          "property": "pskg:offerTargetsSegment",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "customer segment"
+        },
+        {
+          "property": "pskg:offerAddressesNeed",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "customer need"
+        },
+        {
+          "property": "pskg:offerHasRule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "business rule"
+        },
+        {
+          "property": "pskg:offerHasScript",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "sales script"
+        },
+        {
+          "property": "pskg:productOfferStatus",
+          "operator": "some",
+          "value": "Published",
+          "qualifier": null
+        },
+        {
+          "property": "pskg:hasVersion",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "version"
+        }
+      ]
+    },
+    {
+      "name": "campaign",
+      "technicalName": "pskg:Campaign",
+      "localName": "Campaign",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#Campaign",
+      "label": "campaign",
+      "definition": "A time-bound sales/marketing campaign that groups products/offers, targets segments/needs and carries campaign benefits and budget.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "pskg:campaignName",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:objective",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:campaignEffectiveFrom",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:dateTime"
+        },
+        {
+          "property": "pskg:campaignEffectiveTo",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:dateTime"
+        },
+        {
+          "property": "pskg:campaignBenefit",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:budget",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:decimal"
+        },
+        {
+          "property": "pskg:campaignStatus",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:campaignVersionNumber",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:campaignTargetsSegment",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "customer segment"
+        },
+        {
+          "property": "pskg:campaignTargetsNeed",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "customer need"
+        },
+        {
+          "property": "pskg:campaignHasRule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "business rule"
+        },
+        {
+          "property": "pskg:campaignHasScript",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "sales script"
+        },
+        {
+          "property": "pskg:campaignStatus",
+          "operator": "some",
+          "value": "Running",
+          "qualifier": null
+        },
+        {
+          "property": "pskg:hasVersion",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "version"
+        }
+      ]
+    },
+    {
+      "name": "product category",
+      "technicalName": "pskg:ProductCategory",
+      "localName": "ProductCategory",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#ProductCategory",
+      "label": "product category",
+      "definition": "Managed classification/taxonomy concept used to organize products and support filtering, semantic grouping and inheritance.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "pskg:categoryName",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:categoryCode",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:parentCategory",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:anyURI"
+        }
+      ]
+    },
+    {
+      "name": "customer segment",
+      "technicalName": "pskg:CustomerSegment",
+      "localName": "CustomerSegment",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#CustomerSegment",
+      "label": "customer segment",
+      "definition": "A reusable customer grouping used to target products/offers/campaigns and prioritize recommendations.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "pskg:segmentName",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:segmentCode",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:segmentDescription",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "customer need",
+      "technicalName": "pskg:CustomerNeed",
+      "localName": "CustomerNeed",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#CustomerNeed",
+      "label": "customer need",
+      "definition": "A reusable business concept representing a customer need used to match and prioritize products/offers/campaigns.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "pskg:needName",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:needCode",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:needDescription",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "business rule",
+      "technicalName": "pskg:BusinessRule",
+      "localName": "BusinessRule",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#BusinessRule",
+      "label": "business rule",
+      "definition": "A governed, versioned business rule representing eligibility, sales condition or policy logic with applicability scope and priority.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "pskg:ruleType",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:businessRuleCondition",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:priority",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:integer"
+        },
+        {
+          "property": "pskg:businessRuleVersionNumber",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:businessRuleStatus",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:ruleAppliesToSegment",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "customer segment"
+        },
+        {
+          "property": "pskg:businessRuleStatus",
+          "operator": "some",
+          "value": "Published",
+          "qualifier": null
+        },
+        {
+          "property": "pskg:hasVersion",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "version"
+        }
+      ]
+    },
+    {
+      "name": "sales script",
+      "technicalName": "pskg:SalesScript",
+      "localName": "SalesScript",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#SalesScript",
+      "label": "sales script",
+      "definition": "Governed sales/advisory script for a situation, including opening, objection handling and closing, attachable to product/offer/campaign.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "pskg:scenario",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:openingLine",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:objectionHandling",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:closingLine",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:salesScriptVersionNumber",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:salesScriptStatus",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:usesSkill",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "sales skill"
+        },
+        {
+          "property": "pskg:salesScriptStatus",
+          "operator": "some",
+          "value": "Published",
+          "qualifier": null
+        },
+        {
+          "property": "pskg:hasVersion",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "version"
+        }
+      ]
+    },
+    {
+      "name": "sales skill",
+      "technicalName": "pskg:SalesSkill",
+      "localName": "SalesSkill",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#SalesSkill",
+      "label": "sales skill",
+      "definition": "Governed AI sales capability/skill content containing guidance, process and instructions associated with products or product classifications.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "pskg:salesSkillName",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:salesSkillDescription",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:salesSkillContent",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:salesSkillVersionNumber",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:salesSkillStatus",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:salesSkillStatus",
+          "operator": "some",
+          "value": "Published",
+          "qualifier": null
+        },
+        {
+          "property": "pskg:hasVersion",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "version"
+        }
+      ]
+    },
+    {
+      "name": "sales knowledge",
+      "technicalName": "pskg:SalesKnowledge",
+      "localName": "SalesKnowledge",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#SalesKnowledge",
+      "label": "sales knowledge",
+      "definition": "Governed knowledge asset such as FAQ, article, document, guide or sales playbook used to answer product questions.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "pskg:knowledgeType",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:tags",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:title",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:salesKnowledgeContent",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:salesKnowledgeVersionNumber",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:salesKnowledgeStatus",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:salesKnowledgeStatus",
+          "operator": "some",
+          "value": "Published",
+          "qualifier": null
+        },
+        {
+          "property": "pskg:hasVersion",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "version"
+        }
+      ]
+    },
+    {
+      "name": "required document",
+      "technicalName": "pskg:RequiredDocument",
+      "localName": "RequiredDocument",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#RequiredDocument",
+      "label": "required document",
+      "definition": "A required document concept describing the type of evidence a customer must provide, including copy count and validity condition.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "pskg:documentType",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:copyCount",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:integer"
+        },
+        {
+          "property": "pskg:validityCondition",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:requiredDocumentVersionNumber",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:requiredDocumentStatus",
+          "operator": "exactlyQualified",
+          "value": "1",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:documentName",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:requiredDocumentDescription",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:documentHasRule",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "business rule"
+        },
+        {
+          "property": "pskg:requiredDocumentStatus",
+          "operator": "some",
+          "value": "Published",
+          "qualifier": null
+        },
+        {
+          "property": "pskg:hasVersion",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "version"
+        }
+      ]
+    },
+    {
+      "name": "product bundle",
+      "technicalName": "pskg:ProductBundle",
+      "localName": "ProductBundle",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#ProductBundle",
+      "label": "product bundle",
+      "definition": "A managed grouping of at least two effective BankingProducts intended to be sold together.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "pskg:bundleName",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:bundleCode",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:productBundleStatus",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        }
+      ]
+    },
+    {
+      "name": "approval task",
+      "technicalName": "pskg:ApprovalTask",
+      "localName": "ApprovalTask",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#ApprovalTask",
+      "label": "approval task",
+      "definition": "Governance record for approval of a catalog object, including approval chain, approver, comment, status and history.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "pskg:approvalChain",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:approver",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:anyURI"
+        },
+        {
+          "property": "pskg:comment",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:approvalTaskStatus",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:approvalHistory",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:approvalTaskId",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:stepOrder",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:integer"
+        }
+      ]
+    },
+    {
+      "name": "version",
+      "technicalName": "pskg:Version",
+      "localName": "Version",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#Version",
+      "label": "version",
+      "definition": "A version record of a managed catalog object, capturing creator, time, changes and description for compare/rollback.",
+      "parents": [],
+      "rules": [
+        {
+          "property": "pskg:versionVersionNumber",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:createdBy",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:anyURI"
+        },
+        {
+          "property": "pskg:createdAt",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:dateTime"
+        },
+        {
+          "property": "pskg:change",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:versionDescription",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:isPublishedVersion",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:boolean"
+        },
+        {
+          "property": "pskg:hasApprovalTask",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "approval task"
+        }
+      ]
+    },
+    {
+      "name": "customer",
+      "technicalName": "pskg:Customer",
+      "localName": "Customer",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#Customer",
+      "label": "customer",
+      "definition": "Customer entity whose current segment, needs, behavior context and current products provide the context for recommendation.",
+      "parents": [
+        "fibo-fnd-pas-pas:Customer"
+      ],
+      "rules": [
+        {
+          "property": "pskg:customerIdentifier",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:behaviorContext",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "xsd:string"
+        },
+        {
+          "property": "pskg:inSegment",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "customer segment"
+        },
+        {
+          "property": "pskg:hasNeed",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "customer need"
+        },
+        {
+          "property": "pskg:currentlyUses",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "banking product"
+        },
+        {
+          "property": "pskg:recommendedProduct",
+          "operator": "minQualified",
+          "value": "0",
+          "qualifier": "banking product"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "kind": "edge",
+      "name": "has offer",
+      "technicalName": "pskg:hasOffer",
+      "localName": "hasOffer",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#hasOffer",
+      "label": "has offer",
+      "definition": "Links a product to its sale offer(s). [Business constraint] Every ProductOffer must be linked to exactly one BankingProduct (BR-03).",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "product offer"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "in campaign",
+      "technicalName": "pskg:inCampaign",
+      "localName": "inCampaign",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#inCampaign",
+      "label": "in campaign",
+      "definition": "Links a product directly to a campaign in which it participates. [Business constraint] Campaign must be active to be used for sales (BR-02).",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "campaign"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "offer in campaign",
+      "technicalName": "pskg:offerInCampaign",
+      "localName": "offerInCampaign",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#offerInCampaign",
+      "label": "offer in campaign",
+      "definition": "Links an offer to the campaign(s) in which it is used. [Business constraint] Campaign and Offer must both be usable/active for sales.",
+      "domain": [
+        "product offer"
+      ],
+      "range": [
+        "campaign"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "classified as",
+      "technicalName": "pskg:classifiedAs",
+      "localName": "classifiedAs",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#classifiedAs",
+      "label": "classified as",
+      "definition": "Assigns a product to one or more managed product classifications.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "product category"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "targets segment",
+      "technicalName": "pskg:targetsSegment",
+      "localName": "targetsSegment",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#targetsSegment",
+      "label": "targets segment",
+      "definition": "Indicates a customer segment for which a product is targeted/relevant.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "customer segment"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "satisfies need",
+      "technicalName": "pskg:satisfiesNeed",
+      "localName": "satisfiesNeed",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#satisfiesNeed",
+      "label": "satisfies need",
+      "definition": "Links a product to customer needs it is intended to satisfy.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "customer need"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "campaign targets segment",
+      "technicalName": "pskg:campaignTargetsSegment",
+      "localName": "campaignTargetsSegment",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#campaignTargetsSegment",
+      "label": "campaign targets segment",
+      "definition": "Targets a campaign to one or more customer segments. [Business constraint] Segment must be valid when campaign is published (workflow §9.4).",
+      "domain": [
+        "campaign"
+      ],
+      "range": [
+        "customer segment"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "campaign targets need",
+      "technicalName": "pskg:campaignTargetsNeed",
+      "localName": "campaignTargetsNeed",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#campaignTargetsNeed",
+      "label": "campaign targets need",
+      "definition": "Targets a campaign to one or more customer needs.",
+      "domain": [
+        "campaign"
+      ],
+      "range": [
+        "customer need"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "offer targets segment",
+      "technicalName": "pskg:offerTargetsSegment",
+      "localName": "offerTargetsSegment",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#offerTargetsSegment",
+      "label": "offer targets segment",
+      "definition": "Links an offer to the segment(s) it targets.",
+      "domain": [
+        "product offer"
+      ],
+      "range": [
+        "customer segment"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "offer addresses need",
+      "technicalName": "pskg:offerAddressesNeed",
+      "localName": "offerAddressesNeed",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#offerAddressesNeed",
+      "label": "offer addresses need",
+      "definition": "Links an offer to needs for which its proposition is relevant.",
+      "domain": [
+        "product offer"
+      ],
+      "range": [
+        "customer need"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has eligibility rule",
+      "technicalName": "pskg:hasEligibilityRule",
+      "localName": "hasEligibilityRule",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#hasEligibilityRule",
+      "label": "has eligibility rule",
+      "definition": "Attaches eligibility rules to a product; target rules must have ruleType=ELIGIBILITY. [Business constraint] Target BusinessRule.ruleType = ELIGIBILITY; must evaluate before recommendation (BR-08).",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "business rule"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has sales condition rule",
+      "technicalName": "pskg:hasSalesConditionRule",
+      "localName": "hasSalesConditionRule",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#hasSalesConditionRule",
+      "label": "has sales condition rule",
+      "definition": "Attaches sales-condition rules to a product. [Business constraint] Target BusinessRule.ruleType = SALES_CONDITION.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "business rule"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "governed by policy",
+      "technicalName": "pskg:governedByPolicy",
+      "localName": "governedByPolicy",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#governedByPolicy",
+      "label": "governed by policy",
+      "definition": "Attaches policy-type BusinessRules to a product. [Business constraint] Target BusinessRule.ruleType = POLICY.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "business rule"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "offer has rule",
+      "technicalName": "pskg:offerHasRule",
+      "localName": "offerHasRule",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#offerHasRule",
+      "label": "offer has rule",
+      "definition": "Attaches offer-specific eligibility/sales/policy rules to an offer.",
+      "domain": [
+        "product offer"
+      ],
+      "range": [
+        "business rule"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "campaign has rule",
+      "technicalName": "pskg:campaignHasRule",
+      "localName": "campaignHasRule",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#campaignHasRule",
+      "label": "campaign has rule",
+      "definition": "Attaches rules governing campaign applicability or operation.",
+      "domain": [
+        "campaign"
+      ],
+      "range": [
+        "business rule"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "rule applies to segment",
+      "technicalName": "pskg:ruleAppliesToSegment",
+      "localName": "ruleAppliesToSegment",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#ruleAppliesToSegment",
+      "label": "rule applies to segment",
+      "definition": "Limits or scopes a business rule to one or more customer segments.",
+      "domain": [
+        "business rule"
+      ],
+      "range": [
+        "customer segment"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has script",
+      "technicalName": "pskg:hasScript",
+      "localName": "hasScript",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#hasScript",
+      "label": "has script",
+      "definition": "Links a product to approved sales scripts applicable to it. [Business constraint] Sales content may only be used after approval and publish (BR-15).",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "sales script"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "offer has script",
+      "technicalName": "pskg:offerHasScript",
+      "localName": "offerHasScript",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#offerHasScript",
+      "label": "offer has script",
+      "definition": "Links a sales script directly to a specific offer. [Business constraint] Sales content must be approved/published (BR-15).",
+      "domain": [
+        "product offer"
+      ],
+      "range": [
+        "sales script"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "campaign has script",
+      "technicalName": "pskg:campaignHasScript",
+      "localName": "campaignHasScript",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#campaignHasScript",
+      "label": "campaign has script",
+      "definition": "Links a campaign to campaign-specific sales scripts. [Business constraint] Campaign active; Script approved/published.",
+      "domain": [
+        "campaign"
+      ],
+      "range": [
+        "sales script"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has skill",
+      "technicalName": "pskg:hasSkill",
+      "localName": "hasSkill",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#hasSkill",
+      "label": "has skill",
+      "definition": "Links a product to sales skills/capabilities relevant to advising on it. [Business constraint] Skill must be approved/published before use (BR-15).",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "sales skill"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has knowledge",
+      "technicalName": "pskg:hasKnowledge",
+      "localName": "hasKnowledge",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#hasKnowledge",
+      "label": "has knowledge",
+      "definition": "Links product to FAQ/article/document/playbook knowledge assets. [Business constraint] Knowledge must be approved/published before use (BR-15/20).",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "sales knowledge"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "requires document",
+      "technicalName": "pskg:requiresDocument",
+      "localName": "requiresDocument",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#requiresDocument",
+      "label": "requires document",
+      "definition": "Links a product to documents the customer must provide. [Business constraint] Applies only for published, active Product (BR-14); document content approved/published (BR-15).",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "required document"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "document has rule",
+      "technicalName": "pskg:documentHasRule",
+      "localName": "documentHasRule",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#documentHasRule",
+      "label": "document has rule",
+      "definition": "Links required-document semantics to rules that validate/apply to the requirement.",
+      "domain": [
+        "required document"
+      ],
+      "range": [
+        "business rule"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "uses skill",
+      "technicalName": "pskg:usesSkill",
+      "localName": "usesSkill",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#usesSkill",
+      "label": "uses skill",
+      "definition": "Links a sales script to supporting AI sales skills.",
+      "domain": [
+        "sales script"
+      ],
+      "range": [
+        "sales skill"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "cross sell with",
+      "technicalName": "pskg:crossSellWith",
+      "localName": "crossSellWith",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#crossSellWith",
+      "label": "cross sell with",
+      "definition": "Indicates products that may be proposed as complementary cross-sell candidates from a source product. [Business constraint] Evaluate relationship.condition; source != target (BR-12); target must be active and customer eligible before recommendation.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "banking product"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "upsell to",
+      "technicalName": "pskg:upsellTo",
+      "localName": "upsellTo",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#upsellTo",
+      "label": "upsell to",
+      "definition": "Indicates a higher-tier or enhanced product that can be offered as an upgrade from the source product. [Business constraint] Evaluate relationship.condition; source != target (BR-12); target active, eligible and need-fit.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "banking product"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "substitute for",
+      "technicalName": "pskg:substituteFor",
+      "localName": "substituteFor",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#substituteFor",
+      "label": "substitute for",
+      "definition": "Indicates a product that can substitute for another product. [Business constraint] Use relationship.condition; direction determined by configured relationship semantics.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "banking product"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "complements",
+      "technicalName": "pskg:complements",
+      "localName": "complements",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#complements",
+      "label": "complements",
+      "definition": "Represents a product-product complementary relationship separate from a sales recommendation policy. [Business constraint] Direction follows relationship.direction; relationship.condition may constrain applicability.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "banking product"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "excludes",
+      "technicalName": "pskg:excludes",
+      "localName": "excludes",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#excludes",
+      "label": "excludes",
+      "definition": "Represents a product-product exclusion/incompatibility relationship. [Business constraint] Direction follows relationship.direction; condition may specify when exclusion applies.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "banking product"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "part of bundle",
+      "technicalName": "pskg:partOfBundle",
+      "localName": "partOfBundle",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#partOfBundle",
+      "label": "part of bundle",
+      "definition": "Links a product to a bundle that contains it. [Business constraint] Bundle must contain at least two effective products (BR-13).",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "product bundle"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "in segment",
+      "technicalName": "pskg:inSegment",
+      "localName": "inSegment",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#inSegment",
+      "label": "in segment",
+      "definition": "Represents customer membership in one or more segments used by recommendation.",
+      "domain": [
+        "customer"
+      ],
+      "range": [
+        "customer segment"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has need",
+      "technicalName": "pskg:hasNeed",
+      "localName": "hasNeed",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#hasNeed",
+      "label": "has need",
+      "definition": "Represents current customer needs relevant to the sales conversation.",
+      "domain": [
+        "customer"
+      ],
+      "range": [
+        "customer need"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "currently uses",
+      "technicalName": "pskg:currentlyUses",
+      "localName": "currentlyUses",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#currentlyUses",
+      "label": "currently uses",
+      "definition": "Links a customer to products currently used/held, as recommendation context.",
+      "domain": [
+        "customer"
+      ],
+      "range": [
+        "banking product"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "recommended product",
+      "technicalName": "pskg:recommendedProduct",
+      "localName": "recommendedProduct",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#recommendedProduct",
+      "label": "recommended product",
+      "definition": "Derived/ephemeral relationship representing a ranked recommended product for a customer context. [Business constraint] Candidate must be active/published, eligible, and evaluated with segment/need/current product/campaign context.",
+      "domain": [
+        "customer"
+      ],
+      "range": [
+        "banking product"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has version",
+      "technicalName": "pskg:hasVersion",
+      "localName": "hasVersion",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#hasVersion",
+      "label": "has version",
+      "definition": "Links a versioned managed catalog object to its Version records for provenance, history, comparison and rollback. [Business constraint] Published changes create a new version; only one published/effective version is current for an object (BR-06/09).",
+      "domain": [
+        "banking product",
+        "product offer",
+        "campaign",
+        "business rule",
+        "sales script",
+        "sales skill",
+        "sales knowledge",
+        "required document"
+      ],
+      "range": [
+        "version"
+      ]
+    },
+    {
+      "kind": "edge",
+      "name": "has approval task",
+      "technicalName": "pskg:hasApprovalTask",
+      "localName": "hasApprovalTask",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#hasApprovalTask",
+      "label": "has approval task",
+      "definition": "Links a Version to approval task(s)/steps governing that version before publish. [Business constraint] Approval precedes publish; creator cannot be final approver; AI uses only approved/published content (BR-01/19/20).",
+      "domain": [
+        "version"
+      ],
+      "range": [
+        "approval task"
+      ]
+    }
+  ],
+  "attributes": [
+    {
+      "kind": "property",
+      "name": "product code",
+      "technicalName": "pskg:productCode",
+      "localName": "productCode",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#productCode",
+      "label": "product code",
+      "definition": "Unique catalog code identifying a banking product. [Business constraint] BR-11: unique across the system.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "name",
+      "technicalName": "pskg:bankingProductName",
+      "localName": "bankingProductName",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#bankingProductName",
+      "label": "name",
+      "definition": "Human-readable product name.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "product classification",
+      "technicalName": "pskg:productClassification",
+      "localName": "productClassification",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#productClassification",
+      "label": "product classification",
+      "definition": "Classification/type assigned to the product.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "xsd:anyURI"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "price",
+      "technicalName": "pskg:bankingProductPrice",
+      "localName": "bankingProductPrice",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#bankingProductPrice",
+      "label": "price",
+      "definition": "Product price or pricing value where applicable.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "fee",
+      "technicalName": "pskg:fee",
+      "localName": "fee",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#fee",
+      "label": "fee",
+      "definition": "Fee associated with the product where applicable.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "version number",
+      "technicalName": "pskg:bankingProductVersionNumber",
+      "localName": "bankingProductVersionNumber",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#bankingProductVersionNumber",
+      "label": "version number",
+      "definition": "Version identifier/number for the product definition. [Business constraint] BR-06: published object changes require a new version; BR-09: only one published effective version.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "status",
+      "technicalName": "pskg:bankingProductStatus",
+      "localName": "bankingProductStatus",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#bankingProductStatus",
+      "label": "status",
+      "definition": "Lifecycle/publish status controlling whether the product can be used for selling. [Business constraint] BR-01/04/20: only approved→published, active data may be used for AI sales.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "effective from",
+      "technicalName": "pskg:bankingProductEffectiveFrom",
+      "localName": "bankingProductEffectiveFrom",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#bankingProductEffectiveFrom",
+      "label": "effective from",
+      "definition": "Start date/time of product sales validity. [Business constraint] BR-10: effectiveTo must be after effectiveFrom.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "xsd:date"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "effective to",
+      "technicalName": "pskg:bankingProductEffectiveTo",
+      "localName": "bankingProductEffectiveTo",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#bankingProductEffectiveTo",
+      "label": "effective to",
+      "definition": "End date/time of product sales validity. [Business constraint] BR-04/10/20: product must still be effective; effectiveTo > effectiveFrom.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "xsd:date"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "product attributes",
+      "technicalName": "pskg:productAttributes",
+      "localName": "productAttributes",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#productAttributes",
+      "label": "product attributes",
+      "definition": "Product-type-specific attributes not yet normalized by BA.",
+      "domain": [
+        "banking product"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "price",
+      "technicalName": "pskg:productOfferPrice",
+      "localName": "productOfferPrice",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#productOfferPrice",
+      "label": "price",
+      "definition": "Offer-specific sale price/value.",
+      "domain": [
+        "product offer"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "discount",
+      "technicalName": "pskg:discount",
+      "localName": "discount",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#discount",
+      "label": "discount",
+      "definition": "Discount associated with the offer.",
+      "domain": [
+        "product offer"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "benefit",
+      "technicalName": "pskg:benefit",
+      "localName": "benefit",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#benefit",
+      "label": "benefit",
+      "definition": "Benefit or promotional value conveyed by the offer.",
+      "domain": [
+        "product offer"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "condition",
+      "technicalName": "pskg:productOfferCondition",
+      "localName": "productOfferCondition",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#productOfferCondition",
+      "label": "condition",
+      "definition": "Business condition text/summary specific to the offer.",
+      "domain": [
+        "product offer"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "effective from",
+      "technicalName": "pskg:productOfferEffectiveFrom",
+      "localName": "productOfferEffectiveFrom",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#productOfferEffectiveFrom",
+      "label": "effective from",
+      "definition": "Start of offer validity.",
+      "domain": [
+        "product offer"
+      ],
+      "range": [
+        "xsd:date"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "effective to",
+      "technicalName": "pskg:productOfferEffectiveTo",
+      "localName": "productOfferEffectiveTo",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#productOfferEffectiveTo",
+      "label": "effective to",
+      "definition": "End of offer validity. [Business constraint] BR-10: end date after start date; active offer required for valid recommendation.",
+      "domain": [
+        "product offer"
+      ],
+      "range": [
+        "xsd:date"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "status",
+      "technicalName": "pskg:productOfferStatus",
+      "localName": "productOfferStatus",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#productOfferStatus",
+      "label": "status",
+      "definition": "Offer lifecycle/publish status. [Business constraint] BR-01/20: published data only.",
+      "domain": [
+        "product offer"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "version number",
+      "technicalName": "pskg:productOfferVersionNumber",
+      "localName": "productOfferVersionNumber",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#productOfferVersionNumber",
+      "label": "version number",
+      "definition": "Offer version number.",
+      "domain": [
+        "product offer"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "name",
+      "technicalName": "pskg:campaignName",
+      "localName": "campaignName",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#campaignName",
+      "label": "name",
+      "definition": "Campaign name.",
+      "domain": [
+        "campaign"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "objective",
+      "technicalName": "pskg:objective",
+      "localName": "objective",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#objective",
+      "label": "objective",
+      "definition": "Campaign business objective.",
+      "domain": [
+        "campaign"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "effective from",
+      "technicalName": "pskg:campaignEffectiveFrom",
+      "localName": "campaignEffectiveFrom",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#campaignEffectiveFrom",
+      "label": "effective from",
+      "definition": "Campaign start date/time.",
+      "domain": [
+        "campaign"
+      ],
+      "range": [
+        "xsd:dateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "effective to",
+      "technicalName": "pskg:campaignEffectiveTo",
+      "localName": "campaignEffectiveTo",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#campaignEffectiveTo",
+      "label": "effective to",
+      "definition": "Campaign end date/time. [Business constraint] BR-02/10: expired campaign not used; end after start.",
+      "domain": [
+        "campaign"
+      ],
+      "range": [
+        "xsd:dateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "campaign benefit",
+      "technicalName": "pskg:campaignBenefit",
+      "localName": "campaignBenefit",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#campaignBenefit",
+      "label": "campaign benefit",
+      "definition": "Campaign-level benefit/promotion.",
+      "domain": [
+        "campaign"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "budget",
+      "technicalName": "pskg:budget",
+      "localName": "budget",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#budget",
+      "label": "budget",
+      "definition": "Campaign budget. [Business constraint] BR-16: do not exceed campaign budget; warn at threshold.",
+      "domain": [
+        "campaign"
+      ],
+      "range": [
+        "xsd:decimal"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "status",
+      "technicalName": "pskg:campaignStatus",
+      "localName": "campaignStatus",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#campaignStatus",
+      "label": "status",
+      "definition": "Campaign lifecycle state. [Business constraint] BR-02/20: expired campaign cannot be used by AI Agent.",
+      "domain": [
+        "campaign"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "version number",
+      "technicalName": "pskg:campaignVersionNumber",
+      "localName": "campaignVersionNumber",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#campaignVersionNumber",
+      "label": "version number",
+      "definition": "Campaign version number.",
+      "domain": [
+        "campaign"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "category name",
+      "technicalName": "pskg:categoryName",
+      "localName": "categoryName",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#categoryName",
+      "label": "category name",
+      "definition": "Human-readable product category label.",
+      "domain": [
+        "product category"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "category code",
+      "technicalName": "pskg:categoryCode",
+      "localName": "categoryCode",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#categoryCode",
+      "label": "category code",
+      "definition": "Stable code for a managed product category.",
+      "domain": [
+        "product category"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "parent category",
+      "technicalName": "pskg:parentCategory",
+      "localName": "parentCategory",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#parentCategory",
+      "label": "parent category",
+      "definition": "Parent category in a hierarchical taxonomy, if hierarchy is adopted.",
+      "domain": [
+        "product category"
+      ],
+      "range": [
+        "xsd:anyURI"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "segment name",
+      "technicalName": "pskg:segmentName",
+      "localName": "segmentName",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#segmentName",
+      "label": "segment name",
+      "definition": "Human-readable label.",
+      "domain": [
+        "customer segment"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "segment code",
+      "technicalName": "pskg:segmentCode",
+      "localName": "segmentCode",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#segmentCode",
+      "label": "segment code",
+      "definition": "Stable identifier/code.",
+      "domain": [
+        "customer segment"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "segment description",
+      "technicalName": "pskg:segmentDescription",
+      "localName": "segmentDescription",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#segmentDescription",
+      "label": "segment description",
+      "definition": "Business description.",
+      "domain": [
+        "customer segment"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "need name",
+      "technicalName": "pskg:needName",
+      "localName": "needName",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#needName",
+      "label": "need name",
+      "definition": "Human-readable label.",
+      "domain": [
+        "customer need"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "need code",
+      "technicalName": "pskg:needCode",
+      "localName": "needCode",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#needCode",
+      "label": "need code",
+      "definition": "Stable identifier/code.",
+      "domain": [
+        "customer need"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "need description",
+      "technicalName": "pskg:needDescription",
+      "localName": "needDescription",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#needDescription",
+      "label": "need description",
+      "definition": "Business description.",
+      "domain": [
+        "customer need"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "rule type",
+      "technicalName": "pskg:ruleType",
+      "localName": "ruleType",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#ruleType",
+      "label": "rule type",
+      "definition": "Rule semantic type. [Business constraint] BR-08: eligibility must be evaluated before recommendation.",
+      "domain": [
+        "business rule"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "condition",
+      "technicalName": "pskg:businessRuleCondition",
+      "localName": "businessRuleCondition",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#businessRuleCondition",
+      "label": "condition",
+      "definition": "Business-language condition/logic represented by the rule.",
+      "domain": [
+        "business rule"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "priority",
+      "technicalName": "pskg:priority",
+      "localName": "priority",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#priority",
+      "label": "priority",
+      "definition": "Priority used when multiple rules apply.",
+      "domain": [
+        "business rule"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "version number",
+      "technicalName": "pskg:businessRuleVersionNumber",
+      "localName": "businessRuleVersionNumber",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#businessRuleVersionNumber",
+      "label": "version number",
+      "definition": "Rule version number.",
+      "domain": [
+        "business rule"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "status",
+      "technicalName": "pskg:businessRuleStatus",
+      "localName": "businessRuleStatus",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#businessRuleStatus",
+      "label": "status",
+      "definition": "Rule lifecycle/publish status. [Business constraint] BR-01/20: only approved/published usable data.",
+      "domain": [
+        "business rule"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "scenario",
+      "technicalName": "pskg:scenario",
+      "localName": "scenario",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#scenario",
+      "label": "scenario",
+      "definition": "Sales/advisory scenario the script addresses.",
+      "domain": [
+        "sales script"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "opening line",
+      "technicalName": "pskg:openingLine",
+      "localName": "openingLine",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#openingLine",
+      "label": "opening line",
+      "definition": "Opening sales/advisory wording.",
+      "domain": [
+        "sales script"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "objection handling",
+      "technicalName": "pskg:objectionHandling",
+      "localName": "objectionHandling",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#objectionHandling",
+      "label": "objection handling",
+      "definition": "Guidance/wording for handling objections.",
+      "domain": [
+        "sales script"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "closing line",
+      "technicalName": "pskg:closingLine",
+      "localName": "closingLine",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#closingLine",
+      "label": "closing line",
+      "definition": "Closing wording or closing step.",
+      "domain": [
+        "sales script"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "version number",
+      "technicalName": "pskg:salesScriptVersionNumber",
+      "localName": "salesScriptVersionNumber",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#salesScriptVersionNumber",
+      "label": "version number",
+      "definition": "Sales script version number.",
+      "domain": [
+        "sales script"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "status",
+      "technicalName": "pskg:salesScriptStatus",
+      "localName": "salesScriptStatus",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#salesScriptStatus",
+      "label": "status",
+      "definition": "Sales script lifecycle/publish status. [Business constraint] BR-15/20: script may be used only after approval/publish.",
+      "domain": [
+        "sales script"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "name",
+      "technicalName": "pskg:salesSkillName",
+      "localName": "salesSkillName",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#salesSkillName",
+      "label": "name",
+      "definition": "Skill name.",
+      "domain": [
+        "sales skill"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "description",
+      "technicalName": "pskg:salesSkillDescription",
+      "localName": "salesSkillDescription",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#salesSkillDescription",
+      "label": "description",
+      "definition": "Skill description.",
+      "domain": [
+        "sales skill"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "content",
+      "technicalName": "pskg:salesSkillContent",
+      "localName": "salesSkillContent",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#salesSkillContent",
+      "label": "content",
+      "definition": "Skill instructions/guidance content.",
+      "domain": [
+        "sales skill"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "version number",
+      "technicalName": "pskg:salesSkillVersionNumber",
+      "localName": "salesSkillVersionNumber",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#salesSkillVersionNumber",
+      "label": "version number",
+      "definition": "Skill version number.",
+      "domain": [
+        "sales skill"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "status",
+      "technicalName": "pskg:salesSkillStatus",
+      "localName": "salesSkillStatus",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#salesSkillStatus",
+      "label": "status",
+      "definition": "Skill lifecycle/publish status. [Business constraint] BR-15/20: skill usable only after approval/publish.",
+      "domain": [
+        "sales skill"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "knowledge type",
+      "technicalName": "pskg:knowledgeType",
+      "localName": "knowledgeType",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#knowledgeType",
+      "label": "knowledge type",
+      "definition": "Type of knowledge asset.",
+      "domain": [
+        "sales knowledge"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "tags",
+      "technicalName": "pskg:tags",
+      "localName": "tags",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#tags",
+      "label": "tags",
+      "definition": "Tags/classification labels for knowledge search.",
+      "domain": [
+        "sales knowledge"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "title",
+      "technicalName": "pskg:title",
+      "localName": "title",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#title",
+      "label": "title",
+      "definition": "Human-readable knowledge title.",
+      "domain": [
+        "sales knowledge"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "content",
+      "technicalName": "pskg:salesKnowledgeContent",
+      "localName": "salesKnowledgeContent",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#salesKnowledgeContent",
+      "label": "content",
+      "definition": "Knowledge content/body used by AI Agent.",
+      "domain": [
+        "sales knowledge"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "version number",
+      "technicalName": "pskg:salesKnowledgeVersionNumber",
+      "localName": "salesKnowledgeVersionNumber",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#salesKnowledgeVersionNumber",
+      "label": "version number",
+      "definition": "Knowledge asset version number.",
+      "domain": [
+        "sales knowledge"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "status",
+      "technicalName": "pskg:salesKnowledgeStatus",
+      "localName": "salesKnowledgeStatus",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#salesKnowledgeStatus",
+      "label": "status",
+      "definition": "Knowledge asset lifecycle/publish status. [Business constraint] BR-15/20: knowledge/FAQ usable by AI only after approval/publish and while valid.",
+      "domain": [
+        "sales knowledge"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "document type",
+      "technicalName": "pskg:documentType",
+      "localName": "documentType",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#documentType",
+      "label": "document type",
+      "definition": "Type/category of required document.",
+      "domain": [
+        "required document"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "copy count",
+      "technicalName": "pskg:copyCount",
+      "localName": "copyCount",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#copyCount",
+      "label": "copy count",
+      "definition": "Number of copies required.",
+      "domain": [
+        "required document"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "validity condition",
+      "technicalName": "pskg:validityCondition",
+      "localName": "validityCondition",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#validityCondition",
+      "label": "validity condition",
+      "definition": "Condition that makes the document acceptable.",
+      "domain": [
+        "required document"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "version number",
+      "technicalName": "pskg:requiredDocumentVersionNumber",
+      "localName": "requiredDocumentVersionNumber",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#requiredDocumentVersionNumber",
+      "label": "version number",
+      "definition": "Required-document definition version.",
+      "domain": [
+        "required document"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "status",
+      "technicalName": "pskg:requiredDocumentStatus",
+      "localName": "requiredDocumentStatus",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#requiredDocumentStatus",
+      "label": "status",
+      "definition": "Required-document lifecycle/publish status. [Business constraint] BR-14/15: applicable to published active product; content usable only after approval/publish.",
+      "domain": [
+        "required document"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "document name",
+      "technicalName": "pskg:documentName",
+      "localName": "documentName",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#documentName",
+      "label": "document name",
+      "definition": "Human-readable required document label/description.",
+      "domain": [
+        "required document"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "description",
+      "technicalName": "pskg:requiredDocumentDescription",
+      "localName": "requiredDocumentDescription",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#requiredDocumentDescription",
+      "label": "description",
+      "definition": "Human-readable required document label/description.",
+      "domain": [
+        "required document"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "bundle name",
+      "technicalName": "pskg:bundleName",
+      "localName": "bundleName",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#bundleName",
+      "label": "bundle name",
+      "definition": "Human-readable bundle name.",
+      "domain": [
+        "product bundle"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "bundle code",
+      "technicalName": "pskg:bundleCode",
+      "localName": "bundleCode",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#bundleCode",
+      "label": "bundle code",
+      "definition": "Stable bundle identifier.",
+      "domain": [
+        "product bundle"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "status",
+      "technicalName": "pskg:productBundleStatus",
+      "localName": "productBundleStatus",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#productBundleStatus",
+      "label": "status",
+      "definition": "Bundle lifecycle/availability state. [Business constraint] BR-13: bundle contains at least two effective products.",
+      "domain": [
+        "product bundle"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "approval chain",
+      "technicalName": "pskg:approvalChain",
+      "localName": "approvalChain",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#approvalChain",
+      "label": "approval chain",
+      "definition": "Approval chain/sequence for the task. [Business constraint] BR-01/19/20: approval before publish; creator cannot be final approver; AI uses approved data.",
+      "domain": [
+        "approval task"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "approver",
+      "technicalName": "pskg:approver",
+      "localName": "approver",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#approver",
+      "label": "approver",
+      "definition": "Approver assigned to the task/step. [Business constraint] BR-01/19/20: approval before publish; creator cannot be final approver; AI uses approved data.",
+      "domain": [
+        "approval task"
+      ],
+      "range": [
+        "xsd:anyURI"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "comment",
+      "technicalName": "pskg:comment",
+      "localName": "comment",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#comment",
+      "label": "comment",
+      "definition": "Approval/rejection/change-request comment. [Business constraint] BR-01/19/20: approval before publish; creator cannot be final approver; AI uses approved data.",
+      "domain": [
+        "approval task"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "status",
+      "technicalName": "pskg:approvalTaskStatus",
+      "localName": "approvalTaskStatus",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#approvalTaskStatus",
+      "label": "status",
+      "definition": "Approval task/decision status. [Business constraint] BR-01/19/20: approval before publish; creator cannot be final approver; AI uses approved data.",
+      "domain": [
+        "approval task"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "approval history",
+      "technicalName": "pskg:approvalHistory",
+      "localName": "approvalHistory",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#approvalHistory",
+      "label": "approval history",
+      "definition": "Approval decision/history records. [Business constraint] BR-01/19/20: approval before publish; creator cannot be final approver; AI uses approved data.",
+      "domain": [
+        "approval task"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "approval task id",
+      "technicalName": "pskg:approvalTaskId",
+      "localName": "approvalTaskId",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#approvalTaskId",
+      "label": "approval task id",
+      "definition": "Stable approval task identifier.",
+      "domain": [
+        "approval task"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "step order",
+      "technicalName": "pskg:stepOrder",
+      "localName": "stepOrder",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#stepOrder",
+      "label": "step order",
+      "definition": "Order of a step within the approval chain.",
+      "domain": [
+        "approval task"
+      ],
+      "range": [
+        "xsd:integer"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "version number",
+      "technicalName": "pskg:versionVersionNumber",
+      "localName": "versionVersionNumber",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#versionVersionNumber",
+      "label": "version number",
+      "definition": "Version identifier/number. [Business constraint] BR-06/09: published changes create new version; only one published effective version.",
+      "domain": [
+        "version"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "created by",
+      "technicalName": "pskg:createdBy",
+      "localName": "createdBy",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#createdBy",
+      "label": "created by",
+      "definition": "Creator of the version. [Business constraint] BR-06/09: published changes create new version; only one published effective version.",
+      "domain": [
+        "version"
+      ],
+      "range": [
+        "xsd:anyURI"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "created at",
+      "technicalName": "pskg:createdAt",
+      "localName": "createdAt",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#createdAt",
+      "label": "created at",
+      "definition": "Time the version was created. [Business constraint] BR-06/09: published changes create new version; only one published effective version.",
+      "domain": [
+        "version"
+      ],
+      "range": [
+        "xsd:dateTime"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "change",
+      "technicalName": "pskg:change",
+      "localName": "change",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#change",
+      "label": "change",
+      "definition": "Change details associated with the version. [Business constraint] BR-06/09: published changes create new version; only one published effective version.",
+      "domain": [
+        "version"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "description",
+      "technicalName": "pskg:versionDescription",
+      "localName": "versionDescription",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#versionDescription",
+      "label": "description",
+      "definition": "Version/change description or note. [Business constraint] BR-06/09: published changes create new version; only one published effective version.",
+      "domain": [
+        "version"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "is published version",
+      "technicalName": "pskg:isPublishedVersion",
+      "localName": "isPublishedVersion",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#isPublishedVersion",
+      "label": "is published version",
+      "definition": "Marks a version as the published/current version. [Business constraint] BR-09: no two simultaneously published/effective versions for one product.",
+      "domain": [
+        "version"
+      ],
+      "range": [
+        "xsd:boolean"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "customer identifier",
+      "technicalName": "pskg:customerIdentifier",
+      "localName": "customerIdentifier",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#customerIdentifier",
+      "label": "customer identifier",
+      "definition": "Reference identifier for customer context supplied by an upstream system.",
+      "domain": [
+        "customer"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    },
+    {
+      "kind": "property",
+      "name": "behavior context",
+      "technicalName": "pskg:behaviorContext",
+      "localName": "behaviorContext",
+      "iri": "urn:mb:product-sales-knowledge-graph-base#behaviorContext",
+      "label": "behavior context",
+      "definition": "Behavior information available in the recommendation context; structure is not defined by BA.",
+      "domain": [
+        "customer"
+      ],
+      "range": [
+        "xsd:string"
+      ]
+    }
+  ]
+}

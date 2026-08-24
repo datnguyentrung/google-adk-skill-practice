@@ -5,26 +5,26 @@ from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
 
 
 def draft_payload() -> dict:
+    ev_product = [{"source": "source.md", "chunkIndex": 0, "text": "Product P-1"}]
+    ev_rule = [{"source": "source.md", "chunkIndex": 0, "text": "Age >= 20"}]
+    ev_edge = [{"source": "source.md", "chunkIndex": 0, "text": "Eligible at 20"}]
     return {
         "nodes": [
             {
                 "tempId": "product-1",
                 "className": "pskg:BankingProduct",
                 "properties": [
-                    {"propertyName": "pskg:productCode", "value": "P-1"},
-                    {
-                        "propertyName": "pskg:productAttributes",
-                        "value": ["first", "second"],
-                    },
+                    {"propertyName": "pskg:productCode", "value": "P-1", "evidence": ev_product},
+                    {"propertyName": "pskg:productAttributes", "value": ["first", "second"], "evidence": ev_product},
                 ],
-                "evidence": [{"source": "source.md", "text": "Product P-1"}],
+                "evidence": ev_product,
                 "confidence": 1.0,
             },
             {
                 "tempId": "rule-1",
                 "className": "pskg:BusinessRule",
                 "properties": [],
-                "evidence": [{"source": "source.md", "text": "Age >= 20"}],
+                "evidence": ev_rule,
                 "confidence": 0.9,
             },
         ],
@@ -33,10 +33,11 @@ def draft_payload() -> dict:
                 "edgeName": "pskg:hasEligibilityRule",
                 "sourceTempId": "product-1",
                 "targetTempId": "rule-1",
-                "evidence": [{"source": "source.md", "text": "Eligible at 20"}],
+                "evidence": ev_edge,
                 "confidence": 0.9,
             }
         ],
+        "coverage": [{"chunkIndex": 0, "decision": "MAPPED", "reason": "Fixture facts"}],
         "warnings": [],
     }
 
@@ -44,7 +45,7 @@ def draft_payload() -> dict:
 def test_exact_duplicate_property_is_deduplicated():
     payload = draft_payload()
     payload["nodes"][0]["properties"].append(
-        {"propertyName": "pskg:productCode", "value": "P-1"}
+        {"propertyName": "pskg:productCode", "value": "P-1", "evidence": [{"source": "source.md", "chunkIndex": 0, "text": "Product P-1"}]}
     )
 
     result = GraphPatchCompiler().compile(GraphPatchDraft.model_validate(payload))
@@ -57,7 +58,7 @@ def test_exact_duplicate_property_is_deduplicated():
 def test_conflicting_duplicate_property_fails_compilation():
     payload = draft_payload()
     payload["nodes"][0]["properties"].append(
-        {"propertyName": "pskg:productCode", "value": "P-2"}
+        {"propertyName": "pskg:productCode", "value": "P-2", "evidence": [{"source": "source.md", "chunkIndex": 0, "text": "Product P-1"}]}
     )
 
     result = GraphPatchCompiler().compile(GraphPatchDraft.model_validate(payload))
@@ -70,8 +71,8 @@ def test_duplicate_comparison_is_json_type_exact():
     payload = draft_payload()
     payload["nodes"][0]["properties"].extend(
         [
-            {"propertyName": "pskg:fee", "value": 1},
-            {"propertyName": "pskg:fee", "value": 1.0},
+            {"propertyName": "pskg:fee", "value": 1, "evidence": [{"source": "source.md", "chunkIndex": 0, "text": "Product P-1"}]},
+            {"propertyName": "pskg:fee", "value": 1.0, "evidence": [{"source": "source.md", "chunkIndex": 0, "text": "Product P-1"}]},
         ]
     )
 
@@ -106,7 +107,7 @@ def test_rule_type_is_derived_and_conflict_is_rejected():
 
     payload = draft_payload()
     payload["nodes"][1]["properties"] = [
-        {"propertyName": "pskg:ruleType", "value": "POLICY"}
+        {"propertyName": "pskg:ruleType", "value": "POLICY", "evidence": [{"source": "source.md", "chunkIndex": 0, "text": "Age >= 20"}]}
     ]
     conflict = compiler.compile(GraphPatchDraft.model_validate(payload))
     assert conflict.compiled_patch is None
@@ -159,3 +160,45 @@ def test_fingerprint_binds_artifact_ontology_and_compiler_version(tmp_path):
     copied_ontology.write_bytes(copied_ontology.read_bytes() + b"\n")
     changed_ontology = GraphPatchCompiler(copied_ontology, schema_version="1")
     assert digest_a != changed_ontology.fingerprint(patch, "artifact-a")
+
+
+def test_exact_duplicate_property_merges_distinct_evidence():
+    payload = draft_payload()
+    payload["nodes"][0]["properties"].append(
+        {
+            "propertyName": "pskg:productCode",
+            "value": "P-1",
+            "evidence": [{"source": "source.md", "chunkIndex": 1, "text": "P-1 repeated"}],
+        }
+    )
+    payload["coverage"].append(
+        {"chunkIndex": 1, "decision": "MAPPED", "reason": "Repeated product code"}
+    )
+    result = GraphPatchCompiler().compile(GraphPatchDraft.model_validate(payload))
+    assert result.compiled_patch is not None
+    evidence = result.compiled_patch.nodes[0].property_evidence["pskg:productCode"]
+    assert {item.chunk_index for item in evidence} == {0, 1}
+
+
+def test_fingerprint_changes_when_evidence_chunk_index_changes():
+    compiler = GraphPatchCompiler()
+    first_payload = draft_payload()
+    first = compiler.compile(GraphPatchDraft.model_validate(first_payload)).compiled_patch
+    assert first is not None
+
+    second_payload = deepcopy(first_payload)
+    for node in second_payload["nodes"]:
+        for ev in node["evidence"]:
+            ev["chunkIndex"] = 1
+        for prop in node["properties"]:
+            for ev in prop["evidence"]:
+                ev["chunkIndex"] = 1
+    for edge in second_payload["edges"]:
+        for ev in edge["evidence"]:
+            ev["chunkIndex"] = 1
+    second_payload["coverage"] = [
+        {"chunkIndex": 1, "decision": "MAPPED", "reason": "Fixture facts"}
+    ]
+    second = compiler.compile(GraphPatchDraft.model_validate(second_payload)).compiled_patch
+    assert second is not None
+    assert compiler.fingerprint(first, "artifact") != compiler.fingerprint(second, "artifact")

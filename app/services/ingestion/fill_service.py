@@ -1,6 +1,7 @@
 from typing import Any
 
 from app.config.neo4j import Neo4jClient
+from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchDraft
 from app.core.schemas.ingestion.validation import GraphPatchValidationResult
 from app.services.ingestion.neo4j_writer import Neo4jWriter
@@ -27,10 +28,12 @@ class FillService:
         self,
         graph_patch: GraphPatchDraft | dict[str, Any],
         artifact_content_digest: str | None,
+        source_chunks: list[DocumentChunk] | list[dict[str, Any]] | None = None,
     ) -> dict[str, Any]:
         assessment = self.validation_service.assess(
             graph_patch,
             artifact_content_digest,
+            source_chunks,
         )
         if (
             not assessment.result.valid_for_persistence

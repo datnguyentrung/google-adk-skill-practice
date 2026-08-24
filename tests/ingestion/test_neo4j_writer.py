@@ -80,6 +80,7 @@ def test_upsert_node_rejects_unresolved_identity():
 def test_write_graph_patch_upserts_nodes_then_edges():
     writer = create_writer()
     tx = FakeTransaction()
+    product_ev = [{"source": "product.md", "chunkIndex": 0, "section": "Fixture", "text": "CARD-001 Published Flexible rewards NEED-001 Need"}]
     draft = GraphPatchDraft.model_validate(
         {
             "nodes": [
@@ -87,20 +88,20 @@ def test_write_graph_patch_upserts_nodes_then_edges():
                     "tempId": "product-1",
                     "className": "pskg:BankingProduct",
                     "properties": [
-                        {"propertyName": "pskg:productCode", "value": "CARD-001"},
-                        {"propertyName": "pskg:bankingProductStatus", "value": "Published"},
+                        {"propertyName": "pskg:productCode", "value": "CARD-001", "evidence": product_ev},
+                        {"propertyName": "pskg:bankingProductStatus", "value": "Published", "evidence": product_ev},
                     ],
-                    "evidence": [{"source": "product.md", "text": "CARD-001"}],
+                    "evidence": product_ev,
                     "confidence": 1.0,
                 },
                 {
                     "tempId": "need-1",
                     "className": "pskg:CustomerNeed",
                     "properties": [
-                        {"propertyName": "pskg:needCode", "value": "NEED-001"},
-                        {"propertyName": "pskg:needName", "value": "Flexible rewards"},
+                        {"propertyName": "pskg:needCode", "value": "NEED-001", "evidence": product_ev},
+                        {"propertyName": "pskg:needName", "value": "Flexible rewards", "evidence": product_ev},
                     ],
-                    "evidence": [{"source": "product.md", "text": "Flexible rewards"}],
+                    "evidence": product_ev,
                     "confidence": 0.9,
                 },
             ],
@@ -109,10 +110,11 @@ def test_write_graph_patch_upserts_nodes_then_edges():
                     "edgeName": "pskg:satisfiesNeed",
                     "sourceTempId": "product-1",
                     "targetTempId": "need-1",
-                    "evidence": [{"source": "product.md", "text": "Need"}],
+                    "evidence": product_ev,
                     "confidence": 0.9,
                 }
             ],
+            "coverage": [{"chunkIndex": 0, "decision": "MAPPED", "reason": "Fixture facts"}],
             "warnings": [],
         }
     )

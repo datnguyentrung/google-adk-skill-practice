@@ -1,7 +1,6 @@
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
-
 
 TECHNICAL_NAME_PATTERN = r"^[A-Za-z_][A-Za-z0-9_.-]*:[A-Za-z_][A-Za-z0-9_.-]*$"
 
@@ -16,6 +15,7 @@ class _DraftModel(BaseModel):
 
 class Evidence(_DraftModel):
     source: str = Field(min_length=1)
+    chunk_index: int = Field(alias="chunkIndex", ge=0)
     section: str | None = None
     text: str = Field(min_length=1)
 
@@ -26,6 +26,7 @@ class ExtractedProperty(_DraftModel):
         pattern=TECHNICAL_NAME_PATTERN,
     )
     value: Any
+    evidence: list[Evidence] = Field(min_length=1)
 
 
 class ExtractedNode(_DraftModel):
@@ -50,9 +51,16 @@ class ExtractedEdge(_DraftModel):
     confidence: float = Field(ge=0.0, le=1.0)
 
 
+class ChunkCoverage(_DraftModel):
+    chunk_index: int = Field(alias="chunkIndex", ge=0)
+    decision: Literal["MAPPED", "NOT_RELEVANT"]
+    reason: str = Field(min_length=3)
+
+
 class GraphPatchDraft(_DraftModel):
     """Model-visible graph proposal produced by the semantic mapper."""
 
     nodes: list[ExtractedNode] = Field(min_length=1)
     edges: list[ExtractedEdge]
+    coverage: list[ChunkCoverage] = Field(min_length=1)
     warnings: list[str] = Field(default_factory=list)

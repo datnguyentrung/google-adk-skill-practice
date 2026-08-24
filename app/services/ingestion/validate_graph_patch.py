@@ -6,6 +6,7 @@ from typing import Any
 
 from pydantic import ValidationError
 
+from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchDraft
 from app.core.schemas.ingestion.validation import (
     GraphPatchValidationResult,
@@ -23,6 +24,7 @@ from app.services.ingestion.identity import (
 )
 from app.services.ingestion.loader import OntologyLoader
 from app.services.ingestion.registry import OntologyRegistry
+from app.services.ingestion.source_grounding import SourceGroundingValidator
 from app.services.ingestion.validator import OntologyValidator
 
 @dataclass(frozen=True)
@@ -47,12 +49,14 @@ class GraphPatchValidationService:
             compiler_kwargs["schema_version"] = compiler_schema_version
         self.compiler = GraphPatchCompiler(**compiler_kwargs)
         self.validator = OntologyValidator(registry)
+        self.source_grounding = SourceGroundingValidator(registry)
         self.identity_resolver = create_product_sales_identity_resolver(registry)
 
     def assess(
         self,
         graph_patch: GraphPatchDraft | dict[str, Any],
         artifact_content_digest: str | None,
+        source_chunks: list[DocumentChunk] | list[dict[str, Any]] | None = None,
     ) -> GraphPatchAssessment:
         try:
             draft = GraphPatchDraft.model_validate(graph_patch)
@@ -71,6 +75,11 @@ class GraphPatchValidationService:
                 compiled_patch=None,
                 fingerprint=None,
             )
+
+        chunks = None if source_chunks is None else [
+            item if isinstance(item, DocumentChunk) else DocumentChunk.model_validate(item)
+            for item in source_chunks
+        ]
 
         compiler_result = self.compiler.compile(draft)
         warning_issues = [
@@ -97,11 +106,25 @@ class GraphPatchValidationService:
             )
 
         patch = compiler_result.compiled_patch
-        extraction_issues = self.validator.validate_extraction(patch)
+        extraction_issues: list[ValidationIssue] = []
+        if chunks is not None:
+            extraction_issues.extend(self.source_grounding.validate(draft, chunks))
+        extraction_issues.extend(self.validator.validate_extraction(patch))
         readiness_issues: list[ValidationIssue] = []
         if not extraction_issues:
             readiness_issues.extend(self.validator.validate_persistence(patch))
             readiness_issues.extend(self._identity_preflight(patch))
+            if chunks is None:
+                readiness_issues.append(
+                    ValidationIssue(
+                        code="SOURCE_CONTEXT_REQUIRED",
+                        message=(
+                            "Prepared source chunks are required before a graph "
+                            "patch can be authorized for persistence"
+                        ),
+                        location="graphPatch",
+                    )
+                )
 
         valid_for_extraction = not extraction_issues
         valid_for_persistence = valid_for_extraction and not readiness_issues

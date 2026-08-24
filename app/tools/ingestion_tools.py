@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 ARTIFACT_DIGEST_STATE_KEY = "temp:ingestion_source_artifact_digest"
 ARTIFACT_NAME_STATE_KEY = "temp:ingestion_source_artifact_name"
 VALIDATED_FINGERPRINT_STATE_KEY = "temp:ingestion_validated_fingerprint"
+SOURCE_CHUNKS_STATE_KEY = "temp:ingestion_source_chunks"
 
 
 @lru_cache(maxsize=1)
@@ -54,6 +55,7 @@ async def prepare_extraction_context(
     _clear_validation_gate(tool_context)
     _delete_state(tool_context, ARTIFACT_DIGEST_STATE_KEY)
     _delete_state(tool_context, ARTIFACT_NAME_STATE_KEY)
+    _delete_state(tool_context, SOURCE_CHUNKS_STATE_KEY)
 
     try:
         artifact = await tool_context.load_artifact(filename=artifact_name)
@@ -109,12 +111,21 @@ async def prepare_extraction_context(
             data=data,
             mime_type=mime_type,
         )
-        return {"success": True, "stage": "completed", **context.model_dump()}
+        tool_context.state[SOURCE_CHUNKS_STATE_KEY] = [
+            chunk.model_dump() for chunk in context.chunks
+        ]
+        return {
+            "success": True,
+            "stage": "completed",
+            "chunkCount": len(context.chunks),
+            **context.model_dump(),
+        }
     except Exception as exc:
         logger.exception("Failed to prepare extraction context for '%s'", artifact_name)
         _clear_validation_gate(tool_context)
         _delete_state(tool_context, ARTIFACT_DIGEST_STATE_KEY)
         _delete_state(tool_context, ARTIFACT_NAME_STATE_KEY)
+        _delete_state(tool_context, SOURCE_CHUNKS_STATE_KEY)
         return {
             "success": False,
             "stage": "prepare_extraction_context",
@@ -131,6 +142,7 @@ def validate_graph_patch(
     assessment = _get_validation_service().assess(
         graph_patch,
         tool_context.state.get(ARTIFACT_DIGEST_STATE_KEY),
+        tool_context.state.get(SOURCE_CHUNKS_STATE_KEY),
     )
     if (
         assessment.result.valid_for_extraction
@@ -177,7 +189,12 @@ def fill_graph_patch(
             "errors": [issue.model_dump(by_alias=True, exclude_none=True)],
         }
 
-    assessment = validation_service.assess(graph_patch, artifact_digest)
+    source_chunks = tool_context.state.get(SOURCE_CHUNKS_STATE_KEY)
+    assessment = validation_service.assess(
+        graph_patch,
+        artifact_digest,
+        source_chunks,
+    )
     if not assessment.result.valid_for_persistence:
         _clear_validation_gate(tool_context)
         return {
@@ -191,7 +208,7 @@ def fill_graph_patch(
         service = create_fill_service(
             validation_service=validation_service,
         )
-        result = service.fill(graph_patch, artifact_digest)
+        result = service.fill(graph_patch, artifact_digest, source_chunks)
         return {"success": True, "stage": "completed", **result}
     except FillValidationError as exc:
         _clear_validation_gate(tool_context)

@@ -18,51 +18,102 @@ The ontology is read-only and is the source of truth for technical names,
 domains, ranges, datatypes, and persistence rules.
 
 Never modify the ontology. Never invent missing business facts to satisfy it.
+A graph that covers only a convenient subset of the document is not a complete
+ingestion.
 
 ## Choose the requested outcome
 
-- Extract-only: prepare, produce a `GraphPatchDraft`, validate, and return it.
-- Validate-only: validate the supplied draft and explain the structured result.
-- Ingest/import/load/write: prepare, extract, validate, correct if grounded, then
-  fill. Do not stop after validation when the patch is persistence-ready.
-- If persistence was requested but the source cannot support required data,
-  report readiness issues and do not call fill.
+- Extract-only: prepare, build a complete source-grounded `GraphPatchDraft`,
+  validate it, and return it.
+- Validate-only: validate the supplied draft and explain structured issues.
+- Ingest/import/load/write: prepare, extract, validate, correct if grounded,
+  then fill.
+- If persistence was requested but source evidence cannot satisfy persistence
+  requirements, report readiness issues and stop before fill.
 
 ## Required workflow
 
-For an uploaded document, follow this order in one invocation:
+For an uploaded document, complete this sequence in one invocation:
 
 ```text
 prepare artifact
-  -> inspect document chunks and ontology context
-  -> map only source-grounded facts
-  -> build GraphPatchDraft with PropertyEntry arrays
+  -> inspect ALL prepared chunks and ontology context
+  -> build a coverage ledger for every chunk
+  -> map each relevant semantic unit to the most specific ontology construct
+  -> attach exact chunk evidence to nodes, properties, and edges
   -> validate
-  -> correct source-grounded extraction errors
-  -> revalidate after every correction
-  -> fill only after both validation flags are true
+  -> correct source-grounded errors or missing coverage
+  -> revalidate after every change
+  -> fill only when both validation flags are true
 ```
 
-1. Call `$prepare_extraction_context_tool(artifact_name)`.
-2. Read every relevant chunk and the supplied ontology context.
-3. Convert source dates to ISO `YYYY-MM-DD` only when the source meaning is
-   unambiguous. The compiler does not parse locale-sensitive dates.
-4. Build the complete draft before validation.
-5. Call `$validate_graph_patch_tool(graph_patch)`.
-6. Inspect `validForExtraction`, `validForPersistence`, `errors`,
-   `readinessIssues`, and `warnings`.
-7. Correct only issues that can be corrected from the document and ontology.
-8. Call validation again after any change.
-9. For persistence requests, call `$fill_graph_patch_tool(graph_patch)` only
-   when both validation flags are true in the current invocation.
+1. Call `prepare_extraction_context(artifact_name)`.
+2. Record `chunkCount` and inspect every returned chunk. Do not stop after the
+   first product metadata or eligibility section.
+3. For every chunk, decide `MAPPED` or `NOT_RELEVANT`. `NOT_RELEVANT` is
+   exceptional: use it only when the chunk contains no business fact that can
+   be represented by the ontology.
+4. For every `MAPPED` chunk, emit at least one node/property/edge evidence item
+   referring to that exact `chunkIndex`.
+5. Build the complete graph draft before validation.
+6. Call `validate_graph_patch(graph_patch)`.
+7. Correct only issues supported by the source and ontology.
+8. Revalidate the full draft after every change.
+9. Call `fill_graph_patch(graph_patch)` only when `validForExtraction` and
+   `validForPersistence` are both true in the current invocation.
 
-Validation is an invocation-scoped gate. A successful validation from an older
-turn never authorizes fill in a later turn. Never claim persistence succeeded
-unless the fill tool returns `success: true`.
+Validation is invocation-scoped. Validation from an older turn never
+authorizes a later fill. Never claim persistence succeeded unless fill returns
+`success: true`.
+
+## Coverage is mandatory
+
+`GraphPatchDraft.coverage` must contain exactly one entry for every prepared
+chunk index. Missing chunks are an extraction error.
+
+```json
+"coverage": [
+  {"chunkIndex": 0, "decision": "MAPPED", "reason": "Document governance metadata"},
+  {"chunkIndex": 1, "decision": "MAPPED", "reason": "Product code and effective date"},
+  {"chunkIndex": 2, "decision": "MAPPED", "reason": "Product explanation"}
+]
+```
+
+Do not mark a chunk `NOT_RELEVANT` merely because another chunk already created
+a node of the same class. A later chunk may contribute new properties, rules,
+documents, segments, scripts, campaigns, offers, or knowledge.
+
+If validation reports `COVERAGE_MISSING`, inspect every missing chunk and extend
+the graph or provide a justified `NOT_RELEVANT` decision.
+
+## Prefer specific ontology concepts over generic compression
+
+Do not collapse independently queryable facts into one short summary node.
+Use the most specific class/property/edge allowed by the ontology. For example,
+when source and ontology support them, distinguish concepts such as:
+
+- product facts -> `pskg:BankingProduct` properties;
+- named promotions/programs -> `pskg:Campaign` or `pskg:ProductOffer`;
+- customer groups -> `pskg:CustomerSegment`;
+- needs -> `pskg:CustomerNeed`;
+- eligibility/sales conditions -> `pskg:BusinessRule`;
+- required application artifacts -> `pskg:RequiredDocument`;
+- scripted scenarios or objection handling -> `pskg:SalesScript`;
+- explanatory material with no more specific class -> `pskg:SalesKnowledge`.
+
+`SalesKnowledge` is a fallback for genuine knowledge content, not a bucket used
+to avoid creating more specific ontology nodes.
+
+For repeated independently queryable items, preserve useful granularity. For
+example, distinct required document types should normally remain distinct
+`RequiredDocument` nodes; distinct named customer segments should remain
+distinct segments. Do not create one node per sentence mechanically: group only
+when the facts share one semantic identity.
 
 ## Draft contract
 
-Each node uses a `properties` array. Never emit a dynamic property object.
+Every evidence item identifies the exact prepared chunk and contains a verbatim
+source excerpt. Do not paraphrase inside `evidence.text`.
 
 ```json
 {
@@ -73,162 +124,115 @@ Each node uses a `properties` array. Never emit a dynamic property object.
       "properties": [
         {
           "propertyName": "pskg:productCode",
-          "value": "TD-ONLINE-001"
-        },
-        {
-          "propertyName": "pskg:bankingProductStatus",
-          "value": "Published"
+          "value": "CC-FLEXI-001",
+          "evidence": [{
+            "source": "example.md",
+            "chunkIndex": 1,
+            "section": "Product information",
+            "text": "Product code: CC-FLEXI-001"
+          }]
         },
         {
           "propertyName": "pskg:bankingProductEffectiveFrom",
-          "value": "2026-07-01"
+          "value": "2026-08-01",
+          "evidence": [{
+            "source": "example.md",
+            "chunkIndex": 1,
+            "section": "Product information",
+            "text": "Effective date: 01/08/2026"
+          }]
         }
       ],
-      "evidence": [
-        {
-          "source": "online-deposit.md",
-          "section": "Product information",
-          "text": "Product code TD-ONLINE-001; status Published; effective 01/07/2026"
-        }
-      ],
+      "evidence": [{
+        "source": "example.md",
+        "chunkIndex": 1,
+        "section": "Product information",
+        "text": "Flexi Rewards credit card product"
+      }],
       "confidence": 0.98
-    },
-    {
-      "tempId": "eligibility-1",
-      "className": "pskg:BusinessRule",
-      "properties": [
-        {
-          "propertyName": "pskg:businessRuleCondition",
-          "value": "Customer meets the documented eligibility conditions"
-        },
-        {
-          "propertyName": "pskg:businessRuleStatus",
-          "value": "Published"
-        }
-      ],
-      "evidence": [
-        {
-          "source": "online-deposit.md",
-          "section": "Eligibility",
-          "text": "The documented eligibility condition"
-        }
-      ],
-      "confidence": 0.9
     }
   ],
-  "edges": [
-    {
-      "edgeName": "pskg:hasEligibilityRule",
-      "sourceTempId": "product-1",
-      "targetTempId": "eligibility-1",
-      "evidence": [
-        {
-          "source": "online-deposit.md",
-          "section": "Eligibility",
-          "text": "The product applies the documented eligibility condition"
-        }
-      ],
-      "confidence": 0.9
-    }
+  "edges": [],
+  "coverage": [
+    {"chunkIndex": 0, "decision": "MAPPED", "reason": "Document metadata"},
+    {"chunkIndex": 1, "decision": "MAPPED", "reason": "Product metadata"}
   ],
   "warnings": []
 }
 ```
 
-Every `propertyName`, `className`, and `edgeName` is a technical name in
-`prefix:localName` form.
+Every `className`, `propertyName`, and `edgeName` is a complete ontology
+technical name in `prefix:localName` form.
 
-Invalid examples:
+Invalid: `pskg`, `productCode`, `pskg:`.
+Valid: `pskg:BankingProduct`, `pskg:productCode`,
+`pskg:hasEligibilityRule`.
 
-```json
-{"className": "pskg"}
-{"propertyName": "productCode", "value": "P-1"}
-{"edgeName": "pskg:"}
-```
-
-Do not emit `pskg:ruleType` merely because it is absent. The compiler derives
-it deterministically for `hasEligibilityRule`, `hasSalesConditionRule`, and
-`governedByPolicy`. If the document supplies a conflicting rule type,
-validation fails instead of silently replacing it.
-
-Use unique `tempId` values. Every edge source and target must refer to a node in
-the same draft. Provide non-empty, source-grounded evidence for every node and
-edge. Confidence is between 0 and 1.
-
-If the same property appears twice with the same value, the compiler
-deduplicates it. If the values differ, validation returns
-`DUPLICATE_PROPERTY`; resolve the conflict from evidence or report it.
+Each property has its own evidence. Node evidence does not automatically prove
+all of that node's properties.
 
 ## Source-grounding rules
 
-- Emit only facts stated or unambiguously entailed by the document.
-- Do not infer `Published`, another status, a product code, an effective date,
-  price, fee, eligibility condition, or relationship merely because ontology
-  persistence requires it.
-- Preserve list order when it can carry domain meaning.
-- Do not copy ontology labels or examples as document facts.
-- Put uncertainty in `warnings`; do not hide it in invented values.
-- Evidence text must support the exact node or relationship it accompanies.
+- Emit only facts stated or unambiguously entailed by the source.
+- Evidence must point to a real `chunkIndex`, match its source/section, and use
+  text that actually occurs in that chunk.
+- Never invent `Published` or another lifecycle status to satisfy ontology.
+- Never invent product codes, version numbers, dates, fees, limits, conditions,
+  or relationships.
+- Convert a source date to ISO `YYYY-MM-DD` only when its meaning is
+  unambiguous. The compiler never guesses locale-sensitive dates.
+- Preserve list order when order may carry domain meaning.
+- Put genuine uncertainty in `warnings`; do not hide it in fabricated values.
+
+Literal-sensitive values such as codes, statuses, versions, and dates are
+checked against the cited source chunks. If validation returns
+`PROPERTY_VALUE_NOT_GROUNDED`, remove or correct the unsupported value; never
+invent a quote to support it.
+
+Do not emit `pskg:ruleType` solely because it is absent. The compiler derives it
+deterministically for `hasEligibilityRule`, `hasSalesConditionRule`, and
+`governedByPolicy`. A conflicting supplied rule type is a semantic error.
 
 ## Interpret validation correctly
 
-`validForExtraction: false` means the emitted draft itself is invalid. Examples:
+`validForExtraction: false` means the emitted extraction is invalid or
+incomplete. Typical issues include malformed schema/technical names, unknown
+ontology terms, datatype/domain/range errors, duplicate/conflicting facts,
+dangling references, source-evidence mismatches, unsupported literal values,
+and incomplete chunk coverage.
 
-- malformed schema or technical name;
-- unknown class, property, or edge;
-- wrong property datatype/domain or edge domain/range;
-- duplicate/conflicting properties or temp IDs;
-- dangling references or invalid evidence;
-- deterministic semantic conflict.
-
-Fix these only from the source and ontology, then revalidate.
-
-`validForExtraction: true` with `validForPersistence: false` means the
-source-grounded extraction is acceptable but not safe to persist. Examples:
-
-- a required `Published` status is absent;
-- a required ontology relationship or effective value is absent;
-- identity is unresolved after all permitted identity policies.
-
-Do not fabricate missing facts to clear readiness. Explain what authority is
-missing and stop before fill.
-
-An `IDENTITY_UNRESOLVED` readiness issue is not the same as a schema error. A
-deterministic source-scoped identity may make a node ready even when it has no
-natural key.
-
-A persistence failure happens after a valid gate and is reported by fill. Do
-not rewrite the draft to conceal a Neo4j or transaction failure.
+`validForExtraction: true` with `validForPersistence: false` means the complete
+source-grounded extraction is acceptable but cannot yet be persisted under the
+ontology. Missing required governance status, required relations, effective
+metadata, or unresolved identity are readiness issues. Do not fabricate facts
+to clear readiness.
 
 ## Correction loop
 
-When validation returns correctable extraction errors:
+When validation fails:
 
-1. Locate the issue by `location`, `nodeTempId`, `propertyName`, or `edgeName`.
-2. Re-check the exact document evidence and ontology context.
-3. Make the smallest supported correction.
-4. Re-submit the full current draft to validation.
-5. Repeat until valid or until evidence cannot resolve the issue.
+1. Inspect issue `code`, `location`, `nodeTempId`, `propertyName`, and `edgeName`.
+2. For coverage issues, revisit the missing/conflicting chunk.
+3. For grounding issues, inspect the exact cited chunk and replace unsupported
+   facts only when source evidence exists.
+4. For ontology issues, use the supplied ontology context; never modify the
+   ontology.
+5. Submit the entire corrected draft to validation again.
 
-Never call fill with a modified draft that has not been revalidated. Fill also
-recompiles and revalidates defensively, but that is not a substitute for the
-workflow.
+Never call fill with a changed draft that has not been revalidated.
 
 ## Progressive disclosure
 
-Use `load_skill_resource` when details are needed:
+Use `load_skill_resource` when needed:
 
-- Load `references/graph-patch-contract.md` before constructing an unfamiliar
-  class/property/edge shape or diagnosing schema/compiler errors.
-- Load `references/validation-policy.md` when interpreting extraction versus
-  readiness, identity, or persistence failures.
-- Load `references/examples.md` for positive and negative correction examples.
-
-Do not load all references by default when the main contract is sufficient.
+- `references/graph-patch-contract.md` for exact draft/evidence/coverage shape;
+- `references/validation-policy.md` for coverage, grounding, readiness, identity,
+  and persistence behavior;
+- `references/examples.md` for correction examples.
 
 ## Final response
 
-State the requested outcome and what actually completed. For extraction or
-validation, summarize both validation flags and unresolved issues. For
-persistence, include fill success/failure and counts returned by the tool.
-Never represent a not-ready draft as persisted.
+State what actually completed. For extraction/validation, report both validation
+flags and unresolved issues. For persistence, report fill success/failure and
+node/edge counts. If a document had many prepared chunks, do not present a tiny
+graph as complete unless every chunk passed the coverage gate.

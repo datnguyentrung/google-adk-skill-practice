@@ -31,6 +31,10 @@ def test_ingestion_skill_loads_with_exact_dynamic_tools():
         assert "prepare_extraction_context" in skill.instructions
         assert "validate_graph_patch" in skill.instructions
         assert "fill_graph_patch" in skill.instructions
+        assert "coverage" in skill.instructions
+        assert "chunkIndex" in skill.instructions
+        assert "PROPERTY_VALUE_NOT_GROUNDED" in skill.instructions
+        assert "SalesKnowledge" in skill.instructions
         assert set(skill.resources.references) == {
             "graph-patch-contract.md",
             "validation-policy.md",

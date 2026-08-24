@@ -19,50 +19,53 @@ class FakeToolContext:
         return self.artifact
 
 
+def source_chunks():
+    return [
+        {
+            "index": 0,
+            "source": "flexi.md",
+            "section": "Fixture",
+            "content": "CC-FLEXI-001 Published 01/08/2026 Age 20 Eligibility",
+        }
+    ]
+
+
 def ready_patch() -> dict:
+    product_ev = [{"source": "flexi.md", "chunkIndex": 0, "section": "Fixture", "text": "CC-FLEXI-001 Published 01/08/2026"}]
+    rule_ev = [{"source": "flexi.md", "chunkIndex": 0, "section": "Fixture", "text": "Age 20"}]
+    edge_ev = [{"source": "flexi.md", "chunkIndex": 0, "section": "Fixture", "text": "Eligibility"}]
     return {
         "nodes": [
             {
                 "tempId": "product-1",
                 "className": "pskg:BankingProduct",
                 "properties": [
-                    {"propertyName": "pskg:productCode", "value": "CC-FLEXI-001"},
-                    {
-                        "propertyName": "pskg:bankingProductStatus",
-                        "value": "Published",
-                    },
-                    {
-                        "propertyName": "pskg:bankingProductEffectiveFrom",
-                        "value": "2026-08-01",
-                    },
+                    {"propertyName": "pskg:productCode", "value": "CC-FLEXI-001", "evidence": product_ev},
+                    {"propertyName": "pskg:bankingProductStatus", "value": "Published", "evidence": product_ev},
+                    {"propertyName": "pskg:bankingProductEffectiveFrom", "value": "2026-08-01", "evidence": product_ev},
                 ],
-                "evidence": [{"source": "flexi.md", "text": "CC-FLEXI-001"}],
+                "evidence": product_ev,
                 "confidence": 1.0,
             },
             {
                 "tempId": "rule-1",
                 "className": "pskg:BusinessRule",
-                "properties": [
-                    {
-                        "propertyName": "pskg:businessRuleStatus",
-                        "value": "Published",
-                    }
-                ],
-                "evidence": [{"source": "flexi.md", "text": "Age 20"}],
+                "properties": [{"propertyName": "pskg:businessRuleStatus", "value": "Published", "evidence": product_ev}],
+                "evidence": rule_ev,
                 "confidence": 0.9,
             },
         ],
-        "edges": [
-            {
-                "edgeName": "pskg:hasEligibilityRule",
-                "sourceTempId": "product-1",
-                "targetTempId": "rule-1",
-                "evidence": [{"source": "flexi.md", "text": "Eligibility"}],
-                "confidence": 0.9,
-            }
-        ],
+        "edges": [{"edgeName": "pskg:hasEligibilityRule", "sourceTempId": "product-1", "targetTempId": "rule-1", "evidence": edge_ev, "confidence": 0.9}],
+        "coverage": [{"chunkIndex": 0, "decision": "MAPPED", "reason": "Fixture facts"}],
         "warnings": [],
     }
+
+
+def context_with_source():
+    context = FakeToolContext()
+    context.state[ingestion_tools.SOURCE_CHUNKS_STATE_KEY] = source_chunks()
+    context.state[ingestion_tools.ARTIFACT_DIGEST_STATE_KEY] = "artifact"
+    return context
 
 
 def test_prepare_hashes_raw_artifact_bytes_and_clears_old_gate():
@@ -108,7 +111,7 @@ def test_same_artifact_name_with_different_bytes_changes_digest():
 
 
 def test_validate_returns_public_result_only_and_sets_gate_when_ready():
-    context = FakeToolContext()
+    context = context_with_source()
     result = ingestion_tools.validate_graph_patch(ready_patch(), context)
 
     assert result["validForExtraction"] is True
@@ -119,7 +122,7 @@ def test_validate_returns_public_result_only_and_sets_gate_when_ready():
 
 
 def test_not_ready_validation_clears_gate():
-    context = FakeToolContext()
+    context = context_with_source()
     context.state[ingestion_tools.VALIDATED_FINGERPRINT_STATE_KEY] = "old"
     patch = ready_patch()
     patch["nodes"][0]["properties"] = [
@@ -136,11 +139,11 @@ def test_not_ready_validation_clears_gate():
 
 
 def test_extraction_invalid_validation_clears_gate():
-    context = FakeToolContext()
+    context = context_with_source()
     context.state[ingestion_tools.VALIDATED_FINGERPRINT_STATE_KEY] = "old"
     patch = ready_patch()
     patch["nodes"][0]["properties"].append(
-        {"propertyName": "pskg:notReal", "value": "invented"}
+        {"propertyName": "pskg:notReal", "value": "invented", "evidence": [{"source": "flexi.md", "chunkIndex": 0, "section": "Fixture", "text": "CC-FLEXI-001"}]}
     )
 
     result = ingestion_tools.validate_graph_patch(patch, context)
@@ -174,7 +177,7 @@ def test_patch_or_artifact_change_invalidates_gate(monkeypatch):
         raise AssertionError("factory must not be called")
 
     monkeypatch.setattr(ingestion_tools, "create_fill_service", factory)
-    context = FakeToolContext()
+    context = context_with_source()
     context.state[ingestion_tools.ARTIFACT_DIGEST_STATE_KEY] = "artifact-a"
     ingestion_tools.validate_graph_patch(ready_patch(), context)
 
@@ -190,11 +193,11 @@ def test_patch_or_artifact_change_invalidates_gate(monkeypatch):
 
 
 def test_invalid_modified_patch_returns_precondition_before_validation(monkeypatch):
-    context = FakeToolContext()
+    context = context_with_source()
     ingestion_tools.validate_graph_patch(ready_patch(), context)
     changed_patch = deepcopy(ready_patch())
     changed_patch["nodes"][0]["properties"].append(
-        {"propertyName": "pskg:notReal", "value": None}
+        {"propertyName": "pskg:notReal", "value": None, "evidence": [{"source": "flexi.md", "chunkIndex": 0, "section": "Fixture", "text": "CC-FLEXI-001"}]}
     )
     monkeypatch.setattr(
         ingestion_tools,
@@ -209,7 +212,7 @@ def test_invalid_modified_patch_returns_precondition_before_validation(monkeypat
 
 
 def test_gate_does_not_exist_in_a_new_invocation_context(monkeypatch):
-    first_invocation = FakeToolContext()
+    first_invocation = context_with_source()
     ingestion_tools.validate_graph_patch(ready_patch(), first_invocation)
     second_invocation = FakeToolContext()
 
@@ -227,8 +230,9 @@ class FakeFillService:
     def __init__(self):
         self.closed = False
 
-    def fill(self, patch, artifact_content_digest):
-        assert artifact_content_digest is None
+    def fill(self, patch, artifact_content_digest, chunks):
+        assert artifact_content_digest == "artifact"
+        assert chunks == source_chunks()
         return {
             "status": "success",
             "nodes": 2,
@@ -241,7 +245,7 @@ class FakeFillService:
 
 
 def test_validated_fill_closes_service(monkeypatch):
-    context = FakeToolContext()
+    context = context_with_source()
     ingestion_tools.validate_graph_patch(ready_patch(), context)
     service = FakeFillService()
     monkeypatch.setattr(
@@ -274,3 +278,10 @@ def test_validate_and_fill_function_schemas_hide_context_and_use_property_array(
         ]
         assert properties_schema["type"] == "array"
         assert properties_schema["items"]["$ref"] == "#/$defs/ExtractedProperty"
+        property_def = schema["$defs"]["ExtractedProperty"]
+        assert "evidence" in property_def["properties"]
+        evidence_def = schema["$defs"]["Evidence"]
+        assert "chunkIndex" in evidence_def["properties"]
+        draft_def = schema["$defs"]["GraphPatchDraft"]
+        assert "coverage" in draft_def["properties"]
+        assert draft_def["properties"]["coverage"]["type"] == "array"

@@ -8,14 +8,14 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.core.schemas.ingestion.graph_patch import Evidence, GraphPatchDraft
+from app.core.schemas.ingestion.graph_patch import ChunkCoverage, Evidence, GraphPatchDraft
 from app.core.schemas.ingestion.validation import ValidationIssue
 
 
 DEFAULT_ONTOLOGY_PATH = Path(
     "app/data/ontology/product_sales_knowledge_graph_base_v3_1.ontology.json"
 )
-COMPILER_SCHEMA_VERSION = "1"
+COMPILER_SCHEMA_VERSION = "2"
 NO_ARTIFACT_DIGEST = "NO_ARTIFACT"
 RULE_TYPE_BY_EDGE = {
     "pskg:hasEligibilityRule": "ELIGIBILITY",
@@ -32,6 +32,7 @@ class CompiledNode(_CompiledModel):
     temp_id: str
     class_name: str
     properties: dict[str, Any]
+    property_evidence: dict[str, tuple[Evidence, ...]]
     evidence: tuple[Evidence, ...]
     confidence: float
 
@@ -47,6 +48,7 @@ class CompiledEdge(_CompiledModel):
 class CompiledGraphPatch(_CompiledModel):
     nodes: tuple[CompiledNode, ...]
     edges: tuple[CompiledEdge, ...]
+    coverage: tuple[ChunkCoverage, ...]
     warnings: tuple[str, ...] = Field(default_factory=tuple)
 
 
@@ -61,6 +63,7 @@ class _NodeBuilder:
     temp_id: str
     class_name: str
     properties: dict[str, Any]
+    property_evidence: dict[str, tuple[Evidence, ...]]
     evidence: tuple[Evidence, ...]
     confidence: float
 
@@ -95,9 +98,11 @@ class GraphPatchCompiler:
             seen_temp_ids.add(node.temp_id)
 
             properties: dict[str, Any] = {}
+            property_evidence: dict[str, tuple[Evidence, ...]] = {}
             for property_index, entry in enumerate(node.properties):
                 if entry.property_name not in properties:
                     properties[entry.property_name] = entry.value
+                    property_evidence[entry.property_name] = tuple(entry.evidence)
                     continue
 
                 if not self._values_identical(
@@ -118,12 +123,19 @@ class GraphPatchCompiler:
                             property_name=entry.property_name,
                         )
                     )
+                    continue
+
+                property_evidence[entry.property_name] = self._merge_evidence(
+                    property_evidence[entry.property_name],
+                    tuple(entry.evidence),
+                )
 
             node_builders.append(
                 _NodeBuilder(
                     temp_id=node.temp_id,
                     class_name=node.class_name,
                     properties=properties,
+                    property_evidence=property_evidence,
                     evidence=tuple(node.evidence),
                     confidence=node.confidence,
                 )
@@ -158,6 +170,7 @@ class GraphPatchCompiler:
                 actual_rule_type = target.properties.get("pskg:ruleType")
                 if actual_rule_type is None:
                     target.properties["pskg:ruleType"] = expected_rule_type
+                    target.property_evidence["pskg:ruleType"] = tuple(edge.evidence)
                 elif actual_rule_type != expected_rule_type:
                     errors.append(
                         ValidationIssue(
@@ -192,6 +205,7 @@ class GraphPatchCompiler:
                 temp_id=node.temp_id,
                 class_name=node.class_name,
                 properties=dict(sorted(node.properties.items())),
+                property_evidence={name: node.property_evidence[name] for name in sorted(node.property_evidence)},
                 evidence=node.evidence,
                 confidence=node.confidence,
             )
@@ -201,6 +215,7 @@ class GraphPatchCompiler:
             compiled_patch=CompiledGraphPatch(
                 nodes=nodes,
                 edges=tuple(edges),
+                coverage=tuple(draft.coverage),
                 warnings=tuple(draft.warnings),
             ),
             errors=(),
@@ -226,6 +241,18 @@ class GraphPatchCompiler:
         )
         return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
 
+
+    @staticmethod
+    def _merge_evidence(
+        left: tuple[Evidence, ...],
+        right: tuple[Evidence, ...],
+    ) -> tuple[Evidence, ...]:
+        merged: dict[tuple[str, int, str | None, str], Evidence] = {}
+        for item in (*left, *right):
+            key = (item.source, item.chunk_index, item.section, item.text)
+            merged[key] = item
+        return tuple(merged.values())
+
     @classmethod
     def _values_identical(cls, left: Any, right: Any) -> bool:
         if type(left) is not type(right):
@@ -245,11 +272,12 @@ class GraphPatchCompiler:
         def canonical_evidence(items: tuple[Evidence, ...]) -> list[dict[str, Any]]:
             ordered = sorted(
                 items,
-                key=lambda item: (item.source, item.section or "", item.text),
+                key=lambda item: (item.source, item.chunk_index, item.section or "", item.text),
             )
             return [
                 {
                     "source": item.source,
+                    "chunkIndex": item.chunk_index,
                     "section": item.section,
                     "text": item.text,
                 }
@@ -264,6 +292,7 @@ class GraphPatchCompiler:
                     name: self._canonical_value(node.properties[name])
                     for name in sorted(node.properties)
                 },
+                "propertyEvidence": {name: canonical_evidence(node.property_evidence.get(name, ())) for name in sorted(node.properties)},
                 "evidence": canonical_evidence(node.evidence),
                 "confidence": node.confidence,
             }
@@ -286,7 +315,8 @@ class GraphPatchCompiler:
                 ),
             )
         ]
-        return {"nodes": nodes, "edges": edges, "warnings": list(patch.warnings)}
+        coverage = [{"chunkIndex": item.chunk_index, "decision": item.decision, "reason": item.reason} for item in sorted(patch.coverage, key=lambda item: item.chunk_index)]
+        return {"nodes": nodes, "edges": edges, "coverage": coverage, "warnings": list(patch.warnings)}
 
     @classmethod
     def _canonical_value(cls, value: Any) -> Any:

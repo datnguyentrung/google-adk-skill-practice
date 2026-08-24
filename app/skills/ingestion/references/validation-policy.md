@@ -1,41 +1,51 @@
 # Validation and persistence policy
 
-Validation returns two independent decisions.
+Validation returns two decisions: extraction correctness/completeness and
+persistence readiness.
 
 ## Extraction validation
 
-`validForExtraction` covers whether the emitted facts are structurally and
-ontologically valid: schema, technical names, known ontology terms,
-domain/range, datatypes, references, evidence, duplicates, and deterministic
-semantic conflicts.
+`validForExtraction` requires all of the following:
 
-Ontology cardinality does not authorize invented facts. A source-grounded patch
-can pass extraction while lacking data required for persistence.
+- schema and complete technical names are valid;
+- emitted classes/properties/edges exist in the ontology;
+- property domain/datatype and edge domain/range are valid;
+- duplicates, dangling references, and deterministic semantic conflicts are absent;
+- every prepared chunk has exactly one coverage decision;
+- every `MAPPED` chunk is actually referenced by evidence;
+- `NOT_RELEVANT` chunks are not used as evidence;
+- evidence source/chunk/section/text matches the prepared source;
+- literal-sensitive property values (codes, statuses, versions, dates) are
+  supported by their cited source chunks.
+
+This prevents a structurally valid three-node patch from being accepted as a
+complete extraction when most of a long document was never considered.
 
 ## Persistence readiness
 
 `validForPersistence` is evaluated only after extraction passes. It applies all
-ontology cardinality, required value, and required relationship rules, plus
-static identity preflight.
+ontology cardinality/value/relationship rules plus identity preflight. Prepared
+source context is also required before a patch can be authorized for write.
 
-Missing status `Published`, required effective metadata, or required
-relationships are readiness issues. Preserve the valid source extraction and
-report the missing authority.
+A missing ontology-required `Published` status is a readiness issue when the
+source never states it. Adding `Published` without supporting source is instead
+an extraction grounding error (`PROPERTY_VALUE_NOT_GROUNDED`).
 
-`IDENTITY_UNRESOLVED` is emitted only after the resolver tries every permitted
-local policy. Natural identity takes precedence. Classes without a natural key
-may use deterministic `_ingestionKey` scoped by evidence source.
+`IDENTITY_UNRESOLVED` is emitted only after every permitted local identity
+strategy fails. Natural identity takes precedence; source-scoped deterministic
+identity may be used where policy allows.
 
-## Gate and failures
+## Invocation gate
 
-Validation stores a fingerprint only when both decisions pass. The fingerprint
-binds the compiled patch, raw artifact content digest, exact ontology bytes,
-and compiler schema version. It exists only for the current invocation.
+Validation stores a fingerprint only when both flags are true. The fingerprint
+binds the compiled patch, evidence and coverage, raw artifact digest, exact
+ontology bytes, and compiler schema version. It exists only for the current
+invocation.
 
-Fill recompiles the current draft and compares the fingerprint before creating
-the Neo4j service. Missing or mismatched state returns
-`VALIDATION_PRECONDITION`. Fill then validates defensively and writes all nodes
-and edges in one transaction.
+Fill recompiles the current draft, compares the fingerprint, defensively
+reassesses it against the same prepared source chunks, then writes all nodes and
+edges in one Neo4j transaction. Missing/mismatched state returns
+`VALIDATION_PRECONDITION`.
 
-A `NEO4J_WRITE_FAILED` result is a persistence failure, not permission to alter
-the extracted business facts.
+`NEO4J_WRITE_FAILED` is a persistence failure and never authorizes changing
+business facts.
