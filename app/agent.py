@@ -52,7 +52,7 @@ def create_root_agent() -> Agent:
 
     return Agent(
         name="root_agent",
-        model="gemini-3-flash-preview",
+        model="gemini-3.1-flash-lite",
         description=(
             "A root agent that dynamically routes requests to available skills."
         ),

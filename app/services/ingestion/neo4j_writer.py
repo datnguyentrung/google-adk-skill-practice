@@ -5,6 +5,7 @@ from neo4j import Transaction
 
 from app.services.ingestion.identity import (
     IdentityResolver,
+    source_scope_from_evidence,
 )
 from app.services.ingestion.neo4j_mapper import (
     Neo4jMapper,
@@ -168,19 +169,6 @@ class Neo4jWriter:
             relationship_type,
         )
 
-    @staticmethod
-    def _source_scope_from_evidence(evidence) -> str | None:
-        sources = sorted(
-            {
-                item.source.strip()
-                for item in evidence
-                if getattr(item, "source", None) and item.source.strip()
-            }
-        )
-        if not sources:
-            return None
-        return "|".join(sources)
-
     def write_graph_patch(
         self,
         tx: Transaction,
@@ -200,7 +188,7 @@ class Neo4jWriter:
                 node.temp_id,
                 node.class_name,
             )
-            source_scope = self._source_scope_from_evidence(node.evidence)
+            source_scope = source_scope_from_evidence(node.evidence)
             node_id = self.upsert_node(
                 tx=tx,
                 class_name=node.class_name,

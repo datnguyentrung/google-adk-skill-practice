@@ -14,6 +14,17 @@ from app.services.ingestion.registry import OntologyRegistry
 logger = logging.getLogger(__name__)
 
 
+def source_scope_from_evidence(evidence) -> str | None:
+    sources = sorted(
+        {
+            item.source.strip()
+            for item in evidence
+            if getattr(item, "source", None) and item.source.strip()
+        }
+    )
+    return "|".join(sources) or None
+
+
 class IdentityResolutionError(ValueError):
     pass
 
@@ -69,20 +80,21 @@ class IdentityResolver:
                 "Identity resolution using source-scoped strategy class_name=%s",
                 class_name,
             )
-            return NodeIdentity(
+            return self._source_scoped_identity(
                 class_name=class_name,
-                strategy="source_scoped",
-                key_name="_ingestionKey",
-                key_value=self._build_source_scoped_key(
-                    class_name=class_name,
-                    source_scope=source_scope,
-                    properties=properties,
-                ),
+                source_scope=source_scope,
+                properties=properties,
             )
 
         value = properties.get(key_name)
 
         if value is None:
+            if source_scope:
+                return self._source_scoped_identity(
+                    class_name=class_name,
+                    source_scope=source_scope,
+                    properties=properties,
+                )
             logger.warning(
                 "Identity resolution missing natural key class_name=%s key_name=%s",
                 class_name,
@@ -95,6 +107,12 @@ class IdentityResolver:
         normalized_value = self._normalize_value(value)
 
         if not normalized_value:
+            if source_scope:
+                return self._source_scoped_identity(
+                    class_name=class_name,
+                    source_scope=source_scope,
+                    properties=properties,
+                )
             logger.warning(
                 "Identity resolution empty natural key class_name=%s key_name=%s",
                 class_name,
@@ -114,6 +132,24 @@ class IdentityResolver:
             strategy="natural_key",
             key_name=key_name,
             key_value=normalized_value,
+        )
+
+    def _source_scoped_identity(
+        self,
+        *,
+        class_name: str,
+        source_scope: str,
+        properties: dict[str, Any],
+    ) -> NodeIdentity:
+        return NodeIdentity(
+            class_name=class_name,
+            strategy="source_scoped",
+            key_name="_ingestionKey",
+            key_value=self._build_source_scoped_key(
+                class_name=class_name,
+                source_scope=source_scope,
+                properties=properties,
+            ),
         )
 
     def _build_source_scoped_key(

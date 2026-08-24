@@ -1,290 +1,276 @@
 import asyncio
+import hashlib
+from copy import deepcopy
 from pathlib import Path
 from types import SimpleNamespace
 
-from app.services.ingestion.fill_service import FillValidationError
 from app.tools import ingestion_tools
 
-DOCUMENT_PATH = Path(
-    "docs/HƯỚNG DẪN NGHIỆP VỤ SẢN PHẨM THẺ TÍN DỤNG FLEXI REWARDS.md"
-)
+
+DOCUMENT_PATH = next(Path("docs").glob("*FLEXI REWARDS.md"))
 
 
 class FakeToolContext:
-    def __init__(self, artifact):
+    def __init__(self, artifact=None):
         self.artifact = artifact
-        self.state = {}
+        self.state: dict = {}
 
     async def load_artifact(self, filename: str):
         return self.artifact
 
 
-def test_prepare_extraction_context_tool_reads_uploaded_artifact():
-    artifact = SimpleNamespace(
-        inline_data=SimpleNamespace(
-            data=DOCUMENT_PATH.read_bytes(),
-            mime_type="text/markdown",
-        ),
-        text=None,
-    )
-    tool_context = FakeToolContext(artifact)
-
-    result = asyncio.run(
-        ingestion_tools.prepare_extraction_context(
-            DOCUMENT_PATH.name,
-            tool_context,
-        )
-    )
-
-    assert result["success"] is True
-    assert result["document_name"] == DOCUMENT_PATH.name
-    assert result["chunks"]
-    assert "pskg:BankingProduct" in result["ontology_context"]
-    assert any("CC-FLEXI-001" in chunk["content"] for chunk in result["chunks"])
-    assert tool_context.state["temp:ingestion_source"] == DOCUMENT_PATH.name
-
-
-def test_prepare_extraction_context_logs_progress(caplog):
-    artifact = SimpleNamespace(
-        inline_data=SimpleNamespace(
-            data=DOCUMENT_PATH.read_bytes(),
-            mime_type="text/markdown",
-        ),
-        text=None,
-    )
-    tool_context = FakeToolContext(artifact)
-
-    with caplog.at_level("INFO", logger="app.tools.ingestion_tools"):
-        result = asyncio.run(
-            ingestion_tools.prepare_extraction_context(
-                DOCUMENT_PATH.name,
-                tool_context,
-            )
-        )
-
-    assert result["success"] is True
-    messages = [record.getMessage() for record in caplog.records]
-    assert any("Ingestion artifact loaded" in message for message in messages)
-    assert any(
-        "Ingestion extraction context prepared" in message
-        for message in messages
-    )
-
-
-def test_validate_graph_patch_tool_returns_structured_errors():
-    result = ingestion_tools.validate_graph_patch(
-        {
-            "nodes": [
-                {
-                    "tempId": "bad-1",
-                    "className": "pskg:NotAClass",
-                    "properties": {},
-                    "evidence": [],
-                    "confidence": 1.0,
-                }
-            ],
-            "edges": [],
-            "warnings": [],
-        }
-    )
-
-    assert result["valid"] is False
-    assert any("Unknown ontology class" in error for error in result["errors"])
-
-
-def test_validate_graph_patch_logs_invalid_result(caplog):
-    graph_patch = {
+def ready_patch() -> dict:
+    return {
         "nodes": [
             {
-                "tempId": "bad-1",
-                "className": "pskg:NotAClass",
-                "properties": {},
-                "evidence": [],
+                "tempId": "product-1",
+                "className": "pskg:BankingProduct",
+                "properties": [
+                    {"propertyName": "pskg:productCode", "value": "CC-FLEXI-001"},
+                    {
+                        "propertyName": "pskg:bankingProductStatus",
+                        "value": "Published",
+                    },
+                    {
+                        "propertyName": "pskg:bankingProductEffectiveFrom",
+                        "value": "2026-08-01",
+                    },
+                ],
+                "evidence": [{"source": "flexi.md", "text": "CC-FLEXI-001"}],
                 "confidence": 1.0,
+            },
+            {
+                "tempId": "rule-1",
+                "className": "pskg:BusinessRule",
+                "properties": [
+                    {
+                        "propertyName": "pskg:businessRuleStatus",
+                        "value": "Published",
+                    }
+                ],
+                "evidence": [{"source": "flexi.md", "text": "Age 20"}],
+                "confidence": 0.9,
+            },
+        ],
+        "edges": [
+            {
+                "edgeName": "pskg:hasEligibilityRule",
+                "sourceTempId": "product-1",
+                "targetTempId": "rule-1",
+                "evidence": [{"source": "flexi.md", "text": "Eligibility"}],
+                "confidence": 0.9,
             }
         ],
-        "edges": [],
         "warnings": [],
     }
 
-    with caplog.at_level("INFO", logger="app.tools.ingestion_tools"):
-        result = ingestion_tools.validate_graph_patch(graph_patch)
 
-    assert result["valid"] is False
-    messages = [record.getMessage() for record in caplog.records]
-    assert any("Ingestion validate_graph_patch started" in message for message in messages)
-    assert any(
-        "Ingestion validate_graph_patch completed valid=False"
-        in message
-        for message in messages
+def test_prepare_hashes_raw_artifact_bytes_and_clears_old_gate():
+    data = DOCUMENT_PATH.read_bytes()
+    artifact = SimpleNamespace(
+        inline_data=SimpleNamespace(data=data, mime_type="text/markdown"),
+        text=None,
+    )
+    context = FakeToolContext(artifact)
+    context.state[ingestion_tools.VALIDATED_FINGERPRINT_STATE_KEY] = "old"
+
+    result = asyncio.run(
+        ingestion_tools.prepare_extraction_context(DOCUMENT_PATH.name, context)
     )
 
-
-def test_fill_graph_patch_rejects_schema_before_factory(monkeypatch):
-    called = False
-
-    def fail_if_called():
-        nonlocal called
-        called = True
-        raise AssertionError("factory must not be called")
-
-    monkeypatch.setattr(ingestion_tools, "create_fill_service", fail_if_called)
-
-    result = ingestion_tools.fill_graph_patch(
-        {
-            "nodes": [
-                {
-                    "tempId": "product-1",
-                    "className": "pskg:BankingProduct",
-                    "properties": {},
-                    "evidence": [],
-                    "confidence": 2.0,
-                }
-            ],
-            "edges": [],
-            "warnings": [],
-        }
-    )
-
-    assert result["success"] is False
-    assert result["stage"] == "schema_validation"
-    assert called is False
+    assert result["success"] is True
+    assert context.state[ingestion_tools.ARTIFACT_DIGEST_STATE_KEY] == hashlib.sha256(
+        data
+    ).hexdigest()
+    assert context.state[ingestion_tools.ARTIFACT_NAME_STATE_KEY] == DOCUMENT_PATH.name
+    assert ingestion_tools.VALIDATED_FINGERPRINT_STATE_KEY not in context.state
 
 
-def test_fill_graph_patch_logs_schema_failure_before_factory(monkeypatch, caplog):
-    called = False
-
-    def fail_if_called():
-        nonlocal called
-        called = True
-        raise AssertionError("factory must not be called")
-
-    monkeypatch.setattr(ingestion_tools, "create_fill_service", fail_if_called)
-
-    with caplog.at_level("INFO", logger="app.tools.ingestion_tools"):
-        result = ingestion_tools.fill_graph_patch(
-            {
-                "nodes": [
-                    {
-                        "tempId": "product-1",
-                        "className": "pskg:BankingProduct",
-                        "properties": {},
-                        "evidence": [],
-                        "confidence": 2.0,
-                    }
-                ],
-                "edges": [],
-                "warnings": [],
-            }
+def test_same_artifact_name_with_different_bytes_changes_digest():
+    first = FakeToolContext(
+        SimpleNamespace(
+            inline_data=SimpleNamespace(data=b"first", mime_type="text/plain"),
+            text=None,
         )
-
-    assert result["success"] is False
-    assert result["stage"] == "schema_validation"
-    assert called is False
-    messages = [record.getMessage() for record in caplog.records]
-    assert any("Ingestion fill_graph_patch started" in message for message in messages)
-    assert any(
-        "Ingestion fill_graph_patch schema validation failed"
-        in message
-        for message in messages
     )
+    second = FakeToolContext(
+        SimpleNamespace(
+            inline_data=SimpleNamespace(data=b"second", mime_type="text/plain"),
+            text=None,
+        )
+    )
+    asyncio.run(ingestion_tools.prepare_extraction_context("same.md", first))
+    asyncio.run(ingestion_tools.prepare_extraction_context("same.md", second))
+
+    assert first.state[ingestion_tools.ARTIFACT_DIGEST_STATE_KEY] != second.state[
+        ingestion_tools.ARTIFACT_DIGEST_STATE_KEY
+    ]
+
+
+def test_validate_returns_public_result_only_and_sets_gate_when_ready():
+    context = FakeToolContext()
+    result = ingestion_tools.validate_graph_patch(ready_patch(), context)
+
+    assert result["validForExtraction"] is True
+    assert result["validForPersistence"] is True
+    assert "compiled_patch" not in result
+    assert "fingerprint" not in result
+    assert ingestion_tools.VALIDATED_FINGERPRINT_STATE_KEY in context.state
+
+
+def test_not_ready_validation_clears_gate():
+    context = FakeToolContext()
+    context.state[ingestion_tools.VALIDATED_FINGERPRINT_STATE_KEY] = "old"
+    patch = ready_patch()
+    patch["nodes"][0]["properties"] = [
+        entry
+        for entry in patch["nodes"][0]["properties"]
+        if entry["propertyName"] != "pskg:bankingProductStatus"
+    ]
+
+    result = ingestion_tools.validate_graph_patch(patch, context)
+
+    assert result["validForExtraction"] is True
+    assert result["validForPersistence"] is False
+    assert ingestion_tools.VALIDATED_FINGERPRINT_STATE_KEY not in context.state
+
+
+def test_extraction_invalid_validation_clears_gate():
+    context = FakeToolContext()
+    context.state[ingestion_tools.VALIDATED_FINGERPRINT_STATE_KEY] = "old"
+    patch = ready_patch()
+    patch["nodes"][0]["properties"].append(
+        {"propertyName": "pskg:notReal", "value": "invented"}
+    )
+
+    result = ingestion_tools.validate_graph_patch(patch, context)
+
+    assert result["validForExtraction"] is False
+    assert ingestion_tools.VALIDATED_FINGERPRINT_STATE_KEY not in context.state
+
+
+def test_fill_without_validate_does_not_create_neo4j_service(monkeypatch):
+    called = False
+
+    def factory(**kwargs):
+        nonlocal called
+        called = True
+        raise AssertionError("factory must not be called")
+
+    monkeypatch.setattr(ingestion_tools, "create_fill_service", factory)
+    result = ingestion_tools.fill_graph_patch(ready_patch(), FakeToolContext())
+
+    assert result["stage"] == "validation_precondition"
+    assert result["errors"][0]["code"] == "VALIDATION_PRECONDITION"
+    assert called is False
+
+
+def test_patch_or_artifact_change_invalidates_gate(monkeypatch):
+    called = False
+
+    def factory(**kwargs):
+        nonlocal called
+        called = True
+        raise AssertionError("factory must not be called")
+
+    monkeypatch.setattr(ingestion_tools, "create_fill_service", factory)
+    context = FakeToolContext()
+    context.state[ingestion_tools.ARTIFACT_DIGEST_STATE_KEY] = "artifact-a"
+    ingestion_tools.validate_graph_patch(ready_patch(), context)
+
+    changed_patch = deepcopy(ready_patch())
+    changed_patch["nodes"][0]["properties"][0]["value"] = "OTHER"
+    patch_result = ingestion_tools.fill_graph_patch(changed_patch, context)
+    assert patch_result["stage"] == "validation_precondition"
+
+    context.state[ingestion_tools.ARTIFACT_DIGEST_STATE_KEY] = "artifact-b"
+    artifact_result = ingestion_tools.fill_graph_patch(ready_patch(), context)
+    assert artifact_result["stage"] == "validation_precondition"
+    assert called is False
+
+
+def test_invalid_modified_patch_returns_precondition_before_validation(monkeypatch):
+    context = FakeToolContext()
+    ingestion_tools.validate_graph_patch(ready_patch(), context)
+    changed_patch = deepcopy(ready_patch())
+    changed_patch["nodes"][0]["properties"].append(
+        {"propertyName": "pskg:notReal", "value": None}
+    )
+    monkeypatch.setattr(
+        ingestion_tools,
+        "create_fill_service",
+        lambda **kwargs: (_ for _ in ()).throw(AssertionError("must not create")),
+    )
+
+    result = ingestion_tools.fill_graph_patch(changed_patch, context)
+
+    assert result["stage"] == "validation_precondition"
+    assert result["errors"][0]["code"] == "VALIDATION_PRECONDITION"
+
+
+def test_gate_does_not_exist_in_a_new_invocation_context(monkeypatch):
+    first_invocation = FakeToolContext()
+    ingestion_tools.validate_graph_patch(ready_patch(), first_invocation)
+    second_invocation = FakeToolContext()
+
+    monkeypatch.setattr(
+        ingestion_tools,
+        "create_fill_service",
+        lambda **kwargs: (_ for _ in ()).throw(AssertionError("must not create")),
+    )
+    result = ingestion_tools.fill_graph_patch(ready_patch(), second_invocation)
+
+    assert result["stage"] == "validation_precondition"
 
 
 class FakeFillService:
-    def __init__(self, error: Exception | None = None):
-        self.error = error
+    def __init__(self):
         self.closed = False
 
-    def fill(self, patch):
-        if self.error is not None:
-            raise self.error
+    def fill(self, patch, artifact_content_digest):
+        assert artifact_content_digest is None
         return {
             "status": "success",
-            "nodes": len(patch.nodes),
-            "edges": len(patch.edges),
-            "nodeIds": {"product-1": "node-1"},
+            "nodes": 2,
+            "edges": 1,
+            "nodeIds": {"product-1": "node-1", "rule-1": "node-2"},
         }
 
     def close(self):
         self.closed = True
 
 
-def _minimal_schema_valid_patch() -> dict:
-    return {
-        "nodes": [
-            {
-                "tempId": "product-1",
-                "className": "pskg:BankingProduct",
-                "properties": {},
-                "evidence": [],
-                "confidence": 1.0,
-            }
-        ],
-        "edges": [],
-        "warnings": [],
-    }
-
-
-def test_fill_graph_patch_success_closes_service(monkeypatch):
+def test_validated_fill_closes_service(monkeypatch):
+    context = FakeToolContext()
+    ingestion_tools.validate_graph_patch(ready_patch(), context)
     service = FakeFillService()
     monkeypatch.setattr(
         ingestion_tools,
         "create_fill_service",
-        lambda: service,
+        lambda **kwargs: service,
     )
 
-    result = ingestion_tools.fill_graph_patch(_minimal_schema_valid_patch())
+    result = ingestion_tools.fill_graph_patch(ready_patch(), context)
 
     assert result["success"] is True
     assert result["stage"] == "completed"
-    assert result["nodeIds"] == {"product-1": "node-1"}
     assert service.closed is True
 
 
-def test_fill_graph_patch_maps_validation_error_and_closes(monkeypatch):
-    service = FakeFillService(
-        FillValidationError("Node product-1: missing required property")
-    )
-    monkeypatch.setattr(
-        ingestion_tools,
-        "create_fill_service",
-        lambda: service,
-    )
-
-    result = ingestion_tools.fill_graph_patch(_minimal_schema_valid_patch())
-
-    assert result["success"] is False
-    assert result["stage"] == "ontology_validation"
-    assert result["errors"] == [
-        "Node product-1: missing required property"
-    ]
-    assert service.closed is True
-
-
-def test_validate_tool_exposes_graph_patch_schema_to_model():
+def test_validate_and_fill_function_schemas_hide_context_and_use_property_array():
     from google.adk.tools import FunctionTool
 
-    declaration = FunctionTool(
-        ingestion_tools.validate_graph_patch
-    )._get_declaration()
-    schema = declaration.parameters_json_schema
-
-    assert schema["properties"]["graph_patch"]["$ref"] == "#/$defs/GraphPatch"
-    assert schema["$defs"]["ExtractedNode"]["properties"]["evidence"]["items"][
-        "$ref"
-    ] == "#/$defs/Evidence"
-    assert schema["$defs"]["ExtractedNode"]["properties"]["properties"][
-        "type"
-    ] == "object"
-
-
-def test_prepare_tool_exposes_only_artifact_name_to_model():
-    from google.adk.tools import FunctionTool
-
-    declaration = FunctionTool(
-        ingestion_tools.prepare_extraction_context
-    )._get_declaration()
-    schema = declaration.parameters_json_schema
-
-    assert set(schema["properties"]) == {"artifact_name"}
-    assert schema["required"] == ["artifact_name"]
+    for function in (
+        ingestion_tools.validate_graph_patch,
+        ingestion_tools.fill_graph_patch,
+    ):
+        schema = FunctionTool(function)._get_declaration().parameters_json_schema
+        assert set(schema["properties"]) == {"graph_patch"}
+        assert schema["properties"]["graph_patch"]["$ref"] == (
+            "#/$defs/GraphPatchDraft"
+        )
+        properties_schema = schema["$defs"]["ExtractedNode"]["properties"][
+            "properties"
+        ]
+        assert properties_schema["type"] == "array"
+        assert properties_schema["items"]["$ref"] == "#/$defs/ExtractedProperty"

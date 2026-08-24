@@ -1,127 +1,59 @@
-from app.services.ingestion.loader import OntologyLoader
-from app.services.ingestion.registry import OntologyRegistry
-from app.services.ingestion.validator import OntologyValidator
-
-ONTOLOGY_PATH = (
-    "app/data/ontology/product_sales_knowledge_graph_base_v3_1.ontology.json"
-)
+from app.services.ingestion.validate_graph_patch import GraphPatchValidationService
 
 
-def create_validator() -> OntologyValidator:
-    ontology = OntologyLoader.load(ONTOLOGY_PATH)
-    registry = OntologyRegistry(ontology)
+def node_patch(class_name: str, properties: list[dict]) -> dict:
+    return {
+        "nodes": [
+            {
+                "tempId": "node-1",
+                "className": class_name,
+                "properties": properties,
+                "evidence": [{"source": "source.md", "text": "Evidence"}],
+                "confidence": 1.0,
+            }
+        ],
+        "edges": [],
+        "warnings": [],
+    }
 
-    return OntologyValidator(registry)
 
-
-def test_valid_banking_product_node():
-    validator = create_validator()
-
-    errors = validator.validate_node(
-        class_name="pskg:BankingProduct",
-        properties={
-            "pskg:productCode": "CARD-001",
-            "pskg:bankingProductName": "Flexi Rewards",
-            "pskg:bankingProductStatus": "Published",
-            "pskg:bankingProductEffectiveFrom": "2026-08-01",
-        },
+def test_unknown_class_is_extraction_error():
+    assessment = GraphPatchValidationService().assess(
+        node_patch("pskg:SomethingDoesNotExist", []),
+        None,
     )
+    assert {issue.code for issue in assessment.result.errors} == {"UNKNOWN_CLASS"}
 
-    assert errors == []
 
-
-def test_unknown_class():
-    validator = create_validator()
-
-    errors = validator.validate_node(
-        class_name="pskg:SomethingDoesNotExist",
-        properties={},
+def test_unknown_property_and_domain_mismatch_are_extraction_errors():
+    service = GraphPatchValidationService()
+    unknown = service.assess(
+        node_patch(
+            "pskg:BankingProduct",
+            [{"propertyName": "pskg:notRealProperty", "value": "hello"}],
+        ),
+        None,
     )
-
-    assert len(errors) == 1
-    assert "Unknown ontology class" in errors[0]
-
-
-def test_unknown_property():
-    validator = create_validator()
-
-    errors = validator.validate_node(
-        class_name="pskg:BankingProduct",
-        properties={
-            "pskg:notRealProperty": "hello",
-        },
+    wrong_domain = service.assess(
+        node_patch(
+            "pskg:BankingProduct",
+            [{"propertyName": "pskg:priority", "value": 10}],
+        ),
+        None,
     )
+    assert {issue.code for issue in unknown.result.errors} == {"UNKNOWN_PROPERTY"}
+    assert {issue.code for issue in wrong_domain.result.errors} == {
+        "PROPERTY_DOMAIN_MISMATCH"
+    }
 
-    assert any("Unknown ontology property" in error for error in errors)
 
-
-def test_property_does_not_belong_to_class():
-    validator = create_validator()
-
-    errors = validator.validate_node(
-        class_name="pskg:BankingProduct",
-        properties={
-            "pskg:priority": 10,
-        },
+def test_missing_required_fact_is_persistence_readiness_issue():
+    assessment = GraphPatchValidationService().assess(
+        node_patch("pskg:BankingProduct", []),
+        None,
     )
-
-    assert any("does not belong" in error for error in errors)
-
-
-def test_invalid_property_datatype():
-    validator = create_validator()
-
-    errors = validator.validate_node(
-        class_name="pskg:BankingProduct",
-        properties={
-            "pskg:productCode": 12345,
-        },
-    )
-
-    assert any("Invalid datatype" in error for error in errors)
-
-def test_missing_required_product_code():
-    validator = create_validator()
-
-    errors = validator.validate_node(
-        class_name="pskg:BankingProduct",
-        properties={
-            "pskg:bankingProductStatus": "Published",
-        },
-    )
-
-    assert "Missing required property: pskg:productCode" in errors
-
-def test_missing_required_product_status():
-    validator = create_validator()
-
-    errors = validator.validate_node(
-        class_name="pskg:BankingProduct",
-        properties={
-            "pskg:productCode": "CARD-001",
-        },
-    )
-
-    assert (
-        "Missing required property: "
-        "pskg:bankingProductStatus"
-    ) in errors
-
-def test_missing_multiple_required_properties():
-    validator = create_validator()
-
-    errors = validator.validate_node(
-        class_name="pskg:BankingProduct",
-        properties={},
-    )
-
-    assert (
-        "Missing required property: pskg:productCode"
-        in errors
-    )
-
-    assert (
-        "Missing required property: "
-        "pskg:bankingProductStatus"
-        in errors
-    )
+    assert assessment.result.valid_for_extraction is True
+    assert assessment.result.valid_for_persistence is False
+    assert "ONTOLOGY_RULE_UNSATISFIED" in {
+        issue.code for issue in assessment.result.readiness_issues
+    }

@@ -1,10 +1,9 @@
 ---
 name: ingestion
 description: >
-  Ingest uploaded Product Sales business documents into the Product Sales
-  Knowledge Graph in Neo4j by extracting ontology-grounded GraphPatch data,
-  validating it, and safely persisting it.
-  Also supports extract-only and validate-only requests.
+  Extract, validate, and optionally persist Product Sales knowledge from an
+  uploaded business document into the Product Sales Knowledge Graph. Use for
+  ingest, import, load, extract-only, and validate-only requests.
 metadata:
   adk_additional_tools:
     - prepare_extraction_context
@@ -12,315 +11,58 @@ metadata:
     - fill_graph_patch
 ---
 
-# Product Sales Knowledge Graph Ingestion
+# Product Sales Knowledge Graph ingestion
 
-Use this skill when the user wants to extract, map, ingest, validate,
-or fill product-sales knowledge from a business document into the
-Product Sales Knowledge Graph.
+You are the semantic mapper. Do not invoke another model or extraction agent.
+The ontology is read-only and is the source of truth for technical names,
+domains, ranges, datatypes, and persistence rules.
 
-## Core principle
+Never modify the ontology. Never invent missing business facts to satisfy it.
 
-The root model performs all semantic reasoning.
+## Choose the requested outcome
 
-Do NOT invoke another LLM, agent, or model to perform extraction.
+- Extract-only: prepare, produce a `GraphPatchDraft`, validate, and return it.
+- Validate-only: validate the supplied draft and explain the structured result.
+- Ingest/import/load/write: prepare, extract, validate, correct if grounded, then
+  fill. Do not stop after validation when the patch is persistence-ready.
+- If persistence was requested but the source cannot support required data,
+  report readiness issues and do not call fill.
 
-The ontology file is read-only.
+## Required workflow
 
-Never modify:
-
-`app/data/ontology/product_sales_knowledge_graph_base_v3_1.ontology.json`
-
-The ontology is the source of truth for:
-
-- classes
-- properties
-- edges
-- domain
-- range
-- datatype
-- cardinality/rules
-
-Operational ingestion policies may exist outside the ontology, but they
-must never mutate the ontology file.
-
----
-
-# Workflow
-
-The ingestion workflow has two conceptual stages:
+For an uploaded document, follow this order in one invocation:
 
 ```text
-Document
-   ↓
-EXTRACT
-   ↓
-GraphPatch
-   ↓
-FILL
-   ↓
-Neo4j
+prepare artifact
+  -> inspect document chunks and ontology context
+  -> map only source-grounded facts
+  -> build GraphPatchDraft with PropertyEntry arrays
+  -> validate
+  -> correct source-grounded extraction errors
+  -> revalidate after every correction
+  -> fill only after both validation flags are true
 ```
 
-`EXTRACT` must never write to Neo4j.
-
-`FILL` must never invent or infer missing knowledge.
-
-If the user explicitly asks to ingest/import/load/write an uploaded document,
-this is an end-to-end persistence request. Continue automatically through:
-
-```text
-uploaded artifact
-→ prepare
-→ extract GraphPatch
-→ validate
-→ fill Neo4j
-```
-
-Do not stop after extraction or validation when persistence was requested.
-
----
-
-# EXTRACT
-
-## Goal
-
-Convert the supplied source document into a `GraphPatch` grounded in:
-
-1. evidence from the source document;
-2. the Product Sales ontology.
-
-The root model performs the semantic mapping.
-
-## Step 1 — Read the uploaded document
-
-When the user uploads a file in ADK Web, use the artifact name exposed in the
-message (for example `[Uploaded Artifact: "product.md"]`). Do not ask the user
-for a local filesystem path.
-
-Call `$prepare_extraction_context_tool(artifact_name)` to load that artifact
-from the current ADK session and obtain document chunks plus ontology context.
-The returned chunks contain:
-
-- source
-- section
-- content
-
-Preserve section information because it is required for evidence.
-
-Do not summarize away important numeric values, conditions, dates,
-codes, statuses, thresholds, exceptions, or business rules before
-extraction.
-
----
-
-## Step 2 — Read ontology context
-
-Obtain ontology context through the ingestion ontology services.
-
-Use `technicalName` as the canonical identifier.
-
-Examples:
-
-```text
-pskg:BankingProduct
-pskg:BusinessRule
-pskg:CustomerNeed
-
-pskg:productCode
-pskg:businessRuleCondition
-
-pskg:hasEligibilityRule
-pskg:satisfiesNeed
-```
-
-Do not use human-readable ontology names as GraphPatch identifiers.
-
-For example:
-
-Incorrect:
-
-```json
-{
-  "className": "banking product"
-}
-```
-
-Correct:
-
-```json
-{
-  "className": "pskg:BankingProduct"
-}
-```
-
----
-
-## Step 3 — Identify candidate entities
-
-Read the document semantically.
-
-Identify concepts that are explicitly supported by the document and
-can be represented by ontology classes.
-
-Never create an entity merely because such a class exists in the
-ontology.
-
-For each candidate entity determine:
-
-- ontology class
-- supported properties
-- supporting evidence
-- confidence
-
-Prefer omission over fabrication.
-
----
-
-## Step 4 — Extract properties
-
-Only use properties allowed for the selected class.
-
-Before using a property verify:
-
-```text
-property exists
-AND
-class is in property.domain
-```
-
-Do not create arbitrary properties.
-
-Incorrect:
-
-```json
-{
-  "pskg:annualInterestRate": 32
-}
-```
-
-if `pskg:annualInterestRate` does not exist in the ontology.
-
-If the document contains useful information that cannot be represented
-by the ontology, preserve this fact in `warnings`.
-
----
-
-## Step 5 — Normalize values conservatively
-
-Normalization is allowed only when meaning is preserved.
-
-Examples:
-
-```text
-01/08/2026
-→ 2026-08-01
-```
-
-for an `xsd:date`.
-
-Do not convert or infer values when the transformation changes business
-meaning.
-
-Do not invent missing codes, identifiers, dates, limits, versions, or
-statuses.
-
----
-
-## Step 6 — Extract relationships
-
-Create an edge only when:
-
-1. the edge exists in the ontology;
-2. the source class is permitted by `domain`;
-3. the target class is permitted by `range`;
-4. the document provides sufficient semantic support for the
-   relationship.
-
-Every edge must reference existing node `tempId` values.
-
-Example:
-
-```text
-BankingProduct
-    └── pskg:hasEligibilityRule
-            ↓
-       BusinessRule
-```
-
-Do not generate Cypher during extraction.
-
----
-
-## Step 7 — Handle repeated entities
-
-When the same clearly identifiable entity appears in multiple document
-sections, reuse one node.
-
-Do not create duplicate nodes merely because an entity is mentioned
-multiple times.
-
-Use the strongest explicit identifiers available in the document when
-deciding whether two mentions clearly refer to the same entity.
-
-If identity is ambiguous, do not silently merge the entities.
-
-Record uncertainty in `warnings`.
-
----
-
-## Step 8 — Evidence
-
-Every extracted node and edge must have evidence.
-
-Evidence should contain:
-
-```json
-{
-  "source": "...",
-  "section": "...",
-  "text": "..."
-}
-```
-
-`text` should be a short source passage that directly supports the
-extracted fact.
-
-Do not place model reasoning in `evidence.text`.
-
-Do not fabricate evidence.
-
----
-
-## Step 9 — Confidence
-
-Use confidence to represent extraction certainty, not ontology
-validity.
-
-Suggested interpretation:
-
-```text
-0.90–1.00
-Explicit and unambiguous in the document.
-
-0.75–0.89
-Strongly supported but requires minor semantic mapping.
-
-0.60–0.74
-Plausible but somewhat ambiguous.
-
-Below 0.60
-Normally do not emit as a graph fact; place the issue in warnings.
-```
-
-Confidence does not override ontology validation.
-
----
-
-# GraphPatch contract
-
-Return extraction results using the GraphPatch contract.
-
-Conceptually:
+1. Call `$prepare_extraction_context_tool(artifact_name)`.
+2. Read every relevant chunk and the supplied ontology context.
+3. Convert source dates to ISO `YYYY-MM-DD` only when the source meaning is
+   unambiguous. The compiler does not parse locale-sensitive dates.
+4. Build the complete draft before validation.
+5. Call `$validate_graph_patch_tool(graph_patch)`.
+6. Inspect `validForExtraction`, `validForPersistence`, `errors`,
+   `readinessIssues`, and `warnings`.
+7. Correct only issues that can be corrected from the document and ontology.
+8. Call validation again after any change.
+9. For persistence requests, call `$fill_graph_patch_tool(graph_patch)` only
+   when both validation flags are true in the current invocation.
+
+Validation is an invocation-scoped gate. A successful validation from an older
+turn never authorizes fill in a later turn. Never claim persistence succeeded
+unless the fill tool returns `success: true`.
+
+## Draft contract
+
+Each node uses a `properties` array. Never emit a dynamic property object.
 
 ```json
 {
@@ -328,224 +70,165 @@ Conceptually:
     {
       "tempId": "product-1",
       "className": "pskg:BankingProduct",
-      "properties": {},
-      "evidence": [],
-      "confidence": 0.95
+      "properties": [
+        {
+          "propertyName": "pskg:productCode",
+          "value": "TD-ONLINE-001"
+        },
+        {
+          "propertyName": "pskg:bankingProductStatus",
+          "value": "Published"
+        },
+        {
+          "propertyName": "pskg:bankingProductEffectiveFrom",
+          "value": "2026-07-01"
+        }
+      ],
+      "evidence": [
+        {
+          "source": "online-deposit.md",
+          "section": "Product information",
+          "text": "Product code TD-ONLINE-001; status Published; effective 01/07/2026"
+        }
+      ],
+      "confidence": 0.98
+    },
+    {
+      "tempId": "eligibility-1",
+      "className": "pskg:BusinessRule",
+      "properties": [
+        {
+          "propertyName": "pskg:businessRuleCondition",
+          "value": "Customer meets the documented eligibility conditions"
+        },
+        {
+          "propertyName": "pskg:businessRuleStatus",
+          "value": "Published"
+        }
+      ],
+      "evidence": [
+        {
+          "source": "online-deposit.md",
+          "section": "Eligibility",
+          "text": "The documented eligibility condition"
+        }
+      ],
+      "confidence": 0.9
     }
   ],
   "edges": [
     {
       "edgeName": "pskg:hasEligibilityRule",
       "sourceTempId": "product-1",
-      "targetTempId": "rule-1",
-      "evidence": [],
-      "confidence": 0.93
+      "targetTempId": "eligibility-1",
+      "evidence": [
+        {
+          "source": "online-deposit.md",
+          "section": "Eligibility",
+          "text": "The product applies the documented eligibility condition"
+        }
+      ],
+      "confidence": 0.9
     }
   ],
   "warnings": []
 }
 ```
 
-Do not add fields outside the GraphPatch schema unless the schema is
-explicitly extended by the application.
+Every `propertyName`, `className`, and `edgeName` is a technical name in
+`prefix:localName` form.
 
----
+Invalid examples:
 
-# Important extraction rules
-
-Never:
-
-```text
-document
-→ keyword matching only
-→ graph
+```json
+{"className": "pskg"}
+{"propertyName": "productCode", "value": "P-1"}
+{"edgeName": "pskg:"}
 ```
 
-Semantic interpretation must be performed by the root model.
+Do not emit `pskg:ruleType` merely because it is absent. The compiler derives
+it deterministically for `hasEligibilityRule`, `hasSalesConditionRule`, and
+`governedByPolicy`. If the document supplies a conflicting rule type,
+validation fails instead of silently replacing it.
 
-For example, do not use brittle rules such as:
+Use unique `tempId` values. Every edge source and target must refer to a node in
+the same draft. Provide non-empty, source-grounded evidence for every node and
+edge. Confidence is between 0 and 1.
 
-```text
-if sentence contains "nhu cầu"
-→ CustomerNeed
-```
+If the same property appears twice with the same value, the compiler
+deduplicates it. If the values differ, validation returns
+`DUPLICATE_PROPERTY`; resolve the conflict from evidence or report it.
 
-Instead determine the meaning of the passage and then ground that
-meaning against the ontology.
+## Source-grounding rules
 
-Likewise, do not assume:
+- Emit only facts stated or unambiguously entailed by the document.
+- Do not infer `Published`, another status, a product code, an effective date,
+  price, fee, eligibility condition, or relationship merely because ontology
+  persistence requires it.
+- Preserve list order when it can carry domain meaning.
+- Do not copy ontology labels or examples as document facts.
+- Put uncertainty in `warnings`; do not hide it in invented values.
+- Evidence text must support the exact node or relationship it accompanies.
 
-```text
-every heading → node
-every bullet → BusinessRule
-every number → property
-every product mention → new BankingProduct
-```
+## Interpret validation correctly
 
----
+`validForExtraction: false` means the emitted draft itself is invalid. Examples:
 
-# Validation
+- malformed schema or technical name;
+- unknown class, property, or edge;
+- wrong property datatype/domain or edge domain/range;
+- duplicate/conflicting properties or temp IDs;
+- dangling references or invalid evidence;
+- deterministic semantic conflict.
 
-After constructing a GraphPatch, call
-`$validate_graph_patch_tool(graph_patch)` and treat its result as the
-source of truth for ontology validation.
+Fix these only from the source and ontology, then revalidate.
 
-Validation covers, where supported:
+`validForExtraction: true` with `validForPersistence: false` means the
+source-grounded extraction is acceptable but not safe to persist. Examples:
 
-- unknown classes
-- unknown properties
-- property domain
-- datatype
-- class rules
-- edge existence
-- edge domain
-- edge range
-- required relationships
-- supported semantic constraints
+- a required `Published` status is absent;
+- a required ontology relationship or effective value is absent;
+- identity is unresolved after all permitted identity policies.
 
-If validation fails during extraction:
+Do not fabricate missing facts to clear readiness. Explain what authority is
+missing and stop before fill.
 
-1. inspect the failing facts;
-2. correct mappings that are clearly wrong;
-3. never fabricate missing source data merely to satisfy the ontology;
-4. preserve unresolved problems in warnings where appropriate.
+An `IDENTITY_UNRESOLVED` readiness issue is not the same as a schema error. A
+deterministic source-scoped identity may make a node ready even when it has no
+natural key.
 
-Do not write invalid data to Neo4j.
+A persistence failure happens after a valid gate and is reported by fill. Do
+not rewrite the draft to conceal a Neo4j or transaction failure.
 
----
+## Correction loop
 
-# FILL
+When validation returns correctable extraction errors:
 
-## Goal
+1. Locate the issue by `location`, `nodeTempId`, `propertyName`, or `edgeName`.
+2. Re-check the exact document evidence and ontology context.
+3. Make the smallest supported correction.
+4. Re-submit the full current draft to validation.
+5. Repeat until valid or until evidence cannot resolve the issue.
 
-Persist an already-created GraphPatch safely. Only after validation succeeds
-and persistence is requested, call `$fill_graph_patch_tool(graph_patch)`.
+Never call fill with a modified draft that has not been revalidated. Fill also
+recompiles and revalidates defensively, but that is not a substitute for the
+workflow.
 
-FILL performs:
+## Progressive disclosure
 
-```text
-GraphPatch
-   ↓
-strict validation
-   ↓
-identity resolution
-   ↓
-Neo4j transaction
-   ↓
-node upsert
-   ↓
-edge upsert
-```
+Use `load_skill_resource` when details are needed:
 
-FILL must not perform semantic document extraction.
+- Load `references/graph-patch-contract.md` before constructing an unfamiliar
+  class/property/edge shape or diagnosing schema/compiler errors.
+- Load `references/validation-policy.md` when interpreting extraction versus
+  readiness, identity, or persistence failures.
+- Load `references/examples.md` for positive and negative correction examples.
 
-FILL must not invent missing properties or relationships.
+Do not load all references by default when the main contract is sufficient.
 
----
+## Final response
 
-## Identity handling
-
-Use a natural-key identity when the ingestion policy defines one. For ontology
-classes without a natural key, FILL may use the deterministic source-scoped
-`_ingestionKey` technical metadata generated from source document, class, and
-normalized ontology properties.
-
-`_ingestionKey` and `_ingestionSource` are Neo4j persistence metadata only;
-they are not ontology properties and must never be emitted by the root model in
-`GraphPatch.properties`.
-
-Do not create random UUID identity merely to make persistence succeed. If a
-node has neither a usable natural key nor source evidence for deterministic
-source-scoped identity, stop FILL and report the unresolved identity.
-
----
-
-# Neo4j rules
-
-Use ontology-derived mappings for:
-
-```text
-ontology class technicalName
-→ ontology localName
-→ Neo4j label
-
-ontology property technicalName
-→ ontology localName
-→ Neo4j property
-
-ontology edge technicalName
-→ ontology localName
-→ Neo4j relationship type
-```
-
-Do not accept arbitrary labels, relationship types, or property names
-directly from document text.
-
-Use transactions.
-
-A GraphPatch should either be committed successfully or rolled back.
-
----
-
-# Safety boundary
-
-The ontology file is read-only.
-
-Never modify the ontology to make a document pass validation.
-
-If document content and ontology are incompatible:
-
-```text
-report the incompatibility
-```
-
-rather than changing the ontology.
-
----
-
-# Output behavior
-
-When the user asks only to extract:
-
-```text
-document
-→ GraphPatch
-```
-
-Do not write to Neo4j.
-
-When the user explicitly asks to ingest/fill/write:
-
-```text
-document
-→ extract
-→ validate
-→ fill
-```
-
-When the user provides an existing GraphPatch and asks to fill it:
-
-```text
-GraphPatch
-→ validate
-→ fill
-```
-
-Do not re-extract the source document unnecessarily.
-
----
-
-# Failure behavior
-
-Stop FILL if any of the following occurs:
-
-- GraphPatch validation fails
-- source/target tempId is missing
-- class/property/edge is outside ontology
-- identity required for safe upsert cannot be resolved
-- Neo4j transaction fails
-
-Return actionable error information.
-
-Never partially claim successful ingestion when the transaction was
-rolled back.
+State the requested outcome and what actually completed. For extraction or
+validation, summarize both validation flags and unresolved issues. For
+persistence, include fill success/failure and counts returned by the tool.
+Never represent a not-ready draft as persisted.

@@ -1,21 +1,25 @@
-﻿import logging
+import hashlib
+import logging
 from functools import lru_cache
 from typing import Any
 
 from google.adk.tools import ToolContext
-from pydantic import ValidationError
 
-from app.core.schemas.ingestion.graph_patch import GraphPatch
+from app.core.schemas.ingestion.graph_patch import GraphPatchDraft
+from app.core.schemas.ingestion.validation import ValidationIssue
 from app.services.ingestion.fill_factory import create_fill_service
 from app.services.ingestion.fill_service import FillValidationError
-from app.services.ingestion.prepare_extraction_context import (
-    ExtractionContextService,
-)
+from app.services.ingestion.prepare_extraction_context import ExtractionContextService
 from app.services.ingestion.validate_graph_patch import (
+    GraphPatchAssessment,
     GraphPatchValidationService,
 )
 
 logger = logging.getLogger(__name__)
+
+ARTIFACT_DIGEST_STATE_KEY = "temp:ingestion_source_artifact_digest"
+ARTIFACT_NAME_STATE_KEY = "temp:ingestion_source_artifact_name"
+VALIDATED_FINGERPRINT_STATE_KEY = "temp:ingestion_validated_fingerprint"
 
 
 @lru_cache(maxsize=1)
@@ -28,89 +32,54 @@ def _get_validation_service() -> GraphPatchValidationService:
     return GraphPatchValidationService()
 
 
-# ============================================================
-# TOOL 1
-# ============================================================
+def _delete_state(tool_context: ToolContext, key: str) -> None:
+    if key in tool_context.state:
+        del tool_context.state[key]
+
+
+def _clear_validation_gate(tool_context: ToolContext) -> None:
+    _delete_state(tool_context, VALIDATED_FINGERPRINT_STATE_KEY)
+
+
+def _public_assessment(assessment: GraphPatchAssessment) -> dict[str, Any]:
+    return assessment.result.model_dump(by_alias=True, exclude_none=True)
 
 
 async def prepare_extraction_context(
     artifact_name: str,
     tool_context: ToolContext,
 ) -> dict[str, Any]:
-    """
-    Load an uploaded ADK artifact and prepare document chunks
-    together with ontology context for semantic extraction.
+    """Load an artifact and prepare source-grounded extraction context."""
 
-    The artifact_name must refer to a file uploaded in the
-    current ADK session.
-    """
-
-    logger.info(
-        "Ingestion prepare_extraction_context started artifact=%s",
-        artifact_name,
-    )
+    _clear_validation_gate(tool_context)
+    _delete_state(tool_context, ARTIFACT_DIGEST_STATE_KEY)
+    _delete_state(tool_context, ARTIFACT_NAME_STATE_KEY)
 
     try:
-        # ------------------------------------------
-        # 1. Load uploaded artifact from ADK
-        # ------------------------------------------
-
-        artifact = await tool_context.load_artifact(
-            filename=artifact_name,
-        )
-
+        artifact = await tool_context.load_artifact(filename=artifact_name)
         if artifact is None:
-            logger.warning(
-                "Ingestion artifact load failed artifact=%s reason=not_found",
-                artifact_name,
-            )
             return {
                 "success": False,
                 "stage": "artifact_loading",
                 "error": f"Artifact not found: {artifact_name}",
             }
 
-        logger.info(
-            "Ingestion artifact loaded artifact=%s has_inline_data=%s has_text=%s",
-            artifact_name,
-            artifact.inline_data is not None,
-            artifact.text is not None,
-        )
-
-        # ------------------------------------------
-        # 2. Extract bytes + MIME type
-        # ------------------------------------------
-
         data: bytes
         mime_type: str | None = None
-
         if artifact.inline_data is not None:
             raw_data = artifact.inline_data.data
             mime_type = artifact.inline_data.mime_type
-
             if raw_data is None:
-                logger.warning(
-                    "Ingestion artifact has no binary data artifact=%s",
-                    artifact_name,
-                )
                 return {
                     "success": False,
                     "stage": "artifact_loading",
-                    "error": (f"Artifact contains no binary data: {artifact_name}"),
+                    "error": f"Artifact contains no binary data: {artifact_name}",
                 }
-
             if isinstance(raw_data, bytes):
                 data = raw_data
-
             elif isinstance(raw_data, bytearray):
                 data = bytes(raw_data)
-
             else:
-                logger.warning(
-                    "Ingestion artifact unsupported data type artifact=%s data_type=%s",
-                    artifact_name,
-                    type(raw_data).__name__,
-                )
                 return {
                     "success": False,
                     "stage": "artifact_loading",
@@ -118,81 +87,34 @@ async def prepare_extraction_context(
                         f"Unsupported artifact data type: {type(raw_data).__name__}"
                     ),
                 }
-
-            logger.info(
-                "Ingestion artifact inline data parsed artifact=%s mime_type=%s byte_count=%s",
-                artifact_name,
-                mime_type,
-                len(data),
-            )
-
         elif artifact.text is not None:
             data = artifact.text.encode("utf-8")
             mime_type = "text/plain"
-            logger.info(
-                "Ingestion artifact text parsed artifact=%s char_count=%s byte_count=%s",
-                artifact_name,
-                len(artifact.text),
-                len(data),
-            )
-
         else:
-            logger.warning(
-                "Ingestion artifact contains no supported content artifact=%s",
-                artifact_name,
-            )
             return {
                 "success": False,
                 "stage": "artifact_loading",
                 "error": (
-                    "Artifact does not contain supported "
-                    f"inline data or text: {artifact_name}"
+                    "Artifact does not contain supported inline data or text: "
+                    f"{artifact_name}"
                 ),
             }
 
-        # ------------------------------------------
-        # 3. Remember ingestion source
-        # ------------------------------------------
-
-        tool_context.state["temp:ingestion_source"] = artifact_name
-        logger.info(
-            "Ingestion source stored in tool context artifact=%s",
-            artifact_name,
-        )
-
-        # ------------------------------------------
-        # 4. Prepare extraction context
-        # ------------------------------------------
+        artifact_digest = hashlib.sha256(data).hexdigest()
+        tool_context.state[ARTIFACT_DIGEST_STATE_KEY] = artifact_digest
+        tool_context.state[ARTIFACT_NAME_STATE_KEY] = artifact_name
 
         context = _get_context_service().prepare_uploaded_document(
             filename=artifact_name,
             data=data,
             mime_type=mime_type,
         )
-
-        logger.info(
-            "Ingestion extraction context prepared artifact=%s chunk_count=%s ontology_context_chars=%s",
-            artifact_name,
-            len(context.chunks),
-            len(context.ontology_context),
-        )
-        logger.info(
-            "Ingestion handoff ready for model GraphPatch extraction artifact=%s",
-            artifact_name,
-        )
-
-        return {
-            "success": True,
-            "stage": "completed",
-            **context.model_dump(),
-        }
-
+        return {"success": True, "stage": "completed", **context.model_dump()}
     except Exception as exc:
-        logger.exception(
-            "Failed to prepare extraction context for artifact '%s'",
-            artifact_name,
-        )
-
+        logger.exception("Failed to prepare extraction context for '%s'", artifact_name)
+        _clear_validation_gate(tool_context)
+        _delete_state(tool_context, ARTIFACT_DIGEST_STATE_KEY)
+        _delete_state(tool_context, ARTIFACT_NAME_STATE_KEY)
         return {
             "success": False,
             "stage": "prepare_extraction_context",
@@ -200,154 +122,99 @@ async def prepare_extraction_context(
         }
 
 
-# ============================================================
-# TOOL 2
-# ============================================================
-
-
 def validate_graph_patch(
-    graph_patch: GraphPatch,
+    graph_patch: GraphPatchDraft,
+    tool_context: ToolContext,
 ) -> dict[str, Any]:
-    """
-    Validate a root-model-generated GraphPatch against
-    the Product Sales ontology.
+    """Assess extraction correctness and persistence readiness without writing."""
 
-    This tool does not write to Neo4j.
-    """
-
-    logger.info(
-        "Ingestion validate_graph_patch started input_type=%s",
-        type(graph_patch).__name__,
+    assessment = _get_validation_service().assess(
+        graph_patch,
+        tool_context.state.get(ARTIFACT_DIGEST_STATE_KEY),
     )
-
-    result = _get_validation_service().validate(graph_patch)
-    log_method = logger.info if result["valid"] else logger.warning
-    log_method(
-        "Ingestion validate_graph_patch completed valid=%s node_count=%s edge_count=%s error_count=%s",
-        result["valid"],
-        result["nodeCount"],
-        result["edgeCount"],
-        len(result["errors"]),
-    )
-
-    return result
-
-
-# ============================================================
-# TOOL 3
-# ============================================================
+    if (
+        assessment.result.valid_for_extraction
+        and assessment.result.valid_for_persistence
+        and assessment.fingerprint is not None
+    ):
+        tool_context.state[VALIDATED_FINGERPRINT_STATE_KEY] = assessment.fingerprint
+    else:
+        _clear_validation_gate(tool_context)
+    return _public_assessment(assessment)
 
 
 def fill_graph_patch(
-    graph_patch: GraphPatch,
+    graph_patch: GraphPatchDraft,
+    tool_context: ToolContext,
 ) -> dict[str, Any]:
-    """
-    Validate and persist a GraphPatch to Neo4j.
+    """Persist only the invocation-scoped, validated graph patch."""
 
-    Neo4j is initialized lazily only when this tool is called.
-
-    This tool:
-    - does not perform semantic extraction
-    - does not invent missing knowledge
-    - does not modify the ontology
-    - validates before writing
-    - writes the patch inside a Neo4j transaction
-    """
-
-    logger.info(
-        "Ingestion fill_graph_patch started input_type=%s",
-        type(graph_patch).__name__,
+    artifact_digest = tool_context.state.get(ARTIFACT_DIGEST_STATE_KEY)
+    validation_service = _get_validation_service()
+    validated_fingerprint = tool_context.state.get(
+        VALIDATED_FINGERPRINT_STATE_KEY
     )
-
-    # ------------------------------------------
-    # 1. Validate GraphPatch schema
-    # ------------------------------------------
-
-    try:
-        patch = GraphPatch.model_validate(graph_patch)
-
-    except ValidationError as exc:
-        errors: list[str] = []
-
-        for error in exc.errors(include_url=False):
-            location = ".".join(str(part) for part in error["loc"])
-
-            errors.append(f"{location}: {error['msg']}")
-
-        logger.warning(
-            "Ingestion fill_graph_patch schema validation failed error_count=%s",
-            len(errors),
+    candidate_fingerprint = validation_service.fingerprint_candidate(
+        graph_patch,
+        artifact_digest,
+    )
+    if (
+        validated_fingerprint is None
+        or candidate_fingerprint is None
+        or validated_fingerprint != candidate_fingerprint
+    ):
+        issue = ValidationIssue(
+            code="VALIDATION_PRECONDITION",
+            message=(
+                "The current graph patch and artifact must pass validation in "
+                "this invocation before fill_graph_patch can run"
+            ),
+            location="graphPatch",
         )
-
         return {
             "success": False,
-            "stage": "schema_validation",
-            "errors": errors,
+            "stage": "validation_precondition",
+            "errors": [issue.model_dump(by_alias=True, exclude_none=True)],
         }
 
-    logger.info(
-        "Ingestion fill_graph_patch schema validation passed node_count=%s edge_count=%s warning_count=%s",
-        len(patch.nodes),
-        len(patch.edges),
-        len(patch.warnings),
-    )
-
-    # ------------------------------------------
-    # 2. Create Neo4j FillService lazily
-    # ------------------------------------------
+    assessment = validation_service.assess(graph_patch, artifact_digest)
+    if not assessment.result.valid_for_persistence:
+        _clear_validation_gate(tool_context)
+        return {
+            "success": False,
+            "stage": "validation",
+            "validation": _public_assessment(assessment),
+        }
 
     service = None
-
     try:
-        logger.info("Ingestion creating Neo4j fill service")
-        service = create_fill_service()
-
-        logger.info("Ingestion calling FillService.fill")
-        result = service.fill(patch)
-
-        logger.info(
-            "Ingestion fill_graph_patch completed node_count=%s edge_count=%s node_id_count=%s",
-            result["nodes"],
-            result["edges"],
-            len(result["nodeIds"]),
+        service = create_fill_service(
+            validation_service=validation_service,
         )
-
-        return {
-            "success": True,
-            "stage": "completed",
-            **result,
-        }
-
+        result = service.fill(graph_patch, artifact_digest)
+        return {"success": True, "stage": "completed", **result}
     except FillValidationError as exc:
-        errors = [error for error in str(exc).splitlines() if error.strip()]
-        logger.warning(
-            "Ingestion fill_graph_patch ontology validation failed error_count=%s",
-            len(errors),
-        )
+        _clear_validation_gate(tool_context)
         return {
             "success": False,
-            "stage": "ontology_validation",
-            "errors": errors,
+            "stage": "validation",
+            "validation": exc.result.model_dump(by_alias=True, exclude_none=True),
         }
-
     except Exception as exc:
         logger.exception("Failed to persist GraphPatch to Neo4j")
-
+        issue = ValidationIssue(
+            code="NEO4J_WRITE_FAILED",
+            message=str(exc),
+            location="persistence",
+        )
         return {
             "success": False,
             "stage": "persistence",
-            "errors": [str(exc)],
+            "errors": [issue.model_dump(by_alias=True, exclude_none=True)],
         }
-
     finally:
         if service is not None:
-            logger.info("Ingestion closing Neo4j fill service")
             service.close()
-
-
-# ============================================================
-# TOOL REGISTRY
-# ============================================================
 
 
 INGESTION_TOOLS = {
@@ -358,6 +225,4 @@ INGESTION_TOOLS = {
 
 
 def get_ingestion_tools() -> list:
-    """Return all Python tools available to the ingestion skill."""
-
     return list(INGESTION_TOOLS.values())

@@ -1,81 +1,50 @@
-import logging
+from typing import Any
 
-from app.config.neo4j import (
-    Neo4jClient,
-)
-from app.services.ingestion.neo4j_writer import (
-    Neo4jWriter,
-)
-from app.services.ingestion.validator import (
-    OntologyValidator,
-)
-
-logger = logging.getLogger(__name__)
-
+from app.config.neo4j import Neo4jClient
+from app.core.schemas.ingestion.graph_patch import GraphPatchDraft
+from app.core.schemas.ingestion.validation import GraphPatchValidationResult
+from app.services.ingestion.neo4j_writer import Neo4jWriter
+from app.services.ingestion.validate_graph_patch import GraphPatchValidationService
 
 class FillValidationError(ValueError):
-    pass
+    def __init__(self, result: GraphPatchValidationResult):
+        self.result = result
+        super().__init__("Graph patch is not ready for persistence")
 
 
 class FillService:
     def __init__(
         self,
         client: Neo4jClient,
-        validator: OntologyValidator,
+        validation_service: GraphPatchValidationService,
         writer: Neo4jWriter,
     ):
         self.client = client
-        self.validator = validator
+        self.validation_service = validation_service
         self.writer = writer
 
     def fill(
         self,
-        patch,
-    ) -> dict:
-        logger.info(
-            "FillService.fill started node_count=%s edge_count=%s warning_count=%s",
-            len(patch.nodes),
-            len(patch.edges),
-            len(patch.warnings),
+        graph_patch: GraphPatchDraft | dict[str, Any],
+        artifact_content_digest: str | None,
+    ) -> dict[str, Any]:
+        assessment = self.validation_service.assess(
+            graph_patch,
+            artifact_content_digest,
         )
-        logger.info("FillService validating GraphPatch before Neo4j write")
-        errors = self.validator.validate_graph_patch(patch)
+        if (
+            not assessment.result.valid_for_persistence
+            or assessment.compiled_patch is None
+        ):
+            raise FillValidationError(assessment.result)
 
-        if errors:
-            logger.warning(
-                "FillService validation failed error_count=%s",
-                len(errors),
-            )
-            raise FillValidationError("\n".join(errors))
-
-        logger.info("FillService validation passed")
-        logger.info("FillService acquiring Neo4j driver")
+        patch = assessment.compiled_patch
         driver = self.client.get_driver()
-
-        logger.info(
-            "FillService opening Neo4j session database=%s",
-            self.client.database_name,
-        )
-        with driver.session(
-            database=self.client.database_name
-        ) as session:
-            logger.info("FillService executing Neo4j write transaction")
+        with driver.session(database=self.client.database_name) as session:
             node_ids = session.execute_write(
-                lambda tx: self.writer.write_graph_patch(
-                    tx,
-                    patch,
-                )
-            )
-            logger.info(
-                "FillService Neo4j write transaction completed node_id_count=%s",
-                len(node_ids),
+                lambda tx: self.writer.write_graph_patch(tx, patch)
             )
 
-        logger.info(
-            "FillService.fill completed node_count=%s edge_count=%s",
-            len(patch.nodes),
-            len(patch.edges),
-        )
         return {
             "status": "success",
             "nodes": len(patch.nodes),
@@ -84,5 +53,4 @@ class FillService:
         }
 
     def close(self) -> None:
-        logger.info("FillService closing Neo4j driver")
         self.client.close_driver()

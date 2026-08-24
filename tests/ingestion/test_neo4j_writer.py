@@ -1,6 +1,7 @@
 import pytest
 
-from app.core.schemas.ingestion.graph_patch import GraphPatch
+from app.core.schemas.ingestion.graph_patch import GraphPatchDraft
+from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
 from app.services.ingestion.identity import (
     create_product_sales_identity_resolver,
 )
@@ -79,27 +80,27 @@ def test_upsert_node_rejects_unresolved_identity():
 def test_write_graph_patch_upserts_nodes_then_edges():
     writer = create_writer()
     tx = FakeTransaction()
-    patch = GraphPatch.model_validate(
+    draft = GraphPatchDraft.model_validate(
         {
             "nodes": [
                 {
                     "tempId": "product-1",
                     "className": "pskg:BankingProduct",
-                    "properties": {
-                        "pskg:productCode": "CARD-001",
-                        "pskg:bankingProductStatus": "Published",
-                    },
-                    "evidence": [],
+                    "properties": [
+                        {"propertyName": "pskg:productCode", "value": "CARD-001"},
+                        {"propertyName": "pskg:bankingProductStatus", "value": "Published"},
+                    ],
+                    "evidence": [{"source": "product.md", "text": "CARD-001"}],
                     "confidence": 1.0,
                 },
                 {
                     "tempId": "need-1",
                     "className": "pskg:CustomerNeed",
-                    "properties": {
-                        "pskg:needCode": "NEED-001",
-                        "pskg:needName": "Flexible rewards",
-                    },
-                    "evidence": [],
+                    "properties": [
+                        {"propertyName": "pskg:needCode", "value": "NEED-001"},
+                        {"propertyName": "pskg:needName", "value": "Flexible rewards"},
+                    ],
+                    "evidence": [{"source": "product.md", "text": "Flexible rewards"}],
                     "confidence": 0.9,
                 },
             ],
@@ -108,15 +109,17 @@ def test_write_graph_patch_upserts_nodes_then_edges():
                     "edgeName": "pskg:satisfiesNeed",
                     "sourceTempId": "product-1",
                     "targetTempId": "need-1",
-                    "evidence": [],
+                    "evidence": [{"source": "product.md", "text": "Need"}],
                     "confidence": 0.9,
                 }
             ],
             "warnings": [],
         }
     )
+    compiled = GraphPatchCompiler().compile(draft)
+    assert compiled.compiled_patch is not None
 
-    node_ids = writer.write_graph_patch(tx=tx, patch=patch)
+    node_ids = writer.write_graph_patch(tx=tx, patch=compiled.compiled_patch)
 
     assert node_ids == {
         "product-1": "node-1",

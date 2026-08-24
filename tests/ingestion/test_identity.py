@@ -52,3 +52,16 @@ def test_natural_key_still_takes_precedence():
 
     assert identity.strategy == "natural_key"
     assert identity.key_value == "CARD-001"
+
+
+def test_missing_natural_key_falls_back_to_source_scoped_identity():
+    resolver = create_resolver()
+    identity = resolver.resolve(
+        class_name="pskg:BankingProduct",
+        properties={"pskg:bankingProductStatus": "Published"},
+        source_scope="product.md",
+    )
+
+    assert identity.strategy == "source_scoped"
+    assert identity.key_name == "_ingestionKey"
+    assert identity.key_value is not None

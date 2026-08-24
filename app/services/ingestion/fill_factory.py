@@ -9,7 +9,7 @@ from app.services.ingestion.loader import OntologyLoader
 from app.services.ingestion.neo4j_mapper import Neo4jMapper
 from app.services.ingestion.neo4j_writer import Neo4jWriter
 from app.services.ingestion.registry import OntologyRegistry
-from app.services.ingestion.validator import OntologyValidator
+from app.services.ingestion.validate_graph_patch import GraphPatchValidationService
 
 DEFAULT_ONTOLOGY_PATH = Path(
     "app/data/ontology/product_sales_knowledge_graph_base_v3_1.ontology.json"
@@ -18,12 +18,12 @@ DEFAULT_ONTOLOGY_PATH = Path(
 
 def create_fill_service(
     ontology_path: str | Path = DEFAULT_ONTOLOGY_PATH,
+    *,
+    validation_service: GraphPatchValidationService | None = None,
 ) -> FillService:
     ontology = OntologyLoader.load(ontology_path)
 
     registry = OntologyRegistry(ontology)
-
-    validator = OntologyValidator(registry)
 
     identity_resolver = create_product_sales_identity_resolver(registry)
 
@@ -38,6 +38,8 @@ def create_fill_service(
 
     return FillService(
         client=client,
-        validator=validator,
+        validation_service=(
+            validation_service or GraphPatchValidationService(ontology_path)
+        ),
         writer=writer,
     )

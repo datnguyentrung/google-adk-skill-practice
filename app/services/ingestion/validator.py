@@ -2,538 +2,313 @@ from datetime import date, datetime
 from decimal import Decimal
 from typing import Any
 
+from app.core.schemas.ingestion.validation import ValidationIssue
+from app.services.ingestion.graph_patch_compiler import (
+    RULE_TYPE_BY_EDGE,
+    CompiledGraphPatch,
+)
 from app.services.ingestion.registry import OntologyRegistry
 
 
 class OntologyValidator:
-    """
-    Validate GraphPatch theo ontology.
-
-    Chịu trách nhiệm:
-    - Kiểm tra class/node có tồn tại trong ontology.
-    - Kiểm tra property thuộc đúng class và đúng kiểu dữ liệu.
-    - Kiểm tra cardinality và ràng buộc giá trị cố định của property.
-    - Kiểm tra edge đúng domain/range và cardinality quan hệ.
-    - Kiểm tra một số semantic constraint quan trọng.
-    """
-
-    # Một số edge trỏ tới BusinessRule cần target node có pskg:ruleType tương ứng.
-    RULE_TYPE_BY_EDGE = {
-        "pskg:hasEligibilityRule": "ELIGIBILITY",
-        "pskg:hasSalesConditionRule": "SALES_CONDITION",
-        "pskg:governedByPolicy": "POLICY",
-    }
+    """Validate emitted facts separately from persistence completeness."""
 
     def __init__(self, registry: OntologyRegistry):
-        # Registry cung cấp API tra cứu class, attribute và edge đã được load từ ontology.
         self.registry = registry
 
-    # =========================================================
-    # NODE
-    # =========================================================
-
-    def validate_node(
+    def validate_extraction(
         self,
-        class_name: str,
-        properties: dict[str, Any],
-    ) -> list[str]:
-        # Gom tất cả lỗi của node để caller sửa được nhiều vấn đề trong một lần.
-        errors: list[str] = []
-
-        # Tìm class trong ontology trước; class không tồn tại thì không thể validate tiếp.
-        ontology_class = self.registry.get_class(class_name)
-
-        if ontology_class is None:
-            return [f"Unknown ontology class: {class_name}"]
-
-        # 1. Kiểm tra từng property mà input truyền vào node.
-        for property_name, value in properties.items():
-            # Attribute chứa domain/range của property trong ontology.
-            attribute = self.registry.get_attribute(property_name)
-
-            if attribute is None:
-                errors.append(f"Unknown ontology property: {property_name}")
-                continue
-
-            # Domain cho biết property được phép xuất hiện trên class nào.
-            if ontology_class.name not in attribute.domain:
-                errors.append(
-                    f"Property {property_name} does not belong to class {class_name}"
-                )
-                continue
-
-            # Range cho biết value phải thuộc datatype nào.
-            if not self._is_valid_property_value(
-                value,
-                attribute.range,
-            ):
-                errors.append(
-                    f"Invalid datatype for {property_name}: "
-                    f"expected {attribute.range}, "
-                    f"got {type(value).__name__}"
-                )
-
-        # 2. Kiểm tra thêm rule/cardinality được khai báo trên class.
-        errors.extend(
-            self._validate_attribute_rules(
-                ontology_class=ontology_class,
-                properties=properties,
-            )
-        )
-
-        return list(dict.fromkeys(errors))
-
-    def _validate_attribute_rules(
-        self,
-        ontology_class,
-        properties: dict[str, Any],
-    ) -> list[str]:
-        errors: list[str] = []
-
-        # Mỗi rule có dạng property + operator + value, ví dụ minQualified 1.
-        for rule in ontology_class.rules:
-            attribute = self.registry.get_attribute(rule.property)
-
-            # Nếu rule.property không phải attribute thì có thể là edge rule.
-            # Edge rule sẽ được xử lý riêng ở validate_graph_patch.
-            if attribute is None:
-                continue
-
-            # Lấy value thực tế của property trong input node.
-            value = properties.get(rule.property)
-
-            # Scalar tính là 1, list tính theo số phần tử, None tính là 0.
-            count = self._value_count(value)
-
-            # -----------------------------------------
-            # exactlyQualified
-            # -----------------------------------------
-
-            if rule.operator == "exactlyQualified":
-                # Yêu cầu số lần xuất hiện phải bằng đúng expected.
-                expected = self._to_int(rule.value)
-
-                if expected is None:
-                    continue
-
-                if count == 0 and expected == 1:
-                    errors.append(f"Missing required property: {rule.property}")
-                elif count != expected:
-                    errors.append(
-                        f"Property {rule.property} must occur "
-                        f"exactly {expected} time(s); got {count}"
-                    )
-
-            # -----------------------------------------
-            # minQualified
-            # -----------------------------------------
-
-            elif rule.operator == "minQualified":
-                # Yêu cầu số lần xuất hiện tối thiểu là minimum.
-                minimum = self._to_int(rule.value)
-
-                if minimum is None:
-                    continue
-
-                if count == 0 and minimum > 0:
-                    errors.append(f"Missing required property: {rule.property}")
-                elif count < minimum:
-                    errors.append(
-                        f"Property {rule.property} must occur "
-                        f"at least {minimum} time(s); got {count}"
-                    )
-
-            # -----------------------------------------
-            # some
-            # -----------------------------------------
-
-            elif rule.operator == "some":
-                # Yêu cầu property tồn tại và thỏa datatype hoặc giá trị bắt buộc.
-                errors.extend(
-                    self._validate_some_attribute_rule(
-                        rule=rule,
-                        value=value,
-                    )
-                )
-
-        return errors
-
-    def _validate_some_attribute_rule(
-        self,
-        rule,
-        value: Any,
-    ) -> list[str]:
-        """
-        Ví dụ:
-
-        status some Published
-        → property phải tồn tại và = Published
-
-        effectiveFrom some xsd:date
-        → property phải tồn tại và đúng date.
-        """
-
-        if value is None:
-            return [f"Missing required property: {rule.property}"]
-
-        # rule.value là datatype hoặc giá trị bắt buộc đứng sau toán tử some.
-        expected = rule.value
-
-        if not isinstance(expected, str):
-            return []
-
-        # Dạng "some xsd:date/xsd:string/..." nghĩa là value phải đúng datatype.
-        if expected.startswith("xsd:"):
-            if not self._is_valid_property_value(
-                value,
-                [expected],
-            ):
-                return [f"Property {rule.property} must satisfy {expected}"]
-
-            return []
-
-        # Dạng "some Published/Running/..." nghĩa là value phải chứa giá trị này.
-        values = value if isinstance(value, list) else [value]
-
-        if expected not in values:
-            return [f"Property {rule.property} must contain value {expected}"]
-
-        return []
-
-    # =========================================================
-    # EDGE
-    # =========================================================
-
-    def validate_edge(
-        self,
-        edge_name: str,
-        source_class_name: str,
-        target_class_name: str,
-        target_properties: dict[str, Any] | None = None,
-    ) -> list[str]:
-        errors: list[str] = []
-
-        # Edge phải tồn tại trong ontology thì mới có domain/range để kiểm tra.
-        edge = self.registry.get_edge(edge_name)
-
-        if edge is None:
-            return [f"Unknown ontology edge: {edge_name}"]
-
-        # Lấy class nguồn và class đích để so với domain/range của edge.
-        source_class = self.registry.get_class(source_class_name)
-
-        target_class = self.registry.get_class(target_class_name)
-
-        if source_class is None:
-            errors.append(f"Unknown source class: {source_class_name}")
-
-        if target_class is None:
-            errors.append(f"Unknown target class: {target_class_name}")
-
-        if errors:
-            return errors
-
-        # Domain: class nguồn có được phép đi ra edge này không.
-        if source_class.name not in edge.domain:
-            errors.append(
-                f"Invalid edge domain for {edge_name}: "
-                f"{source_class_name} is not allowed"
-            )
-
-        # Range: class đích có được phép nhận edge này không.
-        if target_class.name not in edge.range:
-            errors.append(
-                f"Invalid edge range for {edge_name}: "
-                f"{target_class_name} is not allowed"
-            )
-
-        # Một số edge có thêm ràng buộc nghiệp vụ ngoài domain/range.
-        errors.extend(
-            self._validate_edge_semantics(
-                edge_name=edge_name,
-                target_properties=target_properties or {},
-            )
-        )
-
-        return errors
-
-    def _validate_edge_semantics(
-        self,
-        edge_name: str,
-        target_properties: dict[str, Any],
-    ) -> list[str]:
-        """
-        Một số edge có constraint mạnh hơn domain/range.
-
-        hasEligibilityRule
-        → BusinessRule.ruleType = ELIGIBILITY
-
-        hasSalesConditionRule
-        → BusinessRule.ruleType = SALES_CONDITION
-
-        governedByPolicy
-        → BusinessRule.ruleType = POLICY
-        """
-
-        # Edge không nằm trong mapping thì không có constraint nghiệp vụ thêm.
-        expected_rule_type = self.RULE_TYPE_BY_EDGE.get(edge_name)
-
-        if expected_rule_type is None:
-            return []
-
-        # Hiện constraint nghiệp vụ chỉ kiểm tra pskg:ruleType của target node.
-        actual_rule_type = target_properties.get("pskg:ruleType")
-
-        if actual_rule_type != expected_rule_type:
-            return [
-                f"Edge {edge_name} requires target "
-                f"pskg:ruleType={expected_rule_type}; "
-                f"got {actual_rule_type}"
-            ]
-
-        return []
-
-    # =========================================================
-    # GRAPH
-    # =========================================================
-
-    def validate_graph_patch(
-        self,
-        patch,
-    ) -> list[str]:
-        errors: list[str] = []
-
-        # Map temp_id -> node để edge có thể tham chiếu node trong cùng patch.
+        patch: CompiledGraphPatch,
+    ) -> list[ValidationIssue]:
+        issues: list[ValidationIssue] = []
         node_by_temp_id = {node.temp_id: node for node in patch.nodes}
 
-        # -----------------------------------------
-        # 1. Validate tất cả node trước để bắt lỗi class/property/datatype.
-        # -----------------------------------------
-
-        for node in patch.nodes:
-            node_errors = self.validate_node(
-                class_name=node.class_name,
-                properties=node.properties,
-            )
-
-            errors.extend(f"Node {node.temp_id}: {error}" for error in node_errors)
-
-        # -----------------------------------------
-        # 2. Validate edge: node nguồn/đích tồn tại và domain/range hợp lệ.
-        # -----------------------------------------
-
-        for edge in patch.edges:
-            # Edge tham chiếu node bằng temp id trong patch.
-            source = node_by_temp_id.get(edge.source_temp_id)
-
-            target = node_by_temp_id.get(edge.target_temp_id)
-
-            if source is None:
-                errors.append(
-                    f"Edge {edge.edge_name}: "
-                    f"sourceTempId {edge.source_temp_id} "
-                    f"does not exist"
-                )
-                continue
-
-            if target is None:
-                errors.append(
-                    f"Edge {edge.edge_name}: "
-                    f"targetTempId {edge.target_temp_id} "
-                    f"does not exist"
-                )
-                continue
-
-            edge_errors = self.validate_edge(
-                edge_name=edge.edge_name,
-                source_class_name=source.class_name,
-                target_class_name=target.class_name,
-                target_properties=target.properties,
-            )
-
-            errors.extend(f"Edge {edge.edge_name}: {error}" for error in edge_errors)
-
-        # -----------------------------------------
-        # 3. Validate cardinality quan hệ dựa trên edge rule của từng class.
-        # -----------------------------------------
-
-        errors.extend(
-            self._validate_edge_cardinality(
-                patch=patch,
-                node_by_temp_id=node_by_temp_id,
-            )
-        )
-
-        return errors
-
-    def _validate_edge_cardinality(
-        self,
-        patch,
-        node_by_temp_id,
-    ) -> list[str]:
-        errors: list[str] = []
-
-        # Với mỗi node, đếm các outgoing edge rồi so với rule của class tương ứng.
-        for node in patch.nodes:
+        for node_index, node in enumerate(patch.nodes):
             ontology_class = self.registry.get_class(node.class_name)
+            if ontology_class is None:
+                issues.append(
+                    ValidationIssue(
+                        code="UNKNOWN_CLASS",
+                        message=f"Unknown ontology class: {node.class_name}",
+                        location=f"nodes.{node_index}.className",
+                        node_temp_id=node.temp_id,
+                    )
+                )
+                continue
 
+            for property_name, value in node.properties.items():
+                attribute = self.registry.get_attribute(property_name)
+                location = f"nodes.{node_index}.properties.{property_name}"
+                if attribute is None:
+                    issues.append(
+                        ValidationIssue(
+                            code="UNKNOWN_PROPERTY",
+                            message=f"Unknown ontology property: {property_name}",
+                            location=location,
+                            node_temp_id=node.temp_id,
+                            property_name=property_name,
+                        )
+                    )
+                    continue
+                if ontology_class.name not in attribute.domain:
+                    issues.append(
+                        ValidationIssue(
+                            code="PROPERTY_DOMAIN_MISMATCH",
+                            message=(
+                                f"Property {property_name} does not belong to "
+                                f"class {node.class_name}"
+                            ),
+                            location=location,
+                            node_temp_id=node.temp_id,
+                            property_name=property_name,
+                        )
+                    )
+                    continue
+                if not self._is_valid_property_value(value, attribute.range):
+                    issues.append(
+                        ValidationIssue(
+                            code="PROPERTY_DATATYPE_MISMATCH",
+                            message=(
+                                f"Invalid datatype for {property_name}; expected "
+                                f"{attribute.range}, got {type(value).__name__}"
+                            ),
+                            location=location,
+                            node_temp_id=node.temp_id,
+                            property_name=property_name,
+                        )
+                    )
+
+        for edge_index, edge in enumerate(patch.edges):
+            source = node_by_temp_id.get(edge.source_temp_id)
+            target = node_by_temp_id.get(edge.target_temp_id)
+            if source is None or target is None:
+                issues.append(
+                    ValidationIssue(
+                        code="DANGLING_REFERENCE",
+                        message=f"Edge {edge.edge_name} references an unknown tempId",
+                        location=f"edges.{edge_index}",
+                        edge_name=edge.edge_name,
+                    )
+                )
+                continue
+
+            ontology_edge = self.registry.get_edge(edge.edge_name)
+            if ontology_edge is None:
+                issues.append(
+                    ValidationIssue(
+                        code="UNKNOWN_EDGE",
+                        message=f"Unknown ontology edge: {edge.edge_name}",
+                        location=f"edges.{edge_index}.edgeName",
+                        edge_name=edge.edge_name,
+                    )
+                )
+                continue
+
+            source_class = self.registry.get_class(source.class_name)
+            target_class = self.registry.get_class(target.class_name)
+            if source_class is not None and source_class.name not in ontology_edge.domain:
+                issues.append(
+                    ValidationIssue(
+                        code="EDGE_DOMAIN_MISMATCH",
+                        message=(
+                            f"Invalid edge domain for {edge.edge_name}: "
+                            f"{source.class_name} is not allowed"
+                        ),
+                        location=f"edges.{edge_index}.sourceTempId",
+                        node_temp_id=source.temp_id,
+                        edge_name=edge.edge_name,
+                    )
+                )
+            if target_class is not None and target_class.name not in ontology_edge.range:
+                issues.append(
+                    ValidationIssue(
+                        code="EDGE_RANGE_MISMATCH",
+                        message=(
+                            f"Invalid edge range for {edge.edge_name}: "
+                            f"{target.class_name} is not allowed"
+                        ),
+                        location=f"edges.{edge_index}.targetTempId",
+                        node_temp_id=target.temp_id,
+                        edge_name=edge.edge_name,
+                    )
+                )
+
+            expected_rule_type = RULE_TYPE_BY_EDGE.get(edge.edge_name)
+            if (
+                expected_rule_type is not None
+                and target.properties.get("pskg:ruleType") != expected_rule_type
+            ):
+                issues.append(
+                    ValidationIssue(
+                        code="SEMANTIC_CONFLICT",
+                        message=(
+                            f"Edge {edge.edge_name} requires target "
+                            f"pskg:ruleType={expected_rule_type}"
+                        ),
+                        location=f"edges.{edge_index}",
+                        node_temp_id=target.temp_id,
+                        property_name="pskg:ruleType",
+                        edge_name=edge.edge_name,
+                    )
+                )
+
+        return self._deduplicate(issues)
+
+    def validate_persistence(
+        self,
+        patch: CompiledGraphPatch,
+    ) -> list[ValidationIssue]:
+        issues: list[ValidationIssue] = []
+
+        for node_index, node in enumerate(patch.nodes):
+            ontology_class = self.registry.get_class(node.class_name)
             if ontology_class is None:
                 continue
 
-            # Chỉ xét các edge đi ra từ node hiện tại.
-            outgoing_edges = [
+            for rule in ontology_class.rules:
+                attribute = self.registry.get_attribute(rule.property)
+                if attribute is None:
+                    continue
+                value = node.properties.get(rule.property)
+                message = self._attribute_rule_failure(rule, value)
+                if message is not None:
+                    issues.append(
+                        ValidationIssue(
+                            code="ONTOLOGY_RULE_UNSATISFIED",
+                            message=message,
+                            location=f"nodes.{node_index}.properties.{rule.property}",
+                            node_temp_id=node.temp_id,
+                            property_name=rule.property,
+                        )
+                    )
+
+        for node_index, node in enumerate(patch.nodes):
+            ontology_class = self.registry.get_class(node.class_name)
+            if ontology_class is None:
+                continue
+            outgoing = [
                 edge for edge in patch.edges if edge.source_temp_id == node.temp_id
             ]
-
             for rule in ontology_class.rules:
-                # Chỉ xử lý rule mà property là một edge trong ontology.
-                ontology_edge = self.registry.get_edge(rule.property)
-
-                # Không phải edge rule thì attribute validator đã xử lý hoặc bỏ qua.
-                if ontology_edge is None:
+                if self.registry.get_edge(rule.property) is None:
                     continue
+                count = sum(edge.edge_name == rule.property for edge in outgoing)
+                message = self._edge_rule_failure(rule, count)
+                if message is not None:
+                    issues.append(
+                        ValidationIssue(
+                            code="ONTOLOGY_RULE_UNSATISFIED",
+                            message=message,
+                            location=f"nodes.{node_index}.edges.{rule.property}",
+                            node_temp_id=node.temp_id,
+                            edge_name=rule.property,
+                        )
+                    )
 
-                # Đếm số edge cùng tên đi ra từ node hiện tại.
-                count = sum(
-                    1 for edge in outgoing_edges if edge.edge_name == rule.property
+        return self._deduplicate(issues)
+
+    def _attribute_rule_failure(self, rule, value: Any) -> str | None:
+        count = self._value_count(value)
+        if rule.operator == "exactlyQualified":
+            expected = self._to_int(rule.value)
+            if expected is not None and count != expected:
+                return (
+                    f"Property {rule.property} must occur exactly {expected} "
+                    f"time(s); got {count}"
                 )
+        elif rule.operator == "minQualified":
+            minimum = self._to_int(rule.value)
+            if minimum is not None and count < minimum:
+                return (
+                    f"Property {rule.property} must occur at least {minimum} "
+                    f"time(s); got {count}"
+                )
+        elif rule.operator == "some":
+            if value is None:
+                return f"Missing required property: {rule.property}"
+            expected = rule.value
+            if isinstance(expected, str) and expected.startswith("xsd:"):
+                if not self._is_valid_property_value(value, [expected]):
+                    return f"Property {rule.property} must satisfy {expected}"
+            elif isinstance(expected, str):
+                values = value if isinstance(value, list) else [value]
+                if expected not in values:
+                    return f"Property {rule.property} must contain value {expected}"
+        return None
 
-                # exactlyQualified: số edge phải bằng đúng expected.
-                if rule.operator == "exactlyQualified":
-                    expected = self._to_int(rule.value)
+    def _edge_rule_failure(self, rule, count: int) -> str | None:
+        if rule.operator == "exactlyQualified":
+            expected = self._to_int(rule.value)
+            if expected is not None and count != expected:
+                return (
+                    f"Edge {rule.property} must occur exactly {expected} time(s); "
+                    f"got {count}"
+                )
+        elif rule.operator == "minQualified":
+            minimum = self._to_int(rule.value)
+            if minimum is not None and count < minimum:
+                return (
+                    f"Edge {rule.property} must occur at least {minimum} time(s); "
+                    f"got {count}"
+                )
+        elif rule.operator == "some" and count < 1:
+            return f"Edge {rule.property} is required"
+        return None
 
-                    if expected is not None and count != expected:
-                        errors.append(
-                            f"Node {node.temp_id}: "
-                            f"edge {rule.property} must occur "
-                            f"exactly {expected} time(s); "
-                            f"got {count}"
-                        )
-
-                # minQualified: số edge phải đạt tối thiểu minimum.
-                elif rule.operator == "minQualified":
-                    minimum = self._to_int(rule.value)
-
-                    if minimum is not None and count < minimum:
-                        errors.append(
-                            f"Node {node.temp_id}: "
-                            f"edge {rule.property} must occur "
-                            f"at least {minimum} time(s); "
-                            f"got {count}"
-                        )
-
-                # some: cần ít nhất một edge theo rule.property.
-                elif rule.operator == "some":
-                    if count < 1:
-                        errors.append(
-                            f"Node {node.temp_id}: edge {rule.property} is required"
-                        )
-
-        return errors
-
-    # =========================================================
-    # DATATYPE HELPERS
-    # =========================================================
-
-    def _is_valid_property_value(
-        self,
-        value: Any,
-        ranges: list[str],
-    ) -> bool:
-
-        # Property dạng list hợp lệ khi mọi phần tử đều khớp range.
+    def _is_valid_property_value(self, value: Any, ranges: list[str]) -> bool:
         if isinstance(value, list):
-            return all(
-                self._is_valid_single_value(
-                    item,
-                    ranges,
-                )
-                for item in value
+            return bool(value) and all(
+                self._is_valid_single_value(item, ranges) for item in value
             )
+        return self._is_valid_single_value(value, ranges)
 
-        # Property scalar chỉ cần kiểm tra trực tiếp một value.
-        return self._is_valid_single_value(
-            value,
-            ranges,
-        )
-
-    def _is_valid_single_value(
-        self,
-        value: Any,
-        ranges: list[str],
-    ) -> bool:
-        # None hợp lệ ở tầng datatype; required/cardinality được kiểm tra ở rule.
+    def _is_valid_single_value(self, value: Any, ranges: list[str]) -> bool:
         if value is None:
-            return True
-
-        # Một property có thể cho phép nhiều range; khớp một range là hợp lệ.
+            return False
         for range_name in ranges:
-            if range_name == "xsd:string":
-                if isinstance(value, str):
-                    return True
-
-            elif range_name == "xsd:integer":
-                # bool là subclass của int trong Python nên phải loại trừ rõ ràng.
-                if isinstance(value, int) and not isinstance(value, bool):
-                    return True
-
-            elif range_name == "xsd:decimal":
-                # Decimal chấp nhận int/float/Decimal, nhưng không chấp nhận bool.
-                if isinstance(
-                    value,
-                    (int, float, Decimal),
-                ) and not isinstance(value, bool):
-                    return True
-
-            elif range_name == "xsd:boolean":
-                if isinstance(value, bool):
-                    return True
-
-            elif range_name == "xsd:date":
-                if self._is_iso_date(value):
-                    return True
-
-            elif range_name == "xsd:dateTime":
-                if self._is_iso_datetime(value):
-                    return True
-
-            elif range_name == "xsd:anyURI":
-                # URI hiện chỉ yêu cầu là chuỗi không rỗng.
-                if isinstance(value, str) and bool(value.strip()):
-                    return True
-
+            if range_name in {"xsd:string", "xsd:anyURI"} and isinstance(value, str):
+                return True
+            if range_name == "xsd:boolean" and isinstance(value, bool):
+                return True
+            if (
+                range_name == "xsd:integer"
+                and isinstance(value, int)
+                and not isinstance(value, bool)
+            ):
+                return True
+            if (
+                range_name == "xsd:decimal"
+                and isinstance(value, (int, float, Decimal))
+                and not isinstance(value, bool)
+            ):
+                return True
+            if range_name == "xsd:date" and self._is_iso_date(value):
+                return True
+            if range_name == "xsd:dateTime" and self._is_iso_datetime(value):
+                return True
         return False
 
     @staticmethod
     def _is_iso_date(value: Any) -> bool:
-        # date object hợp lệ, nhưng datetime không được tính là date thuần.
-        if isinstance(value, date) and not isinstance(
-            value,
-            datetime,
-        ):
+        if isinstance(value, datetime):
+            return False
+        if isinstance(value, date):
             return True
-
         if not isinstance(value, str):
             return False
-
         try:
-            # Chuỗi phải parse được theo ISO date, ví dụ YYYY-MM-DD.
             date.fromisoformat(value)
-            return True
+            return len(value) == 10
         except ValueError:
             return False
 
     @staticmethod
     def _is_iso_datetime(value: Any) -> bool:
-        # datetime object hợp lệ ngay lập tức.
         if isinstance(value, datetime):
             return True
-
         if not isinstance(value, str):
             return False
-
         try:
-            # Hỗ trợ hậu tố Z bằng cách đổi sang offset +00:00 trước khi parse.
             datetime.fromisoformat(value.replace("Z", "+00:00"))
             return True
         except ValueError:
@@ -541,22 +316,20 @@ class OntologyValidator:
 
     @staticmethod
     def _value_count(value: Any) -> int:
-        # Không có value thì tính là không xuất hiện.
         if value is None:
             return 0
-
-        # List biểu diễn property nhiều giá trị.
-        if isinstance(value, list):
-            return len(value)
-
-        # Scalar có mặt thì tính là một lần xuất hiện.
-        return 1
+        return len(value) if isinstance(value, list) else 1
 
     @staticmethod
     def _to_int(value: Any) -> int | None:
         try:
-            # Rule value từ ontology có thể là string nên convert an toàn sang int.
             return int(value)
         except (TypeError, ValueError):
-            # Không convert được thì caller sẽ bỏ qua rule số này.
             return None
+
+    @staticmethod
+    def _deduplicate(issues: list[ValidationIssue]) -> list[ValidationIssue]:
+        unique: dict[tuple[str, str, str], ValidationIssue] = {}
+        for issue in issues:
+            unique[(issue.code, issue.location, issue.message)] = issue
+        return list(unique.values())

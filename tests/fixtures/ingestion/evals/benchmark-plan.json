@@ -1,0 +1,53 @@
+{
+  "fixed_point": "ee714f97e9cf4259c19fd58130e2d17ad2cd1ff3",
+  "runs_per_eval_per_configuration": 3,
+  "persistence_adapter": "recording",
+  "real_neo4j_allowed": false,
+  "shared_inputs": [
+    "model_id",
+    "prompt",
+    "artifact"
+  ],
+  "layers": [
+    {
+      "name": "end_to_end_regression",
+      "configurations": [
+        {
+          "name": "legacy_stack",
+          "code": "fixed_point",
+          "skill": "tests/fixtures/ingestion/skills/legacy"
+        },
+        {
+          "name": "new_stack",
+          "code": "working_tree",
+          "skill": "app/skills/ingestion"
+        }
+      ]
+    },
+    {
+      "name": "skill_only_ablation",
+      "configurations": [
+        {
+          "name": "minimally_migrated",
+          "code": "working_tree",
+          "skill": "tests/fixtures/ingestion/skills/minimally_migrated"
+        },
+        {
+          "name": "rewritten",
+          "code": "working_tree",
+          "skill": "app/skills/ingestion"
+        }
+      ]
+    }
+  ],
+  "metrics": [
+    "assertion_pass_rate",
+    "malformed_patch_rate",
+    "hallucination_rate",
+    "tool_sequence_pass_rate",
+    "tokens",
+    "duration_seconds",
+    "variance"
+  ],
+  "workspace": ".eval/ingestion/workspaces"
+}
