@@ -1,0 +1,11 @@
+from pathlib import Path
+p=Path('app/tools/ingestion_tools.py')
+s=p.read_text(encoding='utf-8')
+s=s.replace('''    persist: bool = True,\n    max_retries_per_batch: int = DEFAULT_MAX_RETRIES_PER_BATCH,\n''','''    persist: bool = True,\n    allow_partial_persistence: bool = False,\n    max_retries_per_batch: int = DEFAULT_MAX_RETRIES_PER_BATCH,\n''',1)
+old='''    finalized = finalize_ingestion(ingestion_id, tool_context)\n    if finalized.get("stage") != "ready_to_fill":\n        logger.error(\n            "INGESTION_FINALIZE_FAILED ingestion_id=%s processed_batches=%s "\n            "skipped_chunks=%s errors=%s readiness=%s",\n            ingestion_id,\n            processed_batches,\n            skipped_chunks,\n            finalized.get("errors", []),\n            finalized.get("readinessIssues", []),\n        )\n        return {\n            **finalized,\n            "terminal": True,\n            "partial": bool(skipped_chunks),\n            "skippedChunks": skipped_chunks,\n            "ingestionWarnings": warnings,\n        }\n\n'''
+new='''    finalized = finalize_ingestion(ingestion_id, tool_context)\n    partial_override = bool(\n        allow_partial_persistence\n        and persist\n        and finalized.get("stage") == "readiness_gate"\n        and finalized.get("validForExtraction") is True\n    )\n    if finalized.get("stage") != "ready_to_fill" and not partial_override:\n        logger.error("INGESTION_FINALIZE_FAILED ingestion_id=%s processed_batches=%s skipped_chunks=%s errors=%s readiness=%s", ingestion_id, processed_batches, skipped_chunks, finalized.get("errors", []), finalized.get("readinessIssues", []))\n        return {**finalized, "terminal": True, "partial": bool(skipped_chunks), "skippedChunks": skipped_chunks, "ingestionWarnings": warnings}\n    if partial_override:\n        logger.warning("INGESTION_PARTIAL_PERSISTENCE_OVERRIDE ingestion_id=%s readiness=%s", ingestion_id, finalized.get("readinessIssues", []))\n\n'''
+assert old in s
+s=s.replace(old,new,1)
+s=s.replace('''    filled = await fill_ingestion(ingestion_id, tool_context)\n''','''    filled = await fill_ingestion(ingestion_id, tool_context, allow_partial_persistence=partial_override)\n''',1)
+p.write_text(s,encoding='utf-8')
+print('patched end-to-end partial override')

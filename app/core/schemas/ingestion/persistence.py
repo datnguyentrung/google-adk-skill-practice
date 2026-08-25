@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import StrEnum
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -85,6 +85,18 @@ class FillResult(_PersistenceModel):
     node_ids: dict[str, str] = Field(alias="nodeIds")
     relationship_ids: dict[str, str] = Field(alias="relationshipIds")
     receipt: PersistedGraphReceipt
+    partial_persistence: bool = Field(
+        default=False,
+        alias="partialPersistence",
+    )
+    persistence_mode: Literal["strict", "partial"] = Field(
+        default="strict",
+        alias="persistenceMode",
+    )
+    readiness_issues_ignored: list[dict[str, Any]] = Field(
+        default_factory=list,
+        alias="readinessIssuesIgnored",
+    )
 
 
 __all__ = [

@@ -1,10 +1,7 @@
 from typing import Any
 
 from app.core.schemas.ingestion.validation import ValidationIssue
-from app.services.ingestion.graph_patch_compiler import (
-    RULE_TYPE_BY_EDGE,
-    CompiledGraphPatch,
-)
+from app.services.ingestion.graph_patch_compiler import CompiledGraphPatch
 from app.services.ingestion.ontology_datatypes import (
     value_matches_xsd,
     xsd_datatypes,
@@ -139,24 +136,23 @@ class OntologyValidator:
                     )
                 )
 
-            expected_rule_type = RULE_TYPE_BY_EDGE.get(edge.edge_name)
-            if (
-                expected_rule_type is not None
-                and target.properties.get("pskg:ruleType") != expected_rule_type
+            for attribute, expected_value in self.registry.derived_target_properties_for_edge(
+                edge.edge_name
             ):
-                issues.append(
-                    ValidationIssue(
-                        code="SEMANTIC_CONFLICT",
-                        message=(
-                            f"Edge {edge.edge_name} requires target "
-                            f"pskg:ruleType={expected_rule_type}"
-                        ),
-                        location=f"edges.{edge_index}",
-                        node_temp_id=target.temp_id,
-                        property_name="pskg:ruleType",
-                        edge_name=edge.edge_name,
+                if target.properties.get(attribute.technical_name) != expected_value:
+                    issues.append(
+                        ValidationIssue(
+                            code="SEMANTIC_CONFLICT",
+                            message=(
+                                f"Edge {edge.edge_name} requires target "
+                                f"{attribute.technical_name}={expected_value}"
+                            ),
+                            location=f"edges.{edge_index}",
+                            node_temp_id=target.temp_id,
+                            property_name=attribute.technical_name,
+                            edge_name=edge.edge_name,
+                        )
                     )
-                )
 
         return deduplicate_issues(issues)
 
@@ -174,6 +170,8 @@ class OntologyValidator:
             for rule in ontology_class.rules:
                 attribute = self.registry.get_attribute(rule.property)
                 if attribute is None:
+                    continue
+                if attribute.ingestion_policy.mode == "runtime_managed":
                     continue
                 value = node.properties.get(rule.property)
                 message = self._attribute_rule_failure(rule, value)

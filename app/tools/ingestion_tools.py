@@ -1,5 +1,5 @@
-import hashlib
 import asyncio
+import hashlib
 import json
 import logging
 import os
@@ -24,15 +24,15 @@ from app.core.schemas.ingestion.workspace import (
 from app.services.ingestion.fill_factory import create_fill_service
 from app.services.ingestion.fill_service import FillValidationError
 from app.services.ingestion.fragment_grounding_repair import repair_fragment_grounding
-from app.services.ingestion.partial_batch_fallback import (
-    can_skip_chunks_safely,
-    failed_chunk_indexes,
-    prune_fragment_for_skips,
-)
 from app.services.ingestion.orchestrator import (
     BatchExtractor,
     GeminiBatchExtractor,
     InvalidGraphPatchFragmentError,
+)
+from app.services.ingestion.partial_batch_fallback import (
+    can_skip_chunks_safely,
+    failed_chunk_indexes,
+    prune_fragment_for_skips,
 )
 from app.services.ingestion.prepare_extraction_context import ExtractionContextService
 from app.services.ingestion.staged_ingestion import (
@@ -53,7 +53,9 @@ VALIDATED_FINGERPRINT_STATE_KEY = "temp:ingestion_validated_fingerprint"
 SOURCE_CHUNKS_STATE_KEY = "temp:ingestion_source_chunks"
 WORKSPACE_STATE_KEY = "temp:ingestion_workspace"
 BATCH_PACE_SECONDS = float(os.getenv("INGESTION_BATCH_PACE_SECONDS", "12"))
-DEFAULT_MAX_RETRIES_PER_BATCH = max(1, int(os.getenv("INGESTION_MAX_RETRIES_PER_BATCH", "3")))
+DEFAULT_MAX_RETRIES_PER_BATCH = max(
+    1, int(os.getenv("INGESTION_MAX_RETRIES_PER_BATCH", "3"))
+)
 INGESTION_SKILL_DIR = Path(__file__).resolve().parents[1] / "skills" / "ingestion"
 
 
@@ -225,9 +227,7 @@ def _fragment_stats(fragment: GraphPatchFragment | None) -> dict[str, Any]:
     property_count = sum(len(node.properties) for node in fragment.nodes)
     evidence_count = sum(len(node.evidence) for node in fragment.nodes)
     evidence_count += sum(
-        len(prop.evidence)
-        for node in fragment.nodes
-        for prop in node.properties
+        len(prop.evidence) for node in fragment.nodes for prop in node.properties
     )
     evidence_count += sum(len(edge.evidence) for edge in fragment.edges)
     return {
@@ -393,19 +393,35 @@ def _repair_instructions(summary: dict[str, Any]) -> str:
     instructions: list[str] = []
     codes = set(summary["codes"])
     if "BATCH_CONFLICT" in codes:
-        instructions.append("Resolve the cross-batch conflict using the returned conflict object; do not resubmit the same scalar property/value conflict.")
+        instructions.append(
+            "Resolve the cross-batch conflict using the returned conflict object; do not resubmit the same scalar property/value conflict."
+        )
     if "PROPERTY_VALUE_NOT_GROUNDED" in codes:
-        instructions.append("For unsupported property values, copy the exact source wording/value or omit the property; do not paraphrase business facts.")
+        instructions.append(
+            "For unsupported property values, copy the exact source wording/value or omit the property; do not paraphrase business facts."
+        )
     if summary["evidenceTextNotInSourceLocations"]:
-        instructions.append("Use only exact verbatim evidence from the cited chunk. For Markdown tables, ""copy the complete source row including pipe delimiters; never synthesize or ""join multiple rows into one evidence string.")
+        instructions.append(
+            "Use only exact verbatim evidence from the cited chunk. For Markdown tables, "
+            "copy the complete source row including pipe delimiters; never synthesize or "
+            "join multiple rows into one evidence string."
+        )
     if "DERIVED_PROPERTY_REQUIRES_EDGE_EVIDENCE" in codes:
-        instructions.append("Add the grounded relationship edge that supports the derived ruleType, or omit the unsupported rule node.")
+        instructions.append(
+            "Add the grounded relationship edge that supports the derived ruleType, or omit the unsupported rule node."
+        )
     if summary["coverageNotEvidencedChunkIndexes"]:
-        instructions.append("Do not resubmit unchanged coverage. For each coverageNotEvidenced chunk, add at least one grounded property/edge fact only when it contributes a distinct graph fact; otherwise mark it NOT_RELEVANT with a source-based reason.")
+        instructions.append(
+            "Do not resubmit unchanged coverage. For each coverageNotEvidenced chunk, add at least one grounded property/edge fact only when it contributes a distinct graph fact; otherwise mark it NOT_RELEVANT with a source-based reason."
+        )
     if summary["schemaErrorLocations"]:
-        instructions.append("Fix every schema error before resubmitting the same batch; evidence objects must include source, chunkIndex, section when present, and text.")
-    return " ".join(instructions) or "Correct the batch validation errors and resubmit this same batch."
-
+        instructions.append(
+            "Fix every schema error before resubmitting the same batch; evidence objects must include source, chunkIndex, section when present, and text."
+        )
+    return (
+        " ".join(instructions)
+        or "Correct the batch validation errors and resubmit this same batch."
+    )
 
 
 def _conflict_repair_instruction(conflict: dict[str, Any]) -> str:
@@ -455,7 +471,9 @@ def _batch_validation_response(
     retry_required: bool = True,
     next_action: str = "correct_and_resubmit_same_batch",
 ) -> dict[str, Any]:
-    summary = _batch_error_summary(issues, schema_error_locations=schema_error_locations)
+    summary = _batch_error_summary(
+        issues, schema_error_locations=schema_error_locations
+    )
     retry = _batch_retry_payload(workspace, batch_index)
     preview = issues[:10]
     response = {
@@ -467,7 +485,9 @@ def _batch_validation_response(
         "nextAction": next_action,
         "errorCount": len(issues),
         "errorsTruncated": len(issues) > len(preview),
-        "errors": [issue.model_dump(by_alias=True, exclude_none=True) for issue in preview],
+        "errors": [
+            issue.model_dump(by_alias=True, exclude_none=True) for issue in preview
+        ],
         "errorSummary": summary,
         "conflict": conflict,
         "fragmentStats": _fragment_stats(fragment),
@@ -487,6 +507,7 @@ def _batch_validation_response(
     if conflict is None:
         response.pop("conflict")
     return response
+
 
 def _compact_ontology_context(ontology_context: str) -> str:
     """Keep only model-facing ontology identifiers needed for extraction."""
@@ -556,10 +577,21 @@ async def _receipt_response(
     require_receipt: bool,
 ) -> dict[str, Any]:
     receipt = result.get("receipt")
+    partial_persistence = bool(result.get("partialPersistence", False))
+    persistence_mode = result.get("persistenceMode", "strict")
+    readiness_issues_ignored = result.get("readinessIssuesIgnored", [])
     if not isinstance(receipt, dict):
         if require_receipt:
             raise RuntimeError("Fill service did not return a persisted graph receipt")
-        return {"success": True, "stage": "completed", "terminal": True, **result}
+        return {
+            "success": True,
+            "stage": "completed",
+            "terminal": True,
+            "partialPersistence": partial_persistence,
+            "persistenceMode": persistence_mode,
+            "readinessIssuesIgnored": readiness_issues_ignored,
+            **result,
+        }
     artifact_name = f"ingestion-receipt-{artifact_stem}.json"
     artifact_version = await tool_context.save_artifact(
         filename=artifact_name,
@@ -574,15 +606,26 @@ async def _receipt_response(
         custom_metadata={
             "receiptVersion": str(receipt.get("version", "1")),
             "commitStatus": str(result.get("commitStatus", "committed")),
+            "partialPersistence": str(partial_persistence).lower(),
+            "persistenceMode": str(persistence_mode),
+            "readinessIssuesIgnored": readiness_issues_ignored,
         },
     )
+    commit_status = result.get("commitStatus")
+    committed = commit_status == "committed"
     verified = bool(receipt.get("verified"))
+    persisted_nodes = int(result.get("nodes", 0) or 0)
+    success = committed and verified and persisted_nodes > 0
+    stage = "completed" if success else ("readback" if committed else "persistence")
     return {
-        "success": verified,
-        "stage": "completed" if verified else "readback",
+        "success": success,
+        "stage": stage,
         "terminal": True,
-        "commitStatus": result.get("commitStatus", "committed"),
-        "nodes": result.get("nodes", 0),
+        "commitStatus": commit_status,
+        "partialPersistence": partial_persistence,
+        "persistenceMode": persistence_mode,
+        "readinessIssuesIgnored": readiness_issues_ignored,
+        "nodes": persisted_nodes,
         "edges": result.get("edges", 0),
         "labelDistribution": receipt.get("labelDistribution", {}),
         "relationshipTypeDistribution": receipt.get(
@@ -607,12 +650,14 @@ async def _persist_with_receipt(
     require_receipt: bool,
     invalidate_gate: Callable[[], None],
     failure_message: str,
+    allow_partial_persistence: bool = False,
 ) -> dict[str, Any]:
     service = None
     result = None
     try:
         service = create_fill_service(validation_service=validation_service)
-        result = service.fill(graph_patch, artifact_digest, source_chunks)
+        fill_kwargs = ({"allow_partial_persistence": True} if allow_partial_persistence else {})
+        result = service.fill(graph_patch, artifact_digest, source_chunks, **fill_kwargs)
         logger.info(
             "FILL_RESULT nodes=%s edges=%s status=%s commit_status=%s",
             result.get("nodes", 0),
@@ -928,14 +973,10 @@ def submit_ingestion_batch(
                 message=str(exc),
                 location=f"batches.{batch_index}",
                 node_temp_id=(
-                    conflict.get("nodeTempId")
-                    if conflict is not None
-                    else None
+                    conflict.get("nodeTempId") if conflict is not None else None
                 ),
                 property_name=(
-                    conflict.get("propertyName")
-                    if conflict is not None
-                    else None
+                    conflict.get("propertyName") if conflict is not None else None
                 ),
             )
         ]
@@ -946,16 +987,22 @@ def submit_ingestion_batch(
                 else None
             )
             schema_locations = _schema_error_locations(exc)
-            summary = _batch_error_summary(issues, schema_error_locations=schema_locations)
+            summary = _batch_error_summary(
+                issues, schema_error_locations=schema_locations
+            )
             if retry_fragment is not None:
                 unchanged_issue = _unchanged_retry_issue(
                     workspace, batch_index, summary, retry_fragment
                 )
                 if unchanged_issue is not None:
                     response = _batch_validation_response(
-                        workspace, batch_index, [unchanged_issue, *issues],
-                        schema_error_locations=schema_locations, conflict=conflict,
-                        fragment=retry_fragment, retry_required=False,
+                        workspace,
+                        batch_index,
+                        [unchanged_issue, *issues],
+                        schema_error_locations=schema_locations,
+                        conflict=conflict,
+                        fragment=retry_fragment,
+                        retry_required=False,
                         next_action="explicit_extraction_failure",
                     )
                     _store_workspace(tool_context, workspace)
@@ -964,9 +1011,12 @@ def submit_ingestion_batch(
                 _remember_retry_state(workspace, batch_index, retry_fragment, summary)
                 _store_workspace(tool_context, workspace)
             response = _batch_validation_response(
-                workspace, batch_index, issues,
+                workspace,
+                batch_index,
+                issues,
                 schema_error_locations=schema_locations,
-                conflict=conflict, fragment=retry_fragment,
+                conflict=conflict,
+                fragment=retry_fragment,
             )
             _pace_next_model_turn(tool_context)
             return response
@@ -975,8 +1025,7 @@ def submit_ingestion_batch(
             "stage": "batch_validation",
             "batchIndex": batch_index,
             "errors": [
-                issue.model_dump(by_alias=True, exclude_none=True)
-                for issue in issues
+                issue.model_dump(by_alias=True, exclude_none=True) for issue in issues
             ],
         }
     _store_workspace(tool_context, workspace)
@@ -1039,9 +1088,13 @@ def finalize_ingestion(
         "VALIDATION_RESULT ingestion_id=%s valid_nodes=%s invalid_nodes=%s valid_edges=%s invalid_edges=%s errors=%s readiness=%s",
         ingestion_id,
         assessment.result.node_count if assessment.result.valid_for_extraction else 0,
-        assessment.result.node_count if not assessment.result.valid_for_extraction else 0,
+        assessment.result.node_count
+        if not assessment.result.valid_for_extraction
+        else 0,
         assessment.result.edge_count if assessment.result.valid_for_extraction else 0,
-        assessment.result.edge_count if not assessment.result.valid_for_extraction else 0,
+        assessment.result.edge_count
+        if not assessment.result.valid_for_extraction
+        else 0,
         [item.code.value for item in assessment.result.errors],
         [item.code.value for item in assessment.result.readiness_issues],
     )
@@ -1086,60 +1139,37 @@ def finalize_ingestion(
 async def fill_ingestion(
     ingestion_id: str,
     tool_context: ToolContext,
+    allow_partial_persistence: bool = False,
 ) -> dict[str, Any]:
-    """Persist only the finalized graph locked inside the named workspace."""
+    """Persist a finalized graph, with explicit partial persistence when allowed."""
 
     workspace, error = _workspace_precondition(ingestion_id, tool_context)
     if error is not None or workspace is None:
         return error
-    if workspace.validated_fingerprint is None or workspace.finalized_patch is None:
-        return {
-            "success": False,
-            "stage": "validation_precondition",
-            "terminal": True,
-            "errors": [
-                ValidationIssue(
-                    code="VALIDATION_PRECONDITION",
-                    message="finalize_ingestion must pass persistence readiness first",
-                    location="ingestionId",
-                ).model_dump(by_alias=True, exclude_none=True)
-            ],
-        }
+    if workspace.finalized_patch is None:
+        return {"success": False, "stage": "validation_precondition", "terminal": True, "errors": [ValidationIssue(code="VALIDATION_PRECONDITION", message="finalize_ingestion must run before fill_ingestion", location="ingestionId").model_dump(by_alias=True, exclude_none=True)]}
+
     validation_service = _get_validation_service()
-    candidate = validation_service.fingerprint_candidate(
-        workspace.finalized_patch,
-        workspace.artifact_digest,
-    )
-    if candidate != workspace.validated_fingerprint:
+    assessment = validation_service.assess(workspace.finalized_patch, workspace.artifact_digest, workspace.chunks)
+    if not assessment.result.valid_for_extraction or assessment.compiled_patch is None:
+        return {"success": False, "stage": "validation", "terminal": True, "validation": _public_assessment(assessment)}
+    if not assessment.result.valid_for_persistence and not allow_partial_persistence:
+        return {"success": False, "stage": "validation_precondition", "terminal": True, "validation": _public_assessment(assessment), "errors": [ValidationIssue(code="VALIDATION_PRECONDITION", message="Persistence readiness failed; set allow_partial_persistence=true only for an explicit partial persistence commit requested by the user", location="ingestionId").model_dump(by_alias=True, exclude_none=True)]}
+
+    expected_fingerprint = workspace.validated_fingerprint
+    if allow_partial_persistence and not assessment.result.valid_for_persistence:
+        expected_fingerprint = assessment.fingerprint
+    candidate = validation_service.fingerprint_candidate(workspace.finalized_patch, workspace.artifact_digest)
+    if expected_fingerprint is None or candidate != expected_fingerprint:
         workspace.validated_fingerprint = None
         _store_workspace(tool_context, workspace)
-        return {
-            "success": False,
-            "stage": "validation_precondition",
-            "terminal": True,
-            "errors": [
-                ValidationIssue(
-                    code="VALIDATION_PRECONDITION",
-                    message="Finalized graph fingerprint no longer matches the lock",
-                    location="ingestionId",
-                ).model_dump(by_alias=True, exclude_none=True)
-            ],
-        }
+        return {"success": False, "stage": "validation_precondition", "terminal": True, "errors": [ValidationIssue(code="VALIDATION_PRECONDITION", message="Finalized graph fingerprint no longer matches the validated extraction", location="ingestionId").model_dump(by_alias=True, exclude_none=True)]}
+
     def invalidate_workspace_gate() -> None:
         workspace.validated_fingerprint = None
         _store_workspace(tool_context, workspace)
 
-    return await _persist_with_receipt(
-        graph_patch=workspace.finalized_patch,
-        artifact_digest=workspace.artifact_digest,
-        source_chunks=workspace.chunks,
-        validation_service=validation_service,
-        artifact_stem=ingestion_id[:12],
-        tool_context=tool_context,
-        require_receipt=True,
-        invalidate_gate=invalidate_workspace_gate,
-        failure_message="Failed to persist finalized ingestion workspace",
-    )
+    return await _persist_with_receipt(graph_patch=workspace.finalized_patch, artifact_digest=workspace.artifact_digest, source_chunks=workspace.chunks, validation_service=validation_service, artifact_stem=ingestion_id[:12], tool_context=tool_context, require_receipt=True, invalidate_gate=invalidate_workspace_gate, failure_message="Failed to persist finalized ingestion workspace", allow_partial_persistence=allow_partial_persistence)
 
 
 def get_ingestion_status(
@@ -1154,11 +1184,7 @@ def get_ingestion_status(
     next_batch = _get_workspace_service().next_batch(workspace)
     status = {
         "success": True,
-        "stage": (
-            "ready_to_finalize"
-            if next_batch is None
-            else "batching"
-        ),
+        "stage": ("ready_to_finalize" if next_batch is None else "batching"),
         "terminal": False,
         "ingestionId": ingestion_id,
         "workspaceStats": _workspace_stats(workspace),
@@ -1189,11 +1215,13 @@ def _record_partial_skip(
         for item in batch_payload.get("chunks", [])
         if isinstance(item, dict) and "index" in item
     }
-    error_codes = sorted({
-        str(code)
-        for response in responses
-        for code in response.get("errorSummary", {}).get("codes", [])
-    })
+    error_codes = sorted(
+        {
+            str(code)
+            for response in responses
+            for code in response.get("errorSummary", {}).get("codes", [])
+        }
+    )
     warning = {
         "code": "SKIPPED_AFTER_RETRIES",
         "batchIndex": batch_index,
@@ -1243,9 +1271,10 @@ def _attempt_partial_batch_fallback(
     max_expansions = max(1, len(batch_payload.get("chunkIndexes", [])))
 
     for _ in range(max_expansions):
-        newly_failed = set(
-            failed_chunk_indexes(last_response, fragment, batch_payload)
-        ) - skipped_indexes
+        newly_failed = (
+            set(failed_chunk_indexes(last_response, fragment, batch_payload))
+            - skipped_indexes
+        )
         if not newly_failed:
             return None
 
@@ -1253,7 +1282,9 @@ def _attempt_partial_batch_fallback(
         if not can_skip_chunks_safely(fragment, skipped_indexes):
             logger.warning(
                 "INGESTION_AUTO_SKIP_BLOCKED ingestion_id=%s batch=%s chunks=%s reason=critical_fact",
-                ingestion_id, batch_index, sorted(skipped_indexes),
+                ingestion_id,
+                batch_index,
+                sorted(skipped_indexes),
             )
             return None
         candidate = prune_fragment_for_skips(
@@ -1287,6 +1318,7 @@ async def ingest_document_end_to_end(
     artifact_name: str,
     tool_context: ToolContext,
     persist: bool = True,
+    allow_partial_persistence: bool = False,
     max_retries_per_batch: int = DEFAULT_MAX_RETRIES_PER_BATCH,
 ) -> dict[str, Any]:
     """Run long-document ingestion to a real terminal state in one tool call."""
@@ -1356,7 +1388,10 @@ async def ingest_document_end_to_end(
                         delay = _rate_limit_retry_delay_seconds(exc, attempt)
                         logger.warning(
                             "INGESTION_RATE_LIMIT_BACKOFF ingestion_id=%s batch=%s attempt=%s delay_seconds=%.2f",
-                            ingestion_id, batch_index, attempt, delay,
+                            ingestion_id,
+                            batch_index,
+                            attempt,
+                            delay,
                         )
                         await asyncio.sleep(delay)
                     continue
@@ -1404,8 +1439,13 @@ async def ingest_document_end_to_end(
             }
             if not response.get("retryRequired"):
                 fallback = _attempt_partial_batch_fallback(
-                    ingestion_id, batch_index, fragment, batch_payload,
-                    response, attempt, tool_context,
+                    ingestion_id,
+                    batch_index,
+                    fragment,
+                    batch_payload,
+                    response,
+                    attempt,
+                    tool_context,
                 )
                 if fallback is not None:
                     response = fallback
@@ -1420,8 +1460,13 @@ async def ingest_document_end_to_end(
                 }
         else:
             fallback = _attempt_partial_batch_fallback(
-                ingestion_id, batch_index, fragment, batch_payload,
-                response, max_retries_per_batch, tool_context,
+                ingestion_id,
+                batch_index,
+                fragment,
+                batch_payload,
+                response,
+                max_retries_per_batch,
+                tool_context,
             )
             if fallback is not None:
                 response = fallback
@@ -1447,23 +1492,17 @@ async def ingest_document_end_to_end(
     warnings = workspace.ingestion_warnings if workspace else []
 
     finalized = finalize_ingestion(ingestion_id, tool_context)
-    if finalized.get("stage") != "ready_to_fill":
-        logger.error(
-            "INGESTION_FINALIZE_FAILED ingestion_id=%s processed_batches=%s "
-            "skipped_chunks=%s errors=%s readiness=%s",
-            ingestion_id,
-            processed_batches,
-            skipped_chunks,
-            finalized.get("errors", []),
-            finalized.get("readinessIssues", []),
-        )
-        return {
-            **finalized,
-            "terminal": True,
-            "partial": bool(skipped_chunks),
-            "skippedChunks": skipped_chunks,
-            "ingestionWarnings": warnings,
-        }
+    partial_override = bool(
+        allow_partial_persistence
+        and persist
+        and finalized.get("stage") == "readiness_gate"
+        and finalized.get("validForExtraction") is True
+    )
+    if finalized.get("stage") != "ready_to_fill" and not partial_override:
+        logger.error("INGESTION_FINALIZE_FAILED ingestion_id=%s processed_batches=%s skipped_chunks=%s errors=%s readiness=%s", ingestion_id, processed_batches, skipped_chunks, finalized.get("errors", []), finalized.get("readinessIssues", []))
+        return {**finalized, "terminal": True, "partial": bool(skipped_chunks), "skippedChunks": skipped_chunks, "ingestionWarnings": warnings}
+    if partial_override:
+        logger.warning("INGESTION_PARTIAL_PERSISTENCE_OVERRIDE ingestion_id=%s readiness=%s", ingestion_id, finalized.get("readinessIssues", []))
 
     if not persist:
         result = {
@@ -1486,11 +1525,9 @@ async def ingest_document_end_to_end(
         )
         return result
 
-    filled = await fill_ingestion(ingestion_id, tool_context)
+    filled = await fill_ingestion(ingestion_id, tool_context, allow_partial_persistence=partial_override)
     workspace = _load_workspace(tool_context)
-    skipped_chunks = (
-        workspace.skipped_chunk_indexes if workspace else skipped_chunks
-    )
+    skipped_chunks = workspace.skipped_chunk_indexes if workspace else skipped_chunks
     warnings = workspace.ingestion_warnings if workspace else warnings
 
     result = {
@@ -1555,9 +1592,7 @@ async def fill_graph_patch(
 
     artifact_digest = tool_context.state.get(ARTIFACT_DIGEST_STATE_KEY)
     validation_service = _get_validation_service()
-    validated_fingerprint = tool_context.state.get(
-        VALIDATED_FINGERPRINT_STATE_KEY
-    )
+    validated_fingerprint = tool_context.state.get(VALIDATED_FINGERPRINT_STATE_KEY)
     candidate_fingerprint = validation_service.fingerprint_candidate(
         graph_patch,
         artifact_digest,

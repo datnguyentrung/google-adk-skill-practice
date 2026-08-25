@@ -144,55 +144,36 @@ def fragment_without_authoritative_status():
 
 def ready_fragment():
     product = fragment_without_authoritative_status()
-    product_evidence = product["nodes"][0]["evidence"]
-    product["nodes"][0]["properties"].append(
+    base_ev = product["nodes"][0]["evidence"][0]
+    rule_evidence = [{
+        **base_ev,
+        "text": "Customer is at least 20 years old",
+    }]
+    edge_evidence = [
         {
-            "propertyName": "pskg:bankingProductStatus",
-            "value": "Published",
-            "evidence": [
-                {
-                    **product_evidence[0],
-                    "text": "Product code P-1; effective 01/08/2026; Published",
-                }
-            ],
-        }
-    )
-    product["nodes"][0]["evidence"] = [
-        {
-            **product_evidence[0],
-            "text": "Product code P-1; effective 01/08/2026; Published; has eligibility rule",
-        }
+            **base_ev,
+            "text": "Product code P-1; effective 01/08/2026; Published; has eligibility rule; Customer is at least 20 years old",
+        },
+        *rule_evidence,
     ]
-    rule_evidence = [
-        {
-            **product_evidence[0],
-            "text": "Product code P-1; effective 01/08/2026; Published; has eligibility rule",
-        }
-    ]
-    product["nodes"].append(
-        {
-            "tempId": "rule-1",
-            "className": "pskg:BusinessRule",
-            "properties": [
-                {
-                    "propertyName": "pskg:businessRuleStatus",
-                    "value": "Published",
-                    "evidence": rule_evidence,
-                }
-            ],
+    product["nodes"].append({
+        "tempId": "rule-1",
+        "className": "pskg:BusinessRule",
+        "properties": [{
+            "propertyName": "pskg:businessRuleCondition",
+            "value": "Customer is at least 20 years old",
             "evidence": rule_evidence,
-            "confidence": 1.0,
-        }
-    )
-    product["edges"].append(
-        {
-            "edgeName": "pskg:hasEligibilityRule",
-            "sourceTempId": "product-1",
-            "targetTempId": "rule-1",
-            "evidence": rule_evidence,
-            "confidence": 1.0,
-        }
-    )
+        }],
+        "evidence": rule_evidence,
+        "confidence": 1.0,
+    })
+    product["edges"].append({
+        "edgeName": "pskg:hasEligibilityRule",
+        "sourceTempId": "product-1",
+        "targetTempId": "rule-1",
+        "evidence": edge_evidence,
+        "confidence": 1.0,
+    })
     return product
 
 
@@ -237,7 +218,7 @@ def scalar_fee_fragment(*, chunk_index, value, text, coverage_indexes):
 class ReadyContextService(FakeContextService):
     def prepare_uploaded_document(self, **kwargs):
         context = super().prepare_uploaded_document(**kwargs)
-        context.chunks[0].content += "; Published; has eligibility rule"
+        context.chunks[0].content += "; Published; has eligibility rule; Customer is at least 20 years old"
         return context
 
 
@@ -353,6 +334,7 @@ def test_staged_tool_schemas_do_not_accept_a_full_patch_for_fill():
     assert set(end_to_end_schema["properties"]) == {
         "artifact_name",
         "persist",
+        "allow_partial_persistence",
         "max_retries_per_batch",
     }
     assert set(begin_schema["properties"]) == {"artifact_name"}
@@ -361,7 +343,10 @@ def test_staged_tool_schemas_do_not_accept_a_full_patch_for_fill():
         "batch_index",
         "graph_fragment",
     }
-    assert set(fill_schema["properties"]) == {"ingestion_id"}
+    assert set(fill_schema["properties"]) == {
+        "ingestion_id",
+        "allow_partial_persistence",
+    }
 
 
 def test_batch_zero_success_is_non_terminal_when_batches_remain(monkeypatch):
@@ -471,6 +456,12 @@ def test_fill_saves_full_receipt_artifact_and_returns_only_summary(monkeypatch):
         "productCode": "P-1"
     }
     assert metadata["receiptVersion"] == "1"
+    assert metadata["partialPersistence"] == "false"
+    assert metadata["persistenceMode"] == "strict"
+    assert metadata["readinessIssuesIgnored"] == []
+    assert result["partialPersistence"] is False
+    assert result["persistenceMode"] == "strict"
+    assert result["readinessIssuesIgnored"] == []
     assert service.closed is True
 
 

@@ -57,6 +57,41 @@ class OntologyRegistry:
             or self.has_edge(technical_name)
         )
 
+    def derived_target_properties_for_edge(
+        self, edge_technical_name: str
+    ) -> list[tuple[OntologyAttribute, object]]:
+        """Return target properties derived from this edge by ontology policy."""
+        derived: list[tuple[OntologyAttribute, object]] = []
+        for attribute in self.ontology.attributes:
+            policy = attribute.ingestion_policy
+            if policy.mode != "edge_derived":
+                continue
+            if edge_technical_name in policy.derive_from_edges:
+                derived.append((attribute, policy.derive_from_edges[edge_technical_name]))
+        return derived
+
+    def configured_defaults_for_class(
+        self, class_technical_name: str
+    ) -> list[tuple[OntologyAttribute, object]]:
+        """Return ontology-configured defaults owned by the ingestion runtime."""
+        ontology_class = self.get_class(class_technical_name)
+        if ontology_class is None:
+            return []
+        result: list[tuple[OntologyAttribute, object]] = []
+        for attribute in self.ontology.attributes:
+            policy = attribute.ingestion_policy
+            if ontology_class.name not in attribute.domain:
+                continue
+            if policy.mode not in {"runtime_managed", "system_default"}:
+                continue
+            if policy.default_value is not None:
+                result.append((attribute, policy.default_value))
+        return result
+
+    def is_runtime_managed_attribute(self, technical_name: str) -> bool:
+        attribute = self.get_attribute(technical_name)
+        return bool(attribute and attribute.ingestion_policy.mode == "runtime_managed")
+
     def properties_from_class(
         self, class_technical_name: str
     ) -> list[OntologyAttribute]:

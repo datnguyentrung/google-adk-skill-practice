@@ -15,15 +15,15 @@ def source_chunks():
             "index": 0,
             "source": "source.md",
             "section": "Fixture",
-            "content": "P-1 Published 01/08/2026 has eligibility rule",
+            "content": "P-1 Published 01/08/2026 Age 20 has eligibility rule",
         }
     ]
 
 
 def ready_patch() -> dict:
     product_ev = [{"source": "source.md", "chunkIndex": 0, "section": "Fixture", "text": "P-1 Published 01/08/2026"}]
-    rule_ev = [{"source": "source.md", "chunkIndex": 0, "section": "Fixture", "text": "Rule"}]
-    edge_ev = [{"source": "source.md", "chunkIndex": 0, "section": "Fixture", "text": "P-1 Published 01/08/2026 has eligibility rule"}]
+    rule_ev = [{"source": "source.md", "chunkIndex": 0, "section": "Fixture", "text": "Age 20"}]
+    edge_ev = [{"source": "source.md", "chunkIndex": 0, "section": "Fixture", "text": "P-1 Published 01/08/2026 Age 20 has eligibility rule"}]
     return {
         "nodes": [
             {
@@ -31,7 +31,6 @@ def ready_patch() -> dict:
                 "className": "pskg:BankingProduct",
                 "properties": [
                     {"propertyName": "pskg:productCode", "value": "P-1", "evidence": product_ev},
-                    {"propertyName": "pskg:bankingProductStatus", "value": "Published", "evidence": product_ev},
                     {"propertyName": "pskg:bankingProductEffectiveFrom", "value": "2026-08-01", "evidence": product_ev},
                 ],
                 "evidence": product_ev,
@@ -41,7 +40,7 @@ def ready_patch() -> dict:
                 "tempId": "rule-1",
                 "className": "pskg:BusinessRule",
                 "properties": [
-                    {"propertyName": "pskg:businessRuleStatus", "value": "Published", "evidence": product_ev}
+                    {"propertyName": "pskg:businessRuleCondition", "value": "Age 20", "evidence": rule_ev}
                 ],
                 "evidence": rule_ev,
                 "confidence": 1.0,
@@ -144,7 +143,7 @@ class RecordingWriter:
             raise self.read_error
         product_properties = {
             "productCode": "P-1",
-            "bankingProductStatus": "Published",
+            "bankingProductStatus": "Draft",
             "bankingProductEffectiveFrom": "2026-08-01",
         }
         if self.mismatch:
@@ -160,7 +159,8 @@ class RecordingWriter:
                     "nodeId": "node-2",
                     "labels": ["BusinessRule"],
                     "properties": {
-                        "businessRuleStatus": "Published",
+                        "businessRuleCondition": "Age 20",
+                        "businessRuleStatus": "Draft",
                         "ruleType": "ELIGIBILITY",
                     },
                 },
@@ -197,7 +197,7 @@ def test_persistence_not_ready_patch_does_not_acquire_driver():
     patch["nodes"][0]["properties"] = [
         entry
         for entry in patch["nodes"][0]["properties"]
-        if entry["propertyName"] != "pskg:bankingProductStatus"
+        if entry["propertyName"] != "pskg:bankingProductEffectiveFrom"
     ]
     service = FillService(
         client=client,
@@ -227,6 +227,9 @@ def test_valid_patch_writes_compiled_patch_atomically():
     assert client.driver.last_session.tx.committed is True
     assert client.driver.last_session.tx.rolled_back is False
     assert result["commitStatus"] == "committed"
+    assert result["partialPersistence"] is False
+    assert result["persistenceMode"] == "strict"
+    assert result["readinessIssuesIgnored"] == []
     assert result["receipt"]["verified"] is True
     assert result["receipt"]["relationshipIds"] == {
         "0:pskg:hasEligibilityRule:product-1->rule-1": "rel-1"
@@ -311,7 +314,7 @@ def test_readback_checks_internal_ingestion_metadata_values():
                 labels=["BankingProduct"],
                 properties={
                     "productCode": "P-1",
-                    "bankingProductStatus": "Published",
+                    "bankingProductStatus": "Draft",
                     "bankingProductEffectiveFrom": "2026-08-01",
                     "_ingestionKey": "expected",
                 },
@@ -349,3 +352,39 @@ def test_failure_during_graph_write_rolls_back_transaction():
 
     assert client.driver.last_session.tx.committed is False
     assert client.driver.last_session.tx.rolled_back is True
+
+
+def test_partial_persistence_commits_extraction_valid_graph_despite_readiness():
+    class PartialReadbackWriter(RecordingWriter):
+        def read_graph_patch(self, tx, write_result):
+            return {
+                "nodes": [
+                    {"nodeId": "node-1", "labels": ["BankingProduct"], "properties": {"productCode": "P-1", "bankingProductStatus": "Draft", "bankingProductEffectiveFrom": "2026-08-01"}},
+                    {"nodeId": "node-2", "labels": ["BusinessRule"], "properties": {"businessRuleCondition": "Age 20", "businessRuleStatus": "Draft"}},
+                ],
+                "relationships": [],
+            }
+
+    patch = ready_patch()
+    patch["edges"] = []
+    client = FakeClient()
+    result = FillService(client=client, validation_service=GraphPatchValidationService(), writer=PartialReadbackWriter()).fill(
+        patch, "artifact", source_chunks(), allow_partial_persistence=True
+    )
+    assert result["commitStatus"] == "committed"
+    assert result["partialPersistence"] is True
+    assert result["persistenceMode"] == "partial"
+    assert result["edges"] == 0
+    assert {
+        issue["code"] for issue in result["readinessIssuesIgnored"]
+    } == {"ONTOLOGY_RULE_UNSATISFIED"}
+
+
+def test_partial_persistence_never_bypasses_extraction_errors():
+    patch = ready_patch()
+    patch["nodes"][0]["properties"][0]["value"] = "HALLUCINATED"
+    client = FakeClient()
+    service = FillService(client=client, validation_service=GraphPatchValidationService(), writer=RecordingWriter())
+    with pytest.raises(FillValidationError):
+        service.fill(patch, "artifact", source_chunks(), allow_partial_persistence=True)
+    assert client.driver_calls == 0

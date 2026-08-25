@@ -72,55 +72,36 @@ def fragment_without_authoritative_status():
 
 def ready_fragment():
     product = fragment_without_authoritative_status()
-    product_evidence = product["nodes"][0]["evidence"]
-    product["nodes"][0]["properties"].append(
+    base_ev = product["nodes"][0]["evidence"][0]
+    rule_evidence = [{
+        **base_ev,
+        "text": "Customer is at least 20 years old",
+    }]
+    edge_evidence = [
         {
-            "propertyName": "pskg:bankingProductStatus",
-            "value": "Published",
-            "evidence": [
-                {
-                    **product_evidence[0],
-                    "text": "Product code P-1; effective 01/08/2026; Published",
-                }
-            ],
-        }
-    )
-    product["nodes"][0]["evidence"] = [
-        {
-            **product_evidence[0],
-            "text": "Product code P-1; effective 01/08/2026; Published; has eligibility rule",
-        }
+            **base_ev,
+            "text": "Product code P-1; effective 01/08/2026; Published; has eligibility rule; Customer is at least 20 years old",
+        },
+        *rule_evidence,
     ]
-    rule_evidence = [
-        {
-            **product_evidence[0],
-            "text": "Product code P-1; effective 01/08/2026; Published; has eligibility rule",
-        }
-    ]
-    product["nodes"].append(
-        {
-            "tempId": "rule-1",
-            "className": "pskg:BusinessRule",
-            "properties": [
-                {
-                    "propertyName": "pskg:businessRuleStatus",
-                    "value": "Published",
-                    "evidence": rule_evidence,
-                }
-            ],
+    product["nodes"].append({
+        "tempId": "rule-1",
+        "className": "pskg:BusinessRule",
+        "properties": [{
+            "propertyName": "pskg:businessRuleCondition",
+            "value": "Customer is at least 20 years old",
             "evidence": rule_evidence,
-            "confidence": 1.0,
-        }
-    )
-    product["edges"].append(
-        {
-            "edgeName": "pskg:hasEligibilityRule",
-            "sourceTempId": "product-1",
-            "targetTempId": "rule-1",
-            "evidence": rule_evidence,
-            "confidence": 1.0,
-        }
-    )
+        }],
+        "evidence": rule_evidence,
+        "confidence": 1.0,
+    })
+    product["edges"].append({
+        "edgeName": "pskg:hasEligibilityRule",
+        "sourceTempId": "product-1",
+        "targetTempId": "rule-1",
+        "evidence": edge_evidence,
+        "confidence": 1.0,
+    })
     return product
 
 
@@ -135,7 +116,7 @@ class ReadyContextService:
                     section="Product",
                     content=(
                         "Product code P-1; effective 01/08/2026; Published; "
-                        "has eligibility rule"
+                        "has eligibility rule; Customer is at least 20 years old"
                     ),
                 )
             ],
@@ -171,7 +152,7 @@ class ReceiptFillService:
 
 class TwoBatchReadyContextService:
     def prepare_uploaded_document(self, **kwargs):
-        content = "Product code P-1; effective 01/08/2026; Published; has eligibility rule"
+        content = "Product code P-1; effective 01/08/2026; Published; has eligibility rule; Customer is at least 20 years old"
         return ExtractionContext(
             document_name="product.md",
             chunks=[
@@ -554,6 +535,35 @@ def test_end_to_end_reports_llm_request_config_error(monkeypatch):
     assert "uploaded document was not processed" in result["errors"][0]["message"]
 
 
+def test_end_to_end_partial_override_never_bypasses_extraction_error(monkeypatch):
+    context = FakeToolContext()
+    monkeypatch.setattr(
+        ingestion_tools,
+        "_get_context_service",
+        lambda: ReadyContextService(),
+    )
+    extractor = QueueExtractor([RuntimeError("extractor failed")])
+    monkeypatch.setattr(ingestion_tools, "_get_batch_extractor", lambda: extractor)
+    monkeypatch.setattr(
+        ingestion_tools,
+        "create_fill_service",
+        lambda **kwargs: (_ for _ in ()).throw(AssertionError("must not fill")),
+    )
+
+    result = asyncio.run(
+        ingestion_tools.ingest_document_end_to_end(
+            "product.md",
+            context,
+            allow_partial_persistence=True,
+        )
+    )
+
+    assert result["success"] is False
+    assert result["stage"] == "explicit_extraction_failure"
+    assert result["terminal"] is True
+    assert result["errorKind"] == "llm_extraction"
+
+
 def test_end_to_end_stops_at_readiness_gate_without_fill(monkeypatch):
     context = FakeToolContext()
     monkeypatch.setattr(
@@ -622,3 +632,36 @@ def test_rate_limit_error_detection_and_retry_delay(monkeypatch):
 def test_non_rate_limit_error_is_not_misclassified():
     exc = RuntimeError("validation failed")
     assert ingestion_tools._is_rate_limit_error(exc) is False
+
+
+def test_end_to_end_partial_override_commits_readiness_incomplete_graph(monkeypatch):
+    class PartialReceiptFillService:
+        def __init__(self):
+            self.closed = False
+            self.allow_partial = False
+        def fill(self, *args, **kwargs):
+            self.allow_partial = kwargs.get("allow_partial_persistence") is True
+            return {
+                "status": "success", "commitStatus": "committed", "nodes": 1, "edges": 0,
+                "nodeIds": {"product-1": "n1"}, "relationshipIds": {},
+                "partialPersistence": True, "persistenceMode": "partial",
+                "readinessIssuesIgnored": [{"code": "ONTOLOGY_RULE_UNSATISFIED"}],
+                "receipt": {"version": "1", "verified": True, "labelDistribution": {"BankingProduct": 1}, "relationshipTypeDistribution": {}, "mismatches": []},
+            }
+        def close(self):
+            self.closed = True
+
+    context = FakeToolContext()
+    monkeypatch.setattr(ingestion_tools, "_get_context_service", lambda: ReadyContextService())
+    monkeypatch.setattr(ingestion_tools, "_get_batch_extractor", lambda: QueueExtractor([fragment_without_authoritative_status()]))
+    fill_service = PartialReceiptFillService()
+    monkeypatch.setattr(ingestion_tools, "create_fill_service", lambda **kwargs: fill_service)
+    result = asyncio.run(ingestion_tools.ingest_document_end_to_end(
+        "product.md", context, allow_partial_persistence=True
+    ))
+    assert result["success"] is True
+    assert result["commitStatus"] == "committed"
+    assert result["partialPersistence"] is True
+    assert result["persistenceMode"] == "partial"
+    assert result["nodes"] == 1 and result["edges"] == 0
+    assert fill_service.allow_partial is True

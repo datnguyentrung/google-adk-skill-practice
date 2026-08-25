@@ -1000,6 +1000,11 @@
       ],
       "range": [
         "product offer"
+      ],
+      "groundingCues": [
+        "has offer",
+        "ưu đãi",
+        "đề nghị bán"
       ]
     },
     {
@@ -1015,6 +1020,11 @@
       ],
       "range": [
         "campaign"
+      ],
+      "groundingCues": [
+        "in campaign",
+        "trong chương trình",
+        "chiến dịch"
       ]
     },
     {
@@ -1060,6 +1070,11 @@
       ],
       "range": [
         "customer segment"
+      ],
+      "groundingCues": [
+        "targets segment",
+        "đối tượng khách hàng",
+        "phân khúc"
       ]
     },
     {
@@ -1150,6 +1165,11 @@
       ],
       "range": [
         "business rule"
+      ],
+      "groundingCues": [
+        "eligibility rule",
+        "điều kiện",
+        "đủ điều kiện"
       ]
     },
     {
@@ -1165,6 +1185,16 @@
       ],
       "range": [
         "business rule"
+      ],
+      "groundingCues": [
+        "sales condition rule",
+        "fee",
+        "pricing",
+        "annual fee",
+        "late payment",
+        "cash advance",
+        "interest",
+        "penalty"
       ]
     },
     {
@@ -1240,6 +1270,11 @@
       ],
       "range": [
         "sales script"
+      ],
+      "groundingCues": [
+        "has script",
+        "kịch bản tư vấn",
+        "kịch bản bán hàng"
       ]
     },
     {
@@ -1315,6 +1350,11 @@
       ],
       "range": [
         "required document"
+      ],
+      "groundingCues": [
+        "requires document",
+        "hồ sơ yêu cầu",
+        "giấy tờ cần"
       ]
     },
     {
@@ -1639,7 +1679,11 @@
       ],
       "range": [
         "xsd:string"
-      ]
+      ],
+      "ingestionPolicy": {
+        "mode": "runtime_managed",
+        "defaultValue": "Draft"
+      }
     },
     {
       "kind": "property",
@@ -1789,7 +1833,11 @@
       ],
       "range": [
         "xsd:string"
-      ]
+      ],
+      "ingestionPolicy": {
+        "mode": "runtime_managed",
+        "defaultValue": "Draft"
+      }
     },
     {
       "kind": "property",
@@ -1909,7 +1957,11 @@
       ],
       "range": [
         "xsd:string"
-      ]
+      ],
+      "ingestionPolicy": {
+        "mode": "runtime_managed",
+        "defaultValue": "Draft"
+      }
     },
     {
       "kind": "property",
@@ -2074,7 +2126,15 @@
       ],
       "range": [
         "xsd:string"
-      ]
+      ],
+      "ingestionPolicy": {
+        "mode": "edge_derived",
+        "deriveFromEdges": {
+          "pskg:hasEligibilityRule": "ELIGIBILITY",
+          "pskg:hasSalesConditionRule": "SALES_CONDITION",
+          "pskg:governedByPolicy": "POLICY"
+        }
+      }
     },
     {
       "kind": "property",
@@ -2134,7 +2194,11 @@
       ],
       "range": [
         "xsd:string"
-      ]
+      ],
+      "ingestionPolicy": {
+        "mode": "runtime_managed",
+        "defaultValue": "Draft"
+      }
     },
     {
       "kind": "property",
@@ -2224,7 +2288,11 @@
       ],
       "range": [
         "xsd:string"
-      ]
+      ],
+      "ingestionPolicy": {
+        "mode": "runtime_managed",
+        "defaultValue": "Draft"
+      }
     },
     {
       "kind": "property",
@@ -2299,7 +2367,11 @@
       ],
       "range": [
         "xsd:string"
-      ]
+      ],
+      "ingestionPolicy": {
+        "mode": "runtime_managed",
+        "defaultValue": "Draft"
+      }
     },
     {
       "kind": "property",
@@ -2389,7 +2461,11 @@
       ],
       "range": [
         "xsd:string"
-      ]
+      ],
+      "ingestionPolicy": {
+        "mode": "runtime_managed",
+        "defaultValue": "Draft"
+      }
     },
     {
       "kind": "property",
@@ -2464,7 +2540,11 @@
       ],
       "range": [
         "xsd:string"
-      ]
+      ],
+      "ingestionPolicy": {
+        "mode": "runtime_managed",
+        "defaultValue": "Draft"
+      }
     },
     {
       "kind": "property",
@@ -2539,7 +2619,11 @@
       ],
       "range": [
         "xsd:string"
-      ]
+      ],
+      "ingestionPolicy": {
+        "mode": "runtime_managed",
+        "defaultValue": "Draft"
+      }
     },
     {
       "kind": "property",
@@ -2599,7 +2683,11 @@
       ],
       "range": [
         "xsd:string"
-      ]
+      ],
+      "ingestionPolicy": {
+        "mode": "runtime_managed",
+        "defaultValue": "Draft"
+      }
     },
     {
       "kind": "property",

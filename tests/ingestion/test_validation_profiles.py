@@ -41,7 +41,7 @@ def product_patch(*, published: bool = True, date_value: str = "2026-08-01"):
     }
 
 
-def test_missing_published_is_readiness_issue_not_extraction_error():
+def test_missing_runtime_status_uses_safe_default_and_does_not_block_persistence():
     assessment = GraphPatchValidationService().assess(
         product_patch(published=False),
         "artifact",
@@ -49,11 +49,13 @@ def test_missing_published_is_readiness_issue_not_extraction_error():
     )
 
     assert assessment.result.valid_for_extraction is True
-    assert assessment.result.valid_for_persistence is False
+    assert assessment.result.valid_for_persistence is True
     assert assessment.result.errors == []
-    assert {
-        issue.code for issue in assessment.result.readiness_issues
-    } == {"ONTOLOGY_RULE_UNSATISFIED"}
+    assert assessment.result.readiness_issues == []
+    assert assessment.compiled_patch is not None
+    nodes = {node.temp_id: node for node in assessment.compiled_patch.nodes}
+    assert nodes["product-1"].properties["pskg:bankingProductStatus"] == "Draft"
+    assert nodes["rule-1"].properties["pskg:businessRuleStatus"] == "Draft"
 
 
 def test_non_iso_date_fails_extraction_without_locale_parsing():

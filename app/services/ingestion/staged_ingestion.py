@@ -24,7 +24,10 @@ from app.core.schemas.ingestion.workspace import (
 
 logger = logging.getLogger(__name__)
 
-MULTI_VALUE_PROPERTY_NAMES = {"pskg:productAttributes"}
+MULTI_VALUE_PROPERTY_NAMES = {
+    "pskg:productAttributes",
+    "pskg:businessRuleCondition",
+}
 
 MAX_BATCH_CHUNKS = max(1, int(os.getenv("INGESTION_MAX_BATCH_CHUNKS", "5")))
 MAX_BATCH_CHARS = max(1_000, int(os.getenv("INGESTION_MAX_BATCH_CHARS", "5000")))
@@ -118,6 +121,9 @@ class IngestionWorkspaceService:
         nodes = cls._merge_nodes(fragments)
         edges = cls._merge_edges(fragments)
         coverage = cls._merge_coverage(fragments)
+        coverage = cls._reconcile_coverage_with_merged_facts(
+            coverage, nodes, edges
+        )
         warnings = list(
             dict.fromkeys(
                 warning
@@ -220,6 +226,67 @@ class IngestionWorkspaceService:
             yield from edge.evidence
 
     @classmethod
+    def _normalized_node_copy(cls, node: ExtractedNode) -> ExtractedNode:
+        """Collapse duplicate property entries before cross-batch merging."""
+        normalized = node.model_copy(deep=True)
+        properties = {}
+        ordered = []
+        for prop in normalized.properties:
+            current = properties.get(prop.property_name)
+            if current is None:
+                copied = prop.model_copy(deep=True)
+                ordered.append(copied)
+                properties[prop.property_name] = copied
+                continue
+
+            if prop.property_name in MULTI_VALUE_PROPERTY_NAMES:
+                current_values = current.value if isinstance(current.value, list) else [current.value]
+                incoming_values = prop.value if isinstance(prop.value, list) else [prop.value]
+                current.value = cls._merge_list_values(current_values, incoming_values)
+                current.evidence = cls._dedupe_models([*current.evidence, *prop.evidence])
+                continue
+
+            if cls._stable_value(current.value) == cls._stable_value(prop.value):
+                current.evidence = cls._dedupe_models([*current.evidence, *prop.evidence])
+                continue
+
+            if prop.property_name == "pskg:bankingProductName":
+                current_priority = cls._property_evidence_priority(
+                    prop.property_name, current.evidence
+                )
+                incoming_priority = cls._property_evidence_priority(
+                    prop.property_name, prop.evidence
+                )
+                if incoming_priority > current_priority:
+                    current.value = prop.value
+                    current.evidence = cls._dedupe_models(prop.evidence)
+                    continue
+                if current_priority > incoming_priority:
+                    continue
+
+            raise WorkspaceConflictError(
+                f"Node {node.temp_id} property {prop.property_name} "
+                "has conflicting values inside one fragment",
+                conflict={
+                    "nodeTempId": node.temp_id,
+                    "propertyName": prop.property_name,
+                    "existingValue": current.value,
+                    "incomingValue": prop.value,
+                    "existingEvidence": [
+                        item.model_dump(by_alias=True, mode="json", exclude_none=True)
+                        for item in current.evidence
+                    ],
+                    "incomingEvidence": [
+                        item.model_dump(by_alias=True, mode="json", exclude_none=True)
+                        for item in prop.evidence
+                    ],
+                },
+            )
+
+        normalized.properties = ordered
+        return normalized
+
+    @classmethod
     def _merge_nodes(
         cls,
         fragments: list[GraphPatchFragment],
@@ -227,6 +294,7 @@ class IngestionWorkspaceService:
         merged: dict[str, ExtractedNode] = {}
         for fragment in fragments:
             for incoming in fragment.nodes:
+                incoming = cls._normalized_node_copy(incoming)
                 existing = merged.get(incoming.temp_id)
                 if existing is None:
                     merged[incoming.temp_id] = incoming.model_copy(deep=True)
@@ -329,6 +397,57 @@ class IngestionWorkspaceService:
                 )
                 existing.confidence = max(existing.confidence, incoming.confidence)
         return list(merged.values())
+
+    @staticmethod
+    def _reconcile_coverage_with_merged_facts(
+        coverage: list[ChunkCoverage],
+        nodes: list[ExtractedNode],
+        edges: list[ExtractedEdge],
+    ) -> list[ChunkCoverage]:
+        """Align coverage with fact evidence that survives cross-batch merge."""
+        fact_chunks: set[int] = set()
+        for node in nodes:
+            for prop in node.properties:
+                fact_chunks.update(item.chunk_index for item in prop.evidence)
+        for edge in edges:
+            fact_chunks.update(item.chunk_index for item in edge.evidence)
+
+        reconciled: list[ChunkCoverage] = []
+        for item in coverage:
+            has_fact = item.chunk_index in fact_chunks
+            if item.decision == "MAPPED" and not has_fact:
+                logger.warning(
+                    "INGESTION_COVERAGE_RECONCILED chunk=%s from=MAPPED to=NOT_RELEVANT",
+                    item.chunk_index,
+                )
+                reconciled.append(
+                    item.model_copy(
+                        update={
+                            "decision": "NOT_RELEVANT",
+                            "reason": (
+                                "No distinct persisted fact remains after "
+                                "cross-batch merge/deduplication"
+                            ),
+                        }
+                    )
+                )
+                continue
+            if item.decision == "NOT_RELEVANT" and has_fact:
+                logger.warning(
+                    "INGESTION_COVERAGE_RECONCILED chunk=%s from=NOT_RELEVANT to=MAPPED",
+                    item.chunk_index,
+                )
+                reconciled.append(
+                    item.model_copy(
+                        update={
+                            "decision": "MAPPED",
+                            "reason": "Grounded fact retained after cross-batch merge",
+                        }
+                    )
+                )
+                continue
+            reconciled.append(item.model_copy(deep=True))
+        return reconciled
 
     @staticmethod
     def _merge_coverage(

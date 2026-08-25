@@ -191,26 +191,25 @@ def _repair_edge_evidence(
     validator: SourceGroundingValidator,
 ) -> list[Evidence]:
     exact = _keep_only_verbatim(evidence, chunk_by_index, validator)
-    if any(
-        validator._edge_supported(edge, item.text, node_by_temp_id)
-        for item in exact
-    ):
+    if exact and validator._edge_supported(edge, exact, node_by_temp_id):
         return exact
 
-    for item in evidence:
-        chunk = chunk_by_index.get(item.chunk_index)
+    candidates = list(exact)
+    preferred_indexes = list(dict.fromkeys(item.chunk_index for item in evidence))
+    for chunk_index in preferred_indexes:
+        chunk = chunk_by_index.get(chunk_index)
         if chunk is None:
             continue
         for line in chunk.content.splitlines():
             if not line.strip():
                 continue
-            if validator._edge_supported(edge, line, node_by_temp_id):
-                return [Evidence(
-                    source=chunk.source,
-                    chunkIndex=chunk.index,
-                    section=chunk.section,
-                    text=line,
-                )]
+            candidate = Evidence(
+                source=chunk.source, chunkIndex=chunk.index,
+                section=chunk.section, text=line,
+            )
+            candidates = _dedupe_evidence([*candidates, candidate])
+            if validator._edge_supported(edge, candidates, node_by_temp_id):
+                return candidates
     return exact if exact else evidence
 
 

@@ -14,17 +14,14 @@ from app.core.schemas.ingestion.graph_patch import (
     GraphPatchDraft,
 )
 from app.core.schemas.ingestion.validation import ValidationIssue
+from app.services.ingestion.loader import OntologyLoader
+from app.services.ingestion.registry import OntologyRegistry
 
 DEFAULT_ONTOLOGY_PATH = Path(
     "app/data/ontology/product_sales_knowledge_graph_base_v3_1.ontology.json"
 )
-COMPILER_SCHEMA_VERSION = "2"
+COMPILER_SCHEMA_VERSION = "3"
 NO_ARTIFACT_DIGEST = "NO_ARTIFACT"
-RULE_TYPE_BY_EDGE = {
-    "pskg:hasEligibilityRule": "ELIGIBILITY",
-    "pskg:hasSalesConditionRule": "SALES_CONDITION",
-    "pskg:governedByPolicy": "POLICY",
-}
 
 
 class _CompiledModel(BaseModel):
@@ -82,6 +79,7 @@ class GraphPatchCompiler:
         self.ontology_digest = hashlib.sha256(
             self.ontology_path.read_bytes()
         ).hexdigest()
+        self.registry = OntologyRegistry(OntologyLoader.load(self.ontology_path))
 
     def compile(self, draft: GraphPatchDraft) -> CompilerResult:
         errors: list[ValidationIssue] = []
@@ -133,6 +131,13 @@ class GraphPatchCompiler:
                     tuple(entry.evidence),
                 )
 
+            for attribute, default_value in self.registry.configured_defaults_for_class(
+                node.class_name
+            ):
+                if attribute.technical_name not in properties:
+                    properties[attribute.technical_name] = default_value
+                    property_evidence[attribute.technical_name] = ()
+
             node_builders.append(
                 _NodeBuilder(
                     temp_id=node.temp_id,
@@ -168,27 +173,29 @@ class GraphPatchCompiler:
                     )
                 )
 
-            expected_rule_type = RULE_TYPE_BY_EDGE.get(edge.edge_name)
-            if target is not None and expected_rule_type is not None:
-                actual_rule_type = target.properties.get("pskg:ruleType")
-                if actual_rule_type is None:
-                    target.properties["pskg:ruleType"] = expected_rule_type
-                    target.property_evidence["pskg:ruleType"] = tuple(edge.evidence)
-                elif actual_rule_type != expected_rule_type:
-                    errors.append(
-                        ValidationIssue(
-                            code="SEMANTIC_CONFLICT",
-                            message=(
-                                f"Edge {edge.edge_name} requires target "
-                                f"pskg:ruleType={expected_rule_type}; got "
-                                f"{actual_rule_type}"
-                            ),
-                            location=f"edges.{edge_index}",
-                            node_temp_id=target.temp_id,
-                            property_name="pskg:ruleType",
-                            edge_name=edge.edge_name,
+            if target is not None:
+                for attribute, expected_value in self.registry.derived_target_properties_for_edge(
+                    edge.edge_name
+                ):
+                    actual_value = target.properties.get(attribute.technical_name)
+                    if actual_value is None:
+                        target.properties[attribute.technical_name] = expected_value
+                        target.property_evidence[attribute.technical_name] = tuple(edge.evidence)
+                    elif not self._values_identical(actual_value, expected_value):
+                        errors.append(
+                            ValidationIssue(
+                                code="SEMANTIC_CONFLICT",
+                                message=(
+                                    f"Edge {edge.edge_name} requires target "
+                                    f"{attribute.technical_name}={expected_value}; got "
+                                    f"{actual_value}"
+                                ),
+                                location=f"edges.{edge_index}",
+                                node_temp_id=target.temp_id,
+                                property_name=attribute.technical_name,
+                                edge_name=edge.edge_name,
+                            )
                         )
-                    )
 
             edges.append(
                 CompiledEdge(

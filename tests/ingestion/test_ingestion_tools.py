@@ -40,7 +40,6 @@ def ready_patch() -> dict:
                 "className": "pskg:BankingProduct",
                 "properties": [
                     {"propertyName": "pskg:productCode", "value": "CC-FLEXI-001", "evidence": product_ev},
-                    {"propertyName": "pskg:bankingProductStatus", "value": "Published", "evidence": product_ev},
                     {"propertyName": "pskg:bankingProductEffectiveFrom", "value": "2026-08-01", "evidence": product_ev},
                 ],
                 "evidence": product_ev,
@@ -49,7 +48,7 @@ def ready_patch() -> dict:
             {
                 "tempId": "rule-1",
                 "className": "pskg:BusinessRule",
-                "properties": [{"propertyName": "pskg:businessRuleStatus", "value": "Published", "evidence": product_ev}],
+                "properties": [{"propertyName": "pskg:businessRuleCondition", "value": "Age 20", "evidence": rule_ev}],
                 "evidence": rule_ev,
                 "confidence": 0.9,
             },
@@ -127,7 +126,7 @@ def test_not_ready_validation_clears_gate():
     patch["nodes"][0]["properties"] = [
         entry
         for entry in patch["nodes"][0]["properties"]
-        if entry["propertyName"] != "pskg:bankingProductStatus"
+        if entry["propertyName"] != "pskg:bankingProductEffectiveFrom"
     ]
 
     result = ingestion_tools.validate_graph_patch(patch, context)

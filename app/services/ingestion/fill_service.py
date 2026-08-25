@@ -36,16 +36,18 @@ class FillService:
         graph_patch: GraphPatchDraft | dict[str, Any],
         artifact_content_digest: str | None,
         source_chunks: list[DocumentChunk] | list[dict[str, Any]] | None = None,
+        *,
+        allow_partial_persistence: bool = False,
     ) -> dict[str, Any]:
         assessment = self.validation_service.assess(
             graph_patch,
             artifact_content_digest,
             source_chunks,
         )
-        if (
-            not assessment.result.valid_for_persistence
-            or assessment.compiled_patch is None
-        ):
+        if assessment.compiled_patch is None or not assessment.result.valid_for_extraction:
+            raise FillValidationError(assessment.result)
+        partial_persistence = not assessment.result.valid_for_persistence
+        if partial_persistence and not allow_partial_persistence:
             raise FillValidationError(assessment.result)
 
         patch = assessment.compiled_patch
@@ -73,7 +75,7 @@ class FillService:
             receipt.verified = False
             receipt.mismatches.insert(0, f"readback failed: {readback_error}")
 
-        return FillResult(
+        result = FillResult(
             status=(
                 FillStatus.SUCCESS
                 if receipt.verified
@@ -85,7 +87,18 @@ class FillService:
             nodeIds=write_result.node_ids,
             relationshipIds=write_result.relationship_ids,
             receipt=receipt,
+            partialPersistence=partial_persistence,
+            persistenceMode="partial" if partial_persistence else "strict",
+            readinessIssuesIgnored=(
+                [
+                    issue.model_dump(by_alias=True, exclude_none=True)
+                    for issue in assessment.result.readiness_issues
+                ]
+                if partial_persistence
+                else []
+            ),
         ).model_dump(by_alias=True, mode="json")
+        return result
 
     def close(self) -> None:
         self.client.close_driver()

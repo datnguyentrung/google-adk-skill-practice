@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, Field
 
@@ -44,6 +44,22 @@ class OntologyEdge(BaseModel):
 
     domain: list[str]  # Lớp nguồn
     range: list[str]  # Lớp đích
+    grounding_cues: list[str] = Field(default_factory=list, alias="groundingCues")
+
+
+## Chính sách ingestion cho thuộc tính ontology.
+# Mặc định "source" giữ tương thích với ontology cũ.
+class OntologyIngestionPolicy(BaseModel):
+    mode: Literal[
+        "source",
+        "runtime_managed",
+        "edge_derived",
+        "system_default",
+    ] = "source"
+    default_value: Any | None = Field(default=None, alias="defaultValue")
+    derive_from_edges: dict[str, Any] = Field(
+        default_factory=dict, alias="deriveFromEdges"
+    )
 
 
 ## Thuộc tính ontology
@@ -59,6 +75,9 @@ class OntologyAttribute(BaseModel):
 
     domain: list[str]  # Lớp nguồn
     range: list[str]  # Lớp đích
+    ingestion_policy: OntologyIngestionPolicy = Field(
+        default_factory=OntologyIngestionPolicy, alias="ingestionPolicy"
+    )
 
 
 ## Định nghĩa ontology

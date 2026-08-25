@@ -431,3 +431,76 @@ def test_workspace_digest_change_invalidates_readiness_gate():
         workspace,
         provenance=provenance(skillDigest="changed"),
     )
+
+
+def _single_property_fragment(batch, *, property_name, value, text, section):
+    first = batch.chunk_indexes[0]
+    evidence = [{
+        "source": "long.md",
+        "chunkIndex": first,
+        "section": section,
+        "text": text,
+    }]
+    payload = fragment(batch).model_dump(by_alias=True, mode="json")
+    payload["nodes"][0]["properties"] = [{
+        "propertyName": property_name,
+        "value": value,
+        "evidence": evidence,
+    }]
+    payload["nodes"][0]["evidence"] = evidence
+    return GraphPatchFragment.model_validate(payload)
+
+
+def test_coverage_reconciles_when_canonical_merge_drops_fact_evidence():
+    service = IngestionWorkspaceService()
+    workspace = service.begin(
+        artifact_name="long.md", provenance=provenance(), chunks=chunks(10)
+    )
+    first = _single_property_fragment(
+        workspace.batches[0],
+        property_name="pskg:bankingProductName",
+        value="Flexi Rewards",
+        text="| Tên sản phẩm | Flexi Rewards |",
+        section="Thông tin sản phẩm",
+    )
+    second = _single_property_fragment(
+        workspace.batches[1],
+        property_name="pskg:bankingProductName",
+        value="Thẻ tín dụng Flexi Rewards",
+        text="| Tên tài liệu | Hướng dẫn Thẻ tín dụng Flexi Rewards |",
+        section="Thông tin tài liệu",
+    )
+    merged = service.merge_fragments([first, second])
+    coverage = {item.chunk_index: item.decision for item in merged.coverage}
+    assert coverage[workspace.batches[0].chunk_indexes[0]] == "MAPPED"
+    assert coverage[workspace.batches[1].chunk_indexes[0]] == "NOT_RELEVANT"
+
+
+def test_coverage_stays_mapped_when_equal_fact_keeps_both_evidence_chunks():
+    service = IngestionWorkspaceService()
+    workspace = service.begin(
+        artifact_name="long.md", provenance=provenance(), chunks=chunks(10)
+    )
+    first = _single_property_fragment(
+        workspace.batches[0],
+        property_name="pskg:productCode",
+        value="CC-FLEXI-001",
+        text="Product code CC-FLEXI-001",
+        section="Product",
+    )
+    second = _single_property_fragment(
+        workspace.batches[1],
+        property_name="pskg:productCode",
+        value="CC-FLEXI-001",
+        text="CC-FLEXI-001",
+        section="Summary",
+    )
+    merged = service.merge_fragments([first, second])
+    coverage = {item.chunk_index: item.decision for item in merged.coverage}
+    assert coverage[workspace.batches[0].chunk_indexes[0]] == "MAPPED"
+    assert coverage[workspace.batches[1].chunk_indexes[0]] == "MAPPED"
+    prop = merged.nodes[0].properties[0]
+    assert {item.chunk_index for item in prop.evidence} == {
+        workspace.batches[0].chunk_indexes[0],
+        workspace.batches[1].chunk_indexes[0],
+    }

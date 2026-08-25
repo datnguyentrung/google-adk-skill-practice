@@ -27,9 +27,7 @@ complete extraction when most of a long document was never considered.
 ontology cardinality/value/relationship rules plus identity preflight. Prepared
 source context is also required before a patch can be authorized for write.
 
-A missing ontology-required `Published` status is a readiness issue when the
-source never states it. Adding `Published` without supporting source is instead
-an extraction grounding error (`PROPERTY_VALUE_NOT_GROUNDED`).
+Lifecycle/status attributes marked `ingestionPolicy.mode=runtime_managed` are not required from source documents. The compiler supplies the configured safe runtime value (for example `Draft`). If a source-emitted literal is unsupported, it is still an extraction grounding error; do not fabricate `Published`.
 
 `IDENTITY_UNRESOLVED` is emitted only after every permitted local identity
 strategy fails. Natural identity takes precedence; source-scoped deterministic
@@ -37,15 +35,11 @@ identity may be used where policy allows.
 
 ## Invocation gate
 
-Validation stores a fingerprint only when both flags are true. The fingerprint
-binds the compiled patch, evidence and coverage, raw artifact digest, exact
-ontology bytes, and compiler schema version. It exists only for the current
-invocation.
+Strict validation stores a persistence gate fingerprint when both flags are true. The fingerprint binds the compiled patch, evidence and coverage, raw artifact digest, exact ontology bytes, and compiler schema version.
 
-Fill recompiles the current draft, compares the fingerprint, defensively
-reassesses it against the same prepared source chunks, then writes all nodes and
-edges in one Neo4j transaction. Missing/mismatched state returns
-`VALIDATION_PRECONDITION`.
+For an explicit user-requested partial persistence commit, `allow_partial_persistence=true` may proceed past readiness only after `validForExtraction=true`. The finalized patch is fingerprinted and reassessed against the same source chunks before write. Extraction, grounding, schema, domain/range, dangling-reference, and semantic errors remain blocking. Partial commits return `partialPersistence=true`, `persistenceMode=partial`, and the ignored readiness issues.
+
+Fill writes the compiled nodes/edges in one Neo4j transaction and verifies readback. Missing/mismatched state returns `VALIDATION_PRECONDITION`.
 
 `NEO4J_WRITE_FAILED` is a persistence failure and never authorizes changing
 business facts.

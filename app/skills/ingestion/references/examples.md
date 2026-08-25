@@ -50,7 +50,7 @@ Wrong:
 {"propertyName":"pskg:bankingProductStatus","value":"Published", "evidence":[...]}
 ```
 
-Because the cited source does not state `Published`, validation returns `PROPERTY_VALUE_NOT_GROUNDED`. Omit the status and allow persistence readiness to report the missing governance value.
+Because the cited source does not state `Published`, do not emit it as a source fact. Omit the status; when the ontology marks that status as `runtime_managed`, the compiler supplies its configured safe value such as `Draft`.
 
 ## Granularity
 

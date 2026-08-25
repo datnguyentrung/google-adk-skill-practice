@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchFragment
 from app.services.ingestion.document_reader import DocumentReader
 from app.services.ingestion.fragment_grounding_repair import repair_fragment_grounding
@@ -190,3 +191,34 @@ def test_merge_prefers_explicit_product_name_over_document_title_name():
     assert [item.text for item in name.evidence] == [
         "| Tên sản phẩm | Flexi Rewards |"
     ]
+
+
+def test_edge_repair_uses_collective_evidence_objects_without_string_signature_crash():
+    chunks = [
+        DocumentChunk(index=0, source="fixture.md", section="Product",
+                      content="Product P-1 has eligibility rule"),
+        DocumentChunk(index=1, source="fixture.md", section="Eligibility",
+                      content="Eligibility condition: Age 20"),
+    ]
+    fragment = GraphPatchFragment.model_validate({
+        "nodes": [
+            {"tempId": "product-1", "className": "pskg:BankingProduct",
+             "properties": [{"propertyName": "pskg:productCode", "value": "P-1",
+                             "evidence": [_evidence(chunks[0], chunks[0].content)]}],
+             "evidence": [_evidence(chunks[0], chunks[0].content)], "confidence": 1.0},
+            {"tempId": "rule-1", "className": "pskg:BusinessRule",
+             "properties": [{"propertyName": "pskg:businessRuleCondition", "value": "Age 20",
+                             "evidence": [_evidence(chunks[1], chunks[1].content)]}],
+             "evidence": [_evidence(chunks[1], chunks[1].content)], "confidence": 1.0},
+        ],
+        "edges": [{"edgeName": "pskg:hasEligibilityRule", "sourceTempId": "product-1",
+                   "targetTempId": "rule-1",
+                   "evidence": [_evidence(chunks[0], chunks[0].content),
+                                _evidence(chunks[1], chunks[1].content)], "confidence": 1.0}],
+        "coverage": [{"chunkIndex": 0, "decision": "MAPPED", "reason": "Product relation"},
+                     {"chunkIndex": 1, "decision": "MAPPED", "reason": "Eligibility condition"}],
+        "warnings": [],
+    })
+    service = GraphPatchValidationService()
+    repaired = repair_fragment_grounding(fragment, chunks, service.source_grounding)
+    assert service.source_grounding.validate(repaired, chunks) == []

@@ -29,8 +29,7 @@ ingestion.
 - Validate-only: validate the supplied draft and explain structured issues.
 - Ingest/import/load/write: prepare, extract, validate, correct if grounded,
   then fill.
-- If persistence was requested but source evidence cannot satisfy persistence
-  requirements, report readiness issues and stop before fill.
+- If persistence was requested but readiness fails, report the issues and stop before fill by default. If and only if the user explicitly asks for partial persistence despite readiness issues, call `ingest_document_end_to_end(..., allow_partial_persistence=true)`. This mode never bypasses extraction/source-grounding failures.
 
 ## Required workflow
 
@@ -52,7 +51,7 @@ begin_ingestion
   -> submit_ingestion_batch for every returned batch
   -> finalize_ingestion
   -> readiness gate
-  -> fill_ingestion only when persistence-ready
+  -> fill_ingestion when persistence-ready; explicit partial persistence may proceed past readiness only
   -> report verified committed readback
 ```
 
@@ -94,8 +93,7 @@ running in the background.
 7. Correct only source-grounded failures by resubmitting affected batches, then
    finalize again. Do not end with “processing continues”; reach
    `ready_to_fill`, `readiness_gate`, or an explicit extraction failure.
-8. Call `fill_ingestion(ingestion_id)` only when finalize returns both flags
-   true. Never pass a graph payload to this fill tool.
+8. Normally call `fill_ingestion(ingestion_id)` only when finalize returns both flags true. For an explicit user-requested partial persistence commit, the end-to-end tool may use `allow_partial_persistence=true` after `validForExtraction=true`; never use it to bypass extraction errors. Never pass a graph payload to this fill tool.
 
 `prepare_extraction_context`, `validate_graph_patch`, and `fill_graph_patch`
 remain available for caller-supplied or genuinely small patches. Do not use the
@@ -104,8 +102,12 @@ scripts: never call `run_skill_script` for begin/submit/finalize/fill; call the
 corresponding tools directly.
 
 Validation is invocation-scoped. Validation from an older turn never
-authorizes a later fill. Never claim persistence succeeded unless fill returns
-`success: true`.
+authorizes a later fill. For an ingest/import/load/write request, completion
+means a real Neo4j commit followed by verified readback. Never claim persistence
+succeeded unless the terminal result has all of: `success: true`,
+`stage: "completed"`, `commitStatus: "committed"`,
+`verificationStatus: "verified"`, and `nodes > 0`. Candidate/extracted node
+counts before fill are not persisted node counts.
 
 ## Coverage is mandatory
 
@@ -258,8 +260,7 @@ and incomplete chunk coverage.
 `validForExtraction: true` with `validForPersistence: false` means the complete
 source-grounded extraction is acceptable but cannot yet be persisted under the
 ontology. Missing required governance status, required relations, effective
-metadata, or unresolved identity are readiness issues. Do not fabricate facts
-to clear readiness.
+metadata, or unresolved identity are readiness issues. Do not fabricate facts to clear readiness. A user may explicitly request partial persistence to inspect the extracted values; this writes the extraction-valid incomplete graph and returns `partialPersistence: true` plus the ignored readiness issues.
 
 ## Correction loop
 
@@ -294,7 +295,10 @@ Use `load_skill_resource` when needed:
 State what actually completed. For extraction/validation, report both validation
 flags and unresolved issues. For persistence, report `commitStatus`, node/edge
 counts, label/type distributions, verification status, and receipt artifact
-name/version. A readback mismatch means `success=false`, `stage=readback`, and
+name/version. Say that the graph was written to Neo4j only when `commitStatus`
+is `committed`, readback is `verified`, and at least one node was persisted.
+Candidate nodes in the workspace are never described as created/persisted nodes.
+A readback mismatch means `success=false`, `stage=readback`, and
 `commitStatus=committed`; never claim rollback after commit. If a document had
 many prepared chunks, do not present a tiny graph as complete unless every
 chunk passed the fact-level coverage gate.

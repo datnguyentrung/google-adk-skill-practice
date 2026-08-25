@@ -551,3 +551,38 @@ def test_each_property_evidence_must_support_rule_condition():
         and issue.property_name == "pskg:businessRuleCondition"
         for issue in assessment.result.errors
     )
+
+
+def test_scalar_fact_counts_every_independently_supporting_chunk_for_coverage():
+    source = [
+        chunk(0, "Product code P-1"),
+        chunk(1, "Product code P-1"),
+    ]
+    ev = [
+        evidence(0, "Product code P-1")[0],
+        evidence(1, "Product code P-1")[0],
+    ]
+    patch = {
+        "nodes": [{
+            "tempId": "product-1",
+            "className": "pskg:BankingProduct",
+            "properties": [{
+                "propertyName": "pskg:productCode",
+                "value": "P-1",
+                "evidence": ev,
+            }],
+            "evidence": ev,
+            "confidence": 1.0,
+        }],
+        "edges": [],
+        "coverage": [
+            {"chunkIndex": 0, "decision": "MAPPED", "reason": "Product code"},
+            {"chunkIndex": 1, "decision": "MAPPED", "reason": "Same grounded product code"},
+        ],
+        "warnings": [],
+    }
+
+    assessment = GraphPatchValidationService().assess(patch, "artifact", source)
+    codes = {issue.code for issue in assessment.result.errors}
+
+    assert "COVERAGE_NOT_EVIDENCED" not in codes

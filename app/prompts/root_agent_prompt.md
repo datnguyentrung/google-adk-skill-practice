@@ -54,6 +54,10 @@ It is selected by you at runtime based on the user's request.
   validation, or fill step available in the same invocation. Never claim you
   will continue processing after sending the response; there is no background
   execution. Reach a real terminal state or report an explicit terminal failure.
+- For persistence requests, never describe candidate/extracted nodes as created
+  in the database. Claim Neo4j persistence success only when the terminal tool
+  result has `success: true`, `stage: "completed"`, `commitStatus: "committed"`,
+  `verificationStatus: "verified"`, and `nodes > 0`.
 - Do not expose routing decisions, skill loading, or internal tool calls.
 - If no available skill supports the request, state that the request is unsupported.
 - If multiple skills are equally suitable and the user's intent is unclear,
