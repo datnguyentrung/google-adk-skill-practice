@@ -600,3 +600,23 @@ def test_end_to_end_reports_persistence_error(monkeypatch):
     assert result["stage"] == "persistence"
     assert result["terminal"] is True
     assert result["errors"][0]["code"] == "NEO4J_WRITE_FAILED"
+
+
+def test_rate_limit_error_detection_and_retry_delay(monkeypatch):
+    class RateLimitError(Exception):
+        status_code = 429
+
+    exc = RateLimitError(
+        "429 RESOURCE_EXHAUSTED quota exceeded; retryDelay: 8s"
+    )
+    monkeypatch.setattr(ingestion_tools, "BATCH_PACE_SECONDS", 0.0)
+
+    assert ingestion_tools._is_rate_limit_error(exc) is True
+    assert ingestion_tools._is_retryable_extraction_error(exc) is True
+    assert ingestion_tools._rate_limit_retry_delay_seconds(exc, 1) == 8.0
+    assert ingestion_tools._rate_limit_retry_delay_seconds(exc, 2) == 16.0
+
+
+def test_non_rate_limit_error_is_not_misclassified():
+    exc = RuntimeError("validation failed")
+    assert ingestion_tools._is_rate_limit_error(exc) is False

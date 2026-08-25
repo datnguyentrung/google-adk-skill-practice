@@ -3,6 +3,8 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+import math
+import os
 from collections.abc import Iterable
 
 from app.core.schemas.ingestion.document import DocumentChunk
@@ -22,8 +24,10 @@ from app.core.schemas.ingestion.workspace import (
 
 logger = logging.getLogger(__name__)
 
-MAX_BATCH_CHUNKS = 5
-MAX_BATCH_CHARS = 5_000
+MAX_BATCH_CHUNKS = max(1, int(os.getenv("INGESTION_MAX_BATCH_CHUNKS", "5")))
+MAX_BATCH_CHARS = max(1_000, int(os.getenv("INGESTION_MAX_BATCH_CHARS", "5000")))
+ESTIMATED_CHARS_PER_TOKEN = max(1.0, float(os.getenv("INGESTION_ESTIMATED_CHARS_PER_TOKEN", "2.0")))
+MAX_BATCH_ESTIMATED_TOKENS = max(1_000, int(os.getenv("INGESTION_MAX_BATCH_ESTIMATED_TOKENS", "6000")))
 
 
 class WorkspaceConflictError(ValueError):
@@ -148,15 +152,19 @@ class IngestionWorkspaceService:
         batches: list[IngestionBatch] = []
         current: list[DocumentChunk] = []
         current_chars = 0
+        current_tokens = 0
         for chunk in chunks:
             chunk_chars = len(chunk.content)
-            if chunk_chars > MAX_BATCH_CHARS:
+            chunk_tokens = max(1, math.ceil(chunk_chars / ESTIMATED_CHARS_PER_TOKEN))
+            if chunk_chars > MAX_BATCH_CHARS or chunk_tokens > MAX_BATCH_ESTIMATED_TOKENS:
                 raise ValueError(
-                    f"Chunk {chunk.index} exceeds {MAX_BATCH_CHARS} characters"
+                    f"Chunk {chunk.index} exceeds configured batch budget "
+                    f"({chunk_chars} chars, ~{chunk_tokens} tokens)"
                 )
             would_overflow = (
                 len(current) >= MAX_BATCH_CHUNKS
                 or current_chars + chunk_chars > MAX_BATCH_CHARS
+                or current_tokens + chunk_tokens > MAX_BATCH_ESTIMATED_TOKENS
             )
             if current and would_overflow:
                 batches.append(
@@ -168,8 +176,10 @@ class IngestionWorkspaceService:
                 )
                 current = []
                 current_chars = 0
+                current_tokens = 0
             current.append(chunk)
             current_chars += chunk_chars
+            current_tokens += chunk_tokens
         if current:
             batches.append(
                 IngestionBatch(
@@ -347,8 +357,10 @@ class IngestionWorkspaceService:
 
 
 __all__ = [
+    "ESTIMATED_CHARS_PER_TOKEN",
     "MAX_BATCH_CHARS",
     "MAX_BATCH_CHUNKS",
+    "MAX_BATCH_ESTIMATED_TOKENS",
     "IngestionWorkspaceService",
     "WorkspaceConflictError",
 ]

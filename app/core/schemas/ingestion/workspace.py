@@ -45,6 +45,7 @@ class IngestionRetryState(_WorkspaceModel):
         alias="coverageNotEvidencedChunkIndexes",
     )
     fragment_fingerprint: str = Field(alias="fragmentFingerprint", min_length=1)
+    error_codes: list[str] = Field(default_factory=list, alias="errorCodes")
 
 
 class IngestionWorkspace(_WorkspaceModel):

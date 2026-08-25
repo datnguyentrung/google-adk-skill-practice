@@ -2,6 +2,8 @@ from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchFragment
 from app.core.schemas.ingestion.workspace import IngestionProvenance
 from app.services.ingestion.staged_ingestion import (
+    MAX_BATCH_CHARS,
+    MAX_BATCH_CHUNKS,
     IngestionWorkspaceService,
     WorkspaceConflictError,
 )
@@ -200,8 +202,9 @@ def test_begin_partitions_94_chunks_with_bounded_batch_limits():
 
     assert len(workspace.batches) > 4
     assert [index for batch in workspace.batches for index in batch.chunk_indexes] == list(range(94))
-    assert all(len(batch.chunk_indexes) <= 5 for batch in workspace.batches)
-    assert all(batch.content_chars <= 5000 for batch in workspace.batches)
+    assert all(len(batch.chunk_indexes) <= MAX_BATCH_CHUNKS for batch in workspace.batches)
+    assert all(batch.content_chars <= MAX_BATCH_CHARS for batch in workspace.batches)
+    assert len(workspace.batches) == 19
 
 
 def test_submit_is_idempotent_and_merges_same_temp_id():

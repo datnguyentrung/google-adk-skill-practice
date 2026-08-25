@@ -45,7 +45,8 @@ ARTIFACT_NAME_STATE_KEY = "temp:ingestion_source_artifact_name"
 VALIDATED_FINGERPRINT_STATE_KEY = "temp:ingestion_validated_fingerprint"
 SOURCE_CHUNKS_STATE_KEY = "temp:ingestion_source_chunks"
 WORKSPACE_STATE_KEY = "temp:ingestion_workspace"
-BATCH_PACE_SECONDS = float(os.getenv("INGESTION_BATCH_PACE_SECONDS", "10"))
+BATCH_PACE_SECONDS = float(os.getenv("INGESTION_BATCH_PACE_SECONDS", "12"))
+DEFAULT_MAX_RETRIES_PER_BATCH = max(1, int(os.getenv("INGESTION_MAX_RETRIES_PER_BATCH", "3")))
 INGESTION_SKILL_DIR = Path(__file__).resolve().parents[1] / "skills" / "ingestion"
 
 
@@ -79,9 +80,30 @@ def _orchestration_error_kind(exc: Exception) -> str:
     return "llm_extraction"
 
 
+def _is_rate_limit_error(exc: Exception) -> bool:
+    message = str(exc).upper()
+    status_code = getattr(exc, "status_code", None)
+    return status_code == 429 or (
+        "429" in message and ("RESOURCE_EXHAUSTED" in message or "QUOTA" in message)
+    )
+
+
+def _rate_limit_retry_delay_seconds(exc: Exception, attempt: int) -> float:
+    match = re.search(
+        r"(?:Please retry in|retryDelay['\": ]+)[^0-9]*([0-9.]+)s",
+        str(exc),
+        flags=re.IGNORECASE,
+    )
+    server_delay = float(match.group(1)) if match else 0.0
+    backoff = min(60.0, 8.0 * (2 ** max(0, attempt - 1)))
+    return max(BATCH_PACE_SECONDS, server_delay, backoff)
+
+
 def _is_retryable_extraction_error(exc: Exception) -> bool:
-    return isinstance(exc, InvalidGraphPatchFragmentError) or bool(
-        getattr(exc, "retryable", False)
+    return (
+        isinstance(exc, InvalidGraphPatchFragmentError)
+        or _is_rate_limit_error(exc)
+        or bool(getattr(exc, "retryable", False))
     )
 
 
@@ -249,21 +271,26 @@ def _unchanged_retry_issue(
     workspace: IngestionWorkspace,
     batch_index: int,
     summary: dict[str, Any],
+    fragment: GraphPatchFragment,
 ) -> ValidationIssue | None:
-    affected = summary["coverageNotEvidencedChunkIndexes"]
-    if not affected:
-        return None
     previous = workspace.retry_states.get(str(batch_index))
     if previous is None:
         return None
-    if previous.coverage_not_evidenced_chunk_indexes != affected:
+    affected = summary["coverageNotEvidencedChunkIndexes"]
+    same_coverage_failure = bool(affected) and (
+        previous.coverage_not_evidenced_chunk_indexes == affected
+    )
+    same_fragment_failure = (
+        previous.fragment_fingerprint == _fragment_fingerprint(fragment)
+        and previous.error_codes == summary["codes"]
+    )
+    if not same_coverage_failure and not same_fragment_failure:
         return None
     return ValidationIssue(
         code="UNCHANGED_RETRY",
         message=(
-            "Retry did not reduce unsupported MAPPED coverage. For every listed "
-            "chunk, add grounded property/edge evidence for that chunk or change "
-            "coverage to NOT_RELEVANT with a source-based reason."
+            "Retry did not materially change the failing extraction. Do not submit "
+            "the same fragment/error again; apply the repair instructions or stop."
         ),
         location=f"batches.{batch_index}",
     )
@@ -275,14 +302,11 @@ def _remember_retry_state(
     fragment: GraphPatchFragment,
     summary: dict[str, Any],
 ) -> None:
-    affected = summary["coverageNotEvidencedChunkIndexes"]
-    if not affected:
-        workspace.retry_states.pop(str(batch_index), None)
-        return
     workspace.retry_states[str(batch_index)] = IngestionRetryState(
         batchIndex=batch_index,
-        coverageNotEvidencedChunkIndexes=affected,
+        coverageNotEvidencedChunkIndexes=summary["coverageNotEvidencedChunkIndexes"],
         fragmentFingerprint=_fragment_fingerprint(fragment),
+        errorCodes=summary["codes"],
     )
 
 
@@ -841,6 +865,7 @@ def submit_ingestion_batch(
                 workspace,
                 batch_index,
                 summary,
+                fragment,
             )
             if unchanged_issue is not None:
                 response = _batch_validation_response(
@@ -898,16 +923,33 @@ def submit_ingestion_batch(
             )
         ]
         if 0 <= batch_index < len(workspace.batches):
+            retry_fragment = (
+                fragment
+                if "fragment" in locals() and isinstance(fragment, GraphPatchFragment)
+                else None
+            )
+            schema_locations = _schema_error_locations(exc)
+            summary = _batch_error_summary(issues, schema_error_locations=schema_locations)
+            if retry_fragment is not None:
+                unchanged_issue = _unchanged_retry_issue(
+                    workspace, batch_index, summary, retry_fragment
+                )
+                if unchanged_issue is not None:
+                    response = _batch_validation_response(
+                        workspace, batch_index, [unchanged_issue, *issues],
+                        schema_error_locations=schema_locations, conflict=conflict,
+                        fragment=retry_fragment, retry_required=False,
+                        next_action="explicit_extraction_failure",
+                    )
+                    _store_workspace(tool_context, workspace)
+                    _pace_next_model_turn(tool_context)
+                    return response
+                _remember_retry_state(workspace, batch_index, retry_fragment, summary)
+                _store_workspace(tool_context, workspace)
             response = _batch_validation_response(
                 workspace, batch_index, issues,
-                schema_error_locations=_schema_error_locations(exc),
-                conflict=conflict,
-                fragment=(
-                    fragment
-                    if "fragment" in locals()
-                    and isinstance(fragment, GraphPatchFragment)
-                    else None
-                ),
+                schema_error_locations=schema_locations,
+                conflict=conflict, fragment=retry_fragment,
             )
             _pace_next_model_turn(tool_context)
             return response
@@ -1113,7 +1155,7 @@ async def ingest_document_end_to_end(
     artifact_name: str,
     tool_context: ToolContext,
     persist: bool = True,
-    max_retries_per_batch: int = 3,
+    max_retries_per_batch: int = DEFAULT_MAX_RETRIES_PER_BATCH,
 ) -> dict[str, Any]:
     """Run long-document ingestion to a real terminal state in one tool call."""
 
@@ -1169,6 +1211,13 @@ async def ingest_document_end_to_end(
                     and attempt < max_retries_per_batch
                 ):
                     previous_error = _extractor_retry_error(exc)
+                    if _is_rate_limit_error(exc):
+                        delay = _rate_limit_retry_delay_seconds(exc, attempt)
+                        logger.warning(
+                            "INGESTION_RATE_LIMIT_BACKOFF ingestion_id=%s batch=%s attempt=%s delay_seconds=%.2f",
+                            ingestion_id, batch_index, attempt, delay,
+                        )
+                        time.sleep(delay)
                     continue
                 return {
                     "success": False,
@@ -1208,7 +1257,6 @@ async def ingest_document_end_to_end(
                     "errorSummary",
                     "repairInstructions",
                     "affectedChunkIndexes",
-                    "affectedChunks",
                 )
                 if key in response
             }

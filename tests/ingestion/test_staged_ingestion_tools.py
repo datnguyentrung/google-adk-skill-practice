@@ -724,13 +724,10 @@ def test_submit_rejects_flexi_batch_with_broad_coverage_but_only_one_fact(monkey
     assert result["success"] is False
     assert result["stage"] == "batch_validation"
     assert result["retryRequired"] is True
-    assert result["nextBatch"]["chunkIndexes"] == [0, 1, 2, 3, 4]
+    assert result["nextBatch"]["chunkIndexes"] == batch_indexes
     assert result["errorSummary"]["codes"] == ["COVERAGE_NOT_EVIDENCED"]
     assert result["errorSummary"]["coverageNotEvidencedChunkIndexes"] == [
-        0,
-        2,
-        3,
-        4,
+        index for index in batch_indexes if index != 1
     ]
     not_evidenced = {
         item["location"]
@@ -741,10 +738,7 @@ def test_submit_rejects_flexi_batch_with_broad_coverage_but_only_one_fact(monkey
     assert "coverage.4" in not_evidenced
     assert "coverage.1" not in not_evidenced
     assert [chunk["index"] for chunk in result["affectedChunks"]] == [
-        0,
-        2,
-        3,
-        4,
+        index for index in batch_indexes if index != 1
     ]
     assert all(chunk["index"] != 1 for chunk in result["affectedChunks"])
     assert "Do not resubmit unchanged coverage" in result["repairInstructions"]
@@ -819,5 +813,51 @@ def test_submit_returns_unchanged_retry_when_unsupported_coverage_does_not_impro
     assert second["retryRequired"] is False
     assert second["nextAction"] == "explicit_extraction_failure"
     assert "UNCHANGED_RETRY" in {item["code"] for item in second["errors"]}
-    assert second["errorSummary"]["coverageNotEvidencedChunkIndexes"] == [0, 2, 3, 4]
+    assert second["errorSummary"]["coverageNotEvidencedChunkIndexes"] == [
+        index for index in begin["nextBatch"]["chunkIndexes"] if index != 1
+    ]
     assert "nextBatch" not in second
+
+
+def test_submit_repeated_batch_conflict_stops_retry_loop(monkeypatch):
+    context = FakeToolContext()
+    monkeypatch.setattr(
+        ingestion_tools,
+        "_get_context_service",
+        lambda: FeeConflictContextService(),
+    )
+    begin = asyncio.run(ingestion_tools.begin_ingestion("fees.md", context))
+    accepted = ingestion_tools.submit_ingestion_batch(
+        begin["ingestionId"],
+        0,
+        scalar_fee_fragment(
+            chunk_index=0,
+            value=699000,
+            text="Annual fee 699000 VND",
+            coverage_indexes=[0, 1, 2, 3, 4],
+        ),
+        context,
+    )
+    assert accepted["success"] is True
+
+    conflicting = scalar_fee_fragment(
+        chunk_index=5,
+        value=4,
+        text="Cash advance fee 4 percent",
+        coverage_indexes=[5],
+    )
+    first_conflict = ingestion_tools.submit_ingestion_batch(
+        begin["ingestionId"], 1, conflicting, context
+    )
+    repeated_conflict = ingestion_tools.submit_ingestion_batch(
+        begin["ingestionId"], 1, conflicting, context
+    )
+
+    assert first_conflict["retryRequired"] is True
+    assert repeated_conflict["success"] is False
+    assert repeated_conflict["retryRequired"] is False
+    assert repeated_conflict["nextAction"] == "explicit_extraction_failure"
+    assert "UNCHANGED_RETRY" in {
+        item["code"] for item in repeated_conflict["errors"]
+    }
+    assert "nextBatch" not in repeated_conflict

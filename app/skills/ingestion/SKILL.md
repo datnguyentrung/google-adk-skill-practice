@@ -44,7 +44,8 @@ For ingest/import/load/write requests on uploaded long documents, call
 user-facing path because it runs batching, extraction, validation, readiness,
 and persistence to a real terminal state before returning. Do not use staged
 manual tools for a normal user ingestion request unless the user explicitly asks
-to debug or manually inspect batches.
+to debug or manually inspect batches. Do not fall back to a manual begin/submit
+loop after a retryable validation error; the end-to-end tool owns retry pacing.
 
 For an uploaded long document, complete this sequence through a terminal state:
 
@@ -62,8 +63,11 @@ This staged sequence is for debug/manual mode. Any response with
 `stage: "ready_to_finalize"` is not complete and must not be described as
 running in the background.
 
-1. Call `begin_ingestion(artifact_name)`. It returns at most 5 chunks and
-   5,000 source characters in `nextBatch` plus an `ingestionId` and a compact ontology catalog.
+1. Call `begin_ingestion(artifact_name)`. Batches preserve small semantic scope: by default
+   at most 5 semantic chunks and 5,000 source characters per batch, with an additional
+   estimated-token safety cap. The response also includes an `ingestionId` and a compact
+   ontology catalog. Rate-limit safety is handled by pacing/backoff rather than by merging
+   many unrelated business sections into one extraction request.
 2. Inspect every chunk in `nextBatch` one by one. Do not stop after the first product
    metadata or eligibility section.
 3. For every chunk in that batch, decide `MAPPED` or `NOT_RELEVANT`.
