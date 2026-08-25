@@ -1,0 +1,24 @@
+def test_end_to_end_skips_unchanged_chunk_and_still_fills(monkeypatch):
+    context = FakeToolContext()
+    monkeypatch.setattr(
+        ingestion_tools,
+        "_get_context_service",
+        lambda: TwoBatchReadyContextService(),
+    )
+
+    bad = ready_fragment()
+    bad["coverage"] = [
+        {
+            "chunkIndex": index,
+            "decision": "MAPPED" if index in {0, 1} else "NOT_RELEVANT",
+            "reason": "Batch reviewed",
+        }
+        for index in [0, 1, 2, 3, 4]
+    ]
+    extractor = QueueExtractor(
+        [
+            bad,
+            bad,
+            batch_fragment({"chunkIndexes": [5]}, relevant_chunk=-1),
+        ]
+    )

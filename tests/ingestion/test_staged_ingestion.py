@@ -325,6 +325,17 @@ def test_list_valued_property_merges_as_semantic_collection():
     assert len(attributes.evidence) == 2
 
 
+def test_product_attributes_scalar_and_list_merge_without_conflict():
+    service = IngestionWorkspaceService()
+    workspace = service.begin(artifact_name="long.md", provenance=provenance(), chunks=chunks(10))
+    workspace = service.submit(workspace, 0, attributes_fragment(workspace.batches[0], "Gold"))
+    workspace = service.submit(workspace, 1, attributes_fragment(workspace.batches[1], ["VND", "Cashback"]))
+    patch = service.merged_patch(workspace)
+    attributes = patch.nodes[0].properties[0]
+    assert attributes.value == ["Gold", "VND", "Cashback"]
+    assert len(attributes.evidence) == 2
+
+
 def test_raw_repeated_scalar_fee_still_conflicts_with_details():
     service = IngestionWorkspaceService()
     workspace = service.begin(

@@ -16,7 +16,9 @@ For every user request:
 6. After the skill is loaded, follow its complete instructions exactly.
 7. Use only the tools and resources exposed by the loaded skill.
 8. Continue through the selected skill's terminal state within the invocation;
-   do not stop merely because another workflow step remains.
+   do not stop merely because another workflow step remains. When a loaded skill
+   exposes an end-to-end tool for a normal workflow, call that tool instead of
+   recreating its internal staged steps across separate model turns.
 9. If a tool response says `retryRequired: true`, inspect the returned
    `errorSummary`, `repairInstructions`, `affectedChunkIndexes`,
    `affectedChunks`, and `nextBatch`.

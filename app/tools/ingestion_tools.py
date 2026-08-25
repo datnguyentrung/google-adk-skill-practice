@@ -1,4 +1,5 @@
 import hashlib
+import asyncio
 import json
 import logging
 import os
@@ -22,6 +23,12 @@ from app.core.schemas.ingestion.workspace import (
 )
 from app.services.ingestion.fill_factory import create_fill_service
 from app.services.ingestion.fill_service import FillValidationError
+from app.services.ingestion.fragment_grounding_repair import repair_fragment_grounding
+from app.services.ingestion.partial_batch_fallback import (
+    can_skip_chunks_safely,
+    failed_chunk_indexes,
+    prune_fragment_for_skips,
+)
 from app.services.ingestion.orchestrator import (
     BatchExtractor,
     GeminiBatchExtractor,
@@ -255,6 +262,8 @@ def _workspace_stats(workspace: IngestionWorkspace) -> dict[str, Any]:
             for batch in workspace.batches
             if batch.fragment is not None
         ),
+        "skippedChunks": len(workspace.skipped_chunk_indexes),
+        "warningCount": len(workspace.ingestion_warnings),
     }
 
 
@@ -388,7 +397,7 @@ def _repair_instructions(summary: dict[str, Any]) -> str:
     if "PROPERTY_VALUE_NOT_GROUNDED" in codes:
         instructions.append("For unsupported property values, copy the exact source wording/value or omit the property; do not paraphrase business facts.")
     if summary["evidenceTextNotInSourceLocations"]:
-        instructions.append("Use verbatim evidence text from the cited chunk.")
+        instructions.append("Use only exact verbatim evidence from the cited chunk. For Markdown tables, ""copy the complete source row including pipe delimiters; never synthesize or ""join multiple rows into one evidence string.")
     if "DERIVED_PROPERTY_REQUIRES_EDGE_EVIDENCE" in codes:
         instructions.append("Add the grounded relationship edge that supports the derived ruleType, or omit the unsupported rule node.")
     if summary["coverageNotEvidencedChunkIndexes"]:
@@ -398,7 +407,15 @@ def _repair_instructions(summary: dict[str, Any]) -> str:
     return " ".join(instructions) or "Correct the batch validation errors and resubmit this same batch."
 
 
+
 def _conflict_repair_instruction(conflict: dict[str, Any]) -> str:
+    if conflict.get("propertyName") == "pskg:bankingProductName":
+        return (
+            "Prefer an explicit product-name field such as the Markdown row "
+            "| Tên sản phẩm | ... |. Never derive bankingProductName from "
+            "Tên tài liệu or the document title. Omit the weaker metadata-derived "
+            "name when an explicit product-name source exists."
+        )
     if conflict.get("propertyName") == "pskg:fee":
         return (
             "Do not add multiple independent fee types as scalar "
@@ -826,11 +843,6 @@ def submit_ingestion_batch(
             batch_index,
             _fragment_stats(fragment),
         )
-        candidate = _get_workspace_service().submit(
-            workspace,
-            batch_index,
-            fragment,
-        )
         batch = workspace.batches[batch_index]
         expected_indexes = set(batch.chunk_indexes)
         batch_chunks = [
@@ -889,6 +901,11 @@ def submit_ingestion_batch(
             )
             _pace_next_model_turn(tool_context)
             return response
+        candidate = _get_workspace_service().submit(
+            workspace,
+            batch_index,
+            fragment,
+        )
         candidate.retry_states.pop(str(batch_index), None)
         workspace = candidate
     except (ValueError, WorkspaceConflictError) as exc:
@@ -1145,10 +1162,125 @@ def get_ingestion_status(
         "terminal": False,
         "ingestionId": ingestion_id,
         "workspaceStats": _workspace_stats(workspace),
+        "partial": bool(workspace.skipped_chunk_indexes),
+        "skippedChunks": workspace.skipped_chunk_indexes,
+        "ingestionWarnings": workspace.ingestion_warnings,
     }
     if next_batch is not None:
         status["nextBatch"] = _batch_payload(workspace, next_batch)
     return status
+
+
+def _record_partial_skip(
+    ingestion_id: str,
+    batch_index: int,
+    skipped_indexes: set[int],
+    batch_payload: dict[str, Any],
+    responses: list[dict[str, Any]],
+    attempts: int,
+    tool_context: ToolContext,
+) -> None:
+    workspace = _load_workspace(tool_context)
+    if workspace is None:
+        return
+
+    chunks = {
+        int(item["index"]): item
+        for item in batch_payload.get("chunks", [])
+        if isinstance(item, dict) and "index" in item
+    }
+    error_codes = sorted({
+        str(code)
+        for response in responses
+        for code in response.get("errorSummary", {}).get("codes", [])
+    })
+    warning = {
+        "code": "SKIPPED_AFTER_RETRIES",
+        "batchIndex": batch_index,
+        "chunkIndexes": sorted(skipped_indexes),
+        "sections": [
+            chunks[index].get("section")
+            for index in sorted(skipped_indexes)
+            if index in chunks
+        ],
+        "errorCodes": error_codes,
+        "attempts": attempts,
+        "message": (
+            "Chunks were downgraded to NOT_RELEVANT after repeated validation "
+            "failure so later batches could continue."
+        ),
+    }
+    workspace.skipped_chunk_indexes = sorted(
+        set(workspace.skipped_chunk_indexes) | skipped_indexes
+    )
+    if warning not in workspace.ingestion_warnings:
+        workspace.ingestion_warnings.append(warning)
+    _store_workspace(tool_context, workspace)
+
+    logger.warning(
+        "INGESTION_CHUNK_SKIPPED ingestion_id=%s batch=%s chunks=%s "
+        "errors=%s attempts=%s",
+        ingestion_id,
+        batch_index,
+        sorted(skipped_indexes),
+        error_codes,
+        attempts,
+    )
+
+
+def _attempt_partial_batch_fallback(
+    ingestion_id: str,
+    batch_index: int,
+    fragment: GraphPatchFragment,
+    batch_payload: dict[str, Any],
+    response: dict[str, Any],
+    attempts: int,
+    tool_context: ToolContext,
+) -> dict[str, Any] | None:
+    skipped_indexes: set[int] = set()
+    responses = [response]
+    last_response = response
+    max_expansions = max(1, len(batch_payload.get("chunkIndexes", [])))
+
+    for _ in range(max_expansions):
+        newly_failed = set(
+            failed_chunk_indexes(last_response, fragment, batch_payload)
+        ) - skipped_indexes
+        if not newly_failed:
+            return None
+
+        skipped_indexes.update(newly_failed)
+        if not can_skip_chunks_safely(fragment, skipped_indexes):
+            logger.warning(
+                "INGESTION_AUTO_SKIP_BLOCKED ingestion_id=%s batch=%s chunks=%s reason=critical_fact",
+                ingestion_id, batch_index, sorted(skipped_indexes),
+            )
+            return None
+        candidate = prune_fragment_for_skips(
+            fragment,
+            skipped_indexes,
+            _get_validation_service().source_grounding,
+        )
+        last_response = submit_ingestion_batch(
+            ingestion_id,
+            batch_index,
+            candidate,
+            tool_context,
+        )
+        responses.append(last_response)
+        if last_response.get("success"):
+            _record_partial_skip(
+                ingestion_id,
+                batch_index,
+                skipped_indexes,
+                batch_payload,
+                responses,
+                attempts,
+                tool_context,
+            )
+            return last_response
+
+    return None
 
 
 async def ingest_document_end_to_end(
@@ -1199,6 +1331,15 @@ async def ingest_document_end_to_end(
                     ontology_catalog=ontology_catalog,
                     previous_error=previous_error,
                 )
+                batch_chunks = [
+                    DocumentChunk.model_validate(item)
+                    for item in batch_payload.get("chunks", [])
+                ]
+                fragment = repair_fragment_grounding(
+                    fragment,
+                    batch_chunks,
+                    _get_validation_service().source_grounding,
+                )
             except Exception as exc:
                 logger.exception(
                     "ORCHESTRATION_FAILED ingestion_id=%s batch=%s attempt=%s",
@@ -1217,7 +1358,7 @@ async def ingest_document_end_to_end(
                             "INGESTION_RATE_LIMIT_BACKOFF ingestion_id=%s batch=%s attempt=%s delay_seconds=%.2f",
                             ingestion_id, batch_index, attempt, delay,
                         )
-                        time.sleep(delay)
+                        await asyncio.sleep(delay)
                     continue
                 return {
                     "success": False,
@@ -1257,23 +1398,35 @@ async def ingest_document_end_to_end(
                     "errorSummary",
                     "repairInstructions",
                     "affectedChunkIndexes",
+                    "conflict",
                 )
                 if key in response
             }
             if not response.get("retryRequired"):
+                fallback = _attempt_partial_batch_fallback(
+                    ingestion_id, batch_index, fragment, batch_payload,
+                    response, attempt, tool_context,
+                )
+                if fallback is not None:
+                    response = fallback
+                    processed_batches = int(response.get("processedBatches", 0))
+                    break
                 return {
                     **response,
                     "stage": "explicit_extraction_failure",
                     "terminal": True,
                     "ingestionId": ingestion_id,
                     "processedBatches": processed_batches,
-                    "workspaceStats": (
-                        _workspace_stats(workspace)
-                        if (workspace := _load_workspace(tool_context)) is not None
-                        else response.get("workspaceStats", {})
-                    ),
                 }
         else:
+            fallback = _attempt_partial_batch_fallback(
+                ingestion_id, batch_index, fragment, batch_payload,
+                response, max_retries_per_batch, tool_context,
+            )
+            if fallback is not None:
+                response = fallback
+                processed_batches = int(response.get("processedBatches", 0))
+                continue
             return {
                 **response,
                 "success": False,
@@ -1284,37 +1437,92 @@ async def ingest_document_end_to_end(
                 "processedBatches": processed_batches,
                 "errors": response.get("errors", []),
                 "message": (
-                    f"Batch {batch_index} did not pass validation after "
+                    f"Batch {batch_index} could not be safely reduced after "
                     f"{max_retries_per_batch} attempts"
-                ),
-                "workspaceStats": (
-                    _workspace_stats(workspace)
-                    if (workspace := _load_workspace(tool_context)) is not None
-                    else response.get("workspaceStats", {})
                 ),
             }
 
+    workspace = _load_workspace(tool_context)
+    skipped_chunks = workspace.skipped_chunk_indexes if workspace else []
+    warnings = workspace.ingestion_warnings if workspace else []
+
     finalized = finalize_ingestion(ingestion_id, tool_context)
     if finalized.get("stage") != "ready_to_fill":
-        return {**finalized, "terminal": True}
-    if not persist:
+        logger.error(
+            "INGESTION_FINALIZE_FAILED ingestion_id=%s processed_batches=%s "
+            "skipped_chunks=%s errors=%s readiness=%s",
+            ingestion_id,
+            processed_batches,
+            skipped_chunks,
+            finalized.get("errors", []),
+            finalized.get("readinessIssues", []),
+        )
         return {
+            **finalized,
+            "terminal": True,
+            "partial": bool(skipped_chunks),
+            "skippedChunks": skipped_chunks,
+            "ingestionWarnings": warnings,
+        }
+
+    if not persist:
+        result = {
             **finalized,
             "stage": "ready_to_fill",
             "terminal": True,
             "persisted": False,
+            "partial": bool(skipped_chunks),
+            "skippedChunks": skipped_chunks,
+            "ingestionWarnings": warnings,
         }
+        logger.info(
+            "INGESTION_COMPLETED ingestion_id=%s persisted=false "
+            "processed_batches=%s total_batches=%s partial=%s skipped_chunks=%s",
+            ingestion_id,
+            processed_batches,
+            len(workspace.batches) if workspace else 0,
+            bool(skipped_chunks),
+            skipped_chunks,
+        )
+        return result
+
     filled = await fill_ingestion(ingestion_id, tool_context)
-    return {
+    workspace = _load_workspace(tool_context)
+    skipped_chunks = (
+        workspace.skipped_chunk_indexes if workspace else skipped_chunks
+    )
+    warnings = workspace.ingestion_warnings if workspace else warnings
+
+    result = {
         **filled,
         "terminal": True,
         "ingestionId": ingestion_id,
+        "partial": bool(skipped_chunks),
+        "skippedChunks": skipped_chunks,
+        "ingestionWarnings": warnings,
         "workspaceStats": (
             _workspace_stats(workspace)
-            if (workspace := _load_workspace(tool_context)) is not None
+            if workspace is not None
             else finalized.get("workspaceStats", {})
         ),
     }
+    logger.info(
+        "INGESTION_COMPLETED ingestion_id=%s persisted=%s "
+        "processed_batches=%s total_batches=%s partial=%s skipped_chunks=%s "
+        "nodes=%s edges=%s commit_status=%s verification=%s warnings=%s",
+        ingestion_id,
+        filled.get("commitStatus") == "committed",
+        processed_batches,
+        len(workspace.batches) if workspace else 0,
+        bool(skipped_chunks),
+        skipped_chunks,
+        filled.get("nodes", 0),
+        filled.get("edges", 0),
+        filled.get("commitStatus"),
+        filled.get("verificationStatus"),
+        warnings,
+    )
+    return result
 
 
 def validate_graph_patch(
@@ -1413,5 +1621,13 @@ INGESTION_TOOLS = {
 }
 
 
+USER_FACING_INGESTION_TOOL_ROLES = (
+    "ingest_document_end_to_end",
+    "get_ingestion_status",
+    "validate_graph_patch",
+    "fill_graph_patch",
+)
+
+
 def get_ingestion_tools() -> list:
-    return list(INGESTION_TOOLS.values())
+    return [INGESTION_TOOLS[role] for role in USER_FACING_INGESTION_TOOL_ROLES]

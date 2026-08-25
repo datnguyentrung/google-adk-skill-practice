@@ -344,8 +344,10 @@ def test_gemini_extractor_prompt_names_canonical_shape_and_forbidden_keys():
     assert "Forbidden keys anywhere in the response: entities, chunkStatus" in prompt
     assert '"propertyName": "pskg:productCode"' in prompt
     assert "convert it to the canonical GraphPatchFragment object" in prompt
-    assert "Prefer list-valued pskg:productAttributes" in prompt
-    assert "one verbatim evidence row per item" in prompt
+    assert "always emit a JSON list" in prompt
+    assert "customer audience or segment phrases" in prompt
+    assert "Dành cho khách hàng cá nhân" in prompt
+    assert "pskg:CustomerSegment/pskg:targetsSegment" in prompt
     assert "Do not stuff independent fee" in prompt
     assert "scalar BankingProduct.pskg:fee" in prompt
     assert "create one pskg:BusinessRule per distinct fee/pricing fact" in prompt
@@ -488,34 +490,34 @@ def test_end_to_end_stops_after_invalid_fragment_shape_retries(monkeypatch):
     assert result["errors"][0]["code"] == "ORCHESTRATION_FAILED"
 
 
-def test_end_to_end_stops_on_unchanged_retry(monkeypatch):
+def test_end_to_end_skips_noncritical_unchanged_chunk_and_persists(monkeypatch):
     context = FakeToolContext()
-    monkeypatch.setattr(
-        ingestion_tools,
-        "_get_context_service",
-        lambda: TwoBatchReadyContextService(),
-    )
-    bad = invalid_broad_fragment({"chunkIndexes": [0, 1, 2, 3, 4]})
-    extractor = QueueExtractor([bad, bad])
+    monkeypatch.setattr(ingestion_tools, "_get_context_service", lambda: TwoBatchReadyContextService())
+    first = batch_fragment({"chunkIndexes": [0, 1, 2, 3, 4]}, relevant_chunk=0)
+    bad = invalid_broad_fragment({"chunkIndexes": [5]})
+    extractor = QueueExtractor([first, bad, bad])
     monkeypatch.setattr(ingestion_tools, "_get_batch_extractor", lambda: extractor)
-    monkeypatch.setattr(
-        ingestion_tools,
-        "create_fill_service",
-        lambda **kwargs: (_ for _ in ()).throw(AssertionError("must not fill")),
-    )
+    fill_service = ReceiptFillService()
+    monkeypatch.setattr(ingestion_tools, "create_fill_service", lambda **kwargs: fill_service)
 
     result = asyncio.run(
         ingestion_tools.ingest_document_end_to_end(
-            "product.md",
-            context,
-            max_retries_per_batch=2,
+            "product.md", context, max_retries_per_batch=2,
         )
     )
 
-    assert result["success"] is False
-    assert result["stage"] == "explicit_extraction_failure"
-    assert result["terminal"] is True
-    assert "UNCHANGED_RETRY" in {item["code"] for item in result["errors"]}
+    assert result["success"] is True
+    assert result["stage"] == "completed"
+    assert result["commitStatus"] == "committed"
+    assert result["verificationStatus"] == "verified"
+    assert result["partial"] is True
+    assert result["skippedChunks"] == [5]
+    assert result["workspaceStats"]["processedBatches"] == 2
+    assert result["ingestionWarnings"][0]["code"] == "SKIPPED_AFTER_RETRIES"
+    assert result["ingestionWarnings"][0]["chunkIndexes"] == [5]
+    assert result["nodes"] == 2
+    assert result["edges"] == 1
+    assert fill_service.closed is True
 
 
 def test_end_to_end_reports_llm_request_config_error(monkeypatch):

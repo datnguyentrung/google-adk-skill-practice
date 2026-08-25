@@ -24,6 +24,8 @@ from app.core.schemas.ingestion.workspace import (
 
 logger = logging.getLogger(__name__)
 
+MULTI_VALUE_PROPERTY_NAMES = {"pskg:productAttributes"}
+
 MAX_BATCH_CHUNKS = max(1, int(os.getenv("INGESTION_MAX_BATCH_CHUNKS", "5")))
 MAX_BATCH_CHARS = max(1_000, int(os.getenv("INGESTION_MAX_BATCH_CHARS", "5000")))
 ESTIMATED_CHARS_PER_TOKEN = max(1.0, float(os.getenv("INGESTION_ESTIMATED_CHARS_PER_TOKEN", "2.0")))
@@ -246,19 +248,34 @@ class IngestionWorkspaceService:
                         existing.properties.append(copied)
                         properties[prop.property_name] = copied
                         continue
-                    if isinstance(current.value, list) and isinstance(
-                        prop.value,
-                        list,
-                    ):
-                        current.value = cls._merge_list_values(
-                            current.value,
-                            prop.value,
+                    if prop.property_name in MULTI_VALUE_PROPERTY_NAMES:
+                        current_values = current.value if isinstance(current.value, list) else [current.value]
+                        incoming_values = prop.value if isinstance(prop.value, list) else [prop.value]
+                        current.value = cls._merge_list_values(current_values, incoming_values)
+                        current.evidence = cls._dedupe_models(
+                            [*current.evidence, *prop.evidence]
                         )
+                        continue
+                    if isinstance(current.value, list) and isinstance(prop.value, list):
+                        current.value = cls._merge_list_values(current.value, prop.value)
                         current.evidence = cls._dedupe_models(
                             [*current.evidence, *prop.evidence]
                         )
                         continue
                     if cls._stable_value(current.value) != cls._stable_value(prop.value):
+                        if prop.property_name == "pskg:bankingProductName":
+                            current_priority = cls._property_evidence_priority(
+                                prop.property_name, current.evidence
+                            )
+                            incoming_priority = cls._property_evidence_priority(
+                                prop.property_name, prop.evidence
+                            )
+                            if incoming_priority > current_priority:
+                                current.value = prop.value
+                                current.evidence = cls._dedupe_models(prop.evidence)
+                                continue
+                            if current_priority > incoming_priority:
+                                continue
                         raise WorkspaceConflictError(
                             f"Node {incoming.temp_id} property {prop.property_name} "
                             "has conflicting values",
@@ -327,6 +344,22 @@ class IngestionWorkspaceService:
                     )
                 merged[incoming.chunk_index] = incoming.model_copy(deep=True)
         return [merged[index] for index in sorted(merged)]
+
+    @staticmethod
+    def _property_evidence_priority(property_name: str, evidence: list[Evidence]) -> int:
+        if property_name != "pskg:bankingProductName":
+            return 0
+        score = 0
+        for item in evidence:
+            text = item.text.casefold()
+            section = (item.section or "").casefold()
+            if "tên sản phẩm" in text:
+                score = max(score, 20)
+            elif "tên tài liệu" in text or "thông tin tài liệu" in section:
+                score = max(score, 0)
+            else:
+                score = max(score, 10)
+        return score
 
     @staticmethod
     def _stable_value(value) -> str:

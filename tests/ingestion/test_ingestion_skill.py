@@ -9,11 +9,9 @@ from google.adk.agents.run_config import RunConfig
 from google.adk.sessions import InMemorySessionService
 
 from app.agent import root_agent, root_skill_toolset
-from app.tools.ingestion_tools import INGESTION_TOOLS
+from app.tools.ingestion_tools import get_ingestion_tools
 
-INGESTION_TOOL_NAMES = {
-    tool.__name__ for tool in INGESTION_TOOLS.values()
-}
+INGESTION_TOOL_NAMES = {tool.__name__ for tool in get_ingestion_tools()}
 
 
 def test_ingestion_skill_loads_with_exact_dynamic_tools():
@@ -27,6 +25,13 @@ def test_ingestion_skill_loads_with_exact_dynamic_tools():
         )
 
         assert declared == INGESTION_TOOL_NAMES
+        assert {
+            "begin_ingestion",
+            "submit_ingestion_batch",
+            "finalize_ingestion",
+            "fill_ingestion",
+            "prepare_extraction_context",
+        }.isdisjoint(declared)
         assert "$" not in skill.instructions
         assert "prepare_extraction_context" in skill.instructions
         assert "validate_graph_patch" in skill.instructions

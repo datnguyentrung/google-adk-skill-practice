@@ -7,12 +7,7 @@ description: >
 metadata:
   adk_additional_tools:
     - ingest_document_end_to_end
-    - begin_ingestion
-    - submit_ingestion_batch
-    - finalize_ingestion
-    - fill_ingestion
     - get_ingestion_status
-    - prepare_extraction_context
     - validate_graph_patch
     - fill_graph_patch
 ---
@@ -44,8 +39,11 @@ For ingest/import/load/write requests on uploaded long documents, call
 user-facing path because it runs batching, extraction, validation, readiness,
 and persistence to a real terminal state before returning. Do not use staged
 manual tools for a normal user ingestion request unless the user explicitly asks
-to debug or manually inspect batches. Do not fall back to a manual begin/submit
-loop after a retryable validation error; the end-to-end tool owns retry pacing.
+to debug or manually inspect batches. The root agent exposes only the end-to-end
+long-document ingestion tool; staged begin/submit/finalize/fill helpers are
+internal implementation/debug APIs and must not be emulated across model turns.
+Do not fall back to a manual begin/submit loop after a retryable validation
+error; the end-to-end tool owns retry pacing and retries.
 
 For an uploaded long document, complete this sequence through a terminal state:
 
