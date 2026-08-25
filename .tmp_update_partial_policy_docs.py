@@ -1,9 +1,0 @@
-from pathlib import Path
-p=Path('app/skills/ingestion/SKILL.md')
-s=p.read_text(encoding='utf-8')
-s=s.replace('''- If persistence was requested but source evidence cannot satisfy persistence\n  requirements, report readiness issues and stop before fill.\n''','''- If persistence was requested but readiness fails, report the issues and stop before fill by default. If and only if the user explicitly asks to force/debug/partial-persist the extraction despite readiness, call `ingest_document_end_to_end(..., allow_partial_persistence=true)`. This override never bypasses extraction/source-grounding failures.\n''',1)
-s=s.replace('''  -> fill_ingestion only when persistence-ready\n''','''  -> fill_ingestion when persistence-ready; explicit partial/debug override may bypass readiness only\n''',1)
-s=s.replace('''8. Call `fill_ingestion(ingestion_id)` only when finalize returns both flags\n   true. Never pass a graph payload to this fill tool.\n''','''8. Normally call `fill_ingestion(ingestion_id)` only when finalize returns both flags true. For an explicit user-requested debug/partial commit, the end-to-end tool may use `allow_partial_persistence=true` after `validForExtraction=true`; never use it to bypass extraction errors. Never pass a graph payload to this fill tool.\n''',1)
-s=s.replace('''metadata, or unresolved identity are readiness issues. Do not fabricate facts\nto clear readiness.\n''','''metadata, or unresolved identity are readiness issues. Do not fabricate facts to clear readiness. A user may explicitly request partial/debug persistence to inspect the extracted values; this writes the extraction-valid incomplete graph and returns `partialPersistence: true` plus the ignored readiness issues.\n''',1)
-p.write_text(s,encoding='utf-8')
-print('updated SKILL partial persistence policy')

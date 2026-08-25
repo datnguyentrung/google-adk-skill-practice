@@ -1,5 +1,0 @@
-{
-  "fixed_point": "ee714f97e9cf4259c19fd58130e2d17ad2cd1ff3",
-  "legacy_skill_sha256_lf": "d625e07f757481d8ac4eead0a85adaa6a0abc41dbce82c30a68ccb47566241ee",
-  "minimally_migrated_change": "Replace the legacy empty properties object example with an empty PropertyEntry array only."
-}

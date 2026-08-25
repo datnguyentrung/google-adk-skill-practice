@@ -1,6 +1,0 @@
-from pathlib import Path
-p=Path(r'D:\Thuc_tap_MB\google-adk-skill-practice\app\services\ingestion\source_grounding.py')
-s=p.read_text(encoding='utf-8')
-s=s.replace('''        return cls._normalize(str(value)) in cls._normalize(evidence_text)\n\n    @classmethod\n    def _number_supported''','''        return cls._string_supported(str(value), evidence_text)\n\n    @classmethod\n    def _string_supported(cls, value: str, evidence_text: str) -> bool:\n        normalized_value = cls._normalize(value)\n        normalized_evidence = cls._normalize(evidence_text)\n        if normalized_value in normalized_evidence:\n            return True\n        value_tokens = [\n            token for token in re.findall(r"\\w+", normalized_value)\n            if token not in {"là"}\n        ]\n        evidence_tokens = re.findall(r"\\w+", normalized_evidence)\n        if not value_tokens:\n            return False\n        cursor = 0\n        for token in value_tokens:\n            while cursor < len(evidence_tokens) and evidence_tokens[cursor] != token:\n                cursor += 1\n            if cursor >= len(evidence_tokens):\n                return False\n            cursor += 1\n        return True\n\n    @classmethod\n    def _number_supported''')
-p.write_text(s,encoding='utf-8')
-print('string grounding improved')
