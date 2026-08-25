@@ -64,3 +64,12 @@ class GraphPatchDraft(_DraftModel):
     edges: list[ExtractedEdge]
     coverage: list[ChunkCoverage] = Field(min_length=1)
     warnings: list[str] = Field(default_factory=list)
+
+
+class GraphPatchFragment(_DraftModel):
+    """One retryable batch contribution to a larger graph patch."""
+
+    nodes: list[ExtractedNode] = Field(default_factory=list)
+    edges: list[ExtractedEdge] = Field(default_factory=list)
+    coverage: list[ChunkCoverage] = Field(min_length=1)
+    warnings: list[str] = Field(default_factory=list)

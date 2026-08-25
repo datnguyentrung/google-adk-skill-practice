@@ -27,6 +27,7 @@ from app.services.ingestion.registry import OntologyRegistry
 from app.services.ingestion.source_grounding import SourceGroundingValidator
 from app.services.ingestion.validator import OntologyValidator
 
+
 @dataclass(frozen=True)
 class GraphPatchAssessment:
     result: GraphPatchValidationResult
@@ -76,10 +77,16 @@ class GraphPatchValidationService:
                 fingerprint=None,
             )
 
-        chunks = None if source_chunks is None else [
-            item if isinstance(item, DocumentChunk) else DocumentChunk.model_validate(item)
-            for item in source_chunks
-        ]
+        chunks = (
+            None
+            if source_chunks is None
+            else [
+                item
+                if isinstance(item, DocumentChunk)
+                else DocumentChunk.model_validate(item)
+                for item in source_chunks
+            ]
+        )
 
         compiler_result = self.compiler.compile(draft)
         warning_issues = [

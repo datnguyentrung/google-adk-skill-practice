@@ -13,6 +13,12 @@
       "skillPath": "skills/engineering/codebase-design/SKILL.md",
       "computedHash": "caea3cb8a8281ff829fd1a2b985044e77601b62f301adf43f689ccfc74c15f6f"
     },
+    "diagnosing-bugs": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/diagnosing-bugs/SKILL.md",
+      "computedHash": "dcaaa3eb81195329f65f27574d9a67dc776160dd2e4d7798d1afb1e4a5f3695a"
+    },
     "google-agents-cli-adk-code": {
       "source": "google/agents-cli",
       "sourceType": "github",
@@ -36,6 +42,12 @@
       "sourceType": "github",
       "skillPath": "engineering-team/skills/senior-architect/SKILL.md",
       "computedHash": "2b463626bf730b21872768447388c18a4387a7a307e00013b696c0f15e5659e3"
+    },
+    "senior-data-engineer": {
+      "source": "alirezarezvani/claude-skills",
+      "sourceType": "github",
+      "skillPath": "engineering-team/skills/senior-data-engineer/SKILL.md",
+      "computedHash": "25416e13b1589541f7b8c409c9a13e39b4e12a76b3470aa1ba08d64d94299e25"
     },
     "skill-creator": {
       "source": "anthropics/skills",

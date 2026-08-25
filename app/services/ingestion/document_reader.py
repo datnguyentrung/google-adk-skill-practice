@@ -158,6 +158,9 @@ class DocumentReader:
                 source=source,
                 section=None,
                 content=text.strip(),
+                chunkId="chunk_0000",
+                startLine=1,
+                endLine=max(1, len(text.splitlines())),
             )
         ]
         logger.info(
@@ -189,11 +192,12 @@ class DocumentReader:
 
         # Buffer các dòng nội dung thuộc section hiện tại.
         current_lines: list[str] = []
+        current_start_line: int | None = None
 
         def flush() -> None:
             """Đẩy buffer hiện tại thành DocumentChunk nếu có nội dung thực."""
 
-            nonlocal current_lines
+            nonlocal current_lines, current_start_line
 
             # Trim khoảng trắng đầu/cuối để chunk không chứa dòng rỗng thừa.
             content = "\n".join(current_lines).strip()
@@ -201,23 +205,39 @@ class DocumentReader:
             # Nếu section chỉ có heading hoặc dòng rỗng thì bỏ qua chunk trống.
             if not content:
                 current_lines = []
+                current_start_line = None
                 return
+
+            first_content_offset = next(
+                index for index, line in enumerate(current_lines) if line.strip()
+            )
+            last_content_offset = len(current_lines) - 1 - next(
+                index
+                for index, line in enumerate(reversed(current_lines))
+                if line.strip()
+            )
+            base_line = current_start_line or 1
+            chunk_index = len(chunks)
 
             # Tạo chunk với index tăng dần theo số chunk đã có.
             chunks.append(
                 DocumentChunk(
-                    index=len(chunks),
+                    index=chunk_index,
                     source=source,
                     section=current_section,
                     content=content,
+                    chunkId=f"chunk_{chunk_index:04d}",
+                    startLine=base_line + first_content_offset,
+                    endLine=base_line + last_content_offset,
                 )
             )
 
             # Reset buffer để bắt đầu gom nội dung cho section tiếp theo.
             current_lines = []
+            current_start_line = None
 
         # Duyệt từng dòng để phát hiện heading và gom nội dung theo section.
-        for line in text.splitlines():
+        for line_number, line in enumerate(text.splitlines(), start=1):
             heading_match = self.HEADING_PATTERN.match(line)
 
             if heading_match:
@@ -230,6 +250,8 @@ class DocumentReader:
                 continue
 
             # Dòng thường được gom vào buffer của section hiện tại.
+            if current_start_line is None:
+                current_start_line = line_number
             current_lines.append(line)
 
         # Đóng section cuối cùng sau khi duyệt hết file.

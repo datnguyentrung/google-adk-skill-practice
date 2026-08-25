@@ -31,6 +31,10 @@ def test_ingestion_skill_loads_with_exact_dynamic_tools():
         assert "prepare_extraction_context" in skill.instructions
         assert "validate_graph_patch" in skill.instructions
         assert "fill_graph_patch" in skill.instructions
+        assert "begin_ingestion" in skill.instructions
+        assert "submit_ingestion_batch" in skill.instructions
+        assert "finalize_ingestion" in skill.instructions
+        assert "fill_ingestion" in skill.instructions
         assert "coverage" in skill.instructions
         assert "chunkIndex" in skill.instructions
         assert "PROPERTY_VALUE_NOT_GROUNDED" in skill.instructions

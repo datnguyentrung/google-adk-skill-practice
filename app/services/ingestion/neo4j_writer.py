@@ -3,6 +3,12 @@ from typing import Any
 
 from neo4j import Transaction
 
+from app.core.schemas.ingestion.persistence import (
+    GraphWriteResult,
+    PersistedGraphReadback,
+    PersistedNode,
+    PersistedRelationship,
+)
 from app.services.ingestion.identity import (
     IdentityResolver,
     source_scope_from_evidence,
@@ -10,6 +16,7 @@ from app.services.ingestion.identity import (
 from app.services.ingestion.neo4j_mapper import (
     Neo4jMapper,
 )
+from app.services.ingestion.readback import relationship_key
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +25,8 @@ class Neo4jWriteError(RuntimeError):
     pass
 
 
-class Neo4jWriter:
+class Neo4jGraphStore:
+    """Persist graph patches and read back exactly the committed element IDs."""
     def __init__(
         self,
         mapper: Neo4jMapper,
@@ -125,7 +133,7 @@ class Neo4jWriter:
         source_node_id: str,
         target_node_id: str,
         edge_name: str,
-    ) -> None:
+    ) -> str:
         logger.info(
             "Neo4j edge upsert started edge_name=%s source_node_id=%s target_node_id=%s",
             edge_name,
@@ -163,23 +171,29 @@ class Neo4jWriter:
             logger.warning("Neo4j edge upsert returned no record edge_name=%s", edge_name)
             raise Neo4jWriteError(f"Failed to upsert edge: {edge_name}")
 
+        relationship_id = record["relationship_id"]
+
         logger.info(
             "Neo4j edge upsert completed edge_name=%s relationship_type=%s",
             edge_name,
             relationship_type,
         )
+        return relationship_id
 
     def write_graph_patch(
         self,
         tx: Transaction,
         patch,
-    ) -> dict[str, str]:
+    ) -> GraphWriteResult:
         logger.info(
             "Neo4j graph patch write started node_count=%s edge_count=%s",
             len(patch.nodes),
             len(patch.edges),
         )
         node_ids: dict[str, str] = {}
+        relationship_ids: dict[str, str] = {}
+        expected_nodes: dict[str, PersistedNode] = {}
+        expected_relationships: dict[str, PersistedRelationship] = {}
 
         # 1. Upsert nodes trước để resolve tempId -> Neo4j elementId.
         for node in patch.nodes:
@@ -196,6 +210,12 @@ class Neo4jWriter:
                 source_scope=source_scope,
             )
             node_ids[node.temp_id] = node_id
+            expected_nodes[node.temp_id] = self._expected_node(
+                node_id=node_id,
+                class_name=node.class_name,
+                properties=node.properties,
+                source_scope=source_scope,
+            )
             logger.info(
                 "Neo4j graph patch node written temp_id=%s node_id=%s",
                 node.temp_id,
@@ -203,7 +223,7 @@ class Neo4jWriter:
             )
 
         # 2. Chỉ tạo edge sau khi toàn bộ node đã được resolve.
-        for edge in patch.edges:
+        for edge_index, edge in enumerate(patch.edges):
             logger.info(
                 "Neo4j graph patch writing edge edge_name=%s source_temp_id=%s target_temp_id=%s",
                 edge.edge_name,
@@ -233,11 +253,20 @@ class Neo4jWriter:
                     f"Missing target node: {edge.target_temp_id}"
                 )
 
-            self.upsert_edge(
+            relationship_id = self.upsert_edge(
                 tx=tx,
                 source_node_id=source_id,
                 target_node_id=target_id,
                 edge_name=edge.edge_name,
+            )
+            key = relationship_key(edge_index, edge)
+            relationship_ids[key] = relationship_id
+            expected_relationships[key] = PersistedRelationship(
+                relationshipId=relationship_id,
+                type=self.mapper.edge_to_type(edge.edge_name),
+                sourceNodeId=source_id,
+                targetNodeId=target_id,
+                properties={},
             )
             logger.info(
                 "Neo4j graph patch edge written edge_name=%s source_temp_id=%s target_temp_id=%s",
@@ -251,4 +280,98 @@ class Neo4jWriter:
             len(node_ids),
             len(patch.edges),
         )
-        return node_ids
+        return GraphWriteResult(
+            nodeIds=node_ids,
+            relationshipIds=relationship_ids,
+            expectedNodes=expected_nodes,
+            expectedRelationships=expected_relationships,
+        )
+
+    def _expected_node(
+        self,
+        *,
+        node_id: str,
+        class_name: str,
+        properties: dict[str, Any],
+        source_scope: str | None,
+    ) -> PersistedNode:
+        identity = self.identity_resolver.resolve(
+            class_name=class_name,
+            properties=properties,
+            source_scope=source_scope,
+        )
+        if identity.key_name is None or identity.key_value is None:
+            raise Neo4jWriteError(f"Resolved identity is incomplete for {class_name}")
+        identity_property = (
+            "_ingestionKey"
+            if identity.strategy == "source_scoped"
+            else self.mapper.property_to_key(identity.key_name)
+        )
+        expected_properties = self.mapper.properties_to_neo4j(properties)
+        expected_properties[identity_property] = identity.key_value
+        if source_scope:
+            expected_properties["_ingestionSource"] = source_scope
+        return PersistedNode(
+            nodeId=node_id,
+            labels=[self.mapper.class_to_label(class_name)],
+            properties=expected_properties,
+        )
+
+    @staticmethod
+    def read_graph_patch(
+        tx: Transaction,
+        write_result: GraphWriteResult,
+    ) -> PersistedGraphReadback:
+        node_result = tx.run(
+            """
+            MATCH (n)
+            WHERE elementId(n) IN $node_ids
+            RETURN elementId(n) AS node_id,
+                   labels(n) AS labels,
+                   properties(n) AS properties
+            """,
+            node_ids=list(dict.fromkeys(write_result.node_ids.values())),
+        )
+        nodes = [
+            {
+                "nodeId": record["node_id"],
+                "labels": list(record["labels"]),
+                "properties": dict(record["properties"]),
+            }
+            for record in node_result
+        ]
+        relationship_result = tx.run(
+            """
+            MATCH (source)-[r]->(target)
+            WHERE elementId(r) IN $relationship_ids
+            RETURN elementId(r) AS relationship_id,
+                   type(r) AS relationship_type,
+                   elementId(source) AS source_node_id,
+                   elementId(target) AS target_node_id,
+                   properties(r) AS properties
+            """,
+            relationship_ids=list(
+                dict.fromkeys(write_result.relationship_ids.values())
+            ),
+        )
+        relationships = [
+            {
+                "relationshipId": record["relationship_id"],
+                "type": record["relationship_type"],
+                "sourceNodeId": record["source_node_id"],
+                "targetNodeId": record["target_node_id"],
+                "properties": dict(record["properties"]),
+            }
+            for record in relationship_result
+        ]
+        return PersistedGraphReadback(
+            nodes=nodes,
+            relationships=relationships,
+        )
+
+
+# Backward-compatible import name for callers that only use the write interface.
+Neo4jWriter = Neo4jGraphStore
+
+
+__all__ = ["Neo4jGraphStore", "Neo4jWriteError", "Neo4jWriter"]

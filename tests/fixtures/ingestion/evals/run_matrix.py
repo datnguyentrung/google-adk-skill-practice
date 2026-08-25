@@ -9,7 +9,6 @@ import sys
 import tempfile
 from pathlib import Path
 
-
 FIXED_POINT = "ee714f97e9cf4259c19fd58130e2d17ad2cd1ff3"
 
 
@@ -31,14 +30,15 @@ def run_layer(
     configurations: list[tuple[str, Path, Path]],
     args: argparse.Namespace,
     root: Path,
-) -> None:
+) -> int:
     case_runner = Path(__file__).resolve().with_name("run_case.py")
     eval_file = root / "tests/fixtures/ingestion/evals/evals.json"
     workspace = args.workspace.resolve() / name
+    failed_runs = 0
     for eval_id in (1, 2, 3):
         for configuration, repo, skill in configurations:
             for run_number in range(1, args.runs + 1):
-                subprocess.run(
+                completed = subprocess.run(
                     [
                         sys.executable,
                         str(case_runner),
@@ -61,9 +61,11 @@ def run_layer(
                         "--env-file",
                         str(root / ".env"),
                     ],
-                    check=True,
+                    check=False,
                     cwd=repo,
                 )
+                if completed.returncode != 0:
+                    failed_runs += 1
 
     aggregate = root / ".agents/skills/skill-creator/scripts/aggregate_benchmark.py"
     viewer = root / ".agents/skills/skill-creator/eval-viewer/generate_review.py"
@@ -82,6 +84,7 @@ def run_layer(
         ],
         check=True,
     )
+    return failed_runs
 
 
 def main() -> None:
@@ -97,7 +100,7 @@ def main() -> None:
             cwd=root,
         )
         try:
-            run_layer(
+            failed_runs = run_layer(
                 "end_to_end_regression",
                 [
                     ("without_skill", legacy, legacy / "app/skills/ingestion"),
@@ -106,7 +109,7 @@ def main() -> None:
                 args,
                 root,
             )
-            run_layer(
+            failed_runs += run_layer(
                 "skill_only_ablation",
                 [
                     ("without_skill", root, minimal),
@@ -115,6 +118,8 @@ def main() -> None:
                 args,
                 root,
             )
+            if failed_runs:
+                raise SystemExit(1)
         finally:
             subprocess.run(
                 ["git", "worktree", "remove", "--force", str(legacy)],

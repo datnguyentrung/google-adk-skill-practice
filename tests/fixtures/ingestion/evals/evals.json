@@ -13,7 +13,29 @@
         "effectiveDate": "2026-08-01",
         "allowedStatuses": [],
         "requiresEligibility": true,
-        "fillWhenReady": false
+        "fillWhenReady": false,
+        "semanticAnchors": {
+          "classMinimums": {
+            "pskg:BankingProduct": 1,
+            "pskg:BusinessRule": 3,
+            "pskg:CustomerSegment": 4,
+            "pskg:RequiredDocument": 3,
+            "pskg:SalesScript": 6
+          },
+          "oneOfClasses": ["pskg:Campaign", "pskg:ProductOffer"],
+          "oneOfClassMinimum": 1,
+          "edgeMinimums": {
+            "pskg:targetsSegment": 4,
+            "pskg:requiresDocument": 3,
+            "pskg:hasScript": 6
+          },
+          "oneOfEdges": [
+            "pskg:hasEligibilityRule",
+            "pskg:hasSalesConditionRule",
+            "pskg:governedByPolicy"
+          ],
+          "oneOfEdgeMinimum": 3
+        }
       },
       "expectations": [
         "The draft uses a properties array of propertyName/value entries.",

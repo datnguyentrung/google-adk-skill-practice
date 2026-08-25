@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
-from google.adk.skills import SkillRegistry
-from google.adk.skills import models
+from google.adk.skills import SkillRegistry, models
 
-from app.skills.skill_loader import SkillDescriptor, load_skill_descriptor
+from app.skills.skill_loader import (
+    SkillDescriptor,
+    load_skill_descriptor,
+    skill_content_digest,
+)
 
 
 class LocalSkillRegistry(SkillRegistry):
@@ -16,18 +19,20 @@ class LocalSkillRegistry(SkillRegistry):
             descriptor.name: descriptor
             for descriptor in descriptors
         }
-        self._cache: dict[str, models.Skill] = {}
+        self._cache: dict[str, tuple[str, models.Skill]] = {}
 
     async def get_skill(self, *, name: str) -> models.Skill:
-        cached = self._cache.get(name)
-        if cached is not None:
-            return cached
         descriptor = self._descriptors.get(name)
         if descriptor is None:
             raise ValueError(f"Unknown local skill: {name}")
 
+        digest = skill_content_digest(descriptor.directory)
+        cached = self._cache.get(name)
+        if cached is not None and cached[0] == digest:
+            return cached[1]
+
         skill = load_skill_descriptor(descriptor)
-        self._cache[name] = skill
+        self._cache[name] = (digest, skill)
         return skill
 
     async def search_skills(self, *, query: str) -> list[models.Frontmatter]:

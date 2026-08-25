@@ -2,7 +2,7 @@ import hashlib
 import importlib.util
 import json
 from pathlib import Path
-
+from types import SimpleNamespace
 
 FIXTURE_ROOT = Path("tests/fixtures/ingestion")
 
@@ -42,14 +42,14 @@ def test_benchmark_defines_two_layers_three_documents_and_three_runs():
     assert len(evals["evals"]) == 3
     assert all(len(item["expectations"]) >= 5 for item in evals["evals"])
     assert all(
-        set(item["oracle"])
-        == {
+        {
             "productCode",
             "effectiveDate",
             "allowedStatuses",
             "requiresEligibility",
             "fillWhenReady",
         }
+        <= set(item["oracle"])
         for item in evals["evals"]
     )
     assert (FIXTURE_ROOT / "evals/run_case.py").is_file()
@@ -68,7 +68,8 @@ def test_benchmark_recording_adapter_never_needs_neo4j():
     )
 
     assert result["status"] == "success"
-    assert result["nodeIds"] == {"node-1": "recording-0"}
+    assert result["nodeIds"] == {"node-1": "recording-node-0"}
+    assert result["receipt"]["verified"] is True
 
     auto_patch = {
         "nodes": [
@@ -116,6 +117,97 @@ def test_benchmark_recording_adapter_never_needs_neo4j():
     status_check = next(item for item in grading if item["text"].startswith("Status"))
     assert status_check["passed"] is False
     assert quality["hallucination_rate"] == 1.0
+    assert module.expectations_satisfied(grading) is False
+
+
+def test_matrix_records_all_runs_before_returning_failure(monkeypatch, tmp_path):
+    runner_path = FIXTURE_ROOT / "evals/run_matrix.py"
+    spec = importlib.util.spec_from_file_location("ingestion_run_matrix", runner_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    case_calls = 0
+
+    def fake_run(command, **kwargs):
+        nonlocal case_calls
+        if str(command[1]).endswith("run_case.py"):
+            case_calls += 1
+            return SimpleNamespace(returncode=1 if case_calls == 1 else 0)
+        return SimpleNamespace(returncode=0)
+
+    monkeypatch.setattr(module.subprocess, "run", fake_run)
+    args = SimpleNamespace(workspace=tmp_path / "workspace", runs=3, model="test")
+
+    failed = module.run_layer(
+        "recording",
+        [("with_skill", tmp_path, tmp_path / "skill")],
+        args,
+        tmp_path,
+    )
+
+    assert case_calls == 9
+    assert failed == 1
+
+
+def test_flexi_oracle_requires_semantic_anchors_not_only_total_node_count():
+    runner_path = FIXTURE_ROOT / "evals/run_case.py"
+    spec = importlib.util.spec_from_file_location("ingestion_run_case", runner_path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    case = json.loads(
+        (FIXTURE_ROOT / "evals/evals.json").read_text(encoding="utf-8")
+    )["evals"][0]
+    evidence = [{"source": "flexi.md", "text": "grounded"}]
+    nodes = [
+        {
+            "tempId": "product",
+            "className": "pskg:BankingProduct",
+            "properties": [
+                {
+                    "propertyName": "pskg:productCode",
+                    "value": "CC-FLEXI-001",
+                    "evidence": evidence,
+                },
+                {
+                    "propertyName": "pskg:bankingProductEffectiveFrom",
+                    "value": "2026-08-01",
+                    "evidence": evidence,
+                },
+            ],
+            "evidence": evidence,
+        }
+    ]
+    nodes.extend(
+        {
+            "tempId": f"generic-{index}",
+            "className": "pskg:SalesKnowledge",
+            "properties": [],
+            "evidence": evidence,
+        }
+        for index in range(30)
+    )
+    grading, quality = module.objective_grade(
+        case,
+        "flexi.md",
+        [{"name": "validate_graph_patch", "args": {"graph_patch": {"nodes": nodes, "edges": []}}}],
+        [
+            {
+                "name": "validate_graph_patch",
+                "response": {
+                    "validForExtraction": True,
+                    "validForPersistence": False,
+                    "errors": [],
+                },
+            }
+        ],
+    )
+
+    semantic = next(
+        item for item in grading if "semantic anchors" in item["text"]
+    )
+    assert semantic["passed"] is False
+    assert quality["semantic_anchor_pass_rate"] == 0.0
 
 
 def test_skill_snapshots_are_outside_production_skill_tree():

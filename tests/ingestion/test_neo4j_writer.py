@@ -7,7 +7,7 @@ from app.services.ingestion.identity import (
 )
 from app.services.ingestion.loader import OntologyLoader
 from app.services.ingestion.neo4j_mapper import Neo4jMapper
-from app.services.ingestion.neo4j_writer import Neo4jWriteError, Neo4jWriter
+from app.services.ingestion.neo4j_writer import Neo4jGraphStore, Neo4jWriteError
 from app.services.ingestion.registry import OntologyRegistry
 
 ONTOLOGY_PATH = (
@@ -32,10 +32,10 @@ class FakeTransaction:
         return FakeResult({"node_id": "node-1", "relationship_id": "rel-1"})
 
 
-def create_writer() -> Neo4jWriter:
+def create_writer() -> Neo4jGraphStore:
     ontology = OntologyLoader.load(ONTOLOGY_PATH)
     registry = OntologyRegistry(ontology)
-    return Neo4jWriter(
+    return Neo4jGraphStore(
         mapper=Neo4jMapper(registry),
         identity_resolver=create_product_sales_identity_resolver(registry),
     )
@@ -121,11 +121,14 @@ def test_write_graph_patch_upserts_nodes_then_edges():
     compiled = GraphPatchCompiler().compile(draft)
     assert compiled.compiled_patch is not None
 
-    node_ids = writer.write_graph_patch(tx=tx, patch=compiled.compiled_patch)
+    write_result = writer.write_graph_patch(tx=tx, patch=compiled.compiled_patch)
 
-    assert node_ids == {
+    assert write_result.node_ids == {
         "product-1": "node-1",
         "need-1": "node-1",
+    }
+    assert write_result.relationship_ids == {
+        "0:pskg:satisfiesNeed:product-1->need-1": "rel-1"
     }
     assert len(tx.calls) == 3
     assert "MERGE (n:`BankingProduct`" in tx.calls[0][0]

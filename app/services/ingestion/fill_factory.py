@@ -7,7 +7,7 @@ from app.services.ingestion.identity import (
 )
 from app.services.ingestion.loader import OntologyLoader
 from app.services.ingestion.neo4j_mapper import Neo4jMapper
-from app.services.ingestion.neo4j_writer import Neo4jWriter
+from app.services.ingestion.neo4j_writer import Neo4jGraphStore
 from app.services.ingestion.registry import OntologyRegistry
 from app.services.ingestion.validate_graph_patch import GraphPatchValidationService
 
@@ -31,7 +31,7 @@ def create_fill_service(
 
     client = Neo4jClient()
 
-    writer = Neo4jWriter(
+    writer = Neo4jGraphStore(
         mapper=mapper,
         identity_resolver=identity_resolver,
     )

@@ -8,9 +8,12 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from app.core.schemas.ingestion.graph_patch import ChunkCoverage, Evidence, GraphPatchDraft
+from app.core.schemas.ingestion.graph_patch import (
+    ChunkCoverage,
+    Evidence,
+    GraphPatchDraft,
+)
 from app.core.schemas.ingestion.validation import ValidationIssue
-
 
 DEFAULT_ONTOLOGY_PATH = Path(
     "app/data/ontology/product_sales_knowledge_graph_base_v3_1.ontology.json"
@@ -205,7 +208,10 @@ class GraphPatchCompiler:
                 temp_id=node.temp_id,
                 class_name=node.class_name,
                 properties=dict(sorted(node.properties.items())),
-                property_evidence={name: node.property_evidence[name] for name in sorted(node.property_evidence)},
+                property_evidence={
+                    name: node.property_evidence[name]
+                    for name in sorted(node.property_evidence)
+                },
                 evidence=node.evidence,
                 confidence=node.confidence,
             )
@@ -241,7 +247,6 @@ class GraphPatchCompiler:
         )
         return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
 
-
     @staticmethod
     def _merge_evidence(
         left: tuple[Evidence, ...],
@@ -272,7 +277,12 @@ class GraphPatchCompiler:
         def canonical_evidence(items: tuple[Evidence, ...]) -> list[dict[str, Any]]:
             ordered = sorted(
                 items,
-                key=lambda item: (item.source, item.chunk_index, item.section or "", item.text),
+                key=lambda item: (
+                    item.source,
+                    item.chunk_index,
+                    item.section or "",
+                    item.text,
+                ),
             )
             return [
                 {
@@ -292,7 +302,10 @@ class GraphPatchCompiler:
                     name: self._canonical_value(node.properties[name])
                     for name in sorted(node.properties)
                 },
-                "propertyEvidence": {name: canonical_evidence(node.property_evidence.get(name, ())) for name in sorted(node.properties)},
+                "propertyEvidence": {
+                    name: canonical_evidence(node.property_evidence.get(name, ()))
+                    for name in sorted(node.properties)
+                },
                 "evidence": canonical_evidence(node.evidence),
                 "confidence": node.confidence,
             }
@@ -315,8 +328,20 @@ class GraphPatchCompiler:
                 ),
             )
         ]
-        coverage = [{"chunkIndex": item.chunk_index, "decision": item.decision, "reason": item.reason} for item in sorted(patch.coverage, key=lambda item: item.chunk_index)]
-        return {"nodes": nodes, "edges": edges, "coverage": coverage, "warnings": list(patch.warnings)}
+        coverage = [
+            {
+                "chunkIndex": item.chunk_index,
+                "decision": item.decision,
+                "reason": item.reason,
+            }
+            for item in sorted(patch.coverage, key=lambda item: item.chunk_index)
+        ]
+        return {
+            "nodes": nodes,
+            "edges": edges,
+            "coverage": coverage,
+            "warnings": list(patch.warnings),
+        }
 
     @classmethod
     def _canonical_value(cls, value: Any) -> Any:

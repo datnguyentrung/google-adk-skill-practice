@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from app.services.ingestion.document_reader import (
     DocumentReader,
 )
@@ -17,6 +19,10 @@ def test_read_markdown_document():
     )
 
     assert any("CC-FLEXI-001" in chunk.content for chunk in chunks)
+    assert all(chunk.chunk_id == f"chunk_{chunk.index:04d}" for chunk in chunks)
+    assert all(chunk.start_line is not None for chunk in chunks)
+    assert all(chunk.end_line is not None for chunk in chunks)
+    assert all(chunk.start_line <= chunk.end_line for chunk in chunks)
 
 
 def test_document_contains_eligibility_section():
@@ -60,3 +66,47 @@ def test_read_uploaded_markdown_bytes():
     assert chunks[0].source == "product.md"
     assert chunks[0].section == "Product"
     assert "CARD-001" in chunks[0].content
+    assert chunks[0].chunk_id == "chunk_0000"
+    assert chunks[0].start_line == 3
+    assert chunks[0].end_line == 3
+
+
+def test_flexi_representative_facts_are_locatable_in_chunks():
+    reader = DocumentReader()
+
+    chunks = reader.read(DOCUMENT_PATH)
+    source = "\n".join(chunk.content for chunk in chunks)
+
+    for fact in [
+        "CC-FLEXI-001",
+        "POL-CC-2026-03",
+        "20 triệu đến 500 triệu",
+        "699.000 VND",
+        "32%/năm",
+        "50 ngày",
+        "Flexi Dining & Shopping",
+        "3.000.000 VND",
+    ]:
+        assert fact in source
+
+
+def test_three_reference_docs_have_ingestion_anchor_facts():
+    reader = DocumentReader()
+    docs = list(Path("docs").glob("*.md"))
+
+    discovered = {}
+    for path in docs:
+        source = "\n".join(chunk.content for chunk in reader.read(path))
+        for code, date in {
+            "CC-FLEXI-001": "01/08/2026",
+            "TD-ONLINE-001": "01/07/2026",
+            "AUTO-FLEX-01": "01/08/2026",
+        }.items():
+            if code in source:
+                discovered[code] = date in source
+
+    assert discovered == {
+        "CC-FLEXI-001": True,
+        "TD-ONLINE-001": True,
+        "AUTO-FLEX-01": True,
+    }

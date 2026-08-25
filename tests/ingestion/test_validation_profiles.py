@@ -10,7 +10,7 @@ def source_chunks():
             "section": "Fixture",
             "content": (
                 "CC-FLEXI-001 Published 01/08/2026 "
-                "Customer is at least 20 years old Eligibility"
+                "Customer is at least 20 years old has eligibility rule"
             ),
         }
     ]
@@ -19,7 +19,7 @@ def source_chunks():
 def product_patch(*, published: bool = True, date_value: str = "2026-08-01"):
     product_ev = [{"source": "flexi.md", "chunkIndex": 0, "section": "Fixture", "text": "CC-FLEXI-001 Published 01/08/2026"}]
     rule_ev = [{"source": "flexi.md", "chunkIndex": 0, "section": "Fixture", "text": "Customer is at least 20 years old"}]
-    edge_ev = [{"source": "flexi.md", "chunkIndex": 0, "section": "Fixture", "text": "Eligibility"}]
+    edge_ev = [{"source": "flexi.md", "chunkIndex": 0, "section": "Fixture", "text": "CC-FLEXI-001 Published 01/08/2026 Customer is at least 20 years old has eligibility rule"}]
     product_properties = [
         {"propertyName": "pskg:productCode", "value": "CC-FLEXI-001", "evidence": product_ev},
         {"propertyName": "pskg:bankingProductEffectiveFrom", "value": date_value, "evidence": product_ev},

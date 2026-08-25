@@ -12,3 +12,4 @@ package-lock.json
 **.log
 .agents**
 .eval/ingestion/workspaces/
+.pytest_tmp*/

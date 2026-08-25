@@ -1,9 +1,13 @@
 import asyncio
 
+from google.adk.skills import models
+
 from app.agent import SKILLS_DIR, root_agent, root_skill_toolset
 from app.core.schemas.cooking import COOKING_STATE_KEY
 from app.core.schemas.navigation import NAVIGATION_STATE_KEY
+from app.skills.local_skill_registry import LocalSkillRegistry
 from app.skills.skill_loader import (
+    SkillDescriptor,
     discover_skill_descriptors,
     discover_skills,
 )
@@ -43,6 +47,12 @@ def test_explicit_eager_loader_still_loads_rendered_skills_and_tools():
         "navigation",
     }
     assert _tool_names(by_code["ingestion"].tools) == {
+        "ingest_document_end_to_end",
+        "begin_ingestion",
+        "submit_ingestion_batch",
+        "finalize_ingestion",
+        "fill_ingestion",
+        "get_ingestion_status",
         "prepare_extraction_context",
         "validate_graph_patch",
         "fill_graph_patch",
@@ -88,3 +98,29 @@ def test_adk_app_enables_uploaded_file_artifacts():
         type(plugin).__name__ == "SaveFilesAsArtifactsPlugin"
         for plugin in app.plugins
     )
+
+
+def test_lazy_registry_reloads_when_skill_content_digest_changes(tmp_path):
+    skill_dir = tmp_path / "fresh"
+    skill_dir.mkdir()
+    skill_file = skill_dir / "SKILL.md"
+    skill_file.write_text(
+        "---\nname: fresh\ndescription: Fresh skill\n---\n\nVersion one.\n",
+        encoding="utf-8",
+    )
+    descriptor = SkillDescriptor(
+        code="fresh",
+        directory=skill_dir,
+        frontmatter=models.Frontmatter(name="fresh", description="Fresh skill"),
+    )
+    registry = LocalSkillRegistry([descriptor])
+
+    first = asyncio.run(registry.get_skill(name="fresh"))
+    skill_file.write_text(
+        "---\nname: fresh\ndescription: Fresh skill\n---\n\nVersion two.\n",
+        encoding="utf-8",
+    )
+    second = asyncio.run(registry.get_skill(name="fresh"))
+
+    assert first is not second
+    assert "Version two" in second.instructions

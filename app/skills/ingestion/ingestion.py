@@ -31,10 +31,16 @@ def _build_ingestion_substitutions() -> dict[str, str]:
     }
 
 
-ingestion_skill = load_rendered_skill_from_dir(
-    _SKILL_DIR,
-    _build_ingestion_substitutions(),
-)
+def build_skill():
+    """Build from current files so digest invalidation refreshes instructions."""
+
+    return load_rendered_skill_from_dir(
+        _SKILL_DIR,
+        _build_ingestion_substitutions(),
+    )
+
+
+ingestion_skill = build_skill()
 
 
 def get_tools() -> list:
@@ -42,4 +48,4 @@ def get_tools() -> list:
     return list(get_ingestion_tools())
 
 
-__all__ = ["ingestion_skill"]
+__all__ = ["build_skill", "ingestion_skill"]

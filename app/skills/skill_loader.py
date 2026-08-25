@@ -1,3 +1,4 @@
+import hashlib
 from dataclasses import dataclass
 from importlib import import_module
 from pathlib import Path
@@ -70,6 +71,26 @@ def load_skill_descriptor(
     return _load_skill(descriptor.directory)
 
 
+def skill_content_digest(skill_dir: Path) -> str:
+    """Hash the complete user-editable skill bundle deterministically."""
+
+    digest = hashlib.sha256()
+    for path in sorted(
+        (
+            item
+            for item in skill_dir.rglob("*")
+            if item.is_file() and "__pycache__" not in item.parts
+        ),
+        key=lambda item: item.relative_to(skill_dir).as_posix(),
+    ):
+        relative = path.relative_to(skill_dir).as_posix()
+        digest.update(relative.encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
 def discover_skills(skills_dir: Path) -> list[LoadedSkill]:
     """Backward-compatible eager loader for tests or explicit callers."""
 
@@ -98,17 +119,21 @@ def _load_skill(skill_dir: Path) -> models.Skill:
     try:
         module = import_module(module_name)
     except ModuleNotFoundError as exc:
-        if exc.name == module_name:
+        if exc.name == module_name or module_name.startswith(f"{exc.name}."):
             return skills.load_skill_from_dir(skill_dir)
         raise
 
-    loaded_skill = getattr(module, object_name, None)
+    build_skill = getattr(module, "build_skill", None)
+    if callable(build_skill):
+        loaded_skill = build_skill()
+    else:
+        loaded_skill = getattr(module, object_name, None)
 
     if loaded_skill is None:
         return skills.load_skill_from_dir(skill_dir)
 
     if not isinstance(loaded_skill, models.Skill):
-        raise RuntimeError(
+        raise TypeError(
             f"{module_name}:{object_name} must be an ADK Skill."
         )
 

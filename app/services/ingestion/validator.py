@@ -1,5 +1,3 @@
-from datetime import date, datetime
-from decimal import Decimal
 from typing import Any
 
 from app.core.schemas.ingestion.validation import ValidationIssue
@@ -7,7 +5,15 @@ from app.services.ingestion.graph_patch_compiler import (
     RULE_TYPE_BY_EDGE,
     CompiledGraphPatch,
 )
+from app.services.ingestion.ontology_datatypes import (
+    value_matches_xsd,
+    xsd_datatypes,
+)
 from app.services.ingestion.registry import OntologyRegistry
+from app.services.ingestion.validation_utils import (
+    cardinality_failure,
+    deduplicate_issues,
+)
 
 
 class OntologyValidator:
@@ -152,7 +158,7 @@ class OntologyValidator:
                     )
                 )
 
-        return self._deduplicate(issues)
+        return deduplicate_issues(issues)
 
     def validate_persistence(
         self,
@@ -205,27 +211,23 @@ class OntologyValidator:
                         )
                     )
 
-        return self._deduplicate(issues)
+        return deduplicate_issues(issues)
 
     def _attribute_rule_failure(self, rule, value: Any) -> str | None:
         count = self._value_count(value)
-        if rule.operator == "exactlyQualified":
-            expected = self._to_int(rule.value)
-            if expected is not None and count != expected:
+        failure = cardinality_failure(rule.operator, rule.value, count)
+        if failure is not None:
+            kind, expected_count = failure
+            if kind == "exactly":
                 return (
-                    f"Property {rule.property} must occur exactly {expected} "
+                    f"Property {rule.property} must occur exactly {expected_count} "
                     f"time(s); got {count}"
                 )
-        elif rule.operator == "minQualified":
-            minimum = self._to_int(rule.value)
-            if minimum is not None and count < minimum:
-                return (
-                    f"Property {rule.property} must occur at least {minimum} "
-                    f"time(s); got {count}"
-                )
-        elif rule.operator == "some":
-            if value is None:
-                return f"Missing required property: {rule.property}"
+            return (
+                f"Property {rule.property} must occur at least {expected_count} "
+                f"time(s); got {count}"
+            )
+        if rule.operator == "some":
             expected = rule.value
             if isinstance(expected, str) and expected.startswith("xsd:"):
                 if not self._is_valid_property_value(value, [expected]):
@@ -237,23 +239,21 @@ class OntologyValidator:
         return None
 
     def _edge_rule_failure(self, rule, count: int) -> str | None:
-        if rule.operator == "exactlyQualified":
-            expected = self._to_int(rule.value)
-            if expected is not None and count != expected:
-                return (
-                    f"Edge {rule.property} must occur exactly {expected} time(s); "
-                    f"got {count}"
-                )
-        elif rule.operator == "minQualified":
-            minimum = self._to_int(rule.value)
-            if minimum is not None and count < minimum:
-                return (
-                    f"Edge {rule.property} must occur at least {minimum} time(s); "
-                    f"got {count}"
-                )
-        elif rule.operator == "some" and count < 1:
+        failure = cardinality_failure(rule.operator, rule.value, count)
+        if failure is None:
+            return None
+        kind, expected_count = failure
+        if kind == "exactly":
+            return (
+                f"Edge {rule.property} must occur exactly {expected_count} time(s); "
+                f"got {count}"
+            )
+        if rule.operator == "some":
             return f"Edge {rule.property} is required"
-        return None
+        return (
+            f"Edge {rule.property} must occur at least {expected_count} time(s); "
+            f"got {count}"
+        )
 
     def _is_valid_property_value(self, value: Any, ranges: list[str]) -> bool:
         if isinstance(value, list):
@@ -265,71 +265,13 @@ class OntologyValidator:
     def _is_valid_single_value(self, value: Any, ranges: list[str]) -> bool:
         if value is None:
             return False
-        for range_name in ranges:
-            if range_name in {"xsd:string", "xsd:anyURI"} and isinstance(value, str):
-                return True
-            if range_name == "xsd:boolean" and isinstance(value, bool):
-                return True
-            if (
-                range_name == "xsd:integer"
-                and isinstance(value, int)
-                and not isinstance(value, bool)
-            ):
-                return True
-            if (
-                range_name == "xsd:decimal"
-                and isinstance(value, (int, float, Decimal))
-                and not isinstance(value, bool)
-            ):
-                return True
-            if range_name == "xsd:date" and self._is_iso_date(value):
-                return True
-            if range_name == "xsd:dateTime" and self._is_iso_datetime(value):
-                return True
-        return False
-
-    @staticmethod
-    def _is_iso_date(value: Any) -> bool:
-        if isinstance(value, datetime):
-            return False
-        if isinstance(value, date):
-            return True
-        if not isinstance(value, str):
-            return False
-        try:
-            date.fromisoformat(value)
-            return len(value) == 10
-        except ValueError:
-            return False
-
-    @staticmethod
-    def _is_iso_datetime(value: Any) -> bool:
-        if isinstance(value, datetime):
-            return True
-        if not isinstance(value, str):
-            return False
-        try:
-            datetime.fromisoformat(value.replace("Z", "+00:00"))
-            return True
-        except ValueError:
-            return False
+        return any(
+            value_matches_xsd(value, datatype)
+            for datatype in xsd_datatypes(ranges)
+        )
 
     @staticmethod
     def _value_count(value: Any) -> int:
         if value is None:
             return 0
         return len(value) if isinstance(value, list) else 1
-
-    @staticmethod
-    def _to_int(value: Any) -> int | None:
-        try:
-            return int(value)
-        except (TypeError, ValueError):
-            return None
-
-    @staticmethod
-    def _deduplicate(issues: list[ValidationIssue]) -> list[ValidationIssue]:
-        unique: dict[tuple[str, str, str], ValidationIssue] = {}
-        for issue in issues:
-            unique[(issue.code, issue.location, issue.message)] = issue
-        return list(unique.values())

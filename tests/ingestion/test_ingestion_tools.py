@@ -6,7 +6,6 @@ from types import SimpleNamespace
 
 from app.tools import ingestion_tools
 
-
 DOCUMENT_PATH = next(Path("docs").glob("*FLEXI REWARDS.md"))
 
 
@@ -25,7 +24,7 @@ def source_chunks():
             "index": 0,
             "source": "flexi.md",
             "section": "Fixture",
-            "content": "CC-FLEXI-001 Published 01/08/2026 Age 20 Eligibility",
+            "content": "CC-FLEXI-001 Published 01/08/2026 Age 20 has eligibility rule",
         }
     ]
 
@@ -33,7 +32,7 @@ def source_chunks():
 def ready_patch() -> dict:
     product_ev = [{"source": "flexi.md", "chunkIndex": 0, "section": "Fixture", "text": "CC-FLEXI-001 Published 01/08/2026"}]
     rule_ev = [{"source": "flexi.md", "chunkIndex": 0, "section": "Fixture", "text": "Age 20"}]
-    edge_ev = [{"source": "flexi.md", "chunkIndex": 0, "section": "Fixture", "text": "Eligibility"}]
+    edge_ev = [{"source": "flexi.md", "chunkIndex": 0, "section": "Fixture", "text": "CC-FLEXI-001 Published 01/08/2026 Age 20 has eligibility rule"}]
     return {
         "nodes": [
             {
@@ -161,7 +160,9 @@ def test_fill_without_validate_does_not_create_neo4j_service(monkeypatch):
         raise AssertionError("factory must not be called")
 
     monkeypatch.setattr(ingestion_tools, "create_fill_service", factory)
-    result = ingestion_tools.fill_graph_patch(ready_patch(), FakeToolContext())
+    result = asyncio.run(
+        ingestion_tools.fill_graph_patch(ready_patch(), FakeToolContext())
+    )
 
     assert result["stage"] == "validation_precondition"
     assert result["errors"][0]["code"] == "VALIDATION_PRECONDITION"
@@ -183,11 +184,15 @@ def test_patch_or_artifact_change_invalidates_gate(monkeypatch):
 
     changed_patch = deepcopy(ready_patch())
     changed_patch["nodes"][0]["properties"][0]["value"] = "OTHER"
-    patch_result = ingestion_tools.fill_graph_patch(changed_patch, context)
+    patch_result = asyncio.run(
+        ingestion_tools.fill_graph_patch(changed_patch, context)
+    )
     assert patch_result["stage"] == "validation_precondition"
 
     context.state[ingestion_tools.ARTIFACT_DIGEST_STATE_KEY] = "artifact-b"
-    artifact_result = ingestion_tools.fill_graph_patch(ready_patch(), context)
+    artifact_result = asyncio.run(
+        ingestion_tools.fill_graph_patch(ready_patch(), context)
+    )
     assert artifact_result["stage"] == "validation_precondition"
     assert called is False
 
@@ -205,7 +210,9 @@ def test_invalid_modified_patch_returns_precondition_before_validation(monkeypat
         lambda **kwargs: (_ for _ in ()).throw(AssertionError("must not create")),
     )
 
-    result = ingestion_tools.fill_graph_patch(changed_patch, context)
+    result = asyncio.run(
+        ingestion_tools.fill_graph_patch(changed_patch, context)
+    )
 
     assert result["stage"] == "validation_precondition"
     assert result["errors"][0]["code"] == "VALIDATION_PRECONDITION"
@@ -221,7 +228,9 @@ def test_gate_does_not_exist_in_a_new_invocation_context(monkeypatch):
         "create_fill_service",
         lambda **kwargs: (_ for _ in ()).throw(AssertionError("must not create")),
     )
-    result = ingestion_tools.fill_graph_patch(ready_patch(), second_invocation)
+    result = asyncio.run(
+        ingestion_tools.fill_graph_patch(ready_patch(), second_invocation)
+    )
 
     assert result["stage"] == "validation_precondition"
 
@@ -254,7 +263,9 @@ def test_validated_fill_closes_service(monkeypatch):
         lambda **kwargs: service,
     )
 
-    result = ingestion_tools.fill_graph_patch(ready_patch(), context)
+    result = asyncio.run(
+        ingestion_tools.fill_graph_patch(ready_patch(), context)
+    )
 
     assert result["success"] is True
     assert result["stage"] == "completed"
