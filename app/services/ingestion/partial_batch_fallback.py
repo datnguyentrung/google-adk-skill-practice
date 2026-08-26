@@ -9,7 +9,7 @@ CRITICAL_NON_SKIPPABLE_PROPERTIES = {
     "pskg:bankingProductStatus",
     "pskg:bankingProductEffectiveFrom",
 }
-CRITICAL_NON_SKIPPABLE_EDGES = {"pskg:hasEligibilityRule"}
+RULE_TYPE_PROPERTY = "pskg:ruleType"
 
 
 def failed_chunk_indexes(
@@ -65,13 +65,22 @@ def _property_evidence_chunks(
     return indexes
 
 
-def can_skip_chunks_safely(fragment: GraphPatchFragment, skipped_indexes: set[int]) -> bool:
+def can_skip_chunks_safely_with_validator(
+    fragment: GraphPatchFragment,
+    skipped_indexes: set[int],
+    validator: SourceGroundingValidator,
+) -> bool:
+    critical_edges = validator.registry.edge_names_deriving_property(RULE_TYPE_PROPERTY)
     for node in fragment.nodes:
         for prop in node.properties:
             if prop.property_name in CRITICAL_NON_SKIPPABLE_PROPERTIES and any(item.chunk_index in skipped_indexes for item in prop.evidence):
                 return False
     for edge in fragment.edges:
-        if edge.edge_name in CRITICAL_NON_SKIPPABLE_EDGES and any(item.chunk_index in skipped_indexes for item in edge.evidence):
+        if (
+            edge.edge_name in critical_edges
+            and edge.evidence
+            and all(item.chunk_index in skipped_indexes for item in edge.evidence)
+        ):
             return False
     return True
 
@@ -162,7 +171,7 @@ def _prune_properties(
 
 
 __all__ = [
-    "can_skip_chunks_safely",
+    "can_skip_chunks_safely_with_validator",
     "failed_chunk_indexes",
     "prune_fragment_for_skips",
 ]

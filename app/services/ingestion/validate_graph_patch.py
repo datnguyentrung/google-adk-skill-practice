@@ -24,6 +24,7 @@ from app.services.ingestion.identity import (
 )
 from app.services.ingestion.loader import OntologyLoader
 from app.services.ingestion.registry import OntologyRegistry
+from app.services.ingestion.semantic_grounding import SemanticGroundingJudge
 from app.services.ingestion.source_grounding import SourceGroundingValidator
 from app.services.ingestion.validator import OntologyValidator
 
@@ -41,6 +42,7 @@ class GraphPatchValidationService:
         ontology_path: str | Path = DEFAULT_ONTOLOGY_PATH,
         *,
         compiler_schema_version: str | None = None,
+        semantic_grounding_judge: SemanticGroundingJudge | None = None,
     ):
         ontology_path = Path(ontology_path)
         ontology = OntologyLoader.load(ontology_path)
@@ -50,7 +52,10 @@ class GraphPatchValidationService:
             compiler_kwargs["schema_version"] = compiler_schema_version
         self.compiler = GraphPatchCompiler(**compiler_kwargs)
         self.validator = OntologyValidator(registry)
-        self.source_grounding = SourceGroundingValidator(registry)
+        self.source_grounding = SourceGroundingValidator(
+            registry,
+            semantic_judge=semantic_grounding_judge,
+        )
         self.identity_resolver = create_product_sales_identity_resolver(registry)
 
     def assess(

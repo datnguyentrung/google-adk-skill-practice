@@ -23,6 +23,11 @@ from app.core.schemas.ingestion.workspace import (
 )
 from app.services.ingestion.fill_factory import create_fill_service
 from app.services.ingestion.fill_service import FillValidationError
+from app.services.ingestion.business_rule_edges import (
+    RULE_TYPE_PROPERTY,
+    business_rule_edge_issues,
+    fragments_with_replacement,
+)
 from app.services.ingestion.fragment_grounding_repair import repair_fragment_grounding
 from app.services.ingestion.orchestrator import (
     BatchExtractor,
@@ -30,7 +35,7 @@ from app.services.ingestion.orchestrator import (
     InvalidGraphPatchFragmentError,
 )
 from app.services.ingestion.partial_batch_fallback import (
-    can_skip_chunks_safely,
+    can_skip_chunks_safely_with_validator,
     failed_chunk_indexes,
     prune_fragment_for_skips,
 )
@@ -42,6 +47,9 @@ from app.services.ingestion.staged_ingestion import (
 from app.services.ingestion.validate_graph_patch import (
     GraphPatchAssessment,
     GraphPatchValidationService,
+)
+from app.services.ingestion.semantic_grounding import (
+    create_default_semantic_grounding_judge,
 )
 from app.skills.skill_loader import skill_content_digest
 
@@ -66,7 +74,9 @@ def _get_context_service() -> ExtractionContextService:
 
 @lru_cache(maxsize=1)
 def _get_validation_service() -> GraphPatchValidationService:
-    return GraphPatchValidationService()
+    return GraphPatchValidationService(
+        semantic_grounding_judge=create_default_semantic_grounding_judge()
+    )
 
 
 @lru_cache(maxsize=1)
@@ -377,6 +387,31 @@ def _batch_error_summary(
     }
 
 
+def _issue_chunk_indexes(
+    issues: list[ValidationIssue],
+    fragment: GraphPatchFragment | None,
+) -> list[int]:
+    indexes: set[int] = set()
+    if fragment is None:
+        return []
+    node_by_temp_id = {node.temp_id: node for node in fragment.nodes}
+    for issue in issues:
+        if issue.node_temp_id is not None:
+            node = node_by_temp_id.get(issue.node_temp_id)
+            if node is not None:
+                indexes.update(item.chunk_index for item in node.evidence)
+                for prop in node.properties:
+                    indexes.update(item.chunk_index for item in prop.evidence)
+        if issue.edge_name is not None:
+            indexes.update(
+                evidence.chunk_index
+                for edge in fragment.edges
+                if edge.edge_name == issue.edge_name
+                for evidence in edge.evidence
+            )
+    return sorted(indexes)
+
+
 def _affected_chunks_payload(
     workspace: IngestionWorkspace,
     chunk_indexes: list[int],
@@ -476,6 +511,10 @@ def _batch_validation_response(
     )
     retry = _batch_retry_payload(workspace, batch_index)
     preview = issues[:10]
+    affected_chunk_indexes = sorted(
+        set(summary["coverageNotEvidencedChunkIndexes"])
+        | set(_issue_chunk_indexes(issues, fragment))
+    )
     response = {
         "success": False,
         "stage": "batch_validation",
@@ -496,10 +535,10 @@ def _batch_validation_response(
             if conflict and conflict.get("repairInstruction")
             else _repair_instructions(summary)
         ),
-        "affectedChunkIndexes": summary["coverageNotEvidencedChunkIndexes"],
+        "affectedChunkIndexes": affected_chunk_indexes,
         "affectedChunks": _affected_chunks_payload(
             workspace,
-            summary["coverageNotEvidencedChunkIndexes"],
+            affected_chunk_indexes,
         ),
     }
     if retry_required:
@@ -893,10 +932,28 @@ def submit_ingestion_batch(
         batch_chunks = [
             chunk for chunk in workspace.chunks if chunk.index in expected_indexes
         ]
-        grounding_issues = _get_validation_service().source_grounding.validate(
+        validation_service = _get_validation_service()
+        context_fragments = fragments_with_replacement(
+            workspace,
+            batch_index,
+            fragment,
+        )
+        context_nodes = [
+            node
+            for context_fragment in context_fragments
+            for node in context_fragment.nodes
+        ]
+        grounding_issues = validation_service.source_grounding.validate(
             fragment,
             batch_chunks,
+            context_nodes=context_nodes,
         )
+        if not grounding_issues:
+            grounding_issues = business_rule_edge_issues(
+                fragment,
+                validation_service,
+                existing_fragments=context_fragments,
+            )
         if grounding_issues:
             summary = _batch_error_summary(grounding_issues)
             logger.info(
@@ -951,6 +1008,53 @@ def submit_ingestion_batch(
             batch_index,
             fragment,
         )
+        candidate_patch = _get_workspace_service().merged_patch(candidate)
+        candidate_covered_indexes = {
+            coverage.chunk_index
+            for candidate_batch in candidate.batches
+            if candidate_batch.fragment is not None
+            for coverage in candidate_batch.fragment.coverage
+        }
+        candidate_chunks = [
+            chunk
+            for chunk in candidate.chunks
+            if chunk.index in candidate_covered_indexes
+        ]
+        candidate_assessment = validation_service.assess(
+            candidate_patch,
+            candidate.artifact_digest,
+            candidate_chunks,
+        )
+        if candidate_assessment.result.errors:
+            summary = _batch_error_summary(candidate_assessment.result.errors)
+            unchanged_issue = _unchanged_retry_issue(
+                workspace,
+                batch_index,
+                summary,
+                fragment,
+            )
+            batch_issues = candidate_assessment.result.errors
+            if unchanged_issue is not None:
+                batch_issues = [unchanged_issue, *batch_issues]
+            _remember_retry_state(workspace, batch_index, fragment, summary)
+            _store_workspace(tool_context, workspace)
+            response = _batch_validation_response(
+                workspace,
+                batch_index,
+                batch_issues,
+                fragment=fragment,
+                retry_required=unchanged_issue is None,
+                next_action=(
+                    "explicit_extraction_failure"
+                    if unchanged_issue is not None
+                    else "correct_and_resubmit_same_batch"
+                ),
+            )
+            if unchanged_issue is not None:
+                response["stage"] = "explicit_extraction_failure"
+                response["terminal"] = True
+            _pace_next_model_turn(tool_context)
+            return response
         candidate.retry_states.pop(str(batch_index), None)
         workspace = candidate
     except (ValueError, WorkspaceConflictError) as exc:
@@ -1084,6 +1188,22 @@ def finalize_ingestion(
         workspace.artifact_digest,
         workspace.chunks,
     )
+    pruned_patch = _prune_readiness_issue_nodes(
+        patch,
+        assessment.result.readiness_issues,
+    )
+    if pruned_patch is not None:
+        pruned_assessment = validation_service.assess(
+            pruned_patch,
+            workspace.artifact_digest,
+            workspace.chunks,
+        )
+        if (
+            pruned_assessment.result.valid_for_extraction
+            and pruned_assessment.result.valid_for_persistence
+        ):
+            patch = pruned_patch
+            assessment = pruned_assessment
     logger.info(
         "VALIDATION_RESULT ingestion_id=%s valid_nodes=%s invalid_nodes=%s valid_edges=%s invalid_edges=%s errors=%s readiness=%s",
         ingestion_id,
@@ -1108,6 +1228,53 @@ def finalize_ingestion(
             issue.property_name,
             issue.edge_name,
         )
+    if assessment.result.valid_for_extraction and not assessment.result.valid_for_persistence:
+        rule_type_issues = [
+            issue
+            for issue in assessment.result.readiness_issues
+            if issue.property_name == RULE_TYPE_PROPERTY
+        ]
+        if rule_type_issues:
+            node_batch: dict[str, int] = {}
+            fragment_by_batch: dict[int, GraphPatchFragment] = {}
+            for batch in workspace.batches:
+                if batch.fragment is None:
+                    continue
+                fragment_by_batch[batch.index] = batch.fragment
+                for node in batch.fragment.nodes:
+                    node_batch.setdefault(node.temp_id, batch.index)
+            mapped = [
+                issue
+                for issue in rule_type_issues
+                if issue.node_temp_id in node_batch
+            ]
+            if mapped:
+                batch_index = node_batch[mapped[0].node_temp_id]
+                batch_issues = [
+                    ValidationIssue(
+                        code="DERIVED_PROPERTY_REQUIRES_EDGE_EVIDENCE",
+                        message=(
+                            f"{issue.node_temp_id} requires an incoming "
+                            f"relationship edge that derives {RULE_TYPE_PROPERTY}"
+                        ),
+                        location=issue.location,
+                        node_temp_id=issue.node_temp_id,
+                        property_name=RULE_TYPE_PROPERTY,
+                    )
+                    for issue in mapped
+                    if node_batch.get(issue.node_temp_id) == batch_index
+                ]
+                response = _batch_validation_response(
+                    workspace,
+                    batch_index,
+                    batch_issues,
+                    fragment=fragment_by_batch.get(batch_index),
+                )
+                response["stage"] = "batch_validation"
+                response["ingestionId"] = ingestion_id
+                response["finalizeBlocked"] = True
+                _pace_next_model_turn(tool_context)
+                return response
     workspace.finalized_patch = patch.model_dump(by_alias=True, mode="json")
     if (
         assessment.result.valid_for_extraction
@@ -1134,6 +1301,58 @@ def finalize_ingestion(
         "skillDigest": workspace.skill_digest,
         "workspaceStats": _workspace_stats(workspace),
     }
+
+
+def _prune_readiness_issue_nodes(
+    patch: GraphPatchDraft,
+    readiness_issues: list[ValidationIssue],
+) -> GraphPatchDraft | None:
+    blocked_node_ids = {
+        issue.node_temp_id
+        for issue in readiness_issues
+        if issue.node_temp_id and _issue_code(issue) == "ONTOLOGY_RULE_UNSATISFIED"
+    }
+    if not blocked_node_ids:
+        return None
+
+    pruned = GraphPatchDraft.model_validate(
+        patch.model_dump(by_alias=True, mode="json")
+    )
+    pruned.nodes = [
+        node for node in pruned.nodes if node.temp_id not in blocked_node_ids
+    ]
+    if len(pruned.nodes) == len(patch.nodes) or not pruned.nodes:
+        return None
+    pruned.edges = [
+        edge
+        for edge in pruned.edges
+        if edge.source_temp_id not in blocked_node_ids
+        and edge.target_temp_id not in blocked_node_ids
+    ]
+    _reconcile_draft_coverage_with_facts(pruned)
+    pruned.warnings = [
+        *pruned.warnings,
+        (
+            "Dropped ontology-incomplete nodes that could not pass persistence "
+            f"readiness: {sorted(blocked_node_ids)}"
+        ),
+    ]
+    return pruned
+
+
+def _reconcile_draft_coverage_with_facts(patch: GraphPatchDraft) -> None:
+    fact_chunks: set[int] = set()
+    for node in patch.nodes:
+        for prop in node.properties:
+            fact_chunks.update(item.chunk_index for item in prop.evidence)
+    for edge in patch.edges:
+        fact_chunks.update(item.chunk_index for item in edge.evidence)
+    for coverage in patch.coverage:
+        if coverage.decision == "MAPPED" and coverage.chunk_index not in fact_chunks:
+            coverage.decision = "NOT_RELEVANT"
+            coverage.reason = (
+                "No persisted fact remained after pruning ontology-incomplete nodes."
+            )
 
 
 async def fill_ingestion(
@@ -1269,6 +1488,7 @@ def _attempt_partial_batch_fallback(
     responses = [response]
     last_response = response
     max_expansions = max(1, len(batch_payload.get("chunkIndexes", [])))
+    validation_service = _get_validation_service()
 
     for _ in range(max_expansions):
         newly_failed = (
@@ -1279,7 +1499,11 @@ def _attempt_partial_batch_fallback(
             return None
 
         skipped_indexes.update(newly_failed)
-        if not can_skip_chunks_safely(fragment, skipped_indexes):
+        if not can_skip_chunks_safely_with_validator(
+            fragment,
+            skipped_indexes,
+            validation_service.source_grounding,
+        ):
             logger.warning(
                 "INGESTION_AUTO_SKIP_BLOCKED ingestion_id=%s batch=%s chunks=%s reason=critical_fact",
                 ingestion_id,

@@ -1,6 +1,6 @@
-from pydantic import BaseModel, ConfigDict, Field
-
 from typing import Any
+
+from pydantic import BaseModel, ConfigDict, Field
 
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchFragment
@@ -65,8 +65,12 @@ class IngestionWorkspace(_WorkspaceModel):
         default_factory=dict,
         alias="retryStates",
     )
-    skipped_chunk_indexes: list[int] = Field(default_factory=list, alias="skippedChunkIndexes")
-    ingestion_warnings: list[dict[str, Any]] = Field(default_factory=list, alias="ingestionWarnings")
+    skipped_chunk_indexes: list[int] = Field(
+        default_factory=list, alias="skippedChunkIndexes"
+    )
+    ingestion_warnings: list[dict[str, Any]] = Field(
+        default_factory=list, alias="ingestionWarnings"
+    )
 
     @property
     def artifact_digest(self) -> str:

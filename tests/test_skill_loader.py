@@ -48,12 +48,7 @@ def test_explicit_eager_loader_still_loads_rendered_skills_and_tools():
     }
     assert _tool_names(by_code["ingestion"].tools) == {
         "ingest_document_end_to_end",
-        "begin_ingestion",
-        "submit_ingestion_batch",
-        "finalize_ingestion",
-        "fill_ingestion",
         "get_ingestion_status",
-        "prepare_extraction_context",
         "validate_graph_patch",
         "fill_graph_patch",
     }

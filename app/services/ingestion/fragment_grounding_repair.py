@@ -22,7 +22,7 @@ def repair_fragment_grounding(
     for node in repaired.nodes:
         kept_properties = []
         for prop in node.properties:
-            if _is_document_title_product_name(prop):
+            if _is_weak_product_name_source(prop):
                 continue
             if prop.property_name == PRODUCT_ATTRIBUTES:
                 values = prop.value if isinstance(prop.value, list) else [prop.value]
@@ -39,6 +39,8 @@ def repair_fragment_grounding(
                 chunk_by_index,
                 validator,
             )
+            if not prop.evidence:
+                continue
             kept_properties.append(prop)
         node.properties = kept_properties
         node.evidence = _repair_node_evidence(
@@ -57,7 +59,21 @@ def repair_fragment_grounding(
             node_by_temp_id,
             validator,
         )
+    _reconcile_coverage_with_repaired_facts(repaired)
     return repaired
+
+
+def _is_weak_product_name_source(prop) -> bool:
+    if prop.property_name != PRODUCT_NAME:
+        return False
+    return not any(
+        _is_explicit_product_name_source(item.text) for item in prop.evidence
+    )
+
+
+def _is_explicit_product_name_source(text: str) -> bool:
+    normalized = validator_text(text)
+    return "tên sản phẩm" in normalized or "tÃªn sáº£n pháº©m" in normalized
 
 
 def _is_document_title_product_name(prop) -> bool:
@@ -81,6 +97,23 @@ def _is_customer_audience(value: Any) -> bool:
 
 def validator_text(value: str) -> str:
     return SourceGroundingValidator._normalize(value)
+
+
+def _reconcile_coverage_with_repaired_facts(fragment: GraphPatchFragment) -> None:
+    fact_chunks: set[int] = set()
+    for node in fragment.nodes:
+        for prop in node.properties:
+            fact_chunks.update(item.chunk_index for item in prop.evidence)
+    for edge in fragment.edges:
+        fact_chunks.update(item.chunk_index for item in edge.evidence)
+
+    for coverage in fragment.coverage:
+        if coverage.decision == "MAPPED" and coverage.chunk_index not in fact_chunks:
+            coverage.decision = "NOT_RELEVANT"
+            coverage.reason = (
+                "No distinct grounded property or edge fact remained after "
+                "deterministic evidence repair."
+            )
 
 
 def _dedupe_values(values: list[Any]) -> list[Any]:
@@ -125,7 +158,7 @@ def _repair_property_evidence(
         if replacement is not None:
             exact.append(replacement)
 
-    return _dedupe_evidence(exact) if exact else evidence
+    return _dedupe_evidence(exact)
 
 
 def _find_supporting_line(

@@ -21,6 +21,9 @@ from app.core.schemas.ingestion.workspace import (
     IngestionProvenance,
     IngestionWorkspace,
 )
+from app.services.ingestion.policies.product_sales_identity import (
+    PRODUCT_SALES_NATURAL_KEYS,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -118,8 +121,8 @@ class IngestionWorkspaceService:
     ) -> GraphPatchFragment:
         """Merge typed fragments with the same conflict rules used by submission."""
 
-        nodes = cls._merge_nodes(fragments)
-        edges = cls._merge_edges(fragments)
+        nodes, temp_id_aliases = cls._merge_nodes(fragments)
+        edges = cls._merge_edges(fragments, temp_id_aliases)
         coverage = cls._merge_coverage(fragments)
         coverage = cls._reconcile_coverage_with_merged_facts(
             coverage, nodes, edges
@@ -290,14 +293,19 @@ class IngestionWorkspaceService:
     def _merge_nodes(
         cls,
         fragments: list[GraphPatchFragment],
-    ) -> list[ExtractedNode]:
+    ) -> tuple[list[ExtractedNode], dict[str, str]]:
         merged: dict[str, ExtractedNode] = {}
+        temp_id_aliases: dict[str, str] = {}
         for fragment in fragments:
             for incoming in fragment.nodes:
                 incoming = cls._normalized_node_copy(incoming)
-                existing = merged.get(incoming.temp_id)
+                canonical_temp_id = cls._canonical_temp_id(incoming, merged)
+                temp_id_aliases[incoming.temp_id] = canonical_temp_id
+                if canonical_temp_id != incoming.temp_id:
+                    incoming.temp_id = canonical_temp_id
+                existing = merged.get(canonical_temp_id)
                 if existing is None:
-                    merged[incoming.temp_id] = incoming.model_copy(deep=True)
+                    merged[canonical_temp_id] = incoming.model_copy(deep=True)
                     continue
                 if existing.class_name != incoming.class_name:
                     raise WorkspaceConflictError(
@@ -373,16 +381,27 @@ class IngestionWorkspaceService:
                     current.evidence = cls._dedupe_models(
                         [*current.evidence, *prop.evidence]
                     )
-        return list(merged.values())
+        return list(merged.values()), temp_id_aliases
 
     @classmethod
     def _merge_edges(
         cls,
         fragments: list[GraphPatchFragment],
+        temp_id_aliases: dict[str, str] | None = None,
     ) -> list[ExtractedEdge]:
+        temp_id_aliases = temp_id_aliases or {}
         merged: dict[tuple[str, str, str], ExtractedEdge] = {}
         for fragment in fragments:
             for incoming in fragment.edges:
+                incoming = incoming.model_copy(deep=True)
+                incoming.source_temp_id = temp_id_aliases.get(
+                    incoming.source_temp_id,
+                    incoming.source_temp_id,
+                )
+                incoming.target_temp_id = temp_id_aliases.get(
+                    incoming.target_temp_id,
+                    incoming.target_temp_id,
+                )
                 key = (
                     incoming.edge_name,
                     incoming.source_temp_id,
@@ -397,6 +416,55 @@ class IngestionWorkspaceService:
                 )
                 existing.confidence = max(existing.confidence, incoming.confidence)
         return list(merged.values())
+
+    @classmethod
+    def _canonical_temp_id(
+        cls,
+        incoming: ExtractedNode,
+        merged: dict[str, ExtractedNode],
+    ) -> str:
+        identity_key = cls._node_identity_key(incoming)
+        banking_products = [
+            node for node in merged.values() if node.class_name == "pskg:BankingProduct"
+        ]
+        for existing in merged.values():
+            if existing.class_name != incoming.class_name:
+                continue
+            if identity_key is not None and identity_key == cls._node_identity_key(existing):
+                return existing.temp_id
+            if (
+                incoming.class_name == "pskg:BankingProduct"
+                and cls._product_name(incoming)
+                and cls._product_name(incoming) == cls._product_name(existing)
+            ):
+                return existing.temp_id
+        if (
+            incoming.class_name == "pskg:BankingProduct"
+            and identity_key is None
+            and cls._product_name(incoming) is None
+            and len(banking_products) == 1
+        ):
+            return banking_products[0].temp_id
+        return incoming.temp_id
+
+    @classmethod
+    def _node_identity_key(cls, node: ExtractedNode) -> tuple[str, str, str] | None:
+        property_name = PRODUCT_SALES_NATURAL_KEYS.get(node.class_name)
+        if property_name is None:
+            return None
+        properties = {item.property_name: item.value for item in node.properties}
+        value = properties.get(property_name)
+        if value is None:
+            return None
+        return node.class_name, property_name, cls._stable_value(value)
+
+    @classmethod
+    def _product_name(cls, node: ExtractedNode) -> str | None:
+        properties = {item.property_name: item.value for item in node.properties}
+        value = properties.get("pskg:bankingProductName")
+        if value is None:
+            return None
+        return cls._stable_value(value)
 
     @staticmethod
     def _reconcile_coverage_with_merged_facts(

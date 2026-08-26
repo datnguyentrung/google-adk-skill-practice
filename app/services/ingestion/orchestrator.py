@@ -74,6 +74,67 @@ Valid mapped property example:
   ],
   "warnings": []
 }
+
+Valid mapped business-rule edge example:
+{
+  "nodes": [{
+    "tempId": "product-cc-flexi-001",
+    "className": "pskg:BankingProduct",
+    "properties": [{
+      "propertyName": "pskg:productCode",
+      "value": "CC-FLEXI-001",
+      "evidence": [{
+        "source": "example.md",
+        "chunkIndex": 5,
+        "section": "Eligibility",
+        "text": "| Mã sản phẩm | CC-FLEXI-001 |"
+      }]
+    }],
+    "evidence": [{
+      "source": "example.md",
+      "chunkIndex": 5,
+      "section": "Eligibility",
+      "text": "| Mã sản phẩm | CC-FLEXI-001 |"
+    }],
+    "confidence": 0.98
+  }, {
+    "tempId": "rule-income-001",
+    "className": "pskg:BusinessRule",
+    "properties": [{
+      "propertyName": "pskg:businessRuleCondition",
+      "value": "Thu nhập ròng từ 10 triệu VND/tháng trở lên",
+      "evidence": [{
+        "source": "example.md",
+        "chunkIndex": 5,
+        "section": "Eligibility",
+        "text": "Có thu nhập ròng thông thường từ **10 triệu VND/tháng** trở lên."
+      }]
+    }],
+    "evidence": [{
+      "source": "example.md",
+      "chunkIndex": 5,
+      "section": "Eligibility",
+      "text": "Có thu nhập ròng thông thường từ **10 triệu VND/tháng** trở lên."
+    }],
+    "confidence": 0.95
+  }],
+  "edges": [{
+    "edgeName": "pskg:hasEligibilityRule",
+    "sourceTempId": "product-cc-flexi-001",
+    "targetTempId": "rule-income-001",
+    "evidence": [{
+      "source": "example.md",
+      "chunkIndex": 5,
+      "section": "Eligibility",
+      "text": "Có thu nhập ròng thông thường từ **10 triệu VND/tháng** trở lên."
+    }],
+    "confidence": 0.9
+  }],
+  "coverage": [
+    {"chunkIndex": 5, "decision": "MAPPED", "reason": "Contains an eligibility condition for the product"}
+  ],
+  "warnings": []
+}
 """.strip()
 
 
@@ -170,6 +231,7 @@ class GeminiBatchExtractor:
 
     @staticmethod
     def _validate_fragment(payload: Any) -> GraphPatchFragment:
+        payload = GeminiBatchExtractor._coerce_fragment_payload(payload)
         try:
             return GraphPatchFragment.model_validate(payload)
         except ValidationError as exc:
@@ -178,6 +240,29 @@ class GeminiBatchExtractor:
                 f"{GeminiBatchExtractor._invalid_shape_summary(payload, exc)}",
                 summary=GeminiBatchExtractor._invalid_shape_summary(payload, exc),
             ) from exc
+
+    @staticmethod
+    def _coerce_fragment_payload(payload: Any) -> Any:
+        if not isinstance(payload, dict):
+            return payload
+        coerced = json.loads(json.dumps(payload, ensure_ascii=False, default=str))
+        for collection_name in ("nodes", "edges"):
+            for item in coerced.get(collection_name, []) or []:
+                GeminiBatchExtractor._coerce_evidence_items(item.get("evidence"))
+                for prop in item.get("properties", []) or []:
+                    GeminiBatchExtractor._coerce_evidence_items(prop.get("evidence"))
+        return coerced
+
+    @staticmethod
+    def _coerce_evidence_items(items: Any) -> None:
+        if not isinstance(items, list):
+            return
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            if "text" not in item and "content" in item:
+                item["text"] = item["content"]
+            item.pop("content", None)
 
     @staticmethod
     def _invalid_shape_summary(
@@ -265,6 +350,11 @@ class GeminiBatchExtractor:
             "Do not emit pskg:ruleType directly; "
             "the compiler derives SALES_CONDITION from that edge.\n"
             "Do not fabricate facts. Do not emit pskg:ruleType directly.\n\n"
+            "A pskg:BusinessRule is incomplete unless it is the target of one "
+            "of pskg:hasEligibilityRule, pskg:hasSalesConditionRule, or "
+            "pskg:governedByPolicy in the same fragment or an already-grounded "
+            "workspace relationship. The compiler derives pskg:ruleType from "
+            "that edge; never emit pskg:ruleType as a direct property.\n\n"
             "Ontology catalog:\n"
             f"{ontology_catalog}\n"
             f"{repair_block}\n"

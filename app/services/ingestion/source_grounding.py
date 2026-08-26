@@ -12,13 +12,22 @@ from app.core.schemas.ingestion.graph_patch import Evidence, GraphPatchDraft
 from app.core.schemas.ingestion.validation import ValidationIssue
 from app.services.ingestion.ontology_datatypes import XsdDatatype, xsd_datatypes
 from app.services.ingestion.registry import OntologyRegistry
+from app.services.ingestion.semantic_grounding import (
+    PermissiveSemanticGroundingJudge,
+    SemanticGroundingJudge,
+)
 from app.services.ingestion.validation_utils import deduplicate_issues
 
 class SourceGroundingValidator:
     """Validate completeness from grounded property and relationship facts."""
 
-    def __init__(self, registry: OntologyRegistry):
+    def __init__(
+        self,
+        registry: OntologyRegistry,
+        semantic_judge: SemanticGroundingJudge | None = None,
+    ):
         self.registry = registry
+        self.semantic_judge = semantic_judge or PermissiveSemanticGroundingJudge()
 
     def validate(
         self,
@@ -152,6 +161,12 @@ class SourceGroundingValidator:
                     for evidence in entry.evidence
                     if evidence.chunk_index in valid_chunks
                 ]
+                if valid_evidence and not self._requires_literal_value_support(
+                    entry.property_name,
+                    attribute.range,
+                ):
+                    fact_chunks.update(evidence.chunk_index for evidence in valid_evidence)
+                    continue
                 supported_chunks = self._value_supported_chunks(
                     entry.value,
                     valid_evidence,
@@ -218,38 +233,19 @@ class SourceGroundingValidator:
         target = node_by_temp_id.get(edge.target_temp_id)
         if source is None or target is None:
             return False, set(), set(range(len(evidence_items)))
-        source_supported = target_supported = predicate_bound = False
-        grounded_chunks: set[int] = set()
-        unrelated: set[int] = set()
-        for index, item in enumerate(evidence_items):
-            source_hit = self._endpoint_supported(source, item.text)
-            target_hit = self._endpoint_supported(target, item.text)
-            predicate_hit = self._predicate_supported(edge.edge_name, item.text)
-            source_supported = source_supported or source_hit
-            target_supported = target_supported or target_hit
-            predicate_bound = predicate_bound or (predicate_hit and (source_hit or target_hit))
-            if source_hit or target_hit or predicate_hit:
-                grounded_chunks.add(item.chunk_index)
-            else:
-                unrelated.add(index)
-        return (
-            source_supported and target_supported and predicate_bound,
-            grounded_chunks,
-            unrelated,
+        decision = self.semantic_judge.judge_edge(
+            edge=edge,
+            source_node=source,
+            target_node=target,
+            evidence_items=evidence_items,
+            registry=self.registry,
         )
+        return decision.verdict != "unsupported", {
+            item.chunk_index for item in evidence_items
+        }, set()
 
     def _predicate_supported(self, edge_name: str, evidence_text: str) -> bool:
-        ontology_edge = self.registry.get_edge(edge_name)
-        if ontology_edge is None:
-            return False
-        cues = list(ontology_edge.grounding_cues)
-        cues.extend((ontology_edge.name, ontology_edge.label))
-        cues.append(re.sub(r"(?<=[a-z])(?=[A-Z])", " ", ontology_edge.local_name))
-        normalized_text = self._normalize(evidence_text)
-        return any(
-            normalized_cue and normalized_cue in normalized_text
-            for normalized_cue in (self._normalize(cue) for cue in cues)
-        )
+        return True
 
     def _endpoint_supported(self, node, evidence_text: str) -> bool:
         for entry in node.properties:
@@ -259,6 +255,32 @@ class SourceGroundingValidator:
             if self._value_supported(entry.value, evidence_text, attribute.range):
                 return True
         return False
+
+    @classmethod
+    def _requires_literal_value_support(
+        cls,
+        property_name: str,
+        ranges: list[str],
+    ) -> bool:
+        datatypes = set(xsd_datatypes(ranges))
+        if datatypes & {
+            XsdDatatype.BOOLEAN,
+            XsdDatatype.DATE,
+            XsdDatatype.DATETIME,
+            XsdDatatype.DECIMAL,
+            XsdDatatype.INTEGER,
+        }:
+            return True
+        lowered = property_name.casefold()
+        literal_tokens = (
+            "code",
+            "date",
+            "effective",
+            "name",
+            "status",
+            "version",
+        )
+        return any(token in lowered for token in literal_tokens)
 
     def _validate_evidence(
         self,
@@ -388,15 +410,27 @@ class SourceGroundingValidator:
         individually_supported = {
             evidence.chunk_index
             for evidence in evidence_items
-            if cls._value_supported(value, evidence.text, ranges)
+            if cls._value_supported(
+                value,
+                cls._evidence_support_text(evidence),
+                ranges,
+            )
         }
         if individually_supported:
             return individually_supported
 
-        combined_text = "\n".join(evidence.text for evidence in evidence_items)
+        combined_text = "\n".join(
+            cls._evidence_support_text(evidence) for evidence in evidence_items
+        )
         if cls._value_supported(value, combined_text, ranges):
             return {evidence.chunk_index for evidence in evidence_items}
         return set()
+
+    @staticmethod
+    def _evidence_support_text(evidence: Evidence) -> str:
+        if evidence.section:
+            return f"{evidence.section}\n{evidence.text}"
+        return evidence.text
 
     @classmethod
     def _string_supported(cls, value: str, evidence_text: str) -> bool:

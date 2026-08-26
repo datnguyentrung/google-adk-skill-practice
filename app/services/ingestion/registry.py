@@ -70,6 +70,15 @@ class OntologyRegistry:
                 derived.append((attribute, policy.derive_from_edges[edge_technical_name]))
         return derived
 
+    def edge_names_deriving_property(self, attribute_technical_name: str) -> set[str]:
+        attribute = self.get_attribute(attribute_technical_name)
+        if attribute is None:
+            return set()
+        policy = attribute.ingestion_policy
+        if policy.mode != "edge_derived":
+            return set()
+        return set(policy.derive_from_edges)
+
     def configured_defaults_for_class(
         self, class_technical_name: str
     ) -> list[tuple[OntologyAttribute, object]]:
