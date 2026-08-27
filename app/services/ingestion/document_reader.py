@@ -7,6 +7,21 @@ from app.core.schemas.ingestion.document import DocumentChunk
 
 logger = logging.getLogger(__name__)
 
+_SENSITIVE_PATTERN = re.compile(
+    r"(?i)(authorization\s*[:=]\s*\S+|api[_-]?key\s*[:=]\s*\S+|"
+    r"token\s*[:=]\s*\S+|password\s*[:=]\s*\S+|pin\s*[:=]\s*\S+|"
+    r"otp\s*[:=]\s*\S+)"
+)
+
+
+def _safe_preview(value: str, *, limit: int = 500) -> str:
+    text = _SENSITIVE_PATTERN.sub("<REDACTED>", value)
+    text = re.sub(r"\s+", " ", text).strip()
+    if len(text) <= limit:
+        return text
+    half = max(1, limit // 2)
+    return f"{text[:half]} ... {text[-half:]}"
+
 
 class DocumentReadError(ValueError):
     """Lỗi nghiệp vụ khi đường dẫn/tài liệu không phù hợp để đọc ingestion."""
@@ -163,6 +178,18 @@ class DocumentReader:
                 endLine=max(1, len(text.splitlines())),
             )
         ]
+        logger.debug(
+            "[INGESTION_CHUNK] chunk_id=%s line_start=%s line_end=%s char_count=%s "
+            "heading=%s section=%s subsection=%s text_preview=%r",
+            chunks[0].index,
+            chunks[0].start_line,
+            chunks[0].end_line,
+            len(chunks[0].content),
+            chunks[0].section,
+            chunks[0].section,
+            None,
+            _safe_preview(chunks[0].content),
+        )
         logger.info(
             "Ingestion text chunked source=%s suffix=%s chunk_count=%s",
             source,
@@ -230,6 +257,18 @@ class DocumentReader:
                     startLine=base_line + first_content_offset,
                     endLine=base_line + last_content_offset,
                 )
+            )
+            logger.debug(
+                "[INGESTION_CHUNK] chunk_id=%s line_start=%s line_end=%s "
+                "char_count=%s heading=%s section=%s subsection=%s text_preview=%r",
+                chunk_index,
+                base_line + first_content_offset,
+                base_line + last_content_offset,
+                len(content),
+                current_section,
+                current_section,
+                None,
+                _safe_preview(content),
             )
 
             # Reset buffer để bắt đầu gom nội dung cho section tiếp theo.

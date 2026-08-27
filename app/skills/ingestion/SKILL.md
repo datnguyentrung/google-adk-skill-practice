@@ -47,60 +47,19 @@ error; the end-to-end tool owns retry pacing and retries.
 For an uploaded long document, complete this sequence through a terminal state:
 
 ```text
-begin_ingestion
-  -> submit_ingestion_batch for every returned batch
-  -> finalize_ingestion
-  -> readiness gate
-  -> fill_ingestion when persistence-ready; explicit partial persistence may proceed past readiness only
-  -> report verified committed readback
+ingest_document_end_to_end
+  -> internal batching and retry
+  -> internal validation and readiness gate
+  -> optional fill when persistence-ready
+  -> report verified committed readback when persistence is requested
 ```
 
-This staged sequence is for debug/manual mode. Any response with
-`terminal: false`, `remainingBatches > 0`, `stage: "batching"`, or
-`stage: "ready_to_finalize"` is not complete and must not be described as
-running in the background.
-
-1. Call `begin_ingestion(artifact_name)`. Batches preserve small semantic scope: by default
-   at most 5 semantic chunks and 5,000 source characters per batch, with an additional
-   estimated-token safety cap. The response also includes an `ingestionId` and a compact
-   ontology catalog. Rate-limit safety is handled by pacing/backoff rather than by merging
-   many unrelated business sections into one extraction request.
-2. Inspect every chunk in `nextBatch` one by one. Do not stop after the first product
-   metadata or eligibility section.
-3. For every chunk in that batch, decide `MAPPED` or `NOT_RELEVANT`.
-   `MAPPED` means the chunk contributes at least one distinct persisted property
-   or relationship fact. Use `NOT_RELEVANT` for duplicated examples, narrative,
-   repeated explanations, or thematically related text that adds no distinct
-   graph fact. Coverage means every chunk was reviewed, not that every chunk
-   must create graph data.
-4. For every `MAPPED` chunk, emit at least one property or edge fact referring
-   to that exact `chunkIndex`. Node-level evidence alone never satisfies
-   coverage. Do not mark a chunk `MAPPED` while planning to add facts later;
-   the submitted fragment must already contain grounded property/edge evidence
-   for that chunk.
-5. Call `submit_ingestion_batch(ingestion_id, batch_index, graph_fragment)`.
-   The workspace merges nodes by `tempId`, deduplicates facts, rejects
-   conflicts, and returns the next batch. Correct and resubmit the same batch
-   if it is rejected. A response with `stage: "batch_validation"` and
-   `retryRequired: true` is not terminal: repair the same batch using returned
-   `errorSummary`, `repairInstructions`, `affectedChunks`, and `nextBatch`, then
-   resubmit that `batchIndex` in this invocation.
-   If the tool returns `nextAction: "explicit_extraction_failure"` or
-   `UNCHANGED_RETRY`, stop claiming progress and report the exact terminal
-   extraction failure with the listed chunk indexes.
-6. Repeat until `remainingBatches` is zero, then call
-   `finalize_ingestion(ingestion_id)`.
-7. Correct only source-grounded failures by resubmitting affected batches, then
-   finalize again. Do not end with “processing continues”; reach
-   `ready_to_fill`, `readiness_gate`, or an explicit extraction failure.
-8. Normally call `fill_ingestion(ingestion_id)` only when finalize returns both flags true. For an explicit user-requested partial persistence commit, the end-to-end tool may use `allow_partial_persistence=true` after `validForExtraction=true`; never use it to bypass extraction errors. Never pass a graph payload to this fill tool.
-
-`prepare_extraction_context`, `validate_graph_patch`, and `fill_graph_patch`
-remain available for caller-supplied or genuinely small patches. Do not use the
-legacy full-payload workflow for a long document. This skill has no ingestion
-scripts: never call `run_skill_script` for begin/submit/finalize/fill; call the
-corresponding tools directly.
-
+Any response with `terminal: false`, `remainingBatches > 0`,
+`stage: "batching"`, or `stage: "ready_to_finalize"` is an internal workflow
+state and must not be described as complete. `validate_graph_patch` and
+`fill_graph_patch` remain available for caller-supplied or genuinely small
+patches. Do not use a legacy full-payload workflow for a long document. This
+skill has no ingestion scripts.
 Validation is invocation-scoped. Validation from an older turn never
 authorizes a later fill. For an ingest/import/load/write request, completion
 means a real Neo4j commit followed by verified readback. Never claim persistence

@@ -6,32 +6,20 @@ from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import Evidence, GraphPatchFragment
 from app.services.ingestion.source_grounding import SourceGroundingValidator
 
-PRODUCT_ATTRIBUTES = "pskg:productAttributes"
-PRODUCT_NAME = "pskg:bankingProductName"
-
 
 def repair_fragment_grounding(
     fragment: GraphPatchFragment,
     chunks: list[DocumentChunk],
     validator: SourceGroundingValidator,
 ) -> GraphPatchFragment:
-    """Repair safe, deterministic grounding defects before validation."""
+    """Repair deterministic grounding defects without changing semantics."""
+
     repaired = fragment.model_copy(deep=True)
     chunk_by_index = {chunk.index: chunk for chunk in chunks}
 
     for node in repaired.nodes:
         kept_properties = []
         for prop in node.properties:
-            if _is_weak_product_name_source(prop):
-                continue
-            if prop.property_name == PRODUCT_ATTRIBUTES:
-                values = prop.value if isinstance(prop.value, list) else [prop.value]
-                values = [value for value in values if not _is_customer_audience(value)]
-                values = _dedupe_values(values)
-                if not values:
-                    continue
-                prop.value = values
-
             prop.evidence = _repair_property_evidence(
                 prop.property_name,
                 prop.value,
@@ -39,9 +27,8 @@ def repair_fragment_grounding(
                 chunk_by_index,
                 validator,
             )
-            if not prop.evidence:
-                continue
-            kept_properties.append(prop)
+            if prop.evidence:
+                kept_properties.append(prop)
         node.properties = kept_properties
         node.evidence = _repair_node_evidence(
             node.evidence,
@@ -63,42 +50,6 @@ def repair_fragment_grounding(
     return repaired
 
 
-def _is_weak_product_name_source(prop) -> bool:
-    if prop.property_name != PRODUCT_NAME:
-        return False
-    return not any(
-        _is_explicit_product_name_source(item.text) for item in prop.evidence
-    )
-
-
-def _is_explicit_product_name_source(text: str) -> bool:
-    normalized = validator_text(text)
-    return "tên sản phẩm" in normalized or "tÃªn sáº£n pháº©m" in normalized
-
-
-def _is_document_title_product_name(prop) -> bool:
-    if prop.property_name != PRODUCT_NAME:
-        return False
-    texts = [validator_text(item.text) for item in prop.evidence]
-    sections = [validator_text(item.section or "") for item in prop.evidence]
-    if any("tên sản phẩm" in text for text in texts):
-        return False
-    return any("tên tài liệu" in text for text in texts) or any(
-        "thông tin tài liệu" in section for section in sections
-    )
-
-
-def _is_customer_audience(value: Any) -> bool:
-    if not isinstance(value, str):
-        return False
-    normalized = validator_text(value)
-    return normalized.startswith("dành cho khách hàng")
-
-
-def validator_text(value: str) -> str:
-    return SourceGroundingValidator._normalize(value)
-
-
 def _reconcile_coverage_with_repaired_facts(fragment: GraphPatchFragment) -> None:
     fact_chunks: set[int] = set()
     for node in fragment.nodes:
@@ -109,23 +60,11 @@ def _reconcile_coverage_with_repaired_facts(fragment: GraphPatchFragment) -> Non
 
     for coverage in fragment.coverage:
         if coverage.decision == "MAPPED" and coverage.chunk_index not in fact_chunks:
-            coverage.decision = "NOT_RELEVANT"
+            coverage.decision = "FAILED"
             coverage.reason = (
-                "No distinct grounded property or edge fact remained after "
-                "deterministic evidence repair."
+                "No grounded property or edge fact remained after deterministic "
+                "evidence repair."
             )
-
-
-def _dedupe_values(values: list[Any]) -> list[Any]:
-    result: list[Any] = []
-    seen: set[str] = set()
-    for value in values:
-        key = repr(value)
-        if key in seen:
-            continue
-        seen.add(key)
-        result.append(value)
-    return result
 
 
 def _repair_property_evidence(
@@ -207,12 +146,14 @@ def _repair_node_evidence(
             continue
         for line in chunk.content.splitlines():
             if line.strip():
-                return [Evidence(
-                    source=chunk.source,
-                    chunkIndex=chunk.index,
-                    section=chunk.section,
-                    text=line,
-                )]
+                return [
+                    Evidence(
+                        source=chunk.source,
+                        chunkIndex=chunk.index,
+                        section=chunk.section,
+                        text=line,
+                    )
+                ]
     return evidence
 
 
@@ -237,8 +178,10 @@ def _repair_edge_evidence(
             if not line.strip():
                 continue
             candidate = Evidence(
-                source=chunk.source, chunkIndex=chunk.index,
-                section=chunk.section, text=line,
+                source=chunk.source,
+                chunkIndex=chunk.index,
+                section=chunk.section,
+                text=line,
             )
             candidates = _dedupe_evidence([*candidates, candidate])
             if validator._edge_supported(edge, candidates, node_by_temp_id):

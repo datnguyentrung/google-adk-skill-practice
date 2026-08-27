@@ -134,9 +134,11 @@ class GraphPatchCompiler:
             for attribute, default_value in self.registry.configured_defaults_for_class(
                 node.class_name
             ):
-                if attribute.technical_name not in properties:
-                    properties[attribute.technical_name] = default_value
-                    property_evidence[attribute.technical_name] = ()
+                # Runtime-owned values are always applied: a model-emitted value
+                # for a runtime-managed/system-default attribute is never treated
+                # as a successfully grounded source fact.
+                properties[attribute.technical_name] = default_value
+                property_evidence[attribute.technical_name] = ()
 
             node_builders.append(
                 _NodeBuilder(

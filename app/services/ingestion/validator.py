@@ -171,7 +171,7 @@ class OntologyValidator:
                 attribute = self.registry.get_attribute(rule.property)
                 if attribute is None:
                     continue
-                if attribute.ingestion_policy.mode == "runtime_managed":
+                if self.registry.is_runtime_managed_attribute(rule.property):
                     continue
                 value = node.properties.get(rule.property)
                 message = self._attribute_rule_failure(rule, value)

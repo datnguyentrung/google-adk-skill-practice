@@ -78,7 +78,11 @@ def test_lazy_registry_loads_full_skill_only_on_demand():
         assert first is second
         assert first.name == "ingestion"
         assert "$" not in first.instructions
-        assert "prepare_extraction_context" in first.instructions
+        assert "prepare_extraction_context" not in first.instructions
+        assert "begin_ingestion" not in first.instructions
+        assert "submit_ingestion_batch" not in first.instructions
+        assert "finalize_ingestion" not in first.instructions
+        assert "fill_ingestion" not in first.instructions
         assert "validate_graph_patch" in first.instructions
         assert "fill_graph_patch" in first.instructions
 

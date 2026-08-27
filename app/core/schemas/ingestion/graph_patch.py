@@ -53,7 +53,15 @@ class ExtractedEdge(_DraftModel):
 
 class ChunkCoverage(_DraftModel):
     chunk_index: int = Field(alias="chunkIndex", ge=0)
-    decision: Literal["MAPPED", "NOT_RELEVANT"]
+    decision: Literal[
+        "MAPPED",
+        "NOT_RELEVANT",
+        "NO_RELEVANT_FACT",
+        "DUPLICATE_EVIDENCE",
+        "UNSUPPORTED_BY_ONTOLOGY",
+        "AMBIGUOUS",
+        "FAILED",
+    ]
     reason: str = Field(min_length=3)
 
 

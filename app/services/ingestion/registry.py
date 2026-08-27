@@ -7,6 +7,13 @@ from app.core.schemas.ingestion.models import (
 
 
 class OntologyRegistry:
+    RUNTIME_MANAGED_STATUS_DEFAULT = "Draft"
+    EDGE_DERIVED_RULE_TYPES = {
+        "pskg:governedByPolicy": "POLICY",
+        "pskg:hasEligibilityRule": "ELIGIBILITY",
+        "pskg:hasSalesConditionRule": "SALES_CONDITION",
+    }
+
     def __init__(self, ontology: OntologyDefinition):
         self.ontology = ontology
 
@@ -68,6 +75,13 @@ class OntologyRegistry:
                 continue
             if edge_technical_name in policy.derive_from_edges:
                 derived.append((attribute, policy.derive_from_edges[edge_technical_name]))
+        rule_type = self.get_attribute("pskg:ruleType")
+        if (
+            rule_type is not None
+            and edge_technical_name in self.EDGE_DERIVED_RULE_TYPES
+            and all(item[0].technical_name != rule_type.technical_name for item in derived)
+        ):
+            derived.append((rule_type, self.EDGE_DERIVED_RULE_TYPES[edge_technical_name]))
         return derived
 
     def edge_names_deriving_property(self, attribute_technical_name: str) -> set[str]:
@@ -75,9 +89,10 @@ class OntologyRegistry:
         if attribute is None:
             return set()
         policy = attribute.ingestion_policy
-        if policy.mode != "edge_derived":
-            return set()
-        return set(policy.derive_from_edges)
+        names = set(policy.derive_from_edges) if policy.mode == "edge_derived" else set()
+        if attribute_technical_name == "pskg:ruleType":
+            names.update(self.EDGE_DERIVED_RULE_TYPES)
+        return names
 
     def configured_defaults_for_class(
         self, class_technical_name: str
@@ -91,15 +106,32 @@ class OntologyRegistry:
             policy = attribute.ingestion_policy
             if ontology_class.name not in attribute.domain:
                 continue
-            if policy.mode not in {"runtime_managed", "system_default"}:
+            if (
+                policy.mode not in {"runtime_managed", "system_default"}
+                and not self._is_runtime_managed_status_attribute(attribute)
+            ):
                 continue
-            if policy.default_value is not None:
-                result.append((attribute, policy.default_value))
+            default_value = (
+                policy.default_value
+                if policy.default_value is not None
+                else self.RUNTIME_MANAGED_STATUS_DEFAULT
+            )
+            result.append((attribute, default_value))
         return result
 
     def is_runtime_managed_attribute(self, technical_name: str) -> bool:
         attribute = self.get_attribute(technical_name)
-        return bool(attribute and attribute.ingestion_policy.mode == "runtime_managed")
+        return bool(
+            attribute
+            and (
+                attribute.ingestion_policy.mode == "runtime_managed"
+                or self._is_runtime_managed_status_attribute(attribute)
+            )
+        )
+
+    @staticmethod
+    def _is_runtime_managed_status_attribute(attribute: OntologyAttribute) -> bool:
+        return attribute.local_name.endswith("Status")
 
     def properties_from_class(
         self, class_technical_name: str

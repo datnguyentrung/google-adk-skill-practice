@@ -4,8 +4,9 @@ from app.services.ingestion.semantic_grounding import SemanticGroundingDecision
 from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
 from app.services.ingestion.orchestrator import GeminiBatchExtractor
 from app.services.ingestion.staged_ingestion import IngestionWorkspaceService
+from app.services.ingestion import use_case as ingestion_use_case
+from app.services.ingestion.use_case import IngestionUseCase
 from app.services.ingestion.validate_graph_patch import GraphPatchValidationService
-from app.tools import ingestion_tools
 
 
 class FakeToolContext:
@@ -97,10 +98,10 @@ def _coverage() -> list[dict]:
 
 def _context() -> FakeToolContext:
     context = FakeToolContext()
-    context.state[ingestion_tools.ARTIFACT_DIGEST_STATE_KEY] = "digest"
+    context.state[ingestion_use_case.ARTIFACT_DIGEST_STATE_KEY] = "digest"
     workspace = IngestionWorkspaceService().begin(
         artifact_name=SOURCE,
-        provenance=ingestion_tools._current_provenance(context),
+        provenance=ingestion_use_case._current_provenance(context),
         chunks=[
             DocumentChunk(
                 index=0,
@@ -115,7 +116,7 @@ def _context() -> FakeToolContext:
             )
         ],
     )
-    ingestion_tools._store_workspace(context, workspace)
+    ingestion_use_case._store_workspace(context, workspace)
     return context
 
 
@@ -244,7 +245,7 @@ def test_edge_grounding_rejects_only_when_semantic_judge_rejects():
 
 def test_batch_validation_rejects_business_rule_without_rule_type_edge():
     context = _context()
-    workspace = ingestion_tools._load_workspace(context)
+    workspace = ingestion_use_case._load_workspace(context)
     assert workspace is not None
     fragment = GraphPatchFragment.model_validate(
         {
@@ -255,7 +256,7 @@ def test_batch_validation_rejects_business_rule_without_rule_type_edge():
         }
     )
 
-    response = ingestion_tools.submit_ingestion_batch(
+    response = IngestionUseCase().submit_batch(
         workspace.ingestion_id,
         0,
         fragment,
@@ -272,7 +273,7 @@ def test_batch_validation_rejects_business_rule_without_rule_type_edge():
 
 def test_batch_accepts_business_rule_with_deriving_edge():
     context = _context()
-    workspace = ingestion_tools._load_workspace(context)
+    workspace = ingestion_use_case._load_workspace(context)
     assert workspace is not None
     fragment = GraphPatchFragment.model_validate(
         {
@@ -283,7 +284,7 @@ def test_batch_accepts_business_rule_with_deriving_edge():
         }
     )
 
-    response = ingestion_tools.submit_ingestion_batch(
+    response = IngestionUseCase().submit_batch(
         workspace.ingestion_id,
         0,
         fragment,

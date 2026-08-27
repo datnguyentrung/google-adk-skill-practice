@@ -57,6 +57,10 @@ class OntologyIngestionPolicy(BaseModel):
         "system_default",
     ] = "source"
     default_value: Any | None = Field(default=None, alias="defaultValue")
+    grounding: Literal[
+        "source_literal",
+        "source_normalized",
+    ] = "source_literal"
     derive_from_edges: dict[str, Any] = Field(
         default_factory=dict, alias="deriveFromEdges"
     )

@@ -33,7 +33,13 @@ class ExtractionContextBuilder:
 
                 for attribute in properties:
                     lines.append(
-                        f"  - {attribute.technical_name} | range={attribute.range}"
+                        "  - "
+                        f"{attribute.technical_name}"
+                        f" | label={attribute.label}"
+                        f" | range={attribute.range}"
+                        f" | definition={attribute.definition}"
+                        f" | policy={attribute.ingestion_policy.mode}"
+                        f" | grounding={attribute.ingestion_policy.grounding}"
                     )
 
             edges = self.registry.edges_from_class(ontology_class.technical_name)
@@ -45,9 +51,13 @@ class ExtractionContextBuilder:
                     lines.append(
                         "  - "
                         f"{edge.technical_name}"
+                        f" | label={edge.label}"
                         f" | domain={edge.domain}"
                         f" | range={edge.range}"
+                        f" | definition={edge.definition}"
                     )
+                    if edge.grounding_cues:
+                        lines.append(f"    cues={edge.grounding_cues}")
 
             if ontology_class.rules:
                 lines.append("RULES:")

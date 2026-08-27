@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import re
 import unicodedata
 from collections.abc import Iterable
@@ -15,8 +16,40 @@ from app.services.ingestion.registry import OntologyRegistry
 from app.services.ingestion.semantic_grounding import (
     PermissiveSemanticGroundingJudge,
     SemanticGroundingJudge,
+    SemanticValueJudge,
 )
 from app.services.ingestion.validation_utils import deduplicate_issues
+
+logger = logging.getLogger(__name__)
+
+_SENSITIVE_PATTERN = re.compile(
+    r"(?i)(authorization\s*[:=]\s*\S+|api[_-]?key\s*[:=]\s*\S+|"
+    r"token\s*[:=]\s*\S+|password\s*[:=]\s*\S+|pin\s*[:=]\s*\S+|"
+    r"otp\s*[:=]\s*\S+)"
+)
+
+
+def _safe_preview(value: Any, *, limit: int = 500) -> str:
+    text = value if isinstance(value, str) else repr(value)
+    text = _SENSITIVE_PATTERN.sub("<REDACTED>", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    if len(text) <= limit:
+        return text
+    half = max(1, limit // 2)
+    return f"{text[:half]} ... {text[-half:]}"
+
+
+def _evidence_trace(evidence_items: Iterable[Evidence]) -> list[dict[str, Any]]:
+    return [
+        {
+            "chunkIndex": item.chunk_index,
+            "source": item.source,
+            "section": item.section,
+            "text": _safe_preview(item.text),
+        }
+        for item in evidence_items
+    ]
+
 
 class SourceGroundingValidator:
     """Validate completeness from grounded property and relationship facts."""
@@ -25,9 +58,11 @@ class SourceGroundingValidator:
         self,
         registry: OntologyRegistry,
         semantic_judge: SemanticGroundingJudge | None = None,
+        semantic_value_judge: SemanticValueJudge | None = None,
     ):
         self.registry = registry
         self.semantic_judge = semantic_judge or PermissiveSemanticGroundingJudge()
+        self.semantic_value_judge = semantic_value_judge
 
     def validate(
         self,
@@ -43,6 +78,7 @@ class SourceGroundingValidator:
         chunk_by_index.update({chunk.index: chunk for chunk in (evidence_context or [])})
         expected_indexes = set(expected_chunk_by_index)
         coverage_by_index = {}
+        fact_chunks_by_claim: dict[int, list[str]] = {}
         for position, item in enumerate(draft.coverage):
             if item.chunk_index in coverage_by_index:
                 issues.append(
@@ -94,6 +130,20 @@ class SourceGroundingValidator:
                 supported, grounded_chunks, unrelated = self._edge_support_details(
                     edge, valid_evidence, node_by_temp_id
                 )
+                logger.debug(
+                    "[GROUNDING_CHECK] node_id=%s edge=%s source_node=%s "
+                    "target_node=%s evidence=%s deterministic_check=%s "
+                    "semantic_judge=%s semantic_verdict=%s reason=%s",
+                    None,
+                    edge.edge_name,
+                    edge.source_temp_id,
+                    edge.target_temp_id,
+                    _evidence_trace(valid_evidence),
+                    "PASSED" if supported else "FAILED",
+                    type(self.semantic_judge).__name__,
+                    "SUPPORTED" if supported else "UNSUPPORTED",
+                    "edge semantic grounding",
+                )
                 if not supported:
                     issues.append(ValidationIssue(
                         code="EDGE_RELATION_NOT_GROUNDED",
@@ -112,6 +162,10 @@ class SourceGroundingValidator:
                             edge_name=edge.edge_name,
                         ))
             fact_chunks.update(grounded_chunks)
+            for chunk_index in grounded_chunks:
+                fact_chunks_by_claim.setdefault(chunk_index, []).append(
+                    f"edge.{edge.source_temp_id}.{edge.edge_name}.{edge.target_temp_id}"
+                )
             related_edge_chunks.setdefault(edge.source_temp_id, set()).update(grounded_chunks)
             related_edge_chunks.setdefault(edge.target_temp_id, set()).update(grounded_chunks)
 
@@ -133,12 +187,35 @@ class SourceGroundingValidator:
                     property_name=entry.property_name,
                 )
                 issues.extend(evidence_issues)
-                derived_attribute = self.registry.get_attribute(entry.property_name)
-                if (
-                    derived_attribute is not None
-                    and derived_attribute.ingestion_policy.mode == "edge_derived"
-                ):
-                    if not related_edge_chunks.get(node.temp_id):
+                attribute = self.registry.get_attribute(entry.property_name)
+                if attribute is None:
+                    continue
+                valid_evidence = [
+                    evidence
+                    for evidence in entry.evidence
+                    if evidence.chunk_index in valid_chunks
+                ]
+                grounding = self._property_grounding(
+                    entry.property_name,
+                    attribute,
+                )
+                if grounding == "derived":
+                    logger.debug(
+                        "[PROPERTY_ORIGIN] node=%s property=%s origin=%s grounding=%s "
+                        "policy_mode=%s",
+                        node.temp_id,
+                        entry.property_name,
+                        "SYSTEM_GENERATED"
+                        if attribute.ingestion_policy.mode
+                        in {"runtime_managed", "system_default", "edge_derived"}
+                        else "LLM_DERIVED",
+                        grounding,
+                        attribute.ingestion_policy.mode,
+                    )
+                    if (
+                        attribute.ingestion_policy.mode == "edge_derived"
+                        and not related_edge_chunks.get(node.temp_id)
+                    ):
                         issues.append(
                             ValidationIssue(
                                 code="DERIVED_PROPERTY_REQUIRES_EDGE_EVIDENCE",
@@ -152,37 +229,69 @@ class SourceGroundingValidator:
                             )
                         )
                     continue
-
-                attribute = self.registry.get_attribute(entry.property_name)
-                if attribute is None:
-                    continue
-                valid_evidence = [
-                    evidence
-                    for evidence in entry.evidence
-                    if evidence.chunk_index in valid_chunks
-                ]
-                if valid_evidence and not self._requires_literal_value_support(
-                    entry.property_name,
-                    attribute.range,
-                ):
-                    fact_chunks.update(evidence.chunk_index for evidence in valid_evidence)
-                    continue
-                supported_chunks = self._value_supported_chunks(
+                if grounding == "normalized":
+                    deterministic_chunks = self._value_supported_chunks(
+                        entry.value,
+                        valid_evidence,
+                        attribute.range,
+                    )
+                    supported_chunks = self._normalized_value_supported_chunks(
+                        entry.value,
+                        valid_evidence,
+                        attribute,
+                    )
+                else:
+                    deterministic_chunks = self._value_supported_chunks(
+                        entry.value,
+                        valid_evidence,
+                        attribute.range,
+                    )
+                    supported_chunks = self._value_supported_chunks(
+                        entry.value,
+                        valid_evidence,
+                        attribute.range,
+                    )
+                reason_code = self._grounding_failure_reason(
                     entry.value,
+                    entry.evidence,
                     valid_evidence,
+                    valid_chunks,
                     attribute.range,
+                )
+                logger.debug(
+                    "[GROUNDING_CHECK] node_id=%s property=%s property_index=%s "
+                    "value=%r evidence=%s deterministic_check=%s semantic_judge=%s "
+                    "semantic_verdict=%s reason_code=%s grounding=%s",
+                    node.temp_id,
+                    entry.property_name,
+                    property_index,
+                    _safe_preview(entry.value),
+                    _evidence_trace(entry.evidence),
+                    "PASSED" if deterministic_chunks else "FAILED",
+                    (
+                        type(self.semantic_value_judge).__name__
+                        if self.semantic_value_judge is not None
+                        else "none"
+                    ),
+                    "SUPPORTED" if supported_chunks else "UNSUPPORTED",
+                    reason_code,
+                    grounding,
                 )
                 if supported_chunks:
                     fact_chunks.update(supported_chunks)
+                    for chunk_index in supported_chunks:
+                        fact_chunks_by_claim.setdefault(chunk_index, []).append(
+                            f"node.{node.temp_id}.{entry.property_name}"
+                        )
                     continue
                 if valid_evidence:
                     issues.append(
                         ValidationIssue(
                             code="PROPERTY_VALUE_NOT_GROUNDED",
-                            message=(
-                                f"Property {entry.property_name}={entry.value!r} is "
-                                "not supported by the valid evidence excerpts for "
-                                "this property"
+                            message=self._value_grounding_message(
+                                entry.property_name,
+                                entry.value,
+                                grounding,
                             ),
                             location=f"{location}.evidence",
                             node_temp_id=node.temp_id,
@@ -193,7 +302,42 @@ class SourceGroundingValidator:
         for chunk_index, item in coverage_by_index.items():
             if chunk_index not in expected_indexes:
                 continue
+            if item.decision in {
+                "FAILED",
+                "AMBIGUOUS",
+                "UNSUPPORTED_BY_ONTOLOGY",
+            }:
+                issues.append(
+                    ValidationIssue(
+                        code="COVERAGE_NOT_EVIDENCED",
+                        message=(
+                            f"Chunk {chunk_index} is marked {item.decision}; "
+                            "the extraction is not semantically complete"
+                        ),
+                        location=f"coverage.{chunk_index}",
+                    )
+                )
             if item.decision == "MAPPED" and chunk_index not in fact_chunks:
+                actual_evidence_chunks = sorted(
+                    {
+                        evidence.chunk_index
+                        for node in draft.nodes
+                        for prop in node.properties
+                        for evidence in prop.evidence
+                    }
+                    | {
+                        evidence.chunk_index
+                        for edge in draft.edges
+                        for evidence in edge.evidence
+                    }
+                )
+                logger.debug(
+                    "[COVERAGE_MISMATCH] chunk_id=%s claimed_by=%s "
+                    "actual_evidence_chunks=%s",
+                    chunk_index,
+                    [f"coverage.{chunk_index}"],
+                    actual_evidence_chunks,
+                )
                 issues.append(
                     ValidationIssue(
                         code="COVERAGE_NOT_EVIDENCED",
@@ -204,17 +348,25 @@ class SourceGroundingValidator:
                         location=f"coverage.{chunk_index}",
                     )
                 )
-            if item.decision == "NOT_RELEVANT" and chunk_index in fact_chunks:
+            if item.decision != "MAPPED" and chunk_index in fact_chunks:
                 issues.append(
                     ValidationIssue(
                         code="COVERAGE_CONFLICT",
                         message=(
-                            f"Chunk {chunk_index} is marked NOT_RELEVANT but is "
+                            f"Chunk {chunk_index} is marked {item.decision} but is "
                             "used by a grounded property or edge fact"
                         ),
                         location=f"coverage.{chunk_index}",
                     )
                 )
+            logger.debug(
+                "[COVERAGE_RESULT] chunk_id=%s disposition=%s reason=%r "
+                "mapped_claims=%s",
+                chunk_index,
+                item.decision,
+                _safe_preview(item.reason),
+                fact_chunks_by_claim.get(chunk_index, []),
+            )
 
         return deduplicate_issues(issues)
 
@@ -256,8 +408,28 @@ class SourceGroundingValidator:
                 return True
         return False
 
+    def _property_grounding(
+        self,
+        property_name: str,
+        attribute,
+    ) -> str:
+        """Classify property grounding semantics from ontology policy."""
+
+        policy = attribute.ingestion_policy
+        if (
+            policy.mode in {"runtime_managed", "system_default", "edge_derived"}
+            or self.registry.is_runtime_managed_attribute(property_name)
+            or bool(self.registry.edge_names_deriving_property(property_name))
+        ):
+            return "derived"
+        if policy.grounding == "source_normalized":
+            return "normalized"
+        if self._is_literal_by_contract(property_name, attribute.range):
+            return "literal"
+        return "normalized"
+
     @classmethod
-    def _requires_literal_value_support(
+    def _is_literal_by_contract(
         cls,
         property_name: str,
         ranges: list[str],
@@ -281,6 +453,74 @@ class SourceGroundingValidator:
             "version",
         )
         return any(token in lowered for token in literal_tokens)
+
+    @staticmethod
+    def _value_grounding_message(
+        property_name: str,
+        value: Any,
+        grounding: str,
+    ) -> str:
+        if grounding == "normalized":
+            return (
+                f"Property {property_name}={value!r} cannot be deterministically "
+                "grounded in the valid evidence excerpts; a normalized paraphrase "
+                "requires a semantic grounding judge or a value compatible with "
+                "the source evidence"
+            )
+        return (
+            f"Property {property_name}={value!r} is not supported by the valid "
+            "evidence excerpts for this property"
+        )
+
+    def _normalized_value_supported_chunks(
+        self,
+        value: Any,
+        evidence_items: list[Evidence],
+        attribute,
+    ) -> set[int]:
+        """Deterministic compatibility first, then the semantic value judge."""
+
+        if not evidence_items or value is None:
+            return set()
+        deterministic = self._value_supported_chunks(
+            value,
+            evidence_items,
+            attribute.range,
+        )
+        if deterministic:
+            return deterministic
+        if self.semantic_value_judge is None:
+            logger.info(
+                "INGESTION_VALUE_GROUNDING property=%s deterministic_failed=True "
+                "semantic_judge=none verdict=unsupported",
+                attribute.technical_name,
+            )
+            return set()
+        try:
+            decision = self.semantic_value_judge.judge_value(
+                property_name=attribute.technical_name,
+                value=value,
+                evidence_items=list(evidence_items),
+                attribute=attribute,
+            )
+        except Exception as exc:  # noqa: BLE001
+            logger.warning(
+                "INGESTION_VALUE_GROUNDING property=%s semantic_judge=gemini "
+                "error=%s verdict=unsupported",
+                attribute.technical_name,
+                exc,
+            )
+            return set()
+        logger.info(
+            "INGESTION_VALUE_GROUNDING property=%s deterministic_failed=True "
+            "semantic_judge=gemini verdict=%s reason=%s",
+            attribute.technical_name,
+            decision.verdict,
+            decision.reason,
+        )
+        if decision.verdict == "supported":
+            return {evidence.chunk_index for evidence in evidence_items}
+        return set()
 
     def _validate_evidence(
         self,
@@ -425,6 +665,39 @@ class SourceGroundingValidator:
         if cls._value_supported(value, combined_text, ranges):
             return {evidence.chunk_index for evidence in evidence_items}
         return set()
+
+    @classmethod
+    def _grounding_failure_reason(
+        cls,
+        value: Any,
+        evidence_items: list[Evidence],
+        valid_evidence: list[Evidence],
+        valid_chunks: set[int],
+        ranges: list[str],
+    ) -> str:
+        if not evidence_items:
+            return "NO_EVIDENCE"
+        if not valid_evidence:
+            invalid_chunks = {item.chunk_index for item in evidence_items} - valid_chunks
+            return "EVIDENCE_OUTSIDE_SOURCE" if invalid_chunks else "EVIDENCE_INVALID"
+        if isinstance(value, list):
+            supported = [
+                bool(cls._value_supported_chunks(item, valid_evidence, ranges))
+                for item in value
+            ]
+            if any(supported) and not all(supported):
+                return "MULTI_FACT_VALUE_PARTIALLY_SUPPORTED"
+        normalized_value = cls._normalize(str(value)) if value is not None else ""
+        normalized_evidence = cls._normalize(
+            "\n".join(cls._evidence_support_text(item) for item in valid_evidence)
+        )
+        if normalized_value and normalized_value in normalized_evidence:
+            return "NORMALIZATION_MISMATCH"
+        value_tokens = set(re.findall(r"\w+", normalized_value))
+        evidence_tokens = set(re.findall(r"\w+", normalized_evidence))
+        if value_tokens and value_tokens & evidence_tokens:
+            return "PARTIAL_MATCH"
+        return "VALUE_NOT_FOUND"
 
     @staticmethod
     def _evidence_support_text(evidence: Evidence) -> str:

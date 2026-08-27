@@ -24,7 +24,10 @@ from app.services.ingestion.identity import (
 )
 from app.services.ingestion.loader import OntologyLoader
 from app.services.ingestion.registry import OntologyRegistry
-from app.services.ingestion.semantic_grounding import SemanticGroundingJudge
+from app.services.ingestion.semantic_grounding import (
+    SemanticGroundingJudge,
+    create_default_semantic_value_judge,
+)
 from app.services.ingestion.source_grounding import SourceGroundingValidator
 from app.services.ingestion.validator import OntologyValidator
 
@@ -55,6 +58,7 @@ class GraphPatchValidationService:
         self.source_grounding = SourceGroundingValidator(
             registry,
             semantic_judge=semantic_grounding_judge,
+            semantic_value_judge=create_default_semantic_value_judge(),
         )
         self.identity_resolver = create_product_sales_identity_resolver(registry)
 
