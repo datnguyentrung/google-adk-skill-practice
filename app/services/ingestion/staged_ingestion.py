@@ -740,13 +740,14 @@ class IngestionWorkspaceService:
             has_fact = item.chunk_index in fact_chunks
             if item.decision == "MAPPED" and not has_fact:
                 logger.warning(
-                    "INGESTION_COVERAGE_RECONCILED chunk=%s from=MAPPED to=FAILED",
+                    "INGESTION_COVERAGE_RECONCILED chunk=%s "
+                    "from=MAPPED to=NO_RELEVANT_FACT",
                     item.chunk_index,
                 )
                 reconciled.append(
                     item.model_copy(
                         update={
-                            "decision": "FAILED",
+                            "decision": "NO_RELEVANT_FACT",
                             "reason": (
                                 "No grounded property or edge fact remains after "
                                 "document-level consolidation"

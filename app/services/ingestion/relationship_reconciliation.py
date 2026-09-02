@@ -1,10 +1,10 @@
-"""Ontology-driven, LLM-reasoned relationship reconciliation.
+"""Ontology-driven, LLM-reasoned readiness reconciliation.
 
 Batch-local extraction may legally produce structurally valid fragments but
-miss a semantically required relationship (ontology rule operator ``some``).
+miss semantically required properties or relationships.
 This module reconciles such gaps: it builds a compact context from the
 canonical graph, the unmet ontology constraints, and relevant source chunks,
-asks the LLM whether the source actually supports the missing relationship,
+asks the LLM whether the source actually supports the missing facts,
 and returns a candidate GraphPatchFragment that the existing merge + assess
 pipeline re-validates. The validator remains the guardrail; the LLM is the
 semantic reasoner. Nothing here hard-codes ontology identifiers.
@@ -63,16 +63,23 @@ class ReconciliationOutcome:
 
 
 def reconciliation_triggered(readiness_issues) -> bool:
-    """Narrow generic trigger: only ontology edge-rule gaps qualify."""
+    """Trigger when ontology readiness gaps may be source-repaired."""
 
     issues = list(readiness_issues)
     if not issues:
         return False
-    return all(
+    has_ontology_gap = any(
         issue.code == ValidationCode.ONTOLOGY_RULE_UNSATISFIED
-        and issue.edge_name is not None
+        and (issue.edge_name is not None or issue.property_name is not None)
         for issue in issues
     )
+    if not has_ontology_gap:
+        return False
+    repairable_codes = {
+        ValidationCode.ONTOLOGY_RULE_UNSATISFIED,
+        ValidationCode.IDENTITY_UNRESOLVED,
+    }
+    return all(issue.code in repairable_codes for issue in issues)
 
 
 def _tokens(text: str) -> set[str]:
@@ -80,7 +87,7 @@ def _tokens(text: str) -> set[str]:
 
 
 class RelationshipReconciler:
-    """Build a candidate patch for unmet ontology-required relationships."""
+    """Build a candidate patch for unmet ontology-required facts."""
 
     def __init__(
         self,
@@ -165,8 +172,11 @@ class RelationshipReconciler:
             gaps = [
                 issue
                 for issue in assessment.result.readiness_issues
-                if issue.code == ValidationCode.ONTOLOGY_RULE_UNSATISFIED
-                and issue.edge_name is not None
+                if issue.code
+                in {
+                    ValidationCode.ONTOLOGY_RULE_UNSATISFIED,
+                    ValidationCode.IDENTITY_UNRESOLVED,
+                }
             ]
             if not gaps:
                 return ReconciliationOutcome(
@@ -175,8 +185,9 @@ class RelationshipReconciler:
                     fingerprint=None,
                     passes_used=passes,
                     exhausted=True,
-                    issues=tuple(
-                        [*assessment.result.errors, *assessment.result.readiness_issues]
+                    issues=(
+                        *assessment.result.errors,
+                        *assessment.result.readiness_issues,
                     ),
                 )
             previous_attempt = {
@@ -201,7 +212,7 @@ class RelationshipReconciler:
             fingerprint=None,
             passes_used=passes,
             exhausted=True,
-            issues=(),
+            issues=tuple(readiness_issues),
         )
 
     def _ask_llm(
@@ -305,17 +316,20 @@ class RelationshipReconciler:
             )
         return (
             "You reconcile a Product Sales Knowledge Graph that failed ontology "
-            "readiness because required relationships are missing. Decide whether "
-            "the cited source evidence actually supports creating the missing "
-            "relationships. If yes, return a GraphPatchFragment that adds only "
-            "the required candidate nodes and edges, using existing canonical "
-            "refs as edge endpoints (do not duplicate existing nodes), with "
-            "verbatim evidence from the cited chunks and coverage marking every "
-            "chunk you ground as MAPPED. If the evidence does not support a "
-            "relationship, do not invent it; mark the relevant chunks AMBIGUOUS "
-            "in coverage instead. The response schema (GraphPatchFragment) is "
-            "enforced: exactly one object with nodes, edges, coverage, warnings "
-            "and no extra keys.\n\n"
+            "readiness because required source facts are missing. Decide whether "
+            "the cited source evidence actually supports adding the missing "
+            "properties or outgoing edges. If yes, return a GraphPatchFragment "
+            "that adds only the required candidate facts, using existing "
+            "canonical refs as endpoints when possible and avoiding duplicate "
+            "nodes. Literal-sensitive values such as identifiers, codes, dates, "
+            "versions, statuses, numeric amounts, and limits must be copied or "
+            "normalized only from explicit source evidence; convert dates to ISO "
+            "format only when the source meaning is unambiguous. Use verbatim evidence from "
+            "the cited chunks and mark every chunk you ground as MAPPED. If the "
+            "evidence does not support a missing fact, do not invent it; mark the "
+            "relevant chunks AMBIGUOUS in coverage instead. The response schema "
+            "(GraphPatchFragment) is enforced: exactly one object with nodes, "
+            "edges, coverage, warnings and no extra keys.\n\n"
             f"{repair_block}"
             f"{context}"
         )
@@ -332,6 +346,7 @@ class RelationshipReconciler:
         gap_lines: list[str] = []
         for gap in gaps:
             node_class = None
+            node_properties: dict[str, Any] = {}
             if gap.node_temp_id is not None:
                 node = next(
                     (
@@ -342,30 +357,56 @@ class RelationshipReconciler:
                     None,
                 )
                 node_class = node.class_name if node is not None else None
+                node_properties = node.properties if node is not None else {}
             edge = registry.get_edge(gap.edge_name) if gap.edge_name else None
+            attribute = (
+                registry.get_attribute(gap.property_name)
+                if gap.property_name
+                else None
+            )
+            if edge is not None:
+                gap_lines.append(
+                    "- node="
+                    + (gap.node_temp_id or "?")
+                    + " class="
+                    + (node_class or "?")
+                    + " requires outgoing edge "
+                    + gap.edge_name
+                    + " domain="
+                    + json.dumps(edge.domain, ensure_ascii=False)
+                    + " range="
+                    + json.dumps(edge.range, ensure_ascii=False)
+                    + " definition="
+                    + edge.definition
+                    + " minimum=1"
+                )
+                continue
+            if attribute is not None:
+                current = node_properties.get(gap.property_name)
+                gap_lines.append(
+                    "- node="
+                    + (gap.node_temp_id or "?")
+                    + " class="
+                    + (node_class or "?")
+                    + " requires property "
+                    + gap.property_name
+                    + " range="
+                    + json.dumps(attribute.range, ensure_ascii=False)
+                    + " definition="
+                    + attribute.definition
+                    + " current="
+                    + json.dumps(current, ensure_ascii=False, default=str)
+                )
+                continue
             gap_lines.append(
                 "- node="
                 + (gap.node_temp_id or "?")
                 + " class="
                 + (node_class or "?")
-                + " requires outgoing edge "
-                + (gap.edge_name or "?")
-                + (
-                    " domain=" + json.dumps(edge.domain, ensure_ascii=False)
-                    if edge is not None
-                    else ""
-                )
-                + (
-                    " range=" + json.dumps(edge.range, ensure_ascii=False)
-                    if edge is not None
-                    else ""
-                )
-                + (
-                    " definition=" + edge.definition
-                    if edge is not None
-                    else ""
-                )
-                + " minimum=1"
+                + " readiness issue "
+                + gap.code.value
+                + ": "
+                + gap.message
             )
 
         node_lines: list[str] = []
@@ -457,12 +498,26 @@ class RelationshipReconciler:
         edge_terms: set[str] = set()
         for gap in gaps:
             edge = registry.get_edge(gap.edge_name) if gap.edge_name else None
-            if edge is None:
-                continue
-            edge_terms.update(_tokens(edge.label))
-            edge_terms.update(_tokens(edge.definition))
-            for term in [*edge.domain, *edge.range]:
-                edge_terms.update(_tokens(term))
+            attribute = (
+                registry.get_attribute(gap.property_name)
+                if gap.property_name
+                else None
+            )
+            edge_terms.update(_tokens(gap.message))
+            if gap.property_name:
+                edge_terms.update(_tokens(gap.property_name))
+            if gap.edge_name:
+                edge_terms.update(_tokens(gap.edge_name))
+            if edge is not None:
+                edge_terms.update(_tokens(edge.label))
+                edge_terms.update(_tokens(edge.definition))
+                for term in [*edge.domain, *edge.range]:
+                    edge_terms.update(_tokens(term))
+            if attribute is not None:
+                edge_terms.update(_tokens(attribute.label))
+                edge_terms.update(_tokens(attribute.definition))
+                for term in attribute.range:
+                    edge_terms.update(_tokens(term))
 
         lexical_score = {
             chunk.index: len(_tokens(chunk.content) & edge_terms)

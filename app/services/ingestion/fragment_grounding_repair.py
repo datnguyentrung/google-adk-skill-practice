@@ -1,10 +1,13 @@
 from __future__ import annotations
 
+import logging
 from typing import Any
 
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import Evidence, GraphPatchFragment
 from app.services.ingestion.source_grounding import SourceGroundingValidator
+
+logger = logging.getLogger(__name__)
 
 
 def repair_fragment_grounding(
@@ -38,6 +41,7 @@ def repair_fragment_grounding(
         )
 
     node_by_temp_id = {node.temp_id: node for node in repaired.nodes}
+    kept_edges = []
     for edge in repaired.edges:
         edge.evidence = _repair_edge_evidence(
             edge,
@@ -46,25 +50,125 @@ def repair_fragment_grounding(
             node_by_temp_id,
             validator,
         )
-    _reconcile_coverage_with_repaired_facts(repaired)
+        if edge.evidence:
+            kept_edges.append(edge)
+    repaired.edges = kept_edges
+    repaired = align_coverage_with_grounded_facts(repaired, chunks, validator)
     return repaired
 
 
-def _reconcile_coverage_with_repaired_facts(fragment: GraphPatchFragment) -> None:
+def align_coverage_with_grounded_facts(
+    fragment: GraphPatchFragment,
+    chunks: list[DocumentChunk],
+    validator: SourceGroundingValidator,
+    *,
+    context_nodes: list[Any] | tuple[Any, ...] | None = None,
+    evidence_context: list[DocumentChunk] | None = None,
+) -> GraphPatchFragment:
+    """Derive coverage from facts that pass the same grounding checks as validation."""
+
+    aligned = fragment.model_copy(deep=True)
+    fact_chunks = _grounded_fact_chunks(
+        aligned,
+        chunks,
+        validator,
+        context_nodes=context_nodes,
+        evidence_context=evidence_context,
+    )
+    for coverage in aligned.coverage:
+        has_fact = coverage.chunk_index in fact_chunks
+        if has_fact and coverage.decision != "MAPPED":
+            logger.warning(
+                "INGESTION_COVERAGE_ALIGNED chunk=%s from=%s to=MAPPED",
+                coverage.chunk_index,
+                coverage.decision,
+            )
+            coverage.decision = "MAPPED"
+            coverage.reason = "Grounded fact references this chunk."
+        elif not has_fact and coverage.decision in {"MAPPED", "FAILED", "NOT_RELEVANT"}:
+            logger.warning(
+                "INGESTION_COVERAGE_ALIGNED chunk=%s from=%s to=NO_RELEVANT_FACT",
+                coverage.chunk_index,
+                coverage.decision,
+            )
+            coverage.decision = "NO_RELEVANT_FACT"
+            coverage.reason = (
+                "No grounded property or edge fact references this chunk after "
+                "deterministic evidence repair."
+            )
+    return aligned
+
+
+def _grounded_fact_chunks(
+    fragment: GraphPatchFragment,
+    chunks: list[DocumentChunk],
+    validator: SourceGroundingValidator,
+    *,
+    context_nodes: list[Any] | tuple[Any, ...] | None = None,
+    evidence_context: list[DocumentChunk] | None = None,
+) -> set[int]:
+    chunk_by_index = {chunk.index: chunk for chunk in chunks}
+    chunk_by_index.update({chunk.index: chunk for chunk in (evidence_context or [])})
+    node_by_temp_id = {node.temp_id: node for node in (context_nodes or [])}
+    node_by_temp_id.update({node.temp_id: node for node in fragment.nodes})
     fact_chunks: set[int] = set()
+
+    for edge in fragment.edges:
+        _, valid_chunks = validator._validate_evidence(
+            edge.evidence,
+            chunk_by_index,
+            "edges.evidence",
+            edge_name=edge.edge_name,
+        )
+        valid_evidence = [
+            item for item in edge.evidence if item.chunk_index in valid_chunks
+        ]
+        if not valid_evidence:
+            continue
+        supported, grounded_chunks, _ = validator._edge_support_details(
+            edge,
+            valid_evidence,
+            node_by_temp_id,
+        )
+        if supported:
+            fact_chunks.update(grounded_chunks)
+
     for node in fragment.nodes:
         for prop in node.properties:
-            fact_chunks.update(item.chunk_index for item in prop.evidence)
-    for edge in fragment.edges:
-        fact_chunks.update(item.chunk_index for item in edge.evidence)
-
-    for coverage in fragment.coverage:
-        if coverage.decision == "MAPPED" and coverage.chunk_index not in fact_chunks:
-            coverage.decision = "FAILED"
-            coverage.reason = (
-                "No grounded property or edge fact remained after deterministic "
-                "evidence repair."
+            _, valid_chunks = validator._validate_evidence(
+                prop.evidence,
+                chunk_by_index,
+                "nodes.properties.evidence",
+                node_temp_id=node.temp_id,
+                property_name=prop.property_name,
             )
+            attribute = validator.registry.get_attribute(prop.property_name)
+            if attribute is None:
+                continue
+            valid_evidence = [
+                item for item in prop.evidence if item.chunk_index in valid_chunks
+            ]
+            grounding = validator._property_grounding(prop.property_name, attribute)
+            if grounding == "derived":
+                continue
+            if grounding == "normalized":
+                fact_chunks.update(
+                    validator._normalized_value_supported_chunks(
+                        prop.value,
+                        valid_evidence,
+                        attribute,
+                    )
+                )
+            else:
+                fact_chunks.update(
+                    validator._value_supported_chunks(
+                        prop.value,
+                        valid_evidence,
+                        attribute.range,
+                    )
+                )
+
+    return fact_chunks
 
 
 def _repair_property_evidence(
@@ -186,7 +290,7 @@ def _repair_edge_evidence(
             candidates = _dedupe_evidence([*candidates, candidate])
             if validator._edge_supported(edge, candidates, node_by_temp_id):
                 return candidates
-    return exact if exact else evidence
+    return exact
 
 
 def _keep_only_verbatim(

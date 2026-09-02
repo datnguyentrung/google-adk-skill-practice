@@ -24,14 +24,17 @@ from app.core.schemas.ingestion.workspace import (
     IngestionRetryState,
     IngestionWorkspace,
 )
-from app.services.ingestion.fill_factory import create_fill_service
-from app.services.ingestion.fill_service import FillValidationError
 from app.services.ingestion.business_rule_edges import (
     RULE_TYPE_PROPERTY,
     business_rule_edge_issues,
     fragments_with_replacement,
 )
-from app.services.ingestion.fragment_grounding_repair import repair_fragment_grounding
+from app.services.ingestion.fill_factory import create_fill_service
+from app.services.ingestion.fill_service import FillValidationError
+from app.services.ingestion.fragment_grounding_repair import (
+    align_coverage_with_grounded_facts,
+    repair_fragment_grounding,
+)
 from app.services.ingestion.orchestrator import (
     BatchExtractor,
     GeminiBatchExtractor,
@@ -42,6 +45,9 @@ from app.services.ingestion.relationship_reconciliation import (
     RelationshipReconciler,
     reconciliation_triggered,
 )
+from app.services.ingestion.semantic_grounding import (
+    create_default_semantic_grounding_judge,
+)
 from app.services.ingestion.staged_ingestion import (
     IngestionWorkspaceService,
     WorkspaceConflictError,
@@ -49,9 +55,6 @@ from app.services.ingestion.staged_ingestion import (
 from app.services.ingestion.validate_graph_patch import (
     GraphPatchAssessment,
     GraphPatchValidationService,
-)
-from app.services.ingestion.semantic_grounding import (
-    create_default_semantic_grounding_judge,
 )
 from app.skills.skill_loader import skill_content_digest
 
@@ -976,6 +979,7 @@ def _merge_targeted_repair(
             repair_props = {
                 prop.property_name: prop for prop in repair_node.properties
             }
+            consumed_repair_properties: set[str] = set()
             next_properties = []
             for prop in node.properties:
                 is_rejected_property = (
@@ -985,6 +989,7 @@ def _merge_targeted_repair(
                 if is_rejected_property and prop.property_name in repair_props:
                     replacement = repair_props[prop.property_name].model_copy(deep=True)
                     next_properties.append(replacement)
+                    consumed_repair_properties.add(prop.property_name)
                     action_counts["REPLACE"] += 1
                     logger.debug(
                         "[REPAIR_MERGE] ingestion_id=%s batch=%s attempt=%s "
@@ -1035,6 +1040,18 @@ def _merge_targeted_repair(
             node.properties = next_properties
             existing_property_names = {prop.property_name for prop in node.properties}
             for prop in repair_node.properties:
+                if prop.property_name in consumed_repair_properties:
+                    action_counts["SKIP"] += 1
+                    logger.debug(
+                        "[REPAIR_MERGE] ingestion_id=%s batch=%s attempt=%s "
+                        "node_id=%s property=%s action=SKIP reason=already_replaced",
+                        ingestion_id,
+                        batch_index,
+                        attempt,
+                        node.temp_id,
+                        prop.property_name,
+                    )
+                    continue
                 is_rejected_property = (
                     node.temp_id,
                     prop.property_name,
@@ -1047,11 +1064,20 @@ def _merge_targeted_repair(
                     )
                 )
                 if is_rejected_property or is_new_coverage_fact:
-                    action = (
-                        "APPEND"
-                        if prop.property_name in existing_property_names
-                        else "ADD"
-                    )
+                    action = "ADD"
+                    if prop.property_name in existing_property_names:
+                        node.properties = [
+                            (
+                                prop.model_copy(deep=True)
+                                if item.property_name == prop.property_name
+                                else item
+                            )
+                            for item in node.properties
+                        ]
+                        action = "REPLACE"
+                    else:
+                        node.properties.append(prop.model_copy(deep=True))
+                        existing_property_names.add(prop.property_name)
                     action_counts[action] += 1
                     logger.debug(
                         "[REPAIR_MERGE] ingestion_id=%s batch=%s attempt=%s "
@@ -1075,24 +1101,6 @@ def _merge_targeted_repair(
                             rejected_scope.rejected_coverage_chunks,
                         ),
                     )
-                    if action == "APPEND":
-                        logger.warning(
-                            "[REPAIR_MERGE] ingestion_id=%s batch=%s attempt=%s "
-                            "node_id=%s property=%s action=APPEND "
-                            "existing_same_property_count=%s",
-                            ingestion_id,
-                            batch_index,
-                            attempt,
-                            node.temp_id,
-                            prop.property_name,
-                            sum(
-                                1
-                                for item in node.properties
-                                if item.property_name == prop.property_name
-                            ),
-                        )
-                    node.properties.append(prop.model_copy(deep=True))
-                    existing_property_names.add(prop.property_name)
                 else:
                     action_counts["SKIP"] += 1
                     logger.debug(
@@ -1926,6 +1934,12 @@ def submit_ingestion_batch(
             for context_fragment in context_fragments
             for node in context_fragment.nodes
         ]
+        fragment = align_coverage_with_grounded_facts(
+            fragment,
+            batch_chunks,
+            validation_service.source_grounding,
+            context_nodes=context_nodes,
+        )
         grounding_issues = validation_service.source_grounding.validate(
             fragment,
             batch_chunks,
@@ -1998,6 +2012,16 @@ def submit_ingestion_batch(
             for chunk in candidate.chunks
             if chunk.index in candidate_covered_indexes
         ]
+        candidate_fragment = align_coverage_with_grounded_facts(
+            GraphPatchFragment.model_validate(
+                candidate_patch.model_dump(by_alias=True, mode="json")
+            ),
+            candidate_chunks,
+            validation_service.source_grounding,
+        )
+        candidate_patch = GraphPatchDraft.model_validate(
+            candidate_fragment.model_dump(by_alias=True, mode="json")
+        )
         candidate_assessment = validation_service.assess(
             candidate_patch,
             candidate.artifact_digest,
@@ -2161,6 +2185,14 @@ def finalize_ingestion(
         }
     patch = _get_workspace_service().merged_patch(workspace)
     validation_service = _get_validation_service()
+    patch_fragment = align_coverage_with_grounded_facts(
+        GraphPatchFragment.model_validate(patch.model_dump(by_alias=True, mode="json")),
+        workspace.chunks,
+        validation_service.source_grounding,
+    )
+    patch = GraphPatchDraft.model_validate(
+        patch_fragment.model_dump(by_alias=True, mode="json")
+    )
     assessment = validation_service.assess(
         patch,
         workspace.artifact_digest,

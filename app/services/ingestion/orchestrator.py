@@ -427,6 +427,13 @@ class GeminiBatchExtractor:
             "Map pskg:bankingProductName only from an explicit product-name field "
             "such as | Tên sản phẩm | ... |. Never infer bankingProductName from "
             "| Tên tài liệu | ... | or from the document title.\n"
+            "For product documents, prioritize explicit catalog metadata rows "
+            "before feature details. When a chunk states product code, product "
+            "effective date, or product name, emit those source-grounded "
+            "properties on the BankingProduct candidate before adding secondary "
+            "facts. A persistent product graph needs the source-supported "
+            "natural identifier, effective date, and at least one required rule "
+            "relationship when the source states the rule evidence.\n"
             "Do not fabricate lifecycle statuses, codes, dates, identifiers, or "
             "relationships. Omit properties whose ontology policy is "
             "runtime_managed, system_default, or edge_derived; the compiler "
@@ -488,7 +495,12 @@ class GeminiBatchExtractor:
             "into the frozen accepted candidate and validate the full merged "
             "fragment.\n"
             "Evidence text must be a verbatim excerpt from the cited chunk; "
-            "keep original whitespace/case and Markdown table delimiters.\n\n"
+            "keep original whitespace/case and Markdown table delimiters. "
+            "The chunk section/title and source filename are metadata only: "
+            "put them in section/source, never in evidence.text unless the same "
+            "text also appears inside the chunk content. If no chunk-content "
+            "excerpt supports a rejected fact, omit that fact and return a "
+            "coverage decision that reflects the missing support.\n\n"
             f"{graph_context_block}"
             "Ontology catalog:\n"
             f"{ontology_catalog}\n\n"
@@ -504,8 +516,8 @@ class GeminiBatchExtractor:
 
 
 __all__ = [
-    "BatchExtractor",
     "DEFAULT_INGESTION_MODEL",
+    "BatchExtractor",
     "GeminiBatchExtractor",
     "InvalidGraphPatchFragmentError",
 ]

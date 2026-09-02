@@ -1,22 +1,36 @@
 import asyncio
-from types import SimpleNamespace
+from pathlib import Path
 
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import (
     Evidence,
     ExtractedEdge,
+    GraphPatchDraft,
     GraphPatchFragment,
 )
 from app.services.ingestion import use_case as ingestion_use_case
+from app.services.ingestion.document_reader import DocumentReader
+from app.services.ingestion.fragment_grounding_repair import (
+    align_coverage_with_grounded_facts,
+    repair_fragment_grounding,
+)
 from app.services.ingestion.loader import OntologyLoader
 from app.services.ingestion.orchestrator import GeminiBatchExtractor
 from app.services.ingestion.registry import OntologyRegistry
-from app.services.ingestion.staged_ingestion import IngestionWorkspaceService
 from app.services.ingestion.source_grounding import SourceGroundingValidator
+from app.services.ingestion.staged_ingestion import IngestionWorkspaceService
 from app.services.ingestion.use_case import IngestionUseCase
-
+from app.services.ingestion.validate_graph_patch import GraphPatchValidationService
 
 SOURCE = "test.md"
+
+
+def _ontology_registry() -> OntologyRegistry:
+    return OntologyRegistry(
+        OntologyLoader.load(
+            "app/data/ontology/product_sales_knowledge_graph_base_v3_1.ontology.json"
+        )
+    )
 
 
 class _FakeArtifact:
@@ -346,6 +360,65 @@ def test_targeted_merge_does_not_change_valid_edge_for_property_repair():
     ].model_dump(by_alias=True, mode="json")
 
 
+def test_targeted_merge_replaces_rejected_property_without_duplicate():
+    original = _generic_fragment()
+    repair = GraphPatchFragment(
+        nodes=[
+            {
+                "tempId": "node-a",
+                "className": "ex:Entity",
+                "properties": [
+                    {
+                        "propertyName": "ex:p2",
+                        "value": "fixed",
+                        "evidence": [
+                            {
+                                "source": SOURCE,
+                                "chunkIndex": 1,
+                                "section": "Section 1",
+                                "text": "fixed",
+                            }
+                        ],
+                    }
+                ],
+                "evidence": [
+                    {
+                        "source": SOURCE,
+                        "chunkIndex": 1,
+                        "section": "Section 1",
+                        "text": "fixed",
+                    }
+                ],
+                "confidence": 0.9,
+            }
+        ],
+        edges=[],
+        coverage=[
+            {
+                "chunkIndex": 1,
+                "decision": "MAPPED",
+                "reason": "Repaired property evidence",
+            }
+        ],
+        warnings=[],
+    )
+    scope = ingestion_use_case.TargetedRepairScope(
+        rejected_nodes=frozenset(),
+        rejected_node_evidence=frozenset(),
+        rejected_properties=frozenset({("node-a", "ex:p2")}),
+        rejected_edges=frozenset(),
+        rejected_coverage_chunks=frozenset(),
+    )
+
+    merged = ingestion_use_case._merge_targeted_repair(original, repair, scope)
+
+    repaired_properties = [
+        prop for prop in merged.nodes[0].properties if prop.property_name == "ex:p2"
+    ]
+    assert [prop.value for prop in repaired_properties] == ["fixed"]
+    assert len(merged.nodes[0].properties) == len(original.nodes[0].properties)
+
+
 def test_targeted_merge_repairs_one_coverage_item_only():
     original = _generic_fragment()
     repair = GraphPatchFragment(
@@ -529,6 +602,381 @@ def test_repair_prompt_is_generic():
         "BusinessRule",
     ):
         assert banned not in prompt
+
+
+def test_repair_prompt_warns_section_title_is_not_evidence_text():
+    prompt = GeminiBatchExtractor._repair_prompt(
+        validation_errors={"errors": []},
+        affected_chunks=[],
+        ontology_catalog="CATALOG",
+        graph_context=None,
+        rejected_candidate_facts={},
+        accepted_candidate_facts={},
+    )
+
+    assert "section/title and source filename are metadata only" in prompt
+    assert "never in evidence.text" in prompt
+
+
+def test_grounding_repair_replaces_section_title_edge_evidence_with_body_excerpt():
+    chunks = [
+        DocumentChunk(
+            index=55,
+            source=SOURCE,
+            section="21.1. Customer concern",
+            content=(
+                "Interest can be avoided for eligible purchases when the full "
+                "statement balance is paid on time."
+            ),
+        )
+    ]
+    fragment = GraphPatchFragment(
+        nodes=[
+            {
+                "tempId": "product-1",
+                "className": "pskg:BankingProduct",
+                "properties": [
+                    {
+                        "propertyName": "pskg:productCode",
+                        "value": "CC-FLEXI-001",
+                        "evidence": [
+                            {
+                                "source": SOURCE,
+                                "chunkIndex": 55,
+                                "section": "21.1. Customer concern",
+                                "text": (
+                                    "Interest can be avoided for eligible purchases "
+                                    "when the full statement balance is paid on time."
+                                ),
+                            }
+                        ],
+                    }
+                ],
+                "evidence": [
+                    {
+                        "source": SOURCE,
+                        "chunkIndex": 55,
+                        "section": "21.1. Customer concern",
+                        "text": (
+                            "Interest can be avoided for eligible purchases when "
+                            "the full statement balance is paid on time."
+                        ),
+                    }
+                ],
+                "confidence": 0.9,
+            },
+            {
+                "tempId": "script-1",
+                "className": "pskg:SalesScript",
+                "properties": [
+                    {
+                        "propertyName": "pskg:objectionHandling",
+                        "value": (
+                            "Interest can be avoided for eligible purchases when "
+                            "the full statement balance is paid on time."
+                        ),
+                        "evidence": [
+                            {
+                                "source": SOURCE,
+                                "chunkIndex": 55,
+                                "section": "21.1. Customer concern",
+                                "text": (
+                                    "Interest can be avoided for eligible purchases "
+                                    "when the full statement balance is paid on time."
+                                ),
+                            }
+                        ],
+                    }
+                ],
+                "evidence": [
+                    {
+                        "source": SOURCE,
+                        "chunkIndex": 55,
+                        "section": "21.1. Customer concern",
+                        "text": (
+                            "Interest can be avoided for eligible purchases when "
+                            "the full statement balance is paid on time."
+                        ),
+                    }
+                ],
+                "confidence": 0.9,
+            },
+        ],
+        edges=[
+            {
+                "edgeName": "pskg:hasScript",
+                "sourceTempId": "product-1",
+                "targetTempId": "script-1",
+                "evidence": [
+                    {
+                        "source": SOURCE,
+                        "chunkIndex": 55,
+                        "section": "21.1. Customer concern",
+                        "text": "21.1. Customer concern",
+                    }
+                ],
+                "confidence": 0.9,
+            }
+        ],
+        coverage=[
+            {
+                "chunkIndex": 55,
+                "decision": "MAPPED",
+                "reason": "Script edge",
+            }
+        ],
+        warnings=[],
+    )
+
+    repaired = repair_fragment_grounding(
+        fragment,
+        chunks,
+        SourceGroundingValidator(_ontology_registry()),
+    )
+
+    assert len(repaired.edges) == 1
+    assert repaired.edges[0].evidence[0].text == (
+        "Interest can be avoided for eligible purchases when the full statement "
+        "balance is paid on time."
+    )
+    assert repaired.coverage[0].decision == "MAPPED"
+    assert all(
+        evidence.text != "21.1. Customer concern"
+        for node in repaired.nodes
+        for prop in node.properties
+        for evidence in prop.evidence
+    )
+
+
+def test_grounding_repair_converts_unbacked_mapped_coverage_to_no_relevant_fact():
+    chunks = [
+        DocumentChunk(
+            index=55,
+            source=SOURCE,
+            section="21.1. Customer concern",
+            content="Body text that does not support the emitted value.",
+        )
+    ]
+    fragment = GraphPatchFragment(
+        nodes=[],
+        edges=[
+            {
+                "edgeName": "pskg:hasScript",
+                "sourceTempId": "product-1",
+                "targetTempId": "script-1",
+                "evidence": [
+                    {
+                        "source": SOURCE,
+                        "chunkIndex": 55,
+                        "section": "21.1. Customer concern",
+                        "text": SOURCE,
+                    }
+                ],
+                "confidence": 0.9,
+            }
+        ],
+        coverage=[
+            {
+                "chunkIndex": 55,
+                "decision": "MAPPED",
+                "reason": "Script edge",
+            }
+        ],
+        warnings=[],
+    )
+
+    repaired = repair_fragment_grounding(
+        fragment,
+        chunks,
+        SourceGroundingValidator(_ontology_registry()),
+    )
+
+    assert repaired.edges == []
+    assert repaired.coverage[0].decision == "NO_RELEVANT_FACT"
+
+
+def test_coverage_alignment_maps_chunk_with_grounded_property():
+    text = "Mã sản phẩm CC-FLEXI-001"
+    chunks = [
+        DocumentChunk(index=76, source=SOURCE, section="Product", content=text)
+    ]
+    fragment = GraphPatchFragment(
+        nodes=[
+            {
+                "tempId": "product-1",
+                "className": "pskg:BankingProduct",
+                "properties": [
+                    {
+                        "propertyName": "pskg:productCode",
+                        "value": "CC-FLEXI-001",
+                        "evidence": [
+                            {
+                                "source": SOURCE,
+                                "chunkIndex": 76,
+                                "section": "Product",
+                                "text": text,
+                            }
+                        ],
+                    }
+                ],
+                "evidence": [
+                    {
+                        "source": SOURCE,
+                        "chunkIndex": 76,
+                        "section": "Product",
+                        "text": text,
+                    }
+                ],
+                "confidence": 0.9,
+            }
+        ],
+        edges=[],
+        coverage=[
+            {
+                "chunkIndex": 76,
+                "decision": "NOT_RELEVANT",
+                "reason": "LLM marked it irrelevant",
+            }
+        ],
+        warnings=[],
+    )
+
+    aligned = align_coverage_with_grounded_facts(
+        fragment,
+        chunks,
+        SourceGroundingValidator(_ontology_registry()),
+    )
+
+    assert aligned.coverage[0].decision == "MAPPED"
+
+
+def test_coverage_alignment_maps_chunk_with_grounded_edge():
+    product_text = "Mã sản phẩm CC-FLEXI-001"
+    rule_text = "CC-FLEXI-001 áp dụng cho khách hàng từ 20 đến 60 tuổi."
+    chunks = [
+        DocumentChunk(index=76, source=SOURCE, section="Rule", content=rule_text)
+    ]
+    fragment = GraphPatchFragment(
+        nodes=[
+            {
+                "tempId": "product-1",
+                "className": "pskg:BankingProduct",
+                "properties": [
+                    {
+                        "propertyName": "pskg:productCode",
+                        "value": "CC-FLEXI-001",
+                        "evidence": [
+                            {
+                                "source": SOURCE,
+                                "chunkIndex": 76,
+                                "section": "Rule",
+                                "text": product_text,
+                            }
+                        ],
+                    }
+                ],
+                "evidence": [
+                    {
+                        "source": SOURCE,
+                        "chunkIndex": 76,
+                        "section": "Rule",
+                        "text": product_text,
+                    }
+                ],
+                "confidence": 0.9,
+            },
+            {
+                "tempId": "rule-1",
+                "className": "pskg:EligibilityRule",
+                "properties": [
+                    {
+                        "propertyName": "pskg:businessRuleCondition",
+                        "value": "khách hàng từ 20 đến 60 tuổi",
+                        "evidence": [
+                            {
+                                "source": SOURCE,
+                                "chunkIndex": 76,
+                                "section": "Rule",
+                                "text": rule_text,
+                            }
+                        ],
+                    }
+                ],
+                "evidence": [
+                    {
+                        "source": SOURCE,
+                        "chunkIndex": 76,
+                        "section": "Rule",
+                        "text": rule_text,
+                    }
+                ],
+                "confidence": 0.9,
+            },
+        ],
+        edges=[
+            {
+                "edgeName": "pskg:hasEligibilityRule",
+                "sourceTempId": "product-1",
+                "targetTempId": "rule-1",
+                "evidence": [
+                    {
+                        "source": SOURCE,
+                        "chunkIndex": 76,
+                        "section": "Rule",
+                        "text": rule_text,
+                    }
+                ],
+                "confidence": 0.9,
+            }
+        ],
+        coverage=[
+            {
+                "chunkIndex": 76,
+                "decision": "NO_RELEVANT_FACT",
+                "reason": "LLM missed the retained edge",
+            }
+        ],
+        warnings=[],
+    )
+
+    aligned = align_coverage_with_grounded_facts(
+        fragment,
+        chunks,
+        SourceGroundingValidator(_ontology_registry()),
+    )
+
+    assert aligned.coverage[0].decision == "MAPPED"
+
+
+def test_coverage_alignment_downgrades_mapped_chunk_without_grounded_fact():
+    chunks = [
+        DocumentChunk(
+            index=76,
+            source=SOURCE,
+            section="Product",
+            content="Nội dung không chứa mã sản phẩm.",
+        )
+    ]
+    fragment = GraphPatchFragment(
+        nodes=[],
+        edges=[],
+        coverage=[
+            {
+                "chunkIndex": 76,
+                "decision": "MAPPED",
+                "reason": "LLM claimed a fact",
+            }
+        ],
+        warnings=[],
+    )
+
+    aligned = align_coverage_with_grounded_facts(
+        fragment,
+        chunks,
+        SourceGroundingValidator(_ontology_registry()),
+    )
+
+    assert aligned.coverage[0].decision == "NO_RELEVANT_FACT"
 
 
 def test_canonical_graph_context_builder_is_compact():
@@ -895,13 +1343,208 @@ def test_no_coverage_downgrade_fallback(monkeypatch):
     assert [chunk["index"] for chunk in extractor.repair_calls[0]["affected_chunks"]] == [5]
 
 
+def test_submit_batch_aligns_conflicting_coverage_before_validation(monkeypatch):
+    text = "Mã sản phẩm CC-FLEXI-001"
+    chunk = DocumentChunk(index=76, source=SOURCE, section="Product", content=text)
+    context = FakeToolContext()
+    context.state[ingestion_use_case.ARTIFACT_DIGEST_STATE_KEY] = "digest"
+    monkeypatch.setattr(
+        ingestion_use_case,
+        "_get_validation_service",
+        _validation_stub,
+    )
+    workspace = IngestionWorkspaceService().begin(
+        artifact_name=SOURCE,
+        provenance=ingestion_use_case._current_provenance(context),
+        chunks=[chunk],
+    )
+    ingestion_use_case._store_workspace(context, workspace)
+    fragment = GraphPatchFragment(
+        nodes=[
+            {
+                "tempId": "product-1",
+                "className": "pskg:BankingProduct",
+                "properties": [
+                    {
+                        "propertyName": "pskg:productCode",
+                        "value": "CC-FLEXI-001",
+                        "evidence": [
+                            {
+                                "source": SOURCE,
+                                "chunkIndex": 76,
+                                "section": "Product",
+                                "text": text,
+                            }
+                        ],
+                    }
+                ],
+                "evidence": [
+                    {
+                        "source": SOURCE,
+                        "chunkIndex": 76,
+                        "section": "Product",
+                        "text": text,
+                    }
+                ],
+                "confidence": 0.9,
+            }
+        ],
+        edges=[],
+        coverage=[
+            {
+                "chunkIndex": 76,
+                "decision": "NO_RELEVANT_FACT",
+                "reason": "LLM missed the retained fact",
+            }
+        ],
+        warnings=[],
+    )
+
+    result = ingestion_use_case.submit_ingestion_batch(
+        workspace.ingestion_id,
+        0,
+        fragment,
+        context,
+    )
+
+    assert result["success"] is True, result
+    stored = ingestion_use_case._load_workspace(context)
+    assert stored.batches[0].fragment.coverage[0].decision == "MAPPED"
+
+
+def test_flexi_minimum_persistent_graph_from_source_chunks_passes_readiness():
+    doc = next(path for path in Path("docs").glob("*.md") if "FLEXI REWARDS" in path.name)
+    chunks = DocumentReader().read(doc)
+    metadata_chunk = chunks[1]
+    eligibility_chunk = chunks[10]
+    code_line = next(
+        line for line in metadata_chunk.content.splitlines() if "CC-FLEXI" in line
+    )
+    date_line = next(
+        line for line in metadata_chunk.content.splitlines() if "01/08/2026" in line
+    )
+    condition_line = next(
+        line for line in eligibility_chunk.content.splitlines() if "10" in line
+    )
+    condition_value = condition_line.lstrip("- ").replace("**", "")
+    draft = GraphPatchFragment(
+        nodes=[
+            {
+                "tempId": "product-1",
+                "className": "pskg:BankingProduct",
+                "properties": [
+                    {
+                        "propertyName": "pskg:productCode",
+                        "value": "CC-FLEXI-001",
+                        "evidence": [
+                            {
+                                "source": metadata_chunk.source,
+                                "chunkIndex": metadata_chunk.index,
+                                "section": metadata_chunk.section,
+                                "text": code_line,
+                            }
+                        ],
+                    },
+                    {
+                        "propertyName": "pskg:bankingProductEffectiveFrom",
+                        "value": "2026-08-01",
+                        "evidence": [
+                            {
+                                "source": metadata_chunk.source,
+                                "chunkIndex": metadata_chunk.index,
+                                "section": metadata_chunk.section,
+                                "text": date_line,
+                            }
+                        ],
+                    },
+                ],
+                "evidence": [
+                    {
+                        "source": metadata_chunk.source,
+                        "chunkIndex": metadata_chunk.index,
+                        "section": metadata_chunk.section,
+                        "text": code_line,
+                    }
+                ],
+                "confidence": 0.9,
+            },
+            {
+                "tempId": "rule-1",
+                "className": "pskg:BusinessRule",
+                "properties": [
+                    {
+                        "propertyName": "pskg:businessRuleCondition",
+                        "value": condition_value,
+                        "evidence": [
+                            {
+                                "source": eligibility_chunk.source,
+                                "chunkIndex": eligibility_chunk.index,
+                                "section": eligibility_chunk.section,
+                                "text": condition_line,
+                            }
+                        ],
+                    }
+                ],
+                "evidence": [
+                    {
+                        "source": eligibility_chunk.source,
+                        "chunkIndex": eligibility_chunk.index,
+                        "section": eligibility_chunk.section,
+                        "text": condition_line,
+                    }
+                ],
+                "confidence": 0.9,
+            },
+        ],
+        edges=[
+            {
+                "edgeName": "pskg:hasEligibilityRule",
+                "sourceTempId": "product-1",
+                "targetTempId": "rule-1",
+                "evidence": [
+                    {
+                        "source": metadata_chunk.source,
+                        "chunkIndex": metadata_chunk.index,
+                        "section": metadata_chunk.section,
+                        "text": code_line,
+                    },
+                    {
+                        "source": eligibility_chunk.source,
+                        "chunkIndex": eligibility_chunk.index,
+                        "section": eligibility_chunk.section,
+                        "text": condition_line,
+                    },
+                ],
+                "confidence": 0.9,
+            }
+        ],
+        coverage=[
+            {
+                "chunkIndex": metadata_chunk.index,
+                "decision": "MAPPED",
+                "reason": "Product metadata",
+            },
+            {
+                "chunkIndex": eligibility_chunk.index,
+                "decision": "MAPPED",
+                "reason": "Eligibility rule",
+            },
+        ],
+        warnings=[],
+    )
+
+    service = GraphPatchValidationService()
+    assessment = service.assess(
+        GraphPatchDraft.model_validate(draft.model_dump(by_alias=True, mode="json")),
+        "digest",
+        [metadata_chunk, eligibility_chunk],
+    )
+
+    assert assessment.result.valid_for_extraction is True
+    assert assessment.result.valid_for_persistence is True
+    assert assessment.result.errors == []
+    assert assessment.result.readiness_issues == []
+
+
 def _validation_stub():
-    registry = OntologyRegistry(
-        OntologyLoader.load(
-            "app/data/ontology/product_sales_knowledge_graph_base_v3_1.ontology.json"
-        )
-    )
-    return SimpleNamespace(
-        compiler=SimpleNamespace(ontology_digest="digest"),
-        source_grounding=SourceGroundingValidator(registry),
-    )
+    return GraphPatchValidationService()

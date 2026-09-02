@@ -15,7 +15,6 @@ from app.services.ingestion.relationship_reconciliation import (
 from app.services.ingestion.staged_ingestion import IngestionWorkspaceService
 from app.services.ingestion.validate_graph_patch import GraphPatchValidationService
 
-
 SOURCE = "test.md"
 
 
@@ -190,6 +189,107 @@ def _eligibility_candidate_json() -> str:
     )
 
 
+def _metadata_and_edge_candidate_json() -> str:
+    date_evidence = {
+        "source": SOURCE,
+        "chunkIndex": 0,
+        "section": "Product",
+        "text": "2026-08-01",
+    }
+    edge_evidence = _eligibility_evidence()
+    return json.dumps(
+        {
+            "nodes": [
+                {
+                    "tempId": "product-1",
+                    "className": "pskg:BankingProduct",
+                    "properties": [
+                        {
+                            "propertyName": "pskg:bankingProductEffectiveFrom",
+                            "value": "2026-08-01",
+                            "evidence": [date_evidence],
+                        }
+                    ],
+                    "evidence": [date_evidence],
+                    "confidence": 0.9,
+                },
+                {
+                    "tempId": "rule-1",
+                    "className": "pskg:BusinessRule",
+                    "properties": [
+                        {
+                            "propertyName": "pskg:businessRuleCondition",
+                            "value": edge_evidence["text"],
+                            "evidence": [edge_evidence],
+                        }
+                    ],
+                    "evidence": [edge_evidence],
+                    "confidence": 0.9,
+                },
+            ],
+            "edges": [
+                {
+                    "edgeName": "pskg:hasEligibilityRule",
+                    "sourceTempId": "product-1",
+                    "targetTempId": "rule-1",
+                    "evidence": [edge_evidence],
+                    "confidence": 0.9,
+                }
+            ],
+            "coverage": [
+                {
+                    "chunkIndex": 0,
+                    "decision": "MAPPED",
+                    "reason": "Effective date grounded",
+                },
+                {
+                    "chunkIndex": 1,
+                    "decision": "MAPPED",
+                    "reason": "Required rule relationship grounded",
+                },
+            ],
+            "warnings": [],
+        },
+        ensure_ascii=False,
+    )
+
+
+def _canonical_draft_missing_date_and_edge() -> GraphPatchDraft:
+    evidence = {
+        "source": SOURCE,
+        "chunkIndex": 0,
+        "section": "Product",
+        "text": "CC-FLEXI-001",
+    }
+    return GraphPatchDraft(
+        nodes=[
+            {
+                "tempId": "product-1",
+                "className": "pskg:BankingProduct",
+                "properties": [
+                    {
+                        "propertyName": "pskg:productCode",
+                        "value": "CC-FLEXI-001",
+                        "evidence": [evidence],
+                    }
+                ],
+                "evidence": [evidence],
+                "confidence": 0.9,
+            }
+        ],
+        edges=[],
+        coverage=[
+            {"chunkIndex": 0, "decision": "MAPPED", "reason": "Product code"},
+            {
+                "chunkIndex": 1,
+                "decision": "NO_RELEVANT_FACT",
+                "reason": "Not mapped in the first pass",
+            },
+        ],
+        warnings=[],
+    )
+
+
 def _chunks_full() -> list[DocumentChunk]:
     return [
         DocumentChunk(
@@ -361,7 +461,7 @@ def _reconcile_with_fake(response_text: str, **kwargs):
     )
 
 
-def test_trigger_only_for_edge_rule_gaps():
+def test_trigger_for_mixed_ontology_readiness_gaps():
     assert reconciliation_triggered([]) is False
     edge_gap = ValidationIssue(
         code=ValidationCode.ONTOLOGY_RULE_UNSATISFIED,
@@ -378,8 +478,45 @@ def test_trigger_only_for_edge_rule_gaps():
         property_name="pskg:x",
     )
     assert reconciliation_triggered([edge_gap]) is True
-    assert reconciliation_triggered([property_gap]) is False
-    assert reconciliation_triggered([edge_gap, property_gap]) is False
+    assert reconciliation_triggered([property_gap]) is True
+    assert reconciliation_triggered([edge_gap, property_gap]) is True
+
+
+def test_mixed_property_and_relationship_gaps_are_repaired():
+    service = GraphPatchValidationService()
+    chunks = _chunks()
+    draft = _canonical_draft_missing_date_and_edge()
+    assessment = service.assess(draft, "digest", chunks)
+    assert assessment.result.valid_for_extraction is True
+    assert assessment.result.valid_for_persistence is False
+    assert any(issue.property_name for issue in assessment.result.readiness_issues)
+    assert any(issue.edge_name for issue in assessment.result.readiness_issues)
+    client = FakeClient(_metadata_and_edge_candidate_json())
+    reconciler = RelationshipReconciler(client=client, max_passes=1)
+
+    outcome = reconciler.reconcile(
+        merged_draft=draft,
+        compiled_patch=assessment.compiled_patch,
+        readiness_issues=assessment.result.readiness_issues,
+        chunks=chunks,
+        validation_service=service,
+        artifact_digest="digest",
+        registry=service.validator.registry,
+    )
+
+    assert outcome.reconciled is True
+    assert outcome.assessment is not None
+    assert outcome.assessment.result.valid_for_persistence is True
+    product = next(
+        node for node in outcome.draft.nodes if node.temp_id == "product-1"
+    )
+    properties = {item.property_name: item.value for item in product.properties}
+    assert properties["pskg:productCode"] == "CC-FLEXI-001"
+    assert properties["pskg:bankingProductEffectiveFrom"] == "2026-08-01"
+    assert any(
+        edge.edge_name == "pskg:hasEligibilityRule"
+        for edge in outcome.draft.edges
+    )
 
 
 def test_a_missing_relationship_reconciled_with_evidence():
