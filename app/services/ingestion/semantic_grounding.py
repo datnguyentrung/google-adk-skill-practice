@@ -6,6 +6,7 @@ import os
 from dataclasses import dataclass
 from typing import Any, Literal, Protocol
 
+from google import genai
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from app.core.schemas.ingestion.graph_patch import Evidence
@@ -86,8 +87,6 @@ class GeminiSemanticGroundingJudge:
         model: str = DEFAULT_SEMANTIC_GROUNDING_MODEL,
         client: genai.Client | None = None,
     ):
-        from google import genai
-
         self.model = model
         self.client = client or genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
         self._cache: dict[str, SemanticGroundingDecision] = {}

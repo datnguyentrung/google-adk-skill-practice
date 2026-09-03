@@ -56,26 +56,47 @@ class RuntimeAdapter:
 
 
 def install_capture_wrappers() -> None:
-    import app.services.ingestion.orchestrator as orch
     import app.services.ingestion.relationship_reconciliation as rr
     import app.services.ingestion.use_case as uc
 
-    orig_extract = orch.GeminiBatchExtractor.extract_fragment
+    orig_planner_factory = uc._get_semantic_placement_planner
 
-    def extract_wrapper(self, *, batch_payload, **kwargs):
-        fragment = orig_extract(self, batch_payload=batch_payload, **kwargs)
-        batch_index = batch_payload.get("batchIndex")
-        captured["batches"].setdefault(batch_index, []).append(
-            {
-                "stage": "raw",
-                "graph_context": kwargs.get("graph_context"),
-                "previous_error": kwargs.get("previous_error"),
-                "fragment": fragment.model_dump(by_alias=True, mode="json"),
-            }
-        )
-        return fragment
+    def planner_factory():
+        planner = orig_planner_factory()
+        if getattr(planner, "_flexi_capture_wrapped", False):
+            return planner
+        orig_plan_batch = planner.plan_batch
 
-    orch.GeminiBatchExtractor.extract_fragment = extract_wrapper
+        def plan_batch_wrapper(*, batch_payload, **kwargs):
+            outcome = orig_plan_batch(batch_payload=batch_payload, **kwargs)
+            batch_index = batch_payload.get("batchIndex")
+            captured["batches"].setdefault(batch_index, []).append(
+                {
+                    "stage": "semantic_placement",
+                    "graph_context": kwargs.get("graph_context"),
+                    "previous_error": kwargs.get("previous_error"),
+                    "stats": outcome.stats.model_dump(by_alias=True, mode="json"),
+                    "sourceAudit": outcome.source_audit.model_dump(
+                        by_alias=True, mode="json"
+                    ),
+                    "placement": outcome.placement.model_dump(
+                        by_alias=True, mode="json"
+                    ),
+                    "completeness": outcome.completeness.model_dump(
+                        by_alias=True, mode="json"
+                    ),
+                    "fragment": outcome.fragment.model_dump(
+                        by_alias=True, mode="json"
+                    ),
+                }
+            )
+            return outcome
+
+        planner.plan_batch = plan_batch_wrapper
+        planner._flexi_capture_wrapped = True
+        return planner
+
+    uc._get_semantic_placement_planner = planner_factory
 
     orig_finalize = uc.finalize_ingestion
 
@@ -142,7 +163,7 @@ def main() -> None:
     try:
         Neo4jClient.connect().verify_connectivity()
         print("NEO4J_CONNECTIVITY=ok")
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:
         print(f"NEO4J_CONNECTIVITY=failed {exc!r}")
         raise
 
@@ -157,7 +178,6 @@ def main() -> None:
 
     workspace_stats = result.get("workspaceStats", {})
     reconcile = captured["reconcile"]
-    reconciled_assessment = bool(reconcile and reconcile.get("reconciled"))
     last_context = captured["contexts"][-1] if captured["contexts"] else None
     selected_chunks = (
         selected_chunk_indexes(last_context) if last_context is not None else []

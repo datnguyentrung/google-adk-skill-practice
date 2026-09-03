@@ -35,11 +35,7 @@ from app.services.ingestion.fragment_grounding_repair import (
     align_coverage_with_grounded_facts,
     repair_fragment_grounding,
 )
-from app.services.ingestion.orchestrator import (
-    BatchExtractor,
-    GeminiBatchExtractor,
-    InvalidGraphPatchFragmentError,
-)
+from app.services.ingestion.orchestrator import InvalidGraphPatchFragmentError
 from app.services.ingestion.prepare_extraction_context import ExtractionContextService
 from app.services.ingestion.relationship_reconciliation import (
     RelationshipReconciler,
@@ -47,6 +43,11 @@ from app.services.ingestion.relationship_reconciliation import (
 )
 from app.services.ingestion.semantic_grounding import (
     create_default_semantic_grounding_judge,
+)
+from app.services.ingestion.semantic_placement import (
+    InvalidAtomicFactBatchError,
+    SemanticPlacementPlanner,
+    placement_issues_to_validation,
 )
 from app.services.ingestion.staged_ingestion import (
     IngestionWorkspaceService,
@@ -267,9 +268,14 @@ def _get_workspace_service() -> IngestionWorkspaceService:
     return IngestionWorkspaceService()
 
 
-@lru_cache(maxsize=1)
-def _get_batch_extractor() -> BatchExtractor:
-    return GeminiBatchExtractor()
+def _get_semantic_placement_planner() -> SemanticPlacementPlanner:
+    validation_service = _get_validation_service()
+    return SemanticPlacementPlanner(
+        registry=validation_service.validator.registry,
+        compiler=validation_service.compiler,
+        ontology_validator=validation_service.validator,
+        source_grounding=validation_service.source_grounding,
+    )
 
 
 @lru_cache(maxsize=1)
@@ -371,7 +377,7 @@ def _rate_limit_retry_delay_seconds(exc: Exception, attempt: int) -> float:
 
 def _is_retryable_extraction_error(exc: Exception) -> bool:
     return (
-        isinstance(exc, InvalidGraphPatchFragmentError)
+        isinstance(exc, (InvalidGraphPatchFragmentError, InvalidAtomicFactBatchError))
         or _is_rate_limit_error(exc)
         or bool(getattr(exc, "retryable", False))
     )
@@ -384,11 +390,9 @@ def _extractor_retry_error(exc: Exception) -> dict[str, Any]:
         "message": _orchestration_error_message(exc),
         "shapeSummary": getattr(exc, "summary", {}),
         "repairInstructions": (
-            "Convert the response to the canonical GraphPatchFragment object. "
-            "Return one top-level object with nodes, edges, coverage, warnings. "
-            "Do not return an array. Do not use entities, chunkStatus, id, class, "
-            "or a property map object. Each node property must be an entry with "
-            "propertyName, value, and evidence."
+            "Return one AtomicFactBatch object. Extract only ontology-relevant "
+            "atomic facts with source-grounded evidence. Do not emit ontology "
+            "technical names, nodes, edges, properties, or GraphPatch fragments."
         ),
     }
 
@@ -2472,7 +2476,7 @@ async def ingest_document_end_to_end(
 
     ingestion_id = begin["ingestionId"]
     ontology_catalog = begin.get("ontologyCatalog", "")
-    extractor = _get_batch_extractor()
+    planner = _get_semantic_placement_planner()
     response: dict[str, Any] = begin
     processed_batches = 0
 
@@ -2517,123 +2521,131 @@ async def ingest_document_end_to_end(
                     DocumentChunk.model_validate(item)
                     for item in batch_payload.get("chunks", [])
                 ]
-                if candidate_fragment is not None and rejected_scope is not None:
-                    affected_indexes = (
-                        previous_error or {}
-                    ).get("affectedChunkIndexes") or sorted(
-                        rejected_scope.rejected_coverage_chunks
-                    )
-                    affected_chunks = [
-                        chunk
-                        for chunk in batch_payload.get("chunks", [])
-                        if chunk.get("index") in set(affected_indexes)
-                    ]
-                    rejected_context = _rejected_candidate_context(
-                        candidate_fragment,
-                        rejected_scope,
-                    )
-                    accepted_context = _accepted_repair_context(
-                        candidate_fragment,
-                        rejected_scope,
-                    )
-                    logger.info(
-                        "[SEMANTIC_REPAIR_START] ingestion_id=%s batch=%s attempt=%s "
-                        "affected_chunks=%s rejected_properties=%s rejected_edges=%s "
-                        "rejected_coverage=%s preserved_property_count=%s "
-                        "preserved_edge_count=%s",
-                        ingestion_id,
-                        batch_index,
-                        semantic_attempts_used - 1,
-                        [chunk.get("index") for chunk in affected_chunks],
-                        sorted(rejected_scope.rejected_properties),
-                        sorted(rejected_scope.rejected_edges),
-                        sorted(rejected_scope.rejected_coverage_chunks),
-                        sum(
-                            1
-                            for node in candidate_fragment.nodes
-                            for prop in node.properties
-                            if (node.temp_id, prop.property_name)
-                            not in rejected_scope.rejected_properties
-                            and node.temp_id not in rejected_scope.rejected_nodes
-                        ),
-                        sum(
-                            1
-                            for edge in candidate_fragment.edges
-                            if _edge_key(edge) not in rejected_scope.rejected_edges
-                        ),
-                    )
-                    for node in candidate_fragment.nodes:
-                        logger.debug(
-                            "[REPAIR_NODE_BEFORE] ingestion_id=%s batch=%s attempt=%s "
-                            "node_id=%s properties=%s",
-                            ingestion_id,
-                            batch_index,
-                            semantic_attempts_used - 1,
-                            node.temp_id,
-                            _trace_node_properties(node),
+                logger.info(
+                    "[SEMANTIC_PLACEMENT_START] ingestion_id=%s batch=%s attempt=%s "
+                    "chunk_ids=%s existing_context_nodes=%s ontology_chars=%s",
+                    ingestion_id,
+                    batch_index,
+                    semantic_attempts_used,
+                    batch_payload.get("chunkIndexes"),
+                    graph_context.count("- ref=") if graph_context else 0,
+                    len(ontology_catalog),
+                )
+                placement_result = planner.plan_batch(
+                    batch_payload=batch_payload,
+                    ontology_scope=ontology_catalog,
+                    chunks=batch_chunks,
+                    graph_context=graph_context,
+                    previous_error=previous_error,
+                )
+                fragment = placement_result.fragment
+                if not placement_result.source_audit.passed:
+                    issues = [
+                        ValidationIssue(
+                            code="ORCHESTRATION_FAILED",
+                            message=f"Source fact coverage failed: {item.reason}",
+                            location=f"sourceFactCoverage.{item.chunk_index}",
                         )
-                    repair = extractor.repair_fragment(
-                        validation_errors=previous_error or {},
-                        affected_chunks=affected_chunks,
-                        ontology_catalog=ontology_catalog,
-                        graph_context=graph_context,
-                        rejected_candidate_facts=rejected_context,
-                        accepted_candidate_facts=accepted_context,
-                    )
-                    _trace_fragment_details(
-                        repair,
-                        tag="SEMANTIC_REPAIR_RAW_RESULT",
-                        ingestion_id=ingestion_id,
-                        batch_index=batch_index,
-                        attempt=semantic_attempts_used - 1,
-                    )
-                    repair = repair_fragment_grounding(
-                        repair,
-                        batch_chunks,
-                        _get_validation_service().source_grounding,
-                    )
-                    _trace_fragment_details(
-                        repair,
-                        tag="SEMANTIC_REPAIR_GROUNDED_RESULT",
-                        ingestion_id=ingestion_id,
-                        batch_index=batch_index,
-                        attempt=semantic_attempts_used - 1,
-                    )
-                    fragment = _merge_targeted_repair(
-                        candidate_fragment,
-                        repair,
-                        rejected_scope,
-                        trace_context={
-                            "ingestion_id": ingestion_id,
-                            "batch": batch_index,
-                            "attempt": semantic_attempts_used - 1,
-                        },
-                    )
-                else:
-                    logger.info(
-                        "[EXTRACTION_REQUEST] ingestion_id=%s batch=%s chunk_ids=%s "
-                        "existing_context_nodes=%s accumulated_entities=%s "
-                        "ontology_chars=%s",
-                        ingestion_id,
+                        for item in placement_result.source_audit.items
+                        if item.status
+                        in {"OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"}
+                    ]
+                    previous_error = {
+                        "stage": "source_fact_coverage",
+                        "errors": [
+                            issue.model_dump(by_alias=True, exclude_none=True)
+                            for issue in issues
+                        ],
+                    }
+                    if semantic_attempts_used < max_retries_per_batch:
+                        continue
+                    response = _batch_validation_response(
+                        _load_workspace(tool_context),
                         batch_index,
-                        batch_payload.get("chunkIndexes"),
-                        graph_context.count("- ref=") if graph_context else 0,
-                        graph_context.count("- ref=") if graph_context else 0,
-                        len(ontology_catalog),
+                        issues,
+                        fragment=fragment,
+                        retry_required=False,
+                        next_action="explicit_extraction_failure",
                     )
-                    fragment = extractor.extract_fragment(
-                        batch_payload=batch_payload,
-                        ontology_catalog=ontology_catalog,
-                        previous_error=previous_error,
-                        graph_context=graph_context,
+                    return {
+                        **response,
+                        "stage": "explicit_extraction_failure",
+                        "terminal": True,
+                        "ingestionId": ingestion_id,
+                        "failureReason": "SOURCE_FACT_COVERAGE_FAILED",
+                    }
+                if not placement_result.placement.passed:
+                    issues = placement_issues_to_validation(
+                        placement_result.placement.issues
                     )
-                    _trace_fragment_details(
-                        fragment,
-                        tag="RAW_EXTRACTION_RESULT",
-                        ingestion_id=ingestion_id,
-                        batch_index=batch_index,
-                        attempt=0,
+                    previous_error = {
+                        "stage": "semantic_placement",
+                        "errors": [
+                            issue.model_dump(by_alias=True, exclude_none=True)
+                            for issue in issues
+                        ],
+                    }
+                    if semantic_attempts_used < max_retries_per_batch:
+                        continue
+                    response = _batch_validation_response(
+                        _load_workspace(tool_context),
+                        batch_index,
+                        issues,
+                        fragment=fragment,
+                        retry_required=False,
+                        next_action="explicit_extraction_failure",
                     )
+                    return {
+                        **response,
+                        "stage": "explicit_extraction_failure",
+                        "terminal": True,
+                        "ingestionId": ingestion_id,
+                        "failureReason": "SEMANTIC_PLACEMENT_FAILED",
+                    }
+                if not placement_result.completeness.passed:
+                    issues = [
+                        ValidationIssue(
+                            code="ORCHESTRATION_FAILED",
+                            message=(
+                                f"Representation completeness failed for "
+                                f"{item.fact_id}: {item.status} - {item.reason}"
+                            ),
+                            location=f"representationCompleteness.{item.fact_id}",
+                        )
+                        for item in placement_result.completeness.items
+                        if item.status != "REPRESENTED"
+                    ]
+                    previous_error = {
+                        "stage": "representation_completeness",
+                        "errors": [
+                            issue.model_dump(by_alias=True, exclude_none=True)
+                            for issue in issues
+                        ],
+                    }
+                    if semantic_attempts_used < max_retries_per_batch:
+                        continue
+                    response = _batch_validation_response(
+                        _load_workspace(tool_context),
+                        batch_index,
+                        issues,
+                        fragment=fragment,
+                        retry_required=False,
+                        next_action="explicit_extraction_failure",
+                    )
+                    return {
+                        **response,
+                        "stage": "explicit_extraction_failure",
+                        "terminal": True,
+                        "ingestionId": ingestion_id,
+                        "failureReason": "REPRESENTATION_COMPLETENESS_FAILED",
+                    }
+                _trace_fragment_details(
+                    fragment,
+                    tag="SEMANTIC_PLACEMENT_FRAGMENT",
+                    ingestion_id=ingestion_id,
+                    batch_index=batch_index,
+                    attempt=semantic_attempts_used - 1,
+                )
                 fragment = repair_fragment_grounding(
                     fragment,
                     batch_chunks,

@@ -3,14 +3,14 @@ from types import SimpleNamespace
 
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchDraft, GraphPatchFragment
+from app.core.schemas.ingestion.semantic_placement import AtomicFactBatch
 from app.services.ingestion import use_case as ingestion_use_case
 from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
 from app.services.ingestion.loader import OntologyLoader
-from app.services.ingestion.orchestrator import GeminiBatchExtractor
 from app.services.ingestion.registry import OntologyRegistry
 from app.services.ingestion.semantic_grounding import SemanticGroundingDecision
+from app.services.ingestion.semantic_placement import GeminiAtomicFactExtractor
 from app.services.ingestion.source_grounding import SourceGroundingValidator
-
 
 SOURCE = "test.md"
 
@@ -311,15 +311,15 @@ def test_fee_condition_as_business_rule_passes():
     assert "DERIVED_PROPERTY_REQUIRES_EDGE_EVIDENCE" not in codes
 
 
-def test_prompt_has_no_specific_representation_rules():
-    prompt = GeminiBatchExtractor._prompt(
+def test_atomic_prompt_is_representation_blind():
+    prompt = GeminiAtomicFactExtractor._prompt(
         batch_payload={
             "batchIndex": 0,
             "chunkIndexes": [0],
             "contentChars": 10,
             "chunks": [],
         },
-        ontology_catalog="CLASS: pskg:BankingProduct ...",
+        ontology_scope="CLASS: pskg:BankingProduct ...",
         previous_error=None,
     )
     for banned in (
@@ -328,10 +328,11 @@ def test_prompt_has_no_specific_representation_rules():
         "hasEligibilityRule",
         "governedByPolicy",
         "BusinessRule",
-        "Canonical GraphPatchFragment JSON contract",
+        "GraphPatchFragment",
     ):
         assert banned not in prompt, banned
-    assert "Do not force compound or multi-dimensional facts into a scalar" in prompt
+    assert "ontology-aware for relevance" in prompt
+    assert "representation-blind for placement" in prompt
 
 
 class _FakeModels:
@@ -342,20 +343,7 @@ class _FakeModels:
         self.captured["config"] = config
         return SimpleNamespace(
             parsed=None,
-            text=json.dumps(
-                {
-                    "nodes": [],
-                    "edges": [],
-                    "coverage": [
-                        {
-                            "chunkIndex": 0,
-                            "decision": "NO_RELEVANT_FACT",
-                            "reason": "No fact in this chunk",
-                        }
-                    ],
-                    "warnings": [],
-                }
-            ),
+            text=json.dumps({"facts": [], "coverage": {"0": "NO_RELEVANT_FACT"}, "warnings": []}),
         )
 
 
@@ -366,22 +354,22 @@ class _FakeClient:
 
 def test_extractor_config_uses_native_response_json_schema():
     fake = _FakeClient()
-    extractor = GeminiBatchExtractor(client=fake)
+    extractor = GeminiAtomicFactExtractor(client=fake)
 
-    fragment = extractor.extract_fragment(
+    facts = extractor.extract_facts(
         batch_payload={
             "batchIndex": 0,
             "chunkIndexes": [0],
             "contentChars": 10,
             "chunks": [],
         },
-        ontology_catalog="catalog",
+        ontology_scope="catalog",
     )
 
-    assert fragment is not None
+    assert facts is not None
     config = fake.models.captured["config"]
     assert config.response_schema is None
-    assert config.response_json_schema == GraphPatchFragment.model_json_schema()
+    assert config.response_json_schema == AtomicFactBatch.model_json_schema()
     assert config.response_mime_type == "application/json"
 
 

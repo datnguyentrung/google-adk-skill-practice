@@ -1,5 +1,6 @@
 import asyncio
 from pathlib import Path
+from types import SimpleNamespace
 
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import (
@@ -15,7 +16,6 @@ from app.services.ingestion.fragment_grounding_repair import (
     repair_fragment_grounding,
 )
 from app.services.ingestion.loader import OntologyLoader
-from app.services.ingestion.orchestrator import GeminiBatchExtractor
 from app.services.ingestion.registry import OntologyRegistry
 from app.services.ingestion.source_grounding import SourceGroundingValidator
 from app.services.ingestion.staged_ingestion import IngestionWorkspaceService
@@ -582,42 +582,6 @@ def test_targeted_merge_preserves_facts_across_multiple_attempts():
     ] == "fixed-b"
 
 
-def test_repair_prompt_is_generic():
-    prompt = GeminiBatchExtractor._repair_prompt(
-        validation_errors={"errors": []},
-        affected_chunks=[],
-        ontology_catalog="CATALOG",
-        graph_context=None,
-        rejected_candidate_facts={},
-        accepted_candidate_facts={},
-    )
-
-    for banned in (
-        "Flexi",
-        "fee",
-        "interest",
-        "minimum payment",
-        "withdrawal",
-        "eligibility",
-        "BusinessRule",
-    ):
-        assert banned not in prompt
-
-
-def test_repair_prompt_warns_section_title_is_not_evidence_text():
-    prompt = GeminiBatchExtractor._repair_prompt(
-        validation_errors={"errors": []},
-        affected_chunks=[],
-        ontology_catalog="CATALOG",
-        graph_context=None,
-        rejected_candidate_facts={},
-        accepted_candidate_facts={},
-    )
-
-    assert "section/title and source filename are metadata only" in prompt
-    assert "never in evidence.text" in prompt
-
-
 def test_grounding_repair_replaces_section_title_edge_evidence_with_body_excerpt():
     chunks = [
         DocumentChunk(
@@ -1022,34 +986,6 @@ def test_canonical_graph_context_builder_is_compact():
     assert "pskg:hasEligibilityRule: product-1 -> rule-1" in edge_text
 
 
-def test_prompt_includes_graph_context_section():
-    kwargs = {
-        "batch_payload": {
-            "batchIndex": 1,
-            "chunkIndexes": [5],
-            "contentChars": 10,
-            "chunks": [],
-        },
-        "ontology_catalog": "CATALOG",
-        "previous_error": None,
-    }
-    without = GeminiBatchExtractor._prompt(graph_context=None, **kwargs)
-    assert "Existing canonical graph" not in without
-
-    context = (
-        "Existing canonical graph:\n"
-        "Nodes:\n"
-        "- ref=product-1\n"
-        "  class=pskg:BankingProduct\n"
-        "  identity={\"productCode\": \"CC-FLEXI-001\"}"
-    )
-    prompt = GeminiBatchExtractor._prompt(graph_context=context, **kwargs)
-    assert "Existing canonical graph" in prompt
-    assert "do not duplicate existing nodes" in prompt
-    for banned in ("BusinessRule", "hasEligibilityRule", "eligibility", "Flexi"):
-        assert banned not in prompt, banned
-
-
 LOOP_DOC = "\n\n".join(
     f"## Section {i}\n\nLine A of section {i} about product facts.\n\nLine B of section {i}."
     for i in range(8)
@@ -1080,6 +1016,25 @@ class RecordingExtractor:
                 for chunk in affected_chunks
             ],
             warnings=[],
+        )
+
+
+class RecordingPlanner:
+    def __init__(self, extractor):
+        self.extractor = extractor
+
+    def plan_batch(self, **kwargs):
+        fragment = self.extractor.extract_fragment(
+            batch_payload=kwargs["batch_payload"],
+            previous_error=kwargs.get("previous_error"),
+            graph_context=kwargs.get("graph_context"),
+        )
+        return SimpleNamespace(
+            fragment=fragment,
+            source_audit=SimpleNamespace(passed=True),
+            placement=SimpleNamespace(passed=True, issues=[]),
+            completeness=SimpleNamespace(passed=True, items=[]),
+            stats=SimpleNamespace(),
         )
 
 
@@ -1187,7 +1142,9 @@ def _run_loop(monkeypatch, *, reject_first_batch1=False, reject_all_batch1=False
     extractor = RecordingExtractor()
     context = FakeToolContext({SOURCE: LOOP_DOC})
     monkeypatch.setattr(
-        ingestion_use_case, "_get_batch_extractor", lambda: extractor
+        ingestion_use_case,
+        "_get_semantic_placement_planner",
+        lambda: RecordingPlanner(extractor),
     )
     monkeypatch.setattr(
         ingestion_use_case,
@@ -1234,16 +1191,15 @@ def test_retry_receives_same_graph_context_and_previous_error(monkeypatch):
     result, extractor = _run_loop(monkeypatch, reject_first_batch1=True)
 
     assert result["success"] is True
-    assert len(extractor.calls) == 2
-    assert len(extractor.repair_calls) == 1
-    assert extractor.calls[1]["graph_context"] == extractor.repair_calls[0]["graph_context"]
-    previous_error = extractor.repair_calls[0]["validation_errors"]
+    assert len(extractor.calls) == 3
+    assert len(extractor.repair_calls) == 0
+    assert extractor.calls[1]["graph_context"] == extractor.calls[2]["graph_context"]
+    previous_error = extractor.calls[2]["previous_error"]
     assert previous_error is not None
     assert (
         previous_error["repairInstructions"]
         == "Add a grounded fact for chunk 5."
     )
-    assert [chunk["index"] for chunk in extractor.repair_calls[0]["affected_chunks"]] == [5]
 
 
 def test_cross_fragment_edge_to_existing_product_resolves(monkeypatch):
@@ -1305,7 +1261,9 @@ def test_no_coverage_downgrade_fallback(monkeypatch):
     extractor = MappedNoFactExtractor()
     context = FakeToolContext({SOURCE: LOOP_DOC})
     monkeypatch.setattr(
-        ingestion_use_case, "_get_batch_extractor", lambda: extractor
+        ingestion_use_case,
+        "_get_semantic_placement_planner",
+        lambda: RecordingPlanner(extractor),
     )
     monkeypatch.setattr(
         ingestion_use_case,
@@ -1338,9 +1296,9 @@ def test_no_coverage_downgrade_fallback(monkeypatch):
     assert {error["code"] for error in result["errors"]} == {
         "COVERAGE_NOT_EVIDENCED"
     }
-    assert len(extractor.calls) == 2
-    assert len(extractor.repair_calls) == 1
-    assert [chunk["index"] for chunk in extractor.repair_calls[0]["affected_chunks"]] == [5]
+    assert len(extractor.calls) == 3
+    assert len(extractor.repair_calls) == 0
+    assert extractor.calls[2]["previous_error"]["affectedChunkIndexes"] == [5]
 
 
 def test_submit_batch_aligns_conflicting_coverage_before_validation(monkeypatch):

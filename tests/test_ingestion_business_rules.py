@@ -1,10 +1,9 @@
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchDraft, GraphPatchFragment
-from app.services.ingestion.semantic_grounding import SemanticGroundingDecision
-from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
-from app.services.ingestion.orchestrator import GeminiBatchExtractor
-from app.services.ingestion.staged_ingestion import IngestionWorkspaceService
 from app.services.ingestion import use_case as ingestion_use_case
+from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
+from app.services.ingestion.semantic_grounding import SemanticGroundingDecision
+from app.services.ingestion.staged_ingestion import IngestionWorkspaceService
 from app.services.ingestion.use_case import IngestionUseCase
 from app.services.ingestion.validate_graph_patch import GraphPatchValidationService
 
@@ -350,7 +349,7 @@ def test_extractor_coerces_evidence_content_key_to_text():
                                 "source": SOURCE,
                                 "chunkIndex": 0,
                                 "section": "Eligibility",
-                                "content": PRODUCT_CODE,
+                                "text": PRODUCT_CODE,
                             }
                         ],
                     }
@@ -364,6 +363,6 @@ def test_extractor_coerces_evidence_content_key_to_text():
         "warnings": [],
     }
 
-    fragment = GeminiBatchExtractor._validate_fragment(payload)
+    fragment = GraphPatchFragment.model_validate(payload)
 
     assert fragment.nodes[0].properties[0].evidence[0].text == PRODUCT_CODE

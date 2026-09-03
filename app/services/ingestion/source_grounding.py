@@ -740,7 +740,7 @@ class SourceGroundingValidator:
         return False
 
     @staticmethod
-    def _normalize_number_value(value: int | float | Decimal) -> str:
+    def _normalize_number_value(value: float | Decimal) -> str:
         if isinstance(value, int):
             return str(abs(value))
         decimal_value = Decimal(str(value)).normalize()

@@ -1,12 +1,10 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import hashlib
 import json
 import logging
 import math
 import os
-import re
-import unicodedata
 from collections.abc import Iterable
 
 from app.core.schemas.ingestion.document import DocumentChunk
@@ -28,11 +26,6 @@ from app.services.ingestion.policies.product_sales_identity import (
 )
 
 logger = logging.getLogger(__name__)
-
-MULTI_VALUE_PROPERTY_NAMES = {
-    "pskg:productAttributes",
-    "pskg:businessRuleCondition",
-}
 
 MAX_BATCH_CHUNKS = max(1, int(os.getenv("INGESTION_MAX_BATCH_CHUNKS", "5")))
 MAX_BATCH_CHARS = max(1_000, int(os.getenv("INGESTION_MAX_BATCH_CHARS", "5000")))
@@ -141,10 +134,6 @@ class IngestionWorkspaceService:
 
         nodes, temp_id_aliases = cls._merge_nodes(fragments)
         edges = cls._merge_edges(fragments, temp_id_aliases)
-        nodes, semantic_aliases = cls._consolidate_semantic_nodes(nodes, edges)
-        if semantic_aliases:
-            edges = cls._rewrite_edge_aliases(edges, semantic_aliases)
-            edges = cls._dedupe_edges(edges)
         coverage = cls._merge_coverage(fragments)
         coverage = cls._reconcile_coverage_with_merged_facts(
             coverage, nodes, edges
@@ -264,7 +253,7 @@ class IngestionWorkspaceService:
                 properties[prop.property_name] = copied
                 continue
 
-            if prop.property_name in MULTI_VALUE_PROPERTY_NAMES:
+            if isinstance(current.value, list) or isinstance(prop.value, list):
                 current_values = current.value if isinstance(current.value, list) else [current.value]
                 incoming_values = prop.value if isinstance(prop.value, list) else [prop.value]
                 current.value = cls._merge_list_values(current_values, incoming_values)
@@ -346,7 +335,7 @@ class IngestionWorkspaceService:
                         existing.properties.append(copied)
                         properties[prop.property_name] = copied
                         continue
-                    if prop.property_name in MULTI_VALUE_PROPERTY_NAMES:
+                    if isinstance(current.value, list) or isinstance(prop.value, list):
                         current_values = current.value if isinstance(current.value, list) else [current.value]
                         incoming_values = prop.value if isinstance(prop.value, list) else [prop.value]
                         current.value = cls._merge_list_values(current_values, incoming_values)
@@ -404,239 +393,6 @@ class IngestionWorkspaceService:
                         [*current.evidence, *prop.evidence]
                     )
         return list(merged.values()), temp_id_aliases
-
-    @classmethod
-    def _consolidate_semantic_nodes(
-        cls,
-        nodes: list[ExtractedNode],
-        edges: list[ExtractedEdge],
-    ) -> tuple[list[ExtractedNode], dict[str, str]]:
-        """Conservatively merge document-level candidates before persistence.
-
-        Identity is based on ontology-visible class/properties plus relationship
-        owner scope. Evidence supports merged facts but is not part of the key.
-        """
-
-        merged: list[ExtractedNode] = []
-        aliases: dict[str, str] = {}
-        for incoming in nodes:
-            match = cls._find_semantic_match(incoming, merged, edges, aliases)
-            if match is None:
-                merged.append(incoming)
-                continue
-            aliases[incoming.temp_id] = match.temp_id
-            cls._merge_node_into(match, incoming)
-        return merged, aliases
-
-    @classmethod
-    def _find_semantic_match(
-        cls,
-        incoming: ExtractedNode,
-        merged: list[ExtractedNode],
-        edges: list[ExtractedEdge],
-        aliases: dict[str, str],
-    ) -> ExtractedNode | None:
-        incoming_scope = cls._owner_scope(incoming.temp_id, edges, aliases)
-        incoming_props = cls._semantic_property_fingerprints(incoming)
-        if not incoming_props:
-            return None
-        for existing in merged:
-            if existing.class_name != incoming.class_name:
-                continue
-            if cls._owner_scope(existing.temp_id, edges, aliases) != incoming_scope:
-                continue
-            existing_props = cls._semantic_property_fingerprints(existing)
-            if cls._properties_semantically_equivalent(existing_props, incoming_props):
-                return existing
-        return None
-
-    @classmethod
-    def _owner_scope(
-        cls,
-        temp_id: str,
-        edges: list[ExtractedEdge],
-        aliases: dict[str, str],
-    ) -> tuple[tuple[str, str], ...]:
-        scoped = []
-        for edge in edges:
-            target = aliases.get(edge.target_temp_id, edge.target_temp_id)
-            if target != temp_id:
-                continue
-            source = aliases.get(edge.source_temp_id, edge.source_temp_id)
-            scoped.append((edge.edge_name, source))
-        return tuple(sorted(scoped))
-
-    @classmethod
-    def _semantic_property_fingerprints(
-        cls,
-        node: ExtractedNode,
-    ) -> dict[str, tuple[tuple[str, ...], tuple[str, ...]]]:
-        result = {}
-        for prop in node.properties:
-            result[prop.property_name] = cls._value_fingerprint(prop.value)
-        return result
-
-    @classmethod
-    def _properties_semantically_equivalent(
-        cls,
-        left: dict[str, tuple[tuple[str, ...], tuple[str, ...]]],
-        right: dict[str, tuple[tuple[str, ...], tuple[str, ...]]],
-    ) -> bool:
-        shared = set(left) & set(right)
-        if not shared:
-            return False
-        for name in shared:
-            if not cls._fingerprints_compatible(left[name], right[name]):
-                return False
-        return True
-
-    @staticmethod
-    def _fingerprints_compatible(
-        left: tuple[tuple[str, ...], tuple[str, ...]],
-        right: tuple[tuple[str, ...], tuple[str, ...]],
-    ) -> bool:
-        left_numbers, left_tokens = left
-        right_numbers, right_tokens = right
-        if left == right:
-            return True
-        if not left_numbers or left_numbers != right_numbers:
-            return False
-        left_set = set(left_tokens)
-        right_set = set(right_tokens)
-        if not left_set or not right_set:
-            return False
-        overlap = left_set & right_set
-        if not overlap:
-            return False
-        smaller = min(len(left_set), len(right_set))
-        return len(overlap) / smaller >= 0.75
-
-    @classmethod
-    def _value_fingerprint(
-        cls,
-        value,
-    ) -> tuple[tuple[str, ...], tuple[str, ...]]:
-        values = value if isinstance(value, list) else [value]
-        numbers: set[str] = set()
-        tokens: set[str] = set()
-        for item in values:
-            text = cls._normalize_text(str(item))
-            numbers.update(cls._number_units(text))
-            tokens.update(cls._significant_tokens(text))
-        return tuple(sorted(numbers)), tuple(sorted(tokens))
-
-    @staticmethod
-    def _normalize_text(value: str) -> str:
-        text = unicodedata.normalize("NFKC", value).casefold()
-        text = text.replace("–", "-").replace("—", "-")
-        return re.sub(r"\s+", " ", text).strip()
-
-    @staticmethod
-    def _number_units(text: str) -> set[str]:
-        result: set[str] = set()
-        for match in re.finditer(
-            r"(?P<number>\d[\d.,]*)\s*(?P<unit>%|vnd|đ|d|nghìn|tr|triệu)?",
-            text,
-        ):
-            number = re.sub(r"\D", "", match.group("number"))
-            unit = match.group("unit") or ""
-            if number:
-                result.add(f"{number}:{unit}")
-        return result
-
-    @staticmethod
-    def _significant_tokens(text: str) -> set[str]:
-        stopwords = {
-            "la",
-            "là",
-            "va",
-            "và",
-            "cua",
-            "của",
-            "cho",
-            "the",
-            "thẻ",
-            "duoc",
-            "được",
-            "doi",
-            "đối",
-            "voi",
-            "với",
-            "tren",
-            "trên",
-            "toi",
-            "tối",
-            "thieu",
-            "thiểu",
-            "giao",
-            "dich",
-            "dịch",
-        }
-        tokens = set()
-        for token in re.findall(r"[\w%]+", text):
-            if len(token) < 2 or token in stopwords or token.isdigit():
-                continue
-            tokens.add(token)
-        return tokens
-
-    @classmethod
-    def _merge_node_into(
-        cls,
-        existing: ExtractedNode,
-        incoming: ExtractedNode,
-    ) -> None:
-        existing.evidence = cls._dedupe_models([*existing.evidence, *incoming.evidence])
-        existing.confidence = max(existing.confidence, incoming.confidence)
-        properties = {item.property_name: item for item in existing.properties}
-        for prop in incoming.properties:
-            current = properties.get(prop.property_name)
-            if current is None:
-                copied = prop.model_copy(deep=True)
-                existing.properties.append(copied)
-                properties[prop.property_name] = copied
-                continue
-            current_values = (
-                current.value if isinstance(current.value, list) else [current.value]
-            )
-            incoming_values = prop.value if isinstance(prop.value, list) else [prop.value]
-            if cls._stable_value(current.value) != cls._stable_value(prop.value):
-                current.value = cls._merge_list_values(current_values, incoming_values)
-            current.evidence = cls._dedupe_models(
-                [*current.evidence, *prop.evidence]
-            )
-
-    @staticmethod
-    def _rewrite_edge_aliases(
-        edges: list[ExtractedEdge],
-        aliases: dict[str, str],
-    ) -> list[ExtractedEdge]:
-        rewritten = []
-        for edge in edges:
-            copied = edge.model_copy(deep=True)
-            copied.source_temp_id = aliases.get(copied.source_temp_id, copied.source_temp_id)
-            copied.target_temp_id = aliases.get(copied.target_temp_id, copied.target_temp_id)
-            if copied.source_temp_id != copied.target_temp_id:
-                rewritten.append(copied)
-        return rewritten
-
-    @classmethod
-    def _dedupe_edges(cls, edges: list[ExtractedEdge]) -> list[ExtractedEdge]:
-        merged: dict[tuple[str, str, str], ExtractedEdge] = {}
-        for incoming in edges:
-            key = (
-                incoming.edge_name,
-                incoming.source_temp_id,
-                incoming.target_temp_id,
-            )
-            existing = merged.get(key)
-            if existing is None:
-                merged[key] = incoming.model_copy(deep=True)
-                continue
-            existing.evidence = cls._dedupe_models(
-                [*existing.evidence, *incoming.evidence]
-            )
-            existing.confidence = max(existing.confidence, incoming.confidence)
-        return list(merged.values())
 
     @classmethod
     def _merge_edges(
@@ -797,9 +553,9 @@ class IngestionWorkspaceService:
         for item in evidence:
             text = item.text.casefold()
             section = (item.section or "").casefold()
-            if "tên sản phẩm" in text:
+            if "tÃªn sáº£n pháº©m" in text:
                 score = max(score, 20)
-            elif "tên tài liệu" in text or "thông tin tài liệu" in section:
+            elif "tÃªn tÃ i liá»‡u" in text or "thÃ´ng tin tÃ i liá»‡u" in section:
                 score = max(score, 0)
             else:
                 score = max(score, 10)

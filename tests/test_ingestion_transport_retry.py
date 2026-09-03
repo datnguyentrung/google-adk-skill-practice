@@ -1,16 +1,15 @@
 import asyncio
+import os
 import random
 from types import SimpleNamespace
 
 import httpx
-import pytest
 from google import genai
 
 from app.core.schemas.ingestion.graph_patch import GraphPatchFragment
 from app.services.ingestion import use_case as ingestion_use_case
-from app.services.ingestion import orchestrator
 from app.services.ingestion.orchestrator import InvalidGraphPatchFragmentError
-
+from app.services.ingestion.semantic_placement import GeminiAtomicFactExtractor
 
 DOC_TEXT = (
     "# HƯỚNG DẪN NGHIỆP VỤ SẢN PHẨM THẺ TÍN DỤNG FLEXI REWARDS\n\n"
@@ -116,6 +115,25 @@ class FakeExtractor:
         )
 
 
+class FakePlanner:
+    def __init__(self, extractor):
+        self.extractor = extractor
+
+    def plan_batch(self, **kwargs):
+        fragment = self.extractor.extract_fragment(
+            batch_payload=kwargs["batch_payload"],
+            previous_error=kwargs.get("previous_error"),
+            graph_context=kwargs.get("graph_context"),
+        )
+        return SimpleNamespace(
+            fragment=fragment,
+            source_audit=SimpleNamespace(passed=True),
+            placement=SimpleNamespace(passed=True, issues=[]),
+            completeness=SimpleNamespace(passed=True, items=[]),
+            stats=SimpleNamespace(),
+        )
+
+
 def _tool_context() -> FakeToolContext:
     return FakeToolContext({"test-doc.md": DOC_TEXT})
 
@@ -127,7 +145,11 @@ def _stub_loop_dependencies(
     submit_responses=None,
     finalized=None,
 ):
-    monkeypatch.setattr(ingestion_use_case, "_get_batch_extractor", lambda: extractor)
+    monkeypatch.setattr(
+        ingestion_use_case,
+        "_get_semantic_placement_planner",
+        lambda: FakePlanner(extractor),
+    )
     monkeypatch.setattr(
         ingestion_use_case,
         "_get_validation_service",
@@ -386,8 +408,8 @@ def test_validation_rejection_consumes_semantic_budget_and_preserves_previous_er
     )
 
     assert result["success"] is True
-    assert len(extractor.calls) == 1
-    assert len(extractor.repair_calls) == 2
+    assert len(extractor.calls) == 3
+    assert len(extractor.repair_calls) == 0
     repair = {
         "stage": "batch_validation",
         "batchIndex": 0,
@@ -399,8 +421,8 @@ def test_validation_rejection_consumes_semantic_budget_and_preserves_previous_er
         "rejectedCoverage": [],
         "rejectedNodes": [],
     }
-    assert extractor.repair_calls[0]["validation_errors"] == repair
-    assert extractor.repair_calls[1]["validation_errors"] == repair
+    assert extractor.calls[1]["previous_error"] == repair
+    assert extractor.calls[2]["previous_error"] == repair
 
 
 def test_validation_rejection_exhaustion_returns_failure_reason(monkeypatch):
@@ -434,11 +456,11 @@ def test_validation_rejection_exhaustion_returns_failure_reason(monkeypatch):
     assert result["success"] is False
     assert result["failureReason"] == "SEMANTIC_REPAIR_EXHAUSTED"
     assert "could not be safely reduced" in result["message"]
-    assert len(extractor.calls) == 1
-    assert len(extractor.repair_calls) == 1
+    assert len(extractor.calls) == 2
+    assert len(extractor.repair_calls) == 0
 
 
-def test_extractor_default_timeout(monkeypatch):
+def test_atomic_extractor_initializes_default_client(monkeypatch):
     captured = {}
 
     class FakeClient:
@@ -446,28 +468,14 @@ def test_extractor_default_timeout(monkeypatch):
             captured.update(kwargs)
 
     monkeypatch.setattr(genai, "Client", FakeClient)
-    orchestrator.GeminiBatchExtractor()
+    GeminiAtomicFactExtractor()
 
-    assert captured["http_options"].timeout == 120_000
-
-
-def test_extractor_timeout_env_override(monkeypatch):
-    captured = {}
-
-    class FakeClient:
-        def __init__(self, **kwargs):
-            captured.update(kwargs)
-
-    monkeypatch.setattr(genai, "Client", FakeClient)
-    monkeypatch.setattr(orchestrator, "DEFAULT_INGESTION_TIMEOUT_SECONDS", 45.0)
-    orchestrator.GeminiBatchExtractor()
-
-    assert captured["http_options"].timeout == 45_000
+    assert captured["api_key"] == os.getenv("GOOGLE_API_KEY")
 
 
 def test_extractor_accepts_injected_client():
     fake_client = object()
-    extractor = orchestrator.GeminiBatchExtractor(client=fake_client)
+    extractor = GeminiAtomicFactExtractor(client=fake_client)
     assert extractor.client is fake_client
 
 

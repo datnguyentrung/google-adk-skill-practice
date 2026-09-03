@@ -1,13 +1,11 @@
-from app.core.schemas.ingestion.graph_patch import GraphPatchFragment
-from app.core.schemas.ingestion.graph_patch import GraphPatchDraft
 from app.core.schemas.ingestion.document import DocumentChunk
+from app.core.schemas.ingestion.graph_patch import GraphPatchDraft, GraphPatchFragment
 from app.services.ingestion.loader import OntologyLoader
 from app.services.ingestion.prepare_extraction_context import ExtractionContextService
 from app.services.ingestion.registry import OntologyRegistry
 from app.services.ingestion.staged_ingestion import IngestionWorkspaceService
 from app.services.ingestion.use_case import _compact_ontology_context
 from app.services.ingestion.validate_graph_patch import GraphPatchValidationService
-
 
 SOURCE = "semantic.md"
 PRODUCT = "product-flexi"
@@ -104,7 +102,7 @@ def test_model_ontology_context_is_not_compacted_to_identifiers_only():
     assert "DEFINITION:" in model_context
 
 
-def test_document_level_consolidation_merges_duplicate_rule_evidence():
+def test_document_level_merge_preserves_distinct_rule_candidates():
     first = GraphPatchFragment.model_validate(
         {
             "nodes": [
@@ -145,6 +143,43 @@ def test_document_level_consolidation_merges_duplicate_rule_evidence():
                     "4% số tiền rút, tối thiểu 100.000 VND/giao dịch",
                 )
             ],
+            "coverage": [
+                {"chunkIndex": 2, "decision": "MAPPED", "reason": "Repeated cash fee"}
+            ],
+            "warnings": [],
+        }
+    )
+
+    merged = IngestionWorkspaceService.merge_fragments([first, second])
+
+    rules = [node for node in merged.nodes if node.class_name == "pskg:BusinessRule"]
+    assert len(rules) == 2
+    assert {node.temp_id for node in rules} == {
+        "rule-fee-cash-withdrawal",
+        "rule-cash-advance-fee",
+    }
+    assert len(merged.edges) == 2
+
+
+def test_document_level_merge_dedupes_same_rule_identity_evidence():
+    first = GraphPatchFragment.model_validate(
+        {
+            "nodes": [
+                _product(),
+                _rule("rule-cash-fee", 1, "4% số tiền rút"),
+            ],
+            "edges": [_edge("rule-cash-fee", 1, "4% số tiền rút")],
+            "coverage": [
+                {"chunkIndex": 0, "decision": "MAPPED", "reason": "Product code"},
+                {"chunkIndex": 1, "decision": "MAPPED", "reason": "Cash fee"},
+            ],
+            "warnings": [],
+        }
+    )
+    second = GraphPatchFragment.model_validate(
+        {
+            "nodes": [_rule("rule-cash-fee", 2, "4% số tiền rút")],
+            "edges": [_edge("rule-cash-fee", 2, "4% số tiền rút")],
             "coverage": [
                 {"chunkIndex": 2, "decision": "MAPPED", "reason": "Repeated cash fee"}
             ],

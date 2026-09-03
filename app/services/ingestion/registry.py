@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 from app.core.schemas.ingestion.models import (
     OntologyAttribute,
     OntologyClass,
@@ -8,7 +10,7 @@ from app.core.schemas.ingestion.models import (
 
 class OntologyRegistry:
     RUNTIME_MANAGED_STATUS_DEFAULT = "Draft"
-    EDGE_DERIVED_RULE_TYPES = {
+    EDGE_DERIVED_RULE_TYPES: ClassVar[dict[str, str]] = {
         "pskg:governedByPolicy": "POLICY",
         "pskg:hasEligibilityRule": "ELIGIBILITY",
         "pskg:hasSalesConditionRule": "SALES_CONDITION",

@@ -5,9 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from app.tools import ingestion_tools
 from app.services.ingestion import use_case as ingestion_use_case
-
+from app.tools import ingestion_tools
 
 DOCS = [
     Path("docs/HƯỚNG DẪN NGHIỆP VỤ SẢN PHẨM THẺ TÍN DỤNG FLEXI REWARDS.md"),
@@ -99,7 +98,7 @@ def test_docs_ingest_end_to_end_and_commit_to_neo4j(doc_path, monkeypatch):
     ingestion_use_case._get_context_service.cache_clear()
     ingestion_use_case._get_validation_service.cache_clear()
     ingestion_use_case._get_workspace_service.cache_clear()
-    ingestion_use_case._get_batch_extractor.cache_clear()
+    ingestion_use_case._get_semantic_placement_planner.cache_clear()
     context = FakeToolContext(
         {doc_path.name: doc_path.read_text(encoding="utf-8")}
     )
