@@ -376,6 +376,8 @@ def _rate_limit_retry_delay_seconds(exc: Exception, attempt: int) -> float:
 
 
 def _is_retryable_extraction_error(exc: Exception) -> bool:
+    if getattr(exc, "stage_local_retries_exhausted", False):
+        return False
     return (
         isinstance(exc, (InvalidGraphPatchFragmentError, InvalidAtomicFactBatchError))
         or _is_rate_limit_error(exc)
@@ -2550,12 +2552,32 @@ async def ingest_document_end_to_end(
                         if item.status
                         in {"OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"}
                     ]
+                    coverage_failures = [
+                        {
+                            "chunkIndex": item.chunk_index,
+                            "status": item.status,
+                            "reason": item.reason,
+                            "extractedFactIds": item.extracted_fact_ids,
+                            "missingClaims": item.suspected_missing_claims[:12],
+                            "evidenceExcerpt": item.evidence_excerpt,
+                        }
+                        for item in placement_result.source_audit.items
+                        if item.status
+                        in {"OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"}
+                    ]
                     previous_error = {
                         "stage": "source_fact_coverage",
                         "errors": [
                             issue.model_dump(by_alias=True, exclude_none=True)
                             for issue in issues
                         ],
+                        "coverageFailures": coverage_failures,
+                        "repairInstructions": (
+                            "Re-extract the affected source chunks and include every "
+                            "ontology-relevant independent claim listed in missingClaims "
+                            "when it is verbatim-supported by the chunk. Preserve atomic "
+                            "granularity; do not map to ontology technical names."
+                        ),
                     }
                     if semantic_attempts_used < max_retries_per_batch:
                         continue
@@ -2673,6 +2695,7 @@ async def ingest_document_end_to_end(
                 )
                 if (
                     _is_transient_transport_error(exc)
+                    and not getattr(exc, "stage_local_retries_exhausted", False)
                     and transport_retries_used < max_transport_retries
                 ):
                     transport_retries_used += 1
@@ -2690,6 +2713,7 @@ async def ingest_document_end_to_end(
                     continue
                 if (
                     _is_rate_limit_error(exc)
+                    and not getattr(exc, "stage_local_retries_exhausted", False)
                     and rate_limit_retries_used < max_rate_limit_retries
                 ):
                     rate_limit_retries_used += 1
@@ -2752,6 +2776,9 @@ async def ingest_document_end_to_end(
             )
             if response.get("success"):
                 processed_batches = int(response.get("processedBatches", 0))
+                clear_batch = getattr(planner, "clear_batch", None)
+                if callable(clear_batch):
+                    clear_batch(batch_index)
                 break
             candidate_fragment = fragment
             issues = _issues_from_response(response)

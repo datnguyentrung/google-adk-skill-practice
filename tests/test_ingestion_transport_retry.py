@@ -8,6 +8,7 @@ from google import genai
 
 from app.core.schemas.ingestion.graph_patch import GraphPatchFragment
 from app.services.ingestion import use_case as ingestion_use_case
+from app.services.ingestion.model_call_control import StageLocalModelCallExhausted
 from app.services.ingestion.orchestrator import InvalidGraphPatchFragmentError
 from app.services.ingestion.semantic_placement import GeminiAtomicFactExtractor
 
@@ -530,4 +531,22 @@ def test_config_error_fails_fast_with_classification(monkeypatch):
     assert result["errorKind"] == "llm_request_config"
     assert "transportRetries" not in result
     assert "rateLimitRetries" not in result
+    assert len(extractor.calls) == 1
+
+
+def test_stage_local_rate_exhaustion_does_not_restart_semantic_pipeline(monkeypatch):
+    exhausted = StageLocalModelCallExhausted(
+        "local rate retries exhausted",
+        cause=RateLimitError("429 RESOURCE_EXHAUSTED"),
+    )
+    extractor = FakeExtractor(failures=[exhausted])
+    _stub_loop_dependencies(monkeypatch, extractor)
+
+    result = _run_end_to_end(
+        max_retries_per_batch=3,
+        max_rate_limit_retries=3,
+    )
+
+    assert result["success"] is False
+    assert result["failureReason"] == "RATE_LIMIT_RETRIES_EXHAUSTED"
     assert len(extractor.calls) == 1

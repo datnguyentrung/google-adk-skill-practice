@@ -7,7 +7,7 @@ import os
 import re
 import unicodedata
 from dataclasses import dataclass
-from typing import Any, Protocol
+from typing import Any, ClassVar, Protocol
 
 from google import genai
 from google.genai import types
@@ -42,6 +42,7 @@ from app.services.ingestion.fragment_grounding_repair import (
     align_coverage_with_grounded_facts,
 )
 from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
+from app.services.ingestion.model_call_control import GeminiCallExecutor
 from app.services.ingestion.ontology_datatypes import value_matches_xsd, xsd_datatypes
 from app.services.ingestion.registry import OntologyRegistry
 from app.services.ingestion.source_grounding import SourceGroundingValidator
@@ -68,6 +69,9 @@ class PlacementConfig:
         os.getenv("INGESTION_MIN_SELECTION_CONFIDENCE", "0.35")
     )
     selector_mode: str = os.getenv("INGESTION_SELECTOR_MODE", "llm").strip().lower()
+    selector_facts_per_call: int = max(1, int(os.getenv("INGESTION_SELECTOR_FACTS_PER_CALL", "8")))
+    selector_fast_path_min_fit: float = float(os.getenv("INGESTION_SELECTOR_FAST_PATH_MIN_FIT", "0.90"))
+    selector_fast_path_margin: float = float(os.getenv("INGESTION_SELECTOR_FAST_PATH_MARGIN", "0.25"))
 
 
 class AtomicFactExtractor(Protocol):
@@ -81,23 +85,24 @@ class AtomicFactExtractor(Protocol):
 
 
 class RepresentationSelector(Protocol):
-    def select(
+    def select_batch(
         self,
         *,
-        fact: AtomicFact,
-        candidates: list[RepresentationCandidate],
-    ) -> RepresentationDecision | None: ...
+        facts: list[AtomicFact],
+        candidates_by_fact: dict[str, list[RepresentationCandidate]],
+        previous_error: dict[str, Any] | None = None,
+    ) -> list[RepresentationDecision]: ...
 
 
 class SourceFactCoverageJudge(Protocol):
-    def find_missing_claims(
+    def audit_batch(
         self,
         *,
-        chunk: DocumentChunk,
-        claims: list[str],
+        chunks: list[DocumentChunk],
+        claims_by_chunk: dict[int, list[str]],
         facts: list[AtomicFact],
         ontology_scope: str,
-    ) -> list[str]: ...
+    ) -> dict[int, list[str]]: ...
 
 
 @dataclass(frozen=True)
@@ -116,6 +121,15 @@ class BatchPlacementResult:
     placement: SemanticPlacementAssessment
     completeness: RepresentationCompletenessAudit
     stats: SemanticPlacementStats
+
+
+@dataclass
+class _BatchSemanticState:
+    facts: AtomicFactBatch
+    source_audit: SourceFactCoverageAudit
+    candidates_by_fact: dict[str, list[RepresentationCandidate]]
+    decisions: list[RepresentationDecision]
+    repair_count: int = 0
 
 
 class InvalidAtomicFactBatchError(ValueError):
@@ -139,10 +153,27 @@ class _SelectorResponse(BaseModel):
     )
 
 
+class _SelectorBatchItemResponse(_SelectorResponse):
+    fact_id: str = Field(alias="factId", min_length=1)
+
+
+class _SelectorBatchResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid", populate_by_name=True)
+
+    decisions: list[_SelectorBatchItemResponse] = Field(default_factory=list)
+
+
+class _CoverageBatchItemResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid", populate_by_name=True)
+
+    chunk_index: int = Field(alias="chunkIndex", ge=0)
+    missing_claims: list[str] = Field(default_factory=list, alias="missingClaims")
+
+
 class _CoverageJudgeResponse(BaseModel):
     model_config = ConfigDict(extra="forbid", populate_by_name=True)
 
-    missing_claims: list[str] = Field(default_factory=list, alias="missingClaims")
+    items: list[_CoverageBatchItemResponse] = Field(default_factory=list)
 
 
 class GeminiAtomicFactExtractor:
@@ -155,7 +186,12 @@ class GeminiAtomicFactExtractor:
         client: genai.Client | None = None,
     ):
         self.model = model
+        injected_client = client is not None
         self.client = client or genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+        executor_kwargs = {"rpm_budget": 0} if injected_client else {}
+        self.call_executor = GeminiCallExecutor(
+            client=self.client, model=self.model, **executor_kwargs
+        )
 
     def extract_facts(
         self,
@@ -176,8 +212,8 @@ class GeminiAtomicFactExtractor:
             len(ontology_scope),
             len(prompt),
         )
-        response = self.client.models.generate_content(
-            model=self.model,
+        response = self.call_executor.generate_content(
+            operation="atomic_fact_extraction",
             contents=prompt,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json",
@@ -254,7 +290,7 @@ class GeminiAtomicFactExtractor:
 
 
 class GeminiSourceFactCoverageJudge:
-    """Find ontology-relevant source claims not covered by extracted facts."""
+    """Audit source coverage for a whole ingestion batch in one Gemini call."""
 
     def __init__(
         self,
@@ -263,21 +299,28 @@ class GeminiSourceFactCoverageJudge:
         client: genai.Client | None = None,
     ):
         self.model = model
+        injected_client = client is not None
         self.client = client or genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+        executor_kwargs = {"rpm_budget": 0} if injected_client else {}
+        self.call_executor = GeminiCallExecutor(
+            client=self.client, model=self.model, **executor_kwargs
+        )
 
-    def find_missing_claims(
+    def audit_batch(
         self,
         *,
-        chunk: DocumentChunk,
-        claims: list[str],
+        chunks: list[DocumentChunk],
+        claims_by_chunk: dict[int, list[str]],
         facts: list[AtomicFact],
         ontology_scope: str,
-    ) -> list[str]:
-        response = self.client.models.generate_content(
-            model=self.model,
+    ) -> dict[int, list[str]]:
+        if not chunks:
+            return {}
+        response = self.call_executor.generate_content(
+            operation="source_fact_coverage",
             contents=self._prompt(
-                chunk=chunk,
-                claims=claims,
+                chunks=chunks,
+                claims_by_chunk=claims_by_chunk,
                 facts=facts,
                 ontology_scope=ontology_scope,
             ),
@@ -292,26 +335,49 @@ class GeminiSourceFactCoverageJudge:
             text = getattr(response, "text", None) or "{}"
             payload = GeminiAtomicFactExtractor._parse_json_response(text)
         parsed = _CoverageJudgeResponse.model_validate(payload)
-        chunk_text = _normalize_text(chunk.content)
-        return _dedupe_text(
-            [
-                claim
-                for claim in parsed.missing_claims
-                if _normalize_text(claim) in chunk_text
-            ]
-        )
+        chunk_by_index = {chunk.index: chunk for chunk in chunks}
+        result = {chunk.index: [] for chunk in chunks}
+        for item in parsed.items:
+            chunk = chunk_by_index.get(item.chunk_index)
+            if chunk is None:
+                continue
+            normalized_source = _normalize_text(chunk.content)
+            result[item.chunk_index] = _dedupe_text(
+                [
+                    claim
+                    for claim in item.missing_claims
+                    if _normalize_text(claim) in normalized_source
+                ]
+            )
+        return result
+
+    def find_missing_claims(
+        self,
+        *,
+        chunk: DocumentChunk,
+        claims: list[str],
+        facts: list[AtomicFact],
+        ontology_scope: str,
+    ) -> list[str]:
+        return self.audit_batch(
+            chunks=[chunk],
+            claims_by_chunk={chunk.index: claims},
+            facts=facts,
+            ontology_scope=ontology_scope,
+        ).get(chunk.index, [])
 
     @staticmethod
     def _prompt(
         *,
-        chunk: DocumentChunk,
-        claims: list[str],
+        chunks: list[DocumentChunk],
+        claims_by_chunk: dict[int, list[str]],
         facts: list[AtomicFact],
         ontology_scope: str,
     ) -> str:
         fact_payload = [
             {
                 "factId": fact.fact_id,
+                "sourceChunkIndex": fact.source_chunk_index,
                 "subject": fact.subject,
                 "predicate": fact.predicate,
                 "object": fact.object,
@@ -319,35 +385,49 @@ class GeminiSourceFactCoverageJudge:
             }
             for fact in facts
         ]
+        chunk_payload = [
+            {
+                "chunk": chunk.model_dump(mode="json"),
+                "candidateClaims": claims_by_chunk.get(chunk.index, []),
+            }
+            for chunk in chunks
+        ]
         return (
-            "Audit whether extracted atomic facts cover independent business "
-            "claims in one source chunk. Use ontology scope only for relevance; "
-            "do not choose ontology classes, properties, edges, nodes, GraphPatch, "
-            "or Neo4j details. Return short verbatim excerpts from the chunk for "
-            "every ontology-relevant independent claim not covered by extractedFacts. "
-            "candidateClaims are deterministic hints only; you may identify a missing "
-            "claim elsewhere in the chunk. Return [] when coverage is complete.\n\n"
+            "Audit source-to-atomic-fact completeness for an entire batch. "
+            "Use ontology scope only for relevance and remain representation-blind. "
+            "For each chunk, return short verbatim excerpts for every independent "
+            "ontology-relevant claim not covered by extractedFacts. candidateClaims "
+            "are deterministic hints only; inspect the full chunk and identify missing "
+            "claims outside those hints when necessary. Do not choose ontology classes, "
+            "properties, edges, nodes, GraphPatch, or Neo4j details. Return exactly one "
+            "item per input chunk, using [] when coverage is complete.\n\n"
             f"Ontology scope:\n{ontology_scope}\n\n"
-            "Chunk:\n"
-            f"{json.dumps(chunk.model_dump(mode='json'), ensure_ascii=False)}\n\n"
-            "Candidate claims:\n"
-            f"{json.dumps(claims, ensure_ascii=False)}\n\n"
+            "Chunks:\n"
+            f"{json.dumps(chunk_payload, ensure_ascii=False)}\n\n"
             "Extracted facts:\n"
             f"{json.dumps(fact_payload, ensure_ascii=False)}"
         )
 
 
 class GeminiRepresentationSelector:
-    """Constrained semantic selector over deterministic candidate IDs."""
+    """Constrained semantic selector with bounded batch calls and a safe fast path."""
 
     def __init__(
         self,
         *,
         model: str = DEFAULT_ATOMIC_FACT_MODEL,
         client: genai.Client | None = None,
+        config: PlacementConfig | None = None,
     ):
         self.model = model
+        self.config = config or PlacementConfig()
+        injected_client = client is not None
         self.client = client or genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+        executor_kwargs = {"rpm_budget": 0} if injected_client else {}
+        self.call_executor = GeminiCallExecutor(
+            client=self.client, model=self.model, **executor_kwargs
+        )
+        self.enable_fast_path = not injected_client
 
     def select(
         self,
@@ -355,64 +435,153 @@ class GeminiRepresentationSelector:
         fact: AtomicFact,
         candidates: list[RepresentationCandidate],
     ) -> RepresentationDecision | None:
-        valid = [candidate for candidate in candidates if candidate.validity.passed]
-        if not valid:
-            return None
-        response = self.client.models.generate_content(
-            model=self.model,
-            contents=self._prompt(fact=fact, candidates=valid),
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json",
-                response_json_schema=_SelectorResponse.model_json_schema(),
-                temperature=0,
-            ),
+        decisions = self.select_batch(
+            facts=[fact],
+            candidates_by_fact={fact.fact_id: candidates},
         )
-        payload = getattr(response, "parsed", None)
-        if payload is None:
-            text = getattr(response, "text", None) or "{}"
-            payload = GeminiAtomicFactExtractor._parse_json_response(text)
-        selected = _SelectorResponse.model_validate(payload)
-        if selected.selected_candidate_id is None:
-            logger.info(
-                "[SEMANTIC_SELECTOR_REJECTED] fact_id=%s reason=%s confidence=%s",
-                fact.fact_id,
-                selected.reason,
-                selected.confidence,
+        return decisions[0] if decisions else None
+
+    def select_batch(
+        self,
+        *,
+        facts: list[AtomicFact],
+        candidates_by_fact: dict[str, list[RepresentationCandidate]],
+        previous_error: dict[str, Any] | None = None,
+    ) -> list[RepresentationDecision]:
+        decisions: list[RepresentationDecision] = []
+        pending: list[tuple[AtomicFact, list[RepresentationCandidate]]] = []
+        for fact in facts:
+            valid = [
+                candidate
+                for candidate in candidates_by_fact.get(fact.fact_id, [])
+                if candidate.validity.passed
+            ]
+            if not valid:
+                continue
+            fast = self._fast_path_decision(fact, valid) if self.enable_fast_path else None
+            if fast is not None:
+                decisions.append(fast)
+                continue
+            pending.append((fact, valid))
+
+        chunk_size = self.config.selector_facts_per_call
+        for offset in range(0, len(pending), chunk_size):
+            group = pending[offset : offset + chunk_size]
+            response = self.call_executor.generate_content(
+                operation="representation_selection",
+                contents=self._batch_prompt(group=group, previous_error=previous_error),
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_json_schema=_SelectorBatchResponse.model_json_schema(),
+                    temperature=0,
+                ),
             )
+            payload = getattr(response, "parsed", None)
+            if payload is None:
+                text = getattr(response, "text", None) or "{}"
+                payload = GeminiAtomicFactExtractor._parse_json_response(text)
+            parsed = _SelectorBatchResponse.model_validate(payload)
+            by_fact = {item.fact_id: item for item in parsed.decisions}
+            for fact, valid in group:
+                selected = by_fact.get(fact.fact_id)
+                if selected is None or selected.selected_candidate_id is None:
+                    logger.info(
+                        "[SEMANTIC_SELECTOR_REJECTED] fact_id=%s reason=%s confidence=%s",
+                        fact.fact_id,
+                        selected.reason if selected else "Missing selector decision",
+                        selected.confidence if selected else 0.0,
+                    )
+                    continue
+                decisions.append(
+                    self._to_decision(fact=fact, candidates=valid, selected=selected)
+                )
+        return decisions
+
+    def _fast_path_decision(
+        self,
+        fact: AtomicFact,
+        candidates: list[RepresentationCandidate],
+    ) -> RepresentationDecision | None:
+        ranked = sorted(
+            candidates,
+            key=lambda item: (
+                item.semantic_fit,
+                item.specificity,
+                item.queryability,
+                not item.fallback_role,
+            ),
+            reverse=True,
+        )
+        top = ranked[0]
+        runner_up_fit = ranked[1].semantic_fit if len(ranked) > 1 else 0.0
+        if (
+            top.fallback_role
+            or not top.preserves_information
+            or top.semantic_fit < self.config.selector_fast_path_min_fit
+            or top.semantic_fit - runner_up_fit < self.config.selector_fast_path_margin
+        ):
             return None
-        candidate_by_id = {candidate.candidate_id: candidate for candidate in valid}
-        selected_candidate = candidate_by_id.get(selected.selected_candidate_id)
         return RepresentationDecision(
             factId=fact.fact_id,
-            selectedCandidateId=selected.selected_candidate_id,
+            selectedCandidateId=top.candidate_id,
+            alternativeCandidateIds=[item.candidate_id for item in ranked[1:6]],
+            semanticFit=top.semantic_fit,
+            specificity=top.specificity,
+            reason="Deterministic high-margin semantic fast path",
+            confidence=min(fact.confidence, max(top.semantic_fit, 0.1)),
+            fallbackUsed=False,
+        )
+
+    @staticmethod
+    def _to_decision(
+        *,
+        fact: AtomicFact,
+        candidates: list[RepresentationCandidate],
+        selected: _SelectorBatchItemResponse,
+    ) -> RepresentationDecision:
+        candidate_by_id = {candidate.candidate_id: candidate for candidate in candidates}
+        selected_candidate = candidate_by_id.get(selected.selected_candidate_id or "")
+        return RepresentationDecision(
+            factId=fact.fact_id,
+            selectedCandidateId=selected.selected_candidate_id or "",
             alternativeCandidateIds=selected.alternative_candidate_ids,
             semanticFit=selected.semantic_fit,
             specificity=selected_candidate.specificity if selected_candidate else 0.0,
             reason=selected.reason or "LLM selected representation candidate",
             confidence=selected.confidence,
-            fallbackUsed=selected_candidate.fallback_role
-            if selected_candidate
-            else False,
+            fallbackUsed=selected_candidate.fallback_role if selected_candidate else False,
             fallbackJustification=selected.fallback_justification,
         )
 
     @staticmethod
-    def _prompt(
+    def _batch_prompt(
         *,
-        fact: AtomicFact,
-        candidates: list[RepresentationCandidate],
+        group: list[tuple[AtomicFact, list[RepresentationCandidate]]],
+        previous_error: dict[str, Any] | None,
     ) -> str:
+        items = [
+            {
+                "fact": fact.model_dump(by_alias=True, mode="json"),
+                "candidates": [_candidate_summary(candidate) for candidate in candidates],
+            }
+            for fact, candidates in group
+        ]
+        feedback = (
+            "\nPrevious validation feedback:\n"
+            + json.dumps(previous_error, ensure_ascii=False)
+            if previous_error
+            else ""
+        )
         return (
-            "Select the best ontology representation candidate for one atomic "
-            "fact. You must choose only a candidateId from candidates. Do not "
-            "invent ontology classes, properties, edges, nodes, GraphPatch, or "
-            "Neo4j details. Prefer specific, queryable representations that "
-            "preserve the independent business meaning. Use fallback only if no "
-            "non-fallback candidate fits the fact.\n\n"
-            "Fact:\n"
-            f"{json.dumps(fact.model_dump(by_alias=True, mode='json'), ensure_ascii=False)}\n\n"
-            "Candidates:\n"
-            f"{json.dumps([_candidate_summary(c) for c in candidates], ensure_ascii=False)}"
+            "Select the best ontology representation for each atomic fact. For every "
+            "input fact, return exactly one decision with the same factId. You may "
+            "choose only a candidateId listed for that fact, or null when none preserves "
+            "the fact semantics. Never invent ontology classes, properties, edges, nodes, "
+            "GraphPatch, or Neo4j details. Prefer specific, queryable representations that "
+            "preserve independent business meaning. Use fallback only when no non-fallback "
+            "candidate fits.\n"
+            f"{feedback}\nItems:\n"
+            f"{json.dumps(items, ensure_ascii=False)}"
         )
 
 
@@ -842,6 +1011,23 @@ class DeterministicRepresentationSelector:
             ),
         )
 
+    def select_batch(
+        self,
+        *,
+        facts: list[AtomicFact],
+        candidates_by_fact: dict[str, list[RepresentationCandidate]],
+        previous_error: dict[str, Any] | None = None,
+    ) -> list[RepresentationDecision]:
+        del previous_error
+        decisions: list[RepresentationDecision] = []
+        for fact in facts:
+            decision = self.select(
+                fact=fact, candidates=candidates_by_fact.get(fact.fact_id, [])
+            )
+            if decision is not None:
+                decisions.append(decision)
+        return decisions
+
 
 class SemanticPlacementValidator:
     def __init__(self, config: PlacementConfig):
@@ -978,20 +1164,37 @@ class SourceFactCoverageAuditor:
         facts_by_chunk: dict[int, list[AtomicFact]] = {}
         for fact in fact_batch.facts:
             facts_by_chunk.setdefault(fact.source_chunk_index, []).append(fact)
-        items: list[SourceFactCoverageItem] = []
         scope = ontology_scope if ontology_scope is not None else self.ontology_scope
-        for chunk in chunks:
-            facts = facts_by_chunk.get(chunk.index, [])
-            extracted_fact_ids = [fact.fact_id for fact in facts]
-            claims = _source_claims(chunk.content)
-            missing_claims = _uncovered_claims(claims, facts)
-            if self.judge is not None and chunk.content.strip():
-                missing_claims = self.judge.find_missing_claims(
-                    chunk=chunk,
-                    claims=claims,
-                    facts=facts,
+        claims_by_chunk = {chunk.index: _source_claims(chunk.content) for chunk in chunks}
+        deterministic_missing = {
+            chunk.index: _uncovered_claims(
+                claims_by_chunk[chunk.index], facts_by_chunk.get(chunk.index, [])
+            )
+            for chunk in chunks
+        }
+        judged_missing: dict[int, list[str]] | None = None
+        if self.judge is not None:
+            auditable = [chunk for chunk in chunks if chunk.content.strip()]
+            if auditable:
+                judged_missing = self.judge.audit_batch(
+                    chunks=auditable,
+                    claims_by_chunk=claims_by_chunk,
+                    facts=fact_batch.facts,
                     ontology_scope=scope,
                 )
+
+        items: list[SourceFactCoverageItem] = []
+        for chunk in chunks:
+            facts = facts_by_chunk.get(chunk.index, [])
+            claims = claims_by_chunk[chunk.index]
+            missing_claims = (
+                judged_missing.get(
+                    chunk.index, deterministic_missing.get(chunk.index, [])
+                )
+                if judged_missing is not None
+                else deterministic_missing.get(chunk.index, [])
+            )[:5]
+            extracted_fact_ids = [fact.fact_id for fact in facts]
             if facts:
                 if missing_claims:
                     items.append(
@@ -1040,7 +1243,8 @@ class SourceFactCoverageAuditor:
             )
         return SourceFactCoverageAudit(
             passed=all(
-                item.status not in {"OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"}
+                item.status
+                not in {"OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"}
                 for item in items
             ),
             items=items,
@@ -1119,6 +1323,10 @@ class GraphPatchMaterializer:
 
 
 class SemanticPlacementPlanner:
+    _REUSABLE_STAGES: ClassVar[frozenset[str]] = frozenset(
+        {"semantic_placement", "representation_completeness", "batch_validation"}
+    )
+
     def __init__(
         self,
         *,
@@ -1153,6 +1361,10 @@ class SemanticPlacementPlanner:
         self.placement_validator = SemanticPlacementValidator(self.config)
         self.materializer = GraphPatchMaterializer()
         self.completeness_auditor = RepresentationCompletenessAuditor()
+        self._batch_state: dict[int, _BatchSemanticState] = {}
+
+    def clear_batch(self, batch_index: int) -> None:
+        self._batch_state.pop(batch_index, None)
 
     def plan_batch(
         self,
@@ -1163,29 +1375,133 @@ class SemanticPlacementPlanner:
         graph_context: str | None = None,
         previous_error: dict[str, Any] | None = None,
     ) -> BatchPlacementResult:
-        facts = self.fact_extractor.extract_facts(
-            batch_payload=batch_payload,
-            ontology_scope=ontology_scope,
-            previous_error=previous_error,
-        )
-        source_audit = self.source_auditor.audit(
-            chunks=chunks,
-            fact_batch=facts,
-            ontology_scope=ontology_scope,
-        )
-        candidates_by_fact: dict[str, list[RepresentationCandidate]] = {}
-        decisions: list[RepresentationDecision] = []
-        for fact in facts.facts:
-            retrieval = self.retriever.retrieve(fact)
-            candidates = self.generator.generate(
-                fact=fact,
-                retrieval=retrieval,
-                graph_context=graph_context,
+        batch_index = int(batch_payload.get("batchIndex", 0))
+        previous_stage = str((previous_error or {}).get("stage") or "")
+        cached = self._batch_state.get(batch_index)
+        repair_source = cached is not None and previous_stage == "source_fact_coverage"
+        reuse_semantics = cached is not None and previous_stage in self._REUSABLE_STAGES
+
+        if repair_source:
+            affected_chunks = _coverage_failure_chunk_indexes(
+                previous_error, cached.source_audit
             )
-            candidates_by_fact[fact.fact_id] = candidates
-            decision = self.selector.select(fact=fact, candidates=candidates)
-            if decision is not None:
-                decisions.append(decision)
+            facts = self._repair_source_facts(
+                batch_payload=batch_payload,
+                ontology_scope=ontology_scope,
+                previous_error=previous_error,
+                cached_facts=cached.facts,
+                affected_chunks=affected_chunks,
+            )
+            source_audit = self.source_auditor.audit(
+                chunks=chunks,
+                fact_batch=facts,
+                ontology_scope=ontology_scope,
+            )
+            cached.facts = facts
+            cached.source_audit = source_audit
+            cached.candidates_by_fact = {}
+            cached.decisions = []
+            cached.repair_count += 1
+            if not source_audit.passed:
+                logger.info(
+                    "[SOURCE_COVERAGE_REPAIR] batch=%s affected_chunks=%s "
+                    "facts=%s passed=false",
+                    batch_index,
+                    sorted(affected_chunks),
+                    len(facts.facts),
+                )
+                return self._early_source_coverage_result(
+                    facts=facts, source_audit=source_audit, chunks=chunks,
+                    repair_count=cached.repair_count,
+                )
+            candidates_by_fact = self._build_candidates(
+                facts=facts.facts, graph_context=graph_context
+            )
+            decisions = self.selector.select_batch(
+                facts=facts.facts,
+                candidates_by_fact=candidates_by_fact,
+                previous_error=None,
+            )
+            cached.candidates_by_fact = candidates_by_fact
+            cached.decisions = decisions
+            logger.info(
+                "[SOURCE_COVERAGE_REPAIR] batch=%s affected_chunks=%s "
+                "facts=%s passed=true",
+                batch_index,
+                sorted(affected_chunks),
+                len(facts.facts),
+            )
+        elif reuse_semantics:
+            facts = cached.facts
+            source_audit = cached.source_audit
+            candidates_by_fact = cached.candidates_by_fact
+            retry_ids = _retry_fact_ids(previous_error, facts.facts)
+            if not retry_ids:
+                retry_ids = {fact.fact_id for fact in facts.facts}
+            retry_facts = [fact for fact in facts.facts if fact.fact_id in retry_ids]
+            kept_decisions = [
+                decision for decision in cached.decisions if decision.fact_id not in retry_ids
+            ]
+            retry_decisions = self.selector.select_batch(
+                facts=retry_facts,
+                candidates_by_fact=candidates_by_fact,
+                previous_error=previous_error,
+            )
+            decisions = [*kept_decisions, *retry_decisions]
+            cached.decisions = decisions
+            cached.repair_count += 1
+            logger.info(
+                "[SEMANTIC_STAGE_REUSE] batch=%s stage=%s reused_facts=%s "
+                "reused_candidates=%s retried_facts=%s",
+                batch_index,
+                previous_stage,
+                len(facts.facts),
+                len(candidates_by_fact),
+                sorted(retry_ids),
+            )
+        else:
+            facts = self.fact_extractor.extract_facts(
+                batch_payload=batch_payload,
+                ontology_scope=ontology_scope,
+                previous_error=previous_error,
+            )
+            source_audit = self.source_auditor.audit(
+                chunks=chunks,
+                fact_batch=facts,
+                ontology_scope=ontology_scope,
+            )
+            if not source_audit.passed:
+                cached = _BatchSemanticState(
+                    facts=facts,
+                    source_audit=source_audit,
+                    candidates_by_fact={},
+                    decisions=[],
+                )
+                self._batch_state[batch_index] = cached
+                return self._early_source_coverage_result(
+                    facts=facts, source_audit=source_audit, chunks=chunks
+                )
+            candidates_by_fact = self._build_candidates(
+                facts=facts.facts, graph_context=graph_context
+            )
+            decisions = self.selector.select_batch(
+                facts=facts.facts,
+                candidates_by_fact=candidates_by_fact,
+                previous_error=previous_error,
+            )
+            cached = _BatchSemanticState(
+                facts=facts,
+                source_audit=source_audit,
+                candidates_by_fact=candidates_by_fact,
+                decisions=decisions,
+            )
+            self._batch_state[batch_index] = cached
+
+        for fact in facts.facts:
+            candidates = candidates_by_fact.get(fact.fact_id, [])
+            decision = next(
+                (item for item in decisions if item.fact_id == fact.fact_id), None
+            )
             logger.info(
                 "[SEMANTIC_PLACEMENT_FACT] fact_id=%s chunk=%s candidates=%s selected=%s",
                 fact.fact_id,
@@ -1193,6 +1509,7 @@ class SemanticPlacementPlanner:
                 len(candidates),
                 decision.selected_candidate_id if decision else None,
             )
+
         placement = self.placement_validator.validate(
             facts=facts.facts,
             candidates_by_fact=candidates_by_fact,
@@ -1204,28 +1521,151 @@ class SemanticPlacementPlanner:
             chunks=chunks,
         )
         fragment = align_coverage_with_grounded_facts(
-            fragment,
-            chunks,
-            self.source_grounding,
+            fragment, chunks, self.source_grounding
         )
         completeness = self.completeness_auditor.audit(
             facts=facts.facts,
             decisions=decisions,
             candidates_by_fact=candidates_by_fact,
         )
+        stats = self._stats(
+            facts=facts,
+            decisions=decisions,
+            completeness=completeness,
+            repair_count=cached.repair_count if cached is not None else 0,
+        )
+        self._log_result(stats, source_audit=source_audit, placement=placement)
+        return BatchPlacementResult(
+            fragment=fragment,
+            facts=facts,
+            source_audit=source_audit,
+            decisions=decisions,
+            placement=placement,
+            completeness=completeness,
+            stats=stats,
+        )
+
+    def _build_candidates(
+        self,
+        *,
+        facts: list[AtomicFact],
+        graph_context: str | None,
+    ) -> dict[str, list[RepresentationCandidate]]:
+        result: dict[str, list[RepresentationCandidate]] = {}
+        for fact in facts:
+            retrieval = self.retriever.retrieve(fact)
+            result[fact.fact_id] = self.generator.generate(
+                fact=fact, retrieval=retrieval, graph_context=graph_context
+            )
+        return result
+
+    def _repair_source_facts(
+        self,
+        *,
+        batch_payload: dict[str, Any],
+        ontology_scope: str,
+        previous_error: dict[str, Any] | None,
+        cached_facts: AtomicFactBatch,
+        affected_chunks: set[int],
+    ) -> AtomicFactBatch:
+        if not affected_chunks:
+            affected_chunks = {
+                int(index) for index in batch_payload.get("chunkIndexes", [])
+            }
+        repair_payload = _targeted_batch_payload(batch_payload, affected_chunks)
+        logger.info(
+            "[SOURCE_COVERAGE_REEXTRACT] batch=%s affected_chunks=%s "
+            "preserved_facts=%s",
+            batch_payload.get("batchIndex"),
+            sorted(affected_chunks),
+            sum(
+                fact.source_chunk_index not in affected_chunks
+                for fact in cached_facts.facts
+            ),
+        )
+        repaired = self.fact_extractor.extract_facts(
+            batch_payload=repair_payload,
+            ontology_scope=ontology_scope,
+            previous_error=previous_error,
+        )
+        return _merge_atomic_fact_batches(
+            cached_facts, repaired, affected_chunks=affected_chunks
+        )
+
+    def _early_source_coverage_result(
+        self,
+        *,
+        facts: AtomicFactBatch,
+        source_audit: SourceFactCoverageAudit,
+        chunks: list[DocumentChunk],
+        repair_count: int = 0,
+    ) -> BatchPlacementResult:
+        for item in source_audit.items:
+            if item.status in {"OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"}:
+                logger.warning(
+                    "[SOURCE_COVERAGE_GAP] chunk=%s status=%s extracted=%s missing=%s",
+                    item.chunk_index,
+                    item.status,
+                    item.extracted_fact_ids,
+                    item.suspected_missing_claims[:8],
+                )
+        decisions: list[RepresentationDecision] = []
+        candidates_by_fact: dict[str, list[RepresentationCandidate]] = {}
+        fragment = self.materializer.materialize(
+            decisions=decisions, candidates_by_fact=candidates_by_fact, chunks=chunks
+        )
+        completeness = self.completeness_auditor.audit(
+            facts=facts.facts,
+            decisions=decisions,
+            candidates_by_fact=candidates_by_fact,
+        )
+        placement = SemanticPlacementAssessment(passed=True, issues=[])
+        stats = self._stats(
+            facts=facts,
+            decisions=decisions,
+            completeness=completeness,
+            repair_count=repair_count,
+        )
+        self._log_result(stats, source_audit=source_audit, placement=placement)
+        return BatchPlacementResult(
+            fragment=fragment,
+            facts=facts,
+            source_audit=source_audit,
+            decisions=decisions,
+            placement=placement,
+            completeness=completeness,
+            stats=stats,
+        )
+
+    @staticmethod
+    def _stats(
+        *,
+        facts: AtomicFactBatch,
+        decisions: list[RepresentationDecision],
+        completeness: RepresentationCompletenessAudit,
+        repair_count: int,
+    ) -> SemanticPlacementStats:
         fallback_count = sum(decision.fallback_used for decision in decisions)
-        stats = SemanticPlacementStats(
+        return SemanticPlacementStats(
             totalAtomicFacts=len(facts.facts),
             representedFacts=sum(
                 item.status == "REPRESENTED" for item in completeness.items
             ),
             fallbackRepresentationCount=fallback_count,
             specificRepresentationCount=len(decisions) - fallback_count,
-            semanticPlacementRepairCount=0,
+            semanticPlacementRepairCount=repair_count,
             unrepresentedFactCount=sum(
                 item.status != "REPRESENTED" for item in completeness.items
             ),
         )
+
+    @staticmethod
+    def _log_result(
+        stats: SemanticPlacementStats,
+        *,
+        source_audit: SourceFactCoverageAudit,
+        placement: SemanticPlacementAssessment,
+    ) -> None:
         logger.info(
             "[SEMANTIC_PLACEMENT_RESULT] totalAtomicFacts=%s representedFacts=%s "
             "fallbackRepresentationCount=%s specificRepresentationCount=%s "
@@ -1238,15 +1678,94 @@ class SemanticPlacementPlanner:
             source_audit.passed,
             placement.passed,
         )
-        return BatchPlacementResult(
-            fragment=fragment,
-            facts=facts,
-            source_audit=source_audit,
-            decisions=decisions,
-            placement=placement,
-            completeness=completeness,
-            stats=stats,
-        )
+
+
+def _coverage_failure_chunk_indexes(
+    previous_error: dict[str, Any] | None,
+    audit: SourceFactCoverageAudit,
+) -> set[int]:
+    failures = (previous_error or {}).get("coverageFailures", []) or []
+    indexes = {
+        int(item["chunkIndex"])
+        for item in failures
+        if isinstance(item, dict) and item.get("chunkIndex") is not None
+    }
+    if indexes:
+        return indexes
+    return {
+        item.chunk_index
+        for item in audit.items
+        if item.status in {"OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"}
+    }
+
+
+def _targeted_batch_payload(
+    batch_payload: dict[str, Any], affected_chunks: set[int]
+) -> dict[str, Any]:
+    selected = []
+    for item in batch_payload.get("chunks", []) or []:
+        raw_index = item.get("index", item.get("chunkIndex"))
+        if raw_index is not None and int(raw_index) in affected_chunks:
+            selected.append(item)
+    payload = dict(batch_payload)
+    payload["chunkIndexes"] = sorted(affected_chunks)
+    payload["chunks"] = selected
+    payload["contentChars"] = sum(len(str(item.get("content", ""))) for item in selected)
+    return payload
+
+
+def _merge_atomic_fact_batches(
+    base: AtomicFactBatch,
+    repaired: AtomicFactBatch,
+    *,
+    affected_chunks: set[int],
+) -> AtomicFactBatch:
+    kept = [
+        fact.model_copy(deep=True)
+        for fact in base.facts
+        if fact.source_chunk_index not in affected_chunks
+    ]
+    used_ids = {fact.fact_id for fact in kept}
+    incoming: list[AtomicFact] = []
+    for position, fact in enumerate(repaired.facts, start=1):
+        if fact.source_chunk_index not in affected_chunks:
+            continue
+        copied = fact.model_copy(deep=True)
+        if copied.fact_id in used_ids:
+            stem = f"{copied.fact_id}__c{copied.source_chunk_index}"
+            candidate_id = stem
+            suffix = position
+            while candidate_id in used_ids:
+                suffix += 1
+                candidate_id = f"{stem}_{suffix}"
+            copied = copied.model_copy(update={"fact_id": candidate_id})
+        used_ids.add(copied.fact_id)
+        incoming.append(copied)
+    coverage = dict(base.coverage)
+    for chunk_index in affected_chunks:
+        coverage.pop(chunk_index, None)
+    coverage.update(repaired.coverage)
+    return AtomicFactBatch(
+        facts=[*kept, *incoming],
+        coverage=coverage,
+        warnings=list(dict.fromkeys([*base.warnings, *repaired.warnings])),
+    )
+
+
+def _retry_fact_ids(
+    previous_error: dict[str, Any] | None,
+    facts: list[AtomicFact],
+) -> set[str]:
+    if not previous_error:
+        return set()
+    known = {fact.fact_id for fact in facts}
+    found: set[str] = set()
+    for error in previous_error.get("errors", []) or []:
+        location = str(error.get("location") or "")
+        for fact_id in known:
+            if location.endswith(f".{fact_id}") or f".{fact_id}." in location:
+                found.add(fact_id)
+    return found
 
 
 def placement_issues_to_validation(
@@ -1442,7 +1961,7 @@ def _stable_value(value: Any) -> str:
 def _default_selector(config: PlacementConfig) -> RepresentationSelector:
     if config.selector_mode == "deterministic" or not os.getenv("GOOGLE_API_KEY"):
         return DeterministicRepresentationSelector()
-    return GeminiRepresentationSelector()
+    return GeminiRepresentationSelector(config=config)
 
 
 def _default_source_coverage_judge(

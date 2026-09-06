@@ -421,8 +421,10 @@ def test_selector_and_validator_are_independent_for_fallback_rejection():
 class _FakeModels:
     def __init__(self, payloads):
         self.payloads = list(payloads)
+        self.call_count = 0
 
     def generate_content(self, **_kwargs):
+        self.call_count += 1
         return SimpleNamespace(parsed=self.payloads.pop(0))
 
 
@@ -432,8 +434,8 @@ class _FakeGeminiClient:
 
 
 class _NoMissingClaimsJudge:
-    def find_missing_claims(self, **_kwargs):
-        return []
+    def audit_batch(self, *, chunks, **_kwargs):
+        return {chunk.index: [] for chunk in chunks}
 
 
 class _StaticAtomicFactExtractor:
@@ -490,19 +492,38 @@ def test_source_fact_coverage_ignores_extractor_self_claim_when_fact_is_missing(
     assert "Valid ID is required." in audit.items[0].suspected_missing_claims
 
 
-def test_production_coverage_judge_can_find_claim_outside_deterministic_hints():
-    chunk = _chunk("First independent fact. Second independent fact.")
-    client = _FakeGeminiClient([{"missingClaims": ["Second independent fact."]}])
+def test_production_coverage_judge_batches_chunks_and_finds_semantic_omissions():
+    first = _chunk("First independent fact. Second independent fact.")
+    second = _chunk("Third independent fact. Fourth independent fact.").model_copy(
+        update={"index": 1, "chunk_id": "chunk_0001"}
+    )
+    client = _FakeGeminiClient([
+        {
+            "items": [
+                {"chunkIndex": 0, "missingClaims": ["Second independent fact."]},
+                {"chunkIndex": 1, "missingClaims": ["Fourth independent fact."]},
+            ]
+        }
+    ])
     judge = GeminiSourceFactCoverageJudge(client=client)
+    fact_first = _fact_from_claim("fact-first", "First independent fact.")
+    fact_third = _fact_from_claim("fact-third", "Third independent fact.").model_copy(
+        update={"source_chunk_index": 1}
+    )
+    fact_third.evidence[0].chunk_index = 1
 
-    missing = judge.find_missing_claims(
-        chunk=chunk,
-        claims=[],
-        facts=[_fact_from_claim("fact-first", "First independent fact.")],
+    missing = judge.audit_batch(
+        chunks=[first, second],
+        claims_by_chunk={0: [], 1: []},
+        facts=[fact_first, fact_third],
         ontology_scope="business facts",
     )
 
-    assert missing == ["Second independent fact."]
+    assert client.models.call_count == 1
+    assert missing == {
+        0: ["Second independent fact."],
+        1: ["Fourth independent fact."],
+    }
 
 
 def _property_candidate(candidates, property_name):
@@ -517,43 +538,53 @@ def _property_candidate(candidates, property_name):
     )
 
 
-def test_gemini_representation_selector_is_constrained_for_paraphrases(tmp_path):
+def test_gemini_representation_selector_is_batched_and_constrained_for_paraphrases(tmp_path):
     _, generator, retriever = _generator(tmp_path)
     facts = [
         _fact("Applicant qualifies when monthly income exceeds 10 million"),
         _fact("Monthly income above 10 million is required for eligibility"),
     ]
-    candidate_sets = [
-        generator.generate(fact=fact, retrieval=retriever.retrieve(fact)) for fact in facts
-    ]
-    targets = [
-        _property_candidate(candidates, "test:eligibilityCondition")
-        for candidates in candidate_sets
-    ]
-    payloads = [
-        {
-            "selectedCandidateId": target.candidate_id,
-            "alternativeCandidateIds": [],
-            "semanticFit": 0.95,
-            "confidence": 0.94,
-            "reason": "Best semantic match",
-            "fallbackJustification": None,
-        }
-        for target in targets
-    ]
-    selector = GeminiRepresentationSelector(client=_FakeGeminiClient(payloads))
-    decisions = [
-        selector.select(fact=fact, candidates=candidates)
-        for fact, candidates in zip(facts, candidate_sets, strict=True)
-    ]
-
-    assert all(decision is not None for decision in decisions)
-    selected_properties = []
-    for decision, candidates in zip(decisions, candidate_sets, strict=True):
-        assert decision is not None
-        selected = {candidate.candidate_id: candidate for candidate in candidates}[
-            decision.selected_candidate_id
+    facts[1] = facts[1].model_copy(update={"fact_id": "fact-2"})
+    candidate_sets = {
+        fact.fact_id: generator.generate(
+            fact=fact, retrieval=retriever.retrieve(fact)
+        )
+        for fact in facts
+    }
+    targets = {
+        fact.fact_id: _property_candidate(
+            candidate_sets[fact.fact_id], "test:eligibilityCondition"
+        )
+        for fact in facts
+    }
+    payload = {
+        "decisions": [
+            {
+                "factId": fact.fact_id,
+                "selectedCandidateId": targets[fact.fact_id].candidate_id,
+                "alternativeCandidateIds": [],
+                "semanticFit": 0.95,
+                "confidence": 0.94,
+                "reason": "Best semantic match",
+                "fallbackJustification": None,
+            }
+            for fact in facts
         ]
+    }
+    client = _FakeGeminiClient([payload])
+    selector = GeminiRepresentationSelector(client=client)
+    decisions = selector.select_batch(
+        facts=facts, candidates_by_fact=candidate_sets
+    )
+
+    assert len(decisions) == 2
+    assert client.models.call_count == 1
+    selected_properties = []
+    for decision in decisions:
+        selected = {
+            candidate.candidate_id: candidate
+            for candidate in candidate_sets[decision.fact_id]
+        }[decision.selected_candidate_id]
         selected_properties.append(
             tuple(
                 prop.property_name
@@ -574,12 +605,17 @@ def test_gemini_selector_unknown_candidate_is_rejected_by_placement_validator(tm
     selector = GeminiRepresentationSelector(
         client=_FakeGeminiClient([
             {
-                "selectedCandidateId": "invented-candidate",
-                "alternativeCandidateIds": [],
-                "semanticFit": 0.99,
-                "confidence": 0.99,
-                "reason": "invalid test response",
-                "fallbackJustification": None,
+                "decisions": [
+                    {
+                        "factId": fact.fact_id,
+                        "selectedCandidateId": "invented-candidate",
+                        "alternativeCandidateIds": [],
+                        "semanticFit": 0.99,
+                        "confidence": 0.99,
+                        "reason": "invalid test response",
+                        "fallbackJustification": None,
+                    }
+                ]
             }
         ])
     )
@@ -743,33 +779,37 @@ def test_flexi_semantic_regression_runs_source_to_graph_patch_draft():
 class _ExpectedClassSelectorModels:
     def __init__(self, expected_by_fact):
         self.expected_by_fact = expected_by_fact
+        self.call_count = 0
 
     def generate_content(self, **kwargs):
+        self.call_count += 1
         prompt = kwargs["contents"]
-        fact_id = next(
-            fact_id
-            for fact_id in self.expected_by_fact
-            if f'"factId": "{fact_id}"' in prompt
-        )
-        candidates = json.loads(prompt.split("Candidates:\n", 1)[1])
-        expected = self.expected_by_fact[fact_id]
-        matching = [
-            candidate
-            for candidate in candidates
-            if not candidate["fallback"]
-            and any(node["className"] == expected for node in candidate["nodes"])
-        ]
-        target = max(matching, key=lambda candidate: candidate["semanticFit"])
-        return SimpleNamespace(
-            parsed={
-                "selectedCandidateId": target["candidateId"],
-                "alternativeCandidateIds": [],
-                "semanticFit": 0.95,
-                "confidence": 0.95,
-                "reason": "Best constrained semantic match",
-                "fallbackJustification": None,
-            }
-        )
+        items = json.loads(prompt.split("Items:\n", 1)[1])
+        decisions = []
+        for item in items:
+            fact_id = item["fact"]["factId"]
+            expected = self.expected_by_fact[fact_id]
+            matching = [
+                candidate
+                for candidate in item["candidates"]
+                if not candidate["fallback"]
+                and any(
+                    node["className"] == expected for node in candidate["nodes"]
+                )
+            ]
+            target = max(matching, key=lambda candidate: candidate["semanticFit"])
+            decisions.append(
+                {
+                    "factId": fact_id,
+                    "selectedCandidateId": target["candidateId"],
+                    "alternativeCandidateIds": [],
+                    "semanticFit": 0.95,
+                    "confidence": 0.95,
+                    "reason": "Best constrained semantic match",
+                    "fallbackJustification": None,
+                }
+            )
+        return SimpleNamespace(parsed={"decisions": decisions})
 
 
 class _ExpectedClassSelectorClient:
@@ -784,12 +824,17 @@ def test_gemini_selector_can_reject_without_inventing_candidate(tmp_path):
     selector = GeminiRepresentationSelector(
         client=_FakeGeminiClient([
             {
-                "selectedCandidateId": None,
-                "alternativeCandidateIds": [],
-                "semanticFit": 0.0,
-                "confidence": 0.8,
-                "reason": "No candidate preserves the fact semantics",
-                "fallbackJustification": None,
+                "decisions": [
+                    {
+                        "factId": fact.fact_id,
+                        "selectedCandidateId": None,
+                        "alternativeCandidateIds": [],
+                        "semanticFit": 0.0,
+                        "confidence": 0.8,
+                        "reason": "No candidate preserves the fact semantics",
+                        "fallbackJustification": None,
+                    }
+                ]
             }
         ])
     )
@@ -797,3 +842,197 @@ def test_gemini_selector_can_reject_without_inventing_candidate(tmp_path):
     decision = selector.select(fact=fact, candidates=candidates)
 
     assert decision is None
+
+
+class _CountingAtomicExtractor(_StaticAtomicFactExtractor):
+    def __init__(self, facts):
+        super().__init__(facts)
+        self.calls = 0
+
+    def extract_facts(self, **kwargs):
+        self.calls += 1
+        return super().extract_facts(**kwargs)
+
+
+class _CountingCoverageJudge:
+    def __init__(self):
+        self.calls = 0
+
+    def audit_batch(self, *, chunks, **_kwargs):
+        self.calls += 1
+        return {chunk.index: [] for chunk in chunks}
+
+
+class _CountingDeterministicSelector:
+    def __init__(self):
+        self.calls = 0
+        self.delegate = DeterministicRepresentationSelector()
+
+    def select_batch(self, *, facts, candidates_by_fact, previous_error=None):
+        self.calls += 1
+        return self.delegate.select_batch(
+            facts=facts,
+            candidates_by_fact=candidates_by_fact,
+            previous_error=previous_error,
+        )
+
+
+def test_semantic_retry_reuses_facts_coverage_and_candidates(tmp_path):
+    path, registry = _ontology(tmp_path)
+    fact = _fact()
+    extractor = _CountingAtomicExtractor([fact])
+    judge = _CountingCoverageJudge()
+    selector = _CountingDeterministicSelector()
+    planner = SemanticPlacementPlanner(
+        registry=registry,
+        compiler=GraphPatchCompiler(ontology_path=path),
+        ontology_validator=OntologyValidator(registry),
+        source_grounding=SourceGroundingValidator(registry),
+        fact_extractor=extractor,
+        selector=selector,
+        source_coverage_judge=judge,
+        config=PlacementConfig(selector_mode="deterministic"),
+    )
+    chunk = _chunk()
+    payload = {
+        "batchIndex": 0,
+        "chunkIndexes": [0],
+        "chunks": [chunk.model_dump(by_alias=True, mode="json")],
+    }
+
+    planner.plan_batch(
+        batch_payload=payload,
+        ontology_scope="business product eligibility rule",
+        chunks=[chunk],
+    )
+    retried = planner.plan_batch(
+        batch_payload=payload,
+        ontology_scope="business product eligibility rule",
+        chunks=[chunk],
+        previous_error={
+            "stage": "semantic_placement",
+            "errors": [{"location": "semanticPlacement.fact-1"}],
+        },
+    )
+
+    assert extractor.calls == 1
+    assert judge.calls == 1
+    assert selector.calls == 2
+    assert retried.stats.semantic_placement_repair_count == 1
+
+
+def test_source_coverage_failure_skips_representation_selection(tmp_path):
+    path, registry = _ontology(tmp_path)
+    chunk = _chunk("- Minimum age is 20.\n- Valid ID is required.")
+    fact = _fact_from_claim("fact-age", "Minimum age is 20.")
+    extractor = _CountingAtomicExtractor([fact])
+    selector = _CountingDeterministicSelector()
+    planner = SemanticPlacementPlanner(
+        registry=registry,
+        compiler=GraphPatchCompiler(ontology_path=path),
+        ontology_validator=OntologyValidator(registry),
+        source_grounding=SourceGroundingValidator(registry),
+        fact_extractor=extractor,
+        selector=selector,
+        source_coverage_judge=None,
+        config=PlacementConfig(selector_mode="deterministic"),
+    )
+    result = planner.plan_batch(
+        batch_payload={
+            "batchIndex": 0,
+            "chunkIndexes": [0],
+            "chunks": [chunk.model_dump(by_alias=True, mode="json")],
+        },
+        ontology_scope="business product eligibility rule",
+        chunks=[chunk],
+    )
+
+    assert result.source_audit.passed is False
+    assert selector.calls == 0
+
+
+class _SequenceAtomicFactExtractor:
+    def __init__(self, batches):
+        self.batches = list(batches)
+        self.calls = []
+
+    def extract_facts(self, **kwargs):
+        self.calls.append(kwargs["batch_payload"])
+        return self.batches.pop(0)
+
+
+def _claim_fact_at(fact_id, claim, chunk_index):
+    return AtomicFact(
+        factId=fact_id,
+        subject="Flexi card",
+        predicate="eligibility condition",
+        object=claim,
+        factShape="rule",
+        sourceChunkIndex=chunk_index,
+        evidence=[Evidence(source="source.md", chunkIndex=chunk_index, section="Eligibility", text=claim)],
+        confidence=0.91,
+    )
+
+
+def test_source_coverage_retry_reextracts_only_failed_chunks(tmp_path):
+    chunk0 = _chunk("- Minimum age is 20.")
+    chunk1 = DocumentChunk(
+        index=1,
+        source="source.md",
+        section="Eligibility",
+        content="- Monthly income is 10 million.\n- Valid ID is required.",
+        chunkId="chunk_0001",
+        startLine=2,
+        endLine=3,
+    )
+    age = _claim_fact_at("fact-age", "Minimum age is 20.", 0)
+    income = _claim_fact_at("fact-income", "Monthly income is 10 million.", 1)
+    identity = _claim_fact_at("fact-id", "Valid ID is required.", 1)
+    extractor = _SequenceAtomicFactExtractor(
+        [
+            AtomicFactBatch(facts=[age, income], coverage={0: "FACTS_EXTRACTED", 1: "FACTS_EXTRACTED"}),
+            AtomicFactBatch(facts=[income, identity], coverage={1: "FACTS_EXTRACTED"}),
+        ]
+    )
+    path, registry = _ontology(tmp_path)
+    planner = SemanticPlacementPlanner(
+        registry=registry,
+        compiler=GraphPatchCompiler(ontology_path=path),
+        ontology_validator=OntologyValidator(registry),
+        source_grounding=SourceGroundingValidator(registry),
+        fact_extractor=extractor,
+        selector=DeterministicRepresentationSelector(),
+        config=PlacementConfig(selector_mode="deterministic"),
+    )
+    payload = {
+        "batchIndex": 0,
+        "chunkIndexes": [0, 1],
+        "chunks": [
+            chunk0.model_dump(by_alias=True, mode="json"),
+            chunk1.model_dump(by_alias=True, mode="json"),
+        ],
+    }
+    first = planner.plan_batch(
+        batch_payload=payload,
+        ontology_scope="eligibility business facts",
+        chunks=[chunk0, chunk1],
+    )
+    assert first.source_audit.passed is False
+    retry = planner.plan_batch(
+        batch_payload=payload,
+        ontology_scope="eligibility business facts",
+        chunks=[chunk0, chunk1],
+        previous_error={
+            "stage": "source_fact_coverage",
+            "coverageFailures": [
+                {"chunkIndex": 1, "missingClaims": ["Valid ID is required."]}
+            ],
+        },
+    )
+
+    assert retry.source_audit.passed is True
+    assert len(retry.facts.facts) == 3
+    assert extractor.calls[0]["chunkIndexes"] == [0, 1]
+    assert extractor.calls[1]["chunkIndexes"] == [1]
+    assert {fact.source_chunk_index for fact in retry.facts.facts} == {0, 1}
+    assert len({fact.fact_id for fact in retry.facts.facts}) == 3
