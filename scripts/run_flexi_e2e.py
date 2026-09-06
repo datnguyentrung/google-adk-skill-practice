@@ -29,8 +29,6 @@ OUT_DIR.mkdir(exist_ok=True)
 
 captured = {
     "finalized": None,
-    "reconcile": None,
-    "contexts": [],
     "batches": {},
 }
 
@@ -56,47 +54,39 @@ class RuntimeAdapter:
 
 
 def install_capture_wrappers() -> None:
-    import app.services.ingestion.relationship_reconciliation as rr
     import app.services.ingestion.use_case as uc
 
-    orig_planner_factory = uc._get_semantic_placement_planner
+    orig_mapper_factory = uc._get_semantic_graph_mapper
 
-    def planner_factory():
-        planner = orig_planner_factory()
-        if getattr(planner, "_flexi_capture_wrapped", False):
-            return planner
-        orig_plan_batch = planner.plan_batch
+    def mapper_factory():
+        mapper = orig_mapper_factory()
+        if getattr(mapper, "_flexi_capture_wrapped", False):
+            return mapper
+        orig_map_batch = mapper.map_batch
 
-        def plan_batch_wrapper(*, batch_payload, **kwargs):
-            outcome = orig_plan_batch(batch_payload=batch_payload, **kwargs)
+        def map_batch_wrapper(*, batch_payload, **kwargs):
+            outcome = orig_map_batch(batch_payload=batch_payload, **kwargs)
             batch_index = batch_payload.get("batchIndex")
             captured["batches"].setdefault(batch_index, []).append(
                 {
-                    "stage": "semantic_placement",
+                    "stage": "semantic_mapping",
                     "graph_context": kwargs.get("graph_context"),
                     "previous_error": kwargs.get("previous_error"),
                     "stats": outcome.stats.model_dump(by_alias=True, mode="json"),
-                    "sourceAudit": outcome.source_audit.model_dump(
-                        by_alias=True, mode="json"
-                    ),
-                    "placement": outcome.placement.model_dump(
-                        by_alias=True, mode="json"
-                    ),
-                    "completeness": outcome.completeness.model_dump(
-                        by_alias=True, mode="json"
-                    ),
-                    "fragment": outcome.fragment.model_dump(
-                        by_alias=True, mode="json"
-                    ),
+                    "facts": outcome.facts.model_dump(by_alias=True, mode="json"),
+                    "sourceAudit": outcome.source_audit.model_dump(by_alias=True, mode="json"),
+                    "placement": outcome.placement.model_dump(by_alias=True, mode="json"),
+                    "completeness": outcome.completeness.model_dump(by_alias=True, mode="json"),
+                    "fragment": outcome.fragment.model_dump(by_alias=True, mode="json"),
                 }
             )
             return outcome
 
-        planner.plan_batch = plan_batch_wrapper
-        planner._flexi_capture_wrapped = True
-        return planner
+        mapper.map_batch = map_batch_wrapper
+        mapper._flexi_capture_wrapped = True
+        return mapper
 
-    uc._get_semantic_placement_planner = planner_factory
+    uc._get_semantic_graph_mapper = mapper_factory
 
     orig_finalize = uc.finalize_ingestion
 
@@ -107,93 +97,41 @@ def install_capture_wrappers() -> None:
 
     uc.finalize_ingestion = finalize_wrapper
 
-    orig_reconcile = rr.RelationshipReconciler.reconcile
-
-    def reconcile_wrapper(self, **kwargs):
-        outcome = orig_reconcile(self, **kwargs)
-        assessment = outcome.assessment
-        captured["reconcile"] = {
-            "reconciled": outcome.reconciled,
-            "passes_used": outcome.passes_used,
-            "exhausted": outcome.exhausted,
-            "issues": [issue.code.value for issue in outcome.issues],
-            "assessmentReadiness": (
-                [issue.code.value for issue in assessment.result.readiness_issues]
-                if assessment is not None
-                else []
-            ),
-            "assessmentValidForPersistence": (
-                assessment.result.valid_for_persistence
-                if assessment is not None
-                else None
-            ),
-            "assessmentNodeCount": (
-                assessment.result.node_count if assessment is not None else None
-            ),
-            "assessmentEdgeCount": (
-                assessment.result.edge_count if assessment is not None else None
-            ),
-        }
-        return outcome
-
-    rr.RelationshipReconciler.reconcile = reconcile_wrapper
-
-    orig_build = rr.RelationshipReconciler._build_context
-
-    def build_wrapper(self, **kwargs):
-        context = orig_build(self, **kwargs)
-        captured["contexts"].append(context)
-        return context
-
-    rr.RelationshipReconciler._build_context = build_wrapper
-
-
-def selected_chunk_indexes(context: str) -> list[int]:
-    return sorted({int(match) for match in re.findall(r"\[CHUNK (\d+)\]", context)})
-
 
 def main() -> None:
     install_capture_wrappers()
 
-    from app.config.neo4j import Neo4jClient
     from app.services.ingestion.use_case import IngestionUseCase
 
     if not os.getenv("GOOGLE_API_KEY"):
         raise SystemExit("GOOGLE_API_KEY is not set")
-    try:
-        Neo4jClient.connect().verify_connectivity()
-        print("NEO4J_CONNECTIVITY=ok")
-    except Exception as exc:
-        print(f"NEO4J_CONNECTIVITY=failed {exc!r}")
-        raise
+    persist = os.getenv("FLEXI_E2E_PERSIST", "true").strip().lower() not in {
+        "0", "false", "no"
+    }
+    if persist:
+        from app.config.neo4j import Neo4jClient
+        try:
+            Neo4jClient.connect().verify_connectivity()
+            print("NEO4J_CONNECTIVITY=ok")
+        except Exception as exc:
+            print(f"NEO4J_CONNECTIVITY=failed {exc!r}")
+            raise
 
     adapter = RuntimeAdapter()
     result = asyncio.run(
         IngestionUseCase().ingest_end_to_end(
             ARTIFACT_NAME,
             adapter,
-            persist=True,
+            persist=persist,
         )
     )
 
     workspace_stats = result.get("workspaceStats", {})
-    reconcile = captured["reconcile"]
-    last_context = captured["contexts"][-1] if captured["contexts"] else None
-    selected_chunks = (
-        selected_chunk_indexes(last_context) if last_context is not None else []
-    )
-    if reconcile is None:
-        readiness = (captured["finalized"] or {}).get("readinessIssues", [])
-        compiled_nodes = (captured["finalized"] or {}).get("nodeCount")
-        compiled_edges = (captured["finalized"] or {}).get("edgeCount")
-        valid_for_persistence = (captured["finalized"] or {}).get(
-            "validForPersistence"
-        )
-    else:
-        readiness = reconcile.get("assessmentReadiness", [])
-        compiled_nodes = reconcile.get("assessmentNodeCount")
-        compiled_edges = reconcile.get("assessmentEdgeCount")
-        valid_for_persistence = reconcile.get("assessmentValidForPersistence")
+    finalized = captured["finalized"] or {}
+    readiness = finalized.get("readinessIssues", [])
+    compiled_nodes = finalized.get("nodeCount")
+    compiled_edges = finalized.get("edgeCount")
+    valid_for_persistence = finalized.get("validForPersistence")
 
     report = {
         "success": result.get("success"),
@@ -209,19 +147,6 @@ def main() -> None:
         "candidateNodes": workspace_stats.get("candidateNodes"),
         "candidateEdges": workspace_stats.get("candidateEdges"),
         "skippedChunks": result.get("skippedChunks"),
-        "reconciliation": (
-            None
-            if reconcile is None
-            else {
-                "called": True,
-                "reconciled": reconcile.get("reconciled"),
-                "passes": reconcile.get("passes_used"),
-                "exhausted": reconcile.get("exhausted"),
-                "issues": reconcile.get("issues"),
-            }
-        ),
-        "selectedChunks": selected_chunks,
-        "selectedChunkCount": len(selected_chunks),
         "finalReadinessIssues": [issue.get("code") for issue in readiness],
         "readinessErrorsEmpty": len(readiness) == 0,
         "validForPersistence": valid_for_persistence,

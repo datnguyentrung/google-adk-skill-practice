@@ -79,6 +79,11 @@ def _is_rate_limit_error(exc: Exception) -> bool:
 
 
 def _is_transient_transport_error(exc: Exception) -> bool:
+    status_code = getattr(exc, "status_code", None)
+    if status_code is None:
+        status_code = getattr(exc, "code", None)
+    if status_code in {500, 502, 503, 504}:
+        return True
     return isinstance(
         exc,
         (

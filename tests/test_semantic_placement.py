@@ -17,6 +17,7 @@ from app.core.schemas.ingestion.semantic_placement import (
     CandidateValidity,
     RepresentationCandidate,
     RepresentationDecision,
+    SourceFactCoverageAudit,
 )
 from app.services.ingestion.document_reader import DocumentReader
 from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
@@ -24,18 +25,18 @@ from app.services.ingestion.loader import OntologyLoader
 from app.services.ingestion.registry import OntologyRegistry
 from app.services.ingestion.semantic_placement import (
     DeterministicRepresentationSelector,
+    FactRolePolicy,
     GeminiRepresentationSelector,
-    GeminiSourceFactCoverageJudge,
     OntologyCandidateGenerator,
     OntologyPlacementPolicy,
     OntologySemanticRetriever,
     PlacementConfig,
-    SemanticPlacementPlanner,
+    SemanticGraphMapper,
     SemanticPlacementValidator,
     SourceFactCoverageAuditor,
+    _all_uncovered_claims,
 )
-from app.services.ingestion.source_grounding import SourceGroundingValidator
-from app.services.ingestion.validator import OntologyValidator
+from app.services.ingestion.graph_validation import OntologyValidator
 
 
 def _ontology(tmp_path, *, extra_classes=0):
@@ -211,6 +212,77 @@ def _chunk(text="Applicant must have monthly income over 10 million"):
     )
 
 
+def test_coverage_support_facts_do_not_require_representation_decisions():
+    fact = _fact_from_claim("auto-0000-001", "Online shopping.")
+    fact = fact.model_copy(update={"context": {"role": "coverage_support"}})
+
+    assessment = SemanticPlacementValidator(PlacementConfig()).validate(
+        facts=[fact],
+        candidates_by_fact={},
+        decisions=[],
+    )
+
+    assert assessment.passed is True
+    assert assessment.issues == []
+
+
+def test_graph_candidate_without_decision_still_fails_semantic_placement():
+    fact = _fact()
+
+    assessment = SemanticPlacementValidator(PlacementConfig()).validate(
+        facts=[fact],
+        candidates_by_fact={fact.fact_id: []},
+        decisions=[],
+    )
+
+    assert assessment.passed is False
+    assert assessment.issues[0].code == "GRAPH_MAPPING_UNSUPPORTED"
+
+
+def test_coverage_support_batch_does_not_enter_semantic_selection(tmp_path):
+    chunk = _chunk("Explanatory source context.")
+    fact = _fact_from_claim("support-0", "Explanatory source context.").model_copy(
+        update={"context": {"role": "coverage_support"}}
+    )
+
+    class RecordingSelector:
+        def __init__(self): self.fact_ids = []
+        def select_batch(self, *, facts, candidates_by_fact, previous_error=None):
+            self.fact_ids.extend(item.fact_id for item in facts)
+            return []
+
+    path, registry = _ontology(tmp_path)
+    selector = RecordingSelector()
+    mapper = SemanticGraphMapper(
+        registry=registry,
+        compiler=GraphPatchCompiler(ontology_path=path),
+        ontology_validator=OntologyValidator(registry),
+        fact_extractor=_StaticAtomicFactExtractor([fact]),
+        selector=selector,
+    )
+    result = mapper.map_batch(
+        batch_payload={
+            "batchIndex": 0,
+            "chunkIndexes": [0],
+            "chunks": [chunk.model_dump(by_alias=True, mode="json")],
+        },
+        ontology_scope="business product eligibility rule",
+        chunks=[chunk],
+    )
+
+    assert result.source_audit.passed is True
+    assert result.placement.passed is True
+    assert result.stats.graph_candidate_fact_count == 0
+    assert result.stats.coverage_support_fact_count == 1
+    assert selector.fact_ids == []
+
+
+def test_uncovered_claims_are_not_capped_for_targeted_repair():
+    claims = [f"claim {index}" for index in range(8)]
+
+    assert len(_all_uncovered_claims(claims, [])) == 8
+
+
 def _generator(tmp_path, *, extra_classes=0, config=None):
     path, registry = _ontology(tmp_path, extra_classes=extra_classes)
     compiler = GraphPatchCompiler(ontology_path=path)
@@ -311,7 +383,7 @@ def test_source_fact_coverage_audit_fails_when_extractor_omits_business_fact():
     chunks = [
         _chunk("| Fact | Value |\n| Product code | CARD-1 |\n| Income | 10 million |")
     ]
-    fact_batch = AtomicFactBatch(facts=[], coverage={0: "NO_RELEVANT_FACT"})
+    fact_batch = AtomicFactBatch(facts=[])
 
     audit = SourceFactCoverageAuditor().audit(chunks=chunks, fact_batch=fact_batch)
 
@@ -433,11 +505,6 @@ class _FakeGeminiClient:
         self.models = _FakeModels(payloads)
 
 
-class _NoMissingClaimsJudge:
-    def audit_batch(self, *, chunks, **_kwargs):
-        return {chunk.index: [] for chunk in chunks}
-
-
 class _StaticAtomicFactExtractor:
     def __init__(self, facts):
         self.facts = facts
@@ -445,7 +512,6 @@ class _StaticAtomicFactExtractor:
     def extract_facts(self, **_kwargs):
         return AtomicFactBatch(
             facts=self.facts,
-            coverage={fact.source_chunk_index: "FACTS_EXTRACTED" for fact in self.facts},
         )
 
 
@@ -456,20 +522,21 @@ def test_source_fact_coverage_detects_partial_omission():
         _fact_from_claim("fact-age", "Minimum age is 20."),
         _fact_from_claim("fact-income", "Monthly income is 10 million."),
     ]
-    batch = AtomicFactBatch(facts=facts, coverage={0: "FACTS_EXTRACTED"})
+    batch = AtomicFactBatch(facts=facts)
 
     audit = SourceFactCoverageAuditor().audit(chunks=[chunk], fact_batch=batch)
 
     assert audit.passed is False
     assert audit.items[0].status == "PARTIAL_OMISSION_SUSPECTED"
-    assert audit.items[0].suspected_missing_claims == ["Valid ID is required."]
+    assert len(audit.items[0].suspected_missing_claims) == 1
+    assert "Valid ID is required." in audit.items[0].suspected_missing_claims[0]
 
 
 def test_source_fact_coverage_passes_when_all_independent_claims_are_covered():
     claims = ["Minimum age is 20.", "Monthly income is 10 million.", "Valid ID is required."]
     chunk = _chunk("\n".join(f"- {claim}" for claim in claims))
     facts = [_fact_from_claim(f"fact-{index}", claim) for index, claim in enumerate(claims)]
-    batch = AtomicFactBatch(facts=facts, coverage={0: "FACTS_EXTRACTED"})
+    batch = AtomicFactBatch(facts=facts)
 
     audit = SourceFactCoverageAuditor().audit(chunks=[chunk], fact_batch=batch)
 
@@ -482,48 +549,13 @@ def test_source_fact_coverage_ignores_extractor_self_claim_when_fact_is_missing(
     chunk = _chunk(content)
     batch = AtomicFactBatch(
         facts=[_fact_from_claim("fact-age", "Minimum age is 20.")],
-        coverage={0: "FACTS_EXTRACTED"},
     )
 
     audit = SourceFactCoverageAuditor().audit(chunks=[chunk], fact_batch=batch)
 
     assert audit.passed is False
     assert audit.items[0].status == "PARTIAL_OMISSION_SUSPECTED"
-    assert "Valid ID is required." in audit.items[0].suspected_missing_claims
-
-
-def test_production_coverage_judge_batches_chunks_and_finds_semantic_omissions():
-    first = _chunk("First independent fact. Second independent fact.")
-    second = _chunk("Third independent fact. Fourth independent fact.").model_copy(
-        update={"index": 1, "chunk_id": "chunk_0001"}
-    )
-    client = _FakeGeminiClient([
-        {
-            "items": [
-                {"chunkIndex": 0, "missingClaims": ["Second independent fact."]},
-                {"chunkIndex": 1, "missingClaims": ["Fourth independent fact."]},
-            ]
-        }
-    ])
-    judge = GeminiSourceFactCoverageJudge(client=client)
-    fact_first = _fact_from_claim("fact-first", "First independent fact.")
-    fact_third = _fact_from_claim("fact-third", "Third independent fact.").model_copy(
-        update={"source_chunk_index": 1}
-    )
-    fact_third.evidence[0].chunk_index = 1
-
-    missing = judge.audit_batch(
-        chunks=[first, second],
-        claims_by_chunk={0: [], 1: []},
-        facts=[fact_first, fact_third],
-        ontology_scope="business facts",
-    )
-
-    assert client.models.call_count == 1
-    assert missing == {
-        0: ["Second independent fact."],
-        1: ["Fourth independent fact."],
-    }
+    assert "Valid ID is required." in audit.items[0].suspected_missing_claims[0]
 
 
 def _property_candidate(candidates, property_name):
@@ -722,26 +754,32 @@ def test_flexi_semantic_regression_runs_source_to_graph_patch_draft():
     registry = OntologyRegistry(OntologyLoader.load(ontology_path))
     compiler = GraphPatchCompiler(ontology_path=ontology_path)
     validator = OntologyValidator(registry)
-    planner = SemanticPlacementPlanner(
+    planner = SemanticGraphMapper(
         registry=registry,
         compiler=compiler,
         ontology_validator=validator,
-        source_grounding=SourceGroundingValidator(registry),
         fact_extractor=_StaticAtomicFactExtractor(facts),
         selector=GeminiRepresentationSelector(
             client=_ExpectedClassSelectorClient(expected_classes)
         ),
-        source_coverage_judge=_NoMissingClaimsJudge(),
         config=PlacementConfig(selector_mode="llm"),
     )
-    selected_chunks = list({fact.source_chunk_index: chunk_for(fact.evidence[0].text) for fact in facts}.values())
+    selected_chunks = []
+    for chunk_index in sorted({fact.source_chunk_index for fact in facts}):
+        source_chunk = next(chunk for chunk in chunks if chunk.index == chunk_index)
+        evidence_texts = [
+            fact.evidence[0].text for fact in facts if fact.source_chunk_index == chunk_index
+        ]
+        selected_chunks.append(
+            source_chunk.model_copy(update={"content": "\n".join(evidence_texts)})
+        )
     batch_payload = {
         "batchIndex": 0,
         "chunkIndexes": [chunk.index for chunk in selected_chunks],
         "chunks": [chunk.model_dump(by_alias=True, mode="json") for chunk in selected_chunks],
     }
 
-    result = planner.plan_batch(
+    result = planner.map_batch(
         batch_payload=batch_payload,
         ontology_scope="product customer segment customer need business rule required document sales script sales knowledge",
         chunks=selected_chunks,
@@ -854,15 +892,6 @@ class _CountingAtomicExtractor(_StaticAtomicFactExtractor):
         return super().extract_facts(**kwargs)
 
 
-class _CountingCoverageJudge:
-    def __init__(self):
-        self.calls = 0
-
-    def audit_batch(self, *, chunks, **_kwargs):
-        self.calls += 1
-        return {chunk.index: [] for chunk in chunks}
-
-
 class _CountingDeterministicSelector:
     def __init__(self):
         self.calls = 0
@@ -881,16 +910,13 @@ def test_semantic_retry_reuses_facts_coverage_and_candidates(tmp_path):
     path, registry = _ontology(tmp_path)
     fact = _fact()
     extractor = _CountingAtomicExtractor([fact])
-    judge = _CountingCoverageJudge()
     selector = _CountingDeterministicSelector()
-    planner = SemanticPlacementPlanner(
+    planner = SemanticGraphMapper(
         registry=registry,
         compiler=GraphPatchCompiler(ontology_path=path),
         ontology_validator=OntologyValidator(registry),
-        source_grounding=SourceGroundingValidator(registry),
         fact_extractor=extractor,
         selector=selector,
-        source_coverage_judge=judge,
         config=PlacementConfig(selector_mode="deterministic"),
     )
     chunk = _chunk()
@@ -900,12 +926,12 @@ def test_semantic_retry_reuses_facts_coverage_and_candidates(tmp_path):
         "chunks": [chunk.model_dump(by_alias=True, mode="json")],
     }
 
-    planner.plan_batch(
+    planner.map_batch(
         batch_payload=payload,
         ontology_scope="business product eligibility rule",
         chunks=[chunk],
     )
-    retried = planner.plan_batch(
+    retried = planner.map_batch(
         batch_payload=payload,
         ontology_scope="business product eligibility rule",
         chunks=[chunk],
@@ -916,7 +942,6 @@ def test_semantic_retry_reuses_facts_coverage_and_candidates(tmp_path):
     )
 
     assert extractor.calls == 1
-    assert judge.calls == 1
     assert selector.calls == 2
     assert retried.stats.semantic_placement_repair_count == 1
 
@@ -927,17 +952,15 @@ def test_source_coverage_failure_skips_representation_selection(tmp_path):
     fact = _fact_from_claim("fact-age", "Minimum age is 20.")
     extractor = _CountingAtomicExtractor([fact])
     selector = _CountingDeterministicSelector()
-    planner = SemanticPlacementPlanner(
+    planner = SemanticGraphMapper(
         registry=registry,
         compiler=GraphPatchCompiler(ontology_path=path),
         ontology_validator=OntologyValidator(registry),
-        source_grounding=SourceGroundingValidator(registry),
         fact_extractor=extractor,
         selector=selector,
-        source_coverage_judge=None,
         config=PlacementConfig(selector_mode="deterministic"),
     )
-    result = planner.plan_batch(
+    result = planner.map_batch(
         batch_payload={
             "batchIndex": 0,
             "chunkIndexes": [0],
@@ -990,16 +1013,15 @@ def test_source_coverage_retry_reextracts_only_failed_chunks(tmp_path):
     identity = _claim_fact_at("fact-id", "Valid ID is required.", 1)
     extractor = _SequenceAtomicFactExtractor(
         [
-            AtomicFactBatch(facts=[age, income], coverage={0: "FACTS_EXTRACTED", 1: "FACTS_EXTRACTED"}),
-            AtomicFactBatch(facts=[income, identity], coverage={1: "FACTS_EXTRACTED"}),
+            AtomicFactBatch(facts=[age, income]),
+            AtomicFactBatch(facts=[income, identity]),
         ]
     )
     path, registry = _ontology(tmp_path)
-    planner = SemanticPlacementPlanner(
+    planner = SemanticGraphMapper(
         registry=registry,
         compiler=GraphPatchCompiler(ontology_path=path),
         ontology_validator=OntologyValidator(registry),
-        source_grounding=SourceGroundingValidator(registry),
         fact_extractor=extractor,
         selector=DeterministicRepresentationSelector(),
         config=PlacementConfig(selector_mode="deterministic"),
@@ -1012,13 +1034,13 @@ def test_source_coverage_retry_reextracts_only_failed_chunks(tmp_path):
             chunk1.model_dump(by_alias=True, mode="json"),
         ],
     }
-    first = planner.plan_batch(
+    first = planner.map_batch(
         batch_payload=payload,
         ontology_scope="eligibility business facts",
         chunks=[chunk0, chunk1],
     )
     assert first.source_audit.passed is False
-    retry = planner.plan_batch(
+    retry = planner.map_batch(
         batch_payload=payload,
         ontology_scope="eligibility business facts",
         chunks=[chunk0, chunk1],

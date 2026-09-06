@@ -1,0 +1,29 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\.pytest-final-ingestion\\test_write_merged_ontology_fol0\\BE",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\.pytest-final-ingestion\\test_write_merged_ontology_fol0\\BE\\AllBE.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\.pytest-final-ingestion\\test_write_merged_ontology_fol0\\BE\\Corporations\\all_corporations.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 2,
+    "classes": 4,
+    "edges": 0,
+    "attributes": 0
+  },
+  "classes": [
+    {
+      "iri": "be-root"
+    },
+    {
+      "iri": "shared"
+    },
+    {
+      "iri": "corporation"
+    },
+    {
+      "iri": "nested-corporation"
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

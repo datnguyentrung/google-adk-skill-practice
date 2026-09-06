@@ -135,9 +135,6 @@ class IngestionWorkspaceService:
         nodes, temp_id_aliases = cls._merge_nodes(fragments)
         edges = cls._merge_edges(fragments, temp_id_aliases)
         coverage = cls._merge_coverage(fragments)
-        coverage = cls._reconcile_coverage_with_merged_facts(
-            coverage, nodes, edges
-        )
         warnings = list(
             dict.fromkeys(
                 warning
@@ -264,20 +261,6 @@ class IngestionWorkspaceService:
                 current.evidence = cls._dedupe_models([*current.evidence, *prop.evidence])
                 continue
 
-            if prop.property_name == "pskg:bankingProductName":
-                current_priority = cls._property_evidence_priority(
-                    prop.property_name, current.evidence
-                )
-                incoming_priority = cls._property_evidence_priority(
-                    prop.property_name, prop.evidence
-                )
-                if incoming_priority > current_priority:
-                    current.value = prop.value
-                    current.evidence = cls._dedupe_models(prop.evidence)
-                    continue
-                if current_priority > incoming_priority:
-                    continue
-
             raise WorkspaceConflictError(
                 f"Node {node.temp_id} property {prop.property_name} "
                 "has conflicting values inside one fragment",
@@ -307,91 +290,74 @@ class IngestionWorkspaceService:
     ) -> tuple[list[ExtractedNode], dict[str, str]]:
         merged: dict[str, ExtractedNode] = {}
         temp_id_aliases: dict[str, str] = {}
-        for fragment in fragments:
-            for incoming in fragment.nodes:
-                incoming = cls._normalized_node_copy(incoming)
-                canonical_temp_id = cls._canonical_temp_id(incoming, merged)
-                temp_id_aliases[incoming.temp_id] = canonical_temp_id
-                if canonical_temp_id != incoming.temp_id:
-                    incoming.temp_id = canonical_temp_id
-                existing = merged.get(canonical_temp_id)
-                if existing is None:
-                    merged[canonical_temp_id] = incoming.model_copy(deep=True)
-                    continue
-                if existing.class_name != incoming.class_name:
-                    raise WorkspaceConflictError(
-                        f"Node {incoming.temp_id} changed class from "
-                        f"{existing.class_name} to {incoming.class_name}"
-                    )
-                existing.evidence = cls._dedupe_models(
-                    [*existing.evidence, *incoming.evidence]
+        incoming_nodes = [
+            cls._normalized_node_copy(node)
+            for fragment in fragments
+            for node in fragment.nodes
+        ]
+        identity_keys_by_class: dict[str, set[tuple[str, str, str]]] = {}
+        for node in incoming_nodes:
+            identity_key = cls._node_identity_key(node)
+            if identity_key is not None:
+                identity_keys_by_class.setdefault(node.class_name, set()).add(identity_key)
+
+        # Canonical identities are merged first so later anonymous references can
+        # resolve to the sole identified entity of the same class without guessing.
+        incoming_nodes.sort(key=lambda node: cls._node_identity_key(node) is None)
+        for incoming in incoming_nodes:
+            original_temp_id = incoming.temp_id
+            canonical_temp_id = cls._canonical_temp_id(
+                incoming,
+                merged,
+                identity_keys_by_class,
+            )
+            temp_id_aliases[original_temp_id] = canonical_temp_id
+            if canonical_temp_id != incoming.temp_id:
+                incoming.temp_id = canonical_temp_id
+            existing = merged.get(canonical_temp_id)
+            if existing is None:
+                merged[canonical_temp_id] = incoming.model_copy(deep=True)
+                continue
+            if existing.class_name != incoming.class_name:
+                raise WorkspaceConflictError(
+                    f"Node {incoming.temp_id} changed class from "
+                    f"{existing.class_name} to {incoming.class_name}"
                 )
-                existing.confidence = max(existing.confidence, incoming.confidence)
-                properties = {item.property_name: item for item in existing.properties}
-                for prop in incoming.properties:
-                    current = properties.get(prop.property_name)
-                    if current is None:
-                        copied = prop.model_copy(deep=True)
-                        existing.properties.append(copied)
-                        properties[prop.property_name] = copied
-                        continue
-                    if isinstance(current.value, list) or isinstance(prop.value, list):
-                        current_values = current.value if isinstance(current.value, list) else [current.value]
-                        incoming_values = prop.value if isinstance(prop.value, list) else [prop.value]
-                        current.value = cls._merge_list_values(current_values, incoming_values)
-                        current.evidence = cls._dedupe_models(
-                            [*current.evidence, *prop.evidence]
-                        )
-                        continue
-                    if isinstance(current.value, list) and isinstance(prop.value, list):
-                        current.value = cls._merge_list_values(current.value, prop.value)
-                        current.evidence = cls._dedupe_models(
-                            [*current.evidence, *prop.evidence]
-                        )
-                        continue
-                    if cls._stable_value(current.value) != cls._stable_value(prop.value):
-                        if prop.property_name == "pskg:bankingProductName":
-                            current_priority = cls._property_evidence_priority(
-                                prop.property_name, current.evidence
-                            )
-                            incoming_priority = cls._property_evidence_priority(
-                                prop.property_name, prop.evidence
-                            )
-                            if incoming_priority > current_priority:
-                                current.value = prop.value
-                                current.evidence = cls._dedupe_models(prop.evidence)
-                                continue
-                            if current_priority > incoming_priority:
-                                continue
-                        raise WorkspaceConflictError(
-                            f"Node {incoming.temp_id} property {prop.property_name} "
-                            "has conflicting values",
-                            conflict={
-                                "nodeTempId": incoming.temp_id,
-                                "propertyName": prop.property_name,
-                                "existingValue": current.value,
-                                "incomingValue": prop.value,
-                                "existingEvidence": [
-                                    item.model_dump(
-                                        by_alias=True,
-                                        mode="json",
-                                        exclude_none=True,
-                                    )
-                                    for item in current.evidence
-                                ],
-                                "incomingEvidence": [
-                                    item.model_dump(
-                                        by_alias=True,
-                                        mode="json",
-                                        exclude_none=True,
-                                    )
-                                    for item in prop.evidence
-                                ],
-                            },
-                        )
-                    current.evidence = cls._dedupe_models(
-                        [*current.evidence, *prop.evidence]
+            existing.evidence = cls._dedupe_models([*existing.evidence, *incoming.evidence])
+            existing.confidence = max(existing.confidence, incoming.confidence)
+            properties = {item.property_name: item for item in existing.properties}
+            for prop in incoming.properties:
+                current = properties.get(prop.property_name)
+                if current is None:
+                    copied = prop.model_copy(deep=True)
+                    existing.properties.append(copied)
+                    properties[prop.property_name] = copied
+                    continue
+                if isinstance(current.value, list) or isinstance(prop.value, list):
+                    current_values = current.value if isinstance(current.value, list) else [current.value]
+                    incoming_values = prop.value if isinstance(prop.value, list) else [prop.value]
+                    current.value = cls._merge_list_values(current_values, incoming_values)
+                    current.evidence = cls._dedupe_models([*current.evidence, *prop.evidence])
+                    continue
+                if cls._stable_value(current.value) != cls._stable_value(prop.value):
+                    raise WorkspaceConflictError(
+                        f"Node {incoming.temp_id} property {prop.property_name} has conflicting values",
+                        conflict={
+                            "nodeTempId": incoming.temp_id,
+                            "propertyName": prop.property_name,
+                            "existingValue": current.value,
+                            "incomingValue": prop.value,
+                            "existingEvidence": [
+                                item.model_dump(by_alias=True, mode="json", exclude_none=True)
+                                for item in current.evidence
+                            ],
+                            "incomingEvidence": [
+                                item.model_dump(by_alias=True, mode="json", exclude_none=True)
+                                for item in prop.evidence
+                            ],
+                        },
                     )
+                current.evidence = cls._dedupe_models([*current.evidence, *prop.evidence])
         return list(merged.values()), temp_id_aliases
 
     @classmethod
@@ -433,29 +399,23 @@ class IngestionWorkspaceService:
         cls,
         incoming: ExtractedNode,
         merged: dict[str, ExtractedNode],
+        identity_keys_by_class: dict[str, set[tuple[str, str, str]]],
     ) -> str:
         identity_key = cls._node_identity_key(incoming)
-        banking_products = [
-            node for node in merged.values() if node.class_name == "pskg:BankingProduct"
-        ]
         for existing in merged.values():
             if existing.class_name != incoming.class_name:
                 continue
             if identity_key is not None and identity_key == cls._node_identity_key(existing):
                 return existing.temp_id
-            if (
-                incoming.class_name == "pskg:BankingProduct"
-                and cls._product_name(incoming)
-                and cls._product_name(incoming) == cls._product_name(existing)
-            ):
-                return existing.temp_id
-        if (
-            incoming.class_name == "pskg:BankingProduct"
-            and identity_key is None
-            and cls._product_name(incoming) is None
-            and len(banking_products) == 1
-        ):
-            return banking_products[0].temp_id
+
+        # Anonymous references can resolve only when the document contains one
+        # unambiguous natural-key identity for this ontology class.
+        known_keys = identity_keys_by_class.get(incoming.class_name, set())
+        if identity_key is None and len(known_keys) == 1:
+            sole_key = next(iter(known_keys))
+            for existing in merged.values():
+                if cls._node_identity_key(existing) == sole_key:
+                    return existing.temp_id
         return incoming.temp_id
 
     @classmethod
@@ -468,67 +428,6 @@ class IngestionWorkspaceService:
         if value is None:
             return None
         return node.class_name, property_name, cls._stable_value(value)
-
-    @classmethod
-    def _product_name(cls, node: ExtractedNode) -> str | None:
-        properties = {item.property_name: item.value for item in node.properties}
-        value = properties.get("pskg:bankingProductName")
-        if value is None:
-            return None
-        return cls._stable_value(value)
-
-    @staticmethod
-    def _reconcile_coverage_with_merged_facts(
-        coverage: list[ChunkCoverage],
-        nodes: list[ExtractedNode],
-        edges: list[ExtractedEdge],
-    ) -> list[ChunkCoverage]:
-        """Align coverage with fact evidence that survives cross-batch merge."""
-        fact_chunks: set[int] = set()
-        for node in nodes:
-            for prop in node.properties:
-                fact_chunks.update(item.chunk_index for item in prop.evidence)
-        for edge in edges:
-            fact_chunks.update(item.chunk_index for item in edge.evidence)
-
-        reconciled: list[ChunkCoverage] = []
-        for item in coverage:
-            has_fact = item.chunk_index in fact_chunks
-            if item.decision == "MAPPED" and not has_fact:
-                logger.warning(
-                    "INGESTION_COVERAGE_RECONCILED chunk=%s "
-                    "from=MAPPED to=NO_RELEVANT_FACT",
-                    item.chunk_index,
-                )
-                reconciled.append(
-                    item.model_copy(
-                        update={
-                            "decision": "NO_RELEVANT_FACT",
-                            "reason": (
-                                "No grounded property or edge fact remains after "
-                                "document-level consolidation"
-                            ),
-                        }
-                    )
-                )
-                continue
-            if item.decision != "MAPPED" and has_fact:
-                logger.warning(
-                    "INGESTION_COVERAGE_RECONCILED chunk=%s from=%s to=MAPPED",
-                    item.chunk_index,
-                    item.decision,
-                )
-                reconciled.append(
-                    item.model_copy(
-                        update={
-                            "decision": "MAPPED",
-                            "reason": "Grounded fact retained after cross-batch merge",
-                        }
-                    )
-                )
-                continue
-            reconciled.append(item.model_copy(deep=True))
-        return reconciled
 
     @staticmethod
     def _merge_coverage(
@@ -545,21 +444,6 @@ class IngestionWorkspaceService:
                 merged[incoming.chunk_index] = incoming.model_copy(deep=True)
         return [merged[index] for index in sorted(merged)]
 
-    @staticmethod
-    def _property_evidence_priority(property_name: str, evidence: list[Evidence]) -> int:
-        if property_name != "pskg:bankingProductName":
-            return 0
-        score = 0
-        for item in evidence:
-            text = item.text.casefold()
-            section = (item.section or "").casefold()
-            if "tÃªn sáº£n pháº©m" in text:
-                score = max(score, 20)
-            elif "tÃªn tÃ i liá»‡u" in text or "thÃ´ng tin tÃ i liá»‡u" in section:
-                score = max(score, 0)
-            else:
-                score = max(score, 10)
-        return score
 
     @staticmethod
     def _stable_value(value) -> str:

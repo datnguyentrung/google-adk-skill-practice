@@ -2,10 +2,10 @@ from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchDraft, GraphPatchFragment
 from app.services.ingestion import use_case as ingestion_use_case
 from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
-from app.services.ingestion.semantic_grounding import SemanticGroundingDecision
+from app.services.ingestion.graph_validation import SemanticGroundingDecision
 from app.services.ingestion.staged_ingestion import IngestionWorkspaceService
 from app.services.ingestion.use_case import IngestionUseCase
-from app.services.ingestion.validate_graph_patch import GraphPatchValidationService
+from app.services.ingestion.graph_validation import GraphValidation
 
 
 class FakeToolContext:
@@ -196,7 +196,7 @@ def test_edge_grounding_does_not_require_keyword_cues():
         )
     ]
 
-    assessment = GraphPatchValidationService().assess(draft, "digest", chunks)
+    assessment = GraphValidation().assess(draft, "digest", chunks)
 
     assert assessment.result.valid_for_extraction is True
     assert "EDGE_RELATION_NOT_GROUNDED" not in {
@@ -234,7 +234,7 @@ def test_edge_grounding_rejects_only_when_semantic_judge_rejects():
         )
     ]
 
-    assessment = GraphPatchValidationService(
+    assessment = GraphValidation(
         semantic_grounding_judge=UnsupportedJudge()
     ).assess(draft, "digest", chunks)
 
@@ -242,32 +242,20 @@ def test_edge_grounding_rejects_only_when_semantic_judge_rejects():
     assert assessment.result.errors[0].code == "EDGE_RELATION_NOT_GROUNDED"
 
 
-def test_batch_validation_rejects_business_rule_without_rule_type_edge():
-    context = _context()
-    workspace = ingestion_use_case._load_workspace(context)
-    assert workspace is not None
-    fragment = GraphPatchFragment.model_validate(
-        {
-            "nodes": [_business_rule_node()],
-            "edges": [],
-            "coverage": _coverage(),
-            "warnings": [],
-        }
-    )
+def test_graph_validation_rejects_business_rule_without_rule_type_edge():
+    draft = GraphPatchDraft.model_validate({
+        "nodes": [_business_rule_node()], "edges": [],
+        "coverage": _coverage(), "warnings": [],
+    })
+    chunks = [DocumentChunk(
+        index=0, source=SOURCE, section="Eligibility", content=RULE_CONDITION
+    )]
 
-    response = IngestionUseCase().submit_batch(
-        workspace.ingestion_id,
-        0,
-        fragment,
-        context,
-    )
+    assessment = GraphValidation().assess(draft, "digest", chunks)
 
-    assert response["success"] is False
-    assert response["stage"] == "batch_validation"
-    assert response["retryRequired"] is True
-    assert response["errors"][0]["code"] == "DERIVED_PROPERTY_REQUIRES_EDGE_EVIDENCE"
-    assert response["errors"][0]["propertyName"] == "pskg:ruleType"
-    assert response["affectedChunkIndexes"] == [0]
+    assert assessment.result.valid_for_extraction is False
+    issue = next(i for i in assessment.result.errors if i.code == "DERIVED_PROPERTY_REQUIRES_EDGE_EVIDENCE")
+    assert issue.property_name == "pskg:ruleType"
 
 
 def test_batch_accepts_business_rule_with_deriving_edge():
@@ -283,7 +271,7 @@ def test_batch_accepts_business_rule_with_deriving_edge():
         }
     )
 
-    response = IngestionUseCase().submit_batch(
+    response = ingestion_use_case.submit_ingestion_batch(
         workspace.ingestion_id,
         0,
         fragment,

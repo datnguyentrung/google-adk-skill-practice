@@ -36,12 +36,6 @@ class AtomicFact(_SemanticPlacementModel):
 
 class AtomicFactBatch(_SemanticPlacementModel):
     facts: list[AtomicFact] = Field(default_factory=list)
-    coverage: dict[int, Literal[
-        "FACTS_EXTRACTED",
-        "NO_RELEVANT_FACT",
-        "AMBIGUOUS",
-        "EXTRACTION_FAILED",
-    ]] = Field(default_factory=dict)
     warnings: list[str] = Field(default_factory=list)
 
 
@@ -118,6 +112,7 @@ class SemanticPlacementIssue(_SemanticPlacementModel):
         "SELECTED_CANDIDATE_NOT_GENERATED",
         "SELECTED_CANDIDATE_INVALID",
         "FACT_PROVENANCE_LOST",
+        "GRAPH_MAPPING_UNSUPPORTED",
     ]
     fact_id: str = Field(alias="factId", min_length=1)
     candidate_id: str | None = Field(default=None, alias="candidateId")
@@ -149,10 +144,22 @@ class RepresentationCompletenessAudit(_SemanticPlacementModel):
 
 class SemanticPlacementStats(_SemanticPlacementModel):
     total_atomic_facts: int = Field(alias="totalAtomicFacts", ge=0)
+    coverage_support_fact_count: int = Field(
+        default=0, alias="coverageSupportFactCount", ge=0
+    )
+    graph_candidate_fact_count: int = Field(
+        default=0, alias="graphCandidateFactCount", ge=0
+    )
     represented_facts: int = Field(alias="representedFacts", ge=0)
+    represented_graph_fact_count: int = Field(
+        default=0, alias="representedGraphFactCount", ge=0
+    )
     fallback_representation_count: int = Field(alias="fallbackRepresentationCount", ge=0)
     specific_representation_count: int = Field(alias="specificRepresentationCount", ge=0)
     semantic_placement_repair_count: int = Field(
         default=0, alias="semanticPlacementRepairCount", ge=0
     )
     unrepresented_fact_count: int = Field(alias="unrepresentedFactCount", ge=0)
+    unrepresented_graph_fact_count: int = Field(
+        default=0, alias="unrepresentedGraphFactCount", ge=0
+    )

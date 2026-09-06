@@ -1,0 +1,15 @@
+{
+  "success": false,
+  "stage": "explicit_extraction_failure",
+  "terminal": true,
+  "ingestionId": "13f957f0f9b0821d798d527ad73c141c45b137110c27be8be304e3621cca1077",
+  "batchIndex": 11,
+  "failureReason": "GRAPH_MAPPING_UNSUPPORTED",
+  "errors": [
+    {
+      "code": "GRAPH_MAPPING_UNSUPPORTED",
+      "message": "GRAPH_MAPPING_UNSUPPORTED: No valid ontology representation exists for graph-worthy fact",
+      "location": "semanticPlacement.f_flexi_rewards_004"
+    }
+  ]
+}

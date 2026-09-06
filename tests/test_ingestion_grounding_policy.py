@@ -8,9 +8,10 @@ from app.services.ingestion import use_case as ingestion_use_case
 from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
 from app.services.ingestion.loader import OntologyLoader
 from app.services.ingestion.registry import OntologyRegistry
-from app.services.ingestion.semantic_grounding import SemanticGroundingDecision
+from app.services.ingestion.graph_validation import SemanticGroundingDecision
 from app.services.ingestion.semantic_placement import GeminiAtomicFactExtractor
-from app.services.ingestion.source_grounding import SourceGroundingValidator
+from app.services.ingestion.graph_validation import SourceGroundingValidator
+from app.services.ingestion.graph_validation import OntologyValidator
 
 SOURCE = "test.md"
 
@@ -90,6 +91,40 @@ def _validate(validator, nodes, edges, chunks) -> list:
 
 def _codes(issues) -> set[str]:
     return {issue.code for issue in issues}
+
+
+def test_persistence_missing_source_required_field_gets_specific_code():
+    draft = GraphPatchDraft.model_validate(
+        {
+            "nodes": [
+                {
+                    "tempId": "product-1",
+                    "className": "pskg:BankingProduct",
+                    "properties": [
+                        {
+                            "propertyName": "pskg:bankingProductEffectiveFrom",
+                            "value": "2026-08-01",
+                            "evidence": [_ev(0, "2026-08-01")],
+                        }
+                    ],
+                    "evidence": [_ev(0, "2026-08-01")],
+                    "confidence": 0.9,
+                }
+            ],
+            "edges": [],
+            "coverage": _coverage([0]),
+            "warnings": [],
+        }
+    )
+    compiled = GraphPatchCompiler().compile(draft).compiled_patch
+    assert compiled is not None
+
+    issues = OntologyValidator(_registry()).validate_persistence(compiled)
+    codes = _codes(issues)
+
+    assert "MISSING_REQUIRED_SOURCE_FACT" in codes
+    assert "DERIVATION_PENDING" in codes
+    assert "ONTOLOGY_RULE_UNSATISFIED" not in codes
 
 
 def test_property_grounding_classification():
@@ -343,7 +378,7 @@ class _FakeModels:
         self.captured["config"] = config
         return SimpleNamespace(
             parsed=None,
-            text=json.dumps({"facts": [], "coverage": {"0": "NO_RELEVANT_FACT"}, "warnings": []}),
+            text=json.dumps({"facts": [], "warnings": []}),
         )
 
 
@@ -412,14 +447,3 @@ def test_response_schema_fidelity():
     assert "type" not in value_schema
 
 
-def test_repair_instruction_is_policy_aware():
-    text = ingestion_use_case._repair_instructions(
-        {
-            "codes": ["PROPERTY_VALUE_NOT_GROUNDED"],
-            "coverageNotEvidencedChunkIndexes": [],
-            "evidenceTextNotInSourceLocations": [],
-            "schemaErrorLocations": [],
-        }
-    )
-    assert "ontology policy" in text.lower()
-    assert "copy the exact source wording" not in text.lower()

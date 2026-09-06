@@ -1,11 +1,11 @@
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchDraft, GraphPatchFragment
 from app.services.ingestion.loader import OntologyLoader
-from app.services.ingestion.prepare_extraction_context import ExtractionContextService
+from app.services.ingestion.document_preparation import DocumentPreparation
 from app.services.ingestion.registry import OntologyRegistry
 from app.services.ingestion.staged_ingestion import IngestionWorkspaceService
 from app.services.ingestion.use_case import _compact_ontology_context
-from app.services.ingestion.validate_graph_patch import GraphPatchValidationService
+from app.services.ingestion.graph_validation import GraphValidation
 
 SOURCE = "semantic.md"
 PRODUCT = "product-flexi"
@@ -92,8 +92,8 @@ def test_runtime_ontology_schema_exposes_representative_concepts():
 
 
 def test_model_ontology_context_is_not_compacted_to_identifiers_only():
-    service = ExtractionContextService()
-    context = service.builder.build_ontology_context()
+    service = DocumentPreparation()
+    context = service.build_ontology_context()
     model_context = _compact_ontology_context(context)
 
     assert "CLASS: pskg:RequiredDocument" in model_context
@@ -281,7 +281,7 @@ def test_required_document_candidate_is_valid_extraction_concept():
         DocumentChunk(index=1, source=SOURCE, section="Documents", content=text),
     ]
 
-    assessment = GraphPatchValidationService().assess(draft, "digest", chunks)
+    assessment = GraphValidation().assess(draft, "digest", chunks)
 
     assert assessment.result.valid_for_extraction is True
     assert not assessment.result.errors
@@ -328,7 +328,7 @@ def test_customer_segment_candidate_is_valid_extraction_concept():
         DocumentChunk(index=1, source=SOURCE, section="Segments", content=text),
     ]
 
-    assessment = GraphPatchValidationService().assess(draft, "digest", chunks)
+    assessment = GraphValidation().assess(draft, "digest", chunks)
 
     assert assessment.result.valid_for_extraction is True
 
@@ -383,13 +383,13 @@ def test_sales_script_candidate_uses_dialogue_evidence():
         DocumentChunk(index=1, source=SOURCE, section="Dialogue", content=text),
     ]
 
-    assessment = GraphPatchValidationService().assess(draft, "digest", chunks)
+    assessment = GraphValidation().assess(draft, "digest", chunks)
 
     assert assessment.result.valid_for_extraction is True
 
 
 def test_utf8_document_reader_preserves_vietnamese_text():
-    chunks = ExtractionContextService().reader.read(
+    chunks = DocumentPreparation().reader.read(
         "docs/HƯỚNG DẪN NGHIỆP VỤ SẢN PHẨM THẺ TÍN DỤNG FLEXI REWARDS.md"
     )
 
@@ -423,7 +423,7 @@ def test_failed_relevant_coverage_is_not_success():
         ),
     ]
 
-    assessment = GraphPatchValidationService().assess(draft, "digest", chunks)
+    assessment = GraphValidation().assess(draft, "digest", chunks)
 
     assert assessment.result.valid_for_extraction is False
     assert {issue.code for issue in assessment.result.errors} == {

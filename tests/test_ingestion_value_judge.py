@@ -1,24 +1,24 @@
-from app.core.schemas.ingestion.document import DocumentChunk
+﻿from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchFragment
-from app.services.ingestion import semantic_grounding
+from app.services.ingestion import graph_validation
 from app.services.ingestion import use_case as ingestion_use_case
 from app.services.ingestion.loader import OntologyLoader
 from app.services.ingestion.registry import OntologyRegistry
-from app.services.ingestion.semantic_grounding import SemanticGroundingDecision
-from app.services.ingestion.source_grounding import SourceGroundingValidator
+from app.services.ingestion.graph_validation import SemanticGroundingDecision
+from app.services.ingestion.graph_validation import SourceGroundingValidator
 
 
 SOURCE = "test.md"
-SECTION = "3. Đặc điểm chính của thẻ"
+SECTION = "3. Äáº·c Ä‘iá»ƒm chÃ­nh cá»§a tháº»"
 
-ROW_LOAI = "| Loại thẻ | Thẻ tín dụng cá nhân |"
-ROW_HANG = "| Hạng thẻ | Gold |"
-ROW_LIMIT = "| Hạn mức tín dụng | Từ 20 triệu đến 500 triệu VND |"
-ROW_PAY = "| Thanh toán tối thiểu | 5% tổng dư nợ sao kê, tối thiểu 200.000 VND |"
+ROW_LOAI = "| Loáº¡i tháº» | Tháº» tÃ­n dá»¥ng cÃ¡ nhÃ¢n |"
+ROW_HANG = "| Háº¡ng tháº» | Gold |"
+ROW_LIMIT = "| Háº¡n má»©c tÃ­n dá»¥ng | Tá»« 20 triá»‡u Ä‘áº¿n 500 triá»‡u VND |"
+ROW_PAY = "| Thanh toÃ¡n tá»‘i thiá»ƒu | 5% tá»•ng dÆ° ná»£ sao kÃª, tá»‘i thiá»ƒu 200.000 VND |"
 
 TABLE = "\n".join(
     [
-        "| Nội dung | Chính sách |",
+        "| Ná»™i dung | ChÃ­nh sÃ¡ch |",
         "|---|---|",
         ROW_LOAI,
         ROW_HANG,
@@ -28,12 +28,12 @@ TABLE = "\n".join(
 )
 
 # One claim intentionally fails the deterministic token match (normalized
-# numbers "20.000.000" vs source "20 triệu") so the judge path is exercised.
+# numbers "20.000.000" vs source "20 triá»‡u") so the judge path is exercised.
 CLAIMS = [
-    "Loại thẻ: Thẻ tín dụng cá nhân",
-    "Hạng thẻ: Gold",
-    "Hạn mức tín dụng: Từ 20.000.000 đến 500.000.000 VND",
-    "Thanh toán tối thiểu: 5% tổng dư nợ sao kê, tối thiểu 200.000 VND",
+    "Loáº¡i tháº»: Tháº» tÃ­n dá»¥ng cÃ¡ nhÃ¢n",
+    "Háº¡ng tháº»: Gold",
+    "Háº¡n má»©c tÃ­n dá»¥ng: Tá»« 20.000.000 Ä‘áº¿n 500.000.000 VND",
+    "Thanh toÃ¡n tá»‘i thiá»ƒu: 5% tá»•ng dÆ° ná»£ sao kÃª, tá»‘i thiá»ƒu 200.000 VND",
 ]
 
 
@@ -140,7 +140,7 @@ def test_normalized_number_wording_different_from_source_passes_with_judge():
     judge = _FixedValueJudge("supported")
     issues = _validator(judge).validate(
         _fragment(
-            ["Hạn mức tín dụng: Từ 20.000.000 đến 500.000.000 VND"],
+            ["Háº¡n má»©c tÃ­n dá»¥ng: Tá»« 20.000.000 Ä‘áº¿n 500.000.000 VND"],
             [ROW_LIMIT],
         ),
         [_chunk()],
@@ -152,10 +152,10 @@ def test_normalized_number_wording_different_from_source_passes_with_judge():
 
 def test_same_number_different_predicate_fails_with_judge():
     judge = _FixedValueJudge("unsupported")
-    evidence = "| Hạn mức rút tiền mặt | Tối đa 100.000 VND |"
+    evidence = "| Háº¡n má»©c rÃºt tiá»n máº·t | Tá»‘i Ä‘a 100.000 VND |"
     chunk = DocumentChunk(index=6, source=SOURCE, section=SECTION, content=evidence)
     issues = _validator(judge).validate(
-        _fragment(["Phí thường niên 100.000 VND"], [evidence]),
+        _fragment(["PhÃ­ thÆ°á»ng niÃªn 100.000 VND"], [evidence]),
         [chunk],
     )
 
@@ -184,7 +184,7 @@ def test_judge_unknown_fails_closed():
 def test_evidence_verbatim_still_enforced_with_judge():
     judge = _FixedValueJudge("supported")
     issues = _validator(judge).validate(
-        _fragment(CLAIMS, ["Loại thẻ: Thẻ tín dụng cá nhân"]),
+        _fragment(CLAIMS, ["Loáº¡i tháº»: Tháº» tÃ­n dá»¥ng cÃ¡ nhÃ¢n"]),
         [_chunk()],
     )
 
@@ -204,22 +204,9 @@ def test_deterministic_pass_does_not_need_judge():
     assert judge.calls == []
 
 
-def test_repair_instruction_offers_narrow_evidence_or_ambiguous():
-    text = ingestion_use_case._repair_instructions(
-        {
-            "codes": ["PROPERTY_VALUE_NOT_GROUNDED"],
-            "coverageNotEvidencedChunkIndexes": [],
-            "evidenceTextNotInSourceLocations": [],
-            "schemaErrorLocations": [],
-        }
-    )
-    assert "narrow the value" in text
-    assert "AMBIGUOUS" in text
-    assert "Do not resubmit the same unsupported value" in text
-
-
 def test_default_value_judge_wiring(monkeypatch):
     monkeypatch.setenv("GOOGLE_API_KEY", "test-key")
-    assert semantic_grounding.create_default_semantic_value_judge() is not None
+    assert graph_validation.create_default_semantic_value_judge() is not None
     monkeypatch.delenv("GOOGLE_API_KEY")
-    assert semantic_grounding.create_default_semantic_value_judge() is None
+    assert graph_validation.create_default_semantic_value_judge() is None
+

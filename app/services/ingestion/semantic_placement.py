@@ -38,15 +38,11 @@ from app.core.schemas.ingestion.semantic_placement import (
     SourceFactCoverageItem,
 )
 from app.core.schemas.ingestion.validation import ValidationIssue
-from app.services.ingestion.fragment_grounding_repair import (
-    align_coverage_with_grounded_facts,
-)
 from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
+from app.services.ingestion.graph_validation import OntologyValidator, is_source_required_rule
 from app.services.ingestion.model_call_control import GeminiCallExecutor
 from app.services.ingestion.ontology_datatypes import value_matches_xsd, xsd_datatypes
 from app.services.ingestion.registry import OntologyRegistry
-from app.services.ingestion.source_grounding import SourceGroundingValidator
-from app.services.ingestion.validator import OntologyValidator
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +51,8 @@ DEFAULT_ATOMIC_FACT_MODEL = os.getenv(
     os.getenv("INGESTION_MODEL", "gemini-3.1-flash-lite"),
 )
 
+FACT_ROLE_GRAPH_CANDIDATE = "graph_candidate"
+FACT_ROLE_COVERAGE_SUPPORT = "coverage_support"
 
 @dataclass(frozen=True)
 class PlacementConfig:
@@ -92,17 +90,6 @@ class RepresentationSelector(Protocol):
         candidates_by_fact: dict[str, list[RepresentationCandidate]],
         previous_error: dict[str, Any] | None = None,
     ) -> list[RepresentationDecision]: ...
-
-
-class SourceFactCoverageJudge(Protocol):
-    def audit_batch(
-        self,
-        *,
-        chunks: list[DocumentChunk],
-        claims_by_chunk: dict[int, list[str]],
-        facts: list[AtomicFact],
-        ontology_scope: str,
-    ) -> dict[int, list[str]]: ...
 
 
 @dataclass(frozen=True)
@@ -163,19 +150,6 @@ class _SelectorBatchResponse(BaseModel):
     decisions: list[_SelectorBatchItemResponse] = Field(default_factory=list)
 
 
-class _CoverageBatchItemResponse(BaseModel):
-    model_config = ConfigDict(extra="forbid", populate_by_name=True)
-
-    chunk_index: int = Field(alias="chunkIndex", ge=0)
-    missing_claims: list[str] = Field(default_factory=list, alias="missingClaims")
-
-
-class _CoverageJudgeResponse(BaseModel):
-    model_config = ConfigDict(extra="forbid", populate_by_name=True)
-
-    items: list[_CoverageBatchItemResponse] = Field(default_factory=list)
-
-
 class GeminiAtomicFactExtractor:
     """Ontology-aware, representation-blind source fact extractor."""
 
@@ -228,12 +202,73 @@ class GeminiAtomicFactExtractor:
                 raise InvalidAtomicFactBatchError("Gemini returned no atomic facts")
             payload = self._parse_json_response(text)
         try:
-            return AtomicFactBatch.model_validate(payload)
+            fact_batch = AtomicFactBatch.model_validate(payload)
         except ValidationError as exc:
             raise InvalidAtomicFactBatchError(
                 "LLM returned invalid AtomicFactBatch",
                 summary={"validationErrors": exc.errors(include_url=False)[:5]},
             ) from exc
+
+        source_chunks = {
+            int(item["index"]): item
+            for item in batch_payload.get("chunks", [])
+            if isinstance(item, dict) and "index" in item
+        }
+        canonical_facts: list[AtomicFact] = []
+        for fact in fact_batch.facts:
+            evidence = []
+            for item in fact.evidence:
+                chunk = source_chunks.get(item.chunk_index) or source_chunks.get(
+                    fact.source_chunk_index
+                )
+                if chunk is None:
+                    evidence.append(item)
+                    continue
+                content = str(chunk.get("content") or "")
+                text = item.text
+                if text in content and "|" in text:
+                    table_row = next(
+                        (
+                            line.strip()
+                            for line in content.splitlines()
+                            if text in line
+                            and line.strip().startswith("|")
+                            and line.strip().endswith("|")
+                        ),
+                        None,
+                    )
+                    if table_row is not None:
+                        text = table_row
+                if text not in content:
+                    requested = _tokens(text)
+                    blocks = [
+                        block.strip()
+                        for block in re.split(r"\n\s*\n", content)
+                        if block.strip()
+                    ]
+                    ranked = sorted(
+                        (
+                            (
+                                len(requested & _tokens(block)) / max(1, len(requested)),
+                                block,
+                            )
+                            for block in blocks
+                        ),
+                        reverse=True,
+                    )
+                    text = ranked[0][1] if ranked and ranked[0][0] >= 0.4 else content
+                evidence.append(
+                    item.model_copy(
+                        update={
+                            "source": str(chunk.get("source") or item.source),
+                            "section": chunk.get("section"),
+                            "text": text,
+                            "chunk_index": int(chunk["index"]),
+                        }
+                    )
+                )
+            canonical_facts.append(fact.model_copy(update={"evidence": evidence}))
+        return AtomicFactBatch(facts=canonical_facts, warnings=fact_batch.warnings)
 
     @staticmethod
     def _parse_json_response(text: str) -> Any:
@@ -275,137 +310,19 @@ class GeminiAtomicFactExtractor:
             "ontology technical names, class names, property names, edge names, "
             "nodes, edges, GraphPatch, or Neo4j details.\n"
             "Each fact must be independent, source-grounded, and expressed as "
-            "subject, predicate, object. Keep factShape coarse and ontology-neutral.\n"
+            "subject, predicate, object. Keep factShape coarse and ontology-neutral. "
+            "Set context.role='graph_candidate' only when the source states an independently "
+            "queryable business concept with a direct semantic counterpart in the provided "
+            "ontology scope; otherwise use context.role='coverage_support'. For a contiguous "
+            "structured list governed by one subject and predicate, preserve the complete list "
+            "as one fact or as multiple facts that collectively cover every list item.\n"
             "Evidence text must be a verbatim excerpt from the cited chunk content, "
             "not merely the section or filename.\n"
-            "Coverage must include every chunk in the batch. Mark a chunk "
-            "NO_RELEVANT_FACT only when it has no meaningful business fact within "
-            "the ontology scope; use AMBIGUOUS or EXTRACTION_FAILED otherwise.\n"
             f"{repair}\n"
             "Ontology scope, definitions only:\n"
             f"{ontology_scope}\n\n"
             "Batch payload:\n"
             f"{json.dumps(batch_payload, ensure_ascii=False)}"
-        )
-
-
-class GeminiSourceFactCoverageJudge:
-    """Audit source coverage for a whole ingestion batch in one Gemini call."""
-
-    def __init__(
-        self,
-        *,
-        model: str = DEFAULT_ATOMIC_FACT_MODEL,
-        client: genai.Client | None = None,
-    ):
-        self.model = model
-        injected_client = client is not None
-        self.client = client or genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
-        executor_kwargs = {"rpm_budget": 0} if injected_client else {}
-        self.call_executor = GeminiCallExecutor(
-            client=self.client, model=self.model, **executor_kwargs
-        )
-
-    def audit_batch(
-        self,
-        *,
-        chunks: list[DocumentChunk],
-        claims_by_chunk: dict[int, list[str]],
-        facts: list[AtomicFact],
-        ontology_scope: str,
-    ) -> dict[int, list[str]]:
-        if not chunks:
-            return {}
-        response = self.call_executor.generate_content(
-            operation="source_fact_coverage",
-            contents=self._prompt(
-                chunks=chunks,
-                claims_by_chunk=claims_by_chunk,
-                facts=facts,
-                ontology_scope=ontology_scope,
-            ),
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json",
-                response_json_schema=_CoverageJudgeResponse.model_json_schema(),
-                temperature=0,
-            ),
-        )
-        payload = getattr(response, "parsed", None)
-        if payload is None:
-            text = getattr(response, "text", None) or "{}"
-            payload = GeminiAtomicFactExtractor._parse_json_response(text)
-        parsed = _CoverageJudgeResponse.model_validate(payload)
-        chunk_by_index = {chunk.index: chunk for chunk in chunks}
-        result = {chunk.index: [] for chunk in chunks}
-        for item in parsed.items:
-            chunk = chunk_by_index.get(item.chunk_index)
-            if chunk is None:
-                continue
-            normalized_source = _normalize_text(chunk.content)
-            result[item.chunk_index] = _dedupe_text(
-                [
-                    claim
-                    for claim in item.missing_claims
-                    if _normalize_text(claim) in normalized_source
-                ]
-            )
-        return result
-
-    def find_missing_claims(
-        self,
-        *,
-        chunk: DocumentChunk,
-        claims: list[str],
-        facts: list[AtomicFact],
-        ontology_scope: str,
-    ) -> list[str]:
-        return self.audit_batch(
-            chunks=[chunk],
-            claims_by_chunk={chunk.index: claims},
-            facts=facts,
-            ontology_scope=ontology_scope,
-        ).get(chunk.index, [])
-
-    @staticmethod
-    def _prompt(
-        *,
-        chunks: list[DocumentChunk],
-        claims_by_chunk: dict[int, list[str]],
-        facts: list[AtomicFact],
-        ontology_scope: str,
-    ) -> str:
-        fact_payload = [
-            {
-                "factId": fact.fact_id,
-                "sourceChunkIndex": fact.source_chunk_index,
-                "subject": fact.subject,
-                "predicate": fact.predicate,
-                "object": fact.object,
-                "evidence": [evidence.text for evidence in fact.evidence],
-            }
-            for fact in facts
-        ]
-        chunk_payload = [
-            {
-                "chunk": chunk.model_dump(mode="json"),
-                "candidateClaims": claims_by_chunk.get(chunk.index, []),
-            }
-            for chunk in chunks
-        ]
-        return (
-            "Audit source-to-atomic-fact completeness for an entire batch. "
-            "Use ontology scope only for relevance and remain representation-blind. "
-            "For each chunk, return short verbatim excerpts for every independent "
-            "ontology-relevant claim not covered by extractedFacts. candidateClaims "
-            "are deterministic hints only; inspect the full chunk and identify missing "
-            "claims outside those hints when necessary. Do not choose ontology classes, "
-            "properties, edges, nodes, GraphPatch, or Neo4j details. Return exactly one "
-            "item per input chunk, using [] when coverage is complete.\n\n"
-            f"Ontology scope:\n{ontology_scope}\n\n"
-            "Chunks:\n"
-            f"{json.dumps(chunk_payload, ensure_ascii=False)}\n\n"
-            "Extracted facts:\n"
-            f"{json.dumps(fact_payload, ensure_ascii=False)}"
         )
 
 
@@ -513,7 +430,57 @@ class GeminiRepresentationSelector:
             reverse=True,
         )
         top = ranked[0]
+        if len(ranked) == 1 and top.preserves_information:
+            if top.fallback_role:
+                return RepresentationDecision(
+                    factId=fact.fact_id,
+                    selectedCandidateId=top.candidate_id,
+                    alternativeCandidateIds=[],
+                    semanticFit=top.semantic_fit,
+                    specificity=top.specificity,
+                    reason="Only valid ontology representation preserves the source fact",
+                    confidence=fact.confidence,
+                    fallbackUsed=True,
+                    fallbackJustification=(
+                        "No valid non-fallback representation preserves the complete source fact"
+                    ),
+                )
+            if top.semantic_fit >= self.config.minimum_selection_confidence:
+                return RepresentationDecision(
+                    factId=fact.fact_id,
+                    selectedCandidateId=top.candidate_id,
+                    alternativeCandidateIds=[],
+                    semanticFit=top.semantic_fit,
+                    specificity=top.specificity,
+                    reason="Only valid specific ontology representation passes the confidence gate",
+                    confidence=min(fact.confidence, top.semantic_fit),
+                    fallbackUsed=False,
+                )
         runner_up_fit = ranked[1].semantic_fit if len(ranked) > 1 else 0.0
+        same_kind_and_class = (
+            len(ranked) > 1
+            and top.kind == ranked[1].kind
+            and top.fragment.nodes
+            and ranked[1].fragment.nodes
+            and top.fragment.nodes[0].class_name == ranked[1].fragment.nodes[0].class_name
+        )
+        if (
+            same_kind_and_class
+            and not top.fallback_role
+            and top.preserves_information
+            and top.semantic_fit >= self.config.minimum_selection_confidence
+            and top.semantic_fit - runner_up_fit >= self.config.fallback_margin
+        ):
+            return RepresentationDecision(
+                factId=fact.fact_id,
+                selectedCandidateId=top.candidate_id,
+                alternativeCandidateIds=[item.candidate_id for item in ranked[1:6]],
+                semanticFit=top.semantic_fit,
+                specificity=top.specificity,
+                reason="Same-class semantic candidate has a decisive ontology-fit margin",
+                confidence=min(fact.confidence, top.semantic_fit),
+                fallbackUsed=False,
+            )
         if (
             top.fallback_role
             or not top.preserves_information
@@ -562,7 +529,7 @@ class GeminiRepresentationSelector:
         items = [
             {
                 "fact": fact.model_dump(by_alias=True, mode="json"),
-                "candidates": [_candidate_summary(candidate) for candidate in candidates],
+                "candidates": [_candidate_summary(candidate, fact) for candidate in candidates],
             }
             for fact, candidates in group
         ]
@@ -579,7 +546,10 @@ class GeminiRepresentationSelector:
             "the fact semantics. Never invent ontology classes, properties, edges, nodes, "
             "GraphPatch, or Neo4j details. Prefer specific, queryable representations that "
             "preserve independent business meaning. Use fallback only when no non-fallback "
-            "candidate fits.\n"
+            "candidate fits. Facts sharing the same subject should use the same ontology "
+            "class unless the source clearly makes them different entities. For relationship "
+            "candidates, use the rationale to distinguish whether fact subject or fact object "
+            "is the ontology edge source.\n"
             f"{feedback}\nItems:\n"
             f"{json.dumps(items, ensure_ascii=False)}"
         )
@@ -655,13 +625,27 @@ class OntologySemanticRetriever:
             if (cls := self.registry.get_class(name)) is not None
         ]
         property_scores = [
-            (name, _semantic_score(query, _attribute_text(attr)))
+            (
+                name,
+                max(
+                    _semantic_score(query, _attribute_text(attr)),
+                    _semantic_score(fact.predicate, _attribute_text(attr)),
+                    _label_semantic_score(fact.predicate, attr.name, attr.label),
+                ),
+            )
             for name in self.registry.list_attributes()
             if (attr := self.registry.get_attribute(name)) is not None
             and attr.ingestion_policy.mode == "source"
+            and not self.registry.edge_names_deriving_property(name)
         ]
         edge_scores = [
-            (name, _semantic_score(query, _edge_text(edge)))
+            (
+                name,
+                max(
+                    _semantic_score(query, _edge_text(edge)),
+                    _label_semantic_score(fact.predicate, edge.name, edge.label),
+                ),
+            )
             for name in self.registry.list_edges()
             if (edge := self.registry.get_edge(name)) is not None
         ]
@@ -696,41 +680,69 @@ class OntologyCandidateGenerator:
         graph_context: str | None = None,
     ) -> list[RepresentationCandidate]:
         candidates: list[RepresentationCandidate] = []
-        for property_name, score in retrieval.properties:
-            attr = self.registry.get_attribute(property_name)
-            if attr is None or not self._value_feasible(fact.object, attr.range):
-                continue
-            for class_name in self._domain_classes(attr.domain, retrieval.classes):
+        allow_properties = fact.fact_shape not in {"relationship", "entity"}
+        allow_edges = fact.fact_shape not in {"attribute", "entity"}
+        allow_nodes = fact.fact_shape not in {"attribute", "relationship"}
+
+        if allow_properties:
+            seen_properties: set[str] = set()
+            for property_name, score in retrieval.properties:
+                attr = self.registry.get_attribute(property_name)
+                if (
+                    attr is None
+                    or not self._value_feasible(fact.object, attr.range)
+                    or (score <= 0 and not self.placement_policy.is_fallback_property(property_name))
+                ):
+                    continue
+                seen_properties.add(property_name)
+                for class_name in self._domain_classes(attr.domain, retrieval.classes):
+                    candidates.append(
+                        self._property_candidate(fact, class_name, property_name, score)
+                    )
+            for property_name in self.registry.list_attributes():
+                if property_name in seen_properties:
+                    continue
+                attr = self.registry.get_attribute(property_name)
+                if (
+                    attr is None
+                    or not self.placement_policy.is_fallback_property(property_name)
+                    or not self._value_feasible(fact.object, attr.range)
+                ):
+                    continue
+                score = _semantic_score(_fact_text(fact), _attribute_text(attr))
+                for class_name in self._domain_classes(attr.domain, retrieval.classes):
+                    candidates.append(
+                        self._property_candidate(fact, class_name, property_name, score)
+                    )
+
+        if allow_edges:
+            for edge_name, score in retrieval.edges:
+                edge = self.registry.get_edge(edge_name)
+                if edge is None:
+                    continue
+                source_classes = self._domain_classes(edge.domain, retrieval.classes)
+                target_classes = self._domain_classes(edge.range, retrieval.classes)
+                if not source_classes or not target_classes:
+                    continue
                 candidates.append(
-                    self._property_candidate(fact, class_name, property_name, score)
+                    self._node_edge_candidate(
+                        fact, source_classes[0], target_classes[0], edge_name, score
+                    )
                 )
-                if len(candidates) >= self.config.max_representation_candidates:
-                    return candidates
+                if re.match(
+                    r"^(?:is|are|was|were)\s+(?:(?:a|an|the)\s+)?(.+?)\s+(?:for|of)\s*$",
+                    _normalize_text(fact.predicate),
+                ):
+                    candidates.append(
+                        self._node_edge_candidate(
+                            fact, source_classes[0], target_classes[0], edge_name, score,
+                            inverse=True,
+                        )
+                    )
 
-        for edge_name, score in retrieval.edges:
-            edge = self.registry.get_edge(edge_name)
-            if edge is None:
-                continue
-            source_classes = self._named_classes(edge.domain, retrieval.classes)
-            target_classes = self._named_classes(edge.range, retrieval.classes)
-            if not source_classes or not target_classes:
-                continue
-            candidates.append(
-                self._node_edge_candidate(
-                    fact,
-                    source_classes[0],
-                    target_classes[0],
-                    edge_name,
-                    score,
-                )
-            )
-            if len(candidates) >= self.config.max_representation_candidates:
-                return candidates
-
-        for class_name, score in retrieval.classes:
-            candidates.append(self._node_candidate(fact, class_name, score))
-            if len(candidates) >= self.config.max_representation_candidates:
-                return candidates
+        if allow_nodes:
+            for class_name, score in retrieval.classes:
+                candidates.append(self._node_candidate(fact, class_name, score))
 
         return candidates[: self.config.max_representation_candidates]
 
@@ -742,13 +754,26 @@ class OntologyCandidateGenerator:
         retrieval_score: float,
     ) -> RepresentationCandidate:
         fallback = self.placement_policy.is_fallback_property(property_name)
+        attribute = self.registry.get_attribute(property_name)
+        value = fact.object
+        if (
+            attribute is not None
+            and attribute.ingestion_policy.grounding == "source_literal"
+            and "xsd:string" in attribute.range
+        ):
+            evidence_texts = [item.text for item in fact.evidence if item.text]
+            normalized_value = _normalize_text(value)
+            if evidence_texts and not any(
+                normalized_value in _normalize_text(text) for text in evidence_texts
+            ):
+                value = min(evidence_texts, key=len)
         node = ExtractedNode(
             tempId=_entity_temp_id("node", fact.subject, class_name),
             className=class_name,
             properties=[
                 ExtractedProperty(
                     propertyName=property_name,
-                    value=fact.object,
+                    value=value,
                     evidence=[item.model_copy(deep=True) for item in fact.evidence],
                 )
             ],
@@ -800,10 +825,16 @@ class OntologyCandidateGenerator:
             warnings=[],
         )
         validity = self._validate_candidate(fragment, class_name=class_name)
-        if self._missing_required_source_properties(class_name, fragment):
+        missing_source = self._missing_terminal_source_requirements(
+            class_name, fragment
+        )
+        if missing_source:
             validity = CandidateValidity(
                 passed=False,
-                reason="Source lacks required property evidence for this new node",
+                reason=(
+                    "Source lacks required property evidence for this new node: "
+                    + ", ".join(missing_source)
+                ),
             )
         specificity = self.placement_policy.specificity_for_class(class_name)
         entity_fact = fact.fact_shape == "entity"
@@ -831,16 +862,19 @@ class OntologyCandidateGenerator:
         target_class: str,
         edge_name: str,
         retrieval_score: float,
+        inverse: bool = False,
     ) -> RepresentationCandidate:
+        source_value = fact.object if inverse else fact.subject
+        target_value = fact.subject if inverse else fact.object
         source = ExtractedNode(
-            tempId=_entity_temp_id("node", fact.subject, source_class),
+            tempId=_entity_temp_id("node", source_value, source_class),
             className=source_class,
             properties=[],
             evidence=[item.model_copy(deep=True) for item in fact.evidence],
             confidence=fact.confidence,
         )
         target = ExtractedNode(
-            tempId=_entity_temp_id("node", fact.object or fact.subject, target_class),
+            tempId=_entity_temp_id("node", target_value or source_value, target_class),
             className=target_class,
             properties=[],
             evidence=[item.model_copy(deep=True) for item in fact.evidence],
@@ -866,7 +900,8 @@ class OntologyCandidateGenerator:
         )
         return RepresentationCandidate(
             candidateId=_candidate_id(
-                fact.fact_id, "node_edge", source_class, edge_name, target_class
+                fact.fact_id, "node_edge_inverse" if inverse else "node_edge",
+                source_class, edge_name, target_class
             ),
             factIds=[fact.fact_id],
             kind="node_edge",
@@ -878,7 +913,11 @@ class OntologyCandidateGenerator:
             queryability=0.9,
             preservesInformation=True,
             fallbackRole=False,
-            rationale=f"Relationship candidate {source_class}-{edge_name}->{target_class}",
+            rationale=(
+                f"Relationship candidate {source_class}-{edge_name}->{target_class}; "
+                + ("fact object is edge source and fact subject is edge target" if inverse
+                   else "fact subject is edge source and fact object is edge target")
+            ),
         )
 
     def _validate_candidate(
@@ -905,36 +944,61 @@ class OntologyCandidateGenerator:
                 passed=False,
                 reason="; ".join(issue.message for issue in issues),
             )
-        if not self.registry.get_class(class_name):
+        ontology_class = self.registry.get_class(class_name)
+        if ontology_class is None:
             return CandidateValidity(passed=False, reason="Unknown class")
+        for node in fragment.nodes:
+            node_class = self.registry.get_class(node.class_name)
+            if node_class is None:
+                continue
+            for rule in node_class.rules:
+                if (
+                    rule.operator not in {"some", "minQualified", "exactlyQualified"}
+                    or str(rule.value) in {"0", "0.0"}
+                ):
+                    continue
+                deriving_edges = self.registry.edge_names_deriving_property(rule.property)
+                if deriving_edges and not any(
+                    edge.target_temp_id == node.temp_id
+                    and edge.edge_name in deriving_edges
+                    for edge in fragment.edges
+                ):
+                    return CandidateValidity(
+                        passed=False,
+                        reason=(
+                            f"Required derived property {rule.property} needs an incoming "
+                            "ontology deriving edge"
+                        ),
+                    )
         return CandidateValidity(passed=True, reason="Ontology constraints passed")
 
-    def _missing_required_source_properties(
+    def _missing_terminal_source_requirements(
         self,
         class_name: str,
         fragment: GraphPatchFragment,
-    ) -> bool:
+    ) -> list[str]:
         ontology_class = self.registry.get_class(class_name)
         if ontology_class is None:
-            return True
+            return [class_name]
         present = {
             prop.property_name
             for node in fragment.nodes
             if node.class_name == class_name
             for prop in node.properties
         }
+        missing: list[str] = []
         for rule in ontology_class.rules:
             if self.registry.is_runtime_managed_attribute(rule.property):
-                continue
-            if self.registry.get_edge(rule.property) is not None:
                 continue
             if (
                 rule.operator in {"some", "minQualified", "exactlyQualified"}
                 and str(rule.value) not in {"0", "0.0"}
                 and rule.property not in present
+                and self.registry.get_edge(rule.property) is None
+                and is_source_required_rule(self.registry, rule)
             ):
-                return True
-        return False
+                missing.append(rule.property)
+        return missing
 
     def _domain_classes(
         self,
@@ -1029,6 +1093,46 @@ class DeterministicRepresentationSelector:
         return decisions
 
 
+class FactRolePolicy:
+    """Use extractor-assigned semantic role; default only by structural fact shape."""
+
+    @staticmethod
+    def classify(fact: AtomicFact) -> str:
+        configured = str(fact.context.get("role") or "").strip()
+        if configured in {FACT_ROLE_GRAPH_CANDIDATE, FACT_ROLE_COVERAGE_SUPPORT}:
+            return configured
+        return FACT_ROLE_GRAPH_CANDIDATE
+
+    @staticmethod
+    def apply(facts: list[AtomicFact]) -> list[AtomicFact]:
+        classified: list[AtomicFact] = []
+        for fact in facts:
+            role = FactRolePolicy.classify(fact)
+            if fact.context.get("role") == role:
+                classified.append(fact)
+                continue
+            context = dict(fact.context)
+            context["role"] = role
+            classified.append(fact.model_copy(update={"context": context}))
+        return classified
+
+    @staticmethod
+    def graph_candidates(facts: list[AtomicFact]) -> list[AtomicFact]:
+        return [
+            fact
+            for fact in facts
+            if FactRolePolicy.classify(fact) == FACT_ROLE_GRAPH_CANDIDATE
+        ]
+
+    @staticmethod
+    def coverage_support(facts: list[AtomicFact]) -> list[AtomicFact]:
+        return [
+            fact
+            for fact in facts
+            if FactRolePolicy.classify(fact) == FACT_ROLE_COVERAGE_SUPPORT
+        ]
+
+
 class SemanticPlacementValidator:
     def __init__(self, config: PlacementConfig):
         self.config = config
@@ -1043,15 +1147,17 @@ class SemanticPlacementValidator:
         issues: list[SemanticPlacementIssue] = []
         decision_by_fact = {decision.fact_id: decision for decision in decisions}
         for fact in facts:
+            if FactRolePolicy.classify(fact) == FACT_ROLE_COVERAGE_SUPPORT:
+                continue
             candidates = candidates_by_fact.get(fact.fact_id, [])
             by_id = {candidate.candidate_id: candidate for candidate in candidates}
             decision = decision_by_fact.get(fact.fact_id)
             if decision is None:
                 issues.append(
                     SemanticPlacementIssue(
-                        code="FACT_PROVENANCE_LOST",
+                        code="GRAPH_MAPPING_UNSUPPORTED",
                         factId=fact.fact_id,
-                        message="No representation decision exists for fact",
+                        message="No valid ontology representation exists for graph-worthy fact",
                     )
                 )
                 continue
@@ -1145,55 +1251,22 @@ class SemanticPlacementValidator:
 
 
 class SourceFactCoverageAuditor:
-    def __init__(
-        self,
-        *,
-        judge: SourceFactCoverageJudge | None = None,
-        ontology_scope: str = "",
-    ):
-        self.judge = judge
-        self.ontology_scope = ontology_scope
-
     def audit(
         self,
         *,
         chunks: list[DocumentChunk],
         fact_batch: AtomicFactBatch,
-        ontology_scope: str | None = None,
     ) -> SourceFactCoverageAudit:
         facts_by_chunk: dict[int, list[AtomicFact]] = {}
         for fact in fact_batch.facts:
             facts_by_chunk.setdefault(fact.source_chunk_index, []).append(fact)
-        scope = ontology_scope if ontology_scope is not None else self.ontology_scope
         claims_by_chunk = {chunk.index: _source_claims(chunk.content) for chunk in chunks}
-        deterministic_missing = {
-            chunk.index: _uncovered_claims(
-                claims_by_chunk[chunk.index], facts_by_chunk.get(chunk.index, [])
-            )
-            for chunk in chunks
-        }
-        judged_missing: dict[int, list[str]] | None = None
-        if self.judge is not None:
-            auditable = [chunk for chunk in chunks if chunk.content.strip()]
-            if auditable:
-                judged_missing = self.judge.audit_batch(
-                    chunks=auditable,
-                    claims_by_chunk=claims_by_chunk,
-                    facts=fact_batch.facts,
-                    ontology_scope=scope,
-                )
 
         items: list[SourceFactCoverageItem] = []
         for chunk in chunks:
             facts = facts_by_chunk.get(chunk.index, [])
             claims = claims_by_chunk[chunk.index]
-            missing_claims = (
-                judged_missing.get(
-                    chunk.index, deterministic_missing.get(chunk.index, [])
-                )
-                if judged_missing is not None
-                else deterministic_missing.get(chunk.index, [])
-            )[:5]
+            missing_claims = _all_uncovered_claims(claims, facts)
             extracted_fact_ids = [fact.fact_id for fact in facts]
             if facts:
                 if missing_claims:
@@ -1220,7 +1293,7 @@ class SourceFactCoverageAuditor:
                     )
                 )
                 continue
-            if missing_claims or _looks_business_relevant(chunk.content):
+            if missing_claims:
                 items.append(
                     SourceFactCoverageItem(
                         chunkIndex=chunk.index,
@@ -1238,7 +1311,7 @@ class SourceFactCoverageAuditor:
                 SourceFactCoverageItem(
                     chunkIndex=chunk.index,
                     status="NO_RELEVANT_FACT",
-                    reason="No independent source claims requiring atomic facts",
+                    reason="No structural source claims requiring atomic facts",
                 )
             )
         return SourceFactCoverageAudit(
@@ -1262,6 +1335,8 @@ class RepresentationCompletenessAuditor:
         decisions_by_fact = {decision.fact_id: decision for decision in decisions}
         items: list[RepresentationCompletenessItem] = []
         for fact in facts:
+            if FactRolePolicy.classify(fact) == FACT_ROLE_COVERAGE_SUPPORT:
+                continue
             decision = decisions_by_fact.get(fact.fact_id)
             if decision is None:
                 candidates = candidates_by_fact.get(fact.fact_id, [])
@@ -1311,7 +1386,7 @@ class GraphPatchMaterializer:
                 coverage=[
                     ChunkCoverage(
                         chunkIndex=chunk.index,
-                        decision="NO_RELEVANT_FACT",
+                        decision="AMBIGUOUS",
                         reason="No ontology representation selected",
                     )
                     for chunk in chunks
@@ -1322,7 +1397,7 @@ class GraphPatchMaterializer:
         return merged
 
 
-class SemanticPlacementPlanner:
+class SemanticGraphMapper:
     _REUSABLE_STAGES: ClassVar[frozenset[str]] = frozenset(
         {"semantic_placement", "representation_completeness", "batch_validation"}
     )
@@ -1333,16 +1408,13 @@ class SemanticPlacementPlanner:
         registry: OntologyRegistry,
         compiler: GraphPatchCompiler,
         ontology_validator: OntologyValidator,
-        source_grounding: SourceGroundingValidator,
         fact_extractor: AtomicFactExtractor | None = None,
         selector: RepresentationSelector | None = None,
-        source_coverage_judge: SourceFactCoverageJudge | None = None,
         config: PlacementConfig | None = None,
     ):
         self.registry = registry
         self.compiler = compiler
         self.ontology_validator = ontology_validator
-        self.source_grounding = source_grounding
         self.config = config or PlacementConfig()
         self.fact_extractor = fact_extractor or GeminiAtomicFactExtractor()
         self.policy = OntologyPlacementPolicy(registry)
@@ -1355,9 +1427,7 @@ class SemanticPlacementPlanner:
             config=self.config,
         )
         self.selector = selector or _default_selector(self.config)
-        self.source_auditor = SourceFactCoverageAuditor(
-            judge=source_coverage_judge or _default_source_coverage_judge(self.config)
-        )
+        self.source_auditor = SourceFactCoverageAuditor()
         self.placement_validator = SemanticPlacementValidator(self.config)
         self.materializer = GraphPatchMaterializer()
         self.completeness_auditor = RepresentationCompletenessAuditor()
@@ -1366,7 +1436,7 @@ class SemanticPlacementPlanner:
     def clear_batch(self, batch_index: int) -> None:
         self._batch_state.pop(batch_index, None)
 
-    def plan_batch(
+    def map_batch(
         self,
         *,
         batch_payload: dict[str, Any],
@@ -1385,6 +1455,7 @@ class SemanticPlacementPlanner:
             affected_chunks = _coverage_failure_chunk_indexes(
                 previous_error, cached.source_audit
             )
+            existing_fact_ids = {fact.fact_id for fact in cached.facts.facts}
             facts = self._repair_source_facts(
                 batch_payload=batch_payload,
                 ontology_scope=ontology_scope,
@@ -1392,10 +1463,32 @@ class SemanticPlacementPlanner:
                 cached_facts=cached.facts,
                 affected_chunks=affected_chunks,
             )
-            source_audit = self.source_auditor.audit(
-                chunks=chunks,
+            facts = AtomicFactBatch(
+                facts=FactRolePolicy.apply(facts.facts),
+                warnings=facts.warnings,
+            )
+            repair_chunks = [
+                chunk for chunk in chunks if chunk.index in affected_chunks
+            ]
+            repaired_audit = self.source_auditor.audit(
+                chunks=repair_chunks,
                 fact_batch=facts,
-                ontology_scope=ontology_scope,
+            )
+            repaired_by_chunk = {
+                item.chunk_index: item for item in repaired_audit.items
+            }
+            audit_items = [
+                repaired_by_chunk.get(item.chunk_index, item)
+                for item in cached.source_audit.items
+            ]
+            source_audit = SourceFactCoverageAudit(
+                passed=all(
+                    item.status not in {
+                        "OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"
+                    }
+                    for item in audit_items
+                ),
+                items=audit_items,
             )
             cached.facts = facts
             cached.source_audit = source_audit
@@ -1414,14 +1507,43 @@ class SemanticPlacementPlanner:
                     facts=facts, source_audit=source_audit, chunks=chunks,
                     repair_count=cached.repair_count,
                 )
+            graph_facts = FactRolePolicy.graph_candidates(facts.facts)
             candidates_by_fact = self._build_candidates(
-                facts=facts.facts, graph_context=graph_context
+                facts=graph_facts, graph_context=graph_context
             )
             decisions = self.selector.select_batch(
-                facts=facts.facts,
+                facts=graph_facts,
                 candidates_by_fact=candidates_by_fact,
                 previous_error=None,
             )
+            selected_fact_ids = {decision.fact_id for decision in decisions}
+            coverage_only_ids = {
+                fact.fact_id
+                for fact in graph_facts
+                if fact.fact_id not in existing_fact_ids
+                and fact.fact_id not in selected_fact_ids
+            }
+            if coverage_only_ids:
+                normalized_facts = []
+                for fact in facts.facts:
+                    if fact.fact_id not in coverage_only_ids:
+                        normalized_facts.append(fact)
+                        continue
+                    context = dict(fact.context)
+                    context["role"] = FACT_ROLE_COVERAGE_SUPPORT
+                    normalized_facts.append(fact.model_copy(update={"context": context}))
+                facts = AtomicFactBatch(facts=normalized_facts, warnings=facts.warnings)
+                graph_facts = FactRolePolicy.graph_candidates(facts.facts)
+                candidates_by_fact = {
+                    fact_id: candidates
+                    for fact_id, candidates in candidates_by_fact.items()
+                    if fact_id not in coverage_only_ids
+                }
+                decisions = [
+                    decision for decision in decisions
+                    if decision.fact_id not in coverage_only_ids
+                ]
+                cached.facts = facts
             cached.candidates_by_fact = candidates_by_fact
             cached.decisions = decisions
             logger.info(
@@ -1437,8 +1559,15 @@ class SemanticPlacementPlanner:
             candidates_by_fact = cached.candidates_by_fact
             retry_ids = _retry_fact_ids(previous_error, facts.facts)
             if not retry_ids:
-                retry_ids = {fact.fact_id for fact in facts.facts}
-            retry_facts = [fact for fact in facts.facts if fact.fact_id in retry_ids]
+                retry_ids = {
+                    fact.fact_id
+                    for fact in FactRolePolicy.graph_candidates(facts.facts)
+                }
+            retry_facts = [
+                fact
+                for fact in FactRolePolicy.graph_candidates(facts.facts)
+                if fact.fact_id in retry_ids
+            ]
             kept_decisions = [
                 decision for decision in cached.decisions if decision.fact_id not in retry_ids
             ]
@@ -1465,10 +1594,13 @@ class SemanticPlacementPlanner:
                 ontology_scope=ontology_scope,
                 previous_error=previous_error,
             )
+            facts = AtomicFactBatch(
+                facts=FactRolePolicy.apply(facts.facts),
+                warnings=facts.warnings,
+            )
             source_audit = self.source_auditor.audit(
                 chunks=chunks,
                 fact_batch=facts,
-                ontology_scope=ontology_scope,
             )
             if not source_audit.passed:
                 cached = _BatchSemanticState(
@@ -1481,11 +1613,12 @@ class SemanticPlacementPlanner:
                 return self._early_source_coverage_result(
                     facts=facts, source_audit=source_audit, chunks=chunks
                 )
+            graph_facts = FactRolePolicy.graph_candidates(facts.facts)
             candidates_by_fact = self._build_candidates(
-                facts=facts.facts, graph_context=graph_context
+                facts=graph_facts, graph_context=graph_context
             )
             decisions = self.selector.select_batch(
-                facts=facts.facts,
+                facts=graph_facts,
                 candidates_by_fact=candidates_by_fact,
                 previous_error=previous_error,
             )
@@ -1510,8 +1643,9 @@ class SemanticPlacementPlanner:
                 decision.selected_candidate_id if decision else None,
             )
 
+        graph_facts = FactRolePolicy.graph_candidates(facts.facts)
         placement = self.placement_validator.validate(
-            facts=facts.facts,
+            facts=graph_facts,
             candidates_by_fact=candidates_by_fact,
             decisions=decisions,
         )
@@ -1520,16 +1654,20 @@ class SemanticPlacementPlanner:
             candidates_by_fact=candidates_by_fact,
             chunks=chunks,
         )
-        fragment = align_coverage_with_grounded_facts(
-            fragment, chunks, self.source_grounding
+        fragment = _finalize_mapper_coverage(
+            fragment,
+            chunks=chunks,
+            facts=facts.facts,
+            source_audit=source_audit,
         )
         completeness = self.completeness_auditor.audit(
-            facts=facts.facts,
+            facts=graph_facts,
             decisions=decisions,
             candidates_by_fact=candidates_by_fact,
         )
         stats = self._stats(
             facts=facts,
+            graph_facts=graph_facts,
             decisions=decisions,
             completeness=completeness,
             repair_count=cached.repair_count if cached is not None else 0,
@@ -1552,11 +1690,140 @@ class SemanticPlacementPlanner:
         graph_context: str | None,
     ) -> dict[str, list[RepresentationCandidate]]:
         result: dict[str, list[RepresentationCandidate]] = {}
+        subject_hints: dict[str, set[str]] = {}
+        explicit_subject_hints: dict[str, set[str]] = {}
+        explicit_object_hints: dict[str, set[str]] = {}
+        shape_kinds = {
+            "attribute": {"property"},
+            "relationship": {"node_edge"},
+            "entity": {"node"},
+            "rule": {"property", "node_edge"},
+        }
         for fact in facts:
             retrieval = self.retriever.retrieve(fact)
-            result[fact.fact_id] = self.generator.generate(
+            candidates = self.generator.generate(
                 fact=fact, retrieval=retrieval, graph_context=graph_context
             )
+            allowed = shape_kinds.get(fact.fact_shape)
+            shaped = [item for item in candidates if not allowed or item.kind in allowed]
+            if shaped:
+                candidates = shaped
+            fallback_candidates = [item for item in candidates if item.fallback_role]
+            strong_specific = [
+                item for item in candidates
+                if not item.fallback_role
+                and item.semantic_fit >= self.config.minimum_selection_confidence
+            ]
+            if fallback_candidates and not strong_specific:
+                candidates = fallback_candidates
+            result[fact.fact_id] = candidates
+
+            candidate_subject_classes: set[str] = set()
+            for candidate in candidates:
+                for node in candidate.fragment.nodes:
+                    if node.temp_id == _entity_temp_id("node", fact.subject, node.class_name):
+                        candidate_subject_classes.add(node.class_name)
+            if len(candidate_subject_classes) == 1:
+                subject_hints.setdefault(_normalize_text(fact.subject), set()).update(
+                    candidate_subject_classes
+                )
+
+            if fact.fact_shape == "relationship":
+                copular = re.match(
+                    r"^(?:is|are|was|were)\s+(?:(?:a|an|the)\s+)?(.+?)\s+(?:for|of)\s*$",
+                    _normalize_text(fact.predicate),
+                )
+                if not copular:
+                    predicate_tokens = _tokens(fact.predicate)
+                    for candidate in candidates:
+                        for node in candidate.fragment.nodes:
+                            if node.temp_id != _entity_temp_id("node", fact.object, node.class_name):
+                                continue
+                            ontology_class = self.registry.get_class(node.class_name)
+                            if ontology_class is None:
+                                continue
+                            class_tokens = _tokens(f"{ontology_class.name} {ontology_class.label}")
+                            if class_tokens and class_tokens <= predicate_tokens:
+                                explicit_object_hints.setdefault(
+                                    _normalize_text(fact.object), set()
+                                ).add(node.class_name)
+
+                if copular:
+                    descriptor_tokens = _tokens(copular.group(1))
+                    for candidate in candidates:
+                        for node in candidate.fragment.nodes:
+                            if node.temp_id != _entity_temp_id("node", fact.subject, node.class_name):
+                                continue
+                            ontology_class = self.registry.get_class(node.class_name)
+                            if ontology_class is None:
+                                continue
+                            class_tokens = _tokens(f"{ontology_class.name} {ontology_class.label}")
+                            if class_tokens and class_tokens <= descriptor_tokens:
+                                explicit_subject_hints.setdefault(
+                                    _normalize_text(fact.subject), set()
+                                ).add(node.class_name)
+
+            ranked: list[tuple[float, RepresentationCandidate]] = []
+            for candidate in candidates:
+                if candidate.kind == "property":
+                    prop = candidate.fragment.nodes[0].properties[0]
+                    meta = self.registry.get_attribute(prop.property_name)
+                elif candidate.kind == "node_edge":
+                    meta = self.registry.get_edge(candidate.fragment.edges[0].edge_name)
+                else:
+                    continue
+                if meta is not None:
+                    ranked.append((
+                        _semantic_score(fact.predicate, f"{meta.name} {meta.label}"),
+                        candidate,
+                    ))
+            ranked.sort(key=lambda item: item[0], reverse=True)
+            if ranked and ranked[0][0] >= 0.65 and (
+                len(ranked) == 1 or ranked[0][0] - ranked[1][0] >= 0.15
+            ):
+                subject_hints.setdefault(_normalize_text(fact.subject), set()).add(
+                    ranked[0][1].fragment.nodes[0].class_name
+                )
+
+        for fact in facts:
+            subject_key = _normalize_text(fact.subject)
+            explicit = explicit_subject_hints.get(subject_key, set())
+            hints = subject_hints.get(subject_key, set())
+            preferred_subject = (
+                next(iter(explicit))
+                if len(explicit) == 1
+                else next(iter(hints))
+                if len(hints) == 1
+                else None
+            )
+            object_key = _normalize_text(fact.object)
+            explicit_object = explicit_object_hints.get(object_key, set())
+            object_hints = subject_hints.get(object_key, set())
+            preferred_object = (
+                next(iter(explicit_object))
+                if fact.fact_shape == "relationship" and len(explicit_object) == 1
+                else next(iter(object_hints))
+                if fact.fact_shape == "relationship" and len(object_hints) == 1
+                else None
+            )
+            if preferred_subject is None and preferred_object is None:
+                continue
+            narrowed = []
+            for item in result[fact.fact_id]:
+                item_subject = None
+                item_object = None
+                for node in item.fragment.nodes:
+                    if node.temp_id == _entity_temp_id("node", fact.subject, node.class_name):
+                        item_subject = node.class_name
+                    if fact.object and node.temp_id == _entity_temp_id("node", fact.object, node.class_name):
+                        item_object = node.class_name
+                if preferred_subject is not None and item_subject != preferred_subject:
+                    continue
+                if preferred_object is not None and item_object != preferred_object:
+                    continue
+                narrowed.append(item)
+            if narrowed:
+                result[fact.fact_id] = narrowed
         return result
 
     def _repair_source_facts(
@@ -1588,9 +1855,51 @@ class SemanticPlacementPlanner:
             ontology_scope=ontology_scope,
             previous_error=previous_error,
         )
-        return _merge_atomic_fact_batches(
+        merged = _merge_atomic_fact_batches(
             cached_facts, repaired, affected_chunks=affected_chunks
         )
+        repair_chunks = [
+            DocumentChunk.model_validate(item)
+            for item in repair_payload.get("chunks", [])
+        ]
+        remaining = self.source_auditor.audit(
+            chunks=repair_chunks,
+            fact_batch=merged,
+        )
+        completed = list(merged.facts)
+        used_ids = {fact.fact_id for fact in completed}
+        for item in remaining.items:
+            chunk = next(
+                (candidate for candidate in repair_chunks if candidate.index == item.chunk_index),
+                None,
+            )
+            if chunk is None:
+                continue
+            for claim in item.suspected_missing_claims:
+                stem = f"support-{chunk.index}-{hashlib.sha1(claim.encode('utf-8')).hexdigest()[:10]}"
+                fact_id = stem
+                suffix = 2
+                while fact_id in used_ids:
+                    fact_id = f"{stem}-{suffix}"
+                    suffix += 1
+                used_ids.add(fact_id)
+                completed.append(AtomicFact(
+                    factId=fact_id,
+                    subject=chunk.section or chunk.source,
+                    predicate="source claim",
+                    object=claim,
+                    factShape="knowledge",
+                    sourceChunkIndex=chunk.index,
+                    evidence=[Evidence(
+                        source=chunk.source,
+                        chunkIndex=chunk.index,
+                        section=chunk.section,
+                        text=claim,
+                    )],
+                    confidence=1.0,
+                    context={"role": FACT_ROLE_COVERAGE_SUPPORT},
+                ))
+        return AtomicFactBatch(facts=completed, warnings=merged.warnings)
 
     def _early_source_coverage_result(
         self,
@@ -1611,17 +1920,34 @@ class SemanticPlacementPlanner:
                 )
         decisions: list[RepresentationDecision] = []
         candidates_by_fact: dict[str, list[RepresentationCandidate]] = {}
-        fragment = self.materializer.materialize(
-            decisions=decisions, candidates_by_fact=candidates_by_fact, chunks=chunks
+        graph_facts = FactRolePolicy.graph_candidates(facts.facts)
+        fragment = _finalize_mapper_coverage(
+            GraphPatchFragment(
+                nodes=[],
+                edges=[],
+                coverage=[
+                    ChunkCoverage(
+                        chunkIndex=chunk.index,
+                        decision="AMBIGUOUS",
+                        reason="Source coverage not yet mapped",
+                    )
+                    for chunk in chunks
+                ],
+                warnings=list(facts.warnings),
+            ),
+            chunks=chunks,
+            facts=facts.facts,
+            source_audit=source_audit,
         )
         completeness = self.completeness_auditor.audit(
-            facts=facts.facts,
+            facts=graph_facts,
             decisions=decisions,
             candidates_by_fact=candidates_by_fact,
         )
         placement = SemanticPlacementAssessment(passed=True, issues=[])
         stats = self._stats(
             facts=facts,
+            graph_facts=graph_facts,
             decisions=decisions,
             completeness=completeness,
             repair_count=repair_count,
@@ -1641,22 +1967,30 @@ class SemanticPlacementPlanner:
     def _stats(
         *,
         facts: AtomicFactBatch,
+        graph_facts: list[AtomicFact],
         decisions: list[RepresentationDecision],
         completeness: RepresentationCompletenessAudit,
         repair_count: int,
     ) -> SemanticPlacementStats:
         fallback_count = sum(decision.fallback_used for decision in decisions)
+        represented_graph_count = sum(
+            item.status == "REPRESENTED" for item in completeness.items
+        )
+        unrepresented_graph_count = sum(
+            item.status != "REPRESENTED" for item in completeness.items
+        )
+        coverage_support_count = len(facts.facts) - len(graph_facts)
         return SemanticPlacementStats(
             totalAtomicFacts=len(facts.facts),
-            representedFacts=sum(
-                item.status == "REPRESENTED" for item in completeness.items
-            ),
+            coverageSupportFactCount=coverage_support_count,
+            graphCandidateFactCount=len(graph_facts),
+            representedFacts=represented_graph_count,
+            representedGraphFactCount=represented_graph_count,
             fallbackRepresentationCount=fallback_count,
             specificRepresentationCount=len(decisions) - fallback_count,
             semanticPlacementRepairCount=repair_count,
-            unrepresentedFactCount=sum(
-                item.status != "REPRESENTED" for item in completeness.items
-            ),
+            unrepresentedFactCount=unrepresented_graph_count,
+            unrepresentedGraphFactCount=unrepresented_graph_count,
         )
 
     @staticmethod
@@ -1667,14 +2001,18 @@ class SemanticPlacementPlanner:
         placement: SemanticPlacementAssessment,
     ) -> None:
         logger.info(
-            "[SEMANTIC_PLACEMENT_RESULT] totalAtomicFacts=%s representedFacts=%s "
+            "[SEMANTIC_PLACEMENT_RESULT] totalAtomicFacts=%s "
+            "coverageSupportFactCount=%s graphCandidateFactCount=%s "
+            "representedGraphFactCount=%s "
             "fallbackRepresentationCount=%s specificRepresentationCount=%s "
-            "unrepresentedFactCount=%s sourceCoveragePassed=%s placementPassed=%s",
+            "unrepresentedGraphFactCount=%s sourceCoveragePassed=%s placementPassed=%s",
             stats.total_atomic_facts,
-            stats.represented_facts,
+            stats.coverage_support_fact_count,
+            stats.graph_candidate_fact_count,
+            stats.represented_graph_fact_count,
             stats.fallback_representation_count,
             stats.specific_representation_count,
-            stats.unrepresented_fact_count,
+            stats.unrepresented_graph_fact_count,
             source_audit.passed,
             placement.passed,
         )
@@ -1699,6 +2037,64 @@ def _coverage_failure_chunk_indexes(
     }
 
 
+def _finalize_mapper_coverage(
+    fragment: GraphPatchFragment,
+    *,
+    chunks: list[DocumentChunk],
+    facts: list[AtomicFact],
+    source_audit: SourceFactCoverageAudit,
+) -> GraphPatchFragment:
+    """Make the mapper the single owner of final chunk coverage decisions."""
+    audit = {item.chunk_index: item for item in source_audit.items}
+    represented = {
+        evidence.chunk_index
+        for node in fragment.nodes
+        for prop in node.properties
+        for evidence in prop.evidence
+    } | {
+        evidence.chunk_index
+        for edge in fragment.edges
+        for evidence in edge.evidence
+    }
+    graph_chunks = {
+        fact.source_chunk_index
+        for fact in facts
+        if FactRolePolicy.classify(fact) == FACT_ROLE_GRAPH_CANDIDATE
+    }
+    support_chunks = {
+        fact.source_chunk_index
+        for fact in facts
+        if FactRolePolicy.classify(fact) == FACT_ROLE_COVERAGE_SUPPORT
+    }
+    coverage: list[ChunkCoverage] = []
+    for chunk in chunks:
+        item = audit.get(chunk.index)
+        if item is None:
+            decision, reason = "AMBIGUOUS", "Source coverage audit is missing"
+        elif item.status in {"OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"}:
+            decision, reason = "FAILED", item.reason
+        elif item.status == "NO_RELEVANT_FACT":
+            decision, reason = "NO_RELEVANT_FACT", item.reason
+        elif chunk.index in represented:
+            decision, reason = "MAPPED", "Graph representation preserves grounded source evidence"
+        elif chunk.index in graph_chunks:
+            decision, reason = (
+                "UNSUPPORTED_BY_ONTOLOGY",
+                "Graph-worthy source fact has no valid ontology representation",
+            )
+        elif chunk.index in support_chunks:
+            decision, reason = (
+                "NOT_RELEVANT",
+                "Source claims are covered for completeness but are not graph-worthy facts",
+            )
+        else:
+            decision, reason = "AMBIGUOUS", item.reason
+        coverage.append(
+            ChunkCoverage(chunkIndex=chunk.index, decision=decision, reason=reason)
+        )
+    return fragment.model_copy(update={"coverage": coverage})
+
+
 def _targeted_batch_payload(
     batch_payload: dict[str, Any], affected_chunks: set[int]
 ) -> dict[str, Any]:
@@ -1720,17 +2116,19 @@ def _merge_atomic_fact_batches(
     *,
     affected_chunks: set[int],
 ) -> AtomicFactBatch:
-    kept = [
-        fact.model_copy(deep=True)
-        for fact in base.facts
-        if fact.source_chunk_index not in affected_chunks
-    ]
-    used_ids = {fact.fact_id for fact in kept}
-    incoming: list[AtomicFact] = []
+    facts = [fact.model_copy(deep=True) for fact in base.facts]
+    used_ids = {fact.fact_id for fact in facts}
     for position, fact in enumerate(repaired.facts, start=1):
         if fact.source_chunk_index not in affected_chunks:
             continue
         copied = fact.model_copy(deep=True)
+        if any(
+            existing.source_chunk_index == copied.source_chunk_index
+            and _claim_covered_by_fact(copied.object, existing.object)
+            and _claim_covered_by_fact(copied.predicate, existing.predicate)
+            for existing in facts
+        ):
+            continue
         if copied.fact_id in used_ids:
             stem = f"{copied.fact_id}__c{copied.source_chunk_index}"
             candidate_id = stem
@@ -1740,14 +2138,10 @@ def _merge_atomic_fact_batches(
                 candidate_id = f"{stem}_{suffix}"
             copied = copied.model_copy(update={"fact_id": candidate_id})
         used_ids.add(copied.fact_id)
-        incoming.append(copied)
-    coverage = dict(base.coverage)
-    for chunk_index in affected_chunks:
-        coverage.pop(chunk_index, None)
-    coverage.update(repaired.coverage)
+        facts.append(copied)
+
     return AtomicFactBatch(
-        facts=[*kept, *incoming],
-        coverage=coverage,
+        facts=facts,
         warnings=list(dict.fromkeys([*base.warnings, *repaired.warnings])),
     )
 
@@ -1773,7 +2167,11 @@ def placement_issues_to_validation(
 ) -> list[ValidationIssue]:
     return [
         ValidationIssue(
-            code="ORCHESTRATION_FAILED",
+            code=(
+                "GRAPH_MAPPING_UNSUPPORTED"
+                if issue.code == "GRAPH_MAPPING_UNSUPPORTED"
+                else "ORCHESTRATION_FAILED"
+            ),
             message=f"{issue.code}: {issue.message}",
             location=f"semanticPlacement.{issue.fact_id}",
         )
@@ -1889,6 +2287,15 @@ def _top_k(scores: list[tuple[str, float]], limit: int) -> list[tuple[str, float
     return (positive or ranked)[: max(1, limit)]
 
 
+def _label_semantic_score(query: str, name: str, label: str) -> float:
+    label_text = f"{name} {label}"
+    label_tokens = _tokens(label_text)
+    query_tokens = _tokens(query)
+    if label_tokens and label_tokens <= query_tokens:
+        return 1.0
+    return _semantic_score(query, label_text)
+
+
 def _semantic_score(query: str, candidate: str) -> float:
     query_tokens = _tokens(query)
     candidate_tokens = _tokens(candidate)
@@ -1921,7 +2328,7 @@ def _attribute_text(item) -> str:
         [
             item.name,
             item.label,
-            item.definition,
+            item.definition.split("[Business constraint]", 1)[0],
             " ".join(item.domain),
             " ".join(item.range),
         ]
@@ -1933,7 +2340,7 @@ def _edge_text(item) -> str:
         [
             item.name,
             item.label,
-            item.definition,
+            item.definition.split("[Business constraint]", 1)[0],
             " ".join(item.domain),
             " ".join(item.range),
             " ".join(item.grounding_cues),
@@ -1942,9 +2349,11 @@ def _edge_text(item) -> str:
 
 
 def _tokens(value: str) -> set[str]:
+    expanded = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", str(value))
+    expanded = re.sub(r"[:_.-]+", " ", expanded)
     return {
         token
-        for token in re.findall(r"[\w]+", _normalize_text(value))
+        for token in re.findall(r"[\w]+", _normalize_text(expanded))
         if len(token) > 1 and not token.isdigit()
     }
 
@@ -1964,16 +2373,17 @@ def _default_selector(config: PlacementConfig) -> RepresentationSelector:
     return GeminiRepresentationSelector(config=config)
 
 
-def _default_source_coverage_judge(
-    config: PlacementConfig,
-) -> SourceFactCoverageJudge | None:
-    if config.selector_mode == "deterministic" or not os.getenv("GOOGLE_API_KEY"):
-        return None
-    return GeminiSourceFactCoverageJudge()
-
-
-def _candidate_summary(candidate: RepresentationCandidate) -> dict[str, Any]:
+def _candidate_summary(candidate: RepresentationCandidate, fact: AtomicFact) -> dict[str, Any]:
+    subject_class = None
+    object_class = None
+    for node in candidate.fragment.nodes:
+        if node.temp_id == _entity_temp_id("node", fact.subject, node.class_name):
+            subject_class = node.class_name
+        if fact.object and node.temp_id == _entity_temp_id("node", fact.object, node.class_name):
+            object_class = node.class_name
     return {
+        "factSubjectClass": subject_class,
+        "factObjectClass": object_class,
         "candidateId": candidate.candidate_id,
         "kind": candidate.kind,
         "fallback": candidate.fallback_role,
@@ -2008,50 +2418,62 @@ def _candidate_summary(candidate: RepresentationCandidate) -> dict[str, Any]:
 
 def _source_claims(text: str) -> list[str]:
     lines = [line.strip() for line in text.splitlines() if line.strip()]
-    table_rows = []
-    for line in lines:
+    claims: list[str] = []
+    consumed: set[int] = set()
+
+    for index, line in enumerate(lines):
         if "|" not in line:
             continue
         cells = [cell.strip() for cell in line.strip("|").split("|")]
-        if not any(cells) or all(set(cell) <= {"-"} for cell in cells if cell):
+        separator = bool(cells) and all(
+            cell and set(cell.replace(":", "")) <= {"-"} for cell in cells
+        )
+        next_is_separator = False
+        if index + 1 < len(lines) and "|" in lines[index + 1]:
+            next_cells = [cell.strip() for cell in lines[index + 1].strip("|").split("|")]
+            next_is_separator = bool(next_cells) and all(
+                cell and set(cell.replace(":", "")) <= {"-"} for cell in next_cells
+            )
+        if separator or next_is_separator:
+            consumed.add(index)
             continue
-        if [cell.casefold() for cell in cells[:2]] in (
-            ["fact", "value"],
-            ["nội dung", "thông tin"],
-        ):
+        claims.append(" | ".join(cell for cell in cells if cell))
+        consumed.add(index)
+
+    index = 0
+    bullet_pattern = re.compile(r"^\s*(?:[-*]|\d+[\).])\s+")
+    while index < len(lines):
+        if index in consumed or not bullet_pattern.match(lines[index]):
+            index += 1
             continue
-        table_rows.append(" | ".join(cell for cell in cells if cell))
-    if table_rows:
-        return _dedupe_text(table_rows)
+        start = index
+        block: list[str] = []
+        while index < len(lines) and bullet_pattern.match(lines[index]):
+            block.append(bullet_pattern.sub("", lines[index]).strip())
+            consumed.add(index)
+            index += 1
+        lead_index = start - 1
+        lead = lines[lead_index] if lead_index >= 0 and lead_index not in consumed else ""
+        if lead:
+            consumed.add(lead_index)
+        claims.append("\n".join(([lead] if lead else []) + block))
 
-    bullets = [
-        re.sub(r"^\s*(?:[-*]|\d+[\).])\s+", "", line).strip()
-        for line in lines
-        if re.match(r"^\s*(?:[-*]|\d+[\).])\s+", line)
-    ]
-    if len(bullets) >= 2:
-        return _dedupe_text([item for item in bullets if len(item) >= 4])
-
-    sentences = [
+    prose = " ".join(line for i, line in enumerate(lines) if i not in consumed)
+    claims.extend(
         sentence.strip()
-        for sentence in re.split(r"(?<=[.!?。])\s+", " ".join(lines))
-        if 20 <= len(sentence.strip()) <= 260
-    ]
-    if 2 <= len(sentences) <= 8:
-        return _dedupe_text(sentences)
-    return []
+        for sentence in re.split(r"(?<=[.!??])\s+", prose)
+        if 20 <= len(sentence.strip()) <= 500
+    )
+    return _dedupe_text(claims)
 
-
-def _uncovered_claims(claims: list[str], facts: list[AtomicFact]) -> list[str]:
+def _all_uncovered_claims(claims: list[str], facts: list[AtomicFact]) -> list[str]:
     if not claims:
         return []
-    fact_texts = [_fact_coverage_text(fact) for fact in facts]
-    uncovered = [
-        claim
-        for claim in claims
-        if not any(_claim_covered_by_fact(claim, fact_text) for fact_text in fact_texts)
+    combined_fact_text = " ".join(_fact_coverage_text(fact) for fact in facts)
+    return [
+        claim for claim in claims
+        if not _claim_covered_by_fact(claim, combined_fact_text)
     ]
-    return uncovered[:5]
 
 
 def _fact_coverage_text(fact: AtomicFact) -> str:
@@ -2066,6 +2488,9 @@ def _fact_coverage_text(fact: AtomicFact) -> str:
 
 
 def _claim_covered_by_fact(claim: str, fact_text: str) -> bool:
+    parts = [part.strip() for part in claim.splitlines() if part.strip()]
+    if len(parts) > 1:
+        return all(_claim_covered_by_fact(part, fact_text) for part in parts)
     claim_norm = _normalize_text(claim)
     fact_norm = _normalize_text(fact_text)
     if not claim_norm or not fact_norm:
@@ -2091,38 +2516,5 @@ def _dedupe_text(values: list[str]) -> list[str]:
     return deduped
 
 
-def _looks_business_relevant(text: str) -> bool:
-    stripped = text.strip()
-    if not stripped:
-        return False
-    lines = [line for line in stripped.splitlines() if line.strip()]
-    table_like = sum(1 for line in lines if "|" in line) >= 2
-    enumerated = (
-        sum(1 for line in lines if re.match(r"^\s*(\d+[\).]|[-*])\s+", line)) >= 2
-    )
-    key_value = any(":" in line for line in lines)
-    numeric = bool(re.search(r"\d", stripped))
-    return table_like or enumerated or (key_value and numeric)
 
-
-__all__ = [
-    "AtomicFactExtractor",
-    "BatchPlacementResult",
-    "DeterministicRepresentationSelector",
-    "GeminiAtomicFactExtractor",
-    "GeminiRepresentationSelector",
-    "GeminiSourceFactCoverageJudge",
-    "GraphPatchMaterializer",
-    "InvalidAtomicFactBatchError",
-    "OntologyCandidateGenerator",
-    "OntologyPlacementPolicy",
-    "OntologySemanticRetriever",
-    "PlacementConfig",
-    "RepresentationCompletenessAuditor",
-    "RepresentationSelector",
-    "SemanticPlacementPlanner",
-    "SemanticPlacementValidator",
-    "SourceFactCoverageAuditor",
-    "SourceFactCoverageJudge",
-    "placement_issues_to_validation",
-]
+__all__ = ["SemanticGraphMapper"]
