@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from datetime import date, datetime
 from decimal import Decimal
 from enum import StrEnum
@@ -29,11 +30,25 @@ _XSD_KIND_BY_RANGE = {
 def xsd_datatypes(ranges: list[str]) -> tuple[XsdDatatype, ...]:
     return tuple(
         dict.fromkeys(
-            _XSD_KIND_BY_RANGE[item]
-            for item in ranges
-            if item in _XSD_KIND_BY_RANGE
+            _XSD_KIND_BY_RANGE[item] for item in ranges if item in _XSD_KIND_BY_RANGE
         )
     )
+
+
+def normalize_xsd_value(value: Any, datatype: XsdDatatype) -> Any:
+    if datatype is not XsdDatatype.DATE or not isinstance(value, str):
+        return value
+    raw = value.strip()
+    if _is_iso_date(raw):
+        return raw
+    match = re.fullmatch(r"(\d{1,2})[./-](\d{1,2})[./-](\d{4})", raw)
+    if match is None:
+        return value
+    day, month, year = map(int, match.groups())
+    try:
+        return date(year, month, day).isoformat()
+    except ValueError:
+        return value
 
 
 def value_matches_xsd(value: Any, datatype: XsdDatatype) -> bool:
@@ -78,4 +93,4 @@ def _is_iso_datetime(value: Any) -> bool:
         return False
 
 
-__all__ = ["XsdDatatype", "value_matches_xsd", "xsd_datatypes"]
+__all__ = ["XsdDatatype", "normalize_xsd_value", "value_matches_xsd", "xsd_datatypes"]

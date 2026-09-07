@@ -1,0 +1,26 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\.pytest-full-newkey\\test_write_merged_ontology_fol0\\BE\\Corporations",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\.pytest-full-newkey\\test_write_merged_ontology_fol0\\BE\\Corporations\\Corporations.ontology.json",
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\.pytest-full-newkey\\test_write_merged_ontology_fol0\\BE\\Corporations\\Nested\\all_nested.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 2,
+    "classes": 3,
+    "edges": 0,
+    "attributes": 0
+  },
+  "classes": [
+    {
+      "iri": "corporation"
+    },
+    {
+      "iri": "shared"
+    },
+    {
+      "iri": "nested-corporation"
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

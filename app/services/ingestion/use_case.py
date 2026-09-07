@@ -218,28 +218,32 @@ def _canonical_graph_context(
 ) -> str:
     """Compact canonical snapshot of accepted batches for extractor reference."""
 
+    fragments = [
+        batch.fragment
+        for batch in workspace.batches
+        if batch.index < before_batch_index and batch.fragment is not None
+    ]
+    if not fragments:
+        return ""
+    fragment = _get_workspace_service().merge_fragments(fragments)
     node_lines: list[str] = []
     edge_lines: list[str] = []
-    for batch in workspace.batches:
-        if batch.index >= before_batch_index or batch.fragment is None:
-            continue
-        fragment = batch.fragment
-        for node in fragment.nodes:
-            identity = {
-                entry.property_name: entry.value
-                for entry in node.properties
-                if not isinstance(entry.value, (dict, list))
-            }
-            node_lines.append(f"- ref={node.temp_id}")
-            node_lines.append(f"  class={node.class_name}")
-            node_lines.append(
-                "  identity="
-                + json.dumps(identity, ensure_ascii=False, sort_keys=True)
-            )
-        for edge in fragment.edges:
-            edge_lines.append(
-                f"- {edge.edge_name}: {edge.source_temp_id} -> {edge.target_temp_id}"
-            )
+    for node in fragment.nodes:
+        identity = {
+            entry.property_name: entry.value
+            for entry in node.properties
+            if not isinstance(entry.value, (dict, list))
+        }
+        node_lines.append(f"- ref={node.temp_id}")
+        node_lines.append(f"  class={node.class_name}")
+        node_lines.append(
+            "  identity="
+            + json.dumps(identity, ensure_ascii=False, sort_keys=True)
+        )
+    for edge in fragment.edges:
+        edge_lines.append(
+            f"- {edge.edge_name}: {edge.source_temp_id} -> {edge.target_temp_id}"
+        )
     if not node_lines and not edge_lines:
         return ""
     lines = ["Existing canonical graph:"]

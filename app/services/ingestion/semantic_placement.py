@@ -39,9 +39,16 @@ from app.core.schemas.ingestion.semantic_placement import (
 )
 from app.core.schemas.ingestion.validation import ValidationIssue
 from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
-from app.services.ingestion.graph_validation import OntologyValidator, is_source_required_rule
+from app.services.ingestion.graph_validation import (
+    OntologyValidator,
+    is_source_required_rule,
+)
 from app.services.ingestion.model_call_control import GeminiCallExecutor
-from app.services.ingestion.ontology_datatypes import value_matches_xsd, xsd_datatypes
+from app.services.ingestion.ontology_datatypes import (
+    normalize_xsd_value,
+    value_matches_xsd,
+    xsd_datatypes,
+)
 from app.services.ingestion.registry import OntologyRegistry
 
 logger = logging.getLogger(__name__)
@@ -53,6 +60,7 @@ DEFAULT_ATOMIC_FACT_MODEL = os.getenv(
 
 FACT_ROLE_GRAPH_CANDIDATE = "graph_candidate"
 FACT_ROLE_COVERAGE_SUPPORT = "coverage_support"
+
 
 @dataclass(frozen=True)
 class PlacementConfig:
@@ -67,9 +75,15 @@ class PlacementConfig:
         os.getenv("INGESTION_MIN_SELECTION_CONFIDENCE", "0.35")
     )
     selector_mode: str = os.getenv("INGESTION_SELECTOR_MODE", "llm").strip().lower()
-    selector_facts_per_call: int = max(1, int(os.getenv("INGESTION_SELECTOR_FACTS_PER_CALL", "8")))
-    selector_fast_path_min_fit: float = float(os.getenv("INGESTION_SELECTOR_FAST_PATH_MIN_FIT", "0.90"))
-    selector_fast_path_margin: float = float(os.getenv("INGESTION_SELECTOR_FAST_PATH_MARGIN", "0.25"))
+    selector_facts_per_call: int = max(
+        1, int(os.getenv("INGESTION_SELECTOR_FACTS_PER_CALL", "8"))
+    )
+    selector_fast_path_min_fit: float = float(
+        os.getenv("INGESTION_SELECTOR_FAST_PATH_MIN_FIT", "0.90")
+    )
+    selector_fast_path_margin: float = float(
+        os.getenv("INGESTION_SELECTOR_FAST_PATH_MARGIN", "0.25")
+    )
 
 
 class AtomicFactExtractor(Protocol):
@@ -249,7 +263,8 @@ class GeminiAtomicFactExtractor:
                     ranked = sorted(
                         (
                             (
-                                len(requested & _tokens(block)) / max(1, len(requested)),
+                                len(requested & _tokens(block))
+                                / max(1, len(requested)),
                                 block,
                             )
                             for block in blocks
@@ -310,7 +325,10 @@ class GeminiAtomicFactExtractor:
             "ontology technical names, class names, property names, edge names, "
             "nodes, edges, GraphPatch, or Neo4j details.\n"
             "Each fact must be independent, source-grounded, and expressed as "
-            "subject, predicate, object. Keep factShape coarse and ontology-neutral. "
+            "subject, predicate, object. Normalize predicate to a concise English semantic "
+            "relation even when the source language differs; keep subject, object, and evidence "
+            "faithful to the source, and never copy ontology technical names. Keep factShape "
+            "coarse and ontology-neutral. "
             "Set context.role='graph_candidate' only when the source states an independently "
             "queryable business concept with a direct semantic counterpart in the provided "
             "ontology scope; otherwise use context.role='coverage_support'. For a contiguous "
@@ -375,7 +393,9 @@ class GeminiRepresentationSelector:
             ]
             if not valid:
                 continue
-            fast = self._fast_path_decision(fact, valid) if self.enable_fast_path else None
+            fast = (
+                self._fast_path_decision(fact, valid) if self.enable_fast_path else None
+            )
             if fast is not None:
                 decisions.append(fast)
                 continue
@@ -462,7 +482,8 @@ class GeminiRepresentationSelector:
             and top.kind == ranked[1].kind
             and top.fragment.nodes
             and ranked[1].fragment.nodes
-            and top.fragment.nodes[0].class_name == ranked[1].fragment.nodes[0].class_name
+            and top.fragment.nodes[0].class_name
+            == ranked[1].fragment.nodes[0].class_name
         )
         if (
             same_kind_and_class
@@ -506,7 +527,9 @@ class GeminiRepresentationSelector:
         candidates: list[RepresentationCandidate],
         selected: _SelectorBatchItemResponse,
     ) -> RepresentationDecision:
-        candidate_by_id = {candidate.candidate_id: candidate for candidate in candidates}
+        candidate_by_id = {
+            candidate.candidate_id: candidate for candidate in candidates
+        }
         selected_candidate = candidate_by_id.get(selected.selected_candidate_id or "")
         return RepresentationDecision(
             factId=fact.fact_id,
@@ -516,7 +539,9 @@ class GeminiRepresentationSelector:
             specificity=selected_candidate.specificity if selected_candidate else 0.0,
             reason=selected.reason or "LLM selected representation candidate",
             confidence=selected.confidence,
-            fallbackUsed=selected_candidate.fallback_role if selected_candidate else False,
+            fallbackUsed=selected_candidate.fallback_role
+            if selected_candidate
+            else False,
             fallbackJustification=selected.fallback_justification,
         )
 
@@ -529,7 +554,9 @@ class GeminiRepresentationSelector:
         items = [
             {
                 "fact": fact.model_dump(by_alias=True, mode="json"),
-                "candidates": [_candidate_summary(candidate, fact) for candidate in candidates],
+                "candidates": [
+                    _candidate_summary(candidate, fact) for candidate in candidates
+                ],
             }
             for fact, candidates in group
         ]
@@ -547,7 +574,7 @@ class GeminiRepresentationSelector:
             "GraphPatch, or Neo4j details. Prefer specific, queryable representations that "
             "preserve independent business meaning. Use fallback only when no non-fallback "
             "candidate fits. Facts sharing the same subject should use the same ontology "
-            "class unless the source clearly makes them different entities. For relationship "
+            "class unless the source clearly makes them different entities. A fallback candidate is type-neutral for consistency and must never determine entity class. Use sibling facts with the same subject only as semantic context. For relationship "
             "candidates, use the rationale to distinguish whether fact subject or fact object "
             "is the ontology edge source.\n"
             f"{feedback}\nItems:\n"
@@ -619,6 +646,7 @@ class OntologySemanticRetriever:
 
     def retrieve(self, fact: AtomicFact) -> RetrievedOntology:
         query = _fact_text(fact)
+        predicate_tokens = _tokens(fact.predicate)
         class_scores = [
             (name, _semantic_score(query, _class_text(cls)))
             for name in self.registry.list_classes()
@@ -628,8 +656,9 @@ class OntologySemanticRetriever:
             (
                 name,
                 max(
-                    _semantic_score(query, _attribute_text(attr)),
-                    _semantic_score(fact.predicate, _attribute_text(attr)),
+                    _semantic_score(fact.predicate, _attribute_text(attr))
+                    if len(predicate_tokens) > 1
+                    else 0.0,
                     _label_semantic_score(fact.predicate, attr.name, attr.label),
                 ),
             )
@@ -642,8 +671,14 @@ class OntologySemanticRetriever:
             (
                 name,
                 max(
-                    _semantic_score(query, _edge_text(edge)),
+                    _semantic_score(fact.predicate, _edge_text(edge))
+                    if len(predicate_tokens) > 1
+                    else 0.0,
                     _label_semantic_score(fact.predicate, edge.name, edge.label),
+                    self.config.minimum_selection_confidence
+                    if fact.fact_shape == "rule"
+                    and self.registry.derived_target_properties_for_edge(name)
+                    else 0.0,
                 ),
             )
             for name in self.registry.list_edges()
@@ -677,7 +712,6 @@ class OntologyCandidateGenerator:
         *,
         fact: AtomicFact,
         retrieval: RetrievedOntology,
-        graph_context: str | None = None,
     ) -> list[RepresentationCandidate]:
         candidates: list[RepresentationCandidate] = []
         allow_properties = fact.fact_shape not in {"relationship", "entity"}
@@ -691,7 +725,12 @@ class OntologyCandidateGenerator:
                 if (
                     attr is None
                     or not self._value_feasible(fact.object, attr.range)
-                    or (score <= 0 and not self.placement_policy.is_fallback_property(property_name))
+                    or (
+                        score <= 0
+                        and not self.placement_policy.is_fallback_property(
+                            property_name
+                        )
+                    )
                 ):
                     continue
                 seen_properties.add(property_name)
@@ -729,13 +768,17 @@ class OntologyCandidateGenerator:
                         fact, source_classes[0], target_classes[0], edge_name, score
                     )
                 )
-                if re.match(
+                if score <= 0 or re.match(
                     r"^(?:is|are|was|were)\s+(?:(?:a|an|the)\s+)?(.+?)\s+(?:for|of)\s*$",
                     _normalize_text(fact.predicate),
                 ):
                     candidates.append(
                         self._node_edge_candidate(
-                            fact, source_classes[0], target_classes[0], edge_name, score,
+                            fact,
+                            source_classes[0],
+                            target_classes[0],
+                            edge_name,
+                            score,
                             inverse=True,
                         )
                     )
@@ -754,8 +797,18 @@ class OntologyCandidateGenerator:
         retrieval_score: float,
     ) -> RepresentationCandidate:
         fallback = self.placement_policy.is_fallback_property(property_name)
+
         attribute = self.registry.get_attribute(property_name)
         value = fact.object
+
+        if attribute is not None:
+            for datatype in xsd_datatypes(attribute.range):
+                normalized = normalize_xsd_value(value, datatype)
+
+                if value_matches_xsd(normalized, datatype):
+                    value = normalized
+                    break
+
         if (
             attribute is not None
             and attribute.ingestion_policy.grounding == "source_literal"
@@ -802,7 +855,11 @@ class OntologyCandidateGenerator:
             queryability=0.35 if fallback else 0.7,
             preservesInformation=True,
             fallbackRole=fallback,
-            rationale=f"Property candidate {class_name}.{property_name}",
+            rationale=(
+                f"Property candidate {class_name}.{property_name}; "
+                f"classMeaning={self.registry.get_class(class_name).definition}; "
+                f"propertyMeaning={attribute.definition.split('[Business constraint]', 1)[0].strip() if attribute else ''}"
+            ),
         )
 
     def _node_candidate(
@@ -866,20 +923,51 @@ class OntologyCandidateGenerator:
     ) -> RepresentationCandidate:
         source_value = fact.object if inverse else fact.subject
         target_value = fact.subject if inverse else fact.object
+
+        evidence = [item.model_copy(deep=True) for item in fact.evidence]
+
         source = ExtractedNode(
             tempId=_entity_temp_id("node", source_value, source_class),
             className=source_class,
             properties=[],
-            evidence=[item.model_copy(deep=True) for item in fact.evidence],
+            evidence=evidence,
             confidence=fact.confidence,
         )
+
+        target_properties: list[ExtractedProperty] = []
+
+        if (
+            fact.fact_shape == "rule"
+            and self.registry.derived_target_properties_for_edge(edge_name)
+        ):
+            source_properties = [
+                attribute
+                for attribute in self.registry.properties_from_class(target_class)
+                if attribute.ingestion_policy.mode == "source"
+                and attribute.ingestion_policy.grounding == "source_normalized"
+            ]
+
+            if len(source_properties) == 1:
+                target_properties.append(
+                    ExtractedProperty(
+                        propertyName=source_properties[0].technical_name,
+                        value=fact.object,
+                        evidence=[item.model_copy(deep=True) for item in fact.evidence],
+                    )
+                )
+
         target = ExtractedNode(
-            tempId=_entity_temp_id("node", target_value or source_value, target_class),
+            tempId=_entity_temp_id(
+                "node",
+                target_value or source_value,
+                target_class,
+            ),
             className=target_class,
-            properties=[],
+            properties=target_properties,
             evidence=[item.model_copy(deep=True) for item in fact.evidence],
             confidence=fact.confidence,
         )
+
         edge = ExtractedEdge(
             edgeName=edge_name,
             sourceTempId=source.temp_id,
@@ -887,21 +975,31 @@ class OntologyCandidateGenerator:
             evidence=[item.model_copy(deep=True) for item in fact.evidence],
             confidence=fact.confidence,
         )
+
         fragment = GraphPatchFragment(
             nodes=[source, target],
             edges=[edge],
             coverage=[_mapped_coverage(fact)],
             warnings=[],
         )
-        validity = self._validate_candidate(fragment, class_name=source_class)
+
+        validity = self._validate_candidate(
+            fragment,
+            class_name=source_class,
+        )
+
         specificity = max(
             self.placement_policy.specificity_for_edge(edge_name),
             self.placement_policy.specificity_for_class(target_class),
         )
+
         return RepresentationCandidate(
             candidateId=_candidate_id(
-                fact.fact_id, "node_edge_inverse" if inverse else "node_edge",
-                source_class, edge_name, target_class
+                fact.fact_id,
+                "node_edge_inverse" if inverse else "node_edge",
+                source_class,
+                edge_name,
+                target_class,
             ),
             factIds=[fact.fact_id],
             kind="node_edge",
@@ -915,8 +1013,14 @@ class OntologyCandidateGenerator:
             fallbackRole=False,
             rationale=(
                 f"Relationship candidate {source_class}-{edge_name}->{target_class}; "
-                + ("fact object is edge source and fact subject is edge target" if inverse
-                   else "fact subject is edge source and fact object is edge target")
+                f"sourceClassMeaning={self.registry.get_class(source_class).definition}; "
+                f"targetClassMeaning={self.registry.get_class(target_class).definition}; "
+                f"meaning={self.registry.get_edge(edge_name).definition.split('[Business constraint]', 1)[0].strip()}; "
+                + (
+                    "fact object is edge source and fact subject is edge target"
+                    if inverse
+                    else "fact subject is edge source and fact object is edge target"
+                )
             ),
         )
 
@@ -952,12 +1056,15 @@ class OntologyCandidateGenerator:
             if node_class is None:
                 continue
             for rule in node_class.rules:
-                if (
-                    rule.operator not in {"some", "minQualified", "exactlyQualified"}
-                    or str(rule.value) in {"0", "0.0"}
-                ):
+                if rule.operator not in {
+                    "some",
+                    "minQualified",
+                    "exactlyQualified",
+                } or str(rule.value) in {"0", "0.0"}:
                     continue
-                deriving_edges = self.registry.edge_names_deriving_property(rule.property)
+                deriving_edges = self.registry.edge_names_deriving_property(
+                    rule.property
+                )
                 if deriving_edges and not any(
                     edge.target_temp_id == node.temp_id
                     and edge.edge_name in deriving_edges
@@ -1030,10 +1137,16 @@ class OntologyCandidateGenerator:
     @staticmethod
     def _value_feasible(value: str, ranges: list[str]) -> bool:
         datatypes = xsd_datatypes(ranges)
+
         if not datatypes:
             return False
-        if any(value_matches_xsd(value, datatype) for datatype in datatypes):
-            return True
+
+        for datatype in datatypes:
+            normalized = normalize_xsd_value(value, datatype)
+
+            if value_matches_xsd(normalized, datatype):
+                return True
+
         return "xsd:string" in ranges
 
 
@@ -1260,7 +1373,9 @@ class SourceFactCoverageAuditor:
         facts_by_chunk: dict[int, list[AtomicFact]] = {}
         for fact in fact_batch.facts:
             facts_by_chunk.setdefault(fact.source_chunk_index, []).append(fact)
-        claims_by_chunk = {chunk.index: _source_claims(chunk.content) for chunk in chunks}
+        claims_by_chunk = {
+            chunk.index: _source_claims(chunk.content) for chunk in chunks
+        }
 
         items: list[SourceFactCoverageItem] = []
         for chunk in chunks:
@@ -1316,8 +1431,7 @@ class SourceFactCoverageAuditor:
             )
         return SourceFactCoverageAudit(
             passed=all(
-                item.status
-                not in {"OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"}
+                item.status not in {"OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"}
                 for item in items
             ),
             items=items,
@@ -1483,9 +1597,8 @@ class SemanticGraphMapper:
             ]
             source_audit = SourceFactCoverageAudit(
                 passed=all(
-                    item.status not in {
-                        "OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"
-                    }
+                    item.status
+                    not in {"OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"}
                     for item in audit_items
                 ),
                 items=audit_items,
@@ -1504,7 +1617,9 @@ class SemanticGraphMapper:
                     len(facts.facts),
                 )
                 return self._early_source_coverage_result(
-                    facts=facts, source_audit=source_audit, chunks=chunks,
+                    facts=facts,
+                    source_audit=source_audit,
+                    chunks=chunks,
                     repair_count=cached.repair_count,
                 )
             graph_facts = FactRolePolicy.graph_candidates(facts.facts)
@@ -1531,7 +1646,9 @@ class SemanticGraphMapper:
                         continue
                     context = dict(fact.context)
                     context["role"] = FACT_ROLE_COVERAGE_SUPPORT
-                    normalized_facts.append(fact.model_copy(update={"context": context}))
+                    normalized_facts.append(
+                        fact.model_copy(update={"context": context})
+                    )
                 facts = AtomicFactBatch(facts=normalized_facts, warnings=facts.warnings)
                 graph_facts = FactRolePolicy.graph_candidates(facts.facts)
                 candidates_by_fact = {
@@ -1540,7 +1657,8 @@ class SemanticGraphMapper:
                     if fact_id not in coverage_only_ids
                 }
                 decisions = [
-                    decision for decision in decisions
+                    decision
+                    for decision in decisions
                     if decision.fact_id not in coverage_only_ids
                 ]
                 cached.facts = facts
@@ -1569,7 +1687,9 @@ class SemanticGraphMapper:
                 if fact.fact_id in retry_ids
             ]
             kept_decisions = [
-                decision for decision in cached.decisions if decision.fact_id not in retry_ids
+                decision
+                for decision in cached.decisions
+                if decision.fact_id not in retry_ids
             ]
             retry_decisions = self.selector.select_batch(
                 facts=retry_facts,
@@ -1691,8 +1811,18 @@ class SemanticGraphMapper:
     ) -> dict[str, list[RepresentationCandidate]]:
         result: dict[str, list[RepresentationCandidate]] = {}
         subject_hints: dict[str, set[str]] = {}
-        explicit_subject_hints: dict[str, set[str]] = {}
-        explicit_object_hints: dict[str, set[str]] = {}
+        context_subject_hints: dict[str, set[str]] = {}
+        context_object_hints: dict[str, set[str]] = {}
+        source_subject_hints: dict[str, set[str]] = {}
+        source_object_hints: dict[str, set[str]] = {}
+        structurally_supported: set[str] = set()
+        existing_refs = {
+            match.group(1): match.group(2)
+            for match in re.finditer(
+                r"- ref=(\S+)\n\s+class=(\S+)", graph_context or ""
+            )
+        }
+        existing_edges = re.findall(r"- (\S+): (\S+) -> (\S+)", graph_context or "")
         shape_kinds = {
             "attribute": {"property"},
             "relationship": {"node_edge"},
@@ -1701,27 +1831,94 @@ class SemanticGraphMapper:
         }
         for fact in facts:
             retrieval = self.retriever.retrieve(fact)
-            candidates = self.generator.generate(
-                fact=fact, retrieval=retrieval, graph_context=graph_context
-            )
+            candidates = self.generator.generate(fact=fact, retrieval=retrieval)
             allowed = shape_kinds.get(fact.fact_shape)
-            shaped = [item for item in candidates if not allowed or item.kind in allowed]
+            shaped = [
+                item for item in candidates if not allowed or item.kind in allowed
+            ]
             if shaped:
                 candidates = shaped
-            fallback_candidates = [item for item in candidates if item.fallback_role]
-            strong_specific = [
-                item for item in candidates
-                if not item.fallback_role
-                and item.semantic_fit >= self.config.minimum_selection_confidence
-            ]
-            if fallback_candidates and not strong_specific:
-                candidates = fallback_candidates
+            predicate_tokens = _tokens(fact.predicate)
+            exact_matches = []
+            for item in candidates:
+                if item.kind == "property":
+                    prop = item.fragment.nodes[0].properties[0]
+                    meta = self.registry.get_attribute(prop.property_name)
+                elif item.kind == "node_edge":
+                    meta = self.registry.get_edge(item.fragment.edges[0].edge_name)
+                else:
+                    meta = None
+                if (
+                    meta is not None
+                    and predicate_tokens
+                    and predicate_tokens == _tokens(f"{meta.name} {meta.label}")
+                ):
+                    exact_matches.append(item)
+            if exact_matches:
+                candidates = exact_matches
             result[fact.fact_id] = candidates
+
+            for candidate in candidates:
+                for node in candidate.fragment.nodes:
+                    if existing_refs.get(
+                        node.temp_id
+                    ) == node.class_name and node.temp_id == _entity_temp_id(
+                        "node", fact.subject, node.class_name
+                    ):
+                        context_subject_hints.setdefault(
+                            _normalize_text(fact.subject), set()
+                        ).add(node.class_name)
+                    if (
+                        fact.object
+                        and existing_refs.get(node.temp_id) == node.class_name
+                        and node.temp_id
+                        == _entity_temp_id("node", fact.object, node.class_name)
+                    ):
+                        context_object_hints.setdefault(
+                            _normalize_text(fact.object), set()
+                        ).add(node.class_name)
+                if candidate.kind == "node_edge":
+                    classes = {
+                        node.temp_id: node.class_name
+                        for node in candidate.fragment.nodes
+                    }
+                    edge = candidate.fragment.edges[0]
+                    source_class = classes.get(edge.source_temp_id)
+                    target_class = classes.get(edge.target_temp_id)
+                    structurally_known = any(
+                        edge.edge_name == edge_name
+                        and (
+                            edge.source_temp_id == source_ref
+                            or edge.target_temp_id == target_ref
+                        )
+                        and existing_refs.get(source_ref) == source_class
+                        and existing_refs.get(target_ref) == target_class
+                        for edge_name, source_ref, target_ref in existing_edges
+                    )
+                    if structurally_known:
+                        structurally_supported.add(candidate.candidate_id)
+                        for node in candidate.fragment.nodes:
+                            if node.temp_id == _entity_temp_id(
+                                "node", fact.subject, node.class_name
+                            ):
+                                context_subject_hints.setdefault(
+                                    _normalize_text(fact.subject), set()
+                                ).add(node.class_name)
+                            if fact.object and node.temp_id == _entity_temp_id(
+                                "node", fact.object, node.class_name
+                            ):
+                                context_object_hints.setdefault(
+                                    _normalize_text(fact.object), set()
+                                ).add(node.class_name)
 
             candidate_subject_classes: set[str] = set()
             for candidate in candidates:
+                if candidate.fallback_role:
+                    continue
                 for node in candidate.fragment.nodes:
-                    if node.temp_id == _entity_temp_id("node", fact.subject, node.class_name):
+                    if node.temp_id == _entity_temp_id(
+                        "node", fact.subject, node.class_name
+                    ):
                         candidate_subject_classes.add(node.class_name)
             if len(candidate_subject_classes) == 1:
                 subject_hints.setdefault(_normalize_text(fact.subject), set()).update(
@@ -1737,14 +1934,18 @@ class SemanticGraphMapper:
                     predicate_tokens = _tokens(fact.predicate)
                     for candidate in candidates:
                         for node in candidate.fragment.nodes:
-                            if node.temp_id != _entity_temp_id("node", fact.object, node.class_name):
+                            if node.temp_id != _entity_temp_id(
+                                "node", fact.object, node.class_name
+                            ):
                                 continue
                             ontology_class = self.registry.get_class(node.class_name)
                             if ontology_class is None:
                                 continue
-                            class_tokens = _tokens(f"{ontology_class.name} {ontology_class.label}")
+                            class_tokens = _tokens(
+                                f"{ontology_class.name} {ontology_class.label}"
+                            )
                             if class_tokens and class_tokens <= predicate_tokens:
-                                explicit_object_hints.setdefault(
+                                source_object_hints.setdefault(
                                     _normalize_text(fact.object), set()
                                 ).add(node.class_name)
 
@@ -1752,14 +1953,18 @@ class SemanticGraphMapper:
                     descriptor_tokens = _tokens(copular.group(1))
                     for candidate in candidates:
                         for node in candidate.fragment.nodes:
-                            if node.temp_id != _entity_temp_id("node", fact.subject, node.class_name):
+                            if node.temp_id != _entity_temp_id(
+                                "node", fact.subject, node.class_name
+                            ):
                                 continue
                             ontology_class = self.registry.get_class(node.class_name)
                             if ontology_class is None:
                                 continue
-                            class_tokens = _tokens(f"{ontology_class.name} {ontology_class.label}")
+                            class_tokens = _tokens(
+                                f"{ontology_class.name} {ontology_class.label}"
+                            )
                             if class_tokens and class_tokens <= descriptor_tokens:
-                                explicit_subject_hints.setdefault(
+                                source_subject_hints.setdefault(
                                     _normalize_text(fact.subject), set()
                                 ).add(node.class_name)
 
@@ -1773,13 +1978,19 @@ class SemanticGraphMapper:
                 else:
                     continue
                 if meta is not None:
-                    ranked.append((
-                        _semantic_score(fact.predicate, f"{meta.name} {meta.label}"),
-                        candidate,
-                    ))
+                    ranked.append(
+                        (
+                            _semantic_score(
+                                fact.predicate, f"{meta.name} {meta.label}"
+                            ),
+                            candidate,
+                        )
+                    )
             ranked.sort(key=lambda item: item[0], reverse=True)
-            if ranked and ranked[0][0] >= 0.65 and (
-                len(ranked) == 1 or ranked[0][0] - ranked[1][0] >= 0.15
+            if (
+                ranked
+                and ranked[0][0] >= 0.65
+                and (len(ranked) == 1 or ranked[0][0] - ranked[1][0] >= 0.15)
             ):
                 subject_hints.setdefault(_normalize_text(fact.subject), set()).add(
                     ranked[0][1].fragment.nodes[0].class_name
@@ -1787,43 +1998,80 @@ class SemanticGraphMapper:
 
         for fact in facts:
             subject_key = _normalize_text(fact.subject)
-            explicit = explicit_subject_hints.get(subject_key, set())
+            source_subject = source_subject_hints.get(subject_key, set())
+            context_subject = context_subject_hints.get(subject_key, set())
             hints = subject_hints.get(subject_key, set())
             preferred_subject = (
-                next(iter(explicit))
-                if len(explicit) == 1
+                next(iter(source_subject))
+                if len(source_subject) == 1
+                else next(iter(context_subject))
+                if len(context_subject) == 1
                 else next(iter(hints))
                 if len(hints) == 1
                 else None
             )
             object_key = _normalize_text(fact.object)
-            explicit_object = explicit_object_hints.get(object_key, set())
+            source_object = source_object_hints.get(object_key, set())
+            context_object = context_object_hints.get(object_key, set())
             object_hints = subject_hints.get(object_key, set())
             preferred_object = (
-                next(iter(explicit_object))
-                if fact.fact_shape == "relationship" and len(explicit_object) == 1
+                next(iter(source_object))
+                if fact.fact_shape == "relationship" and len(source_object) == 1
+                else next(iter(context_object))
+                if fact.fact_shape == "relationship" and len(context_object) == 1
                 else next(iter(object_hints))
                 if fact.fact_shape == "relationship" and len(object_hints) == 1
                 else None
             )
-            if preferred_subject is None and preferred_object is None:
-                continue
-            narrowed = []
-            for item in result[fact.fact_id]:
-                item_subject = None
-                item_object = None
-                for node in item.fragment.nodes:
-                    if node.temp_id == _entity_temp_id("node", fact.subject, node.class_name):
-                        item_subject = node.class_name
-                    if fact.object and node.temp_id == _entity_temp_id("node", fact.object, node.class_name):
-                        item_object = node.class_name
-                if preferred_subject is not None and item_subject != preferred_subject:
-                    continue
-                if preferred_object is not None and item_object != preferred_object:
-                    continue
-                narrowed.append(item)
-            if narrowed:
-                result[fact.fact_id] = narrowed
+            if preferred_subject is not None or preferred_object is not None:
+                narrowed = []
+                for item in result[fact.fact_id]:
+                    item_subject = None
+                    item_object = None
+                    for node in item.fragment.nodes:
+                        if node.temp_id == _entity_temp_id(
+                            "node", fact.subject, node.class_name
+                        ):
+                            item_subject = node.class_name
+                        if fact.object and node.temp_id == _entity_temp_id(
+                            "node", fact.object, node.class_name
+                        ):
+                            item_object = node.class_name
+                    if (
+                        preferred_subject is not None
+                        and item_subject != preferred_subject
+                    ):
+                        continue
+                    if preferred_object is not None and item_object != preferred_object:
+                        continue
+                    narrowed.append(item)
+                if narrowed:
+                    if len(narrowed) == 1 and (
+                        source_subject
+                        or source_object
+                        or narrowed[0].candidate_id in structurally_supported
+                    ):
+                        narrowed[0] = narrowed[0].model_copy(
+                            update={
+                                "semantic_fit": max(
+                                    narrowed[0].semantic_fit,
+                                    self.config.minimum_selection_confidence,
+                                )
+                            }
+                        )
+                    result[fact.fact_id] = narrowed
+
+            candidates = result[fact.fact_id]
+            fallback_candidates = [item for item in candidates if item.fallback_role]
+            strong_specific = [
+                item
+                for item in candidates
+                if item.validity.passed
+                and not item.fallback_role
+                and item.semantic_fit >= self.config.minimum_selection_confidence
+            ]
+            if fallback_candidates and not strong_specific:
+                result[fact.fact_id] = fallback_candidates
         return result
 
     def _repair_source_facts(
@@ -1870,7 +2118,11 @@ class SemanticGraphMapper:
         used_ids = {fact.fact_id for fact in completed}
         for item in remaining.items:
             chunk = next(
-                (candidate for candidate in repair_chunks if candidate.index == item.chunk_index),
+                (
+                    candidate
+                    for candidate in repair_chunks
+                    if candidate.index == item.chunk_index
+                ),
                 None,
             )
             if chunk is None:
@@ -1883,22 +2135,26 @@ class SemanticGraphMapper:
                     fact_id = f"{stem}-{suffix}"
                     suffix += 1
                 used_ids.add(fact_id)
-                completed.append(AtomicFact(
-                    factId=fact_id,
-                    subject=chunk.section or chunk.source,
-                    predicate="source claim",
-                    object=claim,
-                    factShape="knowledge",
-                    sourceChunkIndex=chunk.index,
-                    evidence=[Evidence(
-                        source=chunk.source,
-                        chunkIndex=chunk.index,
-                        section=chunk.section,
-                        text=claim,
-                    )],
-                    confidence=1.0,
-                    context={"role": FACT_ROLE_COVERAGE_SUPPORT},
-                ))
+                completed.append(
+                    AtomicFact(
+                        factId=fact_id,
+                        subject=chunk.section or chunk.source,
+                        predicate="source claim",
+                        object=claim,
+                        factShape="knowledge",
+                        sourceChunkIndex=chunk.index,
+                        evidence=[
+                            Evidence(
+                                source=chunk.source,
+                                chunkIndex=chunk.index,
+                                section=chunk.section,
+                                text=claim,
+                            )
+                        ],
+                        confidence=1.0,
+                        context={"role": FACT_ROLE_COVERAGE_SUPPORT},
+                    )
+                )
         return AtomicFactBatch(facts=completed, warnings=merged.warnings)
 
     def _early_source_coverage_result(
@@ -2051,11 +2307,7 @@ def _finalize_mapper_coverage(
         for node in fragment.nodes
         for prop in node.properties
         for evidence in prop.evidence
-    } | {
-        evidence.chunk_index
-        for edge in fragment.edges
-        for evidence in edge.evidence
-    }
+    } | {evidence.chunk_index for edge in fragment.edges for evidence in edge.evidence}
     graph_chunks = {
         fact.source_chunk_index
         for fact in facts
@@ -2076,7 +2328,10 @@ def _finalize_mapper_coverage(
         elif item.status == "NO_RELEVANT_FACT":
             decision, reason = "NO_RELEVANT_FACT", item.reason
         elif chunk.index in represented:
-            decision, reason = "MAPPED", "Graph representation preserves grounded source evidence"
+            decision, reason = (
+                "MAPPED",
+                "Graph representation preserves grounded source evidence",
+            )
         elif chunk.index in graph_chunks:
             decision, reason = (
                 "UNSUPPORTED_BY_ONTOLOGY",
@@ -2106,7 +2361,9 @@ def _targeted_batch_payload(
     payload = dict(batch_payload)
     payload["chunkIndexes"] = sorted(affected_chunks)
     payload["chunks"] = selected
-    payload["contentChars"] = sum(len(str(item.get("content", ""))) for item in selected)
+    payload["contentChars"] = sum(
+        len(str(item.get("content", ""))) for item in selected
+    )
     return payload
 
 
@@ -2282,18 +2539,19 @@ def _entity_temp_id(prefix: str, identity_hint: str, class_name: str) -> str:
 
 
 def _top_k(scores: list[tuple[str, float]], limit: int) -> list[tuple[str, float]]:
-    ranked = sorted(scores, key=lambda item: item[1], reverse=True)
-    positive = [item for item in ranked if item[1] > 0]
-    return (positive or ranked)[: max(1, limit)]
+    return sorted(scores, key=lambda item: item[1], reverse=True)[: max(1, limit)]
 
 
 def _label_semantic_score(query: str, name: str, label: str) -> float:
-    label_text = f"{name} {label}"
-    label_tokens = _tokens(label_text)
+    label_tokens = _tokens(f"{name} {label}")
     query_tokens = _tokens(query)
-    if label_tokens and label_tokens <= query_tokens:
+    if not label_tokens or not query_tokens:
+        return 0.0
+    if label_tokens == query_tokens:
         return 1.0
-    return _semantic_score(query, label_text)
+    overlap = label_tokens & query_tokens
+    jaccard = len(overlap) / len(label_tokens | query_tokens)
+    return jaccard * min(1.0, len(overlap) / 2)
 
 
 def _semantic_score(query: str, candidate: str) -> float:
@@ -2373,13 +2631,17 @@ def _default_selector(config: PlacementConfig) -> RepresentationSelector:
     return GeminiRepresentationSelector(config=config)
 
 
-def _candidate_summary(candidate: RepresentationCandidate, fact: AtomicFact) -> dict[str, Any]:
+def _candidate_summary(
+    candidate: RepresentationCandidate, fact: AtomicFact
+) -> dict[str, Any]:
     subject_class = None
     object_class = None
     for node in candidate.fragment.nodes:
         if node.temp_id == _entity_temp_id("node", fact.subject, node.class_name):
             subject_class = node.class_name
-        if fact.object and node.temp_id == _entity_temp_id("node", fact.object, node.class_name):
+        if fact.object and node.temp_id == _entity_temp_id(
+            "node", fact.object, node.class_name
+        ):
             object_class = node.class_name
     return {
         "factSubjectClass": subject_class,
@@ -2430,7 +2692,9 @@ def _source_claims(text: str) -> list[str]:
         )
         next_is_separator = False
         if index + 1 < len(lines) and "|" in lines[index + 1]:
-            next_cells = [cell.strip() for cell in lines[index + 1].strip("|").split("|")]
+            next_cells = [
+                cell.strip() for cell in lines[index + 1].strip("|").split("|")
+            ]
             next_is_separator = bool(next_cells) and all(
                 cell and set(cell.replace(":", "")) <= {"-"} for cell in next_cells
             )
@@ -2453,7 +2717,9 @@ def _source_claims(text: str) -> list[str]:
             consumed.add(index)
             index += 1
         lead_index = start - 1
-        lead = lines[lead_index] if lead_index >= 0 and lead_index not in consumed else ""
+        lead = (
+            lines[lead_index] if lead_index >= 0 and lead_index not in consumed else ""
+        )
         if lead:
             consumed.add(lead_index)
         claims.append("\n".join(([lead] if lead else []) + block))
@@ -2466,12 +2732,14 @@ def _source_claims(text: str) -> list[str]:
     )
     return _dedupe_text(claims)
 
+
 def _all_uncovered_claims(claims: list[str], facts: list[AtomicFact]) -> list[str]:
     if not claims:
         return []
     combined_fact_text = " ".join(_fact_coverage_text(fact) for fact in facts)
     return [
-        claim for claim in claims
+        claim
+        for claim in claims
         if not _claim_covered_by_fact(claim, combined_fact_text)
     ]
 
@@ -2514,7 +2782,6 @@ def _dedupe_text(values: list[str]) -> list[str]:
             seen.add(key)
             deduped.append(value)
     return deduped
-
 
 
 __all__ = ["SemanticGraphMapper"]

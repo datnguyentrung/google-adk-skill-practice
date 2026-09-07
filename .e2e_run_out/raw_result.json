@@ -1,15 +1,41 @@
 {
-  "success": false,
-  "stage": "explicit_extraction_failure",
+  "success": true,
+  "stage": "readiness_gate",
   "terminal": true,
-  "ingestionId": "13f957f0f9b0821d798d527ad73c141c45b137110c27be8be304e3621cca1077",
-  "batchIndex": 11,
-  "failureReason": "GRAPH_MAPPING_UNSUPPORTED",
-  "errors": [
+  "ingestionId": "46c76139eb671d832d69fb999572cd4631eb98205640a81b289b39235098d970",
+  "validForExtraction": true,
+  "validForPersistence": false,
+  "errors": [],
+  "readinessIssues": [
     {
-      "code": "GRAPH_MAPPING_UNSUPPORTED",
-      "message": "GRAPH_MAPPING_UNSUPPORTED: No valid ontology representation exists for graph-worthy fact",
-      "location": "semanticPlacement.f_flexi_rewards_004"
+      "code": "MISSING_REQUIRED_SOURCE_FACT",
+      "message": "Property pskg:bankingProductEffectiveFrom must occur at least 1 time(s); got 0; required source-backed ontology fact is missing",
+      "location": "nodes.0.properties.pskg:bankingProductEffectiveFrom",
+      "nodeTempId": "node_BankingProduct_95996e3fa5",
+      "propertyName": "pskg:bankingProductEffectiveFrom"
+    },
+    {
+      "code": "DERIVATION_PENDING",
+      "message": "Edge pskg:hasEligibilityRule is required; value may be derived from related facts or edges",
+      "location": "nodes.0.edges.pskg:hasEligibilityRule",
+      "nodeTempId": "node_BankingProduct_95996e3fa5",
+      "edgeName": "pskg:hasEligibilityRule"
     }
-  ]
+  ],
+  "warnings": [],
+  "nodeCount": 13,
+  "edgeCount": 13,
+  "artifactDigest": "e634764eccfd365429bc608bff7c5dc8788a91d7bde2c2c56fb6bfa46fea83fb",
+  "ontologyDigest": "728c8011d241e2449c2f9981d891c5d26a0f7704f422d150b6384c4d7ef2aff3",
+  "skillDigest": "9c9d3c5fcb04925b16bb8c82b3b7a255600025e273ebfe30aee9a8fd10225ff2",
+  "workspaceStats": {
+    "documentChunks": 94,
+    "batches": 19,
+    "processedBatches": 19,
+    "remainingBatches": 0,
+    "candidateNodes": 31,
+    "candidateEdges": 14,
+    "skippedChunks": 0,
+    "warningCount": 0
+  }
 }
