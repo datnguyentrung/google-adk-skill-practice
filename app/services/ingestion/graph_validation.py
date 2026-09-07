@@ -12,7 +12,6 @@ from decimal import Decimal
 from pathlib import Path
 from typing import Any, Literal, Protocol
 
-from google import genai
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from app.core.schemas.ingestion.document import DocumentChunk
@@ -25,6 +24,7 @@ from app.services.ingestion.identity import (
     IdentityResolutionError, create_product_sales_identity_resolver, source_scope_from_evidence,
 )
 from app.services.ingestion.loader import OntologyLoader
+from app.services.ingestion.model_call_control import AdkStructuredCallExecutor
 from app.services.ingestion.ontology_datatypes import XsdDatatype, value_matches_xsd, xsd_datatypes
 from app.services.ingestion.registry import OntologyRegistry
 
@@ -121,10 +121,12 @@ class GeminiSemanticGroundingJudge:
         self,
         *,
         model: str = DEFAULT_SEMANTIC_GROUNDING_MODEL,
-        client: genai.Client | None = None,
+        structured_executor: AdkStructuredCallExecutor | None = None,
     ):
         self.model = model
-        self.client = client or genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+        self.structured_executor = structured_executor or AdkStructuredCallExecutor(
+            model=self.model
+        )
         self._cache: dict[str, SemanticGroundingDecision] = {}
 
     def judge_edge(
@@ -146,35 +148,11 @@ class GeminiSemanticGroundingJudge:
         key = json.dumps(payload, ensure_ascii=False, sort_keys=True, default=str)
         if key in self._cache:
             return self._cache[key]
-        try:
-            from google.genai import types
-
-            response = self.client.models.generate_content(
-                model=self.model,
-                contents=self._prompt(payload),
-                config=types.GenerateContentConfig(
-                    response_mime_type="application/json",
-                    temperature=0,
-                ),
-            )
-            parsed = getattr(response, "parsed", None)
-            raw = parsed if parsed is not None else json.loads(getattr(response, "text", "") or "{}")
-            model_response = _JudgeResponse.model_validate(raw)
-            decision = SemanticGroundingDecision(
-                verdict=model_response.verdict,
-                reason=model_response.reason,
-                missing_evidence=tuple(model_response.missing_evidence or []),
-            )
-        except (json.JSONDecodeError, ValidationError, Exception) as exc:  # noqa: BLE001
-            logger.warning(
-                "Semantic grounding judge failed edge_name=%s error=%s",
-                edge.edge_name,
-                exc,
-            )
-            decision = SemanticGroundingDecision(
-                verdict="unknown",
-                reason=f"Semantic grounding judge failed: {exc}",
-            )
+        decision = self._run_judge(
+            operation="semantic_grounding_edge",
+            prompt=self._prompt(payload),
+            log_context=f"edge_name={edge.edge_name}",
+        )
         self._cache[key] = decision
         return decision
 
@@ -257,37 +235,40 @@ class GeminiSemanticGroundingJudge:
         )
         if key in self._cache:
             return self._cache[key]
-        try:
-            from google.genai import types
+        decision = self._run_judge(
+            operation="semantic_grounding_value",
+            prompt=self._value_prompt(payload),
+            log_context=f"property={property_name}",
+        )
+        self._cache[key] = decision
+        return decision
 
-            response = self.client.models.generate_content(
-                model=self.model,
-                contents=self._value_prompt(payload),
-                config=types.GenerateContentConfig(
-                    response_mime_type="application/json",
-                    temperature=0,
-                ),
+    def _run_judge(
+        self,
+        *,
+        operation: str,
+        prompt: str,
+        log_context: str,
+    ) -> SemanticGroundingDecision:
+        try:
+            payload = self.structured_executor.run(
+                operation=operation,
+                instruction=prompt,
+                output_schema=_JudgeResponse.model_json_schema(by_alias=True),
+                message="Judge the supplied evidence and return the structured verdict.",
             )
-            parsed = getattr(response, "parsed", None)
-            raw = parsed if parsed is not None else json.loads(getattr(response, "text", "") or "{}")
-            model_response = _JudgeResponse.model_validate(raw)
-            decision = SemanticGroundingDecision(
+            model_response = _JudgeResponse.model_validate(payload)
+            return SemanticGroundingDecision(
                 verdict=model_response.verdict,
                 reason=model_response.reason,
                 missing_evidence=tuple(model_response.missing_evidence or []),
             )
-        except (json.JSONDecodeError, ValidationError, Exception) as exc:  # noqa: BLE001
-            logger.warning(
-                "Semantic grounding judge failed property=%s error=%s",
-                property_name,
-                exc,
-            )
-            decision = SemanticGroundingDecision(
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("Semantic grounding judge failed %s error=%s", log_context, exc)
+            return SemanticGroundingDecision(
                 verdict="unknown",
                 reason=f"Semantic grounding judge failed: {exc}",
             )
-        self._cache[key] = decision
-        return decision
 
     @staticmethod
     def _value_prompt(payload: dict[str, Any]) -> str:
@@ -745,29 +726,15 @@ class SourceGroundingValidator:
             evidence_items=evidence_items,
             registry=self.registry,
         )
-        return decision.verdict != "unsupported", {
+        return decision.verdict == "supported", {
             item.chunk_index for item in evidence_items
         }, set()
-
-    def _predicate_supported(self, edge_name: str, evidence_text: str) -> bool:
-        return True
-
-    def _endpoint_supported(self, node, evidence_text: str) -> bool:
-        for entry in node.properties:
-            attribute = self.registry.get_attribute(entry.property_name)
-            if attribute is None or attribute.ingestion_policy.mode != "source":
-                continue
-            if self._value_supported(entry.value, evidence_text, attribute.range):
-                return True
-        return False
 
     def _property_grounding(
         self,
         property_name: str,
         attribute,
     ) -> str:
-        """Classify property grounding semantics from ontology policy."""
-
         policy = attribute.ingestion_policy
         if (
             policy.mode in {"runtime_managed", "system_default", "edge_derived"}
@@ -777,35 +744,7 @@ class SourceGroundingValidator:
             return "derived"
         if policy.grounding == "source_normalized":
             return "normalized"
-        if self._is_literal_by_contract(property_name, attribute.range):
-            return "literal"
-        return "normalized"
-
-    @classmethod
-    def _is_literal_by_contract(
-        cls,
-        property_name: str,
-        ranges: list[str],
-    ) -> bool:
-        datatypes = set(xsd_datatypes(ranges))
-        if datatypes & {
-            XsdDatatype.BOOLEAN,
-            XsdDatatype.DATE,
-            XsdDatatype.DATETIME,
-            XsdDatatype.DECIMAL,
-            XsdDatatype.INTEGER,
-        }:
-            return True
-        lowered = property_name.casefold()
-        literal_tokens = (
-            "code",
-            "date",
-            "effective",
-            "name",
-            "status",
-            "version",
-        )
-        return any(token in lowered for token in literal_tokens)
+        return "literal"
 
     @staticmethod
     def _value_grounding_message(
@@ -933,7 +872,10 @@ class SourceGroundingValidator:
                         edge_name=edge_name,
                     )
                 )
-            if not self._contains_quote(chunk.content, evidence.text):
+            if not (
+                self._contains_quote(chunk.content, evidence.text)
+                or self._contains_quote(chunk.section or "", evidence.text)
+            ):
                 evidence_valid = False
                 issues.append(
                     ValidationIssue(
@@ -1062,23 +1004,7 @@ class SourceGroundingValidator:
     def _string_supported(cls, value: str, evidence_text: str) -> bool:
         normalized_value = cls._normalize(value)
         normalized_evidence = cls._normalize(evidence_text)
-        if normalized_value in normalized_evidence:
-            return True
-        value_tokens = [
-            token for token in re.findall(r"\w+", normalized_value)
-            if token not in {"là"}
-        ]
-        evidence_tokens = re.findall(r"\w+", normalized_evidence)
-        if not value_tokens:
-            return False
-        cursor = 0
-        for token in value_tokens:
-            while cursor < len(evidence_tokens) and evidence_tokens[cursor] != token:
-                cursor += 1
-            if cursor >= len(evidence_tokens):
-                return False
-            cursor += 1
-        return True
+        return bool(normalized_value) and normalized_value in normalized_evidence
 
     @classmethod
     def _number_supported(cls, value: Any, evidence_text: str) -> bool:

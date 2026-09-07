@@ -1,9 +1,10 @@
 from types import SimpleNamespace
 
 import pytest
+from google.genai import types
 
 from app.services.ingestion.model_call_control import (
-    GeminiCallExecutor,
+    AdkStructuredCallExecutor,
     ModelRequestPacer,
     StageLocalModelCallExhausted,
 )
@@ -13,22 +14,40 @@ class _RateLimitError(Exception):
     status_code = 429
 
 
-class _FakeModels:
-    def __init__(self, outcomes):
-        self.outcomes = list(outcomes)
-        self.calls = []
+class _Event:
+    def __init__(self, result=None):
+        self.actions = SimpleNamespace(
+            state_delta={"structured_result": result} if result is not None else {}
+        )
+        self.content = None
 
-    def generate_content(self, **kwargs):
-        self.calls.append(kwargs)
-        outcome = self.outcomes.pop(0)
-        if isinstance(outcome, Exception):
-            raise outcome
-        return SimpleNamespace(parsed=outcome)
+    def is_final_response(self):
+        return True
 
 
-class _FakeClient:
-    def __init__(self, outcomes):
-        self.models = _FakeModels(outcomes)
+class _FakeSessionService:
+    def __init__(self):
+        self.created = []
+
+    async def create_session(self, **kwargs):
+        self.created.append(kwargs)
+        return SimpleNamespace(**kwargs)
+
+
+class _FakeRunner:
+    def __init__(self, *, result=None, error=None):
+        self.result = result
+        self.error = error
+        self.closed = False
+        self.session_service = _FakeSessionService()
+
+    def run(self, **_kwargs):
+        if self.error is not None:
+            raise self.error
+        return [_Event(self.result)]
+
+    async def close(self):
+        self.closed = True
 
 
 def test_model_pacer_spaces_requests_by_rpm_budget():
@@ -50,46 +69,49 @@ def test_model_pacer_spaces_requests_by_rpm_budget():
     assert sleeps == [6.0, 6.0]
 
 
-def test_rate_limit_retries_the_same_model_call_locally():
-    client = _FakeClient(
-        [_RateLimitError("Please retry in 0s"), {"ok": True}]
-    )
-    sleeps = []
-    executor = GeminiCallExecutor(
-        client=client,
-        model="gemini-test",
+def test_adk_executor_returns_structured_state_output():
+    runner = _FakeRunner(result={"ok": True})
+    seen = {}
+
+    def runner_factory(**kwargs):
+        seen.update(kwargs)
+        return runner
+
+    executor = AdkStructuredCallExecutor(
+        model="gemini-3.1-flash-lite",
         rpm_budget=0,
-        max_rate_limit_retries=1,
-        sleep=sleeps.append,
+        runner_factory=runner_factory,
     )
-    result = executor.generate_content(
-        operation="coverage",
-        contents="same prompt",
-        config={"temperature": 0},
+    result = executor.run(
+        operation="mapping",
+        instruction="Return a structured result.",
+        output_schema={"type": "object", "properties": {"ok": {"type": "boolean"}}},
     )
 
-    assert result.parsed == {"ok": True}
-    assert len(client.models.calls) == 2
-    assert client.models.calls[0] == client.models.calls[1]
-    assert sleeps == [4.0]
+    assert result == {"ok": True}
+    assert seen["agent"].output_key == "structured_result"
+    request = SimpleNamespace(config=types.GenerateContentConfig())
+    seen["agent"].before_model_callback(callback_context=None, llm_request=request)
+    assert request.config.response_json_schema["properties"]["ok"]["type"] == "boolean"
+    assert runner.closed is True
 
 
-def test_exhausted_rate_limit_is_marked_stage_local():
+def test_adk_transport_exhaustion_is_marked_stage_local():
     error = _RateLimitError("quota exhausted")
-    executor = GeminiCallExecutor(
-        client=_FakeClient([error]),
-        model="gemini-test",
+    runner = _FakeRunner(error=error)
+    executor = AdkStructuredCallExecutor(
+        model="gemini-3.1-flash-lite",
         rpm_budget=0,
-        max_rate_limit_retries=0,
-        sleep=lambda _delay: None,
+        runner_factory=lambda **_kwargs: runner,
     )
 
     with pytest.raises(StageLocalModelCallExhausted) as caught:
-        executor.generate_content(
-            operation="selector",
-            contents="prompt",
-            config={},
+        executor.run(
+            operation="mapping",
+            instruction="Return structured output.",
+            output_schema={"type": "object"},
         )
 
     assert caught.value.stage_local_retries_exhausted is True
     assert caught.value.status_code == 429
+    assert runner.closed is True

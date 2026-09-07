@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "stage": "explicit_extraction_failure",
+  "terminal": true,
+  "batchIndex": 1,
+  "retryRequired": true,
+  "nextAction": "remap_same_batch",
+  "errors": [
+    {
+      "code": "BATCH_CONFLICT",
+      "message": "Node b0__prod_flexi_rewards property pskg:bankingProductName has conflicting values",
+      "location": "batches.1"
+    }
+  ],
+  "failureReason": "BATCH_CONFLICT"
+}

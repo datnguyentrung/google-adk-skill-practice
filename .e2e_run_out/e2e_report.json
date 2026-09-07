@@ -1,25 +1,22 @@
 {
-  "success": true,
-  "stage": "readiness_gate",
+  "success": false,
+  "stage": "explicit_extraction_failure",
   "terminal": true,
   "ingestionId": "46c76139eb671d832d69fb999572cd4631eb98205640a81b289b39235098d970",
   "failureReason": null,
-  "batchIndex": null,
+  "batchIndex": 4,
   "processedBatchesAtFailure": null,
-  "processedBatches": 19,
-  "totalBatches": 19,
-  "documentChunks": 94,
-  "candidateNodes": 31,
-  "candidateEdges": 14,
+  "processedBatches": null,
+  "totalBatches": null,
+  "documentChunks": null,
+  "candidateNodes": null,
+  "candidateEdges": null,
   "skippedChunks": null,
-  "finalReadinessIssues": [
-    "MISSING_REQUIRED_SOURCE_FACT",
-    "DERIVATION_PENDING"
-  ],
-  "readinessErrorsEmpty": false,
-  "validForPersistence": false,
-  "compiledNodes": 13,
-  "compiledEdges": 13,
+  "finalReadinessIssues": [],
+  "readinessErrorsEmpty": true,
+  "validForPersistence": null,
+  "compiledNodes": null,
+  "compiledEdges": null,
   "persistedNodes": null,
   "persistedEdges": null,
   "labelDistribution": null,
@@ -34,7 +31,13 @@
   "readinessIssuesIgnored": null,
   "ingestionWarnings": null,
   "errorSummary": null,
-  "errors": [],
+  "errors": [
+    {
+      "code": "ORCHESTRATION_FAILED",
+      "message": "Direct graph fragment failed deterministic validation",
+      "location": "batches.4.extract"
+    }
+  ],
   "affectedChunkIndexes": null,
   "nextAction": null,
   "retryRequired": null

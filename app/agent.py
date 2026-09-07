@@ -15,19 +15,16 @@ from app.skills.skill_loader import (
     discover_skill_tools,
 )
 
+from app.core.logging_config import configure_logging
+
 BASE_DIR = Path(__file__).resolve().parent
 SKILLS_DIR = BASE_DIR / "skills"
 ROOT_AGENT_PROMPT_PATH = BASE_DIR / "prompts" / "root_agent_prompt.md"
 
 
 def _configure_console_logging() -> None:
-    if logging.getLogger().handlers:
-        return
+    configure_logging(logging.INFO)
 
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s %(levelname)s [%(name)s] %(message)s",
-    )
 
 
 def create_root_agent() -> Agent:

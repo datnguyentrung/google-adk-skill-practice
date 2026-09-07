@@ -283,31 +283,24 @@ def test_batch_accepts_business_rule_with_deriving_edge():
     assert response["fragmentStats"]["edges"] == 1
 
 
-def test_workspace_merges_banking_product_alias_and_rewrites_edges():
+def test_workspace_keeps_distinct_banking_product_without_natural_key():
     first = GraphPatchFragment.model_validate(
-        {
-            "nodes": [_product_node()],
-            "edges": [],
-            "coverage": _coverage(),
-            "warnings": [],
-        }
+        {"nodes": [_product_node()], "edges": [], "coverage": _coverage(), "warnings": []}
     )
-    alias_rule = _business_rule_node()
-    alias_edge = _eligibility_edge()
-    alias_edge["sourceTempId"] = "product-flexi-rewards"
     second = GraphPatchFragment.model_validate(
         {
-            "nodes": [
-                {
-                    "tempId": "product-flexi-rewards",
-                    "className": "pskg:BankingProduct",
-                    "properties": [],
-                    "evidence": [_evidence("Flexi Rewards")],
-                    "confidence": 0.8,
-                },
-                alias_rule,
-            ],
-            "edges": [alias_edge],
+            "nodes": [{
+                "tempId": "product-flexi-account",
+                "className": "pskg:BankingProduct",
+                "properties": [{
+                    "propertyName": "pskg:bankingProductName",
+                    "value": "Flexi Account",
+                    "evidence": [_evidence("Flexi Account")],
+                }],
+                "evidence": [_evidence("Flexi Account")],
+                "confidence": 0.8,
+            }],
+            "edges": [],
             "coverage": _coverage(),
             "warnings": [],
         }
@@ -315,11 +308,9 @@ def test_workspace_merges_banking_product_alias_and_rewrites_edges():
 
     merged = IngestionWorkspaceService.merge_fragments([first, second])
 
-    products = [
-        node for node in merged.nodes if node.class_name == "pskg:BankingProduct"
-    ]
-    assert len(products) == 1
-    assert merged.edges[0].source_temp_id == PRODUCT_ID
+    products = [node for node in merged.nodes if node.class_name == "pskg:BankingProduct"]
+    assert len(products) == 2
+    assert {node.temp_id for node in products} == {PRODUCT_ID, "product-flexi-account"}
 
 
 def test_extractor_coerces_evidence_content_key_to_text():

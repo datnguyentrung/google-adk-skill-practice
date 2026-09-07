@@ -1,0 +1,22 @@
+{
+  "sourceDir": "D:\\Thuc_tap_MB\\google-adk-skill-practice\\.pytest-direct-regression\\test_write_merged_ontology_fol0\\LOAN",
+  "sourceFiles": [
+    "D:\\Thuc_tap_MB\\google-adk-skill-practice\\.pytest-direct-regression\\test_write_merged_ontology_fol0\\LOAN\\AllLOAN.ontology.json"
+  ],
+  "summary": {
+    "sourceFiles": 1,
+    "classes": 2,
+    "edges": 0,
+    "attributes": 0
+  },
+  "classes": [
+    {
+      "iri": "loan-root"
+    },
+    {
+      "iri": "shared"
+    }
+  ],
+  "edges": [],
+  "attributes": []
+}

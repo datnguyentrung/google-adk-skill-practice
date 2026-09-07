@@ -1,0 +1,642 @@
+{
+  "0": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "",
+      "previous_error": null,
+      "stats": {
+        "nodes": 1,
+        "edges": 0,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b0__node_banking_product_001",
+            "className": "pskg:BankingProduct",
+            "properties": [
+              {
+                "propertyName": "pskg:bankingProductName",
+                "value": "Flexi Rewards Credit Card",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "Flexi Rewards Credit Card"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:productCode",
+                "value": "CC-FLEXI-001",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "CC-FLEXI-001"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:bankingProductVersionNumber",
+                "value": "1.1",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "1.1"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:bankingProductEffectiveFrom",
+                "value": "2026-08-01",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "01/08/2026"
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 1,
+                "section": "1. Document Information",
+                "text": "Flexi Rewards Credit Card"
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "edges": [],
+        "coverage": [
+          {
+            "chunkIndex": 0,
+            "decision": "NOT_RELEVANT",
+            "reason": "Contains administrative metadata about the document itself, not the product catalog entities."
+          },
+          {
+            "chunkIndex": 1,
+            "decision": "MAPPED",
+            "reason": "Contains core product identification and versioning information."
+          },
+          {
+            "chunkIndex": 2,
+            "decision": "MAPPED",
+            "reason": "Describes product nature and usage scenarios."
+          },
+          {
+            "chunkIndex": 3,
+            "decision": "MAPPED",
+            "reason": "Describes credit limit mechanics relevant to the product."
+          },
+          {
+            "chunkIndex": 4,
+            "decision": "NOT_RELEVANT",
+            "reason": "Describes a generic debit card concept, not the specific product being cataloged."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ],
+  "1": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "Existing canonical graph:\nNodes:\n- ref=b0__node_banking_product_001\n  class=pskg:BankingProduct\n  identity={\"pskg:bankingProductEffectiveFrom\": \"2026-08-01\", \"pskg:bankingProductName\": \"Flexi Rewards Credit Card\", \"pskg:bankingProductVersionNumber\": \"1.1\", \"pskg:productCode\": \"CC-FLEXI-001\"}",
+      "previous_error": null,
+      "stats": {
+        "nodes": 3,
+        "edges": 2,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b1__node_required_doc_001",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentType",
+                "value": "Income documents",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 9,
+                    "section": "4.3. Credit Limit Adjustment",
+                    "text": "Updated income documents"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Income documents",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 9,
+                    "section": "4.3. Credit Limit Adjustment",
+                    "text": "Updated income documents"
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 9,
+                "section": "4.3. Credit Limit Adjustment",
+                "text": "A customer requesting a credit limit increase may be required to provide:\n\n- Updated income documents."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b1__node_required_doc_002",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentType",
+                "value": "Account statements",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 9,
+                    "section": "4.3. Credit Limit Adjustment",
+                    "text": "Account statements"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Account statements",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 9,
+                    "section": "4.3. Credit Limit Adjustment",
+                    "text": "Account statements"
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 9,
+                "section": "4.3. Credit Limit Adjustment",
+                "text": "A customer requesting a credit limit increase may be required to provide:"
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b0__node_banking_product_001",
+            "className": "pskg:BankingProduct",
+            "properties": [],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 9,
+                "section": "4.3. Credit Limit Adjustment",
+                "text": "A customer requesting a credit limit increase may be required to provide:\n\n- Updated income documents."
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "edges": [
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__node_banking_product_001",
+            "targetTempId": "b1__node_required_doc_001",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 9,
+                "section": "4.3. Credit Limit Adjustment",
+                "text": "A customer requesting a credit limit increase may be required to provide:\n\n- Updated income documents."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__node_banking_product_001",
+            "targetTempId": "b1__node_required_doc_002",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 9,
+                "section": "4.3. Credit Limit Adjustment",
+                "text": "A customer requesting a credit limit increase may be required to provide:"
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "coverage": [
+          {
+            "chunkIndex": 5,
+            "decision": "MAPPED",
+            "reason": "Mapped general product usage context."
+          },
+          {
+            "chunkIndex": 6,
+            "decision": "MAPPED",
+            "reason": "Mapped product attributes to existing product node."
+          },
+          {
+            "chunkIndex": 7,
+            "decision": "MAPPED",
+            "reason": "Mapped credit limit principles."
+          },
+          {
+            "chunkIndex": 8,
+            "decision": "MAPPED",
+            "reason": "Mapped credit limit example."
+          },
+          {
+            "chunkIndex": 9,
+            "decision": "MAPPED",
+            "reason": "Mapped required documents for credit limit adjustment."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ],
+  "2": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "Existing canonical graph:\nNodes:\n- ref=b0__node_banking_product_001\n  class=pskg:BankingProduct\n  identity={\"pskg:bankingProductEffectiveFrom\": \"2026-08-01\", \"pskg:bankingProductName\": \"Flexi Rewards Credit Card\", \"pskg:bankingProductVersionNumber\": \"1.1\", \"pskg:productCode\": \"CC-FLEXI-001\"}\n- ref=b1__node_required_doc_001\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Income documents\", \"pskg:documentType\": \"Income documents\"}\n- ref=b1__node_required_doc_002\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Account statements\", \"pskg:documentType\": \"Account statements\"}\nExisting edges:\n- pskg:requiresDocument: b0__node_banking_product_001 -> b1__node_required_doc_001\n- pskg:requiresDocument: b0__node_banking_product_001 -> b1__node_required_doc_002",
+      "previous_error": null,
+      "stats": {
+        "nodes": 3,
+        "edges": 2,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b2__node_rule_eligibility_001",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "At least 20 years old at the time of application. Not older than 60 years at the time of application under normal policy. Have valid identification documents. Have verifiable residence information. Have lawful employment or a lawful source of income. Be able to provide proof of income. Normally have net income of at least 10 million VND/month. Have an appropriate credit history. Not fall under cases restricted from receiving credit under applicable regulations.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 10,
+                    "section": "5.1. Conditions for Accepting an Application",
+                    "text": "At least 20 years old at the time of application.\n- Not older than 60 years at the time of application under normal policy.\n- Have valid identification documents.\n- Have verifiable residence information.\n- Have lawful employment or a lawful source of income.\n- Be able to provide proof of income.\n- Normally have net income of at least **10 million VND/month**.\n- Have an appropriate credit history.\n- Not fall under cases restricted from receiving credit under applicable regulations."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 10,
+                "section": "5.1. Conditions for Accepting an Application",
+                "text": "Individual customers may submit an application when they meet the basic conditions"
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b2__node_rule_policy_001",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "Existing financial obligations, Credit quality, Repayment ability, Stability of income sources, Actual application documents, Other risk factors.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 11,
+                    "section": "5.2. Meeting Initial Conditions Does Not Mean Approval",
+                    "text": "The bank also assesses:\n\n- Existing financial obligations.\n- Credit quality.\n- Repayment ability.\n- Stability of income sources.\n- Actual application documents.\n- Other risk factors."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 11,
+                "section": "5.2. Meeting Initial Conditions Does Not Mean Approval",
+                "text": "The bank also assesses:\n\n- Existing financial obligations.\n- Credit quality.\n- Repayment ability.\n- Stability of income sources.\n- Actual application documents.\n- Other risk factors."
+              }
+            ],
+            "confidence": 0.9
+          },
+          {
+            "tempId": "b0__node_banking_product_001",
+            "className": "pskg:BankingProduct",
+            "properties": [],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 10,
+                "section": "5.1. Conditions for Accepting an Application",
+                "text": "Individual customers may submit an application when they meet the basic conditions"
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "edges": [
+          {
+            "edgeName": "pskg:hasEligibilityRule",
+            "sourceTempId": "b0__node_banking_product_001",
+            "targetTempId": "b2__node_rule_eligibility_001",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 10,
+                "section": "5.1. Conditions for Accepting an Application",
+                "text": "Individual customers may submit an application when they meet the basic conditions"
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "edgeName": "pskg:governedByPolicy",
+            "sourceTempId": "b0__node_banking_product_001",
+            "targetTempId": "b2__node_rule_policy_001",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 11,
+                "section": "5.2. Meeting Initial Conditions Does Not Mean Approval",
+                "text": "The bank also assesses:\n\n- Existing financial obligations.\n- Credit quality.\n- Repayment ability.\n- Stability of income sources.\n- Actual application documents.\n- Other risk factors."
+              }
+            ],
+            "confidence": 0.9
+          }
+        ],
+        "coverage": [
+          {
+            "chunkIndex": 10,
+            "decision": "MAPPED",
+            "reason": "Mapped eligibility conditions to a BusinessRule linked to the product."
+          },
+          {
+            "chunkIndex": 11,
+            "decision": "MAPPED",
+            "reason": "Mapped assessment criteria to a policy-type BusinessRule linked to the product."
+          },
+          {
+            "chunkIndex": 12,
+            "decision": "NOT_RELEVANT",
+            "reason": "Content describes operational appraisal cases rather than formal business rules or catalog entities."
+          },
+          {
+            "chunkIndex": 13,
+            "decision": "NOT_RELEVANT",
+            "reason": "Content provides examples of identification documents already covered by existing canonical nodes."
+          },
+          {
+            "chunkIndex": 14,
+            "decision": "NOT_RELEVANT",
+            "reason": "Content lists document requirements for a specific customer type, which are not formal catalog entities."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ],
+  "3": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "Existing canonical graph:\nNodes:\n- ref=b0__node_banking_product_001\n  class=pskg:BankingProduct\n  identity={\"pskg:bankingProductEffectiveFrom\": \"2026-08-01\", \"pskg:bankingProductName\": \"Flexi Rewards Credit Card\", \"pskg:bankingProductVersionNumber\": \"1.1\", \"pskg:productCode\": \"CC-FLEXI-001\"}\n- ref=b1__node_required_doc_001\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Income documents\", \"pskg:documentType\": \"Income documents\"}\n- ref=b1__node_required_doc_002\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Account statements\", \"pskg:documentType\": \"Account statements\"}\n- ref=b2__node_rule_eligibility_001\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"At least 20 years old at the time of application. Not older than 60 years at the time of application under normal policy. Have valid identification documents. Have verifiable residence information. Have lawful employment or a lawful source of income. Be able to provide proof of income. Normally have net income of at least 10 million VND/month. Have an appropriate credit history. Not fall under cases restricted from receiving credit under applicable regulations.\"}\n- ref=b2__node_rule_policy_001\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"Existing financial obligations, Credit quality, Repayment ability, Stability of income sources, Actual application documents, Other risk factors.\"}\nExisting edges:\n- pskg:requiresDocument: b0__node_banking_product_001 -> b1__node_required_doc_001\n- pskg:requiresDocument: b0__node_banking_product_001 -> b1__node_required_doc_002\n- pskg:hasEligibilityRule: b0__node_banking_product_001 -> b2__node_rule_eligibility_001\n- pskg:governedByPolicy: b0__node_banking_product_001 -> b2__node_rule_policy_001",
+      "previous_error": null,
+      "stats": {
+        "nodes": 5,
+        "edges": 4,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b3__node_req_doc_003",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Business documents",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 15,
+                    "section": "Customers with Special Sources of Income",
+                    "text": "Business documents."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "Business documents."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b3__node_req_doc_004",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Rental contracts",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 15,
+                    "section": "Customers with Special Sources of Income",
+                    "text": "Rental contracts."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "Rental contracts."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b3__node_req_doc_005",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Payment receipts",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 15,
+                    "section": "Customers with Special Sources of Income",
+                    "text": "Payment receipts."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "Payment receipts."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b3__node_req_doc_006",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Tax documents",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 15,
+                    "section": "Customers with Special Sources of Income",
+                    "text": "Tax documents."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "Tax documents."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b0__node_banking_product_001",
+            "className": "pskg:BankingProduct",
+            "properties": [],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "Business documents."
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "edges": [
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__node_banking_product_001",
+            "targetTempId": "b3__node_req_doc_003",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "Business documents."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__node_banking_product_001",
+            "targetTempId": "b3__node_req_doc_004",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "Rental contracts."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__node_banking_product_001",
+            "targetTempId": "b3__node_req_doc_005",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "Payment receipts."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__node_banking_product_001",
+            "targetTempId": "b3__node_req_doc_006",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "Tax documents."
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "coverage": [
+          {
+            "chunkIndex": 15,
+            "decision": "MAPPED",
+            "reason": "Mapped additional required documents to the banking product."
+          },
+          {
+            "chunkIndex": 16,
+            "decision": "NOT_RELEVANT",
+            "reason": "Fee schedule is descriptive content not mapped to specific ontology properties."
+          },
+          {
+            "chunkIndex": 17,
+            "decision": "NOT_RELEVANT",
+            "reason": "Interest rate information is descriptive content not mapped to specific ontology properties."
+          },
+          {
+            "chunkIndex": 18,
+            "decision": "NOT_RELEVANT",
+            "reason": "Statement cycle information is descriptive content not mapped to specific ontology properties."
+          },
+          {
+            "chunkIndex": 19,
+            "decision": "NOT_RELEVANT",
+            "reason": "Statement contents information is descriptive content not mapped to specific ontology properties."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ]
+}

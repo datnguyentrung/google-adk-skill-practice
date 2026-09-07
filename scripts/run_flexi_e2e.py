@@ -22,10 +22,15 @@ if ENV_FILE.exists():
         if key:
             os.environ.setdefault(key, value)
 
-ARTIFACT_NAME = "HƯỚNG DẪN NGHIỆP VỤ SẢN PHẨM THẺ TÍN DỤNG FLEXI REWARDS.md"
-SOURCE_FILE = REPO_ROOT / "docs" / ARTIFACT_NAME
-OUT_DIR = REPO_ROOT / ".e2e_run_out"
-OUT_DIR.mkdir(exist_ok=True)
+DEFAULT_SOURCE = next((REPO_ROOT / "docs").glob("*FLEXI REWARDS.md"))
+SOURCE_FILE = Path(os.getenv("FLEXI_E2E_SOURCE", str(DEFAULT_SOURCE)))
+if not SOURCE_FILE.is_absolute():
+    SOURCE_FILE = REPO_ROOT / SOURCE_FILE
+ARTIFACT_NAME = SOURCE_FILE.name
+OUT_DIR = Path(os.getenv("FLEXI_E2E_OUT", str(REPO_ROOT / ".e2e_run_out")))
+if not OUT_DIR.is_absolute():
+    OUT_DIR = REPO_ROOT / OUT_DIR
+OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 captured = {
     "finalized": None,
@@ -69,15 +74,15 @@ def install_capture_wrappers() -> None:
             batch_index = batch_payload.get("batchIndex")
             captured["batches"].setdefault(batch_index, []).append(
                 {
-                    "stage": "semantic_mapping",
+                    "stage": "direct_graph_mapping",
                     "graph_context": kwargs.get("graph_context"),
                     "previous_error": kwargs.get("previous_error"),
-                    "stats": outcome.stats.model_dump(by_alias=True, mode="json"),
-                    "facts": outcome.facts.model_dump(by_alias=True, mode="json"),
-                    "sourceAudit": outcome.source_audit.model_dump(by_alias=True, mode="json"),
-                    "placement": outcome.placement.model_dump(by_alias=True, mode="json"),
-                    "completeness": outcome.completeness.model_dump(by_alias=True, mode="json"),
-                    "fragment": outcome.fragment.model_dump(by_alias=True, mode="json"),
+                    "stats": {
+                        "nodes": len(outcome.nodes),
+                        "edges": len(outcome.edges),
+                        "coverage": len(outcome.coverage),
+                    },
+                    "fragment": outcome.model_dump(by_alias=True, mode="json"),
                 }
             )
             return outcome

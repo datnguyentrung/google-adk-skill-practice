@@ -30,9 +30,8 @@ from app.services.ingestion.graph_validation import (
     create_default_semantic_grounding_judge,
 )
 from app.services.ingestion.semantic_placement import (
-    InvalidAtomicFactBatchError,
+    DirectGraphMappingError,
     SemanticGraphMapper,
-    placement_issues_to_validation,
 )
 from app.services.ingestion.staged_ingestion import (
     IngestionWorkspaceService,
@@ -129,7 +128,7 @@ def _is_retryable_extraction_error(exc: Exception) -> bool:
     if getattr(exc, "stage_local_retries_exhausted", False):
         return False
     return (
-        isinstance(exc, (InvalidGraphPatchFragmentError, InvalidAtomicFactBatchError))
+        isinstance(exc, (InvalidGraphPatchFragmentError, DirectGraphMappingError))
         or _is_rate_limit_error(exc)
         or bool(getattr(exc, "retryable", False))
     )
@@ -137,14 +136,13 @@ def _is_retryable_extraction_error(exc: Exception) -> bool:
 
 def _extractor_retry_error(exc: Exception) -> dict[str, Any]:
     return {
-        "stage": "extractor_schema",
+        "stage": "direct_graph_mapping",
         "errorKind": _orchestration_error_kind(exc),
         "message": _orchestration_error_message(exc),
-        "shapeSummary": getattr(exc, "summary", {}),
+        "validation": getattr(exc, "summary", {}),
         "repairInstructions": (
-            "Return one AtomicFactBatch object. Extract only ontology-relevant "
-            "atomic facts with source-grounded evidence. Do not emit ontology "
-            "technical names, nodes, edges, properties, or GraphPatch fragments."
+            "Return one GraphPatchFragment using only the supplied ontology technical names. "
+            "Correct the reported schema, ontology, edge-direction, coverage, or evidence defects."
         ),
     }
 
@@ -474,21 +472,22 @@ async def _persist_with_receipt(
     service = None
     result = None
     try:
+        logger.info(
+            "[PHASE:PERSIST_WITH_RECEIPT_START] Func: _persist_with_receipt | Stem: %s | RequireReceipt: %s | AllowPartial: %s",
+            artifact_stem,
+            require_receipt,
+            allow_partial_persistence,
+        )
         service = create_graph_persistence(validation=validation_service)
         fill_kwargs = ({"allow_partial_persistence": True} if allow_partial_persistence else {})
         result = service.fill(graph_patch, artifact_digest, source_chunks, **fill_kwargs)
         logger.info(
-            "FILL_RESULT nodes=%s edges=%s status=%s commit_status=%s",
+            "[PHASE:PERSIST_WITH_RECEIPT_SUCCESS] Func: _persist_with_receipt | Stem: %s | Nodes: %s | Edges: %s | Status: %s | CommitStatus: %s",
+            artifact_stem,
             result.get("nodes", 0),
             result.get("edges", 0),
             result.get("status"),
             result.get("commitStatus"),
-        )
-        logger.info(
-            "PERSIST_RESULT nodes_created=%s nodes_merged=%s edges_created=%s",
-            result.get("nodes", 0),
-            0,
-            result.get("edges", 0),
         )
         return await _receipt_response(
             result,
@@ -498,6 +497,12 @@ async def _persist_with_receipt(
         )
     except FillValidationError as exc:
         invalidate_gate()
+        logger.error(
+            "[INGESTION_ERROR] Phase: PERSIST_WITH_RECEIPT | Func: _persist_with_receipt | Stem: %s | Error: Fill validation failed: %s",
+            artifact_stem,
+            exc,
+            exc_info=True,
+        )
         return {
             "success": False,
             "stage": "validation",
@@ -505,7 +510,13 @@ async def _persist_with_receipt(
             "validation": exc.result.model_dump(by_alias=True, exclude_none=True),
         }
     except Exception as exc:
-        logger.exception(failure_message)
+        logger.error(
+            "[INGESTION_ERROR] Phase: PERSIST_WITH_RECEIPT | Func: _persist_with_receipt | Stem: %s | Message: %s | Exception: %s",
+            artifact_stem,
+            failure_message,
+            exc,
+            exc_info=True,
+        )
         if isinstance(result, dict) and result.get("commitStatus") == "committed":
             return {
                 "success": False,
@@ -546,7 +557,10 @@ async def prepare_extraction_context(
     tool_context: IngestionRuntime,
 ) -> dict[str, Any]:
     """Load an artifact and prepare source-grounded extraction context."""
-
+    logger.info(
+        "[PHASE:PREPARE_CONTEXT_START] Func: prepare_extraction_context | Document: '%s'",
+        artifact_name,
+    )
     _clear_validation_gate(tool_context)
     _delete_state(tool_context, ARTIFACT_DIGEST_STATE_KEY)
     _delete_state(tool_context, ARTIFACT_NAME_STATE_KEY)
@@ -556,6 +570,11 @@ async def prepare_extraction_context(
     try:
         artifact = await tool_context.load_artifact(filename=artifact_name)
         if artifact is None:
+            logger.error(
+                "[INGESTION_ERROR] Phase: PREPARE_CONTEXT | Func: prepare_extraction_context | "
+                "Document: '%s' | Error: Artifact not found",
+                artifact_name,
+            )
             return {
                 "success": False,
                 "stage": "artifact_loading",
@@ -568,6 +587,11 @@ async def prepare_extraction_context(
             raw_data = artifact.inline_data.data
             mime_type = artifact.inline_data.mime_type
             if raw_data is None:
+                logger.error(
+                    "[INGESTION_ERROR] Phase: PREPARE_CONTEXT | Func: prepare_extraction_context | "
+                    "Document: '%s' | Error: Artifact contains no binary data",
+                    artifact_name,
+                )
                 return {
                     "success": False,
                     "stage": "artifact_loading",
@@ -578,6 +602,12 @@ async def prepare_extraction_context(
             elif isinstance(raw_data, bytearray):
                 data = bytes(raw_data)
             else:
+                logger.error(
+                    "[INGESTION_ERROR] Phase: PREPARE_CONTEXT | Func: prepare_extraction_context | "
+                    "Document: '%s' | Error: Unsupported artifact data type %s",
+                    artifact_name,
+                    type(raw_data).__name__,
+                )
                 return {
                     "success": False,
                     "stage": "artifact_loading",
@@ -589,6 +619,11 @@ async def prepare_extraction_context(
             data = artifact.text.encode("utf-8")
             mime_type = "text/plain"
         else:
+            logger.error(
+                "[INGESTION_ERROR] Phase: PREPARE_CONTEXT | Func: prepare_extraction_context | "
+                "Document: '%s' | Error: Artifact does not contain supported inline data or text",
+                artifact_name,
+            )
             return {
                 "success": False,
                 "stage": "artifact_loading",
@@ -615,7 +650,8 @@ async def prepare_extraction_context(
             total_lines = None
             total_chars = len(data)
         logger.info(
-            "INGESTION_DOCUMENT document=%s total_chars=%s total_lines=%s total_chunks=%s",
+            "[PHASE:PREPARE_CONTEXT_SUCCESS] Func: prepare_extraction_context | "
+            "Document: '%s' | TotalChars: %s | TotalLines: %s | Chunks: %s",
             artifact_name,
             total_chars,
             total_lines,
@@ -632,7 +668,13 @@ async def prepare_extraction_context(
             **context.model_dump(by_alias=True, exclude_none=True),
         }
     except Exception as exc:
-        logger.exception("Failed to prepare extraction context for '%s'", artifact_name)
+        logger.error(
+            "[INGESTION_ERROR] Phase: PREPARE_CONTEXT | Func: prepare_extraction_context | "
+            "Document: '%s' | Exception: %s",
+            artifact_name,
+            exc,
+            exc_info=True,
+        )
         _clear_validation_gate(tool_context)
         _delete_state(tool_context, ARTIFACT_DIGEST_STATE_KEY)
         _delete_state(tool_context, ARTIFACT_NAME_STATE_KEY)
@@ -649,9 +691,18 @@ async def begin_ingestion(
     tool_context: IngestionRuntime,
 ) -> dict[str, Any]:
     """Start a bounded, retryable long-document ingestion workspace."""
-
+    logger.info(
+        "[PHASE:BEGIN_INGESTION_START] Func: begin_ingestion | Document: '%s'",
+        artifact_name,
+    )
     prepared = await prepare_extraction_context(artifact_name, tool_context)
     if not prepared.get("success"):
+        logger.error(
+            "[INGESTION_ERROR] Phase: BEGIN_INGESTION | Func: begin_ingestion | "
+            "Document: '%s' | Error: Context preparation failed: %s",
+            artifact_name,
+            prepared.get("error"),
+        )
         return prepared
     workspace = _get_workspace_service().begin(
         artifact_name=artifact_name,
@@ -663,28 +714,14 @@ async def begin_ingestion(
     )
     _store_workspace(tool_context, workspace)
     first_batch = workspace.batches[0]
-    chunk_by_index = {chunk.index: chunk for chunk in workspace.chunks}
-    for batch in workspace.batches:
-        logger.info(
-            "[INGESTION_BATCH_CREATED] ingestion_id=%s batch=%s chunk_ids=%s input_chars=%s",
-            workspace.ingestion_id,
-            batch.index,
-            batch.chunk_indexes,
-            batch.content_chars,
-        )
-        for chunk_index in batch.chunk_indexes:
-            chunk = chunk_by_index[chunk_index]
-            logger.debug(
-                "[INGESTION_BATCH_CREATED] ingestion_id=%s batch=%s chunk=%s "
-                "section=%r line_start=%s line_end=%s char_count=%s",
-                workspace.ingestion_id,
-                batch.index,
-                chunk.index,
-                chunk.section,
-                chunk.start_line,
-                chunk.end_line,
-                len(chunk.content),
-            )
+    logger.info(
+        "[PHASE:BEGIN_INGESTION_SUCCESS] Func: begin_ingestion | Document: '%s' | "
+        "IngestionID: %s | Chunks: %s | Batches: %s",
+        artifact_name,
+        workspace.ingestion_id,
+        len(workspace.chunks),
+        len(workspace.batches),
+    )
     return {
         "success": True,
         "stage": "batching",
@@ -694,7 +731,6 @@ async def begin_ingestion(
         "batchCount": len(workspace.batches),
         "documentStats": _workspace_stats(workspace),
         "nextBatchStats": _batch_stats(workspace, first_batch),
-        "ontologyCatalog": _compact_ontology_context(prepared["ontology_context"]),
         "artifactDigest": workspace.artifact_digest,
         "ontologyDigest": workspace.ontology_digest,
         "skillDigest": workspace.skill_digest,
@@ -711,6 +747,12 @@ def submit_ingestion_batch(
     """Store one mapper-owned batch fragment; strict validation happens at finalize."""
     workspace, error = _workspace_precondition(ingestion_id, tool_context)
     if error is not None or workspace is None:
+        logger.error(
+            "[INGESTION_ERROR] Phase: BATCH_SUBMIT | Func: submit_ingestion_batch | "
+            "IngestionID: %s | Batch: %s | Error: Workspace precondition failed",
+            ingestion_id,
+            batch_index,
+        )
         return error
     try:
         fragment = GraphPatchFragment.model_validate(graph_fragment)
@@ -721,6 +763,13 @@ def submit_ingestion_batch(
             code="BATCH_CONFLICT",
             message=str(exc),
             location=f"batches.{batch_index}",
+        )
+        logger.warning(
+            "[INGESTION_ERROR] Phase: BATCH_SUBMIT | Func: submit_ingestion_batch | "
+            "IngestionID: %s | Batch: %s | Conflict: %s",
+            ingestion_id,
+            batch_index,
+            exc,
         )
         return {
             "success": False,
@@ -735,6 +784,16 @@ def submit_ingestion_batch(
     _store_workspace(tool_context, workspace)
     next_batch = _get_workspace_service().next_batch(workspace)
     processed = sum(batch.fragment is not None for batch in workspace.batches)
+    logger.info(
+        "[PHASE:BATCH_SUBMIT_SUCCESS] Func: submit_ingestion_batch | IngestionID: %s | "
+        "Batch: %s | Processed: %s/%s | Nodes: %s | Edges: %s",
+        ingestion_id,
+        batch_index,
+        processed,
+        len(workspace.batches),
+        len(fragment.nodes),
+        len(fragment.edges),
+    )
     response = {
         "success": True,
         "stage": "batching" if next_batch is not None else "ready_to_finalize",
@@ -749,13 +808,23 @@ def submit_ingestion_batch(
         response["nextBatch"] = _batch_payload(workspace, next_batch)
     return response
 
+
 def finalize_ingestion(
     ingestion_id: str,
     tool_context: IngestionRuntime,
 ) -> dict[str, Any]:
     """Run the single strict graph-validation boundary for the merged document."""
+    logger.info(
+        "[PHASE:FINALIZE_START] Func: finalize_ingestion | IngestionID: %s",
+        ingestion_id,
+    )
     workspace, error = _workspace_precondition(ingestion_id, tool_context)
     if error is not None or workspace is None:
+        logger.error(
+            "[INGESTION_ERROR] Phase: FINALIZE | Func: finalize_ingestion | "
+            "IngestionID: %s | Error: Workspace precondition failed",
+            ingestion_id,
+        )
         return error
     pending = [batch.index for batch in workspace.batches if batch.fragment is None]
     if pending:
@@ -763,6 +832,12 @@ def finalize_ingestion(
             code="BATCH_INCOMPLETE",
             message=f"Pending batch indexes: {pending}",
             location="batches",
+        )
+        logger.error(
+            "[INGESTION_ERROR] Phase: FINALIZE | Func: finalize_ingestion | "
+            "IngestionID: %s | Pending batches: %s",
+            ingestion_id,
+            pending,
         )
         return {
             "success": False,
@@ -777,6 +852,13 @@ def finalize_ingestion(
             code="GRAPH_MAPPING_UNSUPPORTED",
             message=str(exc),
             location="graphPatch",
+        )
+        logger.error(
+            "[INGESTION_ERROR] Phase: FINALIZE | Func: finalize_ingestion | "
+            "IngestionID: %s | Error: Graph patch merge failed: %s",
+            ingestion_id,
+            exc,
+            exc_info=True,
         )
         return {
             "success": False,
@@ -809,6 +891,15 @@ def finalize_ingestion(
         if assessment.result.valid_for_extraction
         else "validation"
     )
+    logger.info(
+        "[PHASE:FINALIZE_SUCCESS] Func: finalize_ingestion | IngestionID: %s | Stage: %s | "
+        "ValidExtraction: %s | ValidPersistence: %s | Fingerprint: %s",
+        ingestion_id,
+        stage,
+        assessment.result.valid_for_extraction,
+        assessment.result.valid_for_persistence,
+        assessment.fingerprint,
+    )
     return {
         "success": assessment.result.valid_for_extraction,
         "stage": stage,
@@ -828,18 +919,38 @@ async def fill_ingestion(
     allow_partial_persistence: bool = False,
 ) -> dict[str, Any]:
     """Persist a finalized graph, with explicit partial persistence when allowed."""
-
+    logger.info(
+        "[PHASE:FILL_START] Func: fill_ingestion | IngestionID: %s | AllowPartial: %s",
+        ingestion_id,
+        allow_partial_persistence,
+    )
     workspace, error = _workspace_precondition(ingestion_id, tool_context)
     if error is not None or workspace is None:
+        logger.error(
+            "[INGESTION_ERROR] Phase: FILL | Func: fill_ingestion | IngestionID: %s | Error: Workspace precondition failed",
+            ingestion_id,
+        )
         return error
     if workspace.finalized_patch is None:
+        logger.error(
+            "[INGESTION_ERROR] Phase: FILL | Func: fill_ingestion | IngestionID: %s | Error: finalize_ingestion must run before fill_ingestion",
+            ingestion_id,
+        )
         return {"success": False, "stage": "validation_precondition", "terminal": True, "errors": [ValidationIssue(code="VALIDATION_PRECONDITION", message="finalize_ingestion must run before fill_ingestion", location="ingestionId").model_dump(by_alias=True, exclude_none=True)]}
 
     validation_service = _get_validation_service()
     assessment = validation_service.assess(workspace.finalized_patch, workspace.artifact_digest, workspace.chunks)
     if not assessment.result.valid_for_extraction or assessment.compiled_patch is None:
+        logger.error(
+            "[INGESTION_ERROR] Phase: FILL | Func: fill_ingestion | IngestionID: %s | Error: Finalized patch invalid for extraction",
+            ingestion_id,
+        )
         return {"success": False, "stage": "validation", "terminal": True, "validation": _public_assessment(assessment)}
     if not assessment.result.valid_for_persistence and not allow_partial_persistence:
+        logger.error(
+            "[INGESTION_ERROR] Phase: FILL | Func: fill_ingestion | IngestionID: %s | Error: Persistence readiness gate failed",
+            ingestion_id,
+        )
         return {"success": False, "stage": "validation_precondition", "terminal": True, "validation": _public_assessment(assessment), "errors": [ValidationIssue(code="VALIDATION_PRECONDITION", message="Persistence readiness failed; set allow_partial_persistence=true only for an explicit partial persistence commit requested by the user", location="ingestionId").model_dump(by_alias=True, exclude_none=True)]}
 
     expected_fingerprint = workspace.validated_fingerprint
@@ -848,6 +959,10 @@ async def fill_ingestion(
     if expected_fingerprint is None or assessment.fingerprint != expected_fingerprint:
         workspace.validated_fingerprint = None
         _store_workspace(tool_context, workspace)
+        logger.error(
+            "[INGESTION_ERROR] Phase: FILL | Func: fill_ingestion | IngestionID: %s | Error: Finalized graph fingerprint no longer matches",
+            ingestion_id,
+        )
         return {"success": False, "stage": "validation_precondition", "terminal": True, "errors": [ValidationIssue(code="VALIDATION_PRECONDITION", message="Finalized graph fingerprint no longer matches the validated extraction", location="ingestionId").model_dump(by_alias=True, exclude_none=True)]}
 
     def invalidate_workspace_gate() -> None:
@@ -890,22 +1005,37 @@ async def ingest_document_end_to_end(
     max_retries_per_batch: int = DEFAULT_MAX_RETRIES_PER_BATCH,
 ) -> dict[str, Any]:
     """Map batches, validate once at the document boundary, then optionally persist."""
+    logger.info(
+        "[PHASE:INGEST_END_TO_END_START] Func: ingest_document_end_to_end | Document: '%s' | Persist: %s | AllowPartial: %s",
+        artifact_name,
+        persist,
+        allow_partial_persistence,
+    )
     begin = await begin_ingestion(artifact_name, tool_context)
     if not begin.get("success"):
+        logger.error(
+            "[INGESTION_ERROR] Document '%s' failed at phase 'begin_ingestion'. Error: %s",
+            artifact_name,
+            begin.get("error"),
+        )
         return {**begin, "terminal": True}
 
     ingestion_id = begin["ingestionId"]
-    ontology_catalog = begin.get("ontologyCatalog", "")
     mapper = _get_semantic_graph_mapper()
     response: dict[str, Any] = begin
 
     while response.get("stage") == "batching":
         batch_payload = response.get("nextBatch")
         if not isinstance(batch_payload, dict):
+            logger.error(
+                "[INGESTION_ERROR] Document '%s' failed at phase 'batching'. Error: nextBatch payload missing",
+                artifact_name,
+            )
             return _terminal_mapping_failure(
                 ingestion_id,
                 -1,
                 "Batching response did not include nextBatch",
+                artifact_name=artifact_name,
             )
         batch_index = int(batch_payload["batchIndex"])
         workspace = _load_workspace(tool_context)
@@ -919,112 +1049,74 @@ async def ingest_document_end_to_end(
         previous_error: dict[str, Any] | None = None
 
         for attempt in range(1, max_retries_per_batch + 1):
+            logger.info(
+                "[PHASE:BATCH_MAPPING_ATTEMPT] Document: '%s' | Batch: %s | Attempt: %s/%s | Chunks: %s",
+                artifact_name,
+                batch_index,
+                attempt,
+                max_retries_per_batch,
+                [c.index for c in chunks],
+            )
             try:
-                mapped = mapper.map_batch(
+                fragment = mapper.map_batch(
                     batch_payload=batch_payload,
-                    ontology_scope=ontology_catalog,
                     chunks=chunks,
                     graph_context=graph_context,
                     previous_error=previous_error,
                 )
             except Exception as exc:
                 if _is_retryable_extraction_error(exc) and attempt < max_retries_per_batch:
-                    extractor_error = _extractor_retry_error(exc)
-                    if (previous_error or {}).get("stage") == "source_fact_coverage":
-                        previous_error = {**previous_error, "extractorError": extractor_error}
-                    else:
-                        previous_error = extractor_error
+                    logger.warning(
+                        "[PHASE:BATCH_MAPPING_RETRY] Document: '%s' | Batch: %s | Attempt: %s/%s | Reason: %s",
+                        artifact_name,
+                        batch_index,
+                        attempt,
+                        max_retries_per_batch,
+                        _orchestration_error_message(exc),
+                    )
+                    previous_error = _extractor_retry_error(exc)
                     continue
+                logger.error(
+                    "[INGESTION_ERROR] Document '%s' failed at phase 'direct_graph_mapping' (batch %s, attempt %s/%s). "
+                    "ErrorKind: %s, Details: %s. Ingestion halted and no graph was persisted.",
+                    artifact_name,
+                    batch_index,
+                    attempt,
+                    max_retries_per_batch,
+                    _orchestration_error_kind(exc),
+                    _orchestration_error_message(exc),
+                    exc_info=True,
+                )
                 return _terminal_mapping_failure(
                     ingestion_id,
                     batch_index,
                     _orchestration_error_message(exc),
                     error_kind=_orchestration_error_kind(exc),
+                    artifact_name=artifact_name,
                 )
-
-            issues: list[ValidationIssue] = []
-            failure_reason = "GRAPH_MAPPING_UNSUPPORTED"
-            if not mapped.source_audit.passed:
-                failure_reason = "SOURCE_FACT_COVERAGE_FAILED"
-                issues = [
-                    ValidationIssue(
-                        code="ORCHESTRATION_FAILED",
-                        message=f"Source fact coverage failed: {item.reason}",
-                        location=f"sourceFactCoverage.{item.chunk_index}",
-                    )
-                    for item in mapped.source_audit.items
-                    if item.status in {"OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"}
-                ]
-                previous_error = {
-                    "stage": "source_fact_coverage",
-                    "coverageFailures": [
-                        {
-                            "chunkIndex": item.chunk_index,
-                            "status": item.status,
-                            "reason": item.reason,
-                            "missingClaims": item.suspected_missing_claims,
-                        }
-                        for item in mapped.source_audit.items
-                        if item.status in {"OMISSION_SUSPECTED", "PARTIAL_OMISSION_SUSPECTED"}
-                    ],
-                }
-            elif not mapped.placement.passed:
-                issues = placement_issues_to_validation(mapped.placement.issues)
-                previous_error = {
-                    "stage": "semantic_placement",
-                    "errors": [
-                        issue.model_dump(by_alias=True, exclude_none=True)
-                        for issue in issues
-                    ],
-                }
-            elif not mapped.completeness.passed:
-                issues = [
-                    ValidationIssue(
-                        code="GRAPH_MAPPING_UNSUPPORTED",
-                        message=f"{item.fact_id}: {item.reason}",
-                        location=f"representationCompleteness.{item.fact_id}",
-                    )
-                    for item in mapped.completeness.items
-                    if item.status != "REPRESENTED"
-                ]
-                previous_error = {
-                    "stage": "representation_completeness",
-                    "errors": [
-                        issue.model_dump(by_alias=True, exclude_none=True)
-                        for issue in issues
-                    ],
-                }
-
-            if issues:
-                if attempt < max_retries_per_batch:
-                    continue
-                return {
-                    "success": False,
-                    "stage": "explicit_extraction_failure",
-                    "terminal": True,
-                    "ingestionId": ingestion_id,
-                    "batchIndex": batch_index,
-                    "failureReason": failure_reason,
-                    "errors": [
-                        issue.model_dump(by_alias=True, exclude_none=True)
-                        for issue in issues
-                    ],
-                }
 
             response = submit_ingestion_batch(
                 ingestion_id,
                 batch_index,
-                mapped.fragment,
+                fragment,
                 tool_context,
             )
             if response.get("success"):
-                mapper.clear_batch(batch_index)
                 break
             previous_error = {
                 "stage": "batch_validation",
                 "errors": response.get("errors", []),
+                "repairInstructions": "Return a replacement fragment for the same batch that resolves the merge conflict.",
             }
             if attempt == max_retries_per_batch:
+                logger.error(
+                    "[INGESTION_ERROR] Document '%s' failed at phase 'batch_validation' (batch %s). "
+                    "Batch conflict could not be resolved after %s retries. Errors: %s",
+                    artifact_name,
+                    batch_index,
+                    max_retries_per_batch,
+                    response.get("errors"),
+                )
                 return {
                     **response,
                     "stage": "explicit_extraction_failure",
@@ -1032,12 +1124,24 @@ async def ingest_document_end_to_end(
                     "failureReason": "BATCH_CONFLICT",
                 }
         else:
+            logger.error(
+                "[INGESTION_ERROR] Document '%s' failed at phase 'direct_graph_mapping' (batch %s). "
+                "Retries exhausted without producing a valid fragment.",
+                artifact_name,
+                batch_index,
+            )
             return _terminal_mapping_failure(
                 ingestion_id,
                 batch_index,
-                "Semantic mapping retries exhausted",
+                "Direct graph mapping retries exhausted",
+                artifact_name=artifact_name,
             )
 
+    logger.info(
+        "[PHASE:FINALIZE_START] Document: '%s' | IngestionID: %s",
+        artifact_name,
+        ingestion_id,
+    )
     finalized = finalize_ingestion(ingestion_id, tool_context)
     partial_override = bool(
         persist
@@ -1046,8 +1150,19 @@ async def ingest_document_end_to_end(
         and finalized.get("validForExtraction") is True
     )
     if finalized.get("stage") != "ready_to_fill" and not partial_override:
+        logger.error(
+            "[INGESTION_ERROR] Document '%s' failed at phase 'finalize_ingestion' (stage='%s'). "
+            "Merged graph patch rejected at readiness gate. Details: %s",
+            artifact_name,
+            finalized.get("stage"),
+            finalized.get("errors") or finalized.get("validation"),
+        )
         return {**finalized, "terminal": True}
     if not persist:
+        logger.info(
+            "[PHASE:FINALIZE_SUCCESS] Document '%s' finalized successfully (dry-run, persist=False).",
+            artifact_name,
+        )
         return {
             **finalized,
             "stage": "ready_to_fill",
@@ -1055,17 +1170,42 @@ async def ingest_document_end_to_end(
             "persisted": False,
         }
 
+    logger.info(
+        "[PHASE:FILL_START] Document '%s' | IngestionID: %s | PartialOverride: %s",
+        artifact_name,
+        ingestion_id,
+        partial_override,
+    )
     filled = await fill_ingestion(
         ingestion_id,
         tool_context,
         allow_partial_persistence=partial_override,
     )
     workspace = _load_workspace(tool_context)
+    stats = _workspace_stats(workspace) if workspace else {}
+    if not filled.get("success"):
+        logger.error(
+            "[INGESTION_ERROR] Document '%s' failed at phase 'fill_ingestion'. "
+            "Graph persistence to Neo4j database failed. Details: %s",
+            artifact_name,
+            filled,
+        )
+    else:
+        logger.info(
+            "[PHASE:INGEST_END_TO_END_SUCCESS] Document '%s' successfully ingested and persisted. "
+            "IngestionID: %s | Nodes: %s | Edges: %s | CommitStatus: %s",
+            artifact_name,
+            ingestion_id,
+            filled.get("nodes"),
+            filled.get("edges"),
+            filled.get("commitStatus"),
+        )
+
     return {
         **filled,
         "terminal": True,
         "ingestionId": ingestion_id,
-        "workspaceStats": _workspace_stats(workspace) if workspace else {},
+        "workspaceStats": stats,
     }
 
 
@@ -1075,11 +1215,23 @@ def _terminal_mapping_failure(
     message: str,
     *,
     error_kind: str = "llm_extraction",
+    artifact_name: str | None = None,
 ) -> dict[str, Any]:
     issue = ValidationIssue(
         code="ORCHESTRATION_FAILED",
         message=message,
         location=f"batches.{batch_index}.extract",
+    )
+    doc_info = f"'{artifact_name}' " if artifact_name else ""
+    logger.error(
+        "[INGESTION_ERROR] Phase: DIRECT_GRAPH_MAPPING | Func: _terminal_mapping_failure | "
+        "Document: %s | IngestionID: %s | Batch: %s | Stage: explicit_extraction_failure | "
+        "ErrorKind: %s | Error: %s | Result: Extraction halted, no graph persisted.",
+        doc_info.strip(),
+        ingestion_id,
+        batch_index,
+        error_kind,
+        message,
     )
     return {
         "success": False,

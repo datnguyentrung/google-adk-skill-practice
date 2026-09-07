@@ -1,0 +1,247 @@
+{
+  "0": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "",
+      "previous_error": null,
+      "stats": {
+        "nodes": 2,
+        "edges": 1,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b0__prod_flexi_rewards",
+            "className": "pskg:BankingProduct",
+            "properties": [
+              {
+                "propertyName": "pskg:productCode",
+                "value": "CC-FLEXI-001",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "| Product Code | CC-FLEXI-001 |"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:bankingProductName",
+                "value": "Flexi Rewards Credit Card",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "Flexi Rewards Credit Card"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:bankingProductEffectiveFrom",
+                "value": "2026-08-01",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "| Effective Date | 01/08/2026 |"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:bankingProductVersionNumber",
+                "value": "1.1",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "| Version | 1.1 |"
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 1,
+                "section": "1. Document Information",
+                "text": "Flexi Rewards Credit Card Product Business Guide"
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b0__rule_pol_cc_2026_03",
+            "className": "pskg:BusinessRule",
+            "properties": [],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 1,
+                "section": "1. Document Information",
+                "text": "| Applicable Policy | POL-CC-2026-03 |"
+              }
+            ],
+            "confidence": 0.9
+          }
+        ],
+        "edges": [
+          {
+            "edgeName": "pskg:hasEligibilityRule",
+            "sourceTempId": "b0__prod_flexi_rewards",
+            "targetTempId": "b0__rule_pol_cc_2026_03",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 1,
+                "section": "1. Document Information",
+                "text": "| Applicable Policy | POL-CC-2026-03 |"
+              }
+            ],
+            "confidence": 0.9
+          }
+        ],
+        "coverage": [
+          {
+            "chunkIndex": 0,
+            "decision": "AMBIGUOUS",
+            "reason": "Mapper marked MAPPED but emitted no graph evidence for this chunk"
+          },
+          {
+            "chunkIndex": 1,
+            "decision": "MAPPED",
+            "reason": "Core product and policy definitions."
+          },
+          {
+            "chunkIndex": 2,
+            "decision": "AMBIGUOUS",
+            "reason": "Mapper marked MAPPED but emitted no graph evidence for this chunk"
+          },
+          {
+            "chunkIndex": 3,
+            "decision": "AMBIGUOUS",
+            "reason": "Mapper marked MAPPED but emitted no graph evidence for this chunk"
+          },
+          {
+            "chunkIndex": 4,
+            "decision": "NOT_RELEVANT",
+            "reason": "Definition of a different product type (Debit Card) not relevant to the Flexi Rewards Credit Card."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ],
+  "1": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "Existing canonical graph:\nNodes:\n- ref=b0__prod_flexi_rewards\n  class=pskg:BankingProduct\n  identity={\"pskg:bankingProductEffectiveFrom\": \"2026-08-01\", \"pskg:bankingProductName\": \"Flexi Rewards Credit Card\", \"pskg:bankingProductVersionNumber\": \"1.1\", \"pskg:productCode\": \"CC-FLEXI-001\"}\n- ref=b0__rule_pol_cc_2026_03\n  class=pskg:BusinessRule\n  identity={}\nExisting edges:\n- pskg:hasEligibilityRule: b0__prod_flexi_rewards -> b0__rule_pol_cc_2026_03",
+      "previous_error": {
+        "stage": "direct_graph_mapping",
+        "errorKind": "llm_mapping",
+        "message": "Direct graph fragment failed deterministic validation",
+        "validation": {
+          "errors": [
+            {
+              "code": "EVIDENCE_NOT_VERBATIM",
+              "location": "nodes.0.evidence",
+              "message": "evidence.text is not an exact substring of the cited chunk"
+            },
+            {
+              "code": "EVIDENCE_NOT_VERBATIM",
+              "location": "nodes.0.properties.0.evidence",
+              "message": "evidence.text is not an exact substring of the cited chunk"
+            },
+            {
+              "code": "SOURCE_LITERAL_NOT_GROUNDED",
+              "location": "nodes.0.properties.0",
+              "message": "pskg:productAttributes is source_literal but its value is not a literal/datatype match for the cited evidence"
+            }
+          ]
+        },
+        "repairInstructions": "Return one GraphPatchFragment using only the supplied ontology technical names. Correct the reported schema, ontology, edge-direction, coverage, or evidence defects."
+      },
+      "stats": {
+        "nodes": 1,
+        "edges": 0,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b0__prod_flexi_rewards",
+            "className": "pskg:BankingProduct",
+            "properties": [
+              {
+                "propertyName": "pskg:productCode",
+                "value": "CC-FLEXI-001",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 6,
+                    "section": "3. Key Card Features",
+                    "text": "| Product Code | CC-FLEXI-001 |"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:bankingProductName",
+                "value": "Flexi Rewards",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 6,
+                    "section": "3. Key Card Features",
+                    "text": "| Product Name | Flexi Rewards |"
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 6,
+                "section": "3. Key Card Features",
+                "text": "| Product Name | Flexi Rewards |"
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "edges": [],
+        "coverage": [
+          {
+            "chunkIndex": 5,
+            "decision": "NOT_RELEVANT",
+            "reason": "General guidance on credit card usage, no specific product entity or attribute to map."
+          },
+          {
+            "chunkIndex": 6,
+            "decision": "MAPPED",
+            "reason": "Mapped product name and code to the existing BankingProduct entity."
+          },
+          {
+            "chunkIndex": 7,
+            "decision": "NOT_RELEVANT",
+            "reason": "General principles for credit limit determination, not specific to a single product instance."
+          },
+          {
+            "chunkIndex": 8,
+            "decision": "NOT_RELEVANT",
+            "reason": "Example calculation of credit limit, not a structural product fact."
+          },
+          {
+            "chunkIndex": 9,
+            "decision": "NOT_RELEVANT",
+            "reason": "General policy on credit limit adjustments, not specific to a single product instance."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ]
+}

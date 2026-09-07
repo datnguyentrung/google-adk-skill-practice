@@ -295,22 +295,12 @@ class IngestionWorkspaceService:
             for fragment in fragments
             for node in fragment.nodes
         ]
-        identity_keys_by_class: dict[str, set[tuple[str, str, str]]] = {}
-        for node in incoming_nodes:
-            identity_key = cls._node_identity_key(node)
-            if identity_key is not None:
-                identity_keys_by_class.setdefault(node.class_name, set()).add(identity_key)
-
         # Canonical identities are merged first so later anonymous references can
         # resolve to the sole identified entity of the same class without guessing.
         incoming_nodes.sort(key=lambda node: cls._node_identity_key(node) is None)
         for incoming in incoming_nodes:
             original_temp_id = incoming.temp_id
-            canonical_temp_id = cls._canonical_temp_id(
-                incoming,
-                merged,
-                identity_keys_by_class,
-            )
+            canonical_temp_id = cls._canonical_temp_id(incoming, merged)
             temp_id_aliases[original_temp_id] = canonical_temp_id
             if canonical_temp_id != incoming.temp_id:
                 incoming.temp_id = canonical_temp_id
@@ -399,7 +389,6 @@ class IngestionWorkspaceService:
         cls,
         incoming: ExtractedNode,
         merged: dict[str, ExtractedNode],
-        identity_keys_by_class: dict[str, set[tuple[str, str, str]]],
     ) -> str:
         identity_key = cls._node_identity_key(incoming)
         for existing in merged.values():
@@ -407,15 +396,6 @@ class IngestionWorkspaceService:
                 continue
             if identity_key is not None and identity_key == cls._node_identity_key(existing):
                 return existing.temp_id
-
-        # Anonymous references can resolve only when the document contains one
-        # unambiguous natural-key identity for this ontology class.
-        known_keys = identity_keys_by_class.get(incoming.class_name, set())
-        if identity_key is None and len(known_keys) == 1:
-            sole_key = next(iter(known_keys))
-            for existing in merged.values():
-                if cls._node_identity_key(existing) == sole_key:
-                    return existing.temp_id
         return incoming.temp_id
 
     @classmethod
