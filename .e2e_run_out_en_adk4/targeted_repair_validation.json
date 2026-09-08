@@ -1,9 +1,0 @@
-{
-  "validForExtraction": true,
-  "validForPersistence": true,
-  "errors": [],
-  "readinessIssues": [],
-  "warnings": [],
-  "nodeCount": 33,
-  "edgeCount": 32
-}
