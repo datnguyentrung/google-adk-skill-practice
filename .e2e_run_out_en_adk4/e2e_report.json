@@ -1,0 +1,69 @@
+{
+  "success": false,
+  "stage": "validation",
+  "terminal": true,
+  "ingestionId": "f0fcf9dd7741f37f23ae55137c40390352bf5a98ded49847d193c63582b57181",
+  "failureReason": null,
+  "batchIndex": null,
+  "processedBatchesAtFailure": null,
+  "processedBatches": 19,
+  "totalBatches": 19,
+  "documentChunks": 94,
+  "candidateNodes": 49,
+  "candidateEdges": 30,
+  "skippedChunks": null,
+  "finalReadinessIssues": [],
+  "readinessErrorsEmpty": true,
+  "validForPersistence": false,
+  "compiledNodes": 31,
+  "compiledEdges": 30,
+  "persistedNodes": null,
+  "persistedEdges": null,
+  "labelDistribution": null,
+  "relationshipTypeDistribution": null,
+  "commitStatus": null,
+  "verificationStatus": null,
+  "mismatchCount": null,
+  "artifactName": null,
+  "artifactVersion": null,
+  "partialPersistence": null,
+  "persistenceMode": null,
+  "readinessIssuesIgnored": null,
+  "ingestionWarnings": null,
+  "errorSummary": null,
+  "errors": [
+    {
+      "code": "COVERAGE_NOT_EVIDENCED",
+      "message": "Chunk 7 is marked UNSUPPORTED_BY_ONTOLOGY; the extraction is not semantically complete",
+      "location": "coverage.7"
+    },
+    {
+      "code": "COVERAGE_NOT_EVIDENCED",
+      "message": "Chunk 9 is marked UNSUPPORTED_BY_ONTOLOGY; the extraction is not semantically complete",
+      "location": "coverage.9"
+    },
+    {
+      "code": "COVERAGE_NOT_EVIDENCED",
+      "message": "Chunk 15 is marked UNSUPPORTED_BY_ONTOLOGY; the extraction is not semantically complete",
+      "location": "coverage.15"
+    },
+    {
+      "code": "COVERAGE_NOT_EVIDENCED",
+      "message": "Chunk 18 is marked UNSUPPORTED_BY_ONTOLOGY; the extraction is not semantically complete",
+      "location": "coverage.18"
+    },
+    {
+      "code": "COVERAGE_NOT_EVIDENCED",
+      "message": "Chunk 19 is marked UNSUPPORTED_BY_ONTOLOGY; the extraction is not semantically complete",
+      "location": "coverage.19"
+    },
+    {
+      "code": "COVERAGE_NOT_EVIDENCED",
+      "message": "Chunk 73 is marked UNSUPPORTED_BY_ONTOLOGY; the extraction is not semantically complete",
+      "location": "coverage.73"
+    }
+  ],
+  "affectedChunkIndexes": null,
+  "nextAction": null,
+  "retryRequired": null
+}

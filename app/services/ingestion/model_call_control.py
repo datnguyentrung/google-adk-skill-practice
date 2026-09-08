@@ -24,6 +24,14 @@ DEFAULT_MODEL_RPM_BUDGET = max(
 DEFAULT_MODEL_RETRY_ATTEMPTS = max(
     1, int(os.getenv("INGESTION_MODEL_RETRY_ATTEMPTS", "4"))
 )
+DEFAULT_MODEL_THINKING_LEVEL = os.getenv("INGESTION_MODEL_THINKING_LEVEL", "MEDIUM")
+
+
+class StructuredModelOutputError(RuntimeError):
+    """Model call completed but did not yield valid structured JSON."""
+
+    retryable = True
+    error_kind = "llm_output"
 
 
 class StageLocalModelCallExhausted(RuntimeError):
@@ -87,6 +95,15 @@ def _is_transport_exhaustion(exc: Exception) -> bool:
 def _agent_name(operation: str) -> str:
     safe = re.sub(r"[^a-zA-Z0-9_]", "_", operation).strip("_")
     return f"ingestion_{safe or 'structured_call'}"
+
+
+def _generate_content_config() -> types.GenerateContentConfig:
+    return types.GenerateContentConfig(
+        temperature=0,
+        thinking_config=types.ThinkingConfig(
+            thinking_level=DEFAULT_MODEL_THINKING_LEVEL,
+        ),
+    )
 
 
 def _await_sync(coro):
@@ -165,6 +182,9 @@ class AdkStructuredCallExecutor:
             llm_request.config.response_mime_type = "application/json"
             llm_request.config.response_json_schema = output_schema
             llm_request.config.temperature = 0
+            llm_request.config.thinking_config = types.ThinkingConfig(
+                thinking_level=DEFAULT_MODEL_THINKING_LEVEL,
+            )
             return None
 
         agent = Agent(
@@ -174,7 +194,7 @@ class AdkStructuredCallExecutor:
             output_key=output_key,
             include_contents="none",
             before_model_callback=apply_json_schema,
-            generate_content_config=types.GenerateContentConfig(temperature=0),
+            generate_content_config=_generate_content_config(),
         )
         runner = self.runner_factory(
             agent=agent,
@@ -222,16 +242,26 @@ class AdkStructuredCallExecutor:
             raise
         finally:
             _await_sync(runner.close())
-        if result is not None:
-            return json.loads(result) if isinstance(result, str) else result
-        if final_text.strip():
-            return json.loads(final_text)
-        raise RuntimeError(f"ADK agent returned no structured output for {operation}")
+        try:
+            if result is not None:
+                return json.loads(result) if isinstance(result, str) else result
+            if final_text.strip():
+                return json.loads(final_text)
+        except (json.JSONDecodeError, TypeError, ValueError) as exc:
+            raise StructuredModelOutputError(
+                f"ADK agent returned invalid structured output for {operation}"
+            ) from exc
+        raise StructuredModelOutputError(
+            f"ADK agent returned no structured output for {operation}"
+        )
 
 
 __all__ = [
     "AdkStructuredCallExecutor",
     "DEFAULT_MODEL_RPM_BUDGET",
+    "DEFAULT_MODEL_THINKING_LEVEL",
     "ModelRequestPacer",
     "StageLocalModelCallExhausted",
+    "StructuredModelOutputError",
 ]
+

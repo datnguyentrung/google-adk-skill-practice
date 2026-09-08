@@ -1,0 +1,1700 @@
+{
+  "0": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "",
+      "previous_error": null,
+      "stats": {
+        "nodes": 2,
+        "edges": 1,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b0__product_flexi_rewards",
+            "className": "pskg:BankingProduct",
+            "properties": [
+              {
+                "propertyName": "pskg:productCode",
+                "value": "CC-FLEXI-001",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "| Product Code | CC-FLEXI-001 |"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:bankingProductName",
+                "value": "Flexi Rewards Credit Card",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "Flexi Rewards Credit Card"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:bankingProductEffectiveFrom",
+                "value": "2026-08-01",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "| Effective Date | 01/08/2026 |"
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 1,
+                "section": "1. Document Information",
+                "text": "Flexi Rewards Credit Card"
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b0__rule_pol_cc_2026_03",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "POL-CC-2026-03",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "| Applicable Policy | POL-CC-2026-03 |"
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 1,
+                "section": "1. Document Information",
+                "text": "| Applicable Policy | POL-CC-2026-03 |"
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "edges": [
+          {
+            "edgeName": "pskg:hasEligibilityRule",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b0__rule_pol_cc_2026_03",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 1,
+                "section": "1. Document Information",
+                "text": "| Applicable Policy | POL-CC-2026-03 |"
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "coverage": [
+          {
+            "chunkIndex": 0,
+            "decision": "NOT_RELEVANT",
+            "reason": "Contains internal scope, issuing unit, and document classification headers without specific product entity data."
+          },
+          {
+            "chunkIndex": 1,
+            "decision": "MAPPED",
+            "reason": "Contains document information, product code, effective date, and policy details for the Flexi Rewards Credit Card."
+          },
+          {
+            "chunkIndex": 2,
+            "decision": "AMBIGUOUS",
+            "reason": "Mapper marked MAPPED but emitted no graph evidence for this chunk"
+          },
+          {
+            "chunkIndex": 3,
+            "decision": "AMBIGUOUS",
+            "reason": "Mapper marked MAPPED but emitted no graph evidence for this chunk"
+          },
+          {
+            "chunkIndex": 4,
+            "decision": "NOT_RELEVANT",
+            "reason": "Provides a contrasting description of a debit card which is not the main product being cataloged."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ],
+  "1": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "Existing canonical graph:\nNodes:\n- ref=b0__product_flexi_rewards\n  class=pskg:BankingProduct\n  identity={\"pskg:bankingProductEffectiveFrom\": \"2026-08-01\", \"pskg:bankingProductName\": \"Flexi Rewards Credit Card\", \"pskg:productCode\": \"CC-FLEXI-001\"}\n- ref=b0__rule_pol_cc_2026_03\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"POL-CC-2026-03\"}\nExisting edges:\n- pskg:hasEligibilityRule: b0__product_flexi_rewards -> b0__rule_pol_cc_2026_03",
+      "previous_error": null,
+      "stats": {
+        "nodes": 4,
+        "edges": 3,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b1__rule_min_payment",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "5% of total statement balance, minimum 200,000 VND",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 6,
+                    "section": "3. Key Card Features",
+                    "text": "5% of total statement balance, minimum 200,000 VND"
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 6,
+                "section": "3. Key Card Features",
+                "text": "5% of total statement balance, minimum 200,000 VND"
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b1__rule_limit_determination",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "The credit limit is determined by the bank based on a comprehensive credit assessment.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 7,
+                    "section": "4.1. Principles for Determining the Credit Limit",
+                    "text": "The credit limit is determined by the bank based on a comprehensive credit assessment."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 7,
+                "section": "4.1. Principles for Determining the Credit Limit",
+                "text": "The credit limit is determined by the bank based on a comprehensive credit assessment."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b1__rule_limit_adjustment",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "The bank may consider increasing or decreasing the credit limit during the period of card use.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 9,
+                    "section": "4.3. Credit Limit Adjustment",
+                    "text": "The bank may consider increasing or decreasing the credit limit during the period of card use."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 9,
+                "section": "4.3. Credit Limit Adjustment",
+                "text": "The bank may consider increasing or decreasing the credit limit during the period of card use."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b0__product_flexi_rewards",
+            "className": "pskg:BankingProduct",
+            "properties": [],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 6,
+                "section": "3. Key Card Features",
+                "text": "5% of total statement balance, minimum 200,000 VND"
+              }
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "edges": [
+          {
+            "edgeName": "pskg:hasSalesConditionRule",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b1__rule_min_payment",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 6,
+                "section": "3. Key Card Features",
+                "text": "5% of total statement balance, minimum 200,000 VND"
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:governedByPolicy",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b1__rule_limit_determination",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 7,
+                "section": "4.1. Principles for Determining the Credit Limit",
+                "text": "The credit limit is determined by the bank based on a comprehensive credit assessment."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:governedByPolicy",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b1__rule_limit_adjustment",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 9,
+                "section": "4.3. Credit Limit Adjustment",
+                "text": "The bank may consider increasing or decreasing the credit limit during the period of card use."
+              }
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "coverage": [
+          {
+            "chunkIndex": 5,
+            "decision": "NOT_RELEVANT",
+            "reason": "General introductory text describing credit card usage concept rather than a formal rule or structural fact."
+          },
+          {
+            "chunkIndex": 6,
+            "decision": "MAPPED",
+            "reason": "Contains key card features and minimum payment sales condition rules."
+          },
+          {
+            "chunkIndex": 7,
+            "decision": "MAPPED",
+            "reason": "Contains principles and policies governing credit limit determination."
+          },
+          {
+            "chunkIndex": 8,
+            "decision": "NOT_RELEVANT",
+            "reason": "Provides an illustrative calculation example of available credit limit."
+          },
+          {
+            "chunkIndex": 9,
+            "decision": "MAPPED",
+            "reason": "Contains rules and policies governing credit limit adjustments."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ],
+  "2": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "Existing canonical graph:\nNodes:\n- ref=b0__product_flexi_rewards\n  class=pskg:BankingProduct\n  identity={\"pskg:bankingProductEffectiveFrom\": \"2026-08-01\", \"pskg:bankingProductName\": \"Flexi Rewards Credit Card\", \"pskg:productCode\": \"CC-FLEXI-001\"}\n- ref=b0__rule_pol_cc_2026_03\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"POL-CC-2026-03\"}\n- ref=b1__rule_min_payment\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"5% of total statement balance, minimum 200,000 VND\"}\n- ref=b1__rule_limit_determination\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The credit limit is determined by the bank based on a comprehensive credit assessment.\"}\n- ref=b1__rule_limit_adjustment\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The bank may consider increasing or decreasing the credit limit during the period of card use.\"}\nExisting edges:\n- pskg:hasEligibilityRule: b0__product_flexi_rewards -> b0__rule_pol_cc_2026_03\n- pskg:hasSalesConditionRule: b0__product_flexi_rewards -> b1__rule_min_payment\n- pskg:governedByPolicy: b0__product_flexi_rewards -> b1__rule_limit_determination\n- pskg:governedByPolicy: b0__product_flexi_rewards -> b1__rule_limit_adjustment",
+      "previous_error": null,
+      "stats": {
+        "nodes": 10,
+        "edges": 9,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b2__rule_eligibility_age",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "At least 20 years old at the time of application.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 10,
+                    "section": "5.1. Conditions for Accepting an Application",
+                    "text": "At least 20 years old at the time of application."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 10,
+                "section": "5.1. Conditions for Accepting an Application",
+                "text": "At least 20 years old at the time of application."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b2__rule_approval_policy",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "The fact that a customer:\n\n- Earns more than 10 million VND.\n- Meets the age requirement.\n- Has an employment contract.\n- Has a salary account.\n\ndoes not mean the customer will definitely be issued a card.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 11,
+                    "section": "5.2. Meeting Initial Conditions Does Not Mean Approval",
+                    "text": "The fact that a customer:\n\n- Earns more than 10 million VND.\n- Meets the age requirement.\n- Has an employment contract.\n- Has a salary account.\n\ndoes not mean the customer will definitely be issued a card."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 11,
+                "section": "5.2. Meeting Initial Conditions Does Not Mean Approval",
+                "text": "The fact that a customer:\n\n- Earns more than 10 million VND.\n- Meets the age requirement.\n- Has an employment contract.\n- Has a salary account.\n\ndoes not mean the customer will definitely be issued a card."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b2__rule_additional_appraisal",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "Some cases may require deeper review:\n\n- Customers with multiple loans.\n- Customers with multiple credit cards at other institutions.\n- Existing card limits that are high relative to income.\n- Customers using a large portion of their existing credit limit.\n- History of late payments.\n- Income from multiple sources.\n- Highly variable income.\n- Self-employed customers.\n- Employment or residence information that is difficult to verify.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 12,
+                    "section": "5.3. Cases Requiring Additional Appraisal",
+                    "text": "Some cases may require deeper review:\n\n- Customers with multiple loans.\n- Customers with multiple credit cards at other institutions.\n- Existing card limits that are high relative to income.\n- Customers using a large portion of their existing credit limit.\n- History of late payments.\n- Income from multiple sources.\n- Highly variable income.\n- Self-employed customers.\n- Employment or residence information that is difficult to verify."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 12,
+                "section": "5.3. Cases Requiring Additional Appraisal",
+                "text": "Some cases may require deeper review:\n\n- Customers with multiple loans.\n- Customers with multiple credit cards at other institutions.\n- Existing card limits that are high relative to income.\n- Customers using a large portion of their existing credit limit.\n- History of late payments.\n- Income from multiple sources.\n- Highly variable income.\n- Self-employed customers.\n- Employment or residence information that is difficult to verify."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b2__doc_citizen_id",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Citizen ID card or other valid identification document.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 13,
+                    "section": "6.1. Personal Identification Documents",
+                    "text": "Citizen ID card or other valid identification document."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 13,
+                "section": "6.1. Personal Identification Documents",
+                "text": "Citizen ID card or other valid identification document."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b2__doc_residence",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Residence information",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 13,
+                    "section": "6.1. Personal Identification Documents",
+                    "text": "Residence information"
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 13,
+                "section": "6.1. Personal Identification Documents",
+                "text": "Residence information"
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b2__doc_employment_contract",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Employment contract",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 14,
+                    "section": "Salaried Customers",
+                    "text": "Employment contract"
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 14,
+                "section": "Salaried Customers",
+                "text": "Employment contract"
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b2__doc_salary_statements",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Salary account statements for the most recent 3–6 months.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 14,
+                    "section": "Salaried Customers",
+                    "text": "Salary account statements for the most recent 3–6 months."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 14,
+                "section": "Salaried Customers",
+                "text": "Salary account statements for the most recent 3–6 months."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b2__doc_income_confirmation",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Income confirmation, if required.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 14,
+                    "section": "Salaried Customers",
+                    "text": "Income confirmation, if required."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 14,
+                "section": "Salaried Customers",
+                "text": "Income confirmation, if required."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b2__doc_job_proof",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Documents proving job position or length of employment.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 14,
+                    "section": "Salaried Customers",
+                    "text": "Documents proving job position or length of employment."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 14,
+                "section": "Salaried Customers",
+                "text": "Documents proving job position or length of employment."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b0__product_flexi_rewards",
+            "className": "pskg:BankingProduct",
+            "properties": [],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 10,
+                "section": "5.1. Conditions for Accepting an Application",
+                "text": "At least 20 years old at the time of application."
+              }
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "edges": [
+          {
+            "edgeName": "pskg:hasEligibilityRule",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b2__rule_eligibility_age",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 10,
+                "section": "5.1. Conditions for Accepting an Application",
+                "text": "At least 20 years old at the time of application."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:governedByPolicy",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b2__rule_approval_policy",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 11,
+                "section": "5.2. Meeting Initial Conditions Does Not Mean Approval",
+                "text": "The fact that a customer:\n\n- Earns more than 10 million VND.\n- Meets the age requirement.\n- Has an employment contract.\n- Has a salary account.\n\ndoes not mean the customer will definitely be issued a card."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:governedByPolicy",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b2__rule_additional_appraisal",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 12,
+                "section": "5.3. Cases Requiring Additional Appraisal",
+                "text": "Some cases may require deeper review:\n\n- Customers with multiple loans.\n- Customers with multiple credit cards at other institutions.\n- Existing card limits that are high relative to income.\n- Customers using a large portion of their existing credit limit.\n- History of late payments.\n- Income from multiple sources.\n- Highly variable income.\n- Self-employed customers.\n- Employment or residence information that is difficult to verify."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b2__doc_citizen_id",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 13,
+                "section": "6.1. Personal Identification Documents",
+                "text": "Citizen ID card or other valid identification document."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b2__doc_residence",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 13,
+                "section": "6.1. Personal Identification Documents",
+                "text": "Residence information"
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b2__doc_employment_contract",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 14,
+                "section": "Salaried Customers",
+                "text": "Employment contract"
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b2__doc_salary_statements",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 14,
+                "section": "Salaried Customers",
+                "text": "Salary account statements for the most recent 3–6 months."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b2__doc_income_confirmation",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 14,
+                "section": "Salaried Customers",
+                "text": "Income confirmation, if required."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b2__doc_job_proof",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 14,
+                "section": "Salaried Customers",
+                "text": "Documents proving job position or length of employment."
+              }
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "coverage": [
+          {
+            "chunkIndex": 10,
+            "decision": "MAPPED",
+            "reason": "Mapped application condition to eligibility business rule."
+          },
+          {
+            "chunkIndex": 11,
+            "decision": "MAPPED",
+            "reason": "Mapped approval policy and assessment criteria to business rule."
+          },
+          {
+            "chunkIndex": 12,
+            "decision": "MAPPED",
+            "reason": "Mapped appraisal conditions to business rule."
+          },
+          {
+            "chunkIndex": 13,
+            "decision": "MAPPED",
+            "reason": "Mapped personal identification documents to required document nodes."
+          },
+          {
+            "chunkIndex": 14,
+            "decision": "MAPPED",
+            "reason": "Mapped salaried customer documents to required document nodes."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ],
+  "3": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "Existing canonical graph:\nNodes:\n- ref=b0__product_flexi_rewards\n  class=pskg:BankingProduct\n  identity={\"pskg:bankingProductEffectiveFrom\": \"2026-08-01\", \"pskg:bankingProductName\": \"Flexi Rewards Credit Card\", \"pskg:productCode\": \"CC-FLEXI-001\"}\n- ref=b0__rule_pol_cc_2026_03\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"POL-CC-2026-03\"}\n- ref=b1__rule_min_payment\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"5% of total statement balance, minimum 200,000 VND\"}\n- ref=b1__rule_limit_determination\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The credit limit is determined by the bank based on a comprehensive credit assessment.\"}\n- ref=b1__rule_limit_adjustment\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The bank may consider increasing or decreasing the credit limit during the period of card use.\"}\n- ref=b2__rule_eligibility_age\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"At least 20 years old at the time of application.\"}\n- ref=b2__rule_approval_policy\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The fact that a customer:\\n\\n- Earns more than 10 million VND.\\n- Meets the age requirement.\\n- Has an employment contract.\\n- Has a salary account.\\n\\ndoes not mean the customer will definitely be issued a card.\"}\n- ref=b2__rule_additional_appraisal\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"Some cases may require deeper review:\\n\\n- Customers with multiple loans.\\n- Customers with multiple credit cards at other institutions.\\n- Existing card limits that are high relative to income.\\n- Customers using a large portion of their existing credit limit.\\n- History of late payments.\\n- Income from multiple sources.\\n- Highly variable income.\\n- Self-employed customers.\\n- Employment or residence information that is difficult to verify.\"}\n- ref=b2__doc_citizen_id\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Citizen ID card or other valid identification document.\"}\n- ref=b2__doc_residence\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Residence information\"}\n- ref=b2__doc_employment_contract\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Employment contract\"}\n- ref=b2__doc_salary_statements\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Salary account statements for the most recent 3–6 months.\"}\n- ref=b2__doc_income_confirmation\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Income confirmation, if required.\"}\n- ref=b2__doc_job_proof\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Documents proving job position or length of employment.\"}\nExisting edges:\n- pskg:hasEligibilityRule: b0__product_flexi_rewards -> b0__rule_pol_cc_2026_03\n- pskg:hasSalesConditionRule: b0__product_flexi_rewards -> b1__rule_min_payment\n- pskg:governedByPolicy: b0__product_flexi_rewards -> b1__rule_limit_determination\n- pskg:governedByPolicy: b0__product_flexi_rewards -> b1__rule_limit_adjustment\n- pskg:hasEligibilityRule: b0__product_flexi_rewards -> b2__rule_eligibility_age\n- pskg:governedByPolicy: b0__product_flexi_rewards -> b2__rule_approval_policy\n- pskg:governedByPolicy: b0__product_flexi_rewards -> b2__rule_additional_appraisal\n- pskg:requiresDocument: b0__product_flexi_rewards -> b2__doc_citizen_id\n- pskg:requiresDocument: b0__product_flexi_rewards -> b2__doc_residence\n- pskg:requiresDocument: b0__product_flexi_rewards -> b2__doc_employment_contract\n- pskg:requiresDocument: b0__product_flexi_rewards -> b2__doc_salary_statements\n- pskg:requiresDocument: b0__product_flexi_rewards -> b2__doc_income_confirmation\n- pskg:requiresDocument: b0__product_flexi_rewards -> b2__doc_job_proof",
+      "previous_error": null,
+      "stats": {
+        "nodes": 9,
+        "edges": 8,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b3__rule_income_recognition",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "Not every source of income declared by the customer will necessarily be fully recognized by the bank when assessing financial capacity.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 15,
+                    "section": "Customers with Special Sources of Income",
+                    "text": "Not every source of income declared by the customer will necessarily be fully recognized by the bank when assessing financial capacity."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "Not every source of income declared by the customer will necessarily be fully recognized by the bank when assessing financial capacity."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b3__doc_business_documents",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Business documents.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 15,
+                    "section": "Customers with Special Sources of Income",
+                    "text": "- Business documents."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "- Business documents."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b3__doc_rental_contracts",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Rental contracts.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 15,
+                    "section": "Customers with Special Sources of Income",
+                    "text": "- Rental contracts."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "- Rental contracts."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b3__doc_tax_documents",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Tax documents.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 15,
+                    "section": "Customers with Special Sources of Income",
+                    "text": "- Tax documents."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "- Tax documents."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b3__rule_fee_schedule",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "Initial issuance fee | Free",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 16,
+                    "section": "7.1. Basic Fee Schedule",
+                    "text": "| Initial issuance fee | Free |"
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 16,
+                "section": "7.1. Basic Fee Schedule",
+                "text": "| Initial issuance fee | Free |"
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b3__rule_interest_rate",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "32%/year.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 17,
+                    "section": "7.2. Credit Card Interest Rate",
+                    "text": "32%/year."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 17,
+                "section": "7.2. Credit Card Interest Rate",
+                "text": "32%/year."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b3__rule_statement_date",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "The 20th of each month.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 18,
+                    "section": "8.1. Statement Cycle",
+                    "text": "The 20th of each month."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 18,
+                "section": "8.1. Statement Cycle",
+                "text": "The 20th of each month."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b3__rule_statement_contents",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "Total statement balance.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 19,
+                    "section": "8.2. Statement Contents",
+                    "text": "- Total statement balance."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 19,
+                "section": "8.2. Statement Contents",
+                "text": "- Total statement balance."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b0__product_flexi_rewards",
+            "className": "pskg:BankingProduct",
+            "properties": [],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "Not every source of income declared by the customer will necessarily be fully recognized by the bank when assessing financial capacity."
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "edges": [
+          {
+            "edgeName": "pskg:governedByPolicy",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b3__rule_income_recognition",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "Not every source of income declared by the customer will necessarily be fully recognized by the bank when assessing financial capacity."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b3__doc_business_documents",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "- Business documents."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b3__doc_rental_contracts",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "- Rental contracts."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b3__doc_tax_documents",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 15,
+                "section": "Customers with Special Sources of Income",
+                "text": "- Tax documents."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "edgeName": "pskg:hasSalesConditionRule",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b3__rule_fee_schedule",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 16,
+                "section": "7.1. Basic Fee Schedule",
+                "text": "| Initial issuance fee | Free |"
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "edgeName": "pskg:hasSalesConditionRule",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b3__rule_interest_rate",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 17,
+                "section": "7.2. Credit Card Interest Rate",
+                "text": "32%/year."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "edgeName": "pskg:governedByPolicy",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b3__rule_statement_date",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 18,
+                "section": "8.1. Statement Cycle",
+                "text": "The 20th of each month."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "edgeName": "pskg:governedByPolicy",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b3__rule_statement_contents",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 19,
+                "section": "8.2. Statement Contents",
+                "text": "- Total statement balance."
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "coverage": [
+          {
+            "chunkIndex": 15,
+            "decision": "MAPPED",
+            "reason": "Successfully mapped special income rules and required documents."
+          },
+          {
+            "chunkIndex": 16,
+            "decision": "MAPPED",
+            "reason": "Successfully mapped basic fee schedule items as business sales conditions."
+          },
+          {
+            "chunkIndex": 17,
+            "decision": "MAPPED",
+            "reason": "Successfully mapped credit card interest rate rule."
+          },
+          {
+            "chunkIndex": 18,
+            "decision": "MAPPED",
+            "reason": "Successfully mapped statement cycle default date rule."
+          },
+          {
+            "chunkIndex": 19,
+            "decision": "MAPPED",
+            "reason": "Successfully mapped statement contents rule."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ],
+  "4": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "Existing canonical graph:\nNodes:\n- ref=b0__product_flexi_rewards\n  class=pskg:BankingProduct\n  identity={\"pskg:bankingProductEffectiveFrom\": \"2026-08-01\", \"pskg:bankingProductName\": \"Flexi Rewards Credit Card\", \"pskg:productCode\": \"CC-FLEXI-001\"}\n- ref=b0__rule_pol_cc_2026_03\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"POL-CC-2026-03\"}\n- ref=b1__rule_min_payment\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"5% of total statement balance, minimum 200,000 VND\"}\n- ref=b1__rule_limit_determination\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The credit limit is determined by the bank based on a comprehensive credit assessment.\"}\n- ref=b1__rule_limit_adjustment\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The bank may consider increasing or decreasing the credit limit during the period of card use.\"}\n- ref=b2__rule_eligibility_age\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"At least 20 years old at the time of application.\"}\n- ref=b2__rule_approval_policy\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The fact that a customer:\\n\\n- Earns more than 10 million VND.\\n- Meets the age requirement.\\n- Has an employment contract.\\n- Has a salary account.\\n\\ndoes not mean the customer will definitely be issued a card.\"}\n- ref=b2__rule_additional_appraisal\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"Some cases may require deeper review:\\n\\n- Customers with multiple loans.\\n- Customers with multiple credit cards at other institutions.\\n- Existing card limits that are high relative to income.\\n- Customers using a large portion of their existing credit limit.\\n- History of late payments.\\n- Income from multiple sources.\\n- Highly variable income.\\n- Self-employed customers.\\n- Employment or residence information that is difficult to verify.\"}\n- ref=b2__doc_citizen_id\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Citizen ID card or other valid identification document.\"}\n- ref=b2__doc_residence\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Residence information\"}\n- ref=b2__doc_employment_contract\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Employment contract\"}\n- ref=b2__doc_salary_statements\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Salary account statements for the most recent 3–6 months.\"}\n- ref=b2__doc_income_confirmation\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Income confirmation, if required.\"}\n- ref=b2__doc_job_proof\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Documents proving job position or length of employment.\"}\n- ref=b3__rule_income_recognition\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"Not every source of income declared by the customer will necessarily be fully recognized by the bank when assessing financial capacity.\"}\n- ref=b3__doc_business_documents\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Business documents.\"}\n- ref=b3__doc_rental_contracts\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Rental contracts.\"}\n- ref=b3__doc_tax_documents\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Tax documents.\"}\n- ref=b3__rule_fee_schedule\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"Initial issuance fee | Free\"}\n- ref=b3__rule_interest_rate\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"32%/year.\"}\n- ref=b3__rule_statement_date\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The 20th of each month.\"}\n- ref=b3__rule_statement_contents\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"Total statement balance.\"}\nExisting edges:\n- pskg:hasEligibilityRule: b0__product_flexi_rewards -> b0__rule_pol_cc_2026_03\n- pskg:hasSalesConditionRule: b0__product_flexi_rewards -> b1__rule_min_payment\n- pskg:governedByPolicy: b0__product_flexi_rewards -> b1__rule_limit_determination\n- pskg:governedByPolicy: b0__product_flexi_rewards -> b1__rule_limit_adjustment\n- pskg:hasEligibilityRule: b0__product_flexi_rewards -> b2__rule_eligibility_age\n- pskg:governedByPolicy: b0__product_flexi_rewards -> b2__rule_approval_policy\n- pskg:governedByPolicy: b0__product_flexi_rewards -> b2__rule_additional_appraisal\n- pskg:requiresDocument: b0__product_flexi_rewards -> b2__doc_citizen_id\n- pskg:requiresDocument: b0__product_flexi_rewards -> b2__doc_residence\n- pskg:requiresDocument: b0__product_flexi_rewards -> b2__doc_employment_contract\n- pskg:requiresDocument: b0__product_flexi_rewards -> b2__doc_salary_statements\n- pskg:requiresDocument: b0__product_flexi_rewards -> b2__doc_income_confirmation\n- pskg:requiresDocument: b0__product_flexi_rewards -> b2__doc_job_proof\n- pskg:governedByPolicy: b0__product_flexi_rewards -> b3__rule_income_recognition\n- pskg:requiresDocument: b0__product_flexi_rewards -> b3__doc_business_documents\n- pskg:requiresDocument: b0__product_flexi_rewards -> b3__doc_rental_contracts\n- pskg:requiresDocument: b0__product_flexi_rewards -> b3__doc_tax_documents\n- pskg:hasSalesConditionRule: b0__product_flexi_rewards -> b3__rule_fee_schedule\n- pskg:hasSalesConditionRule: b0__product_flexi_rewards -> b3__rule_interest_rate\n- pskg:governedByPolicy: b0__product_flexi_rewards -> b3__rule_statement_date\n- pskg:governedByPolicy: b0__product_flexi_rewards -> b3__rule_statement_contents",
+      "previous_error": null,
+      "stats": {
+        "nodes": 5,
+        "edges": 4,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b4__rule_payment_due_date",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "The 10th of the month following the statement date.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 20,
+                    "section": "8.3. Payment Due Date",
+                    "text": "The 10th of the month following the statement date."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 20,
+                "section": "8.3. Payment Due Date",
+                "text": "The standard payment due date is:\n\n**The 10th of the month following the statement date.**"
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b4__rule_interest_free_period",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "Flexi Rewards provides a maximum interest-free period of approximately:\n\n**50 days**\n\nfor eligible purchase transactions.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 21,
+                    "section": "9.1. Principle",
+                    "text": "Flexi Rewards provides a maximum interest-free period of approximately:\n\n**50 days**\n\nfor eligible purchase transactions."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 21,
+                "section": "9.1. Principle",
+                "text": "Flexi Rewards provides a maximum interest-free period of approximately:\n\n**50 days**\n\nfor eligible purchase transactions."
+              },
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 22,
+                "section": "9.2. Example",
+                "text": "If the interest-free conditions are met, the transaction may receive nearly the maximum interest-free period."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b4__rule_interest_free_condition",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "The customer must pay the full statement balance in accordance with the required conditions and by the due date.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 23,
+                    "section": "9.3. Conditions for Maintaining the Interest-Free Benefit",
+                    "text": "The customer must pay the **full statement balance** in accordance with the required conditions and by the due date."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 23,
+                "section": "9.3. Conditions for Maintaining the Interest-Free Benefit",
+                "text": "The customer must pay the **full statement balance** in accordance with the required conditions and by the due date."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b4__rule_cash_withdrawal_interest",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "Cash withdrawals made with a credit card do not receive the same interest-free period as purchase transactions.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 24,
+                    "section": "9.4. Transactions That Do Not Receive the Standard Purchase Interest-Free Period",
+                    "text": "Cash withdrawals made with a credit card do not receive the same interest-free period as purchase transactions."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 24,
+                "section": "9.4. Transactions That Do Not Receive the Standard Purchase Interest-Free Period",
+                "text": "Cash withdrawals made with a credit card do not receive the same interest-free period as purchase transactions."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b0__product_flexi_rewards",
+            "className": "pskg:BankingProduct",
+            "properties": [],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 20,
+                "section": "8.3. Payment Due Date",
+                "text": "The standard payment due date is:\n\n**The 10th of the month following the statement date.**"
+              }
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "edges": [
+          {
+            "edgeName": "pskg:governedByPolicy",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b4__rule_payment_due_date",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 20,
+                "section": "8.3. Payment Due Date",
+                "text": "The standard payment due date is:\n\n**The 10th of the month following the statement date.**"
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:governedByPolicy",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b4__rule_interest_free_period",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 21,
+                "section": "9.1. Principle",
+                "text": "Flexi Rewards provides a maximum interest-free period of approximately:\n\n**50 days**\n\nfor eligible purchase transactions."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:hasSalesConditionRule",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b4__rule_interest_free_condition",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 23,
+                "section": "9.3. Conditions for Maintaining the Interest-Free Benefit",
+                "text": "The customer must pay the **full statement balance** in accordance with the required conditions and by the due date."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:governedByPolicy",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b4__rule_cash_withdrawal_interest",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 24,
+                "section": "9.4. Transactions That Do Not Receive the Standard Purchase Interest-Free Period",
+                "text": "Cash withdrawals made with a credit card do not receive the same interest-free period as purchase transactions."
+              }
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "coverage": [
+          {
+            "chunkIndex": 20,
+            "decision": "MAPPED",
+            "reason": "Mapped payment due date policy into BusinessRule."
+          },
+          {
+            "chunkIndex": 21,
+            "decision": "MAPPED",
+            "reason": "Mapped interest-free period principle into BusinessRule."
+          },
+          {
+            "chunkIndex": 22,
+            "decision": "MAPPED",
+            "reason": "Mapped interest-free period example supporting the interest-free policy."
+          },
+          {
+            "chunkIndex": 23,
+            "decision": "MAPPED",
+            "reason": "Mapped conditions for maintaining interest-free benefit into BusinessRule."
+          },
+          {
+            "chunkIndex": 24,
+            "decision": "MAPPED",
+            "reason": "Mapped cash withdrawal interest-free exception rule into BusinessRule."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ],
+  "5": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "Existing canonical graph:\nNodes:\n- ref=b0__product_flexi_rewards\n  class=pskg:BankingProduct\n  identity={\"pskg:bankingProductEffectiveFrom\": \"2026-08-01\", \"pskg:bankingProductName\": \"Flexi Rewards Credit Card\", \"pskg:productCode\": \"CC-FLEXI-001\"}\n- ref=b0__rule_pol_cc_2026_03\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"POL-CC-2026-03\"}\n- ref=b1__rule_min_payment\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"5% of total statement balance, minimum 200,000 VND\"}\n- ref=b1__rule_limit_determination\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The credit limit is determined by the bank based on a comprehensive credit assessment.\"}\n- ref=b1__rule_limit_adjustment\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The bank may consider increasing or decreasing the credit limit during the period of card use.\"}\n- ref=b2__rule_eligibility_age\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"At least 20 years old at the time of application.\"}\n- ref=b2__rule_approval_policy\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The fact that a customer:\\n\\n- Earns more than 10 million VND.\\n- Meets the age requirement.\\n- Has an employment contract.\\n- Has a salary account.\\n\\ndoes not mean the customer will definitely be issued a card.\"}\n- ref=b2__rule_additional_appraisal\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"Some cases may require deeper review:\\n\\n- Customers with multiple loans.\\n- Customers with multiple credit cards at other institutions.\\n- Existing card limits that are high relative to income.\\n- Customers using a large portion of their existing credit limit.\\n- History of late payments.\\n- Income from multiple sources.\\n- Highly variable income.\\n- Self-employed customers.\\n- Employment or residence information that is difficult to verify.\"}\n- ref=b2__doc_citizen_id\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Citizen ID card or other valid identification document.\"}\n- ref=b2__doc_residence\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Residence information\"}\n- ref=b2__doc_employment_contract\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Employment contract\"}\n- ref=b2__doc_salary_statements\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Salary account statements for the most recent 3–6 months.\"}\n- ref=b2__doc_income_confirmation\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Income confirmation, if required.\"}\n- ref=b2__doc_job_proof\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Documents proving job position or length of employment.\"}\n- ref=b3__rule_income_recognition\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"Not every source of income declared by the customer will necessarily be fully recognized by the bank when assessing financial capacity.\"}\n- ref=b3__doc_business_documents\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Business documents.\"}\n- ref=b3__doc_rental_contracts\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Rental contracts.\"}\n- ref=b3__doc_tax_documents\n  class=pskg:RequiredDocument\n  identity={\"pskg:documentName\": \"Tax documents.\"}\n- ref=b3__rule_fee_schedule\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"Initial issuance fee | Free\"}\n- ref=b3__rule_interest_rate\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"32%/year.\"}\n- ref=b3__rule_statement_date\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The 20th of each month.\"}\n- ref=b3__rule_statement_contents\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"Total statement balance.\"}\n- ref=b4__rule_payment_due_date\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The 10th of the month following the statement date.\"}\n- ref=b4__rule_interest_free_period\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"Flexi Rewards provides a maximum interest-free period of approximately:\\n\\n**50 days**\\n\\nfor eligible purchase transactions.\"}\n- ref=b4__rule_interest_free_condition\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"The customer must pay the full statement balance in accordance with the required conditions and by the due date.\"}\n- ref=b4__rule_cash_withdrawal_interest\n  class=pskg:BusinessRule\n  identity={\"pskg:businessRuleCondition\": \"Cash withdrawals made with a credit card do not receive the same interest-free period as purchase transactions.\"}",
+      "previous_error": null,
+      "stats": {
+        "nodes": 7,
+        "edges": 6,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b5__rule_full_payment",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "If the customer pays the full amount on time, eligible purchase transactions may continue to qualify for the interest-free policy.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 25,
+                    "section": "10.1. Full Payment of the Statement Balance",
+                    "text": "If the customer pays the full amount on time, eligible purchase transactions may continue to qualify for the interest-free policy."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 25,
+                "section": "10.1. Full Payment of the Statement Balance",
+                "text": "If the customer pays the full amount on time, eligible purchase transactions may continue to qualify for the interest-free policy."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b5__rule_min_payment_detail",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "Making the minimum payment helps the customer satisfy the minimum payment obligation for the cycle.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 26,
+                    "section": "10.2. Minimum Payment",
+                    "text": "Making the minimum payment helps the customer satisfy the minimum payment obligation for the cycle."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 26,
+                "section": "10.2. Minimum Payment",
+                "text": "Making the minimum payment helps the customer satisfy the minimum payment obligation for the cycle."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b5__rule_failure_to_pay",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "A customer who fails to meet the minimum payment obligation on time may:",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 27,
+                    "section": "10.3. Failure to Pay on Time",
+                    "text": "A customer who fails to meet the minimum payment obligation on time may:"
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 27,
+                "section": "10.3. Failure to Pay on Time",
+                "text": "A customer who fails to meet the minimum payment obligation on time may:"
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b5__rule_cash_withdrawal_limit",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "Flexi Rewards allows customers to withdraw cash within the granted limit.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 28,
+                    "section": "11. Cash Withdrawal",
+                    "text": "Flexi Rewards allows customers to withdraw cash within the granted limit."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 28,
+                "section": "11. Cash Withdrawal",
+                "text": "Flexi Rewards allows customers to withdraw cash within the granted limit."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b5__rule_cash_withdrawal_fee",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "In addition to the withdrawal fee, the transaction may also start accruing interest immediately under the applicable policy.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 28,
+                    "section": "11. Cash Withdrawal",
+                    "text": "In addition to the withdrawal fee, the transaction may also start accruing interest immediately under the applicable policy."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 28,
+                "section": "11. Cash Withdrawal",
+                "text": "In addition to the withdrawal fee, the transaction may also start accruing interest immediately under the applicable policy."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b5__knowledge_advisory_principle",
+            "className": "pskg:SalesKnowledge",
+            "properties": [
+              {
+                "propertyName": "pskg:knowledgeType",
+                "value": "Advisory Principle",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 29,
+                    "section": "Advisory Principle",
+                    "text": "Cash withdrawal should only be used when necessary."
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:title",
+                "value": "Advisory Principle",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 29,
+                    "section": "Advisory Principle",
+                    "text": "Cash withdrawal should only be used when necessary."
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:salesKnowledgeContent",
+                "value": "Cash withdrawal should only be used when necessary.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 29,
+                    "section": "Advisory Principle",
+                    "text": "Cash withdrawal should only be used when necessary."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 29,
+                "section": "Advisory Principle",
+                "text": "Cash withdrawal should only be used when necessary."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "tempId": "b0__product_flexi_rewards",
+            "className": "pskg:BankingProduct",
+            "properties": [],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 25,
+                "section": "10.1. Full Payment of the Statement Balance",
+                "text": "If the customer pays the full amount on time, eligible purchase transactions may continue to qualify for the interest-free policy."
+              }
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "edges": [
+          {
+            "edgeName": "pskg:hasSalesConditionRule",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b5__rule_full_payment",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 25,
+                "section": "10.1. Full Payment of the Statement Balance",
+                "text": "If the customer pays the full amount on time, eligible purchase transactions may continue to qualify for the interest-free policy."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:hasSalesConditionRule",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b5__rule_min_payment_detail",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 26,
+                "section": "10.2. Minimum Payment",
+                "text": "Making the minimum payment helps the customer satisfy the minimum payment obligation for the cycle."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:governedByPolicy",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b5__rule_failure_to_pay",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 27,
+                "section": "10.3. Failure to Pay on Time",
+                "text": "A customer who fails to meet the minimum payment obligation on time may:"
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:hasSalesConditionRule",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b5__rule_cash_withdrawal_limit",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 28,
+                "section": "11. Cash Withdrawal",
+                "text": "Flexi Rewards allows customers to withdraw cash within the granted limit."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:hasSalesConditionRule",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b5__rule_cash_withdrawal_fee",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 28,
+                "section": "11. Cash Withdrawal",
+                "text": "In addition to the withdrawal fee, the transaction may also start accruing interest immediately under the applicable policy."
+              }
+            ],
+            "confidence": 0.95
+          },
+          {
+            "edgeName": "pskg:hasKnowledge",
+            "sourceTempId": "b0__product_flexi_rewards",
+            "targetTempId": "b5__knowledge_advisory_principle",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 29,
+                "section": "Advisory Principle",
+                "text": "Cash withdrawal should only be used when necessary."
+              }
+            ],
+            "confidence": 0.95
+          }
+        ],
+        "coverage": [
+          {
+            "chunkIndex": 25,
+            "decision": "MAPPED",
+            "reason": "Mapped chunk 25 full payment rule to BusinessRule."
+          },
+          {
+            "chunkIndex": 26,
+            "decision": "MAPPED",
+            "reason": "Mapped chunk 26 minimum payment details to BusinessRule."
+          },
+          {
+            "chunkIndex": 27,
+            "decision": "MAPPED",
+            "reason": "Mapped chunk 27 failure to pay policy to BusinessRule."
+          },
+          {
+            "chunkIndex": 28,
+            "decision": "MAPPED",
+            "reason": "Mapped chunk 28 cash withdrawal rules and fees to BusinessRules."
+          },
+          {
+            "chunkIndex": 29,
+            "decision": "MAPPED",
+            "reason": "Mapped chunk 29 advisory principle to SalesKnowledge."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ]
+}

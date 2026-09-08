@@ -1,0 +1,171 @@
+{
+  "nodes": [
+    {
+      "tempId": "b5__b5__rule_min_payment",
+      "className": "pskg:BusinessRule",
+      "properties": [
+        {
+          "propertyName": "pskg:businessRuleCondition",
+          "value": "5% of the total statement balance, but not less than 200,000 VND.",
+          "evidence": [
+            {
+              "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+              "chunkIndex": 26,
+              "section": "10.2. Minimum Payment",
+              "text": "**5% of the total statement balance**, but not less than **200,000 VND**."
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 26,
+          "section": "10.2. Minimum Payment",
+          "text": "The standard minimum payment is:\n\n**5% of the total statement balance**, but not less than **200,000 VND**."
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "tempId": "b5__b5__rule_late_payment",
+      "className": "pskg:BusinessRule",
+      "properties": [
+        {
+          "propertyName": "pskg:businessRuleCondition",
+          "value": "Failure to meet the minimum payment obligation on time results in late payment fee, interest, credit history impact, usage restriction, or credit limit review.",
+          "evidence": [
+            {
+              "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+              "chunkIndex": 27,
+              "section": "10.3. Failure to Pay on Time",
+              "text": "A customer who fails to meet the minimum payment obligation on time may:\n\n- Incur a late payment fee.\n- Incur interest.\n- Have their credit history affected.\n- Have card usage restricted or temporarily suspended.\n- Be subject to a credit limit review or adjustment."
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 27,
+          "section": "10.3. Failure to Pay on Time",
+          "text": "A customer who fails to meet the minimum payment obligation on time may:\n\n- Incur a late payment fee.\n- Incur interest.\n- Have their credit history affected.\n- Have card usage restricted or temporarily suspended.\n- Be subject to a credit limit review or adjustment."
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "tempId": "b5__b5__rule_cash_withdrawal_limit",
+      "className": "pskg:BusinessRule",
+      "properties": [
+        {
+          "propertyName": "pskg:businessRuleCondition",
+          "value": "The standard maximum cash withdrawal limit is: 50% of the credit limit.",
+          "evidence": [
+            {
+              "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+              "chunkIndex": 28,
+              "section": "11. Cash Withdrawal",
+              "text": "The standard maximum cash withdrawal limit is:\n\n**50% of the credit limit.**"
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 28,
+          "section": "11. Cash Withdrawal",
+          "text": "The standard maximum cash withdrawal limit is:\n\n**50% of the credit limit.**"
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "tempId": "b0__prod_flexi_rewards",
+      "className": "pskg:BankingProduct",
+      "properties": [],
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 26,
+          "section": "10.2. Minimum Payment",
+          "text": "The standard minimum payment is:\n\n**5% of the total statement balance**, but not less than **200,000 VND**."
+        }
+      ],
+      "confidence": 1.0
+    }
+  ],
+  "edges": [
+    {
+      "edgeName": "pskg:hasSalesConditionRule",
+      "sourceTempId": "b0__prod_flexi_rewards",
+      "targetTempId": "b5__b5__rule_min_payment",
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 26,
+          "section": "10.2. Minimum Payment",
+          "text": "The standard minimum payment is:\n\n**5% of the total statement balance**, but not less than **200,000 VND**."
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "edgeName": "pskg:hasSalesConditionRule",
+      "sourceTempId": "b0__prod_flexi_rewards",
+      "targetTempId": "b5__b5__rule_late_payment",
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 27,
+          "section": "10.3. Failure to Pay on Time",
+          "text": "A customer who fails to meet the minimum payment obligation on time may:\n\n- Incur a late payment fee."
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "edgeName": "pskg:hasSalesConditionRule",
+      "sourceTempId": "b0__prod_flexi_rewards",
+      "targetTempId": "b5__b5__rule_cash_withdrawal_limit",
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 28,
+          "section": "11. Cash Withdrawal",
+          "text": "The standard maximum cash withdrawal limit is:\n\n**50% of the credit limit.**"
+        }
+      ],
+      "confidence": 1.0
+    }
+  ],
+  "coverage": [
+    {
+      "chunkIndex": 25,
+      "decision": "NOT_RELEVANT",
+      "reason": "Advisory guidance on payment preference, not a governed rule."
+    },
+    {
+      "chunkIndex": 26,
+      "decision": "MAPPED",
+      "reason": "Minimum payment obligation is a governed sales condition."
+    },
+    {
+      "chunkIndex": 27,
+      "decision": "MAPPED",
+      "reason": "Consequences of failure to pay are governed policy/rule logic."
+    },
+    {
+      "chunkIndex": 28,
+      "decision": "MAPPED",
+      "reason": "Cash withdrawal limit is a governed sales condition."
+    },
+    {
+      "chunkIndex": 29,
+      "decision": "NOT_RELEVANT",
+      "reason": "Advisory principle for employees, not a governed rule."
+    }
+  ],
+  "warnings": []
+}

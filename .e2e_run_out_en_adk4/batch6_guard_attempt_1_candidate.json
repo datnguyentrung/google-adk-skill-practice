@@ -1,0 +1,289 @@
+{
+  "nodes": [
+    {
+      "tempId": "b6__rule-installment-tenors",
+      "className": "pskg:BusinessRule",
+      "properties": [
+        {
+          "propertyName": "pskg:businessRuleCondition",
+          "value": "Customers may request that certain purchase transactions be converted into an installment plan.\n\nSupported tenors:\n\n- 3 months.\n- 6 months.\n- 9 months.\n- 12 months.\n\nMinimum transaction value:\n\n**3,000,000 VND/transaction.**",
+          "evidence": [
+            {
+              "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+              "chunkIndex": 30,
+              "section": "12.1. Converting a Transaction to Installments",
+              "text": "Customers may request that certain purchase transactions be converted into an installment plan.\n\nSupported tenors:\n\n- 3 months.\n- 6 months.\n- 9 months.\n- 12 months.\n\nMinimum transaction value:\n\n**3,000,000 VND/transaction.**"
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 30,
+          "section": "12.1. Converting a Transaction to Installments",
+          "text": "Customers may request that certain purchase transactions be converted into an installment plan.\n\nSupported tenors:\n\n- 3 months.\n- 6 months.\n- 9 months.\n- 12 months.\n\nMinimum transaction value:\n\n**3,000,000 VND/transaction.**"
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "tempId": "b6__rule-installment-fees",
+      "className": "pskg:BusinessRule",
+      "properties": [
+        {
+          "propertyName": "pskg:businessRuleCondition",
+          "value": "| Tenor | One-Time Conversion Fee |\n|---|---:|\n| 3 months | 1.5% of transaction value |\n| 6 months | 2.5% of transaction value |\n| 9 months | 3.5% of transaction value |\n| 12 months | 4.5% of transaction value |",
+          "evidence": [
+            {
+              "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+              "chunkIndex": 31,
+              "section": "12.2. Installment Conversion Fee",
+              "text": "| Tenor | One-Time Conversion Fee |\n|---|---:|\n| 3 months | 1.5% of transaction value |\n| 6 months | 2.5% of transaction value |\n| 9 months | 3.5% of transaction value |\n| 12 months | 4.5% of transaction value |"
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 31,
+          "section": "12.2. Installment Conversion Fee",
+          "text": "| Tenor | One-Time Conversion Fee |\n|---|---:|\n| 3 months | 1.5% of transaction value |\n| 6 months | 2.5% of transaction value |\n| 9 months | 3.5% of transaction value |\n| 12 months | 4.5% of transaction value |"
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "tempId": "b6__rule-installment-eligibility",
+      "className": "pskg:BusinessRule",
+      "properties": [
+        {
+          "propertyName": "pskg:businessRuleCondition",
+          "value": "The transaction must satisfy conditions such as:\n\n- It has been successfully posted.\n- It is not a cash withdrawal.\n- It does not belong to an excluded transaction category.\n- Its value meets the minimum requirement.\n- The card account is in normal active status.\n- The customer does not have overdue obligations that exceed policy restrictions.",
+          "evidence": [
+            {
+              "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+              "chunkIndex": 32,
+              "section": "12.3. Transaction Eligibility",
+              "text": "The transaction must satisfy conditions such as:\n\n- It has been successfully posted.\n- It is not a cash withdrawal.\n- It does not belong to an excluded transaction category.\n- Its value meets the minimum requirement.\n- The card account is in normal active status.\n- The customer does not have overdue obligations that exceed policy restrictions."
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 32,
+          "section": "12.3. Transaction Eligibility",
+          "text": "The transaction must satisfy conditions such as:\n\n- It has been successfully posted.\n- It is not a cash withdrawal.\n- It does not belong to an excluded transaction category.\n- Its value meets the minimum requirement.\n- The card account is in normal active status.\n- The customer does not have overdue obligations that exceed policy restrictions."
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "tempId": "b6__campaign-dining-shopping",
+      "className": "pskg:Campaign",
+      "properties": [
+        {
+          "propertyName": "pskg:campaignName",
+          "value": "Flexi Dining & Shopping",
+          "evidence": [
+            {
+              "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+              "chunkIndex": 33,
+              "section": "13.1. Program Information",
+              "text": "Flexi Dining & Shopping"
+            }
+          ]
+        },
+        {
+          "propertyName": "pskg:campaignEffectiveFrom",
+          "value": "2026-08-01T00:00:00Z",
+          "evidence": [
+            {
+              "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+              "chunkIndex": 33,
+              "section": "13.1. Program Information",
+              "text": "01/08/2026"
+            }
+          ]
+        },
+        {
+          "propertyName": "pskg:campaignEffectiveTo",
+          "value": "2026-12-31T23:59:59Z",
+          "evidence": [
+            {
+              "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+              "chunkIndex": 33,
+              "section": "13.1. Program Information",
+              "text": "31/12/2026"
+            }
+          ]
+        },
+        {
+          "propertyName": "pskg:campaignBenefit",
+          "value": "Cashback on eligible transactions",
+          "evidence": [
+            {
+              "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+              "chunkIndex": 33,
+              "section": "13.1. Program Information",
+              "text": "Cashback on eligible transactions"
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 33,
+          "section": "13.1. Program Information",
+          "text": "| Item | Information |\n|---|---|\n| Program Name | Flexi Dining & Shopping |\n| Period | 01/08/2026 – 31/12/2026 |\n| Applicable Product | Flexi Rewards Credit Card |\n| Main Benefit | Cashback on eligible transactions |\n| Cashback Rate | 5% |\n| Maximum Cashback | 500,000 VND/month/card account |"
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "tempId": "b6__rule-campaign-categories",
+      "className": "pskg:BusinessRule",
+      "properties": [
+        {
+          "propertyName": "pskg:businessRuleCondition",
+          "value": "The cashback benefit applies to eligible transactions in the following categories:\n\n- Restaurants.\n- Dining establishments.\n- Certain food and beverage services.\n- Online purchases at merchants classified by the bank as belonging to eligible e-commerce categories.\n\nCashback rate:\n\n**5% of the eligible transaction value.**\n\nMaximum total cashback:\n\n**500,000 VND per card account per month.**",
+          "evidence": [
+            {
+              "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+              "chunkIndex": 34,
+              "section": "13.2. Applicable Transaction Categories",
+              "text": "The cashback benefit applies to eligible transactions in the following categories:\n\n- Restaurants.\n- Dining establishments.\n- Certain food and beverage services.\n- Online purchases at merchants classified by the bank as belonging to eligible e-commerce categories.\n\nCashback rate:\n\n**5% of the eligible transaction value.**\n\nMaximum total cashback:\n\n**500,000 VND per card account per month.**"
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 34,
+          "section": "13.2. Applicable Transaction Categories",
+          "text": "The cashback benefit applies to eligible transactions in the following categories:\n\n- Restaurants.\n- Dining establishments.\n- Certain food and beverage services.\n- Online purchases at merchants classified by the bank as belonging to eligible e-commerce categories.\n\nCashback rate:\n\n**5% of the eligible transaction value.**\n\nMaximum total cashback:\n\n**500,000 VND per card account per month.**"
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "tempId": "product-flexi",
+      "className": "pskg:BankingProduct",
+      "properties": [],
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 30,
+          "section": "12.1. Converting a Transaction to Installments",
+          "text": "Customers may request that certain purchase transactions be converted into an installment plan."
+        }
+      ],
+      "confidence": 1.0
+    }
+  ],
+  "edges": [
+    {
+      "edgeName": "pskg:hasSalesConditionRule",
+      "sourceTempId": "product-flexi",
+      "targetTempId": "b6__rule-installment-tenors",
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 30,
+          "section": "12.1. Converting a Transaction to Installments",
+          "text": "Customers may request that certain purchase transactions be converted into an installment plan."
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "edgeName": "pskg:hasSalesConditionRule",
+      "sourceTempId": "product-flexi",
+      "targetTempId": "b6__rule-installment-fees",
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 31,
+          "section": "12.2. Installment Conversion Fee",
+          "text": "| Tenor | One-Time Conversion Fee |"
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "edgeName": "pskg:hasSalesConditionRule",
+      "sourceTempId": "product-flexi",
+      "targetTempId": "b6__rule-installment-eligibility",
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 32,
+          "section": "12.3. Transaction Eligibility",
+          "text": "Not every transaction is automatically eligible for installment conversion."
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "edgeName": "pskg:inCampaign",
+      "sourceTempId": "product-flexi",
+      "targetTempId": "b6__campaign-dining-shopping",
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 33,
+          "section": "13.1. Program Information",
+          "text": "| Applicable Product | Flexi Rewards Credit Card |"
+        }
+      ],
+      "confidence": 1.0
+    },
+    {
+      "edgeName": "pskg:campaignHasRule",
+      "sourceTempId": "b6__campaign-dining-shopping",
+      "targetTempId": "b6__rule-campaign-categories",
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 34,
+          "section": "13.2. Applicable Transaction Categories",
+          "text": "The cashback benefit applies to eligible transactions in the following categories:"
+        }
+      ],
+      "confidence": 1.0
+    }
+  ],
+  "coverage": [
+    {
+      "chunkIndex": 30,
+      "decision": "MAPPED",
+      "reason": "Mapped the installment conversion tenors and minimum transaction value as a sales condition rule for the Flexi Rewards Credit Card."
+    },
+    {
+      "chunkIndex": 31,
+      "decision": "MAPPED",
+      "reason": "Mapped the installment conversion fee schedule as a sales condition rule for the Flexi Rewards Credit Card."
+    },
+    {
+      "chunkIndex": 32,
+      "decision": "MAPPED",
+      "reason": "Mapped the transaction eligibility criteria for installment conversion as a sales condition rule for the Flexi Rewards Credit Card."
+    },
+    {
+      "chunkIndex": 33,
+      "decision": "MAPPED",
+      "reason": "Mapped the Flexi Dining & Shopping campaign details and linked it to the Flexi Rewards Credit Card."
+    },
+    {
+      "chunkIndex": 34,
+      "decision": "MAPPED",
+      "reason": "Mapped the applicable transaction categories and cashback limits as a business rule governing the Flexi Dining & Shopping campaign."
+    }
+  ],
+  "warnings": []
+}

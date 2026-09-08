@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "stage": "ready_to_fill",
+  "terminal": true,
+  "ingestionId": "f0fcf9dd7741f37f23ae55137c40390352bf5a98ded49847d193c63582b57181",
+  "validForExtraction": true,
+  "validForPersistence": true,
+  "errors": [],
+  "readinessIssues": [],
+  "warnings": [],
+  "nodeCount": 139,
+  "edgeCount": 139,
+  "artifactDigest": "0d0b1aa94fb4e9d513db3dcf640071414abf74eeeb2126eb55ebe97de3db6c15",
+  "ontologyDigest": "728c8011d241e2449c2f9981d891c5d26a0f7704f422d150b6384c4d7ef2aff3",
+  "skillDigest": "9c9d3c5fcb04925b16bb8c82b3b7a255600025e273ebfe30aee9a8fd10225ff2",
+  "workspaceStats": {
+    "documentChunks": 94,
+    "batches": 19,
+    "processedBatches": 19,
+    "remainingBatches": 0,
+    "candidateNodes": 161,
+    "candidateEdges": 143,
+    "skippedChunks": 0,
+    "warningCount": 0
+  },
+  "persisted": false
+}

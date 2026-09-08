@@ -61,7 +61,7 @@ class RuntimeAdapter:
 def install_capture_wrappers() -> None:
     import app.services.ingestion.use_case as uc
 
-    orig_mapper_factory = uc._get_semantic_graph_mapper
+    orig_mapper_factory = uc._get_graph_mapper
 
     def mapper_factory():
         mapper = orig_mapper_factory()
@@ -91,7 +91,7 @@ def install_capture_wrappers() -> None:
         mapper._flexi_capture_wrapped = True
         return mapper
 
-    uc._get_semantic_graph_mapper = mapper_factory
+    uc._get_graph_mapper = mapper_factory
 
     orig_finalize = uc.finalize_ingestion
 

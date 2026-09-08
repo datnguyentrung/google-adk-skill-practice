@@ -1,0 +1,15 @@
+{
+  "success": false,
+  "stage": "explicit_extraction_failure",
+  "terminal": true,
+  "ingestionId": "f0fcf9dd7741f37f23ae55137c40390352bf5a98ded49847d193c63582b57181",
+  "batchIndex": 3,
+  "errorKind": "llm_mapping",
+  "errors": [
+    {
+      "code": "ORCHESTRATION_FAILED",
+      "message": "Direct graph fragment failed deterministic validation",
+      "location": "batches.3.extract"
+    }
+  ]
+}

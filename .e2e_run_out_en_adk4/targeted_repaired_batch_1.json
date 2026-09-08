@@ -1,0 +1,89 @@
+{
+  "nodes": [
+    {
+      "tempId": "b1__b1__b1__rule_payment_terms",
+      "className": "pskg:BusinessRule",
+      "properties": [
+        {
+          "propertyName": "pskg:businessRuleCondition",
+          "value": "Minimum Payment | 5% of total statement balance, minimum 200,000 VND",
+          "evidence": [
+            {
+              "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+              "chunkIndex": 6,
+              "section": "3. Key Card Features",
+              "text": "| Minimum Payment | 5% of total statement balance, minimum 200,000 VND |"
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 6,
+          "section": "3. Key Card Features",
+          "text": "| Minimum Payment | 5% of total statement balance, minimum 200,000 VND |"
+        }
+      ],
+      "confidence": 0.9
+    },
+    {
+      "tempId": "b0__b0__product_flexi_rewards",
+      "className": "pskg:BankingProduct",
+      "properties": [],
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 6,
+          "section": "3. Key Card Features",
+          "text": "| Minimum Payment | 5% of total statement balance, minimum 200,000 VND |"
+        }
+      ],
+      "confidence": 0.9
+    }
+  ],
+  "edges": [
+    {
+      "edgeName": "pskg:hasSalesConditionRule",
+      "sourceTempId": "b0__b0__product_flexi_rewards",
+      "targetTempId": "b1__b1__b1__rule_payment_terms",
+      "evidence": [
+        {
+          "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+          "chunkIndex": 6,
+          "section": "3. Key Card Features",
+          "text": "| Minimum Payment | 5% of total statement balance, minimum 200,000 VND |"
+        }
+      ],
+      "confidence": 0.9
+    }
+  ],
+  "coverage": [
+    {
+      "chunkIndex": 5,
+      "decision": "NOT_RELEVANT",
+      "reason": "General descriptive guidance on credit card usage."
+    },
+    {
+      "chunkIndex": 6,
+      "decision": "MAPPED",
+      "reason": "Mapped payment terms to a sales condition business rule."
+    },
+    {
+      "chunkIndex": 7,
+      "decision": "UNSUPPORTED_BY_ONTOLOGY",
+      "reason": "Credit limit determination principles are descriptive business logic."
+    },
+    {
+      "chunkIndex": 8,
+      "decision": "NOT_RELEVANT",
+      "reason": "Example calculation of credit limit is descriptive context."
+    },
+    {
+      "chunkIndex": 9,
+      "decision": "UNSUPPORTED_BY_ONTOLOGY",
+      "reason": "Credit limit adjustment procedures are operational processes."
+    }
+  ],
+  "warnings": []
+}

@@ -1,0 +1,3069 @@
+{
+  "version": "1",
+  "commitStatus": "committed",
+  "verified": true,
+  "expectedNodeCount": 139,
+  "expectedRelationshipCount": 139,
+  "nodeIds": {
+    "b0__product_flexi_rewards": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+    "b10__temp_customer_sample": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:1",
+    "b0__rule_eligibility_flexi": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:2",
+    "b0__rule_policy_flexi": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:3",
+    "b0__need_flexible_repayment": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:4",
+    "b0__version_1_1": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:5",
+    "b1__temp_skill_free_money": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:6",
+    "b1__temp_rule_credit_limit_range": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:7",
+    "b1__temp_rule_cash_withdrawal_limit": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:8",
+    "b1__temp_rule_minimum_payment": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:9",
+    "b1__temp_rule_interest_free_period": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:10",
+    "b1__temp_rule_transaction_limits": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:11",
+    "b1__temp_rule_credit_limit_determination": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:12",
+    "b1__temp_rule_credit_limit_repayment_increase": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:13",
+    "b1__temp_rule_available_credit_limit_calculation": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:14",
+    "b1__temp_rule_credit_limit_increase": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:15",
+    "b1__temp_rule_proactive_review": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:16",
+    "b1__temp_doc_updated_income": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:17",
+    "b1__temp_doc_employment_info": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:18",
+    "b1__temp_doc_account_statements": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:19",
+    "b1__temp_doc_financial_capacity_proof": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:20",
+    "b2__temp_rule_app_conditions": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:21",
+    "b2__temp_rule_salaried_favorable": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:22",
+    "b2__temp_rule_approval_discretion": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:23",
+    "b2__temp_rule_no_advance_commitment": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:24",
+    "b2__temp_rule_additional_appraisal": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:25",
+    "b2__temp_doc_citizen_id": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:26",
+    "b2__temp_doc_residence_info": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:27",
+    "b2__temp_doc_additional_verification": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:28",
+    "b2__temp_doc_employment_contract": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:29",
+    "b2__temp_doc_salary_statements": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:30",
+    "b2__temp_doc_income_confirmation": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:31",
+    "b2__temp_doc_job_position_proof": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:32",
+    "b3__doc_business_docs": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:33",
+    "b3__doc_rental_contracts": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:34",
+    "b3__doc_payment_receipts": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:35",
+    "b3__doc_tax_docs": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:36",
+    "b3__doc_other_supporting_docs": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:37",
+    "b3__rule_income_recognition": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:38",
+    "b3__rule_fee_schedule": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:39",
+    "b3__rule_interest_rate": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:40",
+    "b3__rule_statement_date": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:41",
+    "b3__rule_statement_contents": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:42",
+    "b4__rule_payment_due_date": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:43",
+    "b4__rule_interest_free_period": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:44",
+    "b4__rule_statement_date": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:45",
+    "b4__rule_maintain_interest_free": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:46",
+    "b4__rule_cash_withdrawal_interest": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:47",
+    "b4__skill_cash_withdrawal_guidance": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:48",
+    "b5__rule_full_payment_interest_free": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:49",
+    "b5__rule_outstanding_less_than_200k": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:50",
+    "b5__skill_minimum_payment_advice": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:51",
+    "b5__rule_late_payment_consequences": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:52",
+    "b5__rule_cash_withdrawal_fee": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:53",
+    "b5__skill_cash_withdrawal_advisory": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:54",
+    "b6__rule_installment_tenors": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:55",
+    "b6__rule_installment_fees": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:56",
+    "b6__rule_installment_eligibility": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:57",
+    "b6__campaign_dining_shopping": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:58",
+    "b6__rule_campaign_cashback": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:59",
+    "b7__temp_rule_excluded_cases": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:60",
+    "b7__temp_rule_no_guarantee": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:61",
+    "b7__temp_segment_salaried": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:62",
+    "b7__temp_need_manage_cash_flow": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:63",
+    "b7__temp_segment_shop_frequently": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:64",
+    "b7__temp_need_control_spending": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:65",
+    "b7__temp_segment_pay_online": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:66",
+    "b7__temp_skill_card_security": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:67",
+    "b7__temp_segment_travel": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:68",
+    "b7__temp_rule_foreign_currency_info": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:69",
+    "b8__skill_step1": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:70",
+    "b8__rule_no_early_promotion": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:71",
+    "b8__skill_step2": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:72",
+    "b8__rule_ensure_credit_understanding": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:73",
+    "b8__skill_step3": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:74",
+    "b8__rule_preliminary_screening_only": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:75",
+    "b8__skill_step4": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:76",
+    "b8__rule_no_sensitive_info": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:77",
+    "b8__skill_step5": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:78",
+    "b8__rule_check_completeness": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:79",
+    "b9__temp_rule_appraisal": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:80",
+    "b9__temp_rule_approval_outcomes": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:81",
+    "b9__temp_rule_card_issuance": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:82",
+    "b9__temp_rule_delivery_activation": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:83",
+    "b9__temp_skill_responsible_use": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:84",
+    "b10__temp_skill_activation": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:85",
+    "b10__temp_rule_otp_warning": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:86",
+    "b10__temp_skill_safety": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:87",
+    "b10__temp_skill_lost_card": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:88",
+    "b10__temp_rule_supp_limit_count": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:89",
+    "b10__temp_rule_supp_eligibility": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:90",
+    "b10__temp_rule_supp_spending_limit": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:91",
+    "b10__temp_rule_supp_responsibility": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:92",
+    "b11__campaign_flexi_dining_shopping": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:93",
+    "b11__rule_interest_rate": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:94",
+    "b11__rule_statement_due_date": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:95",
+    "b11__rule_campaign_cashback_conditions": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:96",
+    "b11__doc_id_card": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:97",
+    "b11__doc_employment_contract": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:98",
+    "b11__doc_salary_statements": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:99",
+    "b11__script_objection_interest": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:100",
+    "b11__script_objection_minimum_payment": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:101",
+    "b11__script_lost_card": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:102",
+    "b12__temp_script_atm_vs_credit": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:103",
+    "b12__temp_script_withdraw_cash": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:104",
+    "b12__temp_rule_cash_withdrawal_fee": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:105",
+    "b12__temp_script_extra_100m": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:106",
+    "b12__temp_script_how_it_works": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:107",
+    "b12__temp_script_limit_determination": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:108",
+    "b12__temp_rule_limit_determination_policy": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:109",
+    "b13__rule_interest_free_period_dependency": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:110",
+    "b13__rule_statement_definition": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:111",
+    "b13__rule_minimum_payment_interest": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:112",
+    "b13__rule_late_payment_consequences": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:113",
+    "b13__rule_cash_withdrawal_terms": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:114",
+    "b14__rule_installment": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:115",
+    "b14__rule_abroad": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:116",
+    "b14__rule_lost_card": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:117",
+    "b14__rule_supplementary": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:118",
+    "b14__rule_limit_increase_request": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:119",
+    "b15__temp_skill_74": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:120",
+    "b15__temp_skill_75": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:121",
+    "b15__temp_skill_76": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:122",
+    "b15__temp_skill_77": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:123",
+    "b15__temp_skill_78": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:124",
+    "b16__rule_interest_free_explanation": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:125",
+    "b16__skill_no_long_term_min_payment": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:126",
+    "b16__skill_no_spending_close_to_limit": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:127",
+    "b16__rule_do_not_receive_credentials": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:128",
+    "b16__rule_full_payment_scenario": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:129",
+    "b17__rule_minimum_payment_example": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:130",
+    "b17__rule_cash_withdrawal_fee": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:131",
+    "b17__rule_cashback_cap": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:132",
+    "b17__skill_responsible_use": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:133",
+    "b17__skill_rm_advisors": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:134",
+    "b18__temp_rule_appraisal_assessments": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:135",
+    "b18__temp_rule_advisory_quality": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:136",
+    "b18__temp_rule_verify_info": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:137",
+    "b18__temp_rule_no_commit": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:138"
+  },
+  "relationshipIds": {
+    "0:pskg:hasEligibilityRule:b0__product_flexi_rewards->b0__rule_eligibility_flexi": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152921504606846976",
+    "1:pskg:governedByPolicy:b0__product_flexi_rewards->b0__rule_policy_flexi": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152927002164985856",
+    "2:pskg:satisfiesNeed:b0__product_flexi_rewards->b0__need_flexible_repayment": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152929201188241408",
+    "3:pskg:hasVersion:b0__product_flexi_rewards->b0__version_1_1": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152930300699869184",
+    "4:pskg:hasSkill:b0__product_flexi_rewards->b1__temp_skill_free_money": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152931400211496960",
+    "5:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b1__temp_rule_credit_limit_range": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152932499723124736",
+    "6:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b1__temp_rule_cash_withdrawal_limit": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155184299536809984",
+    "7:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b1__temp_rule_minimum_payment": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157436099350495232",
+    "8:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b1__temp_rule_interest_free_period": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1159687899164180480",
+    "9:pskg:governedByPolicy:b0__product_flexi_rewards->b1__temp_rule_transaction_limits": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155178801978671104",
+    "10:pskg:governedByPolicy:b0__product_flexi_rewards->b1__temp_rule_credit_limit_determination": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157430601792356352",
+    "11:pskg:governedByPolicy:b0__product_flexi_rewards->b1__temp_rule_credit_limit_repayment_increase": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1159682401606041600",
+    "12:pskg:governedByPolicy:b0__product_flexi_rewards->b1__temp_rule_available_credit_limit_calculation": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1161934201419726848",
+    "13:pskg:governedByPolicy:b0__product_flexi_rewards->b1__temp_rule_credit_limit_increase": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1164186001233412096",
+    "14:pskg:governedByPolicy:b0__product_flexi_rewards->b1__temp_rule_proactive_review": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1166437801047097344",
+    "15:pskg:requiresDocument:b0__product_flexi_rewards->b1__temp_doc_updated_income": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152922604118474752",
+    "16:pskg:requiresDocument:b0__product_flexi_rewards->b1__temp_doc_employment_info": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155174403932160000",
+    "17:pskg:requiresDocument:b0__product_flexi_rewards->b1__temp_doc_account_statements": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157426203745845248",
+    "18:pskg:requiresDocument:b0__product_flexi_rewards->b1__temp_doc_financial_capacity_proof": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1159678003559530496",
+    "19:pskg:hasEligibilityRule:b0__product_flexi_rewards->b2__temp_rule_app_conditions": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155173304420532224",
+    "20:pskg:hasEligibilityRule:b0__product_flexi_rewards->b2__temp_rule_salaried_favorable": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157425104234217472",
+    "21:pskg:governedByPolicy:b0__product_flexi_rewards->b2__temp_rule_approval_discretion": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1168689600860782592",
+    "22:pskg:governedByPolicy:b0__product_flexi_rewards->b2__temp_rule_no_advance_commitment": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1170941400674467840",
+    "23:pskg:governedByPolicy:b0__product_flexi_rewards->b2__temp_rule_additional_appraisal": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1173193200488153088",
+    "24:pskg:requiresDocument:b0__product_flexi_rewards->b2__temp_doc_citizen_id": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1161929803373215744",
+    "25:pskg:requiresDocument:b0__product_flexi_rewards->b2__temp_doc_residence_info": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1164181603186900992",
+    "26:pskg:requiresDocument:b0__product_flexi_rewards->b2__temp_doc_additional_verification": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1166433403000586240",
+    "27:pskg:requiresDocument:b0__product_flexi_rewards->b2__temp_doc_employment_contract": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1168685202814271488",
+    "28:pskg:requiresDocument:b0__product_flexi_rewards->b2__temp_doc_salary_statements": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1170937002627956736",
+    "29:pskg:requiresDocument:b0__product_flexi_rewards->b2__temp_doc_income_confirmation": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1173188802441641984",
+    "30:pskg:requiresDocument:b0__product_flexi_rewards->b2__temp_doc_job_position_proof": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1175440602255327232",
+    "31:pskg:requiresDocument:b0__product_flexi_rewards->b3__doc_business_docs": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1177692402069012480",
+    "32:pskg:requiresDocument:b0__product_flexi_rewards->b3__doc_rental_contracts": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1179944201882697728",
+    "33:pskg:requiresDocument:b0__product_flexi_rewards->b3__doc_payment_receipts": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1182196001696382976",
+    "34:pskg:requiresDocument:b0__product_flexi_rewards->b3__doc_tax_docs": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1184447801510068224",
+    "35:pskg:requiresDocument:b0__product_flexi_rewards->b3__doc_other_supporting_docs": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1186699601323753472",
+    "36:pskg:governedByPolicy:b0__product_flexi_rewards->b3__rule_income_recognition": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1175445000301838336",
+    "37:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b3__rule_fee_schedule": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1161939698977865728",
+    "38:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b3__rule_interest_rate": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1164191498791550976",
+    "39:pskg:governedByPolicy:b0__product_flexi_rewards->b3__rule_statement_date": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1177696800115523584",
+    "40:pskg:governedByPolicy:b0__product_flexi_rewards->b3__rule_statement_contents": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1179948599929208832",
+    "41:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b4__rule_payment_due_date": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1166443298605236224",
+    "42:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b4__rule_interest_free_period": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1168695098418921472",
+    "43:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b4__rule_statement_date": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1170946898232606720",
+    "44:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b4__rule_maintain_interest_free": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1173198698046291968",
+    "45:pskg:governedByPolicy:b0__product_flexi_rewards->b4__rule_cash_withdrawal_interest": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1182200399742894080",
+    "46:pskg:hasSkill:b0__product_flexi_rewards->b4__skill_cash_withdrawal_guidance": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155183200025182208",
+    "47:pskg:governedByPolicy:b0__product_flexi_rewards->b5__rule_full_payment_interest_free": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1184452199556579328",
+    "48:pskg:governedByPolicy:b0__product_flexi_rewards->b5__rule_outstanding_less_than_200k": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1186703999370264576",
+    "49:pskg:hasSkill:b0__product_flexi_rewards->b5__skill_minimum_payment_advice": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157434999838867456",
+    "50:pskg:governedByPolicy:b0__product_flexi_rewards->b5__rule_late_payment_consequences": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1188955799183949824",
+    "51:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b5__rule_cash_withdrawal_fee": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1175450497859977216",
+    "52:pskg:hasSkill:b0__product_flexi_rewards->b5__skill_cash_withdrawal_advisory": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1159686799652552704",
+    "53:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b6__rule_installment_tenors": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1177702297673662464",
+    "54:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b6__rule_installment_fees": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1179954097487347712",
+    "55:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b6__rule_installment_eligibility": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1182205897301032960",
+    "56:pskg:inCampaign:b0__product_flexi_rewards->b6__campaign_dining_shopping": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152923703630102528",
+    "57:pskg:campaignHasRule:b6__campaign_dining_shopping->b6__rule_campaign_cashback": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152933599234752570",
+    "58:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b6__rule_campaign_cashback": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1184457697114718208",
+    "59:pskg:governedByPolicy:b0__product_flexi_rewards->b7__temp_rule_excluded_cases": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1191207598997635072",
+    "60:pskg:governedByPolicy:b0__product_flexi_rewards->b7__temp_rule_no_guarantee": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1193459398811320320",
+    "61:pskg:targetsSegment:b0__product_flexi_rewards->b7__temp_segment_salaried": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152934698746380288",
+    "62:pskg:satisfiesNeed:b0__product_flexi_rewards->b7__temp_need_manage_cash_flow": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155181001001926656",
+    "63:pskg:targetsSegment:b0__product_flexi_rewards->b7__temp_segment_shop_frequently": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155186498560065536",
+    "64:pskg:satisfiesNeed:b0__product_flexi_rewards->b7__temp_need_control_spending": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157432800815611904",
+    "65:pskg:targetsSegment:b0__product_flexi_rewards->b7__temp_segment_pay_online": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157438298373750784",
+    "66:pskg:hasSkill:b0__product_flexi_rewards->b7__temp_skill_card_security": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1161938599466237952",
+    "67:pskg:targetsSegment:b0__product_flexi_rewards->b7__temp_segment_travel": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1159690098187436032",
+    "68:pskg:governedByPolicy:b0__product_flexi_rewards->b7__temp_rule_foreign_currency_info": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1195711198625005568",
+    "69:pskg:hasSkill:b0__product_flexi_rewards->b8__skill_step1": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1164190399279923200",
+    "70:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b8__rule_no_early_promotion": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1186709496928403456",
+    "71:pskg:hasSkill:b0__product_flexi_rewards->b8__skill_step2": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1166442199093608448",
+    "72:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b8__rule_ensure_credit_understanding": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1188961296742088704",
+    "73:pskg:hasSkill:b0__product_flexi_rewards->b8__skill_step3": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1168693998907293696",
+    "74:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b8__rule_preliminary_screening_only": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1191213096555773952",
+    "75:pskg:hasSkill:b0__product_flexi_rewards->b8__skill_step4": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1170945798720978944",
+    "76:pskg:governedByPolicy:b0__product_flexi_rewards->b8__rule_no_sensitive_info": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1197962998438690816",
+    "77:pskg:hasSkill:b0__product_flexi_rewards->b8__skill_step5": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1173197598534664192",
+    "78:pskg:governedByPolicy:b0__product_flexi_rewards->b8__rule_check_completeness": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1200214798252376064",
+    "79:pskg:governedByPolicy:b0__product_flexi_rewards->b9__temp_rule_appraisal": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1202466598066061312",
+    "80:pskg:governedByPolicy:b0__product_flexi_rewards->b9__temp_rule_approval_outcomes": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1204718397879746560",
+    "81:pskg:governedByPolicy:b0__product_flexi_rewards->b9__temp_rule_card_issuance": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1206970197693431808",
+    "82:pskg:governedByPolicy:b0__product_flexi_rewards->b9__temp_rule_delivery_activation": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1209221997507117056",
+    "83:pskg:hasSkill:b0__product_flexi_rewards->b9__temp_skill_responsible_use": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1175449398348349440",
+    "84:pskg:hasSkill:b0__product_flexi_rewards->b10__temp_skill_activation": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1177701198162034688",
+    "85:pskg:governedByPolicy:b0__product_flexi_rewards->b10__temp_rule_otp_warning": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1211473797320802304",
+    "86:pskg:hasSkill:b0__product_flexi_rewards->b10__temp_skill_safety": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1179952997975719936",
+    "87:pskg:hasSkill:b0__product_flexi_rewards->b10__temp_skill_lost_card": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1182204797789405184",
+    "88:pskg:governedByPolicy:b0__product_flexi_rewards->b10__temp_rule_supp_limit_count": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1213725597134487552",
+    "89:pskg:hasEligibilityRule:b0__product_flexi_rewards->b10__temp_rule_supp_eligibility": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1159676904047902720",
+    "90:pskg:governedByPolicy:b0__product_flexi_rewards->b10__temp_rule_supp_spending_limit": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1215977396948172800",
+    "91:pskg:governedByPolicy:b0__product_flexi_rewards->b10__temp_rule_supp_responsibility": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1218229196761858048",
+    "92:pskg:inCampaign:b0__product_flexi_rewards->b11__campaign_flexi_dining_shopping": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155175503443787776",
+    "93:pskg:campaignHasRule:b11__campaign_flexi_dining_shopping->b11__rule_campaign_cashback_conditions": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152933599234752605",
+    "94:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b11__rule_interest_rate": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1193464896369459200",
+    "95:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b11__rule_statement_due_date": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1195716696183144448",
+    "96:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b11__rule_campaign_cashback_conditions": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1197968495996829696",
+    "97:pskg:requiresDocument:b0__product_flexi_rewards->b11__doc_id_card": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1188951401137438720",
+    "98:pskg:requiresDocument:b0__product_flexi_rewards->b11__doc_employment_contract": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1191203200951123968",
+    "99:pskg:requiresDocument:b0__product_flexi_rewards->b11__doc_salary_statements": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1193455000764809216",
+    "100:pskg:hasScript:b0__product_flexi_rewards->b11__script_objection_interest": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152924803141730304",
+    "101:pskg:hasScript:b0__product_flexi_rewards->b11__script_objection_minimum_payment": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155176602955415552",
+    "102:pskg:hasScript:b0__product_flexi_rewards->b11__script_lost_card": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157428402769100800",
+    "103:pskg:hasScript:b0__product_flexi_rewards->b12__temp_script_atm_vs_credit": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1159680202582786048",
+    "104:pskg:hasScript:b0__product_flexi_rewards->b12__temp_script_withdraw_cash": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1161932002396471296",
+    "105:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b12__temp_rule_cash_withdrawal_fee": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1200220295810514944",
+    "106:pskg:hasScript:b0__product_flexi_rewards->b12__temp_script_extra_100m": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1164183802210156544",
+    "107:pskg:hasScript:b0__product_flexi_rewards->b12__temp_script_how_it_works": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1166435602023841792",
+    "108:pskg:hasScript:b0__product_flexi_rewards->b12__temp_script_limit_determination": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1168687401837527040",
+    "109:pskg:governedByPolicy:b0__product_flexi_rewards->b12__temp_rule_limit_determination_policy": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1220480996575543296",
+    "110:pskg:governedByPolicy:b0__product_flexi_rewards->b13__rule_interest_free_period_dependency": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1222732796389228544",
+    "111:pskg:governedByPolicy:b0__product_flexi_rewards->b13__rule_statement_definition": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1224984596202913792",
+    "112:pskg:governedByPolicy:b0__product_flexi_rewards->b13__rule_minimum_payment_interest": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1227236396016599040",
+    "113:pskg:governedByPolicy:b0__product_flexi_rewards->b13__rule_late_payment_consequences": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1229488195830284288",
+    "114:pskg:governedByPolicy:b0__product_flexi_rewards->b13__rule_cash_withdrawal_terms": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1231739995643969536",
+    "115:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b14__rule_installment": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1202472095624200192",
+    "116:pskg:governedByPolicy:b0__product_flexi_rewards->b14__rule_abroad": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1233991795457654784",
+    "117:pskg:governedByPolicy:b0__product_flexi_rewards->b14__rule_lost_card": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1236243595271340032",
+    "118:pskg:governedByPolicy:b0__product_flexi_rewards->b14__rule_supplementary": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1238495395085025280",
+    "119:pskg:governedByPolicy:b0__product_flexi_rewards->b14__rule_limit_increase_request": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1240747194898710528",
+    "120:pskg:hasSkill:b0__product_flexi_rewards->b15__temp_skill_74": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1184456597603090432",
+    "121:pskg:hasSkill:b0__product_flexi_rewards->b15__temp_skill_75": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1186708397416775680",
+    "122:pskg:hasSkill:b0__product_flexi_rewards->b15__temp_skill_76": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1188960197230460928",
+    "123:pskg:hasSkill:b0__product_flexi_rewards->b15__temp_skill_77": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1191211997044146176",
+    "124:pskg:hasSkill:b0__product_flexi_rewards->b15__temp_skill_78": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1193463796857831424",
+    "125:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b16__rule_interest_free_explanation": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1204723895437885440",
+    "126:pskg:hasSkill:b0__product_flexi_rewards->b16__skill_no_long_term_min_payment": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1195715596671516672",
+    "127:pskg:hasSkill:b0__product_flexi_rewards->b16__skill_no_spending_close_to_limit": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1197967396485201920",
+    "128:pskg:governedByPolicy:b0__product_flexi_rewards->b16__rule_do_not_receive_credentials": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1242998994712395776",
+    "129:pskg:hasSalesConditionRule:b0__product_flexi_rewards->b16__rule_full_payment_scenario": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1206975695251570688",
+    "130:pskg:governedByPolicy:b0__product_flexi_rewards->b17__rule_minimum_payment_example": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1245250794526081024",
+    "131:pskg:governedByPolicy:b0__product_flexi_rewards->b17__rule_cash_withdrawal_fee": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1247502594339766272",
+    "132:pskg:governedByPolicy:b0__product_flexi_rewards->b17__rule_cashback_cap": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1249754394153451520",
+    "133:pskg:hasSkill:b0__product_flexi_rewards->b17__skill_responsible_use": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1200219196298887168",
+    "134:pskg:hasSkill:b0__product_flexi_rewards->b17__skill_rm_advisors": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1202470996112572416",
+    "135:pskg:governedByPolicy:b0__product_flexi_rewards->b18__temp_rule_appraisal_assessments": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1252006193967136768",
+    "136:pskg:governedByPolicy:b0__product_flexi_rewards->b18__temp_rule_advisory_quality": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1254257993780822016",
+    "137:pskg:governedByPolicy:b0__product_flexi_rewards->b18__temp_rule_verify_info": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1256509793594507264",
+    "138:pskg:governedByPolicy:b0__product_flexi_rewards->b18__temp_rule_no_commit": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1258761593408192512"
+  },
+  "nodes": [
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "labels": [
+        "BankingProduct"
+      ],
+      "properties": {
+        "bankingProductName": "Flexi Rewards Credit Card",
+        "productCode": "CC-FLEXI-001",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "bankingProductEffectiveFrom": "2026-08-01",
+        "bankingProductStatus": "Draft",
+        "bankingProductVersionNumber": "1.1"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:1",
+      "labels": [
+        "Customer"
+      ],
+      "properties": {
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "behaviorContext": "- 29 years old.\n- Works at a technology company.\n- Earns approximately 30 million VND/month.\n- Spends approximately 10–15 million VND/month.\n- Frequently shops online.\n- Has never used a credit card.\n- Is interested in cashback.\n- Is concerned about interest rates.",
+        "customerIdentifier": "Sample customer"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:2",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "stable income, the ability to manage spending",
+        "ruleType": "ELIGIBILITY",
+        "_ingestionKey": "f2d4a4db00b14096b8cb6ce4ee03ff7e3069b7798b4a56b8b91bc98705a581ab"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:3",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "POL-CC-2026-03",
+        "ruleType": "POLICY",
+        "_ingestionKey": "16eed9bb77f8e35dcd485aa0184f1bf3557111eeb710c18589fea48c4537fd53"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:4",
+      "labels": [
+        "CustomerNeed"
+      ],
+      "properties": {
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "needName": "flexible repayment timing",
+        "_ingestionKey": "c08b379b0bc1512fe9fb932fc72e81c2e576899b2a99bd4973a3d5c23f19ade4",
+        "needDescription": "payment method with flexible repayment timing"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:5",
+      "labels": [
+        "Version"
+      ],
+      "properties": {
+        "versionVersionNumber": "1.1",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "42902deab485081716ffe87b629f9ffe539e44e2160b1741609a232a0f3f472f"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:6",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "c794f4efb43de604a188d337447c2636e6504c6d7acf713c962e98071b430de1",
+        "salesSkillContent": "Employees must explain that money used through a credit card **is not free money** and is not a permanent addition to the customer's income."
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:7",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "| Credit Limit | From 20 million to 500 million VND |",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "e3914bcec6c1a74478d4e11bf0b9c936ad8f245da715ddd0e35a3eb02b613a3c"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:8",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "| Cash Withdrawal Limit | Up to 50% of the granted credit limit |",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "ac4f7c4aeb7a31d43d4ab65e2888568a280b639e99cb1d7bd3286b7353aadeb9"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:9",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "| Minimum Payment | 5% of total statement balance, minimum 200,000 VND |",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "92bf042ba0633ba9cf8f980fc160aeddde710c07d7815aa5aa8ca09bef7dadb4"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:10",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "| Maximum Interest-Free Period | 50 days for eligible transactions |",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "095622db7c8a447acf0f50176d7fa25ceba479b780a83425951fa34eaedbac53"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:11",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Customers may be assigned certain transaction-specific limits that are lower than the overall credit limit for risk management purposes.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "43cac17dc908096376e17df02011d52cd5f86cfc33b36a2817201035419c6bc8"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:12",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The credit limit is determined by the bank based on a comprehensive credit assessment.\n\nFactors that may be considered include:\n\n- Monthly income.\n- Employment stability.\n- Length of employment.\n- Credit history.\n- Current outstanding debt.\n- Limits and outstanding balances on other credit cards.\n- Monthly debt obligations.\n- Existing relationship with the bank.\n- Ability to provide evidence of income.\n- Credit risk assessment results.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "ab2bd6fcddd091c72c2d31ef7268254ad9f425fdb8cc30ca60abd9d296df3a37"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:13",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "After the customer repays 20 million VND and the payment is posted, the available credit limit may increase accordingly.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "55575d2530e055c7736493ec1a3046f581d2d43f459b292c569714414ab3bb6f"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:14",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "If there are no holds or other obligations, the remaining available credit limit is approximately:\n\n**75 million VND.**",
+        "ruleType": "POLICY",
+        "_ingestionKey": "d6d0ee2f568adc45ed30da9da14d0f6731d150d1b3c054b23f33a366f8f09043"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:15",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "A customer requesting a credit limit increase may be required to provide:\n\n- Updated income documents.\n- Employment information.\n- Account statements.\n- Documents proving changes in financial capacity.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "39c1107b5ad3376946e7e15a8afe5adf33372f8e624beea639af0d78d9500f05"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:16",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The bank may also proactively review the credit limit if it identifies:\n\n- Changes in the customer's financial capacity.\n- Signs of increased credit risk.\n- Poor payment history.\n- Unusual information related to the card account.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "7c4e427b2856dcdd92c429da64427fa6eee64c4a751cbd78e9141083fee48f16"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:17",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "6a13854782723606f6b76043153818b20453ad62f5702062cd7e4c06354de65f",
+        "documentName": "Updated income documents"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:18",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "ce93d42df6da4cb1558f131c71db083ca2f71e3740e773a6e8f883915d614e1c",
+        "documentName": "Employment information"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:19",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "b1320404e55937b5d22b4e63a790d20c9c6e25bfdc5fbf4c5d781ea6f14c95d7",
+        "documentName": "Account statements"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:20",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "ec31242443ecf588ab8c9097a85a57ca3ab81407612d6ac52f99df2d6b124783",
+        "documentName": "Documents proving changes in financial capacity"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:21",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Individual customers may submit an application when they meet the basic conditions:\n\n- At least 20 years old at the time of application.\n- Not older than 60 years at the time of application under normal policy.\n- Have valid identification documents.\n- Have verifiable residence information.\n- Have lawful employment or a lawful source of income.\n- Be able to provide proof of income.\n- Normally have net income of at least **10 million VND/month**.\n- Have an appropriate credit history.\n- Not fall under cases restricted from receiving credit under applicable regulations.",
+        "ruleType": "ELIGIBILITY",
+        "_ingestionKey": "c1d6fac06a9e087ac9ac8d1ea05df148289669c594eb36757edb4f4de7dae205"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:22",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "For salaried customers, working at the current employer for **at least 03 months** and having a total continuous employment period of at least 12 months may be viewed more favorably.",
+        "ruleType": "ELIGIBILITY",
+        "_ingestionKey": "0f4a0969b6ed2fad3d5e1a16f79135692449bb47641982386aa3b3a5821c3b51"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:23",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The fact that a customer:\n\n- Earns more than 10 million VND.\n- Meets the age requirement.\n- Has an employment contract.\n- Has a salary account.\n\ndoes not mean the customer will definitely be issued a card.\n\nThe bank also assesses:\n\n- Existing financial obligations.\n- Credit quality.\n- Repayment ability.\n- Stability of income sources.\n- Actual application documents.\n- Other risk factors.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "1145aa1e326edcac5af516017b4ba44699eece473ce50bba449daa1d09ebe04b"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:24",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Employees must not commit in advance to a credit limit or approval result.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "e547393e25066e0bd733f81d4bc4eecd8a37c1939ceb1c525fe2e200880a35c5"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:25",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Some cases may require deeper review:\n\n- Customers with multiple loans.\n- Customers with multiple credit cards at other institutions.\n- Existing card limits that are high relative to income.\n- Customers using a large portion of their existing credit limit.\n- History of late payments.\n- Income from multiple sources.\n- Highly variable income.\n- Self-employed customers.\n- Employment or residence information that is difficult to verify.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "e998d0f53328b0981bb1aec7ac57b07865be4b9f2855abaa548cb56246abd6ed"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:26",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "8988ec131f05dde031491578d9a8f033fe733c6352c42de479195dca87afc24a",
+        "documentName": "Citizen ID card or other valid identification document."
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:27",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "6efe3df5bb7bafb35541d7fc40c9d0884bb0d1c72ce4a6d009587fb01bc2346c",
+        "documentName": "Residence information."
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:28",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "85b213ae4bf75b385ea109e6046fa130cbeee6590040ce86be393ccf1efd571b",
+        "documentName": "Additional documents as required where further verification is needed."
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:29",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "a33b95292efd04ced29b333f21a9e94bdd3f0f9dbf011423bee9f68899ea4821",
+        "documentName": "Employment contract."
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:30",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "a6f9c791d57b92692bca59cbe0121187164ae85d7425c23f847dae78f9625515",
+        "documentName": "Salary account statements for the most recent 3–6 months."
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:31",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "c4b01afae5de816dd0dd5ff7d9c9d1433e09b29564cd60de3d0381c3022492e7",
+        "documentName": "Income confirmation, if required."
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:32",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "308db466edde642344c5d6de02fe1195c835701724451405c361cfa0556d7112",
+        "documentName": "Documents proving job position or length of employment."
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:33",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "d563497d963cba9e6b23f1df70c6a660c87b8d537105e64e8c3b4f2e2cfbcf89",
+        "documentName": "Business documents"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:34",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "d78a5acb57ddef903f765157c94719179ecb35f87fef029e768fe0bb0e2ab348",
+        "documentName": "Rental contracts"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:35",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "447c92b4ddead246e6b79a000e6e61196e1fbb6a101326e2de8164be69c10b01",
+        "documentName": "Payment receipts"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:36",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "d5275902424fc392c5e711ae48417e12d88b6a009baabe316c47d77200494a30",
+        "documentName": "Tax documents"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:37",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "8f0bf5d15c650cd3b22c93e6b7a319db715f601235beb9289d4e6931f4f2d2d6",
+        "documentName": "Other appropriate supporting documents"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:38",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Not every source of income declared by the customer will necessarily be fully recognized by the bank when assessing financial capacity.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "4cb885e2a513557e740a233fa37c9acb525131c2e6e895aa2d93dfcf6fa45d82"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:39",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "| Fee | Applicable Rate |\n|---|---:|\n| Initial issuance fee | Free |\n| Primary card annual fee | 699,000 VND/year |\n| Supplementary card annual fee | 299,000 VND/year |\n| Cash withdrawal fee | 4% of the withdrawn amount, minimum 100,000 VND/transaction |\n| Foreign currency transaction fee | 2.5% of the converted transaction value |\n| Late payment fee | 5% of the unpaid minimum payment amount, minimum 150,000 VND |\n| Physical card reissuance fee | 150,000 VND/time |\n| Replacement fee due to card damage | 150,000 VND/time |",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "8cdf78714de8c5d4943c18552aa2cc28fbf4457426f9278edb63f12b99423f69"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:40",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The standard interest rate applicable to credit card balances is:\n\n**32%/year.**",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "dfc7d230f9c9a7ce53f138108d6f76d8b77f20dfca34c753dd512323692f8478"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:41",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Flexi Rewards has a default statement date of:\n\n**The 20th of each month.**",
+        "ruleType": "POLICY",
+        "_ingestionKey": "f54f1002c73e0adfa4ceb472ccefabf0e3d06db2d1e92ac1849c3ed41f38fcdc"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:42",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The statement may show:\n\n- Opening balance.\n- Purchase transactions.\n- Cash withdrawal transactions.\n- Fees incurred.\n- Interest incurred.\n- Payments made by the customer.\n- Refunds, if any.\n- Total statement balance.\n- Minimum payment amount.\n- Payment due date.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "c426a3e4648b9f3cc777c47f2a2f1c1619d5c705418bbd2fd0a64a78c953b3b8"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:43",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The standard payment due date is:\n\n**The 10th of the month following the statement date.**",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "def9c34ac4dfc256ecb2b7dc795874948eec32344159b004bcaf2b3427016761"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:44",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Flexi Rewards provides a maximum interest-free period of approximately:\n\n**50 days**\n\nfor eligible purchase transactions.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "cfbe523ee9dc462d1601faad114d817602dc097629bcc046d4012927e479e2db"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:45",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The statement date is the **20th of each month**.\n\nThe due date is the **10th of the following month**.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "41e3527e276e87b1bd84b0f54f47f97f8e7200348e4f82c115fc47038b35f62a"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:46",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The customer must pay the **full statement balance** in accordance with the required conditions and by the due date.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "66358acb91cf06ae5ffea3beb2e447dba0908cbd85733d7997d7549e53a2a480"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:47",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Cash withdrawals made with a credit card do not receive the same interest-free period as purchase transactions.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "8345438eed81b922ce73943f8a88c7c777b2f2a32d5700e6bdd7346f18f08adb"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:48",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "2f92cecc23eb52e71e6a68bef6bf5d170143e6a2cfa07ffdd6e72760af29c78d",
+        "salesSkillContent": "Employees should not present cash withdrawal as a primary benefit of the card."
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:49",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "If the customer pays the full amount on time, eligible purchase transactions may continue to qualify for the interest-free policy.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "2f0ef2b482d0a67645a0612e8f0d0c6db6f0e0d5d06570ffaec71b628ef3ab5c"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:50",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "If the total outstanding balance is less than 200,000 VND, the customer must pay the full balance.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "6ec0f7704999434ca0394951571cb5322fe773127ac10215a19b7972f637257d"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:51",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "4c0c9d15b593d62e067fb8acace69f84b522297bb9f294cb90ab889f673b15c1",
+        "salesSkillContent": "Employees must not advise that paying only the minimum amount each month is an optimal way to use the card."
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:52",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "A customer who fails to meet the minimum payment obligation on time may:\n\n- Incur a late payment fee.\n- Incur interest.\n- Have their credit history affected.\n- Have card usage restricted or temporarily suspended.\n- Be subject to a credit limit review or adjustment.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "5678d9a5fe3acfdf99b3aabe1118c90c457d14f36d388788a1eb01043ab33d89"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:53",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Cash withdrawal fee:\n\n**4% of the withdrawn amount, minimum 100,000 VND/transaction.**",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "f7a1e65ea7d8a87bd4e4809bf5c60f2a324fc71ef176a5a49ad88ea4bce76746"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:54",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "540d7d6a7506ca136cefd4b98a5214ee9ea3895a8e96955d5a2843aea9339ee5",
+        "salesSkillContent": "Cash withdrawal should only be used when necessary.\n\nIf a customer needs a large cash amount and a long repayment period, employees should explore whether another consumer loan product would be more suitable.",
+        "salesSkillName": "Advisory Principle"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:55",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Customers may request that certain purchase transactions be converted into an installment plan.\n\nSupported tenors:\n\n- 3 months.\n- 6 months.\n- 9 months.\n- 12 months.\n\nMinimum transaction value:\n\n**3,000,000 VND/transaction.**",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "e7f7bc9c84db11bd2b43e7590ba54e6dcf949f11317229a47ad96729773b2a13"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:56",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "| Tenor | One-Time Conversion Fee |\n|---|---:|\n| 3 months | 1.5% of transaction value |\n| 6 months | 2.5% of transaction value |\n| 9 months | 3.5% of transaction value |\n| 12 months | 4.5% of transaction value |\n\nSpecific partner programs may apply different fees.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "0224a996cae81108887a7e58d1724fd2d01f2dd495a1dcaac3f8dc19b6638548"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:57",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Not every transaction is automatically eligible for installment conversion.\n\nThe transaction must satisfy conditions such as:\n\n- It has been successfully posted.\n- It is not a cash withdrawal.\n- It does not belong to an excluded transaction category.\n- Its value meets the minimum requirement.\n- The card account is in normal active status.\n- The customer does not have overdue obligations that exceed policy restrictions.\n\nCustomers should register for installment conversion before the processing deadline specified by the relevant program.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "3e5f95e5090c2119ede842e175ab6f2933e9d4bad6db00450fc26366a51b8785"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:58",
+      "labels": [
+        "Campaign"
+      ],
+      "properties": {
+        "campaignEffectiveTo": "2026-12-31T23:59:59Z",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "campaignStatus": "Draft",
+        "_ingestionKey": "5f7a7e6f1544ad2390410f1c84af8dafc8ab4583a64eed71aee868f16755f9f3",
+        "campaignEffectiveFrom": "2026-08-01T00:00:00Z",
+        "campaignName": "Flexi Dining & Shopping",
+        "campaignBenefit": "Cashback on eligible transactions"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:59",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The cashback benefit applies to eligible transactions in the following categories:\n\n- Restaurants.\n- Dining establishments.\n- Certain food and beverage services.\n- Online purchases at merchants classified by the bank as belonging to eligible e-commerce categories.\n\nCashback rate:\n\n**5% of the eligible transaction value.**\n\nMaximum total cashback:\n\n**500,000 VND per card account per month.**",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "01ec68b12210b9f98cff7f6a9211615b1d2ff30b43d85ccf356695dbcd0ce6e9"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:60",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The benefit does not apply to:\n\n- Cash withdrawals.\n- Fees and interest.\n- Cancelled transactions.\n- Refunded transactions.\n- Transactions determined not to belong to an eligible merchant category.\n- Transactions showing signs of program abuse.\n- Transactions that are invalid under the program terms.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "d1f1504da95ea5fb757ef59ce99093de58a76d6ce33315754cd39b7bf55f023f"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:61",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Employees must not guarantee the benefit before the transaction has been posted and reconciled.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "d2aed6ca96f4c6c61e3a05cd2045178b946e96659505789d12f73e8461bc2625"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:62",
+      "labels": [
+        "CustomerSegment"
+      ],
+      "properties": {
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "d4290d47904d1dc663201607d34b44c472a1460b2f89e4d168c5440e046a3451",
+        "segmentDescription": "Characteristics:\n\n- Stable monthly income.\n- Ability to proactively repay balances.\n- Regular recurring expenses.\n- Ability to set up automatic payments.",
+        "segmentName": "Salaried Customers"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:63",
+      "labels": [
+        "CustomerNeed"
+      ],
+      "properties": {
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "needName": "manage cash flow",
+        "_ingestionKey": "10d92ed657099a4a35bad8acaa2a66bb09aa6dc3af8b742a3ac3ee69bccb2a07",
+        "needDescription": "manage cash flow when used in a planned manner"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:64",
+      "labels": [
+        "CustomerSegment"
+      ],
+      "properties": {
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "6e5cc4b5c89a1085e23f64d8c02c9307b4175b2144ac8a8ee61f3320df567710",
+        "segmentDescription": "Customers often spend on:\n\n- Household goods.\n- Electronics.\n- Fashion.\n- Personal services.\n- Recurring purchases.",
+        "segmentName": "Customers Who Shop Frequently"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:65",
+      "labels": [
+        "CustomerNeed"
+      ],
+      "properties": {
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "needName": "control their total spending",
+        "_ingestionKey": "0c755fbd705cc22342b6fd2f13c7dfb0e50491aa023fedec1b28c633cacf5ead",
+        "needDescription": "repay and control their total spending"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:66",
+      "labels": [
+        "CustomerSegment"
+      ],
+      "properties": {
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "7b7a68837a2da5616ce77a27de609387db234ef2948ab8718b5a87382d41164c",
+        "segmentDescription": "This group includes customers who:\n\n- Shop on e-commerce platforms.\n- Subscribe to digital services.\n- Make app-based payments.\n- Book tickets or services online.",
+        "segmentName": "Customers Who Frequently Pay Online"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:67",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "f0b86ed7b5e71e1c5c469ee5eddeb9810bc787a9d8dcbaf27f676054884e2cce",
+        "salesSkillContent": "Employees must also provide guidance on card information security.",
+        "salesSkillName": "guidance on card information security"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:68",
+      "labels": [
+        "CustomerSegment"
+      ],
+      "properties": {
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "0ca0adba05e5df9131bb6ecaea639b6bc57fb1a7a0ca74c44ee6fbcbee0be696",
+        "segmentDescription": "The product may be suitable for customers who need to:\n\n- Book hotels.\n- Purchase airline tickets.\n- Make payments abroad.\n- Place deposits for services.",
+        "segmentName": "Customers Who Travel for Business or Leisure"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:69",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Customers should be informed about foreign currency transaction fees and holds that may affect the available credit limit.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "629c9d4420ce1f72efe4e057a3a3b5a8dde9c0737f4067ee601851f2068867b7"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:70",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "8e19745eb956fa537b854ed49cc635d95e53a8dde89a403e035d9b89757c4334",
+        "salesSkillContent": "Employees should understand:\n\n- Which payment methods the customer currently uses.\n- Average monthly spending.\n- Common spending categories.\n- Online shopping needs.\n- Travel needs.\n- Whether installment payments are needed.\n- Income level and repayment capacity.\n\nThe conversation should not begin by promoting a high credit limit or promotional benefits.",
+        "salesSkillName": "Step 1 – Discover Customer Needs"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:71",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The conversation should not begin by promoting a high credit limit or promotional benefits.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "51ffa52928d21eec23b13057d8e68770fc940a7ef33f31774b4f3dcf3ad58727"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:72",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "9e26fe8f51cc9c05faaac91e5249c8b704133cc9d6d7b887c754bacaf12f71da",
+        "salesSkillContent": "Explain:\n\n- How a credit card works.\n- Credit limit.\n- Statement.\n- Due date.\n- Interest-free period.\n- Fees and interest.\n- Repayment responsibility.\n\nEmployees must ensure that the customer understands the nature of credit before focusing on benefits.",
+        "salesSkillName": "Step 2 – Introduce the Product"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:73",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Employees must ensure that the customer understands the nature of credit before focusing on benefits.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "d5e16cb5b9974eebee8a5d1520e7439ebf823049b436cfd767e155029311e8be"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:74",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "40a2e130a0b02557430279edd2316c72ea07ca53a72c7faff633324c2298e4cc",
+        "salesSkillContent": "Employees should discuss:\n\n- Age.\n- Employment.\n- Income.\n- Length of employment.\n- Current loans.\n- Existing credit cards.\n- Payment history based on information provided by the customer.\n\nThe result of this step is only a preliminary screening.",
+        "salesSkillName": "Step 3 – Preliminary Eligibility Check"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:75",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The result of this step is only a preliminary screening.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "45ed33653dbe7234a5b59eae19f289da247b0cb6be733e21aee6c0e6d60976eb"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:76",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "d3e9bacd4d524463f1b311ff32d7b2a99cab62c886a32f3bf7edb903ef6702cd",
+        "salesSkillContent": "Guide the customer in preparing documents based on the customer's income source.\n\nDo not ask the customer to send sensitive information such as:\n\n- OTP.\n- Card PIN.\n- Banking application password.",
+        "salesSkillName": "Step 4 – Application Document Guidance"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:77",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Do not ask the customer to send sensitive information such as:\n\n- OTP.\n- Card PIN.\n- Banking application password.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "b6a2aaffedcb18287d579cd4ec66d81808148fdddce515fb66f76f23c4b7594d"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:78",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "d4fb0c7eb9cbb04859918aeb77d13eb45e1537dbae4cf0ede799d3d86cf2a911",
+        "salesSkillContent": "The application is received through channels permitted by the bank.\n\nEmployees check completeness before forwarding the application for appraisal.",
+        "salesSkillName": "Step 5 – Receive the Application"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:79",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Employees check completeness before forwarding the application for appraisal.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "892a74dcb68825587a2ed60e74546242a8c984df1b1baf84bb24fb673a3abefb"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:80",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The bank performs:\n\n- Customer information checks.\n- Credit checks.\n- Income assessment.\n- Assessment of existing obligations.\n- Additional verification if needed.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "ee378f64e98b5471c6e5017f508d1868b14ec552912c984e9998eefe0a35a51e"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:81",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Possible outcomes include:\n\n- Approval at the requested limit.\n- Approval at a lower limit.\n- Request for additional information.\n- Card application rejection.\n\nEmployees must not make commitments on behalf of the approval authority in advance.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "5bdcc6024dcd6410b581683e82a0dbc531ab30d4520d20c7f59fe4412d343751"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:82",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "After approval, the bank issues the card using the applicable method.\n\nCustomers may receive a virtual card before receiving the physical card if permitted by policy.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "954267afa927237dcd023a49a8802c5b1bcae99ecd1833e32ad720768e2394b8"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:83",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The customer confirms receipt of the card and activates it.\n\nEmployees guide the customer in setting up necessary features.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "89e34551e1bb954506a298661e42ab2213521e77cc2593ecac9d6b06192f1787"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:84",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "ce14e0aa3acbfc9a06f2419001a868f0109179d9b0db8e6eb90f057e9bd0f32e",
+        "salesSkillContent": "Before concluding the advisory process, employees should remind customers to:\n\n- Monitor spending.\n- Review statements.\n- Pay on time.\n- Limit cash withdrawals.\n- Never share security information.\n- Lock the card immediately if risk is detected.",
+        "salesSkillName": "Responsible Use Guidance"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:85",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "ed2622439293ebcbddec97215886b0164facfac9211145662ff3abeffa6c1a01",
+        "salesSkillContent": "After receiving the card, customers must activate it before use according to instructions.\n\nOn the digital banking application, customers may be provided with functions such as:\n\n- View credit limit.\n- View available credit.\n- View transaction history.\n- Review statements.\n- Lock or unlock the card.\n- Enable/disable online payments.\n- Enable/disable international payments.\n- Set certain transaction limits.\n- Manage supplementary cards.\n- Set up automatic outstanding balance payments.\n- Request card reissuance.\n\nSome functions may change depending on the version of the digital banking service.",
+        "salesSkillName": "Card Activation and Management"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:86",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Bank employees must not ask customers to provide OTPs, PINs, or login passwords for card application support or card processing.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "66c400cbf399392f78350490cb0b8c0563c1902c7608bb65c24ab8919871374f"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:87",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "5a7cc04f92df5c80756d57a5b4e26a4f8897099ec0126a010fc5435c7892f0eb",
+        "salesSkillContent": "Customers should be instructed to:\n\n- Never provide an OTP to anyone.\n- Never share the PIN.\n- Never send full images of both sides of the card through insecure channels.\n- Never save card information on public devices.\n- Check the website address before entering card information.\n- Be cautious with links received via text message or social media.\n- Enable transaction notifications.\n- Review transactions regularly.\n- Lock the card immediately if information compromise is suspected.",
+        "salesSkillName": "Safety and Security"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:88",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "8bb580d123b9586fe50dba3e72b78bd55114e1b64d4ae615538d68555b908f02",
+        "salesSkillContent": "When a customer reports a lost card or detects a suspicious transaction, employees should instruct the customer to act promptly:\n\n1. Lock the card in the application, if possible.\n2. Contact the bank through an official channel.\n3. Review recent transactions.\n4. Identify transactions not made by the customer.\n5. Provide necessary information for investigation.\n6. Follow the bank's dispute or transaction investigation procedures.\n7. Request card reissuance when appropriate.\n\nCustomers should not wait until the end of the statement cycle to report a suspicious transaction.",
+        "salesSkillName": "Lost Card or Suspected Fraud"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:89",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Flexi Rewards supports the issuance of up to **02 supplementary cards** for one primary card account under normal policy.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "e1316c676da249812e32217ce254408cf9376d16dfdca3654ff75fbb53a6a745"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:90",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The supplementary cardholder must meet the applicable eligibility conditions.",
+        "ruleType": "ELIGIBILITY",
+        "_ingestionKey": "b28ed28ddf2eae212b2f67e0f5f208c4c00163916f06d12b811831174290f5f2"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:91",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The primary cardholder may request a separate spending limit for a supplementary card, but the total spending across all cards remains within the credit limit of the primary card account.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "70e4d0cbc083799b2221fd86dd5e3fc589aa47e247f772044270c28fd289de24"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:92",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Transactions made by supplementary cards are posted to the primary card account, and the primary cardholder is responsible for payment obligations in accordance with the agreement with the bank.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "73866ce9b993c22bbf8875bcfbd017a83dfe5098a45eae6b9c457698a14eaab7"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:93",
+      "labels": [
+        "Campaign"
+      ],
+      "properties": {
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "campaignStatus": "Draft",
+        "_ingestionKey": "719758604072c81256438cd949c2f35585ad8a2c71e647c7db06554251d7a078",
+        "campaignName": "Flexi Dining & Shopping",
+        "campaignBenefit": "Certain eligible dining and online shopping transactions receive 5% cashback, up to 500,000 VND per month."
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:94",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The current card interest rate is 32% per year for balances subject to interest.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "d37ad983b7fcb6604ff5a8f9c0cd7a60c6d064742fafbd87c31e637bfb3ac2ec"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:95",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "On the 20th of each month, the bank issues a statement. The current due date is the 10th of the following month.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "3fb10a39fe012a1e93dfd66bc4bd98b922ae9d1c66a17f31ed359bee2ceddd91"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:96",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The transaction must fall within merchant categories defined by the program and satisfy reconciliation conditions. Refunded, cancelled, or incorrectly categorized transactions will not qualify.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "b8ea6299dea15eb5d98a7dec5c6e5ee9e98ef0e1296fcfa72d13c42dd58dd073"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:97",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "87b9e90cc470e8607cb59bed63fe27547c0f07fa75d78a0170488b5a2cd068af",
+        "documentName": "ID card"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:98",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "88e9727c1e0d65956fc69606942e2d3514f4478172fc17cd4c79042f0cddcb91",
+        "documentName": "employment contract"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:99",
+      "labels": [
+        "RequiredDocument"
+      ],
+      "properties": {
+        "requiredDocumentStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "9cb35ee340ea4db010983336f0e108eefc704ddd087b1d8128dc08e0e8019f72",
+        "documentName": "salary statements"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:100",
+      "labels": [
+        "SalesScript"
+      ],
+      "properties": {
+        "salesScriptStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "objectionHandling": "Credit card interest rates are higher than many secured loan products, but eligible purchase transactions do not necessarily incur interest if the customer pays the full statement balance on time.",
+        "scenario": "“I am afraid credit card use will result in very high interest charges”",
+        "_ingestionKey": "9b7315f35a77e1226e22246dc7cdd88681222499404dc9984448971e47d5a512"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:101",
+      "labels": [
+        "SalesScript"
+      ],
+      "properties": {
+        "salesScriptStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "objectionHandling": "Yes, provided the payment meets the minimum amount shown on the statement.\n\nHowever, the remaining outstanding balance may incur interest.\n\nIf the customer maintains this payment pattern for a long period, the cost of using credit may increase significantly.",
+        "scenario": "“Can I just pay the minimum amount every month?”",
+        "_ingestionKey": "6f9149007f96934cd5a195f3979df7dac474dcd71df3d088f3a96af0e52ef0b4"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:102",
+      "labels": [
+        "SalesScript"
+      ],
+      "properties": {
+        "salesScriptStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "objectionHandling": "The customer should lock the card as soon as possible using the application or by contacting the bank.\n\nThen:\n\n- Review transactions.\n- Report abnormal transactions.\n- Submit a dispute/investigation request if needed.\n- Request a replacement card.",
+        "scenario": "“What should I do if the card is lost?”",
+        "_ingestionKey": "f63385ce05780016686d885a8eb27776819ae6fed991dae61a9a7a77343b0e69"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:103",
+      "labels": [
+        "SalesScript"
+      ],
+      "properties": {
+        "salesScriptStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "objectionHandling": "A debit card uses money that the customer already has in the account.\n\nA credit card uses a limit granted by the bank, which the customer must repay later.",
+        "scenario": "“How is a credit card different from an ATM card?”",
+        "_ingestionKey": "7c4a6fe24c85d238f7a50f6e89e74d1cc0c5d461079580af5b86545d570e0074"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:104",
+      "labels": [
+        "SalesScript"
+      ],
+      "properties": {
+        "salesScriptStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "objectionHandling": "Yes, within the cash withdrawal limit.\n\nHowever, the transaction incurs a 4% fee, with a minimum of 100,000 VND, and interest may also be charged immediately under the policy.\n\nTherefore, a credit card should not be used as a regular cash withdrawal tool.",
+        "scenario": "“Can I withdraw cash using a credit card?”",
+        "_ingestionKey": "55e8a54806b420fd432713c40e3560766ba62120cf15281f2a7997594e55fd33"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:105",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "the transaction incurs a 4% fee, with a minimum of 100,000 VND, and interest may also be charged immediately under the policy.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "eee02f0c01a62dff468cc3c2f08ec714b4c7be2454c83501dd9292ccd94dc4df"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:106",
+      "labels": [
+        "SalesScript"
+      ],
+      "properties": {
+        "salesScriptStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "objectionHandling": "It should not be understood that way.\n\nIf the card limit is 100 million VND, this is the maximum amount of credit the bank permits the customer to use within the applicable rules; it is not the customer's income.\n\nAll amounts used still create a repayment obligation.",
+        "scenario": "“If I have a credit card, does that mean I have an extra 100 million VND to spend?”",
+        "_ingestionKey": "2d45940513dccaf8c416bbe612dc3349f1e57359d6e135b3b2c6ff73dcb9faa4"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:107",
+      "labels": [
+        "SalesScript"
+      ],
+      "properties": {
+        "salesScriptStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "objectionHandling": "The bank grants the customer a credit limit.\n\nThe customer uses the card to make payments and repays the amount used according to the statement.",
+        "scenario": "How does a credit card work?",
+        "_ingestionKey": "e751033a5bd5fc1503b78cdd94cfa4deaa0c26c0f16defd31fb734d0006ec210"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:108",
+      "labels": [
+        "SalesScript"
+      ],
+      "properties": {
+        "salesScriptStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "objectionHandling": "The limit depends on:\n\n- Income.\n- Employment.\n- Current obligations.\n- Credit history.\n- Appraisal result.\n\nMeeting the card application conditions does not mean the customer will receive the maximum credit limit.",
+        "scenario": "How is the credit limit determined?",
+        "_ingestionKey": "e6a31855db82ea1d13beb2b45fa413d4b15e018111ae78155511f785f6dace8a"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:109",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The limit depends on:\n\n- Income.\n- Employment.\n- Current obligations.\n- Credit history.\n- Appraisal result.\n\nMeeting the card application conditions does not mean the customer will receive the maximum credit limit.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "83e4db51ca723234f898e365aaf02596c5931b37f0824911e2b7ea151557877d"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:110",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The actual period depends on the transaction date and the statement date.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "33a9c034300aedf53008699975eb6d914d4bd0a2d13513e5c932d24aa005e0aa"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:111",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "A statement is a summary of the customer's transactions and obligations during a billing cycle.\n\nThe statement shows the total balance, minimum payment, and payment due date.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "599554c05245d5526f5518afc494d202f43b879ed326fc80207f350f3be8f4cf"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:112",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The remaining outstanding balance may incur interest.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "8c5bdd44a0724372349036bfb5ba813bb9d089dd46be715653ff99526cfff61e"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:113",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The customer may:\n\n- Be charged a late payment fee.\n- Be charged interest.\n- Have their credit history affected.\n- Have card usage restricted.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "0d3a52aea0b5c41825bdbed7da834421f79d4b56ace103ed9e26f6dfe2351923"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:114",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Cash withdrawal transactions are subject to fees and may incur interest immediately.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "0d4b183d557092600287276e3f58711a612736ca81240362082fd23acc28b459"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:115",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Supported tenors are 3, 6, 9, and 12 months.\n\nThe standard minimum transaction amount is 3 million VND.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "e302b944995647b47d38a2ca4cea8ed721b6e08716dd53c77700b9afef0d0fc5"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:116",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Customers must enable international transactions if the function is disabled and should note the 2.5% foreign currency transaction fee under the current fee schedule.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "0bf7db5c89fe18ef291333951ca42cfcb42af832fa5ab8c881363492b76c3a7e"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:117",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Lock the card immediately through the application or contact the bank.\n\nThen review recent transactions and initiate a dispute/investigation process if any transaction was not made by the customer.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "f3a9186df6742e18eb77cc25eb80ef2a02b6127a3f7c41216da0a3ce591c0146"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:118",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Flexi Rewards supports up to two supplementary cards under normal policy.\n\nSupplementary card transactions are posted to the primary card account.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "2ced3b3da086fd01380672a23d2482ee4d57b1005379d543d53fd465c47bc401"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:119",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The customer may request the bank to review the limit.\n\nThe bank may require updated income documents and reassess financial capacity, card usage history, and credit information.\n\nMaking a request does not mean the credit limit will definitely be increased.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "094f058af5e9eb9f100a145349d311769e6d97984c93dee79eb7f39526a24010"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:120",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "2fd06237e0f245050e1e035a2ba53795f64384663a7ece915171f9cd68a902ec",
+        "salesSkillContent": "The Flexi Account payment account may be used to:\n\n- Pay credit card balances.\n- Set up automatic payments.\n- Monitor personal cash flow.\n\nCustomers receiving income into the account may consider setting up automatic payments to reduce the risk of forgetting the due date.",
+        "salesSkillName": "Flexi Account payment account"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:121",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "747127d4cf346b192f69cde42cec41091eafd242f7dcdfe0c81f7bd2dacba43c",
+        "salesSkillContent": "The digital banking application helps customers:\n\n- Monitor transactions.\n- View statements.\n- Check credit limits.\n- Pay outstanding balances.\n- Lock the card.\n- Manage certain transaction functions.\n\nCustomers should use the official application provided by the bank.",
+        "salesSkillName": "digital banking application"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:122",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "e8b2b66bca9cdf9233aa69a4288678cdd9420ac0a6175a0fb27ef959c0db5b28",
+        "salesSkillContent": "In some cases, the customer's needs may not be suitable for credit card use.\n\nExamples:\n\n- A large amount of money is needed.\n- The funds are needed for a long period.\n- A fixed repayment schedule is preferred.\n- The need is not for short-term payment.\n\nEmployees may explore the customer's needs further to determine whether a consumer loan product would be more appropriate.\n\nDo not use a credit card as the default substitute for every borrowing need.",
+        "salesSkillName": "consumer loan product"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:123",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "3b02e757f322b0167ed26f89ec7de7b3231e71130d93259a421314355b2bbe08",
+        "salesSkillContent": "Do not use statements such as:\n\n- “With an income of 30 million, you will definitely get a 100 million limit.”\n- “This application will definitely be approved.”\n- “Customers receiving salary through the bank are guaranteed to get the card.”\n\nPreferred wording:\n\n> “Based on the preliminary information, the application may be accepted for review. The official credit limit and approval result depend on the appraisal process.”",
+        "salesSkillName": "official credit limit"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:124",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "ef5cb05b86ad768abba3802b71bf30235fd6d0a26cb0adbb6808f116e9257da0",
+        "salesSkillContent": "Cashback and installment plans are supplementary benefits.\n\nEmployees must first explain:\n\n- The nature of the credit limit.\n- Interest rates.\n- Fees.\n- Statements.\n- Due dates.\n- Repayment obligations.",
+        "salesSkillName": "Cashback and installment plans"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:125",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The card offers a maximum interest-free period of approximately 50 days for eligible transactions when the customer satisfies the payment requirements.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "0062a2462e1ec2458c61d9531e7de80615f5fbe7b01045a7e0b4263fedd4bbb2"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:126",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "2e2b6c75eff4794d6088dfe488be226fa4ac461fb7ab0c683fe834cc845efaf7",
+        "salesSkillContent": "The minimum payment is a mechanism to support the customer's obligation for the billing cycle and should not be presented as a long-term financial management method.\n\nCustomers must be warned that the remaining balance may incur interest.",
+        "salesSkillName": "Do Not Encourage Long-Term Minimum Payments"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:127",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "d7a330efd266925fd0271edab06e159021e05cd8d67a268207fcab0ae7790031",
+        "salesSkillContent": "Using nearly the entire credit limit may:\n\n- Reduce the ability to make other transactions.\n- Create repayment pressure.\n- Affect the customer's financial capacity.\n- Potentially affect credit assessment.",
+        "salesSkillName": "Do Not Encourage Spending Close to the Credit Limit"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:128",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Employees must never ask customers to provide:\n\n- OTP.\n- PIN.\n- Digital banking password.\n- Email password.\n- Authentication information that only the customer should know.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "647cf04c86e7aec72f4a3e6d728600e262475416fd83caa0e1439707183ed12a"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:129",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The customer's total statement balance is:\n\n**12 million VND.**\n\nPayment due date:\n\n**10/09.**\n\nThe customer pays the full 12 million VND before the due date.\n\nEligible purchase transactions during the cycle may qualify for the interest-free policy.",
+        "ruleType": "SALES_CONDITION",
+        "_ingestionKey": "8ce24ef2ad4a907fbb131798ec4e457995a266e0c5163a8c2d51f304006ad14b"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:130",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "The customer has met the minimum payment requirement, but approximately 19 million VND remains unpaid and may incur interest under the policy.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "9666d484c7ee4fce663425d0c7dc9ce11ab837362e5a7c916a267993ccee9f1f"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:131",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Cash withdrawal fee:\n\n**5 million × 4% = 200,000 VND.**\n\nThe cash withdrawal may also incur interest from the time of the transaction under the policy.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "a6f92964c65244a5144fa899227137b0d4e6e3c26f9b2e318201099a6466c38b"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:132",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "This amount is below the monthly cap of 500,000 VND, so the full 400,000 VND may be considered for cashback if the transactions meet the program conditions.\n\nIf total eligible transactions are 15 million VND, 5% equals 750,000 VND, but the maximum benefit remains **500,000 VND** for the month.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "ce9d7e89089442ddd47537d095a390a94f3be54cb765fc05e5876c5179d00c54"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:133",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "20dc530f34607a96c04b958b34d80ad4d4f222cb0561b836906a35e553794581",
+        "salesSkillContent": "When guiding customers who are using a card for the first time, employees should emphasize:\n\n1. Spend only within the amount the customer can repay.\n2. Do not treat the credit limit as income.\n3. Monitor transactions regularly.\n4. Review monthly statements.\n5. Prioritize full and timely payment when financially able.\n6. Limit cash withdrawals.\n7. Do not share security information.\n8. Lock the card immediately if there is any suspicion.\n9. Review promotional conditions before relying on cashback benefits.\n10. Proactively contact the bank when experiencing payment difficulties.",
+        "salesSkillName": "Principles for Responsible Card Use"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:134",
+      "labels": [
+        "SalesSkill"
+      ],
+      "properties": {
+        "salesSkillStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "_ingestionKey": "c2cc9ca6bb080d431ee49762eea8643ca00cac23c217099782c82f1a6720937b",
+        "salesSkillContent": "- Discover customer needs.\n- Explain the product.\n- Guide application preparation.\n- Do not commit to approval results.\n- Fully explain fees, interest, and payment obligations.",
+        "salesSkillName": "Relationship Managers and Sales Advisors"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:135",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Conduct assessments of:\n\n- Income.\n- Employment.\n- Credit history.\n- Financial obligations.\n- Repayment capacity.\n- Appropriate credit limit.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "3b44ace10fcc762e30227aa61975860eceea4e21956fd7015922ecaa9482982e"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:136",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Employees should not assess advisory quality based on whether customers:\n\n- Receive a high credit limit.\n- Spend heavily.\n- Use the entire credit limit.\n- Register for multiple programs.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "0a3e5b244970cc5913f839df3c69946a1e53b13af21a2ce52c37ba6bcb4183e5"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:137",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "Before providing official information, employees must verify:\n\n- The current policy version.\n- Fee schedule.\n- Interest rate.\n- Promotional program conditions.\n- Appraisal result.\n- Approved credit limit.",
+        "ruleType": "POLICY",
+        "_ingestionKey": "3cdfbed31aadce96ee038e0b25a4aad091d5e3b24b955848f85ce2b08c98bfc1"
+      }
+    },
+    {
+      "nodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:138",
+      "labels": [
+        "BusinessRule"
+      ],
+      "properties": {
+        "businessRuleStatus": "Draft",
+        "_ingestionSource": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+        "businessRuleCondition": "**Do not commit to card issuance or a credit limit before the official approval result is available.**",
+        "ruleType": "POLICY",
+        "_ingestionKey": "b852dd91a17cf2797535f9f876507240a72e03fc6165a1ed40144e3446ffe733"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152921504606846976",
+      "type": "HAS_ELIGIBILITY_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:2",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155173304420532224",
+      "type": "HAS_ELIGIBILITY_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:21",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157425104234217472",
+      "type": "HAS_ELIGIBILITY_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:22",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1159676904047902720",
+      "type": "HAS_ELIGIBILITY_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:90",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152922604118474752",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:17",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155174403932160000",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:18",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157426203745845248",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:19",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1159678003559530496",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:20",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1161929803373215744",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:26",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1164181603186900992",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:27",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1166433403000586240",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:28",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1168685202814271488",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:29",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1170937002627956736",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:30",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1173188802441641984",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:31",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1175440602255327232",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:32",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1177692402069012480",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:33",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1179944201882697728",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:34",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1182196001696382976",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:35",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1184447801510068224",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:36",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1186699601323753472",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:37",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1188951401137438720",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:97",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1191203200951123968",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:98",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1193455000764809216",
+      "type": "REQUIRES_DOCUMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:99",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152923703630102528",
+      "type": "IN_CAMPAIGN",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:58",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155175503443787776",
+      "type": "IN_CAMPAIGN",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:93",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152924803141730304",
+      "type": "HAS_SCRIPT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:100",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155176602955415552",
+      "type": "HAS_SCRIPT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:101",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157428402769100800",
+      "type": "HAS_SCRIPT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:102",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1159680202582786048",
+      "type": "HAS_SCRIPT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:103",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1161932002396471296",
+      "type": "HAS_SCRIPT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:104",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1164183802210156544",
+      "type": "HAS_SCRIPT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:106",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1166435602023841792",
+      "type": "HAS_SCRIPT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:107",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1168687401837527040",
+      "type": "HAS_SCRIPT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:108",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152927002164985856",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:3",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155178801978671104",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:11",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157430601792356352",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:12",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1159682401606041600",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:13",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1161934201419726848",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:14",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1164186001233412096",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:15",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1166437801047097344",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:16",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1168689600860782592",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:23",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1170941400674467840",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:24",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1173193200488153088",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:25",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1175445000301838336",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:38",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1177696800115523584",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:41",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1179948599929208832",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:42",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1182200399742894080",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:47",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1184452199556579328",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:49",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1186703999370264576",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:50",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1188955799183949824",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:52",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1191207598997635072",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:60",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1193459398811320320",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:61",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1195711198625005568",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:69",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1197962998438690816",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:77",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1200214798252376064",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:79",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1202466598066061312",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:80",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1204718397879746560",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:81",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1206970197693431808",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:82",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1209221997507117056",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:83",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1211473797320802304",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:86",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1213725597134487552",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:89",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1215977396948172800",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:91",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1218229196761858048",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:92",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1220480996575543296",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:109",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1222732796389228544",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:110",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1224984596202913792",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:111",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1227236396016599040",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:112",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1229488195830284288",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:113",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1231739995643969536",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:114",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1233991795457654784",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:116",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1236243595271340032",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:117",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1238495395085025280",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:118",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1240747194898710528",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:119",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1242998994712395776",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:128",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1245250794526081024",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:130",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1247502594339766272",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:131",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1249754394153451520",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:132",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1252006193967136768",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:135",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1254257993780822016",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:136",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1256509793594507264",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:137",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1258761593408192512",
+      "type": "GOVERNED_BY_POLICY",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:138",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152929201188241408",
+      "type": "SATISFIES_NEED",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:4",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155181001001926656",
+      "type": "SATISFIES_NEED",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:63",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157432800815611904",
+      "type": "SATISFIES_NEED",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:65",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152930300699869184",
+      "type": "HAS_VERSION",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:5",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152931400211496960",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:6",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155183200025182208",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:48",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157434999838867456",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:51",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1159686799652552704",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:54",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1161938599466237952",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:67",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1164190399279923200",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:70",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1166442199093608448",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:72",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1168693998907293696",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:74",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1170945798720978944",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:76",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1173197598534664192",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:78",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1175449398348349440",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:84",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1177701198162034688",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:85",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1179952997975719936",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:87",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1182204797789405184",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:88",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1184456597603090432",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:120",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1186708397416775680",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:121",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1188960197230460928",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:122",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1191211997044146176",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:123",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1193463796857831424",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:124",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1195715596671516672",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:126",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1197967396485201920",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:127",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1200219196298887168",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:133",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1202470996112572416",
+      "type": "HAS_SKILL",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:134",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152932499723124736",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:7",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155184299536809984",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:8",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157436099350495232",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:9",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1159687899164180480",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:10",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1161939698977865728",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:39",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1164191498791550976",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:40",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1166443298605236224",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:43",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1168695098418921472",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:44",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1170946898232606720",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:45",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1173198698046291968",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:46",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1175450497859977216",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:53",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1177702297673662464",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:55",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1179954097487347712",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:56",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1182205897301032960",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:57",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1184457697114718208",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:59",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1186709496928403456",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:71",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1188961296742088704",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:73",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1191213096555773952",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:75",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1193464896369459200",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:94",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1195716696183144448",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:95",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1197968495996829696",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:96",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1200220295810514944",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:105",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1202472095624200192",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:115",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1204723895437885440",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:125",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1206975695251570688",
+      "type": "HAS_SALES_CONDITION_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:129",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152934698746380288",
+      "type": "TARGETS_SEGMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:62",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1155186498560065536",
+      "type": "TARGETS_SEGMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:64",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1157438298373750784",
+      "type": "TARGETS_SEGMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:66",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1159690098187436032",
+      "type": "TARGETS_SEGMENT",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:0",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:68",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152933599234752570",
+      "type": "CAMPAIGN_HAS_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:58",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:59",
+      "properties": {}
+    },
+    {
+      "relationshipId": "5:14177b57-25cc-4c33-ab5d-c5be797349ed:1152933599234752605",
+      "type": "CAMPAIGN_HAS_RULE",
+      "sourceNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:93",
+      "targetNodeId": "4:14177b57-25cc-4c33-ab5d-c5be797349ed:96",
+      "properties": {}
+    }
+  ],
+  "labelDistribution": {
+    "BankingProduct": 1,
+    "BusinessRule": 77,
+    "Campaign": 2,
+    "Customer": 1,
+    "CustomerNeed": 3,
+    "CustomerSegment": 4,
+    "RequiredDocument": 19,
+    "SalesScript": 8,
+    "SalesSkill": 23,
+    "Version": 1
+  },
+  "relationshipTypeDistribution": {
+    "CAMPAIGN_HAS_RULE": 2,
+    "GOVERNED_BY_POLICY": 48,
+    "HAS_ELIGIBILITY_RULE": 4,
+    "HAS_SALES_CONDITION_RULE": 25,
+    "HAS_SCRIPT": 8,
+    "HAS_SKILL": 23,
+    "HAS_VERSION": 1,
+    "IN_CAMPAIGN": 2,
+    "REQUIRES_DOCUMENT": 19,
+    "SATISFIES_NEED": 3,
+    "TARGETS_SEGMENT": 4
+  },
+  "mismatches": []
+}

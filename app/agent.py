@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 
 from google.adk.agents import Agent
@@ -7,6 +8,7 @@ from google.adk.plugins.save_files_as_artifacts_plugin import (
     SaveFilesAsArtifactsPlugin,
 )
 from google.adk.tools.skill_toolset import SkillToolset
+from google.genai import types
 
 from app.skills.local_skill_registry import LocalSkillRegistry
 from app.skills.root_prompt_renderer import render_root_agent_prompt
@@ -49,12 +51,15 @@ def create_root_agent() -> Agent:
 
     return Agent(
         name="root_agent",
-        model="gemini-3.1-flash-lite",
+        model=os.getenv("GOOGLE_ADK_MODEL", "gemini-3.5-flash-lite"),
         description=(
             "A root agent that dynamically routes requests to available skills."
         ),
         instruction=root_instruction,
         tools=[skill_toolset],
+        generate_content_config=types.GenerateContentConfig(
+            thinking_config=types.ThinkingConfig(thinking_level="MEDIUM"),
+        ),
     )
 
 

@@ -1,0 +1,394 @@
+{
+  "0": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "",
+      "previous_error": null,
+      "stats": {
+        "nodes": 2,
+        "edges": 1,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b0__prod_flexi_rewards",
+            "className": "pskg:BankingProduct",
+            "properties": [
+              {
+                "propertyName": "pskg:productCode",
+                "value": "CC-FLEXI-001",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "CC-FLEXI-001"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:bankingProductName",
+                "value": "Flexi Rewards Credit Card",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "Flexi Rewards Credit Card"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:bankingProductEffectiveFrom",
+                "value": "2026-08-01",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "01/08/2026"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:bankingProductVersionNumber",
+                "value": "1.1",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 1,
+                    "section": "1. Document Information",
+                    "text": "1.1"
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 1,
+                "section": "1. Document Information",
+                "text": "Flexi Rewards Credit Card"
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b0__rule_pol_cc_2026_03",
+            "className": "pskg:BusinessRule",
+            "properties": [],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 1,
+                "section": "1. Document Information",
+                "text": "| Applicable Policy | POL-CC-2026-03 |"
+              }
+            ],
+            "confidence": 0.9
+          }
+        ],
+        "edges": [
+          {
+            "edgeName": "pskg:hasEligibilityRule",
+            "sourceTempId": "b0__prod_flexi_rewards",
+            "targetTempId": "b0__rule_pol_cc_2026_03",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 1,
+                "section": "1. Document Information",
+                "text": "| Applicable Policy | POL-CC-2026-03 |"
+              }
+            ],
+            "confidence": 0.9
+          }
+        ],
+        "coverage": [
+          {
+            "chunkIndex": 0,
+            "decision": "NOT_RELEVANT",
+            "reason": "Contains administrative metadata about the document itself, not the product."
+          },
+          {
+            "chunkIndex": 1,
+            "decision": "MAPPED",
+            "reason": "Contains core product identification and policy reference."
+          },
+          {
+            "chunkIndex": 2,
+            "decision": "NOT_RELEVANT",
+            "reason": "Describes product usage scenarios which are not currently mapped to ontology properties."
+          },
+          {
+            "chunkIndex": 3,
+            "decision": "NOT_RELEVANT",
+            "reason": "Describes credit limit mechanics which are not currently mapped to ontology properties."
+          },
+          {
+            "chunkIndex": 4,
+            "decision": "NOT_RELEVANT",
+            "reason": "Describes a different product type (Debit Card) not relevant to the Flexi Rewards Credit Card."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ],
+  "1": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "Existing canonical graph:\nNodes:\n- ref=b0__prod_flexi_rewards\n  class=pskg:BankingProduct\n  identity={\"pskg:bankingProductEffectiveFrom\": \"2026-08-01\", \"pskg:bankingProductName\": \"Flexi Rewards Credit Card\", \"pskg:bankingProductVersionNumber\": \"1.1\", \"pskg:productCode\": \"CC-FLEXI-001\"}\n- ref=b0__rule_pol_cc_2026_03\n  class=pskg:BusinessRule\n  identity={}\nExisting edges:\n- pskg:hasEligibilityRule: b0__prod_flexi_rewards -> b0__rule_pol_cc_2026_03",
+      "previous_error": null,
+      "stats": {
+        "nodes": 2,
+        "edges": 1,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b1__b1__script_cc_usage",
+            "className": "pskg:SalesScript",
+            "properties": [
+              {
+                "propertyName": "pskg:scenario",
+                "value": "Credit Card",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 5,
+                    "section": "Credit Card",
+                    "text": "Credit Card"
+                  }
+                ]
+              },
+              {
+                "propertyName": "pskg:openingLine",
+                "value": "Employees must explain that money used through a credit card **is not free money** and is not a permanent addition to the customer's income.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 5,
+                    "section": "Credit Card",
+                    "text": "Employees must explain that money used through a credit card **is not free money** and is not a permanent addition to the customer's income."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 5,
+                "section": "Credit Card",
+                "text": "Employees must explain that money used through a credit card **is not free money** and is not a permanent addition to the customer's income."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b0__prod_flexi_rewards",
+            "className": "pskg:BankingProduct",
+            "properties": [],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 5,
+                "section": "Credit Card",
+                "text": "Credit Card"
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "edges": [
+          {
+            "edgeName": "pskg:hasScript",
+            "sourceTempId": "b0__prod_flexi_rewards",
+            "targetTempId": "b1__b1__script_cc_usage",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 5,
+                "section": "Credit Card",
+                "text": "Credit Card"
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "coverage": [
+          {
+            "chunkIndex": 5,
+            "decision": "MAPPED",
+            "reason": "Mapped credit card usage guidance to a SalesScript linked to the product."
+          },
+          {
+            "chunkIndex": 6,
+            "decision": "NOT_RELEVANT",
+            "reason": "Contains descriptive product attributes not currently modeled as specific ontology classes."
+          },
+          {
+            "chunkIndex": 7,
+            "decision": "NOT_RELEVANT",
+            "reason": "Contains descriptive credit limit principles not currently modeled as specific ontology classes."
+          },
+          {
+            "chunkIndex": 8,
+            "decision": "NOT_RELEVANT",
+            "reason": "Contains descriptive example of credit limit calculation."
+          },
+          {
+            "chunkIndex": 9,
+            "decision": "NOT_RELEVANT",
+            "reason": "Contains descriptive credit limit adjustment process."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ],
+  "2": [
+    {
+      "stage": "direct_graph_mapping",
+      "graph_context": "Existing canonical graph:\nNodes:\n- ref=b0__prod_flexi_rewards\n  class=pskg:BankingProduct\n  identity={\"pskg:bankingProductEffectiveFrom\": \"2026-08-01\", \"pskg:bankingProductName\": \"Flexi Rewards Credit Card\", \"pskg:bankingProductVersionNumber\": \"1.1\", \"pskg:productCode\": \"CC-FLEXI-001\"}\n- ref=b0__rule_pol_cc_2026_03\n  class=pskg:BusinessRule\n  identity={}\n- ref=b1__b1__script_cc_usage\n  class=pskg:SalesScript\n  identity={\"pskg:openingLine\": \"Employees must explain that money used through a credit card **is not free money** and is not a permanent addition to the customer's income.\", \"pskg:scenario\": \"Credit Card\"}\nExisting edges:\n- pskg:hasEligibilityRule: b0__prod_flexi_rewards -> b0__rule_pol_cc_2026_03\n- pskg:hasScript: b0__prod_flexi_rewards -> b1__b1__script_cc_usage",
+      "previous_error": null,
+      "stats": {
+        "nodes": 3,
+        "edges": 2,
+        "coverage": 5
+      },
+      "fragment": {
+        "nodes": [
+          {
+            "tempId": "b2__rule_eligibility_flexi_001",
+            "className": "pskg:BusinessRule",
+            "properties": [
+              {
+                "propertyName": "pskg:businessRuleCondition",
+                "value": "At least 20 years old at the time of application. Not older than 60 years at the time of application under normal policy. Have valid identification documents. Have verifiable residence information. Have lawful employment or a lawful source of income. Be able to provide proof of income. Normally have net income of at least 10 million VND/month. Have an appropriate credit history. Not fall under cases restricted from receiving credit under applicable regulations.",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 10,
+                    "section": "5.1. Conditions for Accepting an Application",
+                    "text": "- At least 20 years old at the time of application.\n- Not older than 60 years at the time of application under normal policy.\n- Have valid identification documents.\n- Have verifiable residence information.\n- Have lawful employment or a lawful source of income.\n- Be able to provide proof of income.\n- Normally have net income of at least **10 million VND/month**.\n- Have an appropriate credit history.\n- Not fall under cases restricted from receiving credit under applicable regulations."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 10,
+                "section": "5.1. Conditions for Accepting an Application",
+                "text": "Individual customers may submit an application when they meet the basic conditions"
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b2__doc_id_card",
+            "className": "pskg:RequiredDocument",
+            "properties": [
+              {
+                "propertyName": "pskg:documentName",
+                "value": "Citizen ID card",
+                "evidence": [
+                  {
+                    "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                    "chunkIndex": 13,
+                    "section": "6.1. Personal Identification Documents",
+                    "text": "- Citizen ID card or other valid identification document."
+                  }
+                ]
+              }
+            ],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 13,
+                "section": "6.1. Personal Identification Documents",
+                "text": "- Citizen ID card or other valid identification document."
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "tempId": "b0__prod_flexi_rewards",
+            "className": "pskg:BankingProduct",
+            "properties": [],
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 10,
+                "section": "5.1. Conditions for Accepting an Application",
+                "text": "Individual customers may submit an application when they meet the basic conditions"
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "edges": [
+          {
+            "edgeName": "pskg:hasEligibilityRule",
+            "sourceTempId": "b0__prod_flexi_rewards",
+            "targetTempId": "b2__rule_eligibility_flexi_001",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 10,
+                "section": "5.1. Conditions for Accepting an Application",
+                "text": "Individual customers may submit an application when they meet the basic conditions"
+              }
+            ],
+            "confidence": 1.0
+          },
+          {
+            "edgeName": "pskg:requiresDocument",
+            "sourceTempId": "b0__prod_flexi_rewards",
+            "targetTempId": "b2__doc_id_card",
+            "evidence": [
+              {
+                "source": "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md",
+                "chunkIndex": 13,
+                "section": "6.1. Personal Identification Documents",
+                "text": "- Citizen ID card or other valid identification document."
+              }
+            ],
+            "confidence": 1.0
+          }
+        ],
+        "coverage": [
+          {
+            "chunkIndex": 10,
+            "decision": "MAPPED",
+            "reason": "Mapped eligibility conditions to a BusinessRule."
+          },
+          {
+            "chunkIndex": 11,
+            "decision": "NOT_RELEVANT",
+            "reason": "General disclaimer about approval process, not a specific rule or document."
+          },
+          {
+            "chunkIndex": 12,
+            "decision": "NOT_RELEVANT",
+            "reason": "General guidance on appraisal, not a specific rule or document."
+          },
+          {
+            "chunkIndex": 13,
+            "decision": "MAPPED",
+            "reason": "Mapped identification document to RequiredDocument."
+          },
+          {
+            "chunkIndex": 14,
+            "decision": "NOT_RELEVANT",
+            "reason": "General list of documents for salaried customers, no specific entity to map."
+          }
+        ],
+        "warnings": []
+      }
+    }
+  ]
+}

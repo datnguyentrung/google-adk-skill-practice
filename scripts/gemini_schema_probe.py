@@ -42,7 +42,7 @@ def main() -> int:
         return 2
     model = os.getenv(
         "INGESTION_ORCHESTRATOR_MODEL",
-        os.getenv("GOOGLE_ADK_MODEL", "gemini-3.1-flash-lite"),
+        os.getenv("GOOGLE_ADK_MODEL", "gemini-3.5-flash-lite"),
     )
     client = genai.Client(api_key=api_key)
     config = types.GenerateContentConfig(

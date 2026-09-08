@@ -7,6 +7,7 @@ from app.services.ingestion.model_call_control import (
     AdkStructuredCallExecutor,
     ModelRequestPacer,
     StageLocalModelCallExhausted,
+    StructuredModelOutputError,
 )
 
 
@@ -93,6 +94,11 @@ def test_adk_executor_returns_structured_state_output():
     request = SimpleNamespace(config=types.GenerateContentConfig())
     seen["agent"].before_model_callback(callback_context=None, llm_request=request)
     assert request.config.response_json_schema["properties"]["ok"]["type"] == "boolean"
+    assert request.config.thinking_config.thinking_level == "MEDIUM"
+    assert (
+        seen["agent"].generate_content_config.thinking_config.thinking_level
+        == "MEDIUM"
+    )
     assert runner.closed is True
 
 
@@ -114,4 +120,16 @@ def test_adk_transport_exhaustion_is_marked_stage_local():
 
     assert caught.value.stage_local_retries_exhausted is True
     assert caught.value.status_code == 429
+    assert runner.closed is True
+
+
+def test_missing_structured_output_is_retryable():
+    runner = _FakeRunner(result=None)
+    executor = AdkStructuredCallExecutor(
+        model="gemini-test", rpm_budget=0, runner_factory=lambda **_kwargs: runner
+    )
+    with pytest.raises(StructuredModelOutputError) as caught:
+        executor.run(operation="mapping", instruction="Return JSON.", output_schema={"type": "object"})
+    assert caught.value.retryable is True
+    assert caught.value.error_kind == "llm_output"
     assert runner.closed is True

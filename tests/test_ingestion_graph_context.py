@@ -427,7 +427,7 @@ def _run_loop(monkeypatch, *, reject_first_batch1=False, reject_all_batch1=False
     context = FakeToolContext({SOURCE: LOOP_DOC})
     monkeypatch.setattr(
         ingestion_use_case,
-        "_get_semantic_graph_mapper",
+        "_get_graph_mapper",
         lambda: RecordingPlanner(extractor),
     )
     monkeypatch.setattr(
@@ -699,3 +699,45 @@ def test_flexi_minimum_persistent_graph_from_source_chunks_passes_readiness():
 
 def _validation_stub():
     return GraphValidation()
+
+
+def test_final_coverage_errors_are_routed_deterministically_to_batches():
+    _, workspace = _workspace_context(12)
+    finalized = {
+        "errors": [
+            {
+                "code": "COVERAGE_NOT_EVIDENCED",
+                "location": "coverage.7",
+                "message": "chunk 7 unresolved",
+            },
+            {
+                "code": "COVERAGE_NOT_EVIDENCED",
+                "location": "coverage.10",
+                "message": "chunk 10 unresolved",
+            },
+        ]
+    }
+
+    routed = ingestion_use_case._final_coverage_errors_by_batch(finalized, workspace)
+
+    assert sorted(routed) == [1, 2]
+    assert routed[1][0]["location"] == "coverage.7"
+    assert routed[2][0]["location"] == "coverage.10"
+
+    finalized["errors"].append({"code": "PROPERTY_VALUE_NOT_GROUNDED"})
+    assert ingestion_use_case._final_coverage_errors_by_batch(finalized, workspace) == {}
+
+
+
+def test_delete_state_uses_adk_none_tombstone():
+    from google.adk.sessions.state import State
+
+    key = ingestion_use_case.ARTIFACT_DIGEST_STATE_KEY
+    state = State({key: "digest"}, {})
+    context = SimpleNamespace(state=state)
+
+    ingestion_use_case._delete_state(context, key)
+    ingestion_use_case._delete_state(context, key)
+
+    assert state.get(key) is None
+    assert state.to_dict()[key] is None

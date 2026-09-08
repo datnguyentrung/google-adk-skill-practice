@@ -1,0 +1,40 @@
+{
+  "success": true,
+  "stage": "completed",
+  "terminal": true,
+  "commitStatus": "committed",
+  "partialPersistence": false,
+  "persistenceMode": "strict",
+  "readinessIssuesIgnored": [],
+  "nodes": 139,
+  "edges": 139,
+  "labelDistribution": {
+    "BankingProduct": 1,
+    "BusinessRule": 77,
+    "Campaign": 2,
+    "Customer": 1,
+    "CustomerNeed": 3,
+    "CustomerSegment": 4,
+    "RequiredDocument": 19,
+    "SalesScript": 8,
+    "SalesSkill": 23,
+    "Version": 1
+  },
+  "relationshipTypeDistribution": {
+    "CAMPAIGN_HAS_RULE": 2,
+    "GOVERNED_BY_POLICY": 48,
+    "HAS_ELIGIBILITY_RULE": 4,
+    "HAS_SALES_CONDITION_RULE": 25,
+    "HAS_SCRIPT": 8,
+    "HAS_SKILL": 23,
+    "HAS_VERSION": 1,
+    "IN_CAMPAIGN": 2,
+    "REQUIRES_DOCUMENT": 19,
+    "SATISFIES_NEED": 3,
+    "TARGETS_SEGMENT": 4
+  },
+  "verificationStatus": "verified",
+  "mismatchCount": 0,
+  "artifactName": "ingestion-receipt-f0fcf9dd7741.json",
+  "artifactVersion": 1
+}
