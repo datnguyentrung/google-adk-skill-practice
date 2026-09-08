@@ -47,12 +47,15 @@ def _evidence(index: int, text: str) -> dict:
 
 
 def test_direct_mapper_uses_dynamic_native_json_schema():
-    text = "Product code is P-001."
+    text = "Product code is P-001. Effective from 2026-07-01."
     payload = {
         "nodes": [{
             "tempId": "product-p001",
             "className": "pskg:BankingProduct",
-            "properties": [{"propertyName": "pskg:productCode", "value": "P-001", "evidence": [_evidence(0, text)]}],
+            "properties": [
+                {"propertyName": "pskg:productCode", "value": "P-001", "evidence": [_evidence(0, text)]},
+                {"propertyName": "pskg:bankingProductEffectiveFrom", "value": "2026-07-01", "evidence": [_evidence(0, text)]},
+            ],
             "evidence": [_evidence(0, text)],
             "confidence": 1.0,
         }],
@@ -175,14 +178,80 @@ def test_conflicting_context_ref_becomes_batch_local_node():
     assert fragment.edges[0].source_temp_id == "product-existing"
     assert fragment.edges[0].target_temp_id == "b13__rule-existing"
 
-def test_markdown_table_evidence_is_canonicalized_to_full_row():
-    text = "| Product Code | P-001 |"
+def test_new_banking_product_missing_required_source_fact_is_rejected_for_retry():
+    text = "Related product code is CASA-FLEX-001."
     payload = {
         "nodes": [{
-            "tempId": "product-p001",
+            "tempId": "related-product",
             "className": "pskg:BankingProduct",
-            "properties": [{"propertyName": "pskg:productCode", "value": "P-001", "evidence": [_evidence(0, "Product Code | P-001")]}],
-            "evidence": [_evidence(0, "Product Code | P-001")],
+            "properties": [{
+                "propertyName": "pskg:productCode",
+                "value": "CASA-FLEX-001",
+                "evidence": [_evidence(0, text)],
+            }],
+            "evidence": [_evidence(0, text)],
+            "confidence": 1.0,
+        }],
+        "edges": [],
+        "coverage": [{"chunkIndex": 0, "decision": "MAPPED", "reason": "Related product mapped"}],
+        "warnings": [],
+    }
+    mapper, _ = _mapper(payload)
+
+    with pytest.raises(DirectGraphMappingError) as exc:
+        mapper.map_batch(
+            batch_payload=_payload([_chunk(content=text)]),
+            chunks=[_chunk(content=text)],
+        )
+
+    assert any(
+        item["code"] == "MISSING_REQUIRED_SOURCE_FACT"
+        and item.get("propertyName") == "pskg:bankingProductEffectiveFrom"
+        for item in exc.value.summary["errors"]
+    )
+
+
+def test_new_sales_knowledge_missing_knowledge_type_is_rejected_for_retry():
+    text = "Frequently Asked Questions"
+    payload = {
+        "nodes": [{
+            "tempId": "faq-knowledge",
+            "className": "pskg:SalesKnowledge",
+            "properties": [{
+                "propertyName": "pskg:title",
+                "value": text,
+                "evidence": [_evidence(0, text)],
+            }],
+            "evidence": [_evidence(0, text)],
+            "confidence": 1.0,
+        }],
+        "edges": [],
+        "coverage": [{"chunkIndex": 0, "decision": "MAPPED", "reason": "FAQ knowledge mapped"}],
+        "warnings": [],
+    }
+    mapper, _ = _mapper(payload)
+
+    with pytest.raises(DirectGraphMappingError) as exc:
+        mapper.map_batch(
+            batch_payload=_payload([_chunk(content=text)]),
+            chunks=[_chunk(content=text)],
+        )
+
+    assert any(
+        item["code"] == "MISSING_REQUIRED_SOURCE_FACT"
+        and item.get("propertyName") == "pskg:knowledgeType"
+        for item in exc.value.summary["errors"]
+    )
+
+
+def test_markdown_table_evidence_is_canonicalized_to_full_row():
+    text = "| Document Name | Passport |"
+    payload = {
+        "nodes": [{
+            "tempId": "document-passport",
+            "className": "pskg:RequiredDocument",
+            "properties": [{"propertyName": "pskg:documentName", "value": "Passport", "evidence": [_evidence(0, "Document Name | Passport")]}],
+            "evidence": [_evidence(0, "Document Name | Passport")],
             "confidence": 1.0,
         }],
         "edges": [],
@@ -265,6 +334,11 @@ def test_same_batch_repair_temp_ids_are_idempotent_for_rule_edges():
         fragment = mapper.map_batch(
             batch_payload=_payload(chunks, batch_index=6),
             chunks=chunks,
+            graph_context=(
+                '- ref=product-flexi\n'
+                '  class=pskg:BankingProduct\n'
+                '  identity={"pskg:productCode":"CC-FLEXI-001"}'
+            ),
         )
 
         temp_ids = [node.temp_id for node in fragment.nodes]

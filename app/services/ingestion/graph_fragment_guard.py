@@ -8,7 +8,11 @@ from pydantic import ValidationError
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import Evidence, GraphPatchDraft, GraphPatchFragment
 from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
-from app.services.ingestion.graph_validation import OntologyValidator, SourceGroundingValidator
+from app.services.ingestion.graph_validation import (
+    OntologyValidator,
+    SourceGroundingValidator,
+    is_source_required_rule,
+)
 from app.services.ingestion.registry import OntologyRegistry
 
 
@@ -214,10 +218,17 @@ class GraphFragmentGuard:
                         }
                     )
 
+            existing_refs = existing_node_refs or set()
+            errors.extend(
+                self._required_source_property_errors(
+                    fragment,
+                    existing_node_refs=existing_refs,
+                )
+            )
             errors.extend(
                 self._required_derived_edge_errors(
                     fragment,
-                    existing_node_refs=existing_node_refs or set(),
+                    existing_node_refs=existing_refs,
                 )
             )
 
@@ -260,6 +271,59 @@ class GraphFragmentGuard:
                 )
             )
             return errors
+
+    def _required_source_property_errors(
+        self,
+        fragment: GraphPatchFragment,
+        *,
+        existing_node_refs: set[str],
+    ) -> list[dict[str, Any]]:
+        """Reject new nodes that cannot satisfy source-backed class requirements.
+
+        Canonical context refs are exempt because their required source facts may have
+        been established in an earlier accepted batch. A newly introduced entity must
+        not be emitted as a persistence-incomplete stub.
+        """
+        errors: list[dict[str, Any]] = []
+        for node_index, node in enumerate(fragment.nodes):
+            if node.temp_id in existing_node_refs:
+                continue
+            ontology_class = self.registry.get_class(node.class_name)
+            if ontology_class is None:
+                continue
+            emitted_properties = {prop.property_name for prop in node.properties}
+            configured_defaults = {
+                attribute.technical_name
+                for attribute, _ in self.registry.configured_defaults_for_class(
+                    node.class_name
+                )
+            }
+            checked: set[str] = set()
+            for rule in ontology_class.rules:
+                if rule.property in checked:
+                    continue
+                if rule.property in configured_defaults:
+                    continue
+                if not is_source_required_rule(self.registry, rule):
+                    continue
+                checked.add(rule.property)
+                if rule.property in emitted_properties:
+                    continue
+                errors.append(
+                    {
+                        "code": "MISSING_REQUIRED_SOURCE_FACT",
+                        "location": f"nodes.{node_index}.properties.{rule.property}",
+                        "nodeTempId": node.temp_id,
+                        "propertyName": rule.property,
+                        "message": (
+                            f"{node.class_name} node {node.temp_id} is newly introduced "
+                            f"but lacks required source-backed property {rule.property}; "
+                            "ground the property from the current source or do not create "
+                            "this entity as an incomplete stub"
+                        ),
+                    }
+                )
+        return errors
 
     def _required_derived_edge_errors(
         self,
