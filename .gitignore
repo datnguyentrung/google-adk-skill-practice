@@ -13,3 +13,4 @@ package-lock.json
 .agents**
 .eval/ingestion/workspaces/
 .pytest_tmp*/
+.venv
