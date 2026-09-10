@@ -9,13 +9,17 @@ from app.core.schemas.ingestion.graph_patch import (
     GraphPatchDraft,
     GraphPatchFragment,
 )
-from app.services.ingestion import use_case as ingestion_use_case
-from app.services.ingestion.document_reader import DocumentReader
-from app.services.ingestion.loader import OntologyLoader
-from app.services.ingestion.registry import OntologyRegistry
-from app.services.ingestion.staged_ingestion import IngestionWorkspaceService
-from app.services.ingestion.use_case import IngestionUseCase
-from app.services.ingestion.graph_validation import GraphValidation
+from app.services.ingestion.document import DocumentReader
+from app.services.ingestion.ontology import OntologyLoader, OntologyRegistry
+from app.services.ingestion.orchestration import (
+    IngestionUseCase,
+    context as ingestion_context,
+    coverage as ingestion_coverage,
+    state as ingestion_state,
+    tools as ingestion_tools,
+)
+from app.services.ingestion.validation import GraphValidation
+from app.services.ingestion.workspace import IngestionWorkspaceService
 
 SOURCE = "test.md"
 
@@ -53,7 +57,7 @@ class FakeToolContext:
 
 def _workspace_context(chunk_count: int, contents=None):
     context = FakeToolContext()
-    context.state[ingestion_use_case.ARTIFACT_DIGEST_STATE_KEY] = "digest"
+    context.state[ingestion_state.ARTIFACT_DIGEST_STATE_KEY] = "digest"
     contents = contents or {}
     chunks = [
         DocumentChunk(
@@ -66,10 +70,10 @@ def _workspace_context(chunk_count: int, contents=None):
     ]
     workspace = IngestionWorkspaceService().begin(
         artifact_name=SOURCE,
-        provenance=ingestion_use_case._current_provenance(context),
+        provenance=ingestion_state._current_provenance(context),
         chunks=chunks,
     )
-    ingestion_use_case._store_workspace(context, workspace)
+    ingestion_state._store_workspace(context, workspace)
     return context, workspace
 
 
@@ -229,10 +233,10 @@ def _generic_fragment() -> GraphPatchFragment:
 
 def test_canonical_graph_context_builder_is_compact():
     _, workspace = _workspace_context(12)
-    assert ingestion_use_case._canonical_graph_context(workspace, 2) == ""
+    assert ingestion_context._canonical_graph_context(workspace, 2) == ""
 
     workspace.batches[0].fragment = _product_fragment()
-    text = ingestion_use_case._canonical_graph_context(workspace, 2)
+    text = ingestion_context._canonical_graph_context(workspace, 2)
 
     assert "Existing canonical graph:" in text
     assert "ref=product-1" in text
@@ -245,7 +249,7 @@ def test_canonical_graph_context_builder_is_compact():
     frag = _product_fragment()
     frag.nodes[0].properties[0].evidence[0].text = "CC-FLEXI-001 " + "x" * 8000
     workspace.batches[0].fragment = frag
-    assert ingestion_use_case._canonical_graph_context(workspace, 2) == text
+    assert ingestion_context._canonical_graph_context(workspace, 2) == text
 
     # Accepted edges are listed; unaccepted batches are ignored.
     edge_frag = _product_fragment()
@@ -266,7 +270,7 @@ def test_canonical_graph_context_builder_is_compact():
         )
     ]
     workspace.batches[0].fragment = edge_frag
-    edge_text = ingestion_use_case._canonical_graph_context(workspace, 2)
+    edge_text = ingestion_context._canonical_graph_context(workspace, 2)
     assert "pskg:hasEligibilityRule: product-1 -> rule-1" in edge_text
 
 
@@ -402,9 +406,9 @@ def _storing_submit(*, reject_first_batch1=False, reject_all_batch1=False):
                     "repairInstructions": "Add a grounded fact for chunk 5.",
                     "affectedChunkIndexes": [5],
                 }
-        workspace = ingestion_use_case._load_workspace(tool_context)
+        workspace = ingestion_state._load_workspace(tool_context)
         workspace.batches[batch_index].fragment = fragment
-        ingestion_use_case._store_workspace(tool_context, workspace)
+        ingestion_state._store_workspace(tool_context, workspace)
         next_batch = IngestionWorkspaceService.next_batch(workspace)
         if next_batch is None:
             return {
@@ -416,7 +420,7 @@ def _storing_submit(*, reject_first_batch1=False, reject_all_batch1=False):
             "success": True,
             "processedBatches": batch_index + 1,
             "stage": "batching",
-            "nextBatch": ingestion_use_case._batch_payload(workspace, next_batch),
+            "nextBatch": ingestion_context._batch_payload(workspace, next_batch),
         }
 
     return _fake_submit
@@ -426,17 +430,17 @@ def _run_loop(monkeypatch, *, reject_first_batch1=False, reject_all_batch1=False
     extractor = RecordingExtractor()
     context = FakeToolContext({SOURCE: LOOP_DOC})
     monkeypatch.setattr(
-        ingestion_use_case,
+        ingestion_tools,
         "_get_graph_mapper",
         lambda: RecordingPlanner(extractor),
     )
     monkeypatch.setattr(
-        ingestion_use_case,
+        ingestion_tools,
         "_get_validation_service",
         _validation_stub,
     )
     monkeypatch.setattr(
-        ingestion_use_case,
+        ingestion_tools,
         "submit_ingestion_batch",
         _storing_submit(
             reject_first_batch1=reject_first_batch1,
@@ -444,12 +448,12 @@ def _run_loop(monkeypatch, *, reject_first_batch1=False, reject_all_batch1=False
         ),
     )
     monkeypatch.setattr(
-        ingestion_use_case,
+        ingestion_tools,
         "finalize_ingestion",
         lambda *a, **k: {"success": True, "stage": "ready_to_fill"},
     )
     result = asyncio.run(
-        ingestion_use_case.ingest_document_end_to_end(
+        ingestion_tools.ingest_document_end_to_end(
             SOURCE,
             context,
             persist=False,
@@ -466,7 +470,7 @@ def test_cross_fragment_edge_to_existing_product_resolves(monkeypatch):
     }
     context, workspace = _workspace_context(12, contents)
 
-    resp0 = ingestion_use_case.submit_ingestion_batch(
+    resp0 = ingestion_tools.submit_ingestion_batch(
         workspace.ingestion_id,
         0,
         _product_fragment(),
@@ -474,7 +478,7 @@ def test_cross_fragment_edge_to_existing_product_resolves(monkeypatch):
     )
     assert resp0["success"] is True, resp0
 
-    resp2 = ingestion_use_case.submit_ingestion_batch(
+    resp2 = ingestion_tools.submit_ingestion_batch(
         workspace.ingestion_id,
         2,
         _rule_fragment(),
@@ -482,7 +486,7 @@ def test_cross_fragment_edge_to_existing_product_resolves(monkeypatch):
     )
     assert resp2["success"] is True, resp2
 
-    workspace = ingestion_use_case._load_workspace(context)
+    workspace = ingestion_state._load_workspace(context)
     merged = IngestionWorkspaceService().merged_patch(workspace)
     products = [
         node for node in merged.nodes if node.class_name == "pskg:BankingProduct"
@@ -498,18 +502,18 @@ def test_submit_batch_does_not_rewrite_mapper_coverage(monkeypatch):
     text = "Mã sản phẩm CC-FLEXI-001"
     chunk = DocumentChunk(index=76, source=SOURCE, section="Product", content=text)
     context = FakeToolContext()
-    context.state[ingestion_use_case.ARTIFACT_DIGEST_STATE_KEY] = "digest"
+    context.state[ingestion_state.ARTIFACT_DIGEST_STATE_KEY] = "digest"
     monkeypatch.setattr(
-        ingestion_use_case,
+        ingestion_tools,
         "_get_validation_service",
         _validation_stub,
     )
     workspace = IngestionWorkspaceService().begin(
         artifact_name=SOURCE,
-        provenance=ingestion_use_case._current_provenance(context),
+        provenance=ingestion_state._current_provenance(context),
         chunks=[chunk],
     )
-    ingestion_use_case._store_workspace(context, workspace)
+    ingestion_state._store_workspace(context, workspace)
     fragment = GraphPatchFragment(
         nodes=[
             {
@@ -551,7 +555,7 @@ def test_submit_batch_does_not_rewrite_mapper_coverage(monkeypatch):
         warnings=[],
     )
 
-    result = ingestion_use_case.submit_ingestion_batch(
+    result = ingestion_tools.submit_ingestion_batch(
         workspace.ingestion_id,
         0,
         fragment,
@@ -559,7 +563,7 @@ def test_submit_batch_does_not_rewrite_mapper_coverage(monkeypatch):
     )
 
     assert result["success"] is True, result
-    stored = ingestion_use_case._load_workspace(context)
+    stored = ingestion_state._load_workspace(context)
     assert stored.batches[0].fragment.coverage[0].decision == "NO_RELEVANT_FACT"
 
 
@@ -718,26 +722,26 @@ def test_final_coverage_errors_are_routed_deterministically_to_batches():
         ]
     }
 
-    routed = ingestion_use_case._final_coverage_errors_by_batch(finalized, workspace)
+    routed = ingestion_coverage._final_coverage_errors_by_batch(finalized, workspace)
 
     assert sorted(routed) == [1, 2]
     assert routed[1][0]["location"] == "coverage.7"
     assert routed[2][0]["location"] == "coverage.10"
 
     finalized["errors"].append({"code": "PROPERTY_VALUE_NOT_GROUNDED"})
-    assert ingestion_use_case._final_coverage_errors_by_batch(finalized, workspace) == {}
+    assert ingestion_coverage._final_coverage_errors_by_batch(finalized, workspace) == {}
 
 
 
 def test_delete_state_uses_adk_none_tombstone():
     from google.adk.sessions.state import State
 
-    key = ingestion_use_case.ARTIFACT_DIGEST_STATE_KEY
+    key = ingestion_state.ARTIFACT_DIGEST_STATE_KEY
     state = State({key: "digest"}, {})
     context = SimpleNamespace(state=state)
 
-    ingestion_use_case._delete_state(context, key)
-    ingestion_use_case._delete_state(context, key)
+    ingestion_state._delete_state(context, key)
+    ingestion_state._delete_state(context, key)
 
     assert state.get(key) is None
     assert state.to_dict()[key] is None

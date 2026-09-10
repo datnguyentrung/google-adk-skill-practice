@@ -3,13 +3,13 @@ from types import SimpleNamespace
 
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchDraft, GraphPatchFragment
-from app.services.ingestion import use_case as ingestion_use_case
-from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
-from app.services.ingestion.loader import OntologyLoader
-from app.services.ingestion.registry import OntologyRegistry
-from app.services.ingestion.graph_validation import SemanticGroundingDecision
-from app.services.ingestion.graph_validation import SourceGroundingValidator
-from app.services.ingestion.graph_validation import OntologyValidator
+from app.services.ingestion.ontology import OntologyLoader, OntologyRegistry
+from app.services.ingestion.patch import GraphPatchCompiler
+from app.services.ingestion.validation import (
+    OntologyValidator,
+    SemanticGroundingDecision,
+    SourceGroundingValidator,
+)
 
 SOURCE = "test.md"
 

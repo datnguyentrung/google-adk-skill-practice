@@ -1,8 +1,8 @@
 import pytest
 
 from app.core.schemas.ingestion.document import DocumentChunk
-from app.services.ingestion.graph_validation import GraphValidation
-from app.services.ingestion.adk_graph_mapper import AdkGraphMapper, DirectGraphMappingError
+from app.services.ingestion.mapping import AdkGraphMapper, DirectGraphMappingError
+from app.services.ingestion.validation import GraphValidation
 
 
 SOURCE = "test.md"

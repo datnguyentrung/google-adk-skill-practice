@@ -59,7 +59,7 @@ class RuntimeAdapter:
 
 
 def install_capture_wrappers() -> None:
-    import app.services.ingestion.use_case as uc
+    from app.services.ingestion.orchestration import tools as uc
 
     orig_mapper_factory = uc._get_graph_mapper
 
@@ -106,7 +106,7 @@ def install_capture_wrappers() -> None:
 def main() -> None:
     install_capture_wrappers()
 
-    from app.services.ingestion.use_case import IngestionUseCase
+    from app.services.ingestion.orchestration import IngestionUseCase
 
     if not os.getenv("GOOGLE_API_KEY"):
         raise SystemExit("GOOGLE_API_KEY is not set")

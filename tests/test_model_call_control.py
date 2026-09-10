@@ -3,7 +3,7 @@ from types import SimpleNamespace
 import pytest
 from google.genai import types
 
-from app.services.ingestion.model_call_control import (
+from app.services.ingestion.mapping.model_call import (
     AdkStructuredCallExecutor,
     ModelRequestPacer,
     StageLocalModelCallExhausted,

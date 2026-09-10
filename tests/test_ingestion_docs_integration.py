@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from app.services.ingestion import use_case as ingestion_use_case
+from app.services.ingestion.orchestration import state as ingestion_state
 from app.tools import ingestion_tools
 
 DOCS = [
@@ -95,10 +95,10 @@ def _walk_errors(value):
 )
 @pytest.mark.parametrize("doc_path", DOCS)
 def test_docs_ingest_end_to_end_and_commit_to_neo4j(doc_path, monkeypatch):
-    ingestion_use_case._get_context_service.cache_clear()
-    ingestion_use_case._get_validation_service.cache_clear()
-    ingestion_use_case._get_workspace_service.cache_clear()
-    ingestion_use_case._get_graph_mapper.cache_clear()
+    ingestion_state._get_context_service.cache_clear()
+    ingestion_state._get_validation_service.cache_clear()
+    ingestion_state._get_workspace_service.cache_clear()
+    ingestion_state._get_graph_mapper.cache_clear()
     context = FakeToolContext(
         {doc_path.name: doc_path.read_text(encoding="utf-8")}
     )

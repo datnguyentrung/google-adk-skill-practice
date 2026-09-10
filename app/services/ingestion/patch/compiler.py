@@ -1,34 +1,49 @@
-from __future__ import annotations
+"""Phase 3 — Biên dịch graph patch draft thành patch đã chuẩn hoá.
+
+Compiler nhận `GraphPatchDraft` (dữ liệu LLM trả về) và tạo `CompiledGraphPatch`:
+khử trùng node/edge, gộp evidence, điền giá trị do ontology/runtime quy định, và
+tính fingerprint để bảo đảm patch không đổi giữa bước validate và bước ghi. Đây là
+bước duy nhất được phép "sửa" dữ liệu LLM trước khi kiểm định."""
 
 import hashlib
 import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-
 from pydantic import BaseModel, ConfigDict, Field
-
 from app.core.schemas.ingestion.graph_patch import (
     ChunkCoverage,
     Evidence,
     GraphPatchDraft,
 )
 from app.core.schemas.ingestion.validation import ValidationIssue
-from app.services.ingestion.loader import OntologyLoader
-from app.services.ingestion.registry import OntologyRegistry
+
+from app.services.ingestion.ontology.loader import OntologyLoader
+from app.services.ingestion.ontology.registry import OntologyRegistry
+
 
 DEFAULT_ONTOLOGY_PATH = Path(
     "app/data/ontology/product_sales_knowledge_graph_base_v3_1.ontology.json"
 )
+
+
 COMPILER_SCHEMA_VERSION = "3"
+
+
 NO_ARTIFACT_DIGEST = "NO_ARTIFACT"
 
 
 class _CompiledModel(BaseModel):
+    """
+    Base model bất biến (frozen, forbid extra) cho các kiểu đã compile.
+    """
     model_config = ConfigDict(extra="forbid", frozen=True)
 
 
 class CompiledNode(_CompiledModel):
+    """
+    Node đã compile: tempId, class, thuộc tính và evidence.
+    """
     temp_id: str
     class_name: str
     properties: dict[str, Any]
@@ -38,6 +53,9 @@ class CompiledNode(_CompiledModel):
 
 
 class CompiledEdge(_CompiledModel):
+    """
+    Edge đã compile: tempId hai đầu, tên edge và evidence.
+    """
     edge_name: str
     source_temp_id: str
     target_temp_id: str
@@ -46,6 +64,9 @@ class CompiledEdge(_CompiledModel):
 
 
 class CompiledGraphPatch(_CompiledModel):
+    """
+    Graph patch đã compile gồm node, edge và coverage.
+    """
     nodes: tuple[CompiledNode, ...]
     edges: tuple[CompiledEdge, ...]
     coverage: tuple[ChunkCoverage, ...]
@@ -54,12 +75,18 @@ class CompiledGraphPatch(_CompiledModel):
 
 @dataclass(frozen=True)
 class CompilerResult:
+    """
+    Kết quả compile: patch (nếu thành công) kèm danh sách lỗi.
+    """
     compiled_patch: CompiledGraphPatch | None
     errors: tuple[ValidationIssue, ...]
 
 
 @dataclass
 class _NodeBuilder:
+    """
+    Bộ gom node theo tempId trong quá trình compile (gộp thuộc tính, evidence).
+    """
     temp_id: str
     class_name: str
     properties: dict[str, Any]
@@ -69,11 +96,21 @@ class _NodeBuilder:
 
 
 class GraphPatchCompiler:
+    """
+    Biên dịch draft thành patch đã chuẩn hoá và tính fingerprint cho patch đó.
+    """
     def __init__(
         self,
         ontology_path: str | Path = DEFAULT_ONTOLOGY_PATH,
         schema_version: str = COMPILER_SCHEMA_VERSION,
     ):
+        """
+        Nạp ontology và khởi tạo registry cho compiler.
+
+        Args:
+            ontology_path: Đường dẫn file ontology JSON.
+            schema_version: Phiên bản schema ghi vào fingerprint.
+        """
         self.ontology_path = Path(ontology_path)
         self.schema_version = schema_version
         self.ontology_digest = hashlib.sha256(
@@ -82,6 +119,15 @@ class GraphPatchCompiler:
         self.registry = OntologyRegistry(OntologyLoader.load(self.ontology_path))
 
     def compile(self, draft: GraphPatchDraft) -> CompilerResult:
+        """
+        Compile một draft thành `CompilerResult`.
+
+        Args:
+            draft: Graph patch do LLM trả về.
+
+        Returns:
+            `CompilerResult` với `compiled_patch=None` nếu dữ liệu không hợp lệ.
+        """
         errors: list[ValidationIssue] = []
         node_builders: list[_NodeBuilder] = []
         seen_temp_ids: set[str] = set()
@@ -241,6 +287,16 @@ class GraphPatchCompiler:
         patch: CompiledGraphPatch,
         artifact_content_digest: str | None,
     ) -> str:
+        """
+        Tính fingerprint ổn định cho patch đã compile (kèm digest của artifact nguồn).
+
+        Args:
+            patch: Patch đã compile.
+            artifact_content_digest: Digest của artifact nguồn, có thể là None.
+
+        Returns:
+            Chuỗi hash đại diện cho nội dung patch.
+        """
         payload = {
             "artifactContentDigest": artifact_content_digest or NO_ARTIFACT_DIGEST,
             "compilerSchemaVersion": self.schema_version,
@@ -261,6 +317,9 @@ class GraphPatchCompiler:
         left: tuple[Evidence, ...],
         right: tuple[Evidence, ...],
     ) -> tuple[Evidence, ...]:
+        """
+        Gộp hai tuple evidence và khử trùng theo khoá (chunk, source, text).
+        """
         merged: dict[tuple[str, int, str | None, str], Evidence] = {}
         for item in (*left, *right):
             key = (item.source, item.chunk_index, item.section, item.text)
@@ -269,6 +328,9 @@ class GraphPatchCompiler:
 
     @classmethod
     def _values_identical(cls, left: Any, right: Any) -> bool:
+        """
+        So sánh hai giá trị sau khi đã canonical hoá.
+        """
         if type(left) is not type(right):
             return False
         if isinstance(left, dict):
@@ -283,6 +345,9 @@ class GraphPatchCompiler:
         return left == right
 
     def _canonical_patch(self, patch: CompiledGraphPatch) -> dict[str, Any]:
+        """
+        Chuyển patch thành dict đã sắp xếp để băm fingerprint ổn định.
+        """
         def canonical_evidence(items: tuple[Evidence, ...]) -> list[dict[str, Any]]:
             ordered = sorted(
                 items,
@@ -354,6 +419,9 @@ class GraphPatchCompiler:
 
     @classmethod
     def _canonical_value(cls, value: Any) -> Any:
+        """
+        Canonical hoá giá trị (list, dict, số, chuỗi) để so sánh/băm.
+        """
         if isinstance(value, dict):
             return {key: cls._canonical_value(value[key]) for key in sorted(value)}
         if isinstance(value, list):

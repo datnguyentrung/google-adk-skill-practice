@@ -1,8 +1,11 @@
-from __future__ import annotations
+"""Phase 5 — Cổng ghi graph patch xuống Neo4j (facade `GraphPersistence`).
+
+Module này ghép các mảnh của phase persistence lại: validate lần cuối, resolve
+identity, ghi node/edge, đọc lại và đối chiếu. Caller chỉ cần gọi `fill()` với patch
+đã được validate; mọi chi tiết về Neo4j được giữ bên trong."""
 
 from pathlib import Path
 from typing import Any
-
 from app.config.neo4j import Neo4jClient
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchDraft
@@ -12,29 +15,46 @@ from app.core.schemas.ingestion.persistence import (
     FillStatus,
 )
 from app.core.schemas.ingestion.validation import GraphPatchValidationResult
-from app.services.ingestion.graph_patch_compiler import DEFAULT_ONTOLOGY_PATH
-from app.services.ingestion.graph_validation import GraphValidation
-from app.services.ingestion.identity import create_product_sales_identity_resolver
-from app.services.ingestion.loader import OntologyLoader
-from app.services.ingestion.neo4j_mapper import Neo4jMapper
-from app.services.ingestion.neo4j_writer import Neo4jGraphStore
-from app.services.ingestion.readback import verify_persisted_graph
-from app.services.ingestion.registry import OntologyRegistry
+
+from app.services.ingestion.document.preparation import DEFAULT_ONTOLOGY_PATH
+from app.services.ingestion.identity.resolver import create_product_sales_identity_resolver
+from app.services.ingestion.ontology.loader import OntologyLoader
+from app.services.ingestion.ontology.registry import OntologyRegistry
+from app.services.ingestion.persistence.mapping import Neo4jMapper
+from app.services.ingestion.persistence.readback import verify_persisted_graph
+from app.services.ingestion.persistence.writer import Neo4jGraphStore
+from app.services.ingestion.validation.graph_validation import GraphValidation
 
 
 class FillValidationError(ValueError):
+    """
+    Lỗi khi patch chưa vượt qua cổng kiểm định nên không được phép ghi.
+
+    Args:
+        result: Kết quả validate kèm danh sách issue để caller báo lỗi.
+    """
     def __init__(self, result: GraphPatchValidationResult):
         self.result = result
         super().__init__("Graph patch is not ready for persistence")
 
 
 class GraphPersistence:
+    """
+    Cổng ghi graph patch xuống Neo4j và xác minh bằng readback.
+    """
     def __init__(
         self,
         client: Neo4jClient,
         validation: GraphValidation,
         writer: Neo4jGraphStore,
     ):
+        """
+        Khởi tạo store Neo4j, mapper và identity resolver.
+
+        Args:
+            client: Client Neo4j đã kết nối.
+            ontology_path: Đường dẫn ontology JSON.
+        """
         self.client = client
         self.validation = validation
         self.writer = writer
@@ -47,6 +67,21 @@ class GraphPersistence:
         *,
         allow_partial_persistence: bool = False,
     ) -> dict[str, Any]:
+        """
+        Ghi patch xuống Neo4j sau khi validate lại lần cuối.
+
+        Args:
+            graph_patch: Patch đã compile.
+            artifact_content_digest: Digest artifact nguồn (nếu có).
+            source_chunks: Chunk nguồn dùng để validate.
+            allow_partial_persistence: Cho phép ghi một phần khi patch chưa đầy đủ.
+
+        Returns:
+            `FillResult` mô tả kết quả ghi.
+
+        Raises:
+            FillValidationError: Patch không vượt qua cổng validate.
+        """
         assessment = self.validation.assess(
             graph_patch,
             artifact_content_digest,
@@ -108,6 +143,9 @@ class GraphPersistence:
         ).model_dump(by_alias=True, mode="json")
 
     def close(self) -> None:
+        """
+        Đóng kết nối Neo4j đang giữ.
+        """
         self.client.close_driver()
 
 
@@ -116,6 +154,12 @@ def create_graph_persistence(
     *,
     validation: GraphValidation | None = None,
 ) -> GraphPersistence:
+    """
+    Tạo `GraphPersistence` với kết nối Neo4j và ontology mặc định.
+
+    Args:
+        ontology_path: Đường dẫn ontology JSON (mặc định lấy từ compiler).
+    """
     ontology = OntologyLoader.load(ontology_path)
     registry = OntologyRegistry(ontology)
     return GraphPersistence(
@@ -126,4 +170,3 @@ def create_graph_persistence(
             identity_resolver=create_product_sales_identity_resolver(registry),
         ),
     )
-

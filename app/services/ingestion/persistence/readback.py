@@ -1,16 +1,20 @@
-from __future__ import annotations
+"""Phase 5 — Đọc lại graph vừa ghi để xác nhận dữ liệu đã vào đúng.
+
+Sau khi ghi, hệ thống đọc lại đúng các element ID đã commit và đối chiếu với patch:
+số lượng node/relationship, giá trị thuộc tính và node đích của từng quan hệ. Kết quả
+là `PersistedGraphReceipt` — bằng chứng để bước fill được coi là thành công."""
 
 from collections import Counter
 from datetime import date, datetime
 from decimal import Decimal
 from typing import Any
-
 from app.core.schemas.ingestion.persistence import (
     GraphWriteResult,
     PersistedGraphReadback,
     PersistedGraphReceipt,
 )
-from app.services.ingestion.neo4j_mapper import Neo4jMapper
+
+from app.services.ingestion.persistence.mapping import Neo4jMapper
 
 
 def verify_persisted_graph(
@@ -19,6 +23,18 @@ def verify_persisted_graph(
     readback: PersistedGraphReadback | dict,
     mapper: Neo4jMapper,
 ) -> PersistedGraphReceipt:
+    """
+    Đối chiếu patch với dữ liệu đọc lại từ Neo4j và trả về receipt.
+
+    Args:
+        patch: Patch đã compile và đã ghi.
+        write_result: Kết quả ghi (danh sách element ID đã commit).
+        readback: Dữ liệu đọc lại từ Neo4j.
+        mapper: Mapper để đổi tên ontology sang định danh Neo4j.
+
+    Returns:
+        `PersistedGraphReceipt` với danh sách mismatch (rỗng nghĩa là khớp).
+    """
     snapshot = PersistedGraphReadback.model_validate(readback)
     nodes = snapshot.nodes
     relationships = snapshot.relationships
@@ -128,6 +144,9 @@ def verify_persisted_graph(
 
 
 def relationship_key(index: int, edge) -> str:
+    """
+    Tạo khoá ổn định cho một relationship (dùng khi đối chiếu readback).
+    """
     return (
         f"{index}:{edge.edge_name}:"
         f"{edge.source_temp_id}->{edge.target_temp_id}"
@@ -135,10 +154,16 @@ def relationship_key(index: int, edge) -> str:
 
 
 def _values_equal(expected: Any, actual: Any) -> bool:
+    """
+    So sánh giá trị mong đợi và giá trị đọc lại sau khi canonical hoá.
+    """
     return _canonical_value(expected) == _canonical_value(actual)
 
 
 def _canonical_value(value: Any) -> Any:
+    """
+    Canonical hoá giá trị đọc từ Neo4j để so sánh nhất quán.
+    """
     if isinstance(value, Decimal):
         return str(value.normalize())
     if isinstance(value, (date, datetime)):
@@ -154,6 +179,3 @@ def _canonical_value(value: Any) -> Any:
             for key, item in sorted(value.items())
         }
     return value
-
-
-__all__ = ["relationship_key", "verify_persisted_graph"]

@@ -20,7 +20,12 @@ if uri.startswith("neo4j+s://"):
 
 from app.config.neo4j import Neo4jClient
 from app.core.schemas.ingestion.graph_patch import GraphPatchFragment
-from app.services.ingestion.use_case import begin_ingestion, fill_ingestion, finalize_ingestion, submit_ingestion_batch
+from app.services.ingestion.orchestration import (
+    begin_ingestion,
+    fill_ingestion,
+    finalize_ingestion,
+    submit_ingestion_batch,
+)
 
 SOURCE = ROOT / "docs" / "FLEXI_REWARDS_CREDIT_CARD_PRODUCT_BUSINESS_GUIDE_EN.md"
 OUT = ROOT / ".e2e_run_out_en_adk6"

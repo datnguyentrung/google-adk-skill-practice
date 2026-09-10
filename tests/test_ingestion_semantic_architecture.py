@@ -1,11 +1,10 @@
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchDraft, GraphPatchFragment
-from app.services.ingestion.loader import OntologyLoader
-from app.services.ingestion.document_preparation import DocumentPreparation
-from app.services.ingestion.registry import OntologyRegistry
-from app.services.ingestion.staged_ingestion import IngestionWorkspaceService
-from app.services.ingestion.use_case import _compact_ontology_context
-from app.services.ingestion.graph_validation import GraphValidation
+from app.services.ingestion.document import DocumentPreparation
+from app.services.ingestion.ontology import OntologyLoader, OntologyRegistry
+from app.services.ingestion.orchestration.context import _compact_ontology_context
+from app.services.ingestion.validation import GraphValidation
+from app.services.ingestion.workspace import IngestionWorkspaceService
 
 SOURCE = "semantic.md"
 PRODUCT = "product-flexi"

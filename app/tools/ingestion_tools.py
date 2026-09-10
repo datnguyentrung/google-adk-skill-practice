@@ -6,7 +6,7 @@ from typing import Any
 from google.adk.tools import ToolContext
 
 from app.core.schemas.ingestion.graph_patch import GraphPatchDraft
-from app.services.ingestion.use_case import (
+from app.services.ingestion.orchestration import (
     DEFAULT_MAX_RETRIES_PER_BATCH,
     IngestionUseCase,
 )

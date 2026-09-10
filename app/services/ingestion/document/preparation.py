@@ -1,15 +1,21 @@
-from __future__ import annotations
+"""Phase 1 — Chuẩn bị ngữ cảnh trích xuất từ tài liệu và ontology.
+
+Module này ghép hai nguồn thông tin mà LLM cần trước khi trích xuất: danh sách
+chunk của tài liệu nguồn và phần ontology được rút gọn cho prompt. Kết quả là
+`ExtractionContext` được lưu vào session state để dùng cho các batch sau."""
 
 import logging
 from pathlib import Path
-
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.extraction import ExtractionContext
-from app.services.ingestion.document_reader import DocumentReader
-from app.services.ingestion.loader import OntologyLoader
-from app.services.ingestion.registry import OntologyRegistry
+
+from app.services.ingestion.document.reader import DocumentReader
+from app.services.ingestion.ontology.loader import OntologyLoader
+from app.services.ingestion.ontology.registry import OntologyRegistry
+
 
 logger = logging.getLogger(__name__)
+
 
 DEFAULT_ONTOLOGY_PATH = (
     "app/data/ontology/product_sales_knowledge_graph_base_v3_1.ontology.json"
@@ -17,13 +23,31 @@ DEFAULT_ONTOLOGY_PATH = (
 
 
 class DocumentPreparation:
+    """
+    Chuẩn bị ngữ cảnh extraction từ tài liệu nguồn và ontology.
+    """
     def __init__(self, ontology_path: str | Path = DEFAULT_ONTOLOGY_PATH):
+        """
+        Nạp ontology và khởi tạo reader cho một phiên ingestion.
+
+        Args:
+            ontology_path: Đường dẫn file ontology JSON.
+        """
         self.ontology_path = Path(ontology_path)
         ontology = OntologyLoader.load(self.ontology_path)
         self.registry = OntologyRegistry(ontology)
         self.reader = DocumentReader()
 
     def prepare(self, document_path: str | Path) -> ExtractionContext:
+        """
+        Đọc tài liệu từ filesystem và dựng ngữ cảnh extraction.
+
+        Args:
+            document_path: Đường dẫn tài liệu nguồn.
+
+        Returns:
+            `ExtractionContext` gồm chunk, ontology context và document context.
+        """
         path = Path(document_path)
         logger.info("Preparing extraction context from path=%s", path)
         chunks = self.reader.read(path)
@@ -36,6 +60,17 @@ class DocumentPreparation:
         data: bytes,
         mime_type: str | None = None,
     ) -> ExtractionContext:
+        """
+        Dựng ngữ cảnh extraction từ tài liệu người dùng upload (bytes).
+
+        Args:
+            filename: Tên file upload.
+            data: Nội dung file dạng bytes.
+            mime_type: MIME type kèm theo (nếu có).
+
+        Returns:
+            `ExtractionContext` tương tự `prepare`.
+        """
         logger.info(
             "Preparing extraction context from uploaded document filename=%s mime_type=%s byte_count=%s",
             filename,
@@ -50,6 +85,9 @@ class DocumentPreparation:
         return self._context(document_name=filename, chunks=chunks)
 
     def build_ontology_context(self) -> str:
+        """
+        Sinh phần mô tả ontology (class/property/edge) đưa vào prompt extraction.
+        """
         lines: list[str] = []
         for class_name in self.registry.list_classes():
             ontology_class = self.registry.get_class(class_name)
@@ -107,6 +145,9 @@ class DocumentPreparation:
 
     @staticmethod
     def build_document_context(chunks: list[DocumentChunk]) -> str:
+        """
+        Sinh phần mô tả tài liệu nguồn (chunk/section/nội dung) đưa vào prompt extraction.
+        """
         return "\n\n".join(
             "\n".join(
                 [
@@ -120,6 +161,9 @@ class DocumentPreparation:
         )
 
     def _context(self, *, document_name: str, chunks: list[DocumentChunk]) -> ExtractionContext:
+        """
+        Ghép ontology context, document context và chunk thành `ExtractionContext`.
+        """
         ontology_context = self.build_ontology_context()
         logger.info(
             "Prepared extraction context document=%s chunk_count=%s ontology_context_chars=%s",
@@ -132,4 +176,3 @@ class DocumentPreparation:
             chunks=chunks,
             ontology_context=ontology_context,
         )
-

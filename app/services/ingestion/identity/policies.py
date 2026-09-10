@@ -1,11 +1,9 @@
-"""
-Identity policy dành riêng cho Product Sales Knowledge Graph.
+"""Chính sách định danh (identity policy) cho Product Sales Knowledge Graph.
 
-Lưu ý:
-- Không sửa ontology.json.
-- Đây là operational policy của ingestion skill.
-- Chỉ khai báo natural key khi có identifier/code đủ rõ.
-"""
+Khai báo natural key — thuộc tính dùng làm định danh nghiệp vụ cho từng class.
+Đây là operational policy của ingestion skill, KHÔNG sửa ontology.json, và chỉ
+khai báo natural key khi thật sự có identifier/code đủ rõ."""
+
 
 PRODUCT_SALES_NATURAL_KEYS: dict[str, str] = {
     "pskg:BankingProduct": "pskg:productCode",

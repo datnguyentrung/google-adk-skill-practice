@@ -1,25 +1,48 @@
-from __future__ import annotations
+"""Phase 3 — Chốt chặn (guard) cho từng fragment trước khi gộp vào workspace.
 
-import re
+Guard chỉ chạy các kiểm tra TẤT ĐỊNH: evidence có nằm trong chunk nguồn, fragment
+có đúng schema, class/property/edge có tồn tại và giá trị có đúng datatype. Nhờ đó
+lỗi cơ bản bị chặn ngay tại batch thay vì đợi đến bước validate toàn cục."""
+
 from typing import Any
-
 from pydantic import ValidationError
-
 from app.core.schemas.ingestion.document import DocumentChunk
-from app.core.schemas.ingestion.graph_patch import Evidence, GraphPatchDraft, GraphPatchFragment
-from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
-from app.services.ingestion.graph_validation import (
+from app.core.schemas.ingestion.graph_patch import (
+    Evidence,
+    GraphPatchDraft,
+    GraphPatchFragment,
+)
+
+from app.services.ingestion.ontology.registry import OntologyRegistry
+from app.services.ingestion.patch.compiler import GraphPatchCompiler
+from app.services.ingestion.patch.excerpts import (
+    _all_evidence,
+    _canonical_bullet_excerpt,
+    _canonical_markdown_excerpt,
+    _canonical_table_excerpt,
+    _canonical_whitespace_excerpt,
+)
+from app.services.ingestion.validation.ontology_validator import (
     OntologyValidator,
-    SourceGroundingValidator,
     is_source_required_rule,
 )
-from app.services.ingestion.registry import OntologyRegistry
+from app.services.ingestion.validation.source_grounding import SourceGroundingValidator
 
 
 class GraphFragmentGuard:
-    """Deterministic checks only: evidence, schema, ontology and datatype."""
+    """
+    Deterministic checks only: evidence, schema, ontology and datatype.
+    """
 
     def __init__(self, *, registry: OntologyRegistry, compiler: GraphPatchCompiler, ontology_validator: OntologyValidator):
+        """
+        Ghi nhận registry, compiler và ontology validator dùng cho guard.
+
+        Args:
+            registry: Registry ontology.
+            compiler: Compiler dùng để thử compile fragment.
+            ontology_validator: Validator kiểm tra class/property/edge.
+        """
         self.registry = registry
         self.compiler = compiler
         self.ontology_validator = ontology_validator
@@ -27,6 +50,16 @@ class GraphFragmentGuard:
     def canonicalize(
             self, fragment: GraphPatchFragment, chunks: list[DocumentChunk]
         ) -> GraphPatchFragment:
+            """
+            Chuẩn hoá fragment: evidence khớp nguyên văn với chunk và tempId được chuẩn hoá.
+
+            Args:
+                fragment: Fragment LLM trả về cho một batch.
+                chunks: Chunk nguồn của batch.
+
+            Returns:
+                Fragment đã canonical hoá evidence.
+            """
             chunk_by_index = {chunk.index: chunk for chunk in chunks}
 
             def normalize(items: list[Evidence]) -> list[Evidence]:
@@ -118,6 +151,17 @@ class GraphFragmentGuard:
             *,
             existing_node_refs: set[str] | None = None,
         ) -> list[dict[str, Any]]:
+            """
+            Trả về danh sách lỗi tất định của fragment (rỗng nghĩa là fragment hợp lệ).
+
+            Args:
+                fragment: Fragment cần kiểm tra.
+                chunks: Chunk nguồn của batch.
+                existing_node_refs: tempId đã có từ các batch trước (nếu có).
+
+            Returns:
+                Danh sách dict lỗi theo format lỗi của ingestion.
+            """
             errors: list[dict[str, Any]] = []
             chunk_by_index = {chunk.index: chunk for chunk in chunks}
             expected = set(chunk_by_index)
@@ -278,11 +322,8 @@ class GraphFragmentGuard:
         *,
         existing_node_refs: set[str],
     ) -> list[dict[str, Any]]:
-        """Reject new nodes that cannot satisfy source-backed class requirements.
-
-        Canonical context refs are exempt because their required source facts may have
-        been established in an earlier accepted batch. A newly introduced entity must
-        not be emitted as a persistence-incomplete stub.
+        """
+        Báo lỗi khi fragment thiếu thuộc tính bắt buộc phải có trong nguồn tài liệu.
         """
         errors: list[dict[str, Any]] = []
         for node_index, node in enumerate(fragment.nodes):
@@ -331,11 +372,8 @@ class GraphFragmentGuard:
         *,
         existing_node_refs: set[str],
     ) -> list[dict[str, Any]]:
-        """Require ontology-mandated edge-derived values for newly emitted nodes.
-
-        Canonical context refs are exempt because their deriving relationship may live
-        in an already accepted earlier batch. New/batch-local nodes must be complete
-        within the fragment that introduces them.
+        """
+        Báo lỗi khi fragment thiếu quan hệ cần thiết để suy diễn thuộc tính cho node.
         """
         errors: list[dict[str, Any]] = []
         incoming = {
@@ -391,70 +429,3 @@ class GraphFragmentGuard:
                     }
                 )
         return errors
-
-def _canonical_whitespace_excerpt(chunk: DocumentChunk, quote: str) -> str:
-    if not quote.strip():
-        return quote
-    parts = [re.escape(part) for part in re.split(r"\s+", quote.strip()) if part]
-    if not parts:
-        return quote
-    pattern = r"\s+".join(parts)
-    for surface in (chunk.section or "", chunk.content):
-        match = re.search(pattern, surface, flags=re.MULTILINE)
-        if match is not None:
-            return match.group(0)
-    return quote
-
-
-def _canonical_bullet_excerpt(chunk: DocumentChunk, quote: str) -> str:
-    if quote in chunk.content or quote in (chunk.section or ""):
-        return quote
-    for line in reversed(quote.splitlines()):
-        candidate = line.strip()
-        if candidate.startswith("- ") and candidate in chunk.content:
-            return candidate
-    return quote
-
-def _canonical_markdown_excerpt(chunk: DocumentChunk, quote: str) -> str:
-    """Recover exact source text when the model only removed Markdown emphasis."""
-    if quote in chunk.content or quote in (chunk.section or ""):
-        return quote
-
-    def plain(value: str) -> str:
-        value = re.sub(r"(\*\*|__|`)", "", value)
-        return re.sub(r"\s+", " ", value).strip()
-
-    target = plain(quote)
-    if not target:
-        return quote
-    for line in chunk.content.splitlines():
-        if target in plain(line):
-            return line.strip()
-    paragraphs = [part.strip() for part in re.split(r"\n\s*\n", chunk.content) if part.strip()]
-    for paragraph in paragraphs:
-        if target in plain(paragraph):
-            return paragraph
-    return quote
-
-def _canonical_table_excerpt(chunk: DocumentChunk, quote: str) -> str:
-    normalized = quote.replace("\r\n", "\n").replace("\r", "\n").strip()
-    if "|" not in normalized:
-        return quote
-    for line in chunk.content.splitlines():
-        row = line.strip()
-        if row.startswith("|") and row.endswith("|") and normalized in row:
-            return row
-    return quote
-
-def _all_evidence(fragment: GraphPatchFragment):
-    for node_index, node in enumerate(fragment.nodes):
-        for item in node.evidence:
-            yield f"nodes.{node_index}.evidence", item
-        for property_index, prop in enumerate(node.properties):
-            for item in prop.evidence:
-                yield f"nodes.{node_index}.properties.{property_index}.evidence", item
-    for edge_index, edge in enumerate(fragment.edges):
-        for item in edge.evidence:
-            yield f"edges.{edge_index}.evidence", item
-
-__all__ = ["GraphFragmentGuard"]

@@ -1,4 +1,9 @@
-from __future__ import annotations
+"""Phase 2 — Gọi model LLM có kiểm soát (nhịp gửi, retry, JSON bắt buộc).
+
+Mọi lời gọi Gemini trong pipeline ingestion đều đi qua module này để bảo đảm: tôn
+trọng hạn mức request/phút, retry khi lỗi transport, và bắt buộc model trả về JSON
+đúng schema. Nhờ vậy phần còn lại của hệ thống không phải quan tâm tới chi tiết gọi
+model, chỉ cần gọi `AdkStructuredCallExecutor.run`."""
 
 import asyncio
 import json
@@ -10,45 +15,71 @@ import time
 import uuid
 from collections.abc import Callable
 from typing import Any
-
 from google.adk.agents import Agent
 from google.adk.models import Gemini
 from google.adk.runners import InMemoryRunner
 from google.genai import types
 
+
 logger = logging.getLogger(__name__)
+
 
 DEFAULT_MODEL_RPM_BUDGET = max(
     0, int(os.getenv("INGESTION_MODEL_RPM_BUDGET", "10"))
 )
+
+
 DEFAULT_MODEL_RETRY_ATTEMPTS = max(
     1, int(os.getenv("INGESTION_MODEL_RETRY_ATTEMPTS", "4"))
 )
+
+
 DEFAULT_MODEL_THINKING_LEVEL = os.getenv("INGESTION_MODEL_THINKING_LEVEL", "MEDIUM")
 
 
 class StructuredModelOutputError(RuntimeError):
-    """Model call completed but did not yield valid structured JSON."""
+    """
+    Model đã trả lời nhưng không sinh được JSON hợp lệ theo schema.
+
+    Lỗi này được đánh dấu retryable để tầng trên thử lại.
+    """
 
     retryable = True
     error_kind = "llm_output"
 
 
 class StageLocalModelCallExhausted(RuntimeError):
-    """An ADK model call exhausted its transport retries."""
+    """
+    Đã hết lượt thử lại cho một thao tác gọi model.
+    """
 
     stage_local_retries_exhausted = True
 
     def __init__(self, message: str, *, cause: Exception):
+        """
+        Ghi nhận message và exception gốc đã làm cạn lượt thử.
+
+        Args:
+            message: Mô tả lỗi hiển thị cho caller.
+            cause: Exception gốc gây ra việc hết lượt thử.
+        """
         super().__init__(message)
         self.__cause__ = cause
         self.status_code = getattr(cause, "status_code", None)
 
 
 class ModelRequestPacer:
-    """Thread-safe leaky-bucket pacer shared by model name."""
+    """
+    Giữ nhịp gọi model theo hạn mức request/phút.
+    """
 
     def __init__(self, *, clock: Callable[[], float] = time.monotonic):
+        """
+        Khởi tạo bộ giữ nhịp với đồng hồ có thể thay thế khi test.
+
+        Args:
+            clock: Hàm trả về thời gian hiện tại (mặc định `time.monotonic`).
+        """
         self._clock = clock
         self._lock = threading.Lock()
         self._next_allowed: dict[str, float] = {}
@@ -60,6 +91,14 @@ class ModelRequestPacer:
         rpm_budget: int,
         sleep: Callable[[float], None] = time.sleep,
     ) -> None:
+        """
+        Xin một lượt gọi model, ngủ nếu cần để không vượt hạn mức.
+
+        Args:
+            model: Tên model (hạn mức được tính riêng theo model).
+            rpm_budget: Số request tối đa mỗi phút.
+            sleep: Hàm ngủ, có thể thay thế khi test.
+        """
         if rpm_budget <= 0:
             return
         interval = 60.0 / rpm_budget
@@ -82,6 +121,9 @@ _SHARED_PACER = ModelRequestPacer()
 
 
 def _is_transport_exhaustion(exc: Exception) -> bool:
+    """
+    Nhận diện lỗi transport (mạng/quota) để quyết định có thử lại.
+    """
     message = str(exc).upper()
     status_code = getattr(exc, "status_code", None)
     if status_code in {408, 429, 500, 502, 503, 504}:
@@ -93,11 +135,17 @@ def _is_transport_exhaustion(exc: Exception) -> bool:
 
 
 def _agent_name(operation: str) -> str:
+    """
+    Sinh tên agent ADK tương ứng với một thao tác nghiệp vụ.
+    """
     safe = re.sub(r"[^a-zA-Z0-9_]", "_", operation).strip("_")
     return f"ingestion_{safe or 'structured_call'}"
 
 
 def _generate_content_config() -> types.GenerateContentConfig:
+    """
+    Dựng cấu hình sinh nội dung (thinking level, JSON) cho model.
+    """
     return types.GenerateContentConfig(
         temperature=0,
         thinking_config=types.ThinkingConfig(
@@ -107,7 +155,9 @@ def _generate_content_config() -> types.GenerateContentConfig:
 
 
 def _await_sync(coro):
-    """Run an ADK coroutine from synchronous ingestion code, even inside an event loop."""
+    """
+    Chạy coroutine trong luồng riêng khi đang ở ngữ cảnh đồng bộ (tránh lỗi event loop).
+    """
     try:
         asyncio.get_running_loop()
     except RuntimeError:
@@ -131,7 +181,9 @@ def _await_sync(coro):
 
 
 class AdkStructuredCallExecutor:
-    """Run one structured LLM task through Google ADK."""
+    """
+    Gọi model ADK và bắt buộc trả về JSON đúng schema.
+    """
 
     def __init__(
         self,
@@ -143,6 +195,17 @@ class AdkStructuredCallExecutor:
         sleep: Callable[[float], None] = time.sleep,
         runner_factory: Callable[..., Any] = InMemoryRunner,
     ):
+        """
+        Khởi tạo executor với model, hạn mức và chiến lược retry.
+
+        Args:
+            model: Tên model Gemini.
+            rpm_budget: Hạn mức request/phút.
+            retry_attempts: Số lần thử lại tối đa.
+            pacer: Bộ giữ nhịp dùng chung.
+            sleep: Hàm ngủ (thay thế được khi test).
+            runner_factory: Factory tạo runner ADK (thay thế được khi test).
+        """
         self.model = model
         self.rpm_budget = rpm_budget
         self.retry_attempts = retry_attempts
@@ -158,6 +221,22 @@ class AdkStructuredCallExecutor:
         output_schema: dict[str, Any] | type,
         message: str = "Produce the structured result now.",
     ) -> Any:
+        """
+        Gọi model cho một thao tác và trả về payload JSON đã parse.
+
+        Args:
+            operation: Tên thao tác (dùng cho log/agent name).
+            instruction: Prompt hướng dẫn.
+            output_schema: JSON schema mà model phải tuân theo.
+            message: Tin nhắn người dùng gửi kèm.
+
+        Returns:
+            Payload JSON do model sinh ra.
+
+        Raises:
+            StageLocalModelCallExhausted: Hết lượt thử lại.
+            StructuredModelOutputError: Output không phải JSON hợp lệ.
+        """
         self.pacer.acquire(
             model=self.model,
             rpm_budget=self.rpm_budget,
@@ -254,14 +333,3 @@ class AdkStructuredCallExecutor:
         raise StructuredModelOutputError(
             f"ADK agent returned no structured output for {operation}"
         )
-
-
-__all__ = [
-    "AdkStructuredCallExecutor",
-    "DEFAULT_MODEL_RPM_BUDGET",
-    "DEFAULT_MODEL_THINKING_LEVEL",
-    "ModelRequestPacer",
-    "StageLocalModelCallExhausted",
-    "StructuredModelOutputError",
-]
-

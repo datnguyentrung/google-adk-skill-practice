@@ -1,38 +1,66 @@
-from __future__ import annotations
+"""Phase 2 — Trích xuất graph patch từ tài liệu bằng LLM (ADK).
+
+Module này dựng prompt từ ontology + chunk của một batch, gọi model qua
+`AdkStructuredCallExecutor`, rồi hậu kiểm kết quả bằng `GraphFragmentGuard` trước khi
+trả fragment về cho tầng orchestration. Đây là cửa duy nhất sinh fact mới vào graph."""
 
 import json
 import logging
 import os
 import re
 from typing import Any
-
 from pydantic import ValidationError
-
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import ExtractedNode, GraphPatchFragment
-from app.services.ingestion.graph_fragment_guard import GraphFragmentGuard
-from app.services.ingestion.graph_patch_compiler import GraphPatchCompiler
-from app.services.ingestion.graph_validation import OntologyValidator
-from app.services.ingestion.model_call_control import AdkStructuredCallExecutor
-from app.services.ingestion.registry import OntologyRegistry
+
+from app.services.ingestion.mapping.model_call import AdkStructuredCallExecutor
+from app.services.ingestion.mapping.temp_ids import (
+    _batch_scoped_temp_id,
+    _short_definition,
+    _stable_value,
+    _strip_repeated_batch_prefix,
+)
+from app.services.ingestion.ontology.registry import OntologyRegistry
+from app.services.ingestion.patch.compiler import GraphPatchCompiler
+from app.services.ingestion.patch.fragment_guard import GraphFragmentGuard
+from app.services.ingestion.validation.ontology_validator import OntologyValidator
+
 
 logger = logging.getLogger(__name__)
+
+
 DEFAULT_GRAPH_MAPPING_MODEL = os.getenv(
     "INGESTION_MODEL", os.getenv("GOOGLE_ADK_MODEL", "gemini-3.5-flash-lite")
 )
 
 
 class DirectGraphMappingError(ValueError):
+    """
+    Lỗi khi bước trích xuất graph patch thất bại nhưng có thể thử lại.
+
+    Args:
+        message: Mô tả lỗi.
+        summary: Thông tin chẩn đoán kèm theo (tuỳ chọn).
+    """
     retryable = True
     error_kind = "llm_mapping"
 
     def __init__(self, message: str, *, summary: dict[str, Any] | None = None):
+        """
+        Ghi nhận message và summary chẩn đoán.
+
+        Args:
+            message: Mô tả lỗi.
+            summary: Dict chẩn đoán, mặc định là rỗng.
+        """
         super().__init__(message)
         self.summary = summary or {}
 
 
 class AdkGraphMapper:
-    """Direct ADK mapper: source batch + ontology -> GraphPatchFragment."""
+    """
+    Gọi LLM để trích xuất graph patch cho từng batch tài liệu.
+    """
 
     def __init__(
         self,
@@ -43,6 +71,16 @@ class AdkGraphMapper:
         model: str = DEFAULT_GRAPH_MAPPING_MODEL,
         structured_executor: AdkStructuredCallExecutor | None = None,
     ):
+        """
+        Khởi tạo mapper với ontology, compiler, guard và executor gọi model.
+
+        Args:
+            registry: Registry ontology.
+            compiler: Compiler dùng để kiểm tra fragment.
+            ontology_validator: Validator ontology.
+            model: Tên model Gemini.
+            structured_executor: Executor gọi model (tuỳ chọn).
+        """
         self.registry = registry
         self.compiler = compiler
         self.ontology_validator = ontology_validator
@@ -65,6 +103,21 @@ class AdkGraphMapper:
         graph_context: str | None = None,
         previous_error: dict[str, Any] | None = None,
     ) -> GraphPatchFragment:
+        """
+        Trích xuất fragment cho một batch chunk bằng LLM.
+
+        Args:
+            batch_payload: Payload batch do workspace cung cấp.
+            chunks: Chunk nguồn của batch.
+            graph_context: Ngữ cảnh graph từ các batch trước (nếu có).
+            previous_error: Lỗi của lần thử trước để model sửa (nếu có).
+
+        Returns:
+            `GraphPatchFragment` đã canonical hoá và hậu kiểm.
+
+        Raises:
+            DirectGraphMappingError: Model trả về dữ liệu không dùng được.
+        """
         chunk_indexes = [chunk.index for chunk in chunks]
         prompt = self._prompt(
             batch_payload=batch_payload,
@@ -155,6 +208,9 @@ class AdkGraphMapper:
         graph_context: str,
         previous_error: dict[str, Any] | None,
     ) -> str:
+        """
+        Dựng prompt trích xuất: quy tắc nghiệp vụ, ontology rút gọn, chunk và ngữ cảnh graph.
+        """
         is_final_coverage_repair = bool(
             previous_error
             and previous_error.get("stage") == "final_coverage_validation"
@@ -294,6 +350,9 @@ class AdkGraphMapper:
         )
 
     def _build_ontology_projection(self) -> str:
+        """
+        Rút gọn ontology thành phần mô tả vừa đủ cho prompt extraction.
+        """
         lines = ["CLASSES"]
         for name in self.registry.list_classes():
             cls = self.registry.get_class(name)
@@ -385,6 +444,9 @@ class AdkGraphMapper:
         return "\n".join(lines)
 
     def _response_schema(self, chunk_indexes: list[int]) -> dict[str, Any]:
+        """
+        Dựng JSON schema mà model phải trả về cho batch này.
+        """
         schema = GraphPatchFragment.model_json_schema(by_alias=True)
         defs = schema["$defs"]
         class_field = defs["ExtractedNode"]["properties"]["className"]
@@ -431,6 +493,9 @@ class AdkGraphMapper:
         graph_context: str,
         batch_index: int,
     ) -> GraphPatchFragment:
+        """
+        Gắn quan hệ của fragment với node đã có từ các batch trước (qua ngữ cảnh graph).
+        """
         known: dict[str, tuple[str, dict[str, Any]]] = {}
         for match in re.finditer(
             r"- ref=(\S+)\n\s+class=(\S+)\n\s+identity=(\{.*\})",
@@ -512,33 +577,3 @@ class AdkGraphMapper:
                 )
                 existing.add(temp_id)
         return fragment.model_copy(update={"nodes": nodes, "edges": edges})
-
-
-def _batch_prefix(batch_index: int) -> str:
-    return f"b{batch_index}__"
-
-
-def _strip_repeated_batch_prefix(temp_id: str, batch_index: int) -> str:
-    prefix = _batch_prefix(batch_index)
-    while temp_id.startswith(prefix):
-        temp_id = temp_id[len(prefix) :]
-    return temp_id
-
-
-def _batch_scoped_temp_id(temp_id: str, batch_index: int) -> str:
-    return (
-        f"{_batch_prefix(batch_index)}"
-        f"{_strip_repeated_batch_prefix(temp_id, batch_index)}"
-    )
-
-
-def _short_definition(value: str) -> str:
-    text = str(value or "").split("[Business constraint]", 1)[0].strip()
-    return re.sub(r"\s+", " ", text)
-
-
-def _stable_value(value: Any) -> str:
-    return json.dumps(value, ensure_ascii=False, sort_keys=True, default=str)
-
-
-__all__ = ["AdkGraphMapper", "DirectGraphMappingError"]

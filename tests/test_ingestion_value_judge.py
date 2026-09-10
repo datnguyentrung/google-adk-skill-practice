@@ -1,11 +1,11 @@
 ﻿from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchFragment
-from app.services.ingestion import graph_validation
-from app.services.ingestion import use_case as ingestion_use_case
-from app.services.ingestion.loader import OntologyLoader
-from app.services.ingestion.registry import OntologyRegistry
-from app.services.ingestion.graph_validation import SemanticGroundingDecision
-from app.services.ingestion.graph_validation import SourceGroundingValidator
+from app.services.ingestion.ontology import OntologyLoader, OntologyRegistry
+from app.services.ingestion.validation import (
+    SemanticGroundingDecision,
+    SourceGroundingValidator,
+)
+from app.services.ingestion.validation import semantic_judge
 
 
 SOURCE = "test.md"
@@ -206,7 +206,7 @@ def test_deterministic_pass_does_not_need_judge():
 
 def test_default_value_judge_wiring(monkeypatch):
     monkeypatch.setenv("GOOGLE_API_KEY", "test-key")
-    assert graph_validation.create_default_semantic_value_judge() is not None
+    assert semantic_judge.create_default_semantic_value_judge() is not None
     monkeypatch.delenv("GOOGLE_API_KEY")
-    assert graph_validation.create_default_semantic_value_judge() is None
+    assert semantic_judge.create_default_semantic_value_judge() is None
 

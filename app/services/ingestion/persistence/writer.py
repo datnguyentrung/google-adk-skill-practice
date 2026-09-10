@@ -1,37 +1,53 @@
+"""Phase 5 — Ghi node/edge xuống Neo4j và đọc lại theo element ID.
+
+Đây là lớp chạm trực tiếp vào Neo4j: upsert node theo identity, upsert relationship
+theo khoá ổn định, ghi cả patch trong một transaction, rồi đọc lại đúng các element ID
+vừa commit để trả về cho bước xác minh."""
+
 import logging
 from typing import Any
-
 from neo4j import Transaction
-
 from app.core.schemas.ingestion.persistence import (
     GraphWriteResult,
     PersistedGraphReadback,
     PersistedNode,
     PersistedRelationship,
 )
-from app.services.ingestion.identity import (
+
+from app.services.ingestion.identity.resolver import (
     IdentityResolver,
     source_scope_from_evidence,
 )
-from app.services.ingestion.neo4j_mapper import (
-    Neo4jMapper,
-)
-from app.services.ingestion.readback import relationship_key
+from app.services.ingestion.persistence.mapping import Neo4jMapper
+from app.services.ingestion.persistence.readback import relationship_key
+
 
 logger = logging.getLogger(__name__)
 
 
 class Neo4jWriteError(RuntimeError):
+    """
+    Lỗi khi ghi dữ liệu xuống Neo4j thất bại.
+    """
     pass
 
 
 class Neo4jGraphStore:
-    """Persist graph patches and read back exactly the committed element IDs."""
+    """
+    Persist graph patches and read back exactly the committed element IDs.
+    """
     def __init__(
         self,
         mapper: Neo4jMapper,
         identity_resolver: IdentityResolver,
     ):
+        """
+        Khởi tạo store với mapper và identity resolver.
+
+        Args:
+            mapper: Mapper đổi tên ontology sang định danh Neo4j.
+            identity_resolver: Bộ resolve identity cho node.
+        """
         self.mapper = mapper
         self.identity_resolver = identity_resolver
 
@@ -42,6 +58,12 @@ class Neo4jGraphStore:
         properties: dict[str, Any],
         source_scope: str | None = None,
     ) -> str:
+        """
+        MERGE một node theo identity và cập nhật thuộc tính.
+
+        Returns:
+            Element ID của node sau khi ghi.
+        """
         logger.info(
             "Neo4j node upsert started class_name=%s property_count=%s has_source_scope=%s",
             class_name,
@@ -134,6 +156,12 @@ class Neo4jGraphStore:
         target_node_id: str,
         edge_name: str,
     ) -> str:
+        """
+        MERGE một relationship giữa hai node đã ghi.
+
+        Returns:
+            Element ID của relationship sau khi ghi.
+        """
         logger.info(
             "Neo4j edge upsert started edge_name=%s source_node_id=%s target_node_id=%s",
             edge_name,
@@ -185,6 +213,16 @@ class Neo4jGraphStore:
         tx: Transaction,
         patch,
     ) -> GraphWriteResult:
+        """
+        Ghi toàn bộ patch trong một transaction và trả về kết quả kèm element ID.
+
+        Args:
+            patch: Patch đã compile.
+            artifact_content_digest: Digest artifact nguồn (nếu có).
+
+        Returns:
+            `GraphWriteResult` gồm ID các node/relationship đã commit.
+        """
         logger.info(
             "Neo4j graph patch write started node_count=%s edge_count=%s",
             len(patch.nodes),
@@ -295,6 +333,9 @@ class Neo4jGraphStore:
         properties: dict[str, Any],
         source_scope: str | None,
     ) -> PersistedNode:
+        """
+        Dựng dữ liệu mong đợi của một node (label, thuộc tính) để đối chiếu khi ghi/đọc lại.
+        """
         identity = self.identity_resolver.resolve(
             class_name=class_name,
             properties=properties,
@@ -322,6 +363,12 @@ class Neo4jGraphStore:
         tx: Transaction,
         write_result: GraphWriteResult,
     ) -> PersistedGraphReadback:
+        """
+        Đọc lại đúng các element ID đã commit để phục vụ bước verify.
+
+        Returns:
+            `PersistedGraphReadback` gồm node và relationship vừa ghi.
+        """
         node_result = tx.run(
             """
             MATCH (n)
@@ -370,8 +417,4 @@ class Neo4jGraphStore:
         )
 
 
-# Backward-compatible import name for callers that only use the write interface.
 Neo4jWriter = Neo4jGraphStore
-
-
-__all__ = ["Neo4jGraphStore", "Neo4jWriteError", "Neo4jWriter"]

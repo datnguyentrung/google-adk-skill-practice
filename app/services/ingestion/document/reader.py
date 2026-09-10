@@ -1,11 +1,19 @@
+"""Phase 1 — Đọc tài liệu nguồn thành danh sách chunk.
+
+Module này nhận file (.md/.txt) hoặc dữ liệu upload, kiểm tra tính hợp lệ của
+nguồn, rồi cắt thành các `DocumentChunk` có index, tên file, section và nội dung.
+Với markdown, mỗi heading cấp 1-6 trở thành một section để các phase sau có ngữ
+cảnh tốt hơn khi đối chiếu evidence."""
+
 import logging
 import re
 from pathlib import Path
 from typing import ClassVar
-
 from app.core.schemas.ingestion.document import DocumentChunk
 
+
 logger = logging.getLogger(__name__)
+
 
 _SENSITIVE_PATTERN = re.compile(
     r"(?i)(authorization\s*[:=]\s*\S+|api[_-]?key\s*[:=]\s*\S+|"
@@ -15,6 +23,16 @@ _SENSITIVE_PATTERN = re.compile(
 
 
 def _safe_preview(value: str, *, limit: int = 500) -> str:
+    """
+    Tạo bản xem trước một dòng, đã che thông tin nhạy cảm, dùng cho log.
+
+    Args:
+        value: Chuỗi cần xem trước.
+        limit: Độ dài tối đa; vượt ngưỡng sẽ cắt giữa.
+
+    Returns:
+        Chuỗi đã chuẩn hoá khoảng trắng và che token mật.
+    """
     text = _SENSITIVE_PATTERN.sub("<REDACTED>", value)
     text = re.sub(r"\s+", " ", text).strip()
     if len(text) <= limit:
@@ -24,11 +42,15 @@ def _safe_preview(value: str, *, limit: int = 500) -> str:
 
 
 class DocumentReadError(ValueError):
-    """Lỗi nghiệp vụ khi đường dẫn/tài liệu không phù hợp để đọc ingestion."""
+    """
+    Lỗi nghiệp vụ khi đường dẫn/tài liệu không phù hợp để đọc ingestion.
+    """
 
 
 class DocumentReader:
-    """Đọc tài liệu nguồn và chuyển thành danh sách DocumentChunk để ingestion."""
+    """
+    Đọc tài liệu nguồn và chuyển thành danh sách DocumentChunk để ingestion.
+    """
 
     # Chỉ hỗ trợ các định dạng text đơn giản để tránh phải parse binary/PDF ở tầng này.
     SUPPORTED_SUFFIXES: ClassVar[set[str]] = {
@@ -44,12 +66,17 @@ class DocumentReader:
         path: str | Path,
     ) -> list[DocumentChunk]:
         """
-        Đọc một file tài liệu và trả về các chunk nội dung.
+        Đọc một file tài liệu từ filesystem thành danh sách chunk.
 
-        - File .md được tách theo heading; mỗi section thành một DocumentChunk.
-        - File .txt được giữ nguyên thành một DocumentChunk duy nhất.
-        - Raise lỗi rõ nghĩa nếu file không tồn tại, không phải file, sai định dạng,
-          hoặc nội dung rỗng.
+        Args:
+            path: Đường dẫn file .md/.txt.
+
+        Returns:
+            Danh sách `DocumentChunk` theo thứ tự xuất hiện trong tài liệu.
+
+        Raises:
+            DocumentReadError: File không tồn tại, không phải file thường, sai định
+                dạng hoặc rỗng.
         """
 
         # Chuẩn hóa input str/Path về Path để dùng chung các API filesystem.
@@ -109,7 +136,20 @@ class DocumentReader:
         data: bytes,
         mime_type: str | None = None,
     ) -> list[DocumentChunk]:
-        """Read an uploaded document from bytes instead of a filesystem path."""
+        """
+        Đọc tài liệu từ dữ liệu upload (bytes) thay vì từ filesystem.
+
+        Args:
+            filename: Tên file để suy ra định dạng.
+            data: Nội dung file dạng bytes (UTF-8).
+            mime_type: MIME type (chỉ dùng cho log/chẩn đoán).
+
+        Returns:
+            Danh sách `DocumentChunk`.
+
+        Raises:
+            DocumentReadError: Định dạng không hỗ trợ, giải mã UTF-8 lỗi hoặc nội dung rỗng.
+        """
 
         suffix = Path(filename).suffix.lower()
         logger.info(
@@ -164,6 +204,9 @@ class DocumentReader:
         suffix: str,
         text: str,
     ) -> list[DocumentChunk]:
+        """
+        Cắt nội dung text thành chunk: markdown tách theo heading, text thường tách theo đoạn.
+        """
         if suffix == ".md":
             return self._split_markdown(source=source, text=text)
 
@@ -205,10 +248,7 @@ class DocumentReader:
         text: str,
     ) -> list[DocumentChunk]:
         """
-        Tách markdown thành chunk theo heading.
-
-        Nội dung nằm dưới heading nào sẽ được gán vào section đó. Phần nội dung
-        trước heading đầu tiên vẫn được giữ lại với section=None.
+        Tách markdown thành chunk theo heading và giữ tiêu đề section cho từng chunk.
         """
 
         # Danh sách chunk kết quả, index được gán theo thứ tự append.

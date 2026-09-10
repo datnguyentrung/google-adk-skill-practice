@@ -1,4 +1,8 @@
-﻿from __future__ import annotations
+"""Phase 2b — Chia tài liệu thành batch và quản lý workspace ingestion theo phiên.
+
+Tài liệu dài được chia thành nhiều batch theo số chunk/số ký tự/số token ước lượng.
+Workspace giữ fragment của từng batch, gộp dần thành một graph patch duy nhất và
+kiểm tra fragment có đúng phạm vi batch của nó hay không."""
 
 import hashlib
 import json
@@ -6,7 +10,6 @@ import logging
 import math
 import os
 from collections.abc import Iterable
-
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import (
     ChunkCoverage,
@@ -21,28 +24,50 @@ from app.core.schemas.ingestion.workspace import (
     IngestionProvenance,
     IngestionWorkspace,
 )
-from app.services.ingestion.policies.product_sales_identity import (
-    PRODUCT_SALES_NATURAL_KEYS,
-)
+
+from app.services.ingestion.identity.policies import PRODUCT_SALES_NATURAL_KEYS
+
 
 logger = logging.getLogger(__name__)
 
+
 MAX_BATCH_CHUNKS = max(1, int(os.getenv("INGESTION_MAX_BATCH_CHUNKS", "5")))
+
+
 MAX_BATCH_CHARS = max(1_000, int(os.getenv("INGESTION_MAX_BATCH_CHARS", "5000")))
+
+
 ESTIMATED_CHARS_PER_TOKEN = max(1.0, float(os.getenv("INGESTION_ESTIMATED_CHARS_PER_TOKEN", "2.0")))
+
+
 MAX_BATCH_ESTIMATED_TOKENS = max(1_000, int(os.getenv("INGESTION_MAX_BATCH_ESTIMATED_TOKENS", "6000")))
 
 
 class WorkspaceConflictError(ValueError):
-    """A retry would make the accumulated graph internally inconsistent."""
+    """
+    Lỗi khi thao tác không khớp với workspace hiện tại (ví dụ batch đã submit).
+
+    Args:
+        message: Mô tả xung đột.
+        conflict: Chi tiết xung đột kèm theo (tuỳ chọn).
+    """
 
     def __init__(self, message: str, *, conflict: dict | None = None):
+        """
+        Ghi nhận message và chi tiết xung đột.
+
+        Args:
+            message: Mô tả xung đột.
+            conflict: Dict chi tiết, mặc định là None.
+        """
         super().__init__(message)
         self.conflict = conflict or {}
 
 
 class IngestionWorkspaceService:
-    """Own batch planning, idempotent replacement, and graph-fragment merging."""
+    """
+    Quản lý vòng đời workspace ingestion: chia batch, nhận fragment, gộp patch.
+    """
 
     def begin(
         self,
@@ -51,6 +76,17 @@ class IngestionWorkspaceService:
         provenance: IngestionProvenance,
         chunks: list[DocumentChunk],
     ) -> IngestionWorkspace:
+        """
+        Tạo workspace mới cho một tài liệu: chia batch và ghi provenance.
+
+        Args:
+            artifact_name: Tên tài liệu nguồn.
+            provenance: Thông tin phiên bản nguồn/ontology/skill.
+            chunks: Toàn bộ chunk của tài liệu.
+
+        Returns:
+            `IngestionWorkspace` đã chia batch.
+        """
         batches = self._partition(chunks)
         identity_material = provenance.identity_material(artifact_name)
         ingestion_id = hashlib.sha256(identity_material.encode("utf-8")).hexdigest()
@@ -97,6 +133,20 @@ class IngestionWorkspaceService:
         batch_index: int,
         fragment: GraphPatchFragment,
     ) -> IngestionWorkspace:
+        """
+        Nhận fragment của một batch và cập nhật workspace.
+
+        Args:
+            workspace: Workspace hiện tại.
+            batch_index: Chỉ số batch đang submit.
+            fragment: Fragment LLM trả về cho batch đó.
+
+        Returns:
+            Workspace sau khi ghi nhận fragment.
+
+        Raises:
+            WorkspaceConflictError: Batch không hợp lệ hoặc đã được submit.
+        """
         if batch_index < 0 or batch_index >= len(workspace.batches):
             raise ValueError(f"Unknown batch index: {batch_index}")
         batch = workspace.batches[batch_index]
@@ -115,6 +165,9 @@ class IngestionWorkspaceService:
         return candidate
 
     def merged_patch(self, workspace: IngestionWorkspace) -> GraphPatchDraft:
+        """
+        Gộp toàn bộ fragment đã nhận thành một `GraphPatchDraft` duy nhất.
+        """
         fragments = [
             batch.fragment
             for batch in workspace.batches
@@ -130,7 +183,9 @@ class IngestionWorkspaceService:
         cls,
         fragments: list[GraphPatchFragment],
     ) -> GraphPatchFragment:
-        """Merge typed fragments with the same conflict rules used by submission."""
+        """
+        Gộp danh sách fragment thành một fragment (hợp nhất node, edge, coverage).
+        """
 
         nodes, temp_id_aliases = cls._merge_nodes(fragments)
         edges = cls._merge_edges(fragments, temp_id_aliases)
@@ -151,6 +206,9 @@ class IngestionWorkspaceService:
 
     @staticmethod
     def next_batch(workspace: IngestionWorkspace) -> IngestionBatch | None:
+        """
+        Trả về batch kế tiếp chưa submit, hoặc `None` nếu đã hết.
+        """
         return next(
             (batch for batch in workspace.batches if batch.fragment is None),
             None,
@@ -162,10 +220,16 @@ class IngestionWorkspaceService:
         *,
         provenance: IngestionProvenance,
     ) -> bool:
+        """
+        Kiểm tra workspace có còn khớp với provenance hiện tại (ontology/skill/artifact) không.
+        """
         return workspace.provenance == provenance
 
     @staticmethod
     def _partition(chunks: list[DocumentChunk]) -> list[IngestionBatch]:
+        """
+        Chia chunk thành các batch theo giới hạn số lượng, ký tự và token ước lượng.
+        """
         if not chunks:
             raise ValueError("At least one source chunk is required")
         batches: list[IngestionBatch] = []
@@ -214,6 +278,9 @@ class IngestionWorkspaceService:
         batch: IngestionBatch,
         fragment: GraphPatchFragment,
     ) -> None:
+        """
+        Kiểm tra fragment chỉ tham chiếu tới chunk thuộc batch của nó.
+        """
         expected = set(batch.chunk_indexes)
         supplied = [item.chunk_index for item in fragment.coverage]
         if len(supplied) != len(set(supplied)) or set(supplied) != expected:
@@ -229,6 +296,9 @@ class IngestionWorkspaceService:
 
     @staticmethod
     def _all_evidence(fragment: GraphPatchFragment) -> Iterable[Evidence]:
+        """
+        Liệt kê toàn bộ evidence của fragment (node, property, edge).
+        """
         for node in fragment.nodes:
             yield from node.evidence
             for prop in node.properties:
@@ -238,7 +308,9 @@ class IngestionWorkspaceService:
 
     @classmethod
     def _normalized_node_copy(cls, node: ExtractedNode) -> ExtractedNode:
-        """Collapse duplicate property entries before cross-batch merging."""
+        """
+        Tạo bản copy node đã chuẩn hoá thuộc tính để gộp.
+        """
         normalized = node.model_copy(deep=True)
         properties = {}
         ordered = []
@@ -288,6 +360,9 @@ class IngestionWorkspaceService:
         cls,
         fragments: list[GraphPatchFragment],
     ) -> tuple[list[ExtractedNode], dict[str, str]]:
+        """
+        Gộp node của nhiều fragment và trả về bảng ánh xạ tempId.
+        """
         merged: dict[str, ExtractedNode] = {}
         temp_id_aliases: dict[str, str] = {}
         incoming_nodes = [
@@ -356,6 +431,9 @@ class IngestionWorkspaceService:
         fragments: list[GraphPatchFragment],
         temp_id_aliases: dict[str, str] | None = None,
     ) -> list[ExtractedEdge]:
+        """
+        Gộp edge của nhiều fragment và cập nhật tempId theo bảng ánh xạ.
+        """
         temp_id_aliases = temp_id_aliases or {}
         merged: dict[tuple[str, str, str], ExtractedEdge] = {}
         for fragment in fragments:
@@ -390,6 +468,9 @@ class IngestionWorkspaceService:
         incoming: ExtractedNode,
         merged: dict[str, ExtractedNode],
     ) -> str:
+        """
+        Chọn tempId chuẩn cho node khi gộp (giữ bản đã xuất hiện).
+        """
         identity_key = cls._node_identity_key(incoming)
         for existing in merged.values():
             if existing.class_name != incoming.class_name:
@@ -400,6 +481,9 @@ class IngestionWorkspaceService:
 
     @classmethod
     def _node_identity_key(cls, node: ExtractedNode) -> tuple[str, str, str] | None:
+        """
+        Tạo khoá nhận dạng node dùng khi gộp node giữa các fragment.
+        """
         property_name = PRODUCT_SALES_NATURAL_KEYS.get(node.class_name)
         if property_name is None:
             return None
@@ -413,6 +497,9 @@ class IngestionWorkspaceService:
     def _merge_coverage(
         fragments: list[GraphPatchFragment],
     ) -> list[ChunkCoverage]:
+        """
+        Gộp coverage của nhiều fragment theo chunk index.
+        """
         merged: dict[int, ChunkCoverage] = {}
         for fragment in fragments:
             for incoming in fragment.coverage:
@@ -427,10 +514,16 @@ class IngestionWorkspaceService:
 
     @staticmethod
     def _stable_value(value) -> str:
+        """
+        Chuỗi hoá giá trị theo cách ổn định để so sánh khi gộp.
+        """
         return json.dumps(value, ensure_ascii=False, sort_keys=True, default=str)
 
     @classmethod
     def _merge_list_values(cls, existing: list, incoming: list) -> list:
+        """
+        Gộp hai danh sách giá trị và khử trùng.
+        """
         merged = list(existing)
         seen = {cls._stable_value(item) for item in merged}
         for item in incoming:
@@ -442,6 +535,9 @@ class IngestionWorkspaceService:
 
     @staticmethod
     def _dedupe_models(items: list):
+        """
+        Khử trùng danh sách model theo khoá canonical.
+        """
         unique = {}
         for item in items:
             key = json.dumps(
@@ -451,13 +547,3 @@ class IngestionWorkspaceService:
             )
             unique[key] = item
         return list(unique.values())
-
-
-__all__ = [
-    "ESTIMATED_CHARS_PER_TOKEN",
-    "MAX_BATCH_CHARS",
-    "MAX_BATCH_CHUNKS",
-    "MAX_BATCH_ESTIMATED_TOKENS",
-    "IngestionWorkspaceService",
-    "WorkspaceConflictError",
-]

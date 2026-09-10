@@ -1,4 +1,9 @@
-from __future__ import annotations
+"""Phase 0 — Kiểm tra và chuẩn hoá kiểu dữ liệu XSD của giá trị ontology.
+
+Ontology khai báo `range` của từng property bằng các kiểu XSD (xsd:string,
+xsd:date, xsd:decimal...). Module này quy đổi các range đó về `XsdDatatype` và
+cung cấp hai phép kiểm tra: giá trị có đúng kiểu không, và giá trị đã được
+chuẩn hoá chưa."""
 
 import re
 from datetime import date, datetime
@@ -8,6 +13,9 @@ from typing import Any
 
 
 class XsdDatatype(StrEnum):
+    """
+    Tập kiểu XSD mà ingestion hỗ trợ kiểm tra.
+    """
     STRING = "string"
     BOOLEAN = "boolean"
     INTEGER = "integer"
@@ -28,6 +36,9 @@ _XSD_KIND_BY_RANGE = {
 
 
 def xsd_datatypes(ranges: list[str]) -> tuple[XsdDatatype, ...]:
+    """
+    Quy đổi danh sách range XSD thành các `XsdDatatype` (đã khử trùng, giữ thứ tự).
+    """
     return tuple(
         dict.fromkeys(
             _XSD_KIND_BY_RANGE[item] for item in ranges if item in _XSD_KIND_BY_RANGE
@@ -36,6 +47,9 @@ def xsd_datatypes(ranges: list[str]) -> tuple[XsdDatatype, ...]:
 
 
 def normalize_xsd_value(value: Any, datatype: XsdDatatype) -> Any:
+    """
+    Chuẩn hoá giá trị theo kiểu XSD (ví dụ chuỗi → date/decimal) để so sánh nhất quán.
+    """
     if datatype is not XsdDatatype.DATE or not isinstance(value, str):
         return value
     raw = value.strip()
@@ -52,6 +66,9 @@ def normalize_xsd_value(value: Any, datatype: XsdDatatype) -> Any:
 
 
 def value_matches_xsd(value: Any, datatype: XsdDatatype) -> bool:
+    """
+    Kiểm tra một giá trị có đúng kiểu XSD yêu cầu hay không.
+    """
     if datatype is XsdDatatype.STRING:
         return isinstance(value, str)
     if datatype is XsdDatatype.BOOLEAN:
@@ -68,6 +85,9 @@ def value_matches_xsd(value: Any, datatype: XsdDatatype) -> bool:
 
 
 def _is_iso_date(value: Any) -> bool:
+    """
+    Kiểm tra chuỗi có phải ngày ISO 8601 (YYYY-MM-DD) hợp lệ.
+    """
     if isinstance(value, datetime):
         return False
     if isinstance(value, date):
@@ -82,6 +102,9 @@ def _is_iso_date(value: Any) -> bool:
 
 
 def _is_iso_datetime(value: Any) -> bool:
+    """
+    Kiểm tra chuỗi có phải datetime ISO 8601 hợp lệ.
+    """
     if isinstance(value, datetime):
         return True
     if not isinstance(value, str):
@@ -91,6 +114,3 @@ def _is_iso_datetime(value: Any) -> bool:
         return True
     except ValueError:
         return False
-
-
-__all__ = ["XsdDatatype", "normalize_xsd_value", "value_matches_xsd", "xsd_datatypes"]

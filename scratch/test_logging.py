@@ -1,7 +1,10 @@
 import asyncio
 import logging
 from app.core.logging_config import configure_logging
-from app.services.ingestion.use_case import ingest_document_end_to_end, IngestionRuntime
+from app.services.ingestion.orchestration import (
+    IngestionRuntime,
+    ingest_document_end_to_end,
+)
 from app.core.schemas.ingestion.document import DocumentChunk
 
 configure_logging(logging.INFO)
