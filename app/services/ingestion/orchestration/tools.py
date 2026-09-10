@@ -7,11 +7,21 @@ thống nhất và cập nhật session state."""
 
 import hashlib
 import logging
-from typing import Any
+from typing import Any, Literal
+
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchDraft, GraphPatchFragment
 from app.core.schemas.ingestion.validation import ValidationIssue
-
+from app.services.ingestion.document.strategies import stable_document_id
+from app.services.ingestion.incremental import (
+    DocumentNotFoundError,
+    SourceLifecycleStore,
+    build_batch_cache_key,
+)
+from app.services.ingestion.incremental.runtime import (
+    cache_entries_from_workspace,
+    lifecycle_from_workspace,
+)
 from app.services.ingestion.orchestration.context import (
     _batch_payload,
     _canonical_graph_context,
@@ -34,11 +44,13 @@ from app.services.ingestion.orchestration.state import (
     ARTIFACT_DIGEST_STATE_KEY,
     ARTIFACT_NAME_STATE_KEY,
     DEFAULT_MAX_RETRIES_PER_BATCH,
+    DOCUMENT_ID_STATE_KEY,
     FINAL_COVERAGE_REPAIR_ROUNDS,
-    IngestionRuntime,
+    INGESTION_SIGNATURE_STATE_KEY,
     SOURCE_CHUNKS_STATE_KEY,
     VALIDATED_FINGERPRINT_STATE_KEY,
     WORKSPACE_STATE_KEY,
+    IngestionRuntime,
     _clear_validation_gate,
     _current_provenance,
     _delete_state,
@@ -55,10 +67,50 @@ from app.services.ingestion.orchestration.stats import (
     _fragment_stats,
     _workspace_stats,
 )
+from app.services.ingestion.persistence.service import create_graph_persistence
 from app.services.ingestion.workspace.staged_ingestion import WorkspaceConflictError
 
-
 logger = logging.getLogger(__name__)
+
+
+def _current_source_snapshot(workspace) -> dict[str, Any] | None:
+    """Return committed source metadata; incremental lookup failures fail open."""
+    try:
+        return SourceLifecycleStore().get_current(lifecycle_from_workspace(workspace))
+    except Exception as exc:  # noqa: BLE001 - optimization must not block ingestion
+        logger.warning(
+            "[INGESTION_INCREMENTAL_LOOKUP_FAILED] document=%s error=%s",
+            workspace.artifact_name,
+            exc,
+        )
+        return None
+
+
+def _cached_batch_fragment(
+    workspace,
+    chunks: list[DocumentChunk],
+    graph_context: str,
+) -> tuple[GraphPatchFragment | None, str, str]:
+    """Read only verified cache entries and fail open on stale/corrupt cache."""
+    lifecycle = lifecycle_from_workspace(workspace)
+    cache_key, context_digest = build_batch_cache_key(
+        lifecycle=lifecycle,
+        chunks=chunks,
+        graph_context=graph_context,
+    )
+    try:
+        payload = SourceLifecycleStore().get_cached_fragment(cache_key)
+        if payload is None:
+            return None, cache_key, context_digest
+        return GraphPatchFragment.model_validate(payload), cache_key, context_digest
+    except Exception as exc:  # noqa: BLE001 - cache is never an availability dependency
+        logger.warning(
+            "[INGESTION_CACHE_LOOKUP_FAILED] document=%s cache_key=%s error=%s",
+            workspace.artifact_name,
+            cache_key,
+            exc,
+        )
+        return None, cache_key, context_digest
 
 
 async def prepare_extraction_context(
@@ -82,6 +134,8 @@ async def prepare_extraction_context(
     _clear_validation_gate(tool_context)
     _delete_state(tool_context, ARTIFACT_DIGEST_STATE_KEY)
     _delete_state(tool_context, ARTIFACT_NAME_STATE_KEY)
+    _delete_state(tool_context, DOCUMENT_ID_STATE_KEY)
+    _delete_state(tool_context, INGESTION_SIGNATURE_STATE_KEY)
     _delete_state(tool_context, SOURCE_CHUNKS_STATE_KEY)
     _delete_state(tool_context, WORKSPACE_STATE_KEY)
 
@@ -160,6 +214,9 @@ async def prepare_extraction_context(
             data=data,
             mime_type=mime_type,
         )
+        if context.document_id:
+            tool_context.state[DOCUMENT_ID_STATE_KEY] = context.document_id
+        provenance = _current_provenance(tool_context)
         try:
             source_text = data.decode("utf-8")
             total_lines = len(source_text.splitlines())
@@ -183,19 +240,23 @@ async def prepare_extraction_context(
             "success": True,
             "stage": "completed",
             "chunkCount": len(context.chunks),
+            "documentId": provenance.document_id,
+            "configSignature": provenance.config_signature,
+            "ingestionSignature": provenance.ingestion_signature,
+            "sourceVersionId": provenance.source_version_id,
             **context.model_dump(by_alias=True, exclude_none=True),
         }
     except Exception as exc:
-        logger.error(
+        logger.exception(
             "[INGESTION_ERROR] Phase: PREPARE_CONTEXT | Func: prepare_extraction_context | "
-            "Document: '%s' | Exception: %s",
+            "Document: '%s'",
             artifact_name,
-            exc,
-            exc_info=True,
         )
         _clear_validation_gate(tool_context)
         _delete_state(tool_context, ARTIFACT_DIGEST_STATE_KEY)
         _delete_state(tool_context, ARTIFACT_NAME_STATE_KEY)
+        _delete_state(tool_context, DOCUMENT_ID_STATE_KEY)
+        _delete_state(tool_context, INGESTION_SIGNATURE_STATE_KEY)
         _delete_state(tool_context, SOURCE_CHUNKS_STATE_KEY)
         return {
             "success": False,
@@ -261,6 +322,10 @@ async def begin_ingestion(
         "artifactDigest": workspace.artifact_digest,
         "ontologyDigest": workspace.ontology_digest,
         "skillDigest": workspace.skill_digest,
+        "documentId": workspace.provenance.document_id,
+        "configSignature": workspace.provenance.config_signature,
+        "ingestionSignature": workspace.provenance.ingestion_signature,
+        "sourceVersionId": workspace.provenance.source_version_id,
         "nextBatch": _batch_payload(workspace, first_batch),
     }
 
@@ -270,6 +335,10 @@ def submit_ingestion_batch(
     batch_index: int,
     graph_fragment: GraphPatchFragment,
     tool_context: IngestionRuntime,
+    *,
+    extraction_cache_key: str | None = None,
+    extraction_cache_hit: bool = False,
+    extraction_context_digest: str | None = None,
 ) -> dict[str, Any]:
     """
     Nhận fragment của một batch và ghi vào workspace.
@@ -296,6 +365,10 @@ def submit_ingestion_batch(
         fragment = GraphPatchFragment.model_validate(graph_fragment)
         workspace = _get_workspace_service().submit(workspace, batch_index, fragment)
         workspace.retry_states.pop(str(batch_index), None)
+        stored_batch = workspace.batches[batch_index]
+        stored_batch.extraction_cache_key = extraction_cache_key
+        stored_batch.extraction_cache_hit = extraction_cache_hit
+        stored_batch.extraction_context_digest = extraction_context_digest
     except (ValueError, WorkspaceConflictError) as exc:
         issue = ValidationIssue(
             code="BATCH_CONFLICT",
@@ -401,12 +474,10 @@ def finalize_ingestion(
             message=str(exc),
             location="graphPatch",
         )
-        logger.error(
+        logger.exception(
             "[INGESTION_ERROR] Phase: FINALIZE | Func: finalize_ingestion | "
-            "IngestionID: %s | Error: Graph patch merge failed: %s",
+            "IngestionID: %s | Graph patch merge failed",
             ingestion_id,
-            exc,
-            exc_info=True,
         )
         return {
             "success": False,
@@ -527,7 +598,20 @@ async def fill_ingestion(
         workspace.validated_fingerprint = None
         _store_workspace(tool_context, workspace)
 
-    return await _persist_with_receipt(graph_patch=workspace.finalized_patch, artifact_digest=workspace.artifact_digest, source_chunks=workspace.chunks, validation_service=validation_service, artifact_stem=ingestion_id[:12], tool_context=tool_context, require_receipt=True, invalidate_gate=invalidate_workspace_gate, failure_message="Failed to persist finalized ingestion workspace", allow_partial_persistence=allow_partial_persistence)
+    return await _persist_with_receipt(
+        graph_patch=workspace.finalized_patch,
+        artifact_digest=workspace.artifact_digest,
+        source_chunks=workspace.chunks,
+        validation_service=validation_service,
+        artifact_stem=ingestion_id[:12],
+        tool_context=tool_context,
+        require_receipt=True,
+        invalidate_gate=invalidate_workspace_gate,
+        failure_message="Failed to persist finalized ingestion workspace",
+        allow_partial_persistence=allow_partial_persistence,
+        source_lifecycle=lifecycle_from_workspace(workspace),
+        extraction_cache_entries=cache_entries_from_workspace(workspace),
+    )
 
 
 def get_ingestion_status(
@@ -597,6 +681,34 @@ async def ingest_document_end_to_end(
         return {**begin, "terminal": True}
 
     ingestion_id = begin["ingestionId"]
+    workspace = _load_workspace(tool_context)
+    if persist and workspace is not None:
+        current = _current_source_snapshot(workspace)
+        if current is not None:
+            logger.info(
+                "[PHASE:INGEST_NOOP] Document '%s' already matches committed source version %s.",
+                artifact_name,
+                current["sourceVersionId"],
+            )
+            return {
+                "success": True,
+                "stage": "completed",
+                "terminal": True,
+                "persisted": True,
+                "incrementalNoOp": True,
+                "skipReason": "UNCHANGED_SOURCE_AND_CONFIG",
+                "ingestionId": ingestion_id,
+                "documentId": current["documentId"],
+                "sourceVersionId": current["sourceVersionId"],
+                "sourceVersionStatus": "COMMITTED",
+                "ingestionSignature": workspace.provenance.ingestion_signature,
+                "commitStatus": "committed",
+                "verificationStatus": "verified",
+                "nodes": current["nodes"],
+                "edges": current["edges"],
+                "workspaceStats": _workspace_stats(workspace),
+            }
+
     mapper = _get_graph_mapper()
     response: dict[str, Any] = begin
 
@@ -622,6 +734,38 @@ async def ingest_document_end_to_end(
             DocumentChunk.model_validate(item)
             for item in batch_payload.get("chunks", [])
         ]
+        extraction_cache_key: str | None = None
+        extraction_context_digest: str | None = None
+        if persist and workspace is not None:
+            cached_fragment, extraction_cache_key, extraction_context_digest = (
+                _cached_batch_fragment(workspace, chunks, graph_context)
+            )
+            if cached_fragment is not None:
+                cached_response = submit_ingestion_batch(
+                    ingestion_id,
+                    batch_index,
+                    cached_fragment,
+                    tool_context,
+                    extraction_cache_key=extraction_cache_key,
+                    extraction_cache_hit=True,
+                    extraction_context_digest=extraction_context_digest,
+                )
+                if cached_response.get("success"):
+                    logger.info(
+                        "[PHASE:BATCH_CACHE_HIT] Document: '%s' | Batch: %s | Chunks: %s",
+                        artifact_name,
+                        batch_index,
+                        [chunk.index for chunk in chunks],
+                    )
+                    response = cached_response
+                    continue
+                logger.warning(
+                    "[INGESTION_CACHE_REJECTED] Document: '%s' | Batch: %s | Errors: %s",
+                    artifact_name,
+                    batch_index,
+                    cached_response.get("errors"),
+                )
+
         previous_error: dict[str, Any] | None = None
 
         for attempt in range(1, max_retries_per_batch + 1):
@@ -652,22 +796,22 @@ async def ingest_document_end_to_end(
                     )
                     previous_error = _extractor_retry_error(exc)
                     continue
-                logger.error(
+                error_kind = _orchestration_error_kind(exc)
+                error_message = _orchestration_error_message(exc)
+                logger.exception(
                     "[INGESTION_ERROR] Document '%s' failed at phase 'direct_graph_mapping' (batch %s, attempt %s/%s). "
-                    "ErrorKind: %s, Details: %s. Ingestion halted and no graph was persisted.",
+                    "ErrorKind: %s. Ingestion halted and no graph was persisted.",
                     artifact_name,
                     batch_index,
                     attempt,
                     max_retries_per_batch,
-                    _orchestration_error_kind(exc),
-                    _orchestration_error_message(exc),
-                    exc_info=True,
+                    error_kind,
                 )
                 return _terminal_mapping_failure(
                     ingestion_id,
                     batch_index,
-                    _orchestration_error_message(exc),
-                    error_kind=_orchestration_error_kind(exc),
+                    error_message,
+                    error_kind=error_kind,
                     artifact_name=artifact_name,
                 )
 
@@ -676,6 +820,9 @@ async def ingest_document_end_to_end(
                 batch_index,
                 fragment,
                 tool_context,
+                extraction_cache_key=extraction_cache_key,
+                extraction_cache_hit=False,
+                extraction_context_digest=extraction_context_digest,
             )
             if response.get("success"):
                 break
@@ -946,3 +1093,178 @@ async def fill_graph_patch(
         invalidate_gate=lambda: _clear_validation_gate(tool_context),
         failure_message="Failed to persist GraphPatch to Neo4j",
     )
+
+
+async def update_ingestion_document(
+    artifact_name: str,
+    tool_context: IngestionRuntime,
+    *,
+    persist: bool = True,
+    allow_partial_persistence: bool = False,
+    max_retries_per_batch: int = DEFAULT_MAX_RETRIES_PER_BATCH,
+    if_missing: Literal["error", "ingest"] = "error",
+) -> dict[str, Any]:
+    """Re-sync a logical source with GraphRAG-SDK update/upsert semantics."""
+    if if_missing not in {"error", "ingest"}:
+        raise ValueError("if_missing must be 'error' or 'ingest'")
+
+    document_id = stable_document_id(artifact_name)
+    source_store = SourceLifecycleStore()
+    try:
+        existing = source_store.get_document_record(document_id)
+    finally:
+        source_store.close()
+    if existing is None and if_missing == "error":
+        raise DocumentNotFoundError(
+            f"No current ingestion document with id '{document_id}' exists. "
+            "Pass if_missing='ingest' for upsert semantics."
+        )
+
+    result = await ingest_document_end_to_end(
+        artifact_name,
+        tool_context,
+        persist=persist,
+        allow_partial_persistence=allow_partial_persistence,
+        max_retries_per_batch=max_retries_per_batch,
+    )
+    return {
+        **result,
+        "operation": "update",
+        "replacedExisting": existing is not None,
+        "noOp": bool(result.get("incrementalNoOp", False)),
+    }
+
+
+def delete_ingestion_document(
+    artifact_name: str,
+    *,
+    if_missing: Literal["error", "ignore"] = "error",
+) -> dict[str, Any]:
+    """Delete source ownership with GraphRAG-SDK missing-document semantics."""
+    service = create_graph_persistence()
+    try:
+        result = service.source_store.delete_document(
+            stable_document_id(artifact_name),
+            mapper=service.writer.mapper,
+            if_missing=if_missing,
+        )
+    finally:
+        service.close()
+    return {"success": True, "stage": "completed", "operation": "delete", **result}
+
+
+async def apply_ingestion_changes(
+    *,
+    added: list[str],
+    modified: list[str],
+    deleted: list[str],
+    tool_context: IngestionRuntime,
+    persist: bool = True,
+    allow_partial_persistence: bool = False,
+    max_retries_per_batch: int = DEFAULT_MAX_RETRIES_PER_BATCH,
+) -> dict[str, Any]:
+    """Apply heterogeneous source changes using GraphRAG-SDK dispatch semantics."""
+    overlap = (
+        (set(added) & set(modified))
+        | (set(added) & set(deleted))
+        | (set(modified) & set(deleted))
+    )
+    if overlap:
+        raise ValueError(
+            "A source cannot appear in more than one change list: "
+            + ", ".join(sorted(overlap))
+        )
+
+    results: dict[str, list[dict[str, Any]]] = {
+        "added": [],
+        "modified": [],
+        "deleted": [],
+    }
+
+    # GraphRAG-SDK contract: deletes -> updates -> adds. Keep this serialized
+    # because this ADK runtime shares mutable ingestion state across operations.
+    for artifact_name in deleted:
+        try:
+            if persist:
+                result = delete_ingestion_document(artifact_name)
+            else:
+                result = {
+                    "success": True,
+                    "stage": "completed",
+                    "operation": "delete",
+                    "artifactName": artifact_name,
+                    "persisted": False,
+                }
+            results["deleted"].append(
+                {"source": artifact_name, "isSuccess": True, "result": result}
+            )
+        except Exception as exc:  # noqa: BLE001 - collect per-file failures
+            results["deleted"].append(
+                {
+                    "source": artifact_name,
+                    "isSuccess": False,
+                    "error": str(exc),
+                    "errorType": type(exc).__name__,
+                }
+            )
+
+    for artifact_name in modified:
+        try:
+            result = await update_ingestion_document(
+                artifact_name,
+                tool_context,
+                persist=persist,
+                allow_partial_persistence=allow_partial_persistence,
+                max_retries_per_batch=max_retries_per_batch,
+                if_missing="ingest",
+            )
+            results["modified"].append(
+                {
+                    "source": artifact_name,
+                    "isSuccess": bool(result.get("success")),
+                    "result": result,
+                }
+            )
+        except Exception as exc:  # noqa: BLE001 - collect per-file failures
+            results["modified"].append(
+                {
+                    "source": artifact_name,
+                    "isSuccess": False,
+                    "error": str(exc),
+                    "errorType": type(exc).__name__,
+                }
+            )
+
+    for artifact_name in added:
+        try:
+            result = await ingest_document_end_to_end(
+                artifact_name,
+                tool_context,
+                persist=persist,
+                allow_partial_persistence=allow_partial_persistence,
+                max_retries_per_batch=max_retries_per_batch,
+            )
+            results["added"].append(
+                {
+                    "source": artifact_name,
+                    "isSuccess": bool(result.get("success")),
+                    "result": result,
+                }
+            )
+        except Exception as exc:  # noqa: BLE001 - collect per-file failures
+            results["added"].append(
+                {
+                    "source": artifact_name,
+                    "isSuccess": False,
+                    "error": str(exc),
+                    "errorType": type(exc).__name__,
+                }
+            )
+
+    all_entries = [*results["deleted"], *results["modified"], *results["added"]]
+    return {
+        "success": all(entry["isSuccess"] for entry in all_entries),
+        "stage": "completed",
+        "operation": "apply_changes",
+        "results": results,
+    }

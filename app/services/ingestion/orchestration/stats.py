@@ -88,6 +88,12 @@ def _workspace_stats(workspace: IngestionWorkspace) -> dict[str, Any]:
             for batch in workspace.batches
             if batch.fragment is not None
         ),
+        "cacheHitBatches": sum(
+            1 for batch in workspace.batches if batch.extraction_cache_hit
+        ),
+        "cacheEligibleBatches": sum(
+            1 for batch in workspace.batches if batch.extraction_cache_key is not None
+        ),
         "skippedChunks": len(workspace.skipped_chunk_indexes),
         "warningCount": len(workspace.ingestion_warnings),
     }

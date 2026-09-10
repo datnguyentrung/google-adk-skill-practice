@@ -7,6 +7,9 @@ description: >
 metadata:
   adk_additional_tools:
     - ingest_document_end_to_end
+    - update_document
+    - delete_document
+    - apply_changes
     - get_ingestion_status
     - validate_graph_patch
     - fill_graph_patch
@@ -27,8 +30,10 @@ ingestion.
 - Extract-only: prepare, build a complete source-grounded `GraphPatchDraft`,
   validate it, and return it.
 - Validate-only: validate the supplied draft and explain structured issues.
-- Ingest/import/load/write: prepare, extract, validate, correct if grounded,
-  then fill.
+- Ingest/import/load/write a new Markdown source: prepare, extract, validate, correct if grounded, then fill.
+- Update/replace an already ingested Markdown source: call `update_document` so source-version lifecycle, cache reuse, verified cutover, and stale-fact cleanup are applied.
+- Delete an ingested Markdown source: call `delete_document`; never emulate deletion by writing an empty patch.
+- Apply a known set of added/modified/deleted Markdown sources: call `apply_changes` once with the three lists.
 - If persistence was requested but readiness fails, report the issues and stop before fill by default. If and only if the user explicitly asks for partial persistence despite readiness issues, call `ingest_document_end_to_end(..., allow_partial_persistence=true)`. This mode never bypasses extraction/source-grounding failures.
 
 ## Required workflow
@@ -38,9 +43,9 @@ For ingest/import/load/write requests on uploaded long documents, call
 user-facing path because it runs batching, extraction, validation, readiness,
 and persistence to a real terminal state before returning. Do not use staged
 manual tools for a normal user ingestion request unless the user explicitly asks
-to debug or manually inspect batches. The root agent exposes only the end-to-end
-long-document ingestion tool; staged begin/submit/finalize/fill helpers are
-internal implementation/debug APIs and must not be emulated across model turns.
+to debug or manually inspect batches. The root agent exposes the public ingestion lifecycle tools (`ingest_document_end_to_end`,
+`update_document`, `delete_document`, and `apply_changes`); staged begin/submit/finalize/fill
+helpers remain internal implementation/debug APIs and must not be emulated across model turns.
 Do not fall back to a manual begin/submit loop after a retryable validation
 error; the end-to-end tool owns retry pacing and retries.
 

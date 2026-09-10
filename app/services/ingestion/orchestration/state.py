@@ -5,6 +5,7 @@ phải thoả, và các hàm đọc/ghi workspace trong state. Ngoài ra đây l
 cache) các service dùng chung như DocumentPreparation, GraphValidation,
 IngestionWorkspaceService và AdkGraphMapper."""
 
+import hashlib
 import logging
 import os
 from functools import lru_cache
@@ -17,7 +18,18 @@ from app.core.schemas.ingestion.workspace import (
     IngestionWorkspace,
 )
 from app.services.ingestion.document.preparation import DocumentPreparation
+from app.services.ingestion.document.strategies import (
+    STRUCTURAL_CHUNKER_VERSION,
+    stable_document_id,
+)
+from app.services.ingestion.incremental.identity import (
+    build_config_signature,
+    build_ingestion_signature,
+    build_source_version_id,
+)
+from app.services.ingestion.mapping.candidates import create_candidate_generator
 from app.services.ingestion.mapping.graph_mapper import (
+    DEFAULT_GRAPH_MAPPING_MODEL,
     AdkGraphMapper,
 )
 from app.services.ingestion.validation.graph_validation import (
@@ -50,6 +62,12 @@ ARTIFACT_DIGEST_STATE_KEY = "temp:ingestion_source_artifact_digest"
 
 
 ARTIFACT_NAME_STATE_KEY = "temp:ingestion_source_artifact_name"
+
+
+DOCUMENT_ID_STATE_KEY = "temp:ingestion_source_document_id"
+
+
+INGESTION_SIGNATURE_STATE_KEY = "temp:ingestion_signature"
 
 
 VALIDATED_FINGERPRINT_STATE_KEY = "temp:ingestion_validated_fingerprint"
@@ -103,15 +121,18 @@ def _get_workspace_service() -> IngestionWorkspaceService:
     return IngestionWorkspaceService()
 
 
+@lru_cache(maxsize=1)
 def _get_graph_mapper() -> AdkGraphMapper:
     """
     Lấy (và cache) mapper gọi LLM trích xuất graph patch.
     """
     validation_service = _get_validation_service()
+    registry = validation_service.validator.registry
     return AdkGraphMapper(
-        registry=validation_service.validator.registry,
+        registry=registry,
         compiler=validation_service.compiler,
         ontology_validator=validation_service.validator,
+        candidate_generator=create_candidate_generator(registry),
     )
 
 
@@ -132,6 +153,35 @@ def _clear_validation_gate(tool_context: IngestionRuntime) -> None:
     _delete_state(tool_context, VALIDATED_FINGERPRINT_STATE_KEY)
 
 
+def _mapper_digest() -> str:
+    """Fingerprint extraction/resolution code plus behavior-changing feature flags."""
+    ingestion_root = Path(__file__).resolve().parents[1]
+    paths = [
+        ingestion_root / "mapping" / "graph_mapper.py",
+        ingestion_root / "mapping" / "candidates.py",
+        ingestion_root / "identity" / "semantic_resolution.py",
+        ingestion_root / "persistence" / "writer.py",
+    ]
+    digest = hashlib.sha256()
+    for path in paths:
+        digest.update(path.name.encode())
+        digest.update(path.read_bytes())
+    for key in (
+        "INGESTION_GLINER_ENABLED",
+        "INGESTION_GLINER_MODEL",
+        "INGESTION_GLINER_THRESHOLD",
+        "INGESTION_SEMANTIC_RESOLUTION_ENABLED",
+        "INGESTION_EMBEDDING_MODEL",
+        "INGESTION_SEMANTIC_SOFT_THRESHOLD",
+        "INGESTION_SEMANTIC_HARD_THRESHOLD",
+        "INGESTION_SEMANTIC_ALLOW_HARD_MERGE",
+        "INGESTION_TRUE_CHUNK_CACHE",
+        "INGESTION_MAX_BATCH_CHUNKS",
+    ):
+        digest.update(f"{key}={os.getenv(key, '')}\0".encode())
+    return digest.hexdigest()
+
+
 def _skill_digest() -> str:
     """
     Tính digest nội dung skill ingestion hiện tại.
@@ -140,16 +190,45 @@ def _skill_digest() -> str:
 
 
 def _current_provenance(tool_context: IngestionRuntime) -> IngestionProvenance:
-    """
-    Dựng provenance của phiên hiện tại (artifact, ontology, skill).
-    """
+    """Build the exact source/config signature that owns this ingestion run."""
+    artifact_digest = tool_context.state.get(ARTIFACT_DIGEST_STATE_KEY, "MISSING")
+    artifact_name = tool_context.state.get(ARTIFACT_NAME_STATE_KEY, "MISSING")
+    document_id = tool_context.state.get(DOCUMENT_ID_STATE_KEY) or stable_document_id(
+        artifact_name
+    )
+    validation = _get_validation_service()
+    ontology_digest = validation.compiler.ontology_digest
+    skill_digest = _skill_digest()
+    mapper_version = _mapper_digest()
+    compiler_version = validation.compiler.schema_version
+    config_signature = build_config_signature(
+        ontology_digest=ontology_digest,
+        skill_digest=skill_digest,
+        model_id=DEFAULT_GRAPH_MAPPING_MODEL,
+        chunker_version=STRUCTURAL_CHUNKER_VERSION,
+        mapper_version=mapper_version,
+        compiler_version=compiler_version,
+    )
+    ingestion_signature = build_ingestion_signature(
+        document_id=document_id,
+        content_hash=artifact_digest,
+        config_signature=config_signature,
+    )
+    source_version_id = build_source_version_id(document_id, ingestion_signature)
+    tool_context.state[DOCUMENT_ID_STATE_KEY] = document_id
+    tool_context.state[INGESTION_SIGNATURE_STATE_KEY] = ingestion_signature
     return IngestionProvenance(
-        artifactDigest=tool_context.state.get(
-            ARTIFACT_DIGEST_STATE_KEY,
-            "MISSING",
-        ),
-        ontologyDigest=_get_validation_service().compiler.ontology_digest,
-        skillDigest=_skill_digest(),
+        artifactDigest=artifact_digest,
+        ontologyDigest=ontology_digest,
+        skillDigest=skill_digest,
+        documentId=document_id,
+        configSignature=config_signature,
+        ingestionSignature=ingestion_signature,
+        sourceVersionId=source_version_id,
+        modelId=DEFAULT_GRAPH_MAPPING_MODEL,
+        chunkerVersion=STRUCTURAL_CHUNKER_VERSION,
+        mapperVersion=mapper_version,
+        compilerVersion=compiler_version,
     )
 
 

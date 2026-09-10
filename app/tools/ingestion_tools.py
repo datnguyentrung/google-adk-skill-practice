@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from functools import lru_cache
-from typing import Any
+from typing import Any, Literal
 
 from google.adk.tools import ToolContext
 
@@ -29,6 +29,54 @@ async def ingest_document_end_to_end(
     return await _get_use_case().ingest_end_to_end(
         artifact_name,
         tool_context,
+        persist=persist,
+        allow_partial_persistence=allow_partial_persistence,
+        max_retries_per_batch=max_retries_per_batch,
+    )
+
+
+async def update_document(
+    artifact_name: str,
+    tool_context: ToolContext,
+    persist: bool = True,
+    allow_partial_persistence: bool = False,
+    max_retries_per_batch: int = DEFAULT_MAX_RETRIES_PER_BATCH,
+    if_missing: Literal["error", "ingest"] = "error",
+) -> dict[str, Any]:
+    """Incrementally update a logical Markdown source."""
+    return await _get_use_case().update_document(
+        artifact_name,
+        tool_context,
+        persist=persist,
+        allow_partial_persistence=allow_partial_persistence,
+        max_retries_per_batch=max_retries_per_batch,
+        if_missing=if_missing,
+    )
+
+
+def delete_document(
+    artifact_name: str,
+    if_missing: Literal["error", "ignore"] = "error",
+) -> dict[str, Any]:
+    """Delete current source ownership and cleanup only unowned graph facts."""
+    return _get_use_case().delete_document(artifact_name, if_missing=if_missing)
+
+
+async def apply_changes(
+    added: list[str],
+    modified: list[str],
+    deleted: list[str],
+    tool_context: ToolContext,
+    persist: bool = True,
+    allow_partial_persistence: bool = False,
+    max_retries_per_batch: int = DEFAULT_MAX_RETRIES_PER_BATCH,
+) -> dict[str, Any]:
+    """Apply added/modified/deleted Markdown sources in one operation."""
+    return await _get_use_case().apply_changes(
+        added=added,
+        modified=modified,
+        deleted=deleted,
+        runtime=tool_context,
         persist=persist,
         allow_partial_persistence=allow_partial_persistence,
         max_retries_per_batch=max_retries_per_batch,
@@ -64,6 +112,9 @@ async def fill_graph_patch(
 
 INGESTION_TOOLS = {
     "ingest_document_end_to_end": ingest_document_end_to_end,
+    "update_document": update_document,
+    "delete_document": delete_document,
+    "apply_changes": apply_changes,
     "get_ingestion_status": get_ingestion_status,
     "validate_graph_patch": validate_graph_patch,
     "fill_graph_patch": fill_graph_patch,

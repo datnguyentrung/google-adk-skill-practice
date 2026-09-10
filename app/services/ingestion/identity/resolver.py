@@ -10,11 +10,10 @@ import logging
 import re
 import unicodedata
 from typing import Any
-from app.core.schemas.ingestion.identity import NodeIdentity
 
+from app.core.schemas.ingestion.identity import NodeIdentity
 from app.services.ingestion.identity.policies import PRODUCT_SALES_NATURAL_KEYS
 from app.services.ingestion.ontology.registry import OntologyRegistry
-
 
 logger = logging.getLogger(__name__)
 
@@ -37,13 +36,14 @@ class IdentityResolutionError(ValueError):
     """
     Lỗi khi không thể resolve identity cho một node.
     """
-    pass
+
 
 
 class IdentityResolver:
     """
     Resolve identity cho node theo ontology, natural key và source scope.
     """
+
     def __init__(
         self,
         registry: OntologyRegistry,
@@ -93,7 +93,9 @@ class IdentityResolver:
         ontology_class = self.registry.get_class(class_name)
 
         if ontology_class is None:
-            logger.warning("Identity resolution failed unknown class_name=%s", class_name)
+            logger.warning(
+                "Identity resolution failed unknown class_name=%s", class_name
+            )
             raise IdentityResolutionError(f"Unknown ontology class: {class_name}")
 
         key_name = self.natural_keys.get(class_name)
@@ -222,10 +224,7 @@ class IdentityResolver:
         Chuẩn hoá giá trị trước khi đưa vào key định danh (bỏ khoảng trắng, hạ chữ thường...).
         """
         if isinstance(value, dict):
-            return {
-                key: self._canonicalize_value(value[key])
-                for key in sorted(value)
-            }
+            return {key: self._canonicalize_value(value[key]) for key in sorted(value)}
         if isinstance(value, list):
             return [self._canonicalize_value(item) for item in value]
         if isinstance(value, str):

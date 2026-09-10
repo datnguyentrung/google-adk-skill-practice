@@ -9,10 +9,16 @@ import logging
 import os
 import re
 from typing import Any
+
 from pydantic import ValidationError
+
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import ExtractedNode, GraphPatchFragment
-
+from app.services.ingestion.mapping.candidates import (
+    CandidateGenerator,
+    NullCandidateGenerator,
+    format_candidate_hints,
+)
 from app.services.ingestion.mapping.model_call import AdkStructuredCallExecutor
 from app.services.ingestion.mapping.temp_ids import (
     _batch_scoped_temp_id,
@@ -24,7 +30,6 @@ from app.services.ingestion.ontology.registry import OntologyRegistry
 from app.services.ingestion.patch.compiler import GraphPatchCompiler
 from app.services.ingestion.patch.fragment_guard import GraphFragmentGuard
 from app.services.ingestion.validation.ontology_validator import OntologyValidator
-
 
 logger = logging.getLogger(__name__)
 
@@ -70,6 +75,7 @@ class AdkGraphMapper:
         ontology_validator: OntologyValidator,
         model: str = DEFAULT_GRAPH_MAPPING_MODEL,
         structured_executor: AdkStructuredCallExecutor | None = None,
+        candidate_generator: CandidateGenerator | None = None,
     ):
         """
         Khởi tạo mapper với ontology, compiler, guard và executor gọi model.
@@ -88,6 +94,7 @@ class AdkGraphMapper:
         self.structured_executor = structured_executor or AdkStructuredCallExecutor(
             model=self.model
         )
+        self.candidate_generator = candidate_generator or NullCandidateGenerator()
         self._ontology_projection = self._build_ontology_projection()
         self.guard = GraphFragmentGuard(
             registry=self.registry,
@@ -119,11 +126,23 @@ class AdkGraphMapper:
             DirectGraphMappingError: Model trả về dữ liệu không dùng được.
         """
         chunk_indexes = [chunk.index for chunk in chunks]
+        try:
+            candidate_hints = format_candidate_hints(
+                self.candidate_generator.generate(chunks)
+            )
+        except Exception as exc:  # noqa: BLE001 - candidate generation must fail open
+            logger.warning(
+                "[INGESTION_CANDIDATE_GENERATOR_FAILED] batch=%s error=%s",
+                batch_payload.get("batchIndex"),
+                exc,
+            )
+            candidate_hints = ""
         prompt = self._prompt(
             batch_payload=batch_payload,
             chunks=chunks,
             graph_context=graph_context or "",
             previous_error=previous_error,
+            candidate_hints=candidate_hints,
         )
         schema = self._response_schema(chunk_indexes)
         logger.info(
@@ -178,12 +197,10 @@ class AdkGraphMapper:
             )
             return fragment
         except ValidationError as exc:
-            logger.error(
+            logger.exception(
                 "[INGESTION_ERROR] Phase: DIRECT_GRAPH_MAPPING | Func: map_batch | Batch: %s | "
-                "Error: Pydantic schema validation failed | Message: %s",
+                "Pydantic schema validation failed",
                 batch_payload.get("batchIndex"),
-                exc,
-                exc_info=True,
             )
             raise DirectGraphMappingError(
                 "Gemini returned an invalid GraphPatchFragment",
@@ -191,12 +208,10 @@ class AdkGraphMapper:
             ) from exc
         except Exception as exc:
             if not isinstance(exc, DirectGraphMappingError):
-                logger.error(
+                logger.exception(
                     "[INGESTION_ERROR] Phase: DIRECT_GRAPH_MAPPING | Func: map_batch | Batch: %s | "
-                    "Unexpected Error: %s",
+                    "Unexpected mapping error",
                     batch_payload.get("batchIndex"),
-                    exc,
-                    exc_info=True,
                 )
             raise
 
@@ -207,6 +222,7 @@ class AdkGraphMapper:
         chunks: list[DocumentChunk],
         graph_context: str,
         previous_error: dict[str, Any] | None,
+        candidate_hints: str = "",
     ) -> str:
         """
         Dựng prompt trích xuất: quy tắc nghiệp vụ, ontology rút gọn, chunk và ngữ cảnh graph.
@@ -256,6 +272,7 @@ class AdkGraphMapper:
                 f"SOURCE: {chunk.source}\n"
                 f"CONTENT:\n{chunk.content}"
             )
+        candidate_block = f"{candidate_hints}\n\n" if candidate_hints else ""
         final_coverage_repair = (
             "\nFINAL COVERAGE REPAIR MODE (authoritative):\n"
             f"- Repair targets: {repair_targets}. The prior target coverage decisions/reasons "
@@ -343,7 +360,8 @@ class AdkGraphMapper:
             "- For properties marked grounding=source_literal, the property value must be directly supported by its evidence; never invent a label, priority, scenario, title, version, or content summary. Dates/numbers may be normalized only to the ontology datatype.\n"
             "- Before returning, audit coverage against your own graph output: every MAPPED chunkIndex must appear in at least one emitted node/property/edge evidence item; every chunk that contributes no graph evidence must use a non-MAPPED decision.\n- Preserve dates and numeric values in ontology-compatible JSON datatypes/formats.\n\n"
             "CANONICAL GRAPH CONTEXT FROM EARLIER BATCHES:\n"
-            f"{graph_context or '(none)'}"
+            f"{graph_context or '(none)'}\n\n"
+            f"{candidate_block}"
             f"{repair}\n\n"
             "SOURCE BATCH:\n"
             f"{json.dumps(batch_payload, ensure_ascii=False)}"

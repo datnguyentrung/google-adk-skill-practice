@@ -8,6 +8,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 class CommitStatus(StrEnum):
     COMMITTED = "committed"
+    ROLLED_BACK = "rolled_back"
 
 
 class FillStatus(StrEnum):
@@ -97,6 +98,9 @@ class FillResult(_PersistenceModel):
         default_factory=list,
         alias="readinessIssuesIgnored",
     )
+    document_id: str | None = Field(default=None, alias="documentId")
+    source_version_id: str | None = Field(default=None, alias="sourceVersionId")
+    source_version_status: str | None = Field(default=None, alias="sourceVersionStatus")
 
 
 __all__ = [

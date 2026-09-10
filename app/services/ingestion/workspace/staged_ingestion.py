@@ -10,6 +10,7 @@ import logging
 import math
 import os
 from collections.abc import Iterable
+
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import (
     ChunkCoverage,
@@ -24,14 +25,16 @@ from app.core.schemas.ingestion.workspace import (
     IngestionProvenance,
     IngestionWorkspace,
 )
-
 from app.services.ingestion.identity.policies import PRODUCT_SALES_NATURAL_KEYS
-
 
 logger = logging.getLogger(__name__)
 
 
 MAX_BATCH_CHUNKS = max(1, int(os.getenv("INGESTION_MAX_BATCH_CHUNKS", "5")))
+
+TRUE_CHUNK_CACHE_MODE = os.getenv(
+    "INGESTION_TRUE_CHUNK_CACHE", "false"
+).strip().lower() in {"1", "true", "yes", "on"}
 
 
 MAX_BATCH_CHARS = max(1_000, int(os.getenv("INGESTION_MAX_BATCH_CHARS", "5000")))
@@ -236,6 +239,7 @@ class IngestionWorkspaceService:
         current: list[DocumentChunk] = []
         current_chars = 0
         current_tokens = 0
+        max_batch_chunks = 1 if TRUE_CHUNK_CACHE_MODE else MAX_BATCH_CHUNKS
         for chunk in chunks:
             chunk_chars = len(chunk.content)
             chunk_tokens = max(1, math.ceil(chunk_chars / ESTIMATED_CHARS_PER_TOKEN))
@@ -245,7 +249,7 @@ class IngestionWorkspaceService:
                     f"({chunk_chars} chars, ~{chunk_tokens} tokens)"
                 )
             would_overflow = (
-                len(current) >= MAX_BATCH_CHUNKS
+                len(current) >= max_batch_chunks
                 or current_chars + chunk_chars > MAX_BATCH_CHARS
                 or current_tokens + chunk_tokens > MAX_BATCH_ESTIMATED_TOKENS
             )

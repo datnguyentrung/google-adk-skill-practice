@@ -6,21 +6,22 @@ vừa commit để trả về cho bước xác minh."""
 
 import logging
 from typing import Any
+
 from neo4j import Transaction
+
 from app.core.schemas.ingestion.persistence import (
     GraphWriteResult,
     PersistedGraphReadback,
     PersistedNode,
     PersistedRelationship,
 )
-
 from app.services.ingestion.identity.resolver import (
     IdentityResolver,
     source_scope_from_evidence,
 )
+from app.services.ingestion.identity.semantic_resolution import SemanticEntityResolver
 from app.services.ingestion.persistence.mapping import Neo4jMapper
 from app.services.ingestion.persistence.readback import relationship_key
-
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +30,6 @@ class Neo4jWriteError(RuntimeError):
     """
     Lỗi khi ghi dữ liệu xuống Neo4j thất bại.
     """
-    pass
 
 
 class Neo4jGraphStore:
@@ -40,6 +40,7 @@ class Neo4jGraphStore:
         self,
         mapper: Neo4jMapper,
         identity_resolver: IdentityResolver,
+        semantic_resolver: SemanticEntityResolver | None = None,
     ):
         """
         Khởi tạo store với mapper và identity resolver.
@@ -50,6 +51,7 @@ class Neo4jGraphStore:
         """
         self.mapper = mapper
         self.identity_resolver = identity_resolver
+        self.semantic_resolver = semantic_resolver
 
     def upsert_node(
         self,
@@ -58,96 +60,86 @@ class Neo4jGraphStore:
         properties: dict[str, Any],
         source_scope: str | None = None,
     ) -> str:
-        """
-        MERGE một node theo identity và cập nhật thuộc tính.
-
-        Returns:
-            Element ID của node sau khi ghi.
-        """
-        logger.info(
-            "Neo4j node upsert started class_name=%s property_count=%s has_source_scope=%s",
-            class_name,
-            len(properties),
-            source_scope is not None,
+        # Public compatibility wrapper; write_graph_patch also needs the snapshot.
+        node_id, _ = self._upsert_node_with_snapshot(
+            tx=tx,
+            class_name=class_name,
+            properties=properties,
+            source_scope=source_scope,
         )
+        return node_id
+
+    def _upsert_node_with_snapshot(
+        self,
+        *,
+        tx: Transaction,
+        class_name: str,
+        properties: dict[str, Any],
+        source_scope: str | None,
+    ) -> tuple[str, dict[str, Any]]:
         identity = self.identity_resolver.resolve(
             class_name=class_name,
             properties=properties,
             source_scope=source_scope,
         )
-
-        if identity.strategy == "unresolved":
-            logger.warning(
-                "Neo4j node upsert identity unresolved class_name=%s reason=%s",
-                class_name,
-                identity.reason,
-            )
-            raise Neo4jWriteError(
-                f"Cannot safely upsert {class_name}: {identity.reason}"
-            )
-
         label = self.mapper.class_to_label(class_name)
-
         neo4j_properties = self.mapper.properties_to_neo4j(properties)
-
-        if identity.key_name is None or identity.key_value is None:
-            logger.warning(
-                "Neo4j node upsert identity incomplete class_name=%s strategy=%s",
-                class_name,
-                identity.strategy,
-            )
-            raise Neo4jWriteError(
-                f"Resolved identity is incomplete for class {class_name}"
-            )
-
-        if identity.strategy == "source_scoped":
-            identity_property = "_ingestionKey"
-        else:
-            identity_property = self.mapper.property_to_key(identity.key_name)
-
-        identity_value = identity.key_value
-        logger.info(
-            "Neo4j node upsert mapped class_name=%s label=%s identity_strategy=%s identity_property=%s",
-            class_name,
-            label,
-            identity.strategy,
-            identity_property,
-        )
-
-        # MERGE and persisted properties must use the same canonical identity value.
-        neo4j_properties[identity_property] = identity_value
         if source_scope:
-            neo4j_properties["_ingestionSource"] = source_scope
+            neo4j_properties['_ingestionSource'] = source_scope
 
-        query = f"""
-        MERGE (n:`{label}` {{
-            `{identity_property}`: $identity_value
-        }})
+        if identity.strategy != 'natural_key' and self.semantic_resolver is not None:
+            try:
+                candidate = self.semantic_resolver.resolve(
+                    tx,
+                    class_name=class_name,
+                    properties=properties,
+                    source_scope=source_scope,
+                    mapper=self.mapper,
+                )
+            except Exception as exc:  # noqa: BLE001 - semantic fallback must fail open
+                logger.warning(
+                    'Semantic identity resolution failed class_name=%s error=%s',
+                    class_name,
+                    exc,
+                )
+                candidate = None
+            if candidate is not None:
+                record = tx.run(
+                    '''MATCH (n) WHERE elementId(n) = $node_id
+                       SET n += $properties
+                       RETURN elementId(n) AS node_id, properties(n) AS properties''',
+                    node_id=candidate.node_id,
+                    properties=neo4j_properties,
+                ).single()
+                if record is None:
+                    raise Neo4jWriteError(f'Failed semantic upsert for {class_name}')
+                return str(record['node_id']), dict(record['properties'])
+
+        if identity.strategy == 'unresolved':
+            raise Neo4jWriteError(
+                f'Cannot safely upsert {class_name}: {identity.reason}'
+            )
+        if identity.key_name is None or identity.key_value is None:
+            raise Neo4jWriteError(
+                f'Resolved identity is incomplete for class {class_name}'
+            )
+        identity_property = (
+            '_ingestionKey'
+            if identity.strategy == 'source_scoped'
+            else self.mapper.property_to_key(identity.key_name)
+        )
+        neo4j_properties[identity_property] = identity.key_value
+        merge_query = f'''MERGE (n:`{label}` {{`{identity_property}`: $identity_value}})
         SET n += $properties
-        RETURN elementId(n) AS node_id
-        """
-
-        result = tx.run(
-            query,
-            identity_value=identity_value,
+        RETURN elementId(n) AS node_id, properties(n) AS properties'''
+        record = tx.run(
+            merge_query,
+            identity_value=identity.key_value,
             properties=neo4j_properties,
-        )
-
-        record = result.single()
-
+        ).single()
         if record is None:
-            logger.warning("Neo4j node upsert returned no record class_name=%s", class_name)
-            raise Neo4jWriteError(f"Failed to upsert node: {class_name}")
-
-        node_id = record["node_id"]
-        logger.info(
-            "Neo4j node upsert completed class_name=%s label=%s node_id=%s",
-            class_name,
-            label,
-            node_id,
-        )
-
-        return node_id
+            raise Neo4jWriteError(f'Failed to upsert node: {class_name}')
+        return str(record['node_id']), dict(record['properties'])
 
     def upsert_edge(
         self,
@@ -241,18 +233,17 @@ class Neo4jGraphStore:
                 node.class_name,
             )
             source_scope = source_scope_from_evidence(node.evidence)
-            node_id = self.upsert_node(
+            node_id, persisted_properties = self._upsert_node_with_snapshot(
                 tx=tx,
                 class_name=node.class_name,
                 properties=node.properties,
                 source_scope=source_scope,
             )
             node_ids[node.temp_id] = node_id
-            expected_nodes[node.temp_id] = self._expected_node(
-                node_id=node_id,
-                class_name=node.class_name,
-                properties=node.properties,
-                source_scope=source_scope,
+            expected_nodes[node.temp_id] = PersistedNode(
+                nodeId=node_id,
+                labels=[self.mapper.class_to_label(node.class_name)],
+                properties=persisted_properties,
             )
             logger.info(
                 "Neo4j graph patch node written temp_id=%s node_id=%s",

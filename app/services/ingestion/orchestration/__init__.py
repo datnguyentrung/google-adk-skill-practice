@@ -11,7 +11,9 @@ from app.services.ingestion.orchestration.state import (
     IngestionRuntime,
 )
 from app.services.ingestion.orchestration.tools import (
+    apply_ingestion_changes,
     begin_ingestion,
+    delete_ingestion_document,
     fill_graph_patch,
     fill_ingestion,
     finalize_ingestion,
@@ -19,6 +21,7 @@ from app.services.ingestion.orchestration.tools import (
     ingest_document_end_to_end,
     prepare_extraction_context,
     submit_ingestion_batch,
+    update_ingestion_document,
     validate_graph_patch,
 )
 from app.services.ingestion.orchestration.use_case import IngestionUseCase
@@ -27,7 +30,9 @@ __all__ = [
     "DEFAULT_MAX_RETRIES_PER_BATCH",
     "IngestionRuntime",
     "IngestionUseCase",
+    "apply_ingestion_changes",
     "begin_ingestion",
+    "delete_ingestion_document",
     "fill_graph_patch",
     "fill_ingestion",
     "finalize_ingestion",
@@ -35,5 +40,6 @@ __all__ = [
     "ingest_document_end_to_end",
     "prepare_extraction_context",
     "submit_ingestion_batch",
+    "update_ingestion_document",
     "validate_graph_patch",
 ]

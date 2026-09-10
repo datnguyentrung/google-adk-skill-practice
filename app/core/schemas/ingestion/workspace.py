@@ -19,6 +19,13 @@ class IngestionBatch(_WorkspaceModel):
     chunk_indexes: list[int] = Field(alias="chunkIndexes", min_length=1)
     content_chars: int = Field(alias="contentChars", ge=0)
     fragment: GraphPatchFragment | None = None
+    extraction_cache_key: str | None = Field(
+        default=None, alias="extractionCacheKey"
+    )
+    extraction_cache_hit: bool = Field(default=False, alias="extractionCacheHit")
+    extraction_context_digest: str | None = Field(
+        default=None, alias="extractionContextDigest"
+    )
 
 
 class IngestionProvenance(_WorkspaceModel):
@@ -32,8 +39,30 @@ class IngestionProvenance(_WorkspaceModel):
     artifact_digest: str = Field(alias="artifactDigest", min_length=1)
     ontology_digest: str = Field(alias="ontologyDigest", min_length=1)
     skill_digest: str = Field(alias="skillDigest", min_length=1)
+    document_id: str = Field(default="MISSING", alias="documentId", min_length=1)
+    config_signature: str = Field(
+        default="MISSING", alias="configSignature", min_length=1
+    )
+    ingestion_signature: str = Field(
+        default="MISSING", alias="ingestionSignature", min_length=1
+    )
+    source_version_id: str = Field(
+        default="MISSING", alias="sourceVersionId", min_length=1
+    )
+    model_id: str = Field(default="MISSING", alias="modelId", min_length=1)
+    chunker_version: str = Field(
+        default="MISSING", alias="chunkerVersion", min_length=1
+    )
+    mapper_version: str = Field(
+        default="MISSING", alias="mapperVersion", min_length=1
+    )
+    compiler_version: str = Field(
+        default="MISSING", alias="compilerVersion", min_length=1
+    )
 
     def identity_material(self, artifact_name: str) -> str:
+        if self.ingestion_signature != "MISSING":
+            return f"{self.document_id}\0{self.ingestion_signature}"
         return (
             f"{artifact_name}\0{self.artifact_digest}\0"
             f"{self.ontology_digest}\0{self.skill_digest}"
@@ -57,13 +86,11 @@ class IngestionWorkspace(_WorkspaceModel):
     chunks: list[DocumentChunk] = Field(min_length=1)
     batches: list[IngestionBatch] = Field(min_length=1)
     validated_fingerprint: str | None = Field(
-        default=None,
-        alias="validatedFingerprint",
+        default=None, alias="validatedFingerprint"
     )
     finalized_patch: dict | None = Field(default=None, alias="finalizedPatch")
     retry_states: dict[str, IngestionRetryState] = Field(
-        default_factory=dict,
-        alias="retryStates",
+        default_factory=dict, alias="retryStates"
     )
     skipped_chunk_indexes: list[int] = Field(
         default_factory=list, alias="skippedChunkIndexes"

@@ -74,6 +74,9 @@ async def _receipt_response(
             "partialPersistence": str(partial_persistence).lower(),
             "persistenceMode": str(persistence_mode),
             "readinessIssuesIgnored": readiness_issues_ignored,
+            "documentId": str(result.get("documentId") or ""),
+            "sourceVersionId": str(result.get("sourceVersionId") or ""),
+            "sourceVersionStatus": str(result.get("sourceVersionStatus") or ""),
         },
     )
     commit_status = result.get("commitStatus")
@@ -101,6 +104,9 @@ async def _receipt_response(
         "mismatchCount": len(receipt.get("mismatches", [])),
         "artifactName": artifact_name,
         "artifactVersion": artifact_version,
+        "documentId": result.get("documentId"),
+        "sourceVersionId": result.get("sourceVersionId"),
+        "sourceVersionStatus": result.get("sourceVersionStatus"),
     }
 
 
@@ -116,6 +122,8 @@ async def _persist_with_receipt(
     invalidate_gate: Callable[[], None],
     failure_message: str,
     allow_partial_persistence: bool = False,
+    source_lifecycle=None,
+    extraction_cache_entries=None,
 ) -> dict[str, Any]:
     """
     Ghi patch xuống Neo4j kèm receipt và xử lý khi bước ghi thất bại.
@@ -145,6 +153,9 @@ async def _persist_with_receipt(
         fill_kwargs = (
             {"allow_partial_persistence": True} if allow_partial_persistence else {}
         )
+        if source_lifecycle is not None:
+            fill_kwargs["source_lifecycle"] = source_lifecycle
+            fill_kwargs["extraction_cache_entries"] = extraction_cache_entries or []
         result = service.fill(
             graph_patch, artifact_digest, source_chunks, **fill_kwargs
         )
@@ -164,11 +175,9 @@ async def _persist_with_receipt(
         )
     except FillValidationError as exc:
         invalidate_gate()
-        logger.error(
-            "[INGESTION_ERROR] Phase: PERSIST_WITH_RECEIPT | Func: _persist_with_receipt | Stem: %s | Error: Fill validation failed: %s",
+        logger.exception(
+            "[INGESTION_ERROR] Phase: PERSIST_WITH_RECEIPT | Func: _persist_with_receipt | Stem: %s | Fill validation failed",
             artifact_stem,
-            exc,
-            exc_info=True,
         )
         return {
             "success": False,
@@ -177,12 +186,10 @@ async def _persist_with_receipt(
             "validation": exc.result.model_dump(by_alias=True, exclude_none=True),
         }
     except Exception as exc:
-        logger.error(
-            "[INGESTION_ERROR] Phase: PERSIST_WITH_RECEIPT | Func: _persist_with_receipt | Stem: %s | Message: %s | Exception: %s",
+        logger.exception(
+            "[INGESTION_ERROR] Phase: PERSIST_WITH_RECEIPT | Func: _persist_with_receipt | Stem: %s | Message: %s",
             artifact_stem,
             failure_message,
-            exc,
-            exc_info=True,
         )
         if isinstance(result, dict) and result.get("commitStatus") == "committed":
             return {

@@ -6,13 +6,12 @@ chunk của tài liệu nguồn và phần ontology được rút gọn cho prom
 
 import logging
 from pathlib import Path
+
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.extraction import ExtractionContext
-
 from app.services.ingestion.document.reader import DocumentReader
 from app.services.ingestion.ontology.loader import OntologyLoader
 from app.services.ingestion.ontology.registry import OntologyRegistry
-
 
 logger = logging.getLogger(__name__)
 
@@ -173,6 +172,7 @@ class DocumentPreparation:
         )
         return ExtractionContext(
             document_name=document_name,
+            document_id=(chunks[0].document_id if chunks else None),
             chunks=chunks,
             ontology_context=ontology_context,
         )
