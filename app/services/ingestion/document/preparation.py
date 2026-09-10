@@ -25,17 +25,24 @@ class DocumentPreparation:
     """
     Chuẩn bị ngữ cảnh extraction từ tài liệu nguồn và ontology.
     """
-    def __init__(self, ontology_path: str | Path = DEFAULT_ONTOLOGY_PATH):
+    def __init__(
+        self,
+        ontology_path: str | Path = DEFAULT_ONTOLOGY_PATH,
+        *,
+        reader: DocumentReader | None = None,
+    ):
         """
         Nạp ontology và khởi tạo reader cho một phiên ingestion.
 
         Args:
             ontology_path: Đường dẫn file ontology JSON.
+            reader: Tùy chọn DocumentReader tùy chỉnh.
         """
         self.ontology_path = Path(ontology_path)
         ontology = OntologyLoader.load(self.ontology_path)
         self.registry = OntologyRegistry(ontology)
-        self.reader = DocumentReader()
+        self.reader = reader or DocumentReader()
+
 
     def prepare(self, document_path: str | Path) -> ExtractionContext:
         """

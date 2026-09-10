@@ -180,3 +180,31 @@ def test_product_guide_preprocessing():
     assert processed_chars <= raw_chars
 
 
+def test_document_reader_integration_with_preprocessor():
+    from app.services.ingestion.document.reader import DocumentReader
+
+    raw_markdown = """
+# Product Title
+
+## Section 1
+• Item 1
+• Item 2
+
+---
+
+Trang 1/5
+"""
+    reader = DocumentReader()
+    chunks = reader.read_bytes(
+        filename="test_doc.md",
+        data=raw_markdown.encode("utf-8"),
+    )
+
+    full_content = "\n".join(chunk.content for chunk in chunks)
+    assert "Trang 1/5" not in full_content
+    assert "---" not in full_content
+    assert "- Item 1" in full_content
+    assert "- Item 2" in full_content
+
+
+

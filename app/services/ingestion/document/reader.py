@@ -6,8 +6,12 @@ import logging
 from pathlib import Path
 
 from app.core.schemas.ingestion.document import DocumentChunk
+from app.scripts.preprocessing.markdown_preprocessor import (
+    MarkdownPreprocessor,
+)
 from app.services.ingestion.document.strategies import (
     ChunkingStrategy,
+    LoadedDocument,
     LoaderStrategy,
     StructuralTextChunker,
     Utf8TextLoader,
@@ -28,9 +32,11 @@ class DocumentReader:
         *,
         loader: LoaderStrategy | None = None,
         chunker: ChunkingStrategy | None = None,
+        preprocessor: MarkdownPreprocessor | None = None,
     ) -> None:
         self.loader = loader or Utf8TextLoader()
         self.chunker = chunker or StructuralTextChunker()
+        self.preprocessor = preprocessor or MarkdownPreprocessor()
         self.SUPPORTED_SUFFIXES = set(self.loader.supported_suffixes)
 
     def read(self, path: str | Path) -> list[DocumentChunk]:
@@ -67,9 +73,29 @@ class DocumentReader:
             raise DocumentReadError(str(exc)) from exc
         return self._split(document)
 
-    def _split(self, document) -> list[DocumentChunk]:
+    def _split(self, document: LoadedDocument) -> list[DocumentChunk]:
         if not document.text.strip():
             raise DocumentReadError(f"Document is empty: {document.source}")
+
+        if document.suffix == ".md" and self.preprocessor is not None:
+            raw_chars = len(document.text)
+            preprocess_result = self.preprocessor.preprocess(document.text)
+            processed_chars = len(preprocess_result.processed_text)
+            logger.info(
+                "Document preprocessed source=%s raw_chars=%s processed_chars=%s chars_saved=%s valid=%s",
+                document.source,
+                raw_chars,
+                processed_chars,
+                raw_chars - processed_chars,
+                preprocess_result.is_valid,
+            )
+            document = LoadedDocument(
+                source=document.source,
+                suffix=document.suffix,
+                text=preprocess_result.processed_text,
+                mime_type=document.mime_type,
+            )
+
         chunks = self.chunker.split(document)
         if not chunks:
             raise DocumentReadError(
@@ -84,6 +110,7 @@ class DocumentReader:
             getattr(self.chunker, "version", type(self.chunker).__name__),
         )
         return chunks
+
 
 
 __all__ = ["DocumentReadError", "DocumentReader"]
