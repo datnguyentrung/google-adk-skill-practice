@@ -26,6 +26,18 @@ class IngestionBatch(_WorkspaceModel):
     extraction_context_digest: str | None = Field(
         default=None, alias="extractionContextDigest"
     )
+    selected_schema_skills: list[str] = Field(
+        default_factory=list, alias="selectedSchemaSkills"
+    )
+    schema_selection_reason: list[str] = Field(
+        default_factory=list, alias="schemaSelectionReason"
+    )
+    schema_selection_attempt: int = Field(
+        default=0, alias="schemaSelectionAttempt"
+    )
+    previous_schema_skills: list[str] = Field(
+        default_factory=list, alias="previousSchemaSkills"
+    )
 
 
 class IngestionProvenance(_WorkspaceModel):
@@ -97,6 +109,9 @@ class IngestionWorkspace(_WorkspaceModel):
     )
     ingestion_warnings: list[dict[str, Any]] = Field(
         default_factory=list, alias="ingestionWarnings"
+    )
+    document_candidate_schema_skills: list[str] = Field(
+        default_factory=list, alias="documentCandidateSchemaSkills"
     )
 
     @property

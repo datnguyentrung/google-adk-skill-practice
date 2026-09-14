@@ -81,26 +81,44 @@ def _load_ontology() -> OntologyDefinition:
 
 
 def _build_domain_schema(class_names: set[str]) -> dict[str, Any]:
-    """Filter the full ontology to the given set of class names.
+    """Filter ontology thành một schema bundle khép kín theo domain.
 
-    Args:
-        class_names: Human-readable ``name`` values (e.g. ``"banking product"``).
+    Bao gồm:
+    - các class chính của skill;
+    - edge có domain HOẶC range chạm vào class chính;
+    - endpoint class của các edge đó (one-hop closure);
+    - attribute của các class nằm trong closure.
 
-    Returns:
-        A dict with ``classes``, ``attributes``, and ``edges`` lists,
-        each serialised to plain dicts suitable for JSON.
+    Chỉ closure một hop để tránh kéo cả ontology vào skill.
     """
     ontology = _load_ontology()
 
-    matched_classes = [cls for cls in ontology.classes if cls.name in class_names]
-    matched_class_names = {cls.name for cls in matched_classes}
+    # 1. Primary classes của skill.
+    primary_classes = [cls for cls in ontology.classes if cls.name in class_names]
+    primary_class_names = {cls.name for cls in primary_classes}
 
-    matched_attributes = [
-        attr for attr in ontology.attributes if set(attr.domain) & matched_class_names
+    # 2. Edge chạm vào primary classes ở DOMAIN hoặc RANGE.
+    matched_edges = [
+        edge
+        for edge in ontology.edges
+        if ((set(edge.domain) | set(edge.range)) & primary_class_names)
     ]
 
-    matched_edges = [
-        edge for edge in ontology.edges if set(edge.domain) & matched_class_names
+    # 3. One-hop closure:
+    # nếu expose edge thì expose luôn endpoint classes.
+    closure_class_names = set(primary_class_names)
+
+    for edge in matched_edges:
+        closure_class_names.update(edge.domain)
+        closure_class_names.update(edge.range)
+
+    matched_classes = [
+        cls for cls in ontology.classes if cls.name in closure_class_names
+    ]
+
+    # 4. Attributes thuộc các classes trong closure.
+    matched_attributes = [
+        attr for attr in ontology.attributes if set(attr.domain) & closure_class_names
     ]
 
     def _serialize_class(cls):

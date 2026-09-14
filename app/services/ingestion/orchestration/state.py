@@ -41,6 +41,11 @@ from app.services.ingestion.validation.semantic_judge import (
 from app.services.ingestion.workspace.staged_ingestion import (
     IngestionWorkspaceService,
 )
+from app.services.ingestion.schema import (
+    SchemaProjectionBuilder,
+    SchemaRouter,
+    SchemaSkillRegistry,
+)
 from app.skills.skill_loader import skill_content_digest
 
 logger = logging.getLogger(__name__)
@@ -77,6 +82,9 @@ SOURCE_CHUNKS_STATE_KEY = "temp:ingestion_source_chunks"
 
 
 WORKSPACE_STATE_KEY = "temp:ingestion_workspace"
+
+
+CANDIDATE_SCHEMA_SKILLS_STATE_KEY = "temp:ingestion_candidate_schema_skills"
 
 
 DEFAULT_MAX_RETRIES_PER_BATCH = max(
@@ -134,6 +142,23 @@ def _get_graph_mapper() -> AdkGraphMapper:
         ontology_validator=validation_service.validator,
         candidate_generator=create_candidate_generator(registry),
     )
+
+
+@lru_cache(maxsize=1)
+def _get_schema_skill_registry() -> SchemaSkillRegistry:
+    validation_service = _get_validation_service()
+    return SchemaSkillRegistry(validation_service.validator.registry)
+
+
+@lru_cache(maxsize=1)
+def _get_schema_router() -> SchemaRouter:
+    registry = _get_schema_skill_registry()
+    return SchemaRouter(registry=registry)
+
+
+@lru_cache(maxsize=1)
+def _get_schema_projection_builder() -> SchemaProjectionBuilder:
+    return SchemaProjectionBuilder()
 
 
 def _delete_state(tool_context: IngestionRuntime, key: str) -> None:

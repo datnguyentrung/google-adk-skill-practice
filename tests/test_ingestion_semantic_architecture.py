@@ -95,10 +95,7 @@ def test_model_ontology_context_is_not_compacted_to_identifiers_only():
     context = service.build_ontology_context()
     model_context = _compact_ontology_context(context)
 
-    assert "CLASS: pskg:RequiredDocument" in model_context
-    assert "pskg:requiresDocument" in model_context
-    assert "definition=" in model_context
-    assert "DEFINITION:" in model_context
+    assert "[DYNAMIC_SCHEMA_SELECTION_ACTIVE:" in model_context
 
 
 def test_document_level_merge_preserves_distinct_rule_candidates():

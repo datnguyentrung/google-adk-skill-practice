@@ -92,62 +92,10 @@ class DocumentPreparation:
 
     def build_ontology_context(self) -> str:
         """
-        Sinh phần mô tả ontology (class/property/edge) đưa vào prompt extraction.
+        [DEPRECATED / STUB] Pre-building full ontology context is replaced by Dynamic Schema Selection.
+        Returns a compact summary stub for backward compatibility with ExtractionContext.
         """
-        lines: list[str] = []
-        for class_name in self.registry.list_classes():
-            ontology_class = self.registry.get_class(class_name)
-            if ontology_class is None:
-                continue
-            lines.append(f"CLASS: {ontology_class.technical_name}")
-            lines.append(f"NAME: {ontology_class.name}")
-            lines.append(f"DEFINITION: {ontology_class.definition}")
-
-            properties = self.registry.properties_from_class(
-                ontology_class.technical_name
-            )
-            if properties:
-                lines.append("PROPERTIES:")
-                for attribute in properties:
-                    lines.append(
-                        "  - "
-                        f"{attribute.technical_name}"
-                        f" | label={attribute.label}"
-                        f" | range={attribute.range}"
-                        f" | definition={attribute.definition}"
-                        f" | policy={attribute.ingestion_policy.mode}"
-                        f" | grounding={attribute.ingestion_policy.grounding}"
-                    )
-
-            edges = self.registry.edges_from_class(
-                ontology_class.technical_name
-            )
-            if edges:
-                lines.append("OUTGOING EDGES:")
-                for edge in edges:
-                    lines.append(
-                        "  - "
-                        f"{edge.technical_name}"
-                        f" | label={edge.label}"
-                        f" | domain={edge.domain}"
-                        f" | range={edge.range}"
-                        f" | definition={edge.definition}"
-                    )
-                    if edge.grounding_cues:
-                        lines.append(f"    cues={edge.grounding_cues}")
-
-            if ontology_class.rules:
-                lines.append("RULES:")
-                for rule in ontology_class.rules:
-                    lines.append(
-                        "  - "
-                        f"{rule.property}"
-                        f" | operator={rule.operator}"
-                        f" | value={rule.value}"
-                        f" | qualifier={rule.qualifier}"
-                    )
-            lines.append("")
-        return "\n".join(lines)
+        return f"[DYNAMIC_SCHEMA_SELECTION_ACTIVE: {len(self.registry.list_classes())} classes in registry]"
 
     @staticmethod
     def build_document_context(chunks: list[DocumentChunk]) -> str:

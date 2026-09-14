@@ -43,6 +43,7 @@ from app.services.ingestion.orchestration.receipts import (
 from app.services.ingestion.orchestration.state import (
     ARTIFACT_DIGEST_STATE_KEY,
     ARTIFACT_NAME_STATE_KEY,
+    CANDIDATE_SCHEMA_SKILLS_STATE_KEY,
     DEFAULT_MAX_RETRIES_PER_BATCH,
     DOCUMENT_ID_STATE_KEY,
     FINAL_COVERAGE_REPAIR_ROUNDS,
@@ -56,6 +57,9 @@ from app.services.ingestion.orchestration.state import (
     _delete_state,
     _get_context_service,
     _get_graph_mapper,
+    _get_schema_projection_builder,
+    _get_schema_router,
+    _get_schema_skill_registry,
     _get_validation_service,
     _get_workspace_service,
     _load_workspace,
@@ -300,6 +304,15 @@ async def begin_ingestion(
             for item in tool_context.state[SOURCE_CHUNKS_STATE_KEY]
         ],
     )
+    router = _get_schema_router()
+    registry = _get_schema_skill_registry()
+    candidate_ids = router.select_for_document(
+        chunks=workspace.chunks,
+        all_skill_ids=registry.list_skills(),
+    )
+    workspace.document_candidate_schema_skills = candidate_ids
+    tool_context.state[CANDIDATE_SCHEMA_SKILLS_STATE_KEY] = candidate_ids
+
     _store_workspace(tool_context, workspace)
     first_batch = workspace.batches[0]
     logger.info(
@@ -766,15 +779,48 @@ async def ingest_document_end_to_end(
                     cached_response.get("errors"),
                 )
 
+        router = _get_schema_router()
+        registry = _get_schema_skill_registry()
+        builder = _get_schema_projection_builder()
+
+        candidate_ids = tool_context.state.get(CANDIDATE_SCHEMA_SKILLS_STATE_KEY, [])
+        if not candidate_ids:
+            candidate_ids = router.select_for_document(chunks, registry.list_skills())
+            tool_context.state[CANDIDATE_SCHEMA_SKILLS_STATE_KEY] = candidate_ids
+
+        selected_ids, reasons = router.select_for_batch(chunks, candidate_ids)
+        if workspace and batch_index < len(workspace.batches):
+            batch = workspace.batches[batch_index]
+            batch.selected_schema_skills = selected_ids
+            batch.schema_selection_reason = list(reasons)
+            _store_workspace(tool_context, workspace)
+
         previous_error: dict[str, Any] | None = None
 
         for attempt in range(1, max_retries_per_batch + 1):
+            if attempt > 1 and previous_error:
+                selected_ids, retry_reasons = router.select_for_retry(
+                    chunks, selected_ids, previous_error, candidate_ids
+                )
+                reasons.extend(retry_reasons)
+                if workspace and batch_index < len(workspace.batches):
+                    batch = workspace.batches[batch_index]
+                    batch.previous_schema_skills = batch.selected_schema_skills
+                    batch.selected_schema_skills = selected_ids
+                    batch.schema_selection_attempt = attempt - 1
+                    batch.schema_selection_reason = list(reasons)
+                    _store_workspace(tool_context, workspace)
+
+            bundles = registry.load(selected_ids)
+            schema_context = builder.build(bundles, registry.ontology_registry, reason=reasons)
+
             logger.info(
-                "[PHASE:BATCH_MAPPING_ATTEMPT] Document: '%s' | Batch: %s | Attempt: %s/%s | Chunks: %s",
+                "[PHASE:BATCH_MAPPING_ATTEMPT] Document: '%s' | Batch: %s | Attempt: %s/%s | SelectedSkills: %s | Chunks: %s",
                 artifact_name,
                 batch_index,
                 attempt,
                 max_retries_per_batch,
+                selected_ids,
                 [c.index for c in chunks],
             )
             try:
@@ -783,6 +829,7 @@ async def ingest_document_end_to_end(
                     chunks=chunks,
                     graph_context=graph_context,
                     previous_error=previous_error,
+                    schema_context=schema_context,
                 )
             except Exception as exc:
                 if _is_retryable_extraction_error(exc) and attempt < max_retries_per_batch:

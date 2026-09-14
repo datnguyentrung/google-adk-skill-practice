@@ -4,11 +4,16 @@ Module này dựng prompt từ ontology + chunk của một batch, gọi model q
 `AdkStructuredCallExecutor`, rồi hậu kiểm kết quả bằng `GraphFragmentGuard` trước khi
 trả fragment về cho tầng orchestration. Đây là cửa duy nhất sinh fact mới vào graph."""
 
+from __future__ import annotations
+
 import json
 import logging
 import os
 import re
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from app.services.ingestion.schema.projection_builder import SelectedSchemaContext
 
 from pydantic import ValidationError
 
@@ -47,6 +52,7 @@ class DirectGraphMappingError(ValueError):
         message: Mô tả lỗi.
         summary: Thông tin chẩn đoán kèm theo (tuỳ chọn).
     """
+
     retryable = True
     error_kind = "llm_mapping"
 
@@ -95,7 +101,7 @@ class AdkGraphMapper:
             model=self.model
         )
         self.candidate_generator = candidate_generator or NullCandidateGenerator()
-        self._ontology_projection = self._build_ontology_projection()
+        self._ontology_projection: str | None = None
         self.guard = GraphFragmentGuard(
             registry=self.registry,
             compiler=self.compiler,
@@ -108,7 +114,8 @@ class AdkGraphMapper:
         batch_payload: dict[str, Any],
         chunks: list[DocumentChunk],
         graph_context: str | None = None,
-        previous_error: dict[str, Any] | None = None,
+        previous_error: dict[str, Any] | str | None = None,
+        schema_context: SelectedSchemaContext | None = None,
     ) -> GraphPatchFragment:
         """
         Trích xuất fragment cho một batch chunk bằng LLM.
@@ -118,6 +125,7 @@ class AdkGraphMapper:
             chunks: Chunk nguồn của batch.
             graph_context: Ngữ cảnh graph từ các batch trước (nếu có).
             previous_error: Lỗi của lần thử trước để model sửa (nếu có).
+            schema_context: Subset schema context cho batch (nếu có).
 
         Returns:
             `GraphPatchFragment` đã canonical hoá và hậu kiểm.
@@ -137,19 +145,28 @@ class AdkGraphMapper:
                 exc,
             )
             candidate_hints = ""
+
+        if schema_context is not None:
+            projection_text = schema_context.projection_text
+        else:
+            if self._ontology_projection is None:
+                self._ontology_projection = self._build_ontology_projection()
+            projection_text = self._ontology_projection
+
         prompt = self._prompt(
             batch_payload=batch_payload,
             chunks=chunks,
             graph_context=graph_context or "",
             previous_error=previous_error,
             candidate_hints=candidate_hints,
+            projection_text=projection_text,
         )
-        schema = self._response_schema(chunk_indexes)
+        schema = self._response_schema(chunk_indexes, schema_context=schema_context)
         logger.info(
             "[PHASE:DIRECT_GRAPH_MAPPING_START] Func: map_batch | Batch: %s | Chunks: %s | OntologyChars: %s | PromptChars: %s",
             batch_payload.get("batchIndex"),
             chunk_indexes,
-            len(self._ontology_projection),
+            len(projection_text),
             len(prompt),
         )
         try:
@@ -223,13 +240,24 @@ class AdkGraphMapper:
         graph_context: str,
         previous_error: dict[str, Any] | None,
         candidate_hints: str = "",
+        projection_text: str | None = None,
     ) -> str:
         """
         Dựng prompt trích xuất: quy tắc nghiệp vụ, ontology rút gọn, chunk và ngữ cảnh graph.
         """
+        proj = (
+            projection_text
+            if projection_text is not None
+            else (self._ontology_projection or self._build_ontology_projection())
+        )
+
+        previous_error_dict = (
+            previous_error if isinstance(previous_error, dict) else None
+        )
+
         is_final_coverage_repair = bool(
-            previous_error
-            and previous_error.get("stage") == "final_coverage_validation"
+            previous_error_dict
+            and previous_error_dict.get("stage") == "final_coverage_validation"
         )
         repair_targets: list[int] = []
         feedback = previous_error
@@ -243,7 +271,9 @@ class AdkGraphMapper:
                 if match is not None:
                     repair_targets.append(int(match.group(1)))
             repair_targets = sorted(set(repair_targets))
-            feedback = json.loads(json.dumps(previous_error, ensure_ascii=False))
+
+            # Deep-copy để không mutate previous_error gốc.
+            feedback = json.loads(json.dumps(previous_error_dict, ensure_ascii=False))
             candidate = feedback.get("candidateFragment")
             if isinstance(candidate, dict):
                 targets = set(repair_targets)
@@ -254,10 +284,10 @@ class AdkGraphMapper:
                     or item.get("chunkIndex") not in targets
                 ]
 
+        repair_text = self._format_previous_error(feedback)
         repair = (
-            "\nPREVIOUS ATTEMPT FEEDBACK / BASELINE:\n"
-            + json.dumps(feedback, ensure_ascii=False)
-            if feedback
+            f"\nPREVIOUS ATTEMPT FEEDBACK / BASELINE:\n{repair_text}"
+            if repair_text
             else ""
         )
         target_by_index = {chunk.index: chunk for chunk in chunks}
@@ -325,7 +355,7 @@ class AdkGraphMapper:
             "Map source chunks directly into the supplied ontology. Return exactly one "
             "GraphPatchFragment matching the response schema.\n\n"
             "ONTOLOGY COMPACT PROJECTION (authoritative; use only these technical names):\n"
-            f"{self._ontology_projection}\n\n"
+            f"{proj}\n\n"
             f"{final_coverage_repair}"
             "MAPPING RULES:\n"
             "- Use ontology definitions, domains, ranges and property meanings semantically; do not invent classes, properties or edges.\n"
@@ -461,29 +491,48 @@ class AdkGraphMapper:
                 lines.extend(properties)
         return "\n".join(lines)
 
-    def _response_schema(self, chunk_indexes: list[int]) -> dict[str, Any]:
-        """
-        Dựng JSON schema mà model phải trả về cho batch này.
-        """
+    def _response_schema(
+        self,
+        chunk_indexes: list[int],
+        schema_context: SelectedSchemaContext | None = None,
+    ) -> dict[str, Any]:
         schema = GraphPatchFragment.model_json_schema(by_alias=True)
         defs = schema["$defs"]
+
         class_field = defs["ExtractedNode"]["properties"]["className"]
         class_field.pop("pattern", None)
-        class_field["enum"] = self.registry.list_classes()
+
+        if schema_context is not None:
+            class_field["enum"] = list(schema_context.class_technical_names)
+        else:
+            class_field["enum"] = self.registry.list_classes()
+
         property_field = defs["ExtractedProperty"]["properties"]["propertyName"]
         property_field.pop("pattern", None)
-        property_field["enum"] = self.registry.list_attributes()
+
+        if schema_context is not None:
+            property_field["enum"] = list(schema_context.attr_technical_names)
+        else:
+            property_field["enum"] = self.registry.list_attributes()
+
         edge_field = defs["ExtractedEdge"]["properties"]["edgeName"]
         edge_field.pop("pattern", None)
-        edge_field["enum"] = self.registry.list_edges()
+
+        if schema_context is not None:
+            edge_field["enum"] = list(schema_context.edge_technical_names)
+        else:
+            edge_field["enum"] = self.registry.list_edges()
+
         defs["ChunkCoverage"]["properties"]["chunkIndex"] = {
             "type": "integer",
             "enum": chunk_indexes,
         }
+
         defs["Evidence"]["properties"]["chunkIndex"] = {
             "type": "integer",
             "enum": chunk_indexes,
         }
+
         defs["ExtractedProperty"]["properties"]["value"] = {
             "anyOf": [
                 {"type": "string"},
@@ -503,6 +552,7 @@ class AdkGraphMapper:
                 },
             ]
         }
+
         return schema
 
     def _resolve_context_nodes(
@@ -595,3 +645,19 @@ class AdkGraphMapper:
                 )
                 existing.add(temp_id)
         return fragment.model_copy(update={"nodes": nodes, "edges": edges})
+
+    @staticmethod
+    def _format_previous_error(previous_error: Any | None) -> str:
+        """Chuẩn hóa feedback retry thành text an toàn để đưa vào prompt."""
+        if previous_error is None:
+            return ""
+
+        if isinstance(previous_error, str):
+            return previous_error
+
+        return json.dumps(
+            previous_error,
+            ensure_ascii=False,
+            indent=2,
+            default=str,
+        )

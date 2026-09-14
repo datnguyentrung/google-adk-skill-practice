@@ -136,7 +136,7 @@ def test_empty_graph_requires_non_mapped_coverage():
 
 def test_compact_ontology_is_smaller_than_raw_catalog_and_keeps_semantics():
     mapper, _ = _mapper({"nodes": [], "edges": [], "coverage": [{"chunkIndex": 0, "decision": "NOT_RELEVANT", "reason": "none"}], "warnings": []})
-    skeleton = mapper._ontology_projection
+    skeleton = mapper._ontology_projection or mapper._build_ontology_projection()
     assert len(skeleton) < 20_000
     assert "pskg:BankingProduct" in skeleton
     assert "pskg:BusinessRule" in skeleton
