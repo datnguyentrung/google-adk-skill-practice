@@ -2,12 +2,10 @@ from __future__ import annotations
 
 import re
 import unicodedata
-
 from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
 from typing import Mapping
-
 
 _SPACE_RE = re.compile(r"\s+")
 
@@ -79,12 +77,10 @@ _MULTIPLIERS: dict[str, Decimal] = {
     "nghìn": Decimal("1000"),
     "ngan": Decimal("1000"),
     "ngàn": Decimal("1000"),
-
     "triệu": Decimal("1000000"),
     "trieu": Decimal("1000000"),
     "tr": Decimal("1000000"),
     "m": Decimal("1000000"),
-
     "tỷ": Decimal("1000000000"),
     "ty": Decimal("1000000000"),
     "b": Decimal("1000000000"),
@@ -96,11 +92,9 @@ _DURATION_UNITS = {
     "day": "day",
     "days": "day",
     "d": "day",
-
     "tháng": "month",
     "month": "month",
     "months": "month",
-
     "năm": "year",
     "year": "year",
     "years": "year",
@@ -120,7 +114,6 @@ _DATE_FORMATS = (
 
 @dataclass(frozen=True)
 class CanonicalValue:
-
     raw: str
 
     normalized: str
@@ -134,7 +127,6 @@ class CanonicalValue:
 
 @dataclass(frozen=True)
 class CanonicalFact:
-
     attribute: str
 
     value: CanonicalValue
@@ -147,10 +139,7 @@ class CanonicalFact:
 
     @property
     def key(self) -> str:
-        return (
-            f"{self.attribute}|"
-            f"{self.value.normalized}"
-        )
+        return f"{self.attribute}|{self.value.normalized}"
 
 
 def normalize_for_comparison(
@@ -178,8 +167,7 @@ def _normalize_alias_map(
         return {}
 
     return {
-        normalize_for_comparison(key): canonical
-        for key, canonical in aliases.items()
+        normalize_for_comparison(key): canonical for key, canonical in aliases.items()
     }
 
 
@@ -188,13 +176,9 @@ def normalize_attribute_name(
     aliases: Mapping[str, str] | None = None,
 ) -> str:
 
-    key = normalize_for_comparison(
-        attribute
-    )
+    key = normalize_for_comparison(attribute)
 
-    alias_map = _normalize_alias_map(
-        aliases
-    )
+    alias_map = _normalize_alias_map(aliases)
 
     return alias_map.get(
         key,
@@ -207,9 +191,7 @@ def _decimal_to_text(
 ) -> str:
 
     if number == number.to_integral():
-        return str(
-            number.to_integral()
-        )
+        return str(number.to_integral())
 
     return format(
         number.normalize(),
@@ -221,12 +203,7 @@ def _parse_localized_decimal(
     raw: str,
 ) -> Decimal | None:
 
-    value = (
-        raw
-        .replace("\u00a0", " ")
-        .replace(" ", "")
-        .strip()
-    )
+    value = raw.replace("\u00a0", " ").replace(" ", "").strip()
 
     if not value:
         return None
@@ -256,35 +233,20 @@ def _parse_localized_decimal(
         return (
             len(parts) > 1
             and 1 <= len(parts[0]) <= 3
-            and all(
-                len(part) == 3
-                for part in parts[1:]
-            )
+            and all(len(part) == 3 for part in parts[1:])
         )
 
     if comma_count and dot_count:
-
         last_comma = value.rfind(",")
         last_dot = value.rfind(".")
 
-        decimal_sep = (
-            ","
-            if last_comma > last_dot
-            else "."
-        )
+        decimal_sep = "," if last_comma > last_dot else "."
 
-        thousands_sep = (
-            "."
-            if decimal_sep == ","
-            else ","
-        )
+        thousands_sep = "." if decimal_sep == "," else ","
 
-        tail = value.split(
-            decimal_sep
-        )[-1]
+        tail = value.split(decimal_sep)[-1]
 
         if len(tail) in (1, 2):
-
             value = value.replace(
                 thousands_sep,
                 "",
@@ -296,14 +258,9 @@ def _parse_localized_decimal(
             )
 
         else:
-            value = (
-                value
-                .replace(",", "")
-                .replace(".", "")
-            )
+            value = value.replace(",", "").replace(".", "")
 
     elif comma_count:
-
         parts = value.split(",")
 
         if groups_are_thousands(parts):
@@ -319,27 +276,20 @@ def _parse_localized_decimal(
             return None
 
     elif dot_count:
-
         parts = value.split(".")
 
         if groups_are_thousands(parts):
             value = "".join(parts)
 
         elif dot_count == 1:
-
-            if (
-                len(parts[1]) == 3
-                and 1 <= len(parts[0]) <= 3
-            ):
+            if len(parts[1]) == 3 and 1 <= len(parts[0]) <= 3:
                 value = "".join(parts)
 
         else:
             return None
 
     try:
-        return Decimal(
-            sign + value
-        )
+        return Decimal(sign + value)
 
     except InvalidOperation:
         return None
@@ -352,7 +302,6 @@ def _try_parse_date(
     value = raw.strip()
 
     for fmt in _DATE_FORMATS:
-
         try:
             parsed = datetime.strptime(
                 value,
@@ -375,12 +324,9 @@ def _try_parse_boolean(
     raw: str,
 ) -> CanonicalValue | None:
 
-    key = normalize_for_comparison(
-        raw
-    )
+    key = normalize_for_comparison(raw)
 
     if key in _BOOLEAN_TRUE:
-
         return CanonicalValue(
             raw=raw,
             normalized="true",
@@ -388,7 +334,6 @@ def _try_parse_boolean(
         )
 
     if key in _BOOLEAN_FALSE:
-
         return CanonicalValue(
             raw=raw,
             normalized="false",
@@ -402,25 +347,19 @@ def _try_parse_percentage(
     raw: str,
 ) -> CanonicalValue | None:
 
-    match = _PERCENT_RE.match(
-        raw
-    )
+    match = _PERCENT_RE.match(raw)
 
     if not match:
         return None
 
-    number = _parse_localized_decimal(
-        match.group(1)
-    )
+    number = _parse_localized_decimal(match.group(1))
 
     if number is None:
         return None
 
     return CanonicalValue(
         raw=raw,
-        normalized=(
-            f"{_decimal_to_text(number)} %"
-        ),
+        normalized=(f"{_decimal_to_text(number)} %"),
         kind="percentage",
         number=number,
         unit="%",
@@ -431,34 +370,23 @@ def _try_parse_duration(
     raw: str,
 ) -> CanonicalValue | None:
 
-    match = _DURATION_RE.match(
-        raw
-    )
+    match = _DURATION_RE.match(raw)
 
     if not match:
         return None
 
-    number = _parse_localized_decimal(
-        match.group(1)
-    )
+    number = _parse_localized_decimal(match.group(1))
 
     if number is None:
         return None
 
-    unit_key = normalize_for_comparison(
-        match.group(2)
-    )
+    unit_key = normalize_for_comparison(match.group(2))
 
-    unit = _DURATION_UNITS[
-        unit_key
-    ]
+    unit = _DURATION_UNITS[unit_key]
 
     return CanonicalValue(
         raw=raw,
-        normalized=(
-            f"{_decimal_to_text(number)} "
-            f"{unit}"
-        ),
+        normalized=(f"{_decimal_to_text(number)} {unit}"),
         kind="duration",
         number=number,
         unit=unit,
@@ -469,9 +397,7 @@ def _try_parse_money(
     raw: str,
 ) -> CanonicalValue | None:
 
-    match = _MONEY_RE.match(
-        raw
-    )
+    match = _MONEY_RE.match(raw)
 
     if not match:
         return None
@@ -483,30 +409,18 @@ def _try_parse_money(
     ) = match.groups()
 
     # Plain "500" không tự động coi là money.
-    if (
-        not multiplier_raw
-        and not currency_raw
-    ):
+    if not multiplier_raw and not currency_raw:
         return None
 
-    number = _parse_localized_decimal(
-        numeric_raw
-    )
+    number = _parse_localized_decimal(numeric_raw)
 
     if number is None:
         return None
 
     if multiplier_raw:
+        multiplier_key = normalize_for_comparison(multiplier_raw)
 
-        multiplier_key = (
-            normalize_for_comparison(
-                multiplier_raw
-            )
-        )
-
-        multiplier = _MULTIPLIERS.get(
-            multiplier_key
-        )
+        multiplier = _MULTIPLIERS.get(multiplier_key)
 
         if multiplier is None:
             return None
@@ -515,9 +429,7 @@ def _try_parse_money(
 
     return CanonicalValue(
         raw=raw,
-        normalized=(
-            f"{_decimal_to_text(number)} VND"
-        ),
+        normalized=(f"{_decimal_to_text(number)} VND"),
         kind="money",
         number=number,
         unit="VND",
@@ -534,18 +446,14 @@ def _try_parse_number(
     ):
         return None
 
-    number = _parse_localized_decimal(
-        raw
-    )
+    number = _parse_localized_decimal(raw)
 
     if number is None:
         return None
 
     return CanonicalValue(
         raw=raw,
-        normalized=_decimal_to_text(
-            number
-        ),
+        normalized=_decimal_to_text(number),
         kind="number",
         number=number,
     )
@@ -575,7 +483,6 @@ def normalize_value(
     )
 
     for parser in parsers:
-
         parsed = parser(raw)
 
         if parsed is not None:
@@ -583,9 +490,7 @@ def normalize_value(
 
     return CanonicalValue(
         raw=raw,
-        normalized=(
-            normalize_for_comparison(raw)
-        ),
+        normalized=(normalize_for_comparison(raw)),
         kind="text",
     )
 
@@ -595,62 +500,33 @@ def parse_attribute_line(
     aliases: Mapping[str, str] | None = None,
 ) -> CanonicalFact | None:
 
-    match = _BULLET_ATTRIBUTE_RE.match(
-        line
-    )
+    match = _BULLET_ATTRIBUTE_RE.match(line)
 
     is_bullet = match is not None
 
     if match is None:
-
-        match = _PLAIN_ATTRIBUTE_RE.match(
-            line
-        )
+        match = _PLAIN_ATTRIBUTE_RE.match(line)
 
         if match is None:
             return None
 
-    raw_attribute = (
-        match
-        .group("attribute")
-        .strip()
-    )
+    raw_attribute = match.group("attribute").strip()
 
-    raw_value = (
-        match
-        .group("value")
-        .strip()
-    )
+    raw_value = match.group("value").strip()
 
-    alias_map = _normalize_alias_map(
-        aliases
-    )
+    alias_map = _normalize_alias_map(aliases)
 
-    canonical_names = {
-        normalize_for_comparison(value)
-        for value in alias_map.values()
-    }
+    canonical_names = {normalize_for_comparison(value) for value in alias_map.values()}
 
-    attribute_key = (
-        normalize_for_comparison(
-            raw_attribute
-        )
-    )
+    attribute_key = normalize_for_comparison(raw_attribute)
 
     # Dòng thường "X: Y" chỉ parse nếu X nằm trong
     # config attribute.
     if not is_bullet and aliases:
-
-        if (
-            attribute_key not in alias_map
-            and attribute_key not in canonical_names
-        ):
+        if attribute_key not in alias_map and attribute_key not in canonical_names:
             return None
 
-    elif (
-        not is_bullet
-        and not aliases
-    ):
+    elif not is_bullet and not aliases:
         return None
 
     attribute = normalize_attribute_name(
@@ -658,9 +534,7 @@ def parse_attribute_line(
         aliases,
     )
 
-    value = normalize_value(
-        raw_value
-    )
+    value = normalize_value(raw_value)
 
     return CanonicalFact(
         attribute=attribute,
@@ -684,16 +558,11 @@ def normalize_attribute_lines(
     fence_token: str | None = None
 
     for line in text.splitlines():
-
         stripped = line.lstrip()
 
-        is_fence = (
-            stripped.startswith("```")
-            or stripped.startswith("~~~")
-        )
+        is_fence = stripped.startswith("```") or stripped.startswith("~~~")
 
         if is_fence:
-
             token = stripped[:3]
 
             result.append(line)
@@ -721,39 +590,19 @@ def normalize_attribute_lines(
             result.append(line)
             continue
 
-        bullet_match = (
-            _BULLET_ATTRIBUTE_RE.match(line)
-        )
+        bullet_match = _BULLET_ATTRIBUTE_RE.match(line)
 
-        match = (
-            bullet_match
-            or _PLAIN_ATTRIBUTE_RE.match(line)
-        )
+        match = bullet_match or _PLAIN_ATTRIBUTE_RE.match(line)
 
         assert match is not None
 
-        indent = match.group(
-            "indent"
-        )
+        indent = match.group("indent")
 
-        prefix = (
-            "- "
-            if bullet_match
-            else ""
-        )
+        prefix = "- " if bullet_match else ""
 
-        value = (
-            fact.value.normalized
-            if rewrite_values
-            else fact.raw_value
-        )
+        value = fact.value.normalized if rewrite_values else fact.raw_value
 
-        result.append(
-            f"{indent}"
-            f"{prefix}"
-            f"{fact.attribute}: "
-            f"{value}"
-        )
+        result.append(f"{indent}{prefix}{fact.attribute}: {value}")
 
     return "\n".join(result)
 
