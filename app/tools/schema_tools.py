@@ -21,6 +21,8 @@ from typing import Any
 
 from app.core.schemas.ingestion.models import OntologyDefinition
 from app.services.ingestion.ontology.loader import OntologyLoader
+from app.services.ingestion.ontology.registry import OntologyRegistry
+from app.services.ingestion.persistence.mapping import Neo4jMapper
 
 # ---------------------------------------------------------------------------
 # Ontology source
@@ -92,6 +94,8 @@ def _build_domain_schema(class_names: set[str]) -> dict[str, Any]:
     Chỉ closure một hop để tránh kéo cả ontology vào skill.
     """
     ontology = _load_ontology()
+    registry = OntologyRegistry(ontology)
+    mapper = Neo4jMapper(registry)
 
     # 1. Primary classes của skill.
     primary_classes = [cls for cls in ontology.classes if cls.name in class_names]
@@ -125,6 +129,8 @@ def _build_domain_schema(class_names: set[str]) -> dict[str, Any]:
         return {
             "name": cls.name,
             "technicalName": cls.technical_name,
+            "localName": cls.local_name,
+            "neo4jLabel": mapper.class_to_label(cls.technical_name),
             "label": cls.label,
             "definition": cls.definition,
             "parents": cls.parents,
@@ -143,6 +149,8 @@ def _build_domain_schema(class_names: set[str]) -> dict[str, Any]:
         return {
             "name": attr.name,
             "technicalName": attr.technical_name,
+            "localName": attr.local_name,
+            "neo4jPropertyKey": mapper.property_to_key(attr.technical_name),
             "label": attr.label,
             "definition": attr.definition,
             "domain": attr.domain,
@@ -159,6 +167,8 @@ def _build_domain_schema(class_names: set[str]) -> dict[str, Any]:
         return {
             "name": edge.name,
             "technicalName": edge.technical_name,
+            "localName": edge.local_name,
+            "relationshipType": mapper.edge_to_type(edge.technical_name),
             "label": edge.label,
             "definition": edge.definition,
             "domain": edge.domain,

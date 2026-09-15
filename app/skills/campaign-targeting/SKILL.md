@@ -1,9 +1,9 @@
 ---
 name: campaign-targeting
 description: >
-  Load the Product Sales Knowledge Graph schema for campaigns, customer
-  segments, customer needs, campaign targeting, campaign benefits,
-  campaign validity, and related targeting facts during ingestion extraction.
+  Use this skill whenever an ingestion batch contains campaigns, customer segments,
+  customer needs, campaign targeting, campaign benefits, or campaign validity.
+  Always invoke before extracting campaign facts so load_campaign_targeting_schema is called first.
 metadata:
   adk_additional_tools:
     - load_campaign_targeting_schema

@@ -1,15 +1,9 @@
 ---
 name: governance-versioning
 description: >
-  Use this skill whenever the ingestion batch contains version records,
-  version numbers, creation time, change descriptions, change history,
-  published versions, approval tasks, approval chains, approvers, approval
-  steps, approval comments, approval history, rollback context, or
-  publication lifecycle information that must be mapped to the Product Sales
-  Knowledge Graph. Always invoke before extracting governance or versioning
-  facts so that load_governance_versioning_schema is called first and the
-  correct ontology contract (VersionRecord, ApprovalTask classes, properties,
-  edges) is loaded into context.
+  Use this skill whenever an ingestion batch contains version records, version numbers,
+  creation time, change history, published versions, approval tasks, or publication lifecycle info.
+  Always invoke before extracting governance facts so load_governance_versioning_schema is called first.
 metadata:
   adk_additional_tools:
     - load_governance_versioning_schema

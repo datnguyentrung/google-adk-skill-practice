@@ -73,6 +73,20 @@ succeeded unless the terminal result has all of: `success: true`,
 `verificationStatus: "verified"`, and `nodes > 0`. Candidate/extracted node
 counts before fill are not persisted node counts.
 
+## Dynamic Schema Skill Selection
+
+When extracting graph facts from the current batch of document chunks:
+
+1. Inspect the content and business facts present in the active batch (chunks 0, 1, 2...).
+2. Match the batch content against the descriptions of available schema skills:
+   - `product-catalog`: banking products, offers, bundles, attributes, fees, benefits.
+   - `business-rules`: eligibility criteria, policy rules, qualification requirements, required documents.
+   - `campaign-targeting`: campaigns, customer segments, customer needs, targeting facts.
+   - `sales-enablement`: sales scripts, scenarios, objection handling, sales knowledge.
+   - `customer-recommendation`: customer context, current product usage, product recommendations.
+   - `governance-versioning`: version records, approval tasks, change history.
+3. Call `load_<domain>_schema` for all matching schema skills to load their ontology contracts into context BEFORE generating the graph patch draft.
+
 ## Coverage is mandatory
 
 `GraphPatchDraft.coverage` must contain exactly one entry for every prepared

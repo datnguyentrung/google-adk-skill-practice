@@ -28,6 +28,7 @@ def test_discover_skill_descriptors_reads_frontmatter_catalog():
         "calculate",
         "cooking",
         "hello-world",
+        "graph-qa",
         "ingestion",
         "navigation",
     }.issubset(set(by_code))
@@ -43,6 +44,7 @@ def test_explicit_eager_loader_still_loads_rendered_skills_and_tools():
         "calculate",
         "cooking",
         "hello-world",
+        "graph-qa",
         "ingestion",
         "navigation",
     }.issubset(set(by_code))
@@ -54,6 +56,11 @@ def test_explicit_eager_loader_still_loads_rendered_skills_and_tools():
         "get_ingestion_status",
         "validate_graph_patch",
         "fill_graph_patch",
+    }
+    assert _tool_names(by_code["graph-qa"].tools) == {
+        "execute_read_cypher",
+        "vector_search",
+        "hybrid_search",
     }
     assert "$" not in by_code["cooking"].skill.instructions
     assert "$" not in by_code["navigation"].skill.instructions

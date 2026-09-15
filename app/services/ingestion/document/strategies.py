@@ -21,7 +21,8 @@ def _sha256(value: str) -> str:
 def stable_document_id(source: str) -> str:
     """Return a stable logical ID that survives document content updates."""
     normalized = str(Path(source).name).strip().casefold()
-    return f"doc_{_sha256(f'{DOCUMENT_ID_VERSION}\0{normalized}')[:32]}"
+    material = f"{DOCUMENT_ID_VERSION}\0{normalized}"
+    return f"doc_{_sha256(material)[:32]}"
 
 
 def chunk_content_hash(content: str) -> str:

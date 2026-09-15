@@ -1,10 +1,9 @@
 ---
 name: sales-enablement
 description: >
-  Load the Product Sales Knowledge Graph schema for sales scripts,
-  sales skills, sales knowledge, guidance, scenarios, objection handling,
-  opening and closing lines, FAQs, articles, guides, and related sales
-  enablement facts during ingestion extraction.
+  Use this skill whenever an ingestion batch contains sales scripts, sales scenarios,
+  objection handling, sales guidance, FAQs, articles, or sales knowledge facts.
+  Always invoke before extracting sales enablement facts so load_sales_enablement_schema is called first.
 metadata:
   adk_additional_tools:
     - load_sales_enablement_schema

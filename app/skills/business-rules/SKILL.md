@@ -1,14 +1,10 @@
 ---
 name: business-rules
 description: >
-  Use this skill whenever the ingestion batch contains eligibility criteria,
-  policy rules, sales conditions, qualification requirements, required
-  documents, document types, document validity, or rule priorities that must
-  be mapped to the Product Sales Knowledge Graph. Always invoke before
-  extracting business-rule or required-document facts so that
-  load_business_rules_schema is called first and the correct ontology
-  contract (BusinessRule, RequiredDocument classes, properties, edges) is
-  loaded into context.
+  Use this skill whenever an ingestion batch contains eligibility criteria,
+  policy rules, sales conditions, qualification requirements, required documents,
+  document validity, or rule priorities. Always invoke before extracting business-rule
+  facts so load_business_rules_schema is called first.
 metadata:
   adk_additional_tools:
     - load_business_rules_schema

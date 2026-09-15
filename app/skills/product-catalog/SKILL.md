@@ -1,15 +1,10 @@
 ---
 name: product-catalog
 description: >
-  Use this skill whenever the ingestion batch contains banking products,
-  product offers, product bundles, product codes, names, versions, statuses,
-  effective dates, prices, fees, benefits, product attributes, product
-  categories, or cross-sell/upsell/substitution/complement/exclusion
-  relationships that must be mapped to the Product Sales Knowledge Graph.
-  Always invoke before extracting product-catalog facts so that
-  load_product_catalog_schema is called first and the correct ontology
-  contract (BankingProduct, ProductOffer, ProductBundle classes, properties,
-  edges) is loaded into context.
+  Use this skill whenever an ingestion batch contains banking products, product
+  offers, product bundles, product codes, prices, fees, benefits, product attributes,
+  or product relationships (cross-sell, upsell, substitution, exclusion). Always
+  invoke before extracting product catalog facts so load_product_catalog_schema is called first.
 metadata:
   adk_additional_tools:
     - load_product_catalog_schema
@@ -22,9 +17,8 @@ Use this skill when the current ingestion batch contains facts about:
 - banking products
 - product names, codes, versions, status, or effective dates
 - prices, fees, benefits, or product attributes
-- product offers
+- product offers or product bundles
 - product categories or classifications
-- product bundles
 - cross-sell, upsell, substitution, complement, or exclusion relationships
 
 ## Workflow

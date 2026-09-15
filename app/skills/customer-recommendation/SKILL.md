@@ -1,9 +1,9 @@
 ---
 name: customer-recommendation
 description: >
-  Load the Product Sales Knowledge Graph schema for customer context,
-  customer segmentation, customer needs, current product usage, product
-  recommendation, and related recommendation facts during ingestion extraction.
+  Use this skill whenever an ingestion batch contains customer context, customer segmentation,
+  customer needs, current product usage, or product recommendations. Always invoke
+  before extracting customer recommendation facts so load_customer_recommendation_schema is called first.
 metadata:
   adk_additional_tools:
     - load_customer_recommendation_schema
