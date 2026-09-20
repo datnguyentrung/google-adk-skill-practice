@@ -7,6 +7,7 @@ này thay vì tự đọc file."""
 
 import json
 from pathlib import Path
+
 from app.core.schemas.ingestion.models import OntologyDefinition
 
 
@@ -14,6 +15,7 @@ class OntologyLoader:
     """
     Nạp file ontology JSON thành `OntologyDefinition` đã validate.
     """
+
     # Load ontology từ file JSON
     @staticmethod
     def load(path: str | Path) -> OntologyDefinition:

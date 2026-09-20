@@ -1,3 +1,6 @@
+from app.services.ingestion.incremental.config import (
+    persistent_staging_enabled,
+)
 from app.services.ingestion.incremental.identity import (
     build_batch_cache_key,
     build_config_signature,

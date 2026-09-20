@@ -8,8 +8,6 @@ Module này gom các hàm thuần (không phụ thuộc registry hay LLM) dùng 
 thể import, nhưng module này không import ngược lại nên tránh được circular import.
 """
 
-from __future__ import annotations
-
 from typing import Any
 
 from app.core.schemas.ingestion.validation import ValidationIssue
@@ -26,7 +24,9 @@ def deduplicate_issues(issues: list[ValidationIssue]) -> list[ValidationIssue]:
         Danh sách issue đã loại trùng, giữ thứ tự của lần xuất hiện đầu tiên.
     """
 
-    unique = {(str(issue.code), issue.location, issue.message): issue for issue in issues}
+    unique = {
+        (str(issue.code), issue.location, issue.message): issue for issue in issues
+    }
     return list(unique.values())
 
 

@@ -1,8 +1,7 @@
 """Optional semantic/LLM fallback after deterministic natural-key resolution."""
 
-from __future__ import annotations
-
 import json
+import logging
 import math
 import os
 from dataclasses import dataclass
@@ -12,7 +11,7 @@ from google import genai
 from google.genai import types
 from neo4j import Transaction
 
-from app.services.ingestion.mapping.model_call import AdkStructuredCallExecutor
+logger = logging.getLogger(__name__)
 
 
 @dataclass(frozen=True)
@@ -32,7 +31,9 @@ class MergeVerifier(Protocol):
 
 class GoogleEmbeddingProvider:
     def __init__(self, *, model: str | None = None, dimensions: int = 768) -> None:
-        self.model = model or os.getenv("INGESTION_EMBEDDING_MODEL", "gemini-embedding-001")
+        self.model = model or os.getenv(
+            "INGESTION_EMBEDDING_MODEL", "gemini-embedding-001"
+        )
         self.dimensions = dimensions
         self.client = genai.Client()
 
@@ -55,35 +56,53 @@ class GoogleEmbeddingProvider:
 
 class AdkMergeVerifier:
     def __init__(self, *, model: str | None = None) -> None:
-        resolved_model = model or os.getenv(
-            "INGESTION_MODEL", os.getenv("GOOGLE_ADK_MODEL", "gemini-3.5-flash-lite")
+        self.model = model or os.getenv(
+            "INGESTION_MODEL", os.getenv("GOOGLE_ADK_MODEL", "gemini-2.5-flash")
         )
-        self.executor = AdkStructuredCallExecutor(model=resolved_model)
+        self.client = genai.Client()
 
     def verify(self, *, incoming: str, candidate: str, score: float) -> bool:
-        payload = self.executor.run(
-            operation="semantic_entity_resolution",
-            instruction=(
-                "Decide whether two same-class business knowledge graph nodes represent the "
-                "same real entity. Be conservative: ambiguous means DISTINCT. Natural-key "
-                "matching has already failed or was unavailable. Return MERGE only when the "
-                "descriptions are clearly the same entity, not merely related or similar."
-            ),
-            output_schema={
-                "type": "object",
-                "properties": {
-                    "decision": {"type": "string", "enum": ["MERGE", "DISTINCT"]},
-                    "reason": {"type": "string"},
-                },
-                "required": ["decision", "reason"],
-                "additionalProperties": False,
-            },
-            message=json.dumps(
-                {"incoming": incoming, "candidate": candidate, "similarity": score},
-                ensure_ascii=False,
-            ),
+        prompt = (
+            "Decide whether two same-class business knowledge graph nodes represent the "
+            "same real entity. Be conservative: ambiguous means DISTINCT. Natural-key "
+            "matching has already failed or was unavailable. Return MERGE only when the "
+            "descriptions are clearly the same entity, not merely related or similar.\n\n"
+            f"{json.dumps({'incoming': incoming, 'candidate': candidate, 'similarity': score}, ensure_ascii=False)}"
         )
-        return payload.get("decision") == "MERGE"
+        prompt_chars = len(prompt)
+        estimated_input_tokens = max(1, math.ceil(prompt_chars / 2.0))
+        logger.info(
+            "[SEMANTIC_VERIFIER_CALL] model=%s prompt_chars=%s estimated_input_tokens=%s",
+            self.model,
+            prompt_chars,
+            estimated_input_tokens,
+        )
+        try:
+            response = self.client.models.generate_content(
+                model=self.model,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_schema={
+                        "type": "OBJECT",
+                        "properties": {
+                            "decision": {
+                                "type": "STRING",
+                                "enum": ["MERGE", "DISTINCT"],
+                            },
+                            "reason": {"type": "STRING"},
+                        },
+                        "required": ["decision", "reason"],
+                    },
+                ),
+            )
+            if not response.text:
+                return False
+            payload = json.loads(response.text)
+            return payload.get("decision") == "MERGE"
+        except Exception as exc:
+            logger.warning("[SEMANTIC_VERIFIER_ERROR] model=%s error=%s", self.model, exc)
+            return False
 
 
 class SemanticEntityResolver:
@@ -144,7 +163,9 @@ class SemanticEntityResolver:
             candidate_text = _semantic_text(candidate_properties, None)
             if not candidate_text:
                 continue
-            score = _cosine(incoming_vector, self.embedding_provider.embed(candidate_text))
+            score = _cosine(
+                incoming_vector, self.embedding_provider.embed(candidate_text)
+            )
             if score >= self.soft_threshold:
                 ranked.append(
                     SemanticCandidate(
@@ -172,8 +193,12 @@ class SemanticEntityResolver:
         return None
 
 
-def create_semantic_entity_resolver(*, model: str | None = None) -> SemanticEntityResolver | None:
-    enabled = os.getenv("INGESTION_SEMANTIC_RESOLUTION_ENABLED", "false").strip().lower()
+def create_semantic_entity_resolver(
+    *, model: str | None = None
+) -> SemanticEntityResolver | None:
+    enabled = (
+        os.getenv("INGESTION_SEMANTIC_RESOLUTION_ENABLED", "false").strip().lower()
+    )
     if enabled not in {"1", "true", "yes", "on"}:
         return None
     return SemanticEntityResolver(
@@ -181,10 +206,13 @@ def create_semantic_entity_resolver(*, model: str | None = None) -> SemanticEnti
         verifier=AdkMergeVerifier(model=model),
         soft_threshold=float(os.getenv("INGESTION_SEMANTIC_SOFT_THRESHOLD", "0.80")),
         hard_threshold=float(os.getenv("INGESTION_SEMANTIC_HARD_THRESHOLD", "0.95")),
-        candidate_limit=max(1, int(os.getenv("INGESTION_SEMANTIC_CANDIDATE_LIMIT", "50"))),
-        allow_hard_merge=os.getenv(
-            "INGESTION_SEMANTIC_ALLOW_HARD_MERGE", "false"
-        ).strip().lower() in {"1", "true", "yes", "on"},
+        candidate_limit=max(
+            1, int(os.getenv("INGESTION_SEMANTIC_CANDIDATE_LIMIT", "50"))
+        ),
+        allow_hard_merge=os.getenv("INGESTION_SEMANTIC_ALLOW_HARD_MERGE", "false")
+        .strip()
+        .lower()
+        in {"1", "true", "yes", "on"},
     )
 
 

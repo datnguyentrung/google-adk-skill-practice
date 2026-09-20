@@ -8,8 +8,6 @@ Các helper ở đây chỉ làm việc với payload thuần (dict/str) và kh�
 Module này là module lá, không import các module khác trong package `validation`.
 """
 
-from __future__ import annotations
-
 import re
 from collections.abc import Iterable
 from typing import Any

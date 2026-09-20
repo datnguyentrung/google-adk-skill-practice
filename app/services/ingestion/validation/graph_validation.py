@@ -10,8 +10,6 @@ Kết quả là `GraphPatchAssessment` gồm:
 - `fingerprint`: dấu vân tay dùng để đảm bảo patch không đổi giữa validate và fill.
 """
 
-from __future__ import annotations
-
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -37,10 +35,6 @@ from app.services.ingestion.patch.compiler import (
     GraphPatchCompiler,
 )
 from app.services.ingestion.validation.ontology_validator import OntologyValidator
-from app.services.ingestion.validation.semantic_judge import (
-    SemanticGroundingJudge,
-    create_default_semantic_value_judge,
-)
 from app.services.ingestion.validation.source_grounding import SourceGroundingValidator
 
 
@@ -74,7 +68,7 @@ class GraphValidation:
         ontology_path: str | Path = DEFAULT_ONTOLOGY_PATH,
         *,
         compiler_schema_version: str | None = None,
-        semantic_grounding_judge: SemanticGroundingJudge | None = None,
+        semantic_grounding_judge: Any = None,
     ):
         """Nạp ontology và dựng sẵn compiler, validator, identity resolver.
 
@@ -97,7 +91,6 @@ class GraphValidation:
         self.source_grounding = SourceGroundingValidator(
             registry,
             semantic_judge=semantic_grounding_judge,
-            semantic_value_judge=create_default_semantic_value_judge(),
         )
         self.identity_resolver = create_product_sales_identity_resolver(registry)
 
@@ -213,7 +206,9 @@ class GraphValidation:
         if source_chunks is None:
             return None
         return [
-            item if isinstance(item, DocumentChunk) else DocumentChunk.model_validate(item)
+            item
+            if isinstance(item, DocumentChunk)
+            else DocumentChunk.model_validate(item)
             for item in source_chunks
         ]
 

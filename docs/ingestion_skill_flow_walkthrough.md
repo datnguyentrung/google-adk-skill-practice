@@ -15,45 +15,36 @@ Quy ước trình bày:
 
 ```mermaid
 flowchart TD
-    A["Agent / người dùng"] --> B["Skill ingestion<br/>quy định workflow"]
-    B --> C["Public tools<br/>ingest/update/delete/apply/validate/fill"]
-    C --> D["IngestionUseCase<br/>facade cho tool layer"]
-    D --> E["Orchestration<br/>điều phối end-to-end"]
-    E --> F["Document preparation<br/>đọc artifact, tạo chunk"]
-    E --> G["Workspace<br/>batch, fragment, retry"]
-    E --> H["Mapper<br/>LLM trích xuất graph fragment"]
-    E --> I["Validation<br/>schema, ontology, evidence, coverage"]
-    E --> J["Persistence<br/>Neo4j write, readback, receipt"]
-    J --> K["Source lifecycle<br/>version, ownership, cache"]
+    A["Agent / người dùng"] --> B["Skill ingestion (SKILL.md)<br/>sở hữu workflow & decision flow"]
+    B --> C["Primitive Tools<br/>begin, submit_batch, finalize, fill, schema tools"]
+    C --> D["Document preparation<br/>đọc artifact, tạo chunk"]
+    C --> E["Workspace & Staging<br/>chia batch, incremental DuckDB staging"]
+    C --> F["Validation & Identity<br/>schema, grounding, identity resolution"]
+    C --> G["Persistence<br/>Neo4j write & readback verification"]
 ```
 
 | Tầng | Chức năng tiếng Việt | Thành phần/hàm tiêu biểu |
 | --- | --- | --- |
-| Skill | Quy định agent phải dùng luồng nào, không được tự bypass validation | `app/skills/ingestion/SKILL.md` |
-| Public tools | Các tool agent gọi trực tiếp | `ingest_document_end_to_end`, `update_document`, `delete_document` |
-| Facade | Giữ interface ổn định cho tool layer | `IngestionUseCase` - lớp bọc nghiệp vụ ingestion |
-| Orchestration | Điều phối toàn bộ pipeline, state, retry, terminal response | `begin_ingestion`, `finalize_ingestion`, `fill_ingestion` |
-| Document | Đọc artifact, chia chunk, dựng ontology context | `prepare_extraction_context`, `DocumentPreparation.prepare_uploaded_document` |
-| Mapping | Gọi LLM trích xuất fragment | `map_batch` - trích xuất graph cho một batch |
-| Validation | Kiểm định extraction và điều kiện ghi | `GraphValidation.assess` |
-| Persistence | Ghi Neo4j, readback, receipt | `_persist_with_receipt`, `fill_ingestion` |
+| Skill | Quyết định bước tiếp theo, chọn schema tool, trích xuất & retry | `app/skills/ingestion/SKILL.md` |
+| Primitive tools | Các tool deterministic cho agent | `begin_ingestion`, `submit_ingestion_batch`, `finalize_ingestion`, `fill_ingestion`, `load_<domain>_schema` |
+| Document | Đọc artifact, chia chunk, dựng context | `prepare_extraction_context`, `DocumentPreparation` |
+| Workspace & Staging | Chia batch, lưu staging tăng tiến trên DuckDB | `IngestionWorkspaceService`, `IngestionStagingStore` |
+| Validation & Identity | Kiểm định nguồn (evidence grounding) & định danh node | `GraphValidation`, `IdentityResolver` |
+| Persistence | Ghi Neo4j từ DuckDB staging, readback, lifecycle | `GraphPersistence`, `SourceLifecycleStore` |
 
-## 3. Danh Sách Tool/Hàm Chính
+## 3. Danh Sách Tool Primitive Chính
 
 | Tên | Chức năng tiếng Việt | Input chính | Output chính |
 | --- | --- | --- | --- |
-| `ingest_document_end_to_end` | Chạy ingestion trọn pipeline cho một artifact | `artifact_name`, `persist`, `allow_partial_persistence` | Terminal result: completed/validation/readiness/error |
-| `update_document` | Cập nhật tài liệu logic đã ingest | `artifact_name`, `if_missing` | Kết quả ingest kèm `operation=update` |
-| `delete_document` | Xóa ownership nguồn và cleanup facts không còn hỗ trợ | `artifact_name`, `if_missing` | Kết quả delete source lifecycle |
-| `apply_changes` | Đồng bộ danh sách added/modified/deleted | 3 list file | Per-source result |
-| `validate_graph_patch` | Kiểm định patch caller cung cấp, không ghi | `GraphPatchDraft` | Validation result + gate fingerprint nếu valid |
-| `fill_graph_patch` | Ghi patch đã validate trong cùng phiên | `GraphPatchDraft` | Persistence result |
-| `prepare_extraction_context` | Load artifact, tính digest, dựng chunk/context | `artifact_name`, runtime | `chunkCount`, `sourceChunks`, ontology context |
-| `begin_ingestion` | Tạo workspace và batch đầu tiên | `artifact_name`, runtime | `ingestionId`, `nextBatch` |
-| `map_batch` | LLM trích xuất graph fragment từ batch | batch payload, chunks, graph context | `GraphPatchFragment` |
-| `submit_ingestion_batch` | Nộp fragment vào workspace, trả batch tiếp theo | ingestion id, batch index, fragment | `batching` hoặc `ready_to_finalize` |
-| `finalize_ingestion` | Merge fragment và validate toàn bộ patch | ingestion id | `ready_to_fill`, `readiness_gate`, hoặc `validation` |
-| `fill_ingestion` | Ghi patch đã finalize xuống Neo4j | ingestion id | Commit/readback/receipt result |
+| `begin_ingestion` | Khởi tạo workspace, chia batch và trả batch đầu tiên | `artifact_name` | `ingestionId`, `nextBatch` |
+| `load_<domain>_schema` | Nạp schema hợp đồng cho domain cần dùng | không tham số | `schema` bundle khép kín |
+| `submit_ingestion_batch` | Nộp fragment, validate local, phân rã & stage DuckDB | `ingestion_id`, `batch_index`, `graph_fragment` | `nextBatch` kèm `canonicalGraphContext` |
+| `finalize_ingestion` | Kiểm định toàn bộ staging acumul | `ingestion_id` | Readiness & validation status |
+| `fill_ingestion` | Ghi staged graph từ DuckDB sang Neo4j | `ingestion_id` | Commit status & record counts |
+| `get_ingestion_status` | Tra cứu trạng thái phiên hiện tại | `ingestion_id` | Workspace stats |
+| `delete_document` | Xóa ownership nguồn và cleanup facts | `artifact_name` | Delete status |
+| `validate_graph_patch` | Kiểm định patch nhỏ của caller | `graph_patch` | Validation result |
+| `fill_graph_patch` | Ghi patch nhỏ đã validate | `graph_patch` | Persistence result |
 
 ## 4. Luồng Chính Ingest End-To-End
 

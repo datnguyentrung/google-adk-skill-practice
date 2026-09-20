@@ -1,7 +1,5 @@
 """Phase 1 — load source documents through replaceable strategies."""
 
-from __future__ import annotations
-
 import logging
 from pathlib import Path
 
@@ -110,7 +108,6 @@ class DocumentReader:
             getattr(self.chunker, "version", type(self.chunker).__name__),
         )
         return chunks
-
 
 
 __all__ = ["DocumentReadError", "DocumentReader"]

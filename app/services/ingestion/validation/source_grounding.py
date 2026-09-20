@@ -11,12 +11,11 @@ Kết quả là danh sách `ValidationIssue` đã khử trùng lặp; module nà
 xuống Neo4j, chỉ đọc ontology + chunk nguồn.
 """
 
-from __future__ import annotations
-
 import logging
 import re
 import unicodedata
 from collections.abc import Iterable
+from dataclasses import dataclass, field
 from datetime import date, datetime
 from decimal import Decimal
 from typing import Any
@@ -24,14 +23,18 @@ from typing import Any
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import Evidence, GraphPatchDraft
 from app.core.schemas.ingestion.validation import ValidationIssue
+
+
+@dataclass(frozen=True)
+class SemanticGroundingDecision:
+    verdict: str
+    reason: str = ""
+    supported_evidence_indexes: list[int] = field(default_factory=list)
+
+
 from app.services.ingestion.ontology.datatypes import XsdDatatype, xsd_datatypes
 from app.services.ingestion.ontology.registry import OntologyRegistry
 from app.services.ingestion.validation.issues import deduplicate_issues
-from app.services.ingestion.validation.semantic_judge import (
-    PermissiveSemanticGroundingJudge,
-    SemanticGroundingJudge,
-    SemanticValueJudge,
-)
 from app.services.ingestion.validation.support import _evidence_trace, _safe_preview
 
 logger = logging.getLogger(__name__)
@@ -43,20 +46,12 @@ class SourceGroundingValidator:
     def __init__(
         self,
         registry: OntologyRegistry,
-        semantic_judge: SemanticGroundingJudge | None = None,
-        semantic_value_judge: SemanticValueJudge | None = None,
+        semantic_judge: Any = None,
+        semantic_value_judge: Any = None,
     ):
-        """Khởi tạo validator với registry ontology và các judge tuỳ chọn.
-
-        Args:
-            registry: Registry ontology để tra cứu property/edge và policy.
-            semantic_judge: Judge cho quan hệ; bỏ trống thì dùng judge permissive.
-            semantic_value_judge: Judge cho giá trị thuộc tính; `None` nghĩa là
-                chỉ chấp nhận khớp tất định (fail closed).
-        """
-
+        """Khởi tạo validator với registry ontology."""
         self.registry = registry
-        self.semantic_judge = semantic_judge or PermissiveSemanticGroundingJudge()
+        self.semantic_judge = semantic_judge
         self.semantic_value_judge = semantic_value_judge
 
     def validate(
@@ -84,7 +79,9 @@ class SourceGroundingValidator:
         issues: list[ValidationIssue] = []
         expected_chunk_by_index = {chunk.index: chunk for chunk in chunks}
         chunk_by_index = dict(expected_chunk_by_index)
-        chunk_by_index.update({chunk.index: chunk for chunk in (evidence_context or [])})
+        chunk_by_index.update(
+            {chunk.index: chunk for chunk in (evidence_context or [])}
+        )
         expected_indexes = set(expected_chunk_by_index)
         coverage_by_index = {}
         fact_chunks_by_claim: dict[int, list[str]] = {}
@@ -155,29 +152,41 @@ class SourceGroundingValidator:
                     "edge semantic grounding",
                 )
                 if not supported:
-                    issues.append(ValidationIssue(
-                        code="EDGE_RELATION_NOT_GROUNDED",
-                        message=(f"Edge {edge.edge_name} evidence must collectively "
-                                 "identify both endpoints and express the predicate"),
-                        location=f"edges.{edge_index}.evidence",
-                        edge_name=edge.edge_name,
-                    ))
+                    issues.append(
+                        ValidationIssue(
+                            code="EDGE_RELATION_NOT_GROUNDED",
+                            message=(
+                                f"Edge {edge.edge_name} evidence must collectively "
+                                "identify both endpoints and express the predicate"
+                            ),
+                            location=f"edges.{edge_index}.evidence",
+                            edge_name=edge.edge_name,
+                        )
+                    )
                 else:
                     for evidence_index in unrelated:
-                        issues.append(ValidationIssue(
-                            code="EDGE_RELATION_NOT_GROUNDED",
-                            message=(f"Edge {edge.edge_name} evidence item does not "
-                                     "contribute an endpoint or predicate fact"),
-                            location=f"edges.{edge_index}.evidence.{evidence_index}",
-                            edge_name=edge.edge_name,
-                        ))
+                        issues.append(
+                            ValidationIssue(
+                                code="EDGE_RELATION_NOT_GROUNDED",
+                                message=(
+                                    f"Edge {edge.edge_name} evidence item does not "
+                                    "contribute an endpoint or predicate fact"
+                                ),
+                                location=f"edges.{edge_index}.evidence.{evidence_index}",
+                                edge_name=edge.edge_name,
+                            )
+                        )
             fact_chunks.update(grounded_chunks)
             for chunk_index in grounded_chunks:
                 fact_chunks_by_claim.setdefault(chunk_index, []).append(
                     f"edge.{edge.source_temp_id}.{edge.edge_name}.{edge.target_temp_id}"
                 )
-            related_edge_chunks.setdefault(edge.source_temp_id, set()).update(grounded_chunks)
-            related_edge_chunks.setdefault(edge.target_temp_id, set()).update(grounded_chunks)
+            related_edge_chunks.setdefault(edge.source_temp_id, set()).update(
+                grounded_chunks
+            )
+            related_edge_chunks.setdefault(edge.target_temp_id, set()).update(
+                grounded_chunks
+            )
 
         for node_index, node in enumerate(draft.nodes):
             node_issues, _ = self._validate_evidence(
@@ -420,16 +429,20 @@ class SourceGroundingValidator:
         target = node_by_temp_id.get(edge.target_temp_id)
         if source is None or target is None:
             return False, set(), set(range(len(evidence_items)))
-        decision = self.semantic_judge.judge_edge(
-            edge=edge,
-            source_node=source,
-            target_node=target,
-            evidence_items=evidence_items,
-            registry=self.registry,
-        )
-        return decision.verdict == "supported", {
-            item.chunk_index for item in evidence_items
-        }, set()
+        if self.semantic_judge is not None:
+            decision = self.semantic_judge.judge_edge(
+                edge=edge,
+                source_node=source,
+                target_node=target,
+                evidence_items=evidence_items,
+                registry=self.registry,
+            )
+            return (
+                decision.verdict == "supported",
+                {item.chunk_index for item in evidence_items},
+                set(),
+            )
+        return True, {item.chunk_index for item in evidence_items}, set()
 
     def _property_grounding(
         self,
@@ -517,14 +530,20 @@ class SourceGroundingValidator:
                 exc,
             )
             return set()
+        verdict = getattr(decision, "verdict", None) or (
+            decision.get("verdict") if isinstance(decision, dict) else None
+        )
+        reason = getattr(decision, "reason", None) or (
+            decision.get("reason") if isinstance(decision, dict) else ""
+        )
         logger.info(
             "INGESTION_VALUE_GROUNDING property=%s deterministic_failed=True "
             "semantic_judge=gemini verdict=%s reason=%s",
             attribute.technical_name,
-            decision.verdict,
-            decision.reason,
+            verdict,
+            reason,
         )
-        if decision.verdict == "supported":
+        if verdict == "supported":
             return {evidence.chunk_index for evidence in evidence_items}
         return set()
 
@@ -724,7 +743,9 @@ class SourceGroundingValidator:
         if not evidence_items:
             return "NO_EVIDENCE"
         if not valid_evidence:
-            invalid_chunks = {item.chunk_index for item in evidence_items} - valid_chunks
+            invalid_chunks = {
+                item.chunk_index for item in evidence_items
+            } - valid_chunks
             return "EVIDENCE_OUTSIDE_SOURCE" if invalid_chunks else "EVIDENCE_INVALID"
         if isinstance(value, list):
             supported = [
@@ -850,6 +871,5 @@ class SourceGroundingValidator:
         }
         normalized_source = cls._normalize(source_text)
         return any(
-            cls._normalize(candidate) in normalized_source
-            for candidate in candidates
+            cls._normalize(candidate) in normalized_source for candidate in candidates
         )

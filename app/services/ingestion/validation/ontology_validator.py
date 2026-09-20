@@ -10,8 +10,6 @@ Khác với `source_grounding`, module này chỉ làm việc với ontology và
 compile, không cần chunk nguồn.
 """
 
-from __future__ import annotations
-
 from typing import Any
 
 from app.core.schemas.ingestion.validation import ValidationIssue
@@ -132,7 +130,10 @@ class OntologyValidator:
 
             source_class = self.registry.get_class(source.class_name)
             target_class = self.registry.get_class(target.class_name)
-            if source_class is not None and source_class.name not in ontology_edge.domain:
+            if (
+                source_class is not None
+                and source_class.name not in ontology_edge.domain
+            ):
                 issues.append(
                     ValidationIssue(
                         code="EDGE_DOMAIN_MISMATCH",
@@ -145,7 +146,10 @@ class OntologyValidator:
                         edge_name=edge.edge_name,
                     )
                 )
-            if target_class is not None and target_class.name not in ontology_edge.range:
+            if (
+                target_class is not None
+                and target_class.name not in ontology_edge.range
+            ):
                 issues.append(
                     ValidationIssue(
                         code="EDGE_RANGE_MISMATCH",
@@ -161,9 +165,10 @@ class OntologyValidator:
 
             # Edge có thể quy định giá trị suy diễn cho node đích (edge_derived);
             # nếu node đích không mang đúng giá trị đó thì patch tự mâu thuẫn.
-            for attribute, expected_value in self.registry.derived_target_properties_for_edge(
-                edge.edge_name
-            ):
+            for (
+                attribute,
+                expected_value,
+            ) in self.registry.derived_target_properties_for_edge(edge.edge_name):
                 if target.properties.get(attribute.technical_name) != expected_value:
                     issues.append(
                         ValidationIssue(
@@ -244,21 +249,43 @@ class OntologyValidator:
         return deduplicate_issues(issues)
 
     def _missing_rule_issue(
-        self, rule, *, message: str, location: str, node_temp_id: str | None = None,
-        property_name: str | None = None, edge_name: str | None = None,
+        self,
+        rule,
+        *,
+        message: str,
+        location: str,
+        node_temp_id: str | None = None,
+        property_name: str | None = None,
+        edge_name: str | None = None,
     ) -> ValidationIssue:
         """Dựng issue cho rule chưa thoả, kèm mã lỗi theo mức độ nghiêm trọng."""
 
         mode = _missing_rule_mode(self.registry, rule)
         code, suffix = {
-            "source": ("MISSING_REQUIRED_SOURCE_FACT", "required source-backed ontology fact is missing"),
-            "system": ("DEFAULT_APPLIED", "value is owned by ingestion runtime/default policy"),
-            "derived": ("DERIVATION_PENDING", "value may be derived from related facts or edges"),
-            "optional": ("OPTIONAL_OMISSION", "ontology requirement is advisory for ingestion"),
+            "source": (
+                "MISSING_REQUIRED_SOURCE_FACT",
+                "required source-backed ontology fact is missing",
+            ),
+            "system": (
+                "DEFAULT_APPLIED",
+                "value is owned by ingestion runtime/default policy",
+            ),
+            "derived": (
+                "DERIVATION_PENDING",
+                "value may be derived from related facts or edges",
+            ),
+            "optional": (
+                "OPTIONAL_OMISSION",
+                "ontology requirement is advisory for ingestion",
+            ),
         }[mode]
         return ValidationIssue(
-            code=code, message=f"{message}; {suffix}", location=location,
-            node_temp_id=node_temp_id, property_name=property_name, edge_name=edge_name,
+            code=code,
+            message=f"{message}; {suffix}",
+            location=location,
+            node_temp_id=node_temp_id,
+            property_name=property_name,
+            edge_name=edge_name,
         )
 
     def _attribute_rule_failure(self, rule, value: Any) -> str | None:
@@ -322,8 +349,7 @@ class OntologyValidator:
         if value is None:
             return False
         return any(
-            value_matches_xsd(value, datatype)
-            for datatype in xsd_datatypes(ranges)
+            value_matches_xsd(value, datatype) for datatype in xsd_datatypes(ranges)
         )
 
     @staticmethod
@@ -349,9 +375,14 @@ def _missing_rule_mode(registry: OntologyRegistry, rule) -> str:
     attribute = registry.get_attribute(rule.property)
     if attribute is not None:
         policy = attribute.ingestion_policy
-        if registry.is_runtime_managed_attribute(rule.property) or policy.mode in {"runtime_managed", "system_default"}:
+        if registry.is_runtime_managed_attribute(rule.property) or policy.mode in {
+            "runtime_managed",
+            "system_default",
+        }:
             return "system"
-        if policy.mode == "edge_derived" or registry.edge_names_deriving_property(rule.property):
+        if policy.mode == "edge_derived" or registry.edge_names_deriving_property(
+            rule.property
+        ):
             return "derived"
         return "source"
     if registry.get_edge(rule.property) is not None:

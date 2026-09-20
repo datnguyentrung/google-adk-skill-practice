@@ -1,7 +1,5 @@
 """Deterministic identities for source versions and extraction cache entries."""
 
-from __future__ import annotations
-
 import hashlib
 import json
 
@@ -24,8 +22,13 @@ def _digest_payload(payload: dict) -> str:
 
 
 def build_config_signature(
-    *, ontology_digest: str, skill_digest: str, model_id: str,
-    chunker_version: str, mapper_version: str, compiler_version: str,
+    *,
+    ontology_digest: str,
+    skill_digest: str,
+    model_id: str,
+    chunker_version: str,
+    mapper_version: str,
+    compiler_version: str,
 ) -> str:
     return _digest_payload(
         {
@@ -77,9 +80,7 @@ def effective_chunk_id(chunk: DocumentChunk) -> str:
 def build_batch_cache_key(
     *, lifecycle: SourceLifecycle, chunks: list[DocumentChunk], graph_context: str
 ) -> tuple[str, str]:
-    graph_context_digest = hashlib.sha256(
-        graph_context.encode("utf-8")
-    ).hexdigest()
+    graph_context_digest = hashlib.sha256(graph_context.encode("utf-8")).hexdigest()
     cache_key = _digest_payload(
         {
             "version": CACHE_KEY_VERSION,

@@ -1,9 +1,9 @@
-"""Phase 6 — Trạng thái phiên ingestion và cách truy cập service dùng chung.
+"""Trạng thái phiên ingestion và các helper truy cập service dùng chung.
 
 Module này giữ các khoá session state, hợp đồng `IngestionRuntime` mà tool context
 phải thoả, và các hàm đọc/ghi workspace trong state. Ngoài ra đây là nơi dựng (và
 cache) các service dùng chung như DocumentPreparation, GraphValidation,
-IngestionWorkspaceService và AdkGraphMapper."""
+và IngestionWorkspaceService."""
 
 import hashlib
 import logging
@@ -27,28 +27,17 @@ from app.services.ingestion.incremental.identity import (
     build_ingestion_signature,
     build_source_version_id,
 )
-from app.services.ingestion.mapping.candidates import create_candidate_generator
-from app.services.ingestion.mapping.graph_mapper import (
-    DEFAULT_GRAPH_MAPPING_MODEL,
-    AdkGraphMapper,
-)
 from app.services.ingestion.validation.graph_validation import (
     GraphValidation,
-)
-from app.services.ingestion.validation.semantic_judge import (
-    create_default_semantic_grounding_judge,
 )
 from app.services.ingestion.workspace.staged_ingestion import (
     IngestionWorkspaceService,
 )
-from app.services.ingestion.schema import (
-    SchemaProjectionBuilder,
-    SchemaRouter,
-    SchemaSkillRegistry,
-)
 from app.skills.skill_loader import skill_content_digest
 
 logger = logging.getLogger(__name__)
+
+DEFAULT_GRAPH_MAPPING_MODEL = os.getenv("INGESTION_MODEL_ID", "gemini-2.5-flash")
 
 
 class IngestionRuntime(Protocol):
@@ -84,20 +73,7 @@ SOURCE_CHUNKS_STATE_KEY = "temp:ingestion_source_chunks"
 WORKSPACE_STATE_KEY = "temp:ingestion_workspace"
 
 
-CANDIDATE_SCHEMA_SKILLS_STATE_KEY = "temp:ingestion_candidate_schema_skills"
-
-
-DEFAULT_MAX_RETRIES_PER_BATCH = max(
-    1, int(os.getenv("INGESTION_MAX_RETRIES_PER_BATCH", "3"))
-)
-
-
 GRAPH_CONTEXT_MAX_CHARS = 6000
-
-
-FINAL_COVERAGE_REPAIR_ROUNDS = max(
-    1, int(os.getenv("INGESTION_FINAL_COVERAGE_REPAIR_ROUNDS", "2"))
-)
 
 
 INGESTION_SKILL_DIR = Path(__file__).resolve().parents[2] / "skills" / "ingestion"
@@ -116,9 +92,7 @@ def _get_validation_service() -> GraphValidation:
     """
     Lấy (và cache) cổng kiểm định graph patch.
     """
-    return GraphValidation(
-        semantic_grounding_judge=create_default_semantic_grounding_judge()
-    )
+    return GraphValidation()
 
 
 @lru_cache(maxsize=1)
@@ -127,38 +101,6 @@ def _get_workspace_service() -> IngestionWorkspaceService:
     Lấy (và cache) service quản lý workspace ingestion.
     """
     return IngestionWorkspaceService()
-
-
-@lru_cache(maxsize=1)
-def _get_graph_mapper() -> AdkGraphMapper:
-    """
-    Lấy (và cache) mapper gọi LLM trích xuất graph patch.
-    """
-    validation_service = _get_validation_service()
-    registry = validation_service.validator.registry
-    return AdkGraphMapper(
-        registry=registry,
-        compiler=validation_service.compiler,
-        ontology_validator=validation_service.validator,
-        candidate_generator=create_candidate_generator(registry),
-    )
-
-
-@lru_cache(maxsize=1)
-def _get_schema_skill_registry() -> SchemaSkillRegistry:
-    validation_service = _get_validation_service()
-    return SchemaSkillRegistry(validation_service.validator.registry)
-
-
-@lru_cache(maxsize=1)
-def _get_schema_router() -> SchemaRouter:
-    registry = _get_schema_skill_registry()
-    return SchemaRouter(registry=registry)
-
-
-@lru_cache(maxsize=1)
-def _get_schema_projection_builder() -> SchemaProjectionBuilder:
-    return SchemaProjectionBuilder()
 
 
 def _delete_state(tool_context: IngestionRuntime, key: str) -> None:
@@ -182,15 +124,14 @@ def _mapper_digest() -> str:
     """Fingerprint extraction/resolution code plus behavior-changing feature flags."""
     ingestion_root = Path(__file__).resolve().parents[1]
     paths = [
-        ingestion_root / "mapping" / "graph_mapper.py",
-        ingestion_root / "mapping" / "candidates.py",
         ingestion_root / "identity" / "semantic_resolution.py",
         ingestion_root / "persistence" / "writer.py",
     ]
     digest = hashlib.sha256()
     for path in paths:
-        digest.update(path.name.encode())
-        digest.update(path.read_bytes())
+        if path.exists():
+            digest.update(path.name.encode())
+            digest.update(path.read_bytes())
     for key in (
         "INGESTION_GLINER_ENABLED",
         "INGESTION_GLINER_MODEL",
@@ -202,6 +143,7 @@ def _mapper_digest() -> str:
         "INGESTION_SEMANTIC_ALLOW_HARD_MERGE",
         "INGESTION_TRUE_CHUNK_CACHE",
         "INGESTION_MAX_BATCH_CHUNKS",
+        "INGESTION_PERSISTENT_STAGING_ENABLED",
     ):
         digest.update(f"{key}={os.getenv(key, '')}\0".encode())
     return digest.hexdigest()

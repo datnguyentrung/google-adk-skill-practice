@@ -86,12 +86,10 @@ def _build_domain_schema(class_names: set[str]) -> dict[str, Any]:
     """Filter ontology thành một schema bundle khép kín theo domain.
 
     Bao gồm:
-    - các class chính của skill;
-    - edge có domain HOẶC range chạm vào class chính;
-    - endpoint class của các edge đó (one-hop closure);
-    - attribute của các class nằm trong closure.
-
-    Chỉ closure một hop để tránh kéo cả ontology vào skill.
+    - các primary class chính của skill (đầy đủ rules, parents);
+    - attributes thuộc về các primary class chính;
+    - edges chạm vào primary class ở DOMAIN hoặc RANGE;
+    - endpoint class ngoài domain dưới dạng lightweight reference (isReference=True, không kéo full rules/attributes).
     """
     ontology = _load_ontology()
     registry = OntologyRegistry(ontology)
@@ -101,40 +99,46 @@ def _build_domain_schema(class_names: set[str]) -> dict[str, Any]:
     primary_classes = [cls for cls in ontology.classes if cls.name in class_names]
     primary_class_names = {cls.name for cls in primary_classes}
 
-    # 2. Edge chạm vào primary classes ở DOMAIN hoặc RANGE.
+    # 2. Attributes thuộc về các primary classes.
+    matched_attributes = [
+        attr for attr in ontology.attributes if set(attr.domain) & primary_class_names
+    ]
+
+    # 3. Edges chạm vào primary classes ở DOMAIN hoặc RANGE.
     matched_edges = [
         edge
         for edge in ontology.edges
         if ((set(edge.domain) | set(edge.range)) & primary_class_names)
     ]
 
-    # 3. One-hop closure:
-    # nếu expose edge thì expose luôn endpoint classes.
-    closure_class_names = set(primary_class_names)
-
+    # 4. Endpoint classes ngoài primary_class_names làm lightweight reference.
+    referenced_class_names: set[str] = set()
     for edge in matched_edges:
-        closure_class_names.update(edge.domain)
-        closure_class_names.update(edge.range)
+        for domain_name in edge.domain:
+            if domain_name not in primary_class_names:
+                referenced_class_names.add(domain_name)
+        for range_name in edge.range:
+            if range_name not in primary_class_names:
+                referenced_class_names.add(range_name)
 
-    matched_classes = [
-        cls for cls in ontology.classes if cls.name in closure_class_names
+    referenced_classes = [
+        cls for cls in ontology.classes if cls.name in referenced_class_names
     ]
 
-    # 4. Attributes thuộc các classes trong closure.
-    matched_attributes = [
-        attr for attr in ontology.attributes if set(attr.domain) & closure_class_names
-    ]
-
-    def _serialize_class(cls):
-        return {
+    def _serialize_class(cls, is_reference: bool = False):
+        serialized = {
             "name": cls.name,
             "technicalName": cls.technical_name,
             "localName": cls.local_name,
             "neo4jLabel": mapper.class_to_label(cls.technical_name),
             "label": cls.label,
             "definition": cls.definition,
-            "parents": cls.parents,
-            "rules": [
+        }
+        if is_reference:
+            serialized["isReference"] = True
+        else:
+            serialized["parents"] = cls.parents
+            serialized["rules"] = [
                 {
                     "property": r.property,
                     "operator": r.operator,
@@ -142,8 +146,8 @@ def _build_domain_schema(class_names: set[str]) -> dict[str, Any]:
                     "qualifier": r.qualifier,
                 }
                 for r in cls.rules
-            ],
-        }
+            ]
+        return serialized
 
     def _serialize_attribute(attr):
         return {
@@ -176,8 +180,13 @@ def _build_domain_schema(class_names: set[str]) -> dict[str, Any]:
             "groundingCues": edge.grounding_cues,
         }
 
+    serialized_classes = [
+        *[_serialize_class(c, is_reference=False) for c in primary_classes],
+        *[_serialize_class(c, is_reference=True) for c in referenced_classes],
+    ]
+
     return {
-        "classes": [_serialize_class(c) for c in matched_classes],
+        "classes": serialized_classes,
         "attributes": [_serialize_attribute(a) for a in matched_attributes],
         "edges": [_serialize_edge(e) for e in matched_edges],
     }

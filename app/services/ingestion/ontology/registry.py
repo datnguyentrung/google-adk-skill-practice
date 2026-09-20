@@ -6,6 +6,7 @@ trong pipeline: thuộc tính nào do runtime quản lý, thuộc tính nào đ�
 từ edge, và giá trị mặc định của một class là gì."""
 
 from typing import ClassVar
+
 from app.core.schemas.ingestion.models import (
     OntologyAttribute,
     OntologyClass,
@@ -18,6 +19,7 @@ class OntologyRegistry:
     """
     Chỉ mục tra cứu ontology kèm các quy tắc suy diễn của ingestion.
     """
+
     RUNTIME_MANAGED_STATUS_DEFAULT = "Draft"
     EDGE_DERIVED_RULE_TYPES: ClassVar[dict[str, str]] = {
         "pskg:governedByPolicy": "POLICY",
@@ -123,14 +125,20 @@ class OntologyRegistry:
             if policy.mode != "edge_derived":
                 continue
             if edge_technical_name in policy.derive_from_edges:
-                derived.append((attribute, policy.derive_from_edges[edge_technical_name]))
+                derived.append(
+                    (attribute, policy.derive_from_edges[edge_technical_name])
+                )
         rule_type = self.get_attribute("pskg:ruleType")
         if (
             rule_type is not None
             and edge_technical_name in self.EDGE_DERIVED_RULE_TYPES
-            and all(item[0].technical_name != rule_type.technical_name for item in derived)
+            and all(
+                item[0].technical_name != rule_type.technical_name for item in derived
+            )
         ):
-            derived.append((rule_type, self.EDGE_DERIVED_RULE_TYPES[edge_technical_name]))
+            derived.append(
+                (rule_type, self.EDGE_DERIVED_RULE_TYPES[edge_technical_name])
+            )
         return derived
 
     def edge_names_deriving_property(self, attribute_technical_name: str) -> set[str]:
@@ -141,7 +149,9 @@ class OntologyRegistry:
         if attribute is None:
             return set()
         policy = attribute.ingestion_policy
-        names = set(policy.derive_from_edges) if policy.mode == "edge_derived" else set()
+        names = (
+            set(policy.derive_from_edges) if policy.mode == "edge_derived" else set()
+        )
         if attribute_technical_name == "pskg:ruleType":
             names.update(self.EDGE_DERIVED_RULE_TYPES)
         return names
@@ -160,10 +170,10 @@ class OntologyRegistry:
             policy = attribute.ingestion_policy
             if ontology_class.name not in attribute.domain:
                 continue
-            if (
-                policy.mode not in {"runtime_managed", "system_default"}
-                and not self._is_runtime_managed_status_attribute(attribute)
-            ):
+            if policy.mode not in {
+                "runtime_managed",
+                "system_default",
+            } and not self._is_runtime_managed_status_attribute(attribute):
                 continue
             default_value = (
                 policy.default_value
@@ -196,7 +206,6 @@ class OntologyRegistry:
     def properties_from_class(
         self, class_technical_name: str
     ) -> list[OntologyAttribute]:
-
         """
         Liệt kê attribute được khai báo trực tiếp trên một class.
         """
@@ -211,7 +220,6 @@ class OntologyRegistry:
         ]
 
     def edges_from_class(self, class_technical_name: str) -> list[OntologyEdge]:
-
         """
         Liệt kê edge được khai báo trực tiếp trên một class.
         """

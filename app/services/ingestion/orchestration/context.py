@@ -5,6 +5,7 @@ toàn bộ graph vào prompt. Module này dựng payload batch và phần ngữ 
 được rút gọn theo giới hạn ký tự cho mục đích đó."""
 
 import json
+import math
 from typing import Any
 
 from app.core.schemas.ingestion.workspace import (
@@ -12,7 +13,6 @@ from app.core.schemas.ingestion.workspace import (
 )
 from app.services.ingestion.orchestration.state import (
     GRAPH_CONTEXT_MAX_CHARS,
-    _get_workspace_service,
 )
 
 
@@ -21,14 +21,21 @@ def _batch_payload(workspace: IngestionWorkspace, batch) -> dict[str, Any]:
     Dựng payload mô tả một batch (chỉ số, chunk, phạm vi) để đưa vào prompt.
     """
     chunk_by_index = {chunk.index: chunk for chunk in workspace.chunks}
+    canonical_context = _canonical_graph_context(workspace, batch.index) or ""
+    total_input_chars = batch.content_chars + len(canonical_context)
+    estimated_input_tokens = max(1, math.ceil(total_input_chars / 2.0))
+
     return {
         "batchIndex": batch.index,
         "chunkIndexes": batch.chunk_indexes,
         "contentChars": batch.content_chars,
+        "totalInputChars": total_input_chars,
+        "estimatedInputTokens": estimated_input_tokens,
         "chunks": [
             chunk_by_index[index].model_dump(by_alias=True, exclude_none=True)
             for index in batch.chunk_indexes
         ],
+        "canonicalGraphContext": canonical_context,
     }
 
 
@@ -37,61 +44,53 @@ def _canonical_graph_context(
     before_batch_index: int,
 ) -> str:
     """
-    Dựng ngữ cảnh graph của các batch trước (node/edge đã trích xuất) cho batch kế tiếp.
+    Dựng ngữ cảnh graph dựa trên Candidate Retrieval từ IngestionStagingStore.
     """
-
-    fragments = [
-        batch.fragment
-        for batch in workspace.batches
-        if batch.index < before_batch_index and batch.fragment is not None
-    ]
-    if not fragments:
+    # Extract keywords from current batch chunks
+    batch = (
+        workspace.batches[before_batch_index]
+        if before_batch_index < len(workspace.batches)
+        else None
+    )
+    if not batch:
         return ""
-    fragment = _get_workspace_service().merge_fragments(fragments)
-    node_lines: list[str] = []
-    edge_lines: list[str] = []
-    for node in fragment.nodes:
-        identity = {
-            entry.property_name: entry.value
-            for entry in node.properties
-            if not isinstance(entry.value, (dict, list))
-        }
-        node_lines.append(f"- ref={node.temp_id}")
-        node_lines.append(f"  class={node.class_name}")
-        node_lines.append(
-            "  identity=" + json.dumps(identity, ensure_ascii=False, sort_keys=True)
-        )
-    for edge in fragment.edges:
-        edge_lines.append(
-            f"- {edge.edge_name}: {edge.source_temp_id} -> {edge.target_temp_id}"
-        )
-    if not node_lines and not edge_lines:
-        return ""
-    lines = ["Existing canonical graph:"]
-    if node_lines:
-        lines.append("Nodes:")
-        lines.extend(node_lines)
-    if edge_lines:
-        lines.append("Existing edges:")
-        lines.extend(edge_lines)
-    text = "\n".join(lines)
-    if len(text) <= GRAPH_CONTEXT_MAX_CHARS:
-        return text
-    node_text = "\n".join(["Existing canonical graph:", "Nodes:", *node_lines])
-    if len(node_text) <= GRAPH_CONTEXT_MAX_CHARS:
-        return node_text
-    trimmed: list[str] = []
-    used = len("Existing canonical graph:\nNodes:")
-    for line in node_lines:
-        if used + len(line) + 1 > GRAPH_CONTEXT_MAX_CHARS:
-            break
-        trimmed.append(line)
-        used += len(line) + 1
-    return "\n".join(["Existing canonical graph:", "Nodes:", *trimmed])
 
+    chunk_by_index = {chunk.index: chunk for chunk in workspace.chunks}
+    batch_text = " ".join(
+        [
+            chunk_by_index[idx].content
+            for idx in batch.chunk_indexes
+            if idx in chunk_by_index
+        ]
+    )
+    words = [w.strip() for w in batch_text.split() if len(w.strip()) > 3]
+    keywords = list(dict.fromkeys(words))[:30]
 
-def _compact_ontology_context(ontology_context: str) -> str:
-    """
-    Rút gọn phần mô tả ontology trước khi đưa vào prompt để tiết kiệm token.
-    """
-    return ontology_context
+    try:
+        from app.services.ingestion.incremental.staging_store import (
+            IngestionStagingStore,
+        )
+
+        store = IngestionStagingStore()
+        candidates = store.find_relevant_entities(
+            workspace.ingestion_id, keywords, limit=20
+        )
+        store.close()
+        if candidates:
+            lines = ["Relevant existing entities from persistent staging:"]
+            for cand in candidates:
+                ref_key = (
+                    f"entity:{cand['entityKey']}"
+                    if not cand["entityKey"].startswith("entity:")
+                    else cand["entityKey"]
+                )
+                lines.append(f"- ref={ref_key}")
+                lines.append(f"  class={cand['className']}")
+                lines.append(
+                    "  identity="
+                    + json.dumps(cand["properties"], ensure_ascii=False, sort_keys=True)
+                )
+            return "\n".join(lines)[:GRAPH_CONTEXT_MAX_CHARS]
+    except Exception:
+        pass
+    return ""

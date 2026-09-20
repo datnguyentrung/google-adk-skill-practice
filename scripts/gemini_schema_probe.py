@@ -7,8 +7,6 @@ PROBE PASS; non-zero means the schema/configuration must be fixed before any
 full ingestion run.
 """
 
-from __future__ import annotations
-
 import json
 import os
 import sys
@@ -51,7 +49,7 @@ def main() -> int:
         temperature=0,
     )
     prompt = (
-        'Return the minimal valid GraphPatchFragment for a batch whose only '
+        "Return the minimal valid GraphPatchFragment for a batch whose only "
         'chunkIndex is 0: nodes=[], edges=[], coverage=[{"chunkIndex": 0, '
         '"decision": "NO_RELEVANT_FACT", "reason": "No facts in this chunk"}], '
         "warnings=[]."

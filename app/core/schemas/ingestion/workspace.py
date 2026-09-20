@@ -18,26 +18,13 @@ class IngestionBatch(_WorkspaceModel):
     index: int = Field(ge=0)
     chunk_indexes: list[int] = Field(alias="chunkIndexes", min_length=1)
     content_chars: int = Field(alias="contentChars", ge=0)
+    status: str = Field(default="PENDING")
+    node_count: int = Field(default=0, alias="nodeCount", ge=0)
+    edge_count: int = Field(default=0, alias="edgeCount", ge=0)
+    coverage_count: int = Field(default=0, alias="coverageCount", ge=0)
+    staged_at: str | None = Field(default=None, alias="stagedAt")
+    retry_count: int = Field(default=0, alias="retryCount", ge=0)
     fragment: GraphPatchFragment | None = None
-    extraction_cache_key: str | None = Field(
-        default=None, alias="extractionCacheKey"
-    )
-    extraction_cache_hit: bool = Field(default=False, alias="extractionCacheHit")
-    extraction_context_digest: str | None = Field(
-        default=None, alias="extractionContextDigest"
-    )
-    selected_schema_skills: list[str] = Field(
-        default_factory=list, alias="selectedSchemaSkills"
-    )
-    schema_selection_reason: list[str] = Field(
-        default_factory=list, alias="schemaSelectionReason"
-    )
-    schema_selection_attempt: int = Field(
-        default=0, alias="schemaSelectionAttempt"
-    )
-    previous_schema_skills: list[str] = Field(
-        default_factory=list, alias="previousSchemaSkills"
-    )
 
 
 class IngestionProvenance(_WorkspaceModel):
@@ -81,37 +68,25 @@ class IngestionProvenance(_WorkspaceModel):
         )
 
 
-class IngestionRetryState(_WorkspaceModel):
-    batch_index: int = Field(alias="batchIndex", ge=0)
-    coverage_not_evidenced_chunk_indexes: list[int] = Field(
-        default_factory=list,
-        alias="coverageNotEvidencedChunkIndexes",
-    )
-    fragment_fingerprint: str = Field(alias="fragmentFingerprint", min_length=1)
-    error_codes: list[str] = Field(default_factory=list, alias="errorCodes")
-
-
 class IngestionWorkspace(_WorkspaceModel):
     ingestion_id: str = Field(alias="ingestionId", min_length=1)
     artifact_name: str = Field(alias="artifactName", min_length=1)
     provenance: IngestionProvenance
     chunks: list[DocumentChunk] = Field(min_length=1)
     batches: list[IngestionBatch] = Field(min_length=1)
+    status: str = Field(default="PROCESSING")
+    staged_node_count: int = Field(default=0, alias="stagedNodeCount", ge=0)
+    staged_edge_count: int = Field(default=0, alias="stagedEdgeCount", ge=0)
+    conflict_count: int = Field(default=0, alias="conflictCount", ge=0)
+    pending_edge_count: int = Field(default=0, alias="pendingEdgeCount", ge=0)
     validated_fingerprint: str | None = Field(
         default=None, alias="validatedFingerprint"
-    )
-    finalized_patch: dict | None = Field(default=None, alias="finalizedPatch")
-    retry_states: dict[str, IngestionRetryState] = Field(
-        default_factory=dict, alias="retryStates"
     )
     skipped_chunk_indexes: list[int] = Field(
         default_factory=list, alias="skippedChunkIndexes"
     )
     ingestion_warnings: list[dict[str, Any]] = Field(
         default_factory=list, alias="ingestionWarnings"
-    )
-    document_candidate_schema_skills: list[str] = Field(
-        default_factory=list, alias="documentCandidateSchemaSkills"
     )
 
     @property
@@ -130,6 +105,5 @@ class IngestionWorkspace(_WorkspaceModel):
 __all__ = [
     "IngestionBatch",
     "IngestionProvenance",
-    "IngestionRetryState",
     "IngestionWorkspace",
 ]

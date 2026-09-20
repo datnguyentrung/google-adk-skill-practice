@@ -192,6 +192,141 @@ class GraphPersistence:
             ),
         ).model_dump(by_alias=True, mode="json", exclude_none=True)
 
+    def fill_staged_ingestion(
+        self,
+        ingestion_id: str,
+        source_lifecycle: SourceLifecycle,
+        *,
+        source_chunks: list[DocumentChunk] | None = None,
+        cache_entries: list[ExtractionCacheEntry] | None = None,
+    ) -> dict[str, Any]:
+        """
+        Promote persistent staging nodes/edges directly to domain graph in Neo4j
+        preserving full ontology labels, properties, and relationship types.
+        """
+        if source_lifecycle is not None:
+            self.source_store.begin_pending(source_lifecycle)
+
+        mapper = self.writer.mapper
+
+        def _map_label(class_name: str) -> str:
+            try:
+                return mapper.class_to_label(class_name)
+            except Exception:
+                name = class_name.split(":")[-1]
+                return re.sub(r"[^A-Za-z0-9_]", "_", name)
+
+        def _map_prop(prop_name: str) -> str:
+            try:
+                return mapper.property_to_key(prop_name)
+            except Exception:
+                name = prop_name.split(":")[-1]
+                return re.sub(r"[^A-Za-z0-9_]", "_", name)
+
+        def _map_rel(edge_name: str) -> str:
+            try:
+                return mapper.edge_to_type(edge_name)
+            except Exception:
+                name = edge_name.split(":")[-1]
+                name = re.sub(r"(?<!^)(?=[A-Z])", "_", name).upper()
+                return re.sub(r"[^A-Za-z0-9_]", "_", name)
+
+        driver = self.client.get_driver()
+        with driver.session(database=self.client.database_name) as session:
+            def _promote_tx(tx):
+                # 1. Fetch staged entities and their properties
+                staged_entities = tx.run(
+                    """
+                    MATCH (e:IngestionStagedEntity {ingestionId: $ingestion_id})
+                    OPTIONAL MATCH (e)-[:HAS_STAGED_PROPERTY]->(p:IngestionStagedProperty)
+                    WITH e, collect({name: p.propertyName, val: p.valueJson}) AS props
+                    RETURN e.entityKey AS entityKey, e.className AS className, e.confidence AS confidence,
+                           e.sourceVersionId AS sourceVersionId, props
+                    """,
+                    ingestion_id=ingestion_id,
+                ).data()
+
+                promoted_entities = 0
+                for se in staged_entities:
+                    label = _map_label(se["className"])
+                    props_dict: dict[str, Any] = {"entityKey": se["entityKey"]}
+                    for p in se["props"]:
+                        if p.get("name"):
+                            key = _map_prop(p["name"])
+                            val_json = p.get("val")
+                            if val_json is not None:
+                                try:
+                                    props_dict[key] = json.loads(val_json)
+                                except Exception:
+                                    props_dict[key] = val_json
+
+                    tx.run(
+                        f"""
+                        MERGE (d:`{label}` {{entityKey: $entity_key}})
+                        ON CREATE SET d += $props, d.className = $class_name, d.confidence = $confidence, d.sourceVersionId = $version_id
+                        ON MATCH SET d += $props
+                        """,
+                        entity_key=se["entityKey"],
+                        props=props_dict,
+                        class_name=se["className"],
+                        confidence=se["confidence"],
+                        version_id=se["sourceVersionId"],
+                    )
+                    promoted_entities += 1
+
+                # 2. Fetch staged edges
+                staged_edges = tx.run(
+                    """
+                    MATCH (eg:IngestionStagedEdge {ingestionId: $ingestion_id})
+                    RETURN eg.edgeKey AS edgeKey, eg.edgeName AS edgeName, eg.sourceEntityKey AS sourceEntityKey,
+                           eg.targetEntityKey AS targetEntityKey, eg.confidence AS confidence, eg.sourceVersionId AS sourceVersionId
+                    """,
+                    ingestion_id=ingestion_id,
+                ).data()
+
+                promoted_edges = 0
+                for seg in staged_edges:
+                    rel_type = _map_rel(seg["edgeName"])
+                    tx.run(
+                        f"""
+                        MATCH (src {{entityKey: $src_key}})
+                        MATCH (tgt {{entityKey: $tgt_key}})
+                        MERGE (src)-[r:`{rel_type}`]->(tgt)
+                        ON CREATE SET r.confidence = $confidence, r.sourceVersionId = $version_id
+                        """,
+                        src_key=seg["sourceEntityKey"],
+                        tgt_key=seg["targetEntityKey"],
+                        confidence=seg["confidence"],
+                        version_id=seg["sourceVersionId"],
+                    )
+                    promoted_edges += 1
+
+                return promoted_entities, promoted_edges
+
+            entity_count, edge_count = session.execute_write(_promote_tx)
+
+            if source_lifecycle is not None:
+                session.execute_write(
+                    lambda tx: self.source_store.commit_verified(
+                        tx,
+                        lifecycle=source_lifecycle,
+                        cache_entries=cache_entries or [],
+                        node_count=entity_count,
+                        edge_count=edge_count,
+                        mapper=self.writer.mapper,
+                    )
+                )
+
+        return {
+            "success": True,
+            "status": "SUCCESS",
+            "commitStatus": "COMMITTED",
+            "nodes": entity_count,
+            "edges": edge_count,
+            "sourceVersionId": source_lifecycle.version_id if source_lifecycle else None,
+            "sourceVersionStatus": "COMMITTED",
+        }
+
     def close(self) -> None:
         self.client.close_driver()
 

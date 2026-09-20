@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import re
 import unicodedata
 from dataclasses import dataclass
@@ -27,7 +25,6 @@ class CleanerConfig:
     remove_horizontal_rules: bool = True
     normalize_tables: bool = True
     max_blank_lines: int = 1
-
 
 
 def _iter_lines_preserving_fences(
@@ -225,7 +222,6 @@ def normalize_tables(text: str) -> str:
     return "\n".join(result)
 
 
-
 def remove_page_markers(text: str) -> str:
     """
     Xóa các dòng kiểu:
@@ -328,4 +324,3 @@ def clean_markdown(
     )
 
     return text.strip()
-

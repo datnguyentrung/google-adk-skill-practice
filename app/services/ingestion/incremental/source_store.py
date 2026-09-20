@@ -1,7 +1,5 @@
 """Neo4j-backed source lifecycle, lexical provenance, and extraction cache."""
 
-from __future__ import annotations
-
 import hashlib
 import json
 import logging
@@ -54,7 +52,11 @@ class SourceLifecycleStore:
                     document_id=document_id,
                 ).single()
             )
-        if record is None or not record["version_id"] or record["status"] != "COMMITTED":
+        if (
+            record is None
+            or not record["version_id"]
+            or record["status"] != "COMMITTED"
+        ):
             return None
         return dict(record)
 
@@ -405,7 +407,9 @@ class SourceLifecycleStore:
                     "className": node.class_name,
                     "propertyName": property_name,
                     "neo4jPropertyKey": (
-                        mapper.property_to_key(property_name) if mapper is not None else None
+                        mapper.property_to_key(property_name)
+                        if mapper is not None
+                        else None
                     ),
                     "valueJson": json.dumps(
                         node.properties.get(property_name),
@@ -597,10 +601,7 @@ def _chunk_ids_for_evidence(
 
 
 def _relationship_key(index: int, edge) -> str:
-    return (
-        f"{index}:{edge.edge_name}:"
-        f"{edge.source_temp_id}->{edge.target_temp_id}"
-    )
+    return f"{index}:{edge.edge_name}:{edge.source_temp_id}->{edge.target_temp_id}"
 
 
 __all__ = ["DocumentNotFoundError", "SourceLifecycleStore"]

@@ -1,45 +1,55 @@
-"""Phase 6 — Điều phối pipeline ingestion và các bước dành cho tool/agent.
+"""Deterministic helpers phục vụ phiên ingestion (session state, context payload, receipts & stats)."""
 
-Package này gom trạng thái phiên (`state`), phân loại lỗi (`errors`), ngữ cảnh giữa
-các batch (`context`), thống kê (`stats`), sửa coverage (`coverage`), ghi kèm biên
-lai (`receipts`) và các bước entry point (`tools`). `IngestionUseCase` là facade cho
-tầng tool/agent.
-"""
-
+from app.services.ingestion.orchestration.artifact import (
+    load_and_prepare_artifact_context,
+)
+from app.services.ingestion.orchestration.context import _batch_payload
+from app.services.ingestion.orchestration.receipts import (
+    _persist_with_receipt,
+    _public_assessment,
+)
 from app.services.ingestion.orchestration.state import (
-    DEFAULT_MAX_RETRIES_PER_BATCH,
-    IngestionRuntime,
+    ARTIFACT_DIGEST_STATE_KEY,
+    ARTIFACT_NAME_STATE_KEY,
+    DOCUMENT_ID_STATE_KEY,
+    INGESTION_SIGNATURE_STATE_KEY,
+    SOURCE_CHUNKS_STATE_KEY,
+    VALIDATED_FINGERPRINT_STATE_KEY,
+    WORKSPACE_STATE_KEY,
+    _clear_validation_gate,
+    _current_provenance,
+    _get_validation_service,
+    _get_workspace_service,
+    _load_workspace,
+    _store_workspace,
+    _workspace_precondition,
 )
-from app.services.ingestion.orchestration.tools import (
-    apply_ingestion_changes,
-    begin_ingestion,
-    delete_ingestion_document,
-    fill_graph_patch,
-    fill_ingestion,
-    finalize_ingestion,
-    get_ingestion_status,
-    ingest_document_end_to_end,
-    prepare_extraction_context,
-    submit_ingestion_batch,
-    update_ingestion_document,
-    validate_graph_patch,
+from app.services.ingestion.orchestration.stats import (
+    _batch_stats,
+    _fragment_stats,
+    _workspace_stats,
 )
-from app.services.ingestion.orchestration.use_case import IngestionUseCase
 
 __all__ = [
-    "DEFAULT_MAX_RETRIES_PER_BATCH",
-    "IngestionRuntime",
-    "IngestionUseCase",
-    "apply_ingestion_changes",
-    "begin_ingestion",
-    "delete_ingestion_document",
-    "fill_graph_patch",
-    "fill_ingestion",
-    "finalize_ingestion",
-    "get_ingestion_status",
-    "ingest_document_end_to_end",
-    "prepare_extraction_context",
-    "submit_ingestion_batch",
-    "update_ingestion_document",
-    "validate_graph_patch",
+    "ARTIFACT_DIGEST_STATE_KEY",
+    "ARTIFACT_NAME_STATE_KEY",
+    "DOCUMENT_ID_STATE_KEY",
+    "INGESTION_SIGNATURE_STATE_KEY",
+    "SOURCE_CHUNKS_STATE_KEY",
+    "VALIDATED_FINGERPRINT_STATE_KEY",
+    "WORKSPACE_STATE_KEY",
+    "_batch_payload",
+    "_batch_stats",
+    "_clear_validation_gate",
+    "_current_provenance",
+    "_fragment_stats",
+    "_get_validation_service",
+    "_get_workspace_service",
+    "_load_workspace",
+    "_persist_with_receipt",
+    "_public_assessment",
+    "_store_workspace",
+    "_workspace_precondition",
+    "_workspace_stats",
+    "load_and_prepare_artifact_context",
 ]

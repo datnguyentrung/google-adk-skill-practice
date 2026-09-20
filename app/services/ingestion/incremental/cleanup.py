@@ -1,7 +1,5 @@
 """Reference-counted cleanup for superseded/deleted ingestion sources."""
 
-from __future__ import annotations
-
 import json
 import logging
 import re
@@ -101,8 +99,12 @@ def _has_current_support(tx: Transaction, assertion_key: str) -> bool:
 
 
 def _remove_property(tx: Transaction, node_id: str, property_key: Any) -> bool:
-    if not isinstance(property_key, str) or not _SAFE_IDENTIFIER.fullmatch(property_key):
-        logger.warning("Skip unsafe stale property key=%r node_id=%s", property_key, node_id)
+    if not isinstance(property_key, str) or not _SAFE_IDENTIFIER.fullmatch(
+        property_key
+    ):
+        logger.warning(
+            "Skip unsafe stale property key=%r node_id=%s", property_key, node_id
+        )
         return False
     record = tx.run(
         f"""

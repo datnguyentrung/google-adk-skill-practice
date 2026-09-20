@@ -1,9 +1,7 @@
-from __future__ import annotations
-
 import hashlib
 import re
 from dataclasses import dataclass, field
-from typing import Iterable, Mapping
+from typing import Mapping
 
 from app.scripts.preprocessing.normalizer import (
     normalize_for_comparison,

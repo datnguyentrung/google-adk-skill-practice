@@ -1,7 +1,5 @@
 """Pluggable loading/chunking strategies with deterministic source identity."""
 
-from __future__ import annotations
-
 import hashlib
 import re
 from dataclasses import dataclass
@@ -118,8 +116,14 @@ class StructuralTextChunker:
 
     @staticmethod
     def _chunk(
-        *, source: str, index: int, section: str | None, content: str,
-        structural_path: str, start_line: int, end_line: int,
+        *,
+        source: str,
+        index: int,
+        section: str | None,
+        content: str,
+        structural_path: str,
+        start_line: int,
+        end_line: int,
     ) -> DocumentChunk:
         document_id = stable_document_id(source)
         content_hash = chunk_content_hash(content)
@@ -156,9 +160,15 @@ class StructuralTextChunker:
                 current_lines = []
                 current_start_line = None
                 return
-            first_offset = next(i for i, line in enumerate(current_lines) if line.strip())
-            last_offset = len(current_lines) - 1 - next(
-                i for i, line in enumerate(reversed(current_lines)) if line.strip()
+            first_offset = next(
+                i for i, line in enumerate(current_lines) if line.strip()
+            )
+            last_offset = (
+                len(current_lines)
+                - 1
+                - next(
+                    i for i, line in enumerate(reversed(current_lines)) if line.strip()
+                )
             )
             base_line = current_start_line or 1
             occurrence = path_occurrences.get(current_path, 0)

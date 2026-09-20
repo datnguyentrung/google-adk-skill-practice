@@ -30,20 +30,20 @@ from app.services.ingestion.identity.policies import PRODUCT_SALES_NATURAL_KEYS
 logger = logging.getLogger(__name__)
 
 
-MAX_BATCH_CHUNKS = max(1, int(os.getenv("INGESTION_MAX_BATCH_CHUNKS", "5")))
+MAX_BATCH_CHUNKS = max(1, int(os.getenv("INGESTION_MAX_BATCH_CHUNKS", "10")))
 
 TRUE_CHUNK_CACHE_MODE = os.getenv(
     "INGESTION_TRUE_CHUNK_CACHE", "false"
 ).strip().lower() in {"1", "true", "yes", "on"}
 
 
-MAX_BATCH_CHARS = max(1_000, int(os.getenv("INGESTION_MAX_BATCH_CHARS", "5000")))
+MAX_BATCH_CHARS = max(1_000, int(os.getenv("INGESTION_MAX_BATCH_CHARS", "15000")))
 
 
 ESTIMATED_CHARS_PER_TOKEN = max(1.0, float(os.getenv("INGESTION_ESTIMATED_CHARS_PER_TOKEN", "2.0")))
 
 
-MAX_BATCH_ESTIMATED_TOKENS = max(1_000, int(os.getenv("INGESTION_MAX_BATCH_ESTIMATED_TOKENS", "6000")))
+MAX_BATCH_ESTIMATED_TOKENS = max(1_000, int(os.getenv("INGESTION_MAX_BATCH_ESTIMATED_TOKENS", "15000")))
 
 
 class WorkspaceConflictError(ValueError):
@@ -102,12 +102,14 @@ class IngestionWorkspaceService:
         )
         chunk_by_index = {chunk.index: chunk for chunk in chunks}
         for batch in batches:
+            estimated_tokens = max(1, math.ceil(batch.content_chars / ESTIMATED_CHARS_PER_TOKEN))
             logger.info(
-                "[INGESTION_BATCH_CREATED] ingestion_id=%s batch=%s chunk_ids=%s input_chars=%s",
+                "[INGESTION_BATCH_CREATED] ingestion_id=%s batch=%s chunk_ids=%s input_chars=%s estimated_tokens=%s",
                 ingestion_id,
                 batch.index,
                 batch.chunk_indexes,
                 batch.content_chars,
+                estimated_tokens,
             )
             for chunk_index in batch.chunk_indexes:
                 chunk = chunk_by_index[chunk_index]
@@ -164,7 +166,6 @@ class IngestionWorkspaceService:
         ]
         self.merge_fragments(fragments)
         candidate.validated_fingerprint = None
-        candidate.finalized_patch = None
         return candidate
 
     def merged_patch(self, workspace: IngestionWorkspace) -> GraphPatchDraft:
@@ -210,10 +211,10 @@ class IngestionWorkspaceService:
     @staticmethod
     def next_batch(workspace: IngestionWorkspace) -> IngestionBatch | None:
         """
-        Trả về batch kế tiếp chưa submit, hoặc `None` nếu đã hết.
+        Trả về batch kế tiếp chưa staged, hoặc `None` nếu đã hết.
         """
         return next(
-            (batch for batch in workspace.batches if batch.fragment is None),
+            (batch for batch in workspace.batches if batch.status != "STAGED"),
             None,
         )
 

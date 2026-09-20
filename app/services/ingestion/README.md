@@ -1,80 +1,53 @@
-# Ingestion service — kiến trúc theo phase
+# Ingestion Service — Skill-Driven Incremental Staging Architecture V2
 
-Package này biến một tài liệu nghiệp vụ (markdown/text) thành Knowledge Graph trên
-Neo4j. Trước đây toàn bộ logic nằm trong 18 file phẳng ở `app/services/ingestion/`;
-nay được gom thành các package con theo **phase của pipeline**, mỗi package có một
-interface công khai riêng (re-export qua `__init__.py`).
+Package này cung cấp các **deterministic primitives** cho **Ingestion LLM Skill** (`app/skills/ingestion/SKILL.md`).
 
-## Sơ đồ phase
+Theo thiết kế V2:
+- **SKILL.md sở hữu toàn bộ orchestration/decision flow**: quyết định bước tiếp theo, chọn/load Schema Skill dynamically (`load_<domain>_schema`), trích xuất ngữ nghĩa (semantic mapping), phát hiện lỗi & retry/repair batch, và quyết định thời điểm finalize/fill.
+- **Python code sở hữu các primitives deterministic**: chuẩn bị tài liệu (document/chunking), chia batch (workspace), validate fragment (patch/validation), định danh node (identity), lưu trữ tạm thời tăng tiến trên DuckDB (incremental staging), và ghi Neo4j (persistence). Không còn runner end-to-end, `SchemaRouter`, hay retry loop bằng Python.
+
+## Sơ đồ luồng V2
 
 ```mermaid
 flowchart TD
-    A["Tài liệu nguồn"] --> B["document/<br/>đọc & chuẩn bị ngữ cảnh"]
-    O["ontology/<br/>nạp & tra cứu ontology"] --> B
-    B --> C["workspace/<br/>chia batch"]
-    C --> D["mapping/<br/>LLM trích xuất fragment"]
-    D --> E["patch/<br/>compile & chốt chặn fragment"]
-    E --> C
-    C --> F["validation/<br/>kiểm định patch"]
-    O --> F
-    F --> G["persistence/<br/>ghi Neo4j & đọc lại"]
-    H["orchestration/<br/>điều phối + tool/agent"] -.-> B
-    H -.-> C
-    H -.-> D
-    H -.-> F
-    H -.-> G
-    I["identity/<br/>định danh node"] --> F
-    I --> G
+    Agent["LLM Agent (SKILL.md)"]
+    T1["begin_ingestion"]
+    T2["load_<domain>_schema"]
+    T3["submit_ingestion_batch"]
+    T4["finalize_ingestion"]
+    T5["fill_ingestion"]
+
+    Agent -->|"1. Start run"| T1
+    T1 -->|"returns first batch + ingestionId"| Agent
+    Agent -->|"2. Inspect batch & load schemas"| T2
+    Agent -->|"3. Extract fragment & submit"| T3
+    T3 -->|"validates, identity & stages to DuckDB"| Staging["DuckDB Incremental Staging"]
+    T3 -->|"returns nextBatch + canonicalGraphContext"| Agent
+    Agent -->|"4. All batches staged -> finalize"| T4
+    T4 -->|"validates coverage & staging readiness"| Agent
+    Agent -->|"5. Optional persistence"| T5
+    T5 -->|"promotes DuckDB staged graph to Neo4j"| Neo4j[("Neo4j Graph")]
 ```
 
 ## Bản đồ package
 
-| Package | Phase | Trách nhiệm | Interface chính |
-| --- | --- | --- | --- |
-| `ontology/` | 0 | Nạp ontology JSON, tra cứu class/property/edge, kiểm tra kiểu XSD | `OntologyLoader`, `OntologyRegistry`, `XsdDatatype` |
-| `document/` | 1 | Đọc file/upload thành chunk, ghép với ontology thành ngữ cảnh extraction | `DocumentReader`, `DocumentPreparation` |
-| `mapping/` | 2 | Gọi LLM trích xuất graph patch, giữ nhịp & retry khi gọi model | `AdkGraphMapper`, `AdkStructuredCallExecutor` |
-| `workspace/` | 2b | Chia tài liệu thành batch, nhận & gộp fragment theo phiên | `IngestionWorkspaceService` |
-| `patch/` | 3 | Biên dịch draft thành patch chuẩn hoá, chốt chặn fragment | `GraphPatchCompiler`, `GraphFragmentGuard` |
-| `validation/` | 4 | Kiểm định nguồn (grounding) và ontology trước khi ghi | `GraphValidation` |
-| `persistence/` | 5 | Ghi node/edge xuống Neo4j, đọc lại để xác minh | `GraphPersistence`, `Neo4jGraphStore` |
-| `orchestration/` | 6 | Điều phối end-to-end, quản lý session state, các bước tool | `IngestionUseCase`, `tools` |
-| `identity/` | — | Định danh node dùng chung cho validation và persistence | `IdentityResolver` |
+| Package | Trách nhiệm | Interfaces chính |
+| --- | --- | --- |
+| `ontology/` | Nạp ontology JSON, tra cứu class/property/edge, validate datatype | `OntologyLoader`, `OntologyRegistry`, `XsdDatatype` |
+| `document/` | Đọc tài liệu, chuẩn hoá Markdown, chia chunk có ngữ cảnh | `DocumentReader`, `DocumentPreparation` |
+| `workspace/` | Quản lý phiên ingestion, chia batch, gộp fragment | `IngestionWorkspaceService`, `IngestionWorkspace`, `IngestionBatch` |
+| `patch/` | Biên dịch draft thành patch chuẩn hoá, chốt chặn fragment | `GraphPatchCompiler`, `GraphFragmentGuard` |
+| `validation/` | Kiểm định nguồn (evidence grounding) và ontology | `GraphValidation` |
+| `incremental/` | Persistent staging (DuckDB), identity resolution, candidate retrieval | `IngestionStagingStore`, `decompose_fragment`, `resolve_pending_edges` |
+| `persistence/` | Ghi node/edge xuống Neo4j từ persistent staging, readback & verification | `GraphPersistence`, `Neo4jGraphStore`, `SourceLifecycleStore` |
+| `orchestration/` | Pure deterministic helpers cho session state, artifact prep, context formatting & stats | `load_and_prepare_artifact_context`, `_batch_payload`, `_store_workspace` |
+| `identity/` | Định danh node tự nhiên & ngữ nghĩa | `IdentityResolver`, `SemanticEntityResolver` |
 
-## Luồng chạy một tài liệu
+## Kiến trúc Incremental Persistent Staging V2
 
-1. `orchestration.tools.prepare_extraction_context` — đọc artifact, cắt chunk, lưu
-   `ExtractionContext` vào session state.
-2. `begin_ingestion` — tạo `IngestionWorkspace` và chia batch.
-3. Với mỗi batch: `mapping.AdkGraphMapper.map_batch` sinh fragment →
-   `patch.GraphFragmentGuard.canonicalize/validate` chốt chặn →
-   `submit_ingestion_batch` gộp vào workspace. Batch sau nhận ngữ cảnh graph rút gọn
-   từ `orchestration.context`.
-4. `finalize_ingestion` — gộp patch, chạy `validation.GraphValidation.assess`; nếu
-   còn chunk thiếu coverage thì `orchestration.coverage` yêu cầu model trích xuất lại.
-5. `fill_ingestion` — `persistence.GraphPersistence.fill` ghi xuống Neo4j, đọc lại và
-   trả receipt (`orchestration.receipts`).
+### Architectural Invariants
 
-`ingest_document_end_to_end` gói toàn bộ các bước trên trong một lời gọi.
+1. **`GraphPatchFragment` chỉ là batch-local payload**: Fragment chỉ tồn tại trong 1 lượt submit batch. Sau khi `submit_ingestion_batch` phân rã và lưu vào DuckDB persistent staging, fragment sẽ được giải phóng khỏi model reasoning.
+2. **`canonicalGraphContext` cung cấp ngữ cảnh entity đã stage**: Mỗi `nextBatch` trả về `canonicalGraphContext` chứa các entity liên quan đã được stage từ các batch trước để Agent chủ động reuse.
+3. **Deterministic Identity & Staging**: Việc gộp node, resolve alias, pending edge và kiểm tra conflict được xử lý deterministic tại tầng Python Staging Store (DuckDB).
 
-## Quy ước khi thêm/sửa code
-
-- **Docstring tiếng Việt** cho mọi module, class, hàm/method (kể cả hàm private):
-  nêu chức năng, `Args`/`Returns`/`Raises` khi cần. Comment inline giải thích "vì sao",
-  không mô tả lại điều code đã nói rõ.
-- **Import nội bộ**: trỏ tới module cụ thể (`from ...patch.compiler import X`).
-  Không import qua `__init__` của package con khác để tránh vòng import; `__init__.py`
-  chỉ dành cho caller bên ngoài package.
-- **Interface của package là `__init__.py`**: caller ngoài (tool, test, script) nên
-  import từ đó. Muốn đổi cách chia file bên trong thì giữ nguyên phần re-export.
-- **Giữ nguyên chữ ký hàm và message/log/prompt** khi refactor cấu trúc: prompt là
-  một phần hành vi của hệ thống.
-- Một ngoại lệ có chủ đích: `orchestration/coverage.py` import
-  `submit_ingestion_batch` **trong thân hàm** để phá vòng import `tools ↔ coverage`.
-
-## Ghi chú lịch sử
-
-Các module phẳng cũ (`use_case.py`, `graph_validation.py`, `graph_patch_compiler.py`,
-`adk_graph_mapper.py`, `staged_ingestion.py`, `neo4j_*.py`, ...) đã được thay thế hoàn
-toàn. Không còn đường dẫn import cũ nào trong repo; nếu gặp tài liệu/tool cũ nhắc tới
-chúng, hãy ánh xạ theo bảng trên.
