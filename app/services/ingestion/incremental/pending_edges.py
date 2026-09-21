@@ -4,6 +4,7 @@ Attempts to resolve pending edges in Neo4j staging as new entities are staged.
 """
 
 import logging
+from app.core.trace_logger import pprint, trace_pprint
 
 from app.config.neo4j import Neo4jClient
 
@@ -48,4 +49,6 @@ def resolve_pending_edges(
                 ingestion_id=ingestion_id,
             ).single()
         )
-        return resolved_count["resolved"] if resolved_count else 0
+        count = resolved_count["resolved"] if resolved_count else 0
+        print(f"[TRACE][PENDING_EDGES] Ingestion ID {ingestion_id} - Resolved {count} pending edge(s)")
+        return count

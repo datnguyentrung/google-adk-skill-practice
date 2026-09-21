@@ -1,8 +1,11 @@
 """Phase 5 — validated Neo4j persistence with verified source-version cutover."""
 
 import logging
+import re
 from pathlib import Path
 from typing import Any
+
+from app.core.trace_logger import pprint, trace_pprint
 
 from app.config.neo4j import Neo4jClient
 from app.core.schemas.ingestion.document import DocumentChunk
@@ -246,6 +249,9 @@ class GraphPersistence:
                     ingestion_id=ingestion_id,
                 ).data()
 
+                print(f"\n[TRACE][FILL] Starting domain graph promotion for Ingestion ID {ingestion_id}:")
+                print(f"  Staged entities to promote: {len(staged_entities)}")
+
                 promoted_entities = 0
                 for se in staged_entities:
                     label = _map_label(se["className"])
@@ -259,6 +265,19 @@ class GraphPersistence:
                                     props_dict[key] = json.loads(val_json)
                                 except Exception:
                                     props_dict[key] = val_json
+
+                    # Check target entity
+                    is_target = (
+                        se["className"] in {"pskg:ProductOffer", "ProductOffer"}
+                        or "OFF-TD-2026-01" in str(se["entityKey"])
+                        or "Online Savings Plus" in str(props_dict)
+                    )
+                    if is_target:
+                        print(f"[TRACE][TARGET_ENTITY_PROBING][FILL] Promoting target entity to Neo4j domain node:")
+                        print(f"  entityKey: {se['entityKey']}")
+                        print(f"  className: {se['className']} -> label: `{label}`")
+                        print(f"  props:")
+                        pprint(props_dict, indent=4)
 
                     tx.run(
                         f"""
@@ -283,6 +302,8 @@ class GraphPersistence:
                     """,
                     ingestion_id=ingestion_id,
                 ).data()
+
+                print(f"  Staged edges to promote: {len(staged_edges)}")
 
                 promoted_edges = 0
                 for seg in staged_edges:
@@ -317,6 +338,7 @@ class GraphPersistence:
                     )
                 )
 
+        print(f"[TRACE][FILL] Promotion completed: Promoted Nodes={entity_count} | Promoted Relationships={edge_count}")
         return {
             "success": True,
             "status": "SUCCESS",

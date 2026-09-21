@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from app.config.neo4j import Neo4jClient
+from app.core.trace_logger import pprint, trace_pprint
 from app.services.ingestion.ontology import OntologyLoader, OntologyRegistry
 
 logger = logging.getLogger(__name__)
@@ -54,6 +55,38 @@ class IngestionStagingStore:
         """
         conflicts = conflicts or []
         pending_edges = pending_edges or []
+
+        staging_payload_summary = {
+            "batch_index": batch_index,
+            "ingestion_id": ingestion_id,
+            "entities_count": len(entities),
+            "properties_count": len(properties),
+            "edges_count": len(edges),
+            "pending_edges_count": len(pending_edges),
+            "coverage_count": len(coverage),
+            "conflicts_count": len(conflicts),
+        }
+        trace_pprint(
+            f"[TRACE][STAGING_PAYLOAD] Staging Batch {batch_index} for Ingestion ID {ingestion_id}:",
+            staging_payload_summary,
+        )
+
+        # Check target entity
+        target_entities = [
+            e for e in entities
+            if e.get("className") in {"pskg:ProductOffer", "ProductOffer"}
+            or "OFF-TD-2026-01" in str(e.get("entityKey", ""))
+            or "OFF-TD-2026-01" in str(e.get("tempId", ""))
+        ]
+        if target_entities:
+            trace_pprint(
+                f"[TRACE][TARGET_ENTITY_PROBING][STAGING] Found target entity in staging payload for Batch {batch_index}:",
+                target_entities,
+            )
+        else:
+            trace_pprint(
+                f"[TRACE][TARGET_ENTITY_PROBING][STAGING] Target entity (ProductOffer / OFF-TD-2026-01) NOT present in entities list for Batch {batch_index}."
+            )
 
         driver = self.client.get_driver()
         with driver.session(database=self.client.database_name) as session:

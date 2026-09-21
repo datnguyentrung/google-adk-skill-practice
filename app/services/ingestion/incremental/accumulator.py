@@ -9,6 +9,7 @@ import json
 from typing import Any
 
 from app.core.schemas.ingestion.graph_patch import GraphPatchFragment
+from app.core.trace_logger import pprint, trace_pprint
 from app.services.ingestion.identity.policies import PRODUCT_SALES_NATURAL_KEYS
 
 
@@ -68,6 +69,28 @@ def decompose_fragment(
             entity_key = f"entity:{node.class_name}:{h}"
 
         temp_to_entity_key[node.temp_id] = entity_key
+
+        # Probe for target entity
+        prop_str_repr = " ".join(str(p.value) for p in node.properties)
+        is_target = (
+            node.class_name in {"pskg:ProductOffer", "ProductOffer"}
+            or "Online Savings Plus" in prop_str_repr
+            or "OFF-TD-2026-01" in prop_str_repr
+            or "OFF-TD-2026-01" in node.temp_id
+        )
+        if is_target:
+            probe_info = {
+                "temp_id": node.temp_id,
+                "class_name": node.class_name,
+                "natural_key_prop": natural_key_prop,
+                "natural_key_value": natural_val,
+                "assigned_entity_key": entity_key,
+                "properties": {p.property_name: p.value for p in node.properties},
+            }
+            trace_pprint(
+                f"[TRACE][TARGET_ENTITY_PROBING][DECOMPOSE] Target entity detected in Batch {batch_index}:",
+                probe_info,
+            )
 
         entities.append(
             {
@@ -146,7 +169,7 @@ def decompose_fragment(
             }
         )
 
-    return {
+    decomposed = {
         "entities": entities,
         "properties": properties,
         "edges": edges,
@@ -154,3 +177,10 @@ def decompose_fragment(
         "coverage": coverage,
         "conflicts": conflicts,
     }
+
+    trace_pprint(
+        f"[TRACE][DECOMPOSED_FACTS] Batch {batch_index} Summary (Entities={len(entities)}, Props={len(properties)}, Edges={len(edges)}, PendingEdges={len(pending_edges)}):",
+        decomposed,
+    )
+
+    return decomposed

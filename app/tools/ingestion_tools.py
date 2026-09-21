@@ -13,6 +13,7 @@ from google.adk.tools import ToolContext
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchDraft, GraphPatchFragment
 from app.core.schemas.ingestion.validation import ValidationIssue
+from app.core.trace_logger import pprint, trace_pprint
 from app.services.ingestion.document.strategies import stable_document_id
 from app.services.ingestion.incremental.runtime import lifecycle_from_workspace
 from app.services.ingestion.orchestration.artifact import (
@@ -95,13 +96,35 @@ async def begin_ingestion(
         )
         return prepared
 
+    chunks = [
+        DocumentChunk.model_validate(item)
+        for item in tool_context.state[SOURCE_CHUNKS_STATE_KEY]
+    ]
+
+    chunks_summary = []
+    for c in chunks:
+        has_target = "Online Savings Plus" in c.content or "OFF-TD-2026-01" in c.content
+        item_info = {
+            "index": c.index,
+            "section": c.section,
+            "lines": f"{c.start_line}-{c.end_line}",
+            "char_count": len(c.content),
+            "contains_target_keyword": has_target,
+            "content_preview": (c.content[:150] + "...") if len(c.content) > 150 else c.content,
+        }
+        if has_target:
+            item_info["target_excerpt"] = c.content.strip()
+        chunks_summary.append(item_info)
+
+    trace_pprint(
+        f"[TRACE][DOCUMENT_CHUNKS] Document '{artifact_name}' prepared with {len(chunks)} chunks:",
+        chunks_summary,
+    )
+
     workspace = _get_workspace_service().begin(
         artifact_name=artifact_name,
         provenance=_current_provenance(tool_context),
-        chunks=[
-            DocumentChunk.model_validate(item)
-            for item in tool_context.state[SOURCE_CHUNKS_STATE_KEY]
-        ],
+        chunks=chunks,
     )
 
     _store_workspace(tool_context, workspace)
@@ -134,6 +157,15 @@ async def begin_ingestion(
         len(workspace.batches),
     )
 
+    batches_summary = [
+        {"batchIndex": b.index, "chunkIndexes": b.chunk_indexes, "contentChars": b.content_chars}
+        for b in workspace.batches
+    ]
+    trace_pprint(
+        f"[TRACE][BATCH_INITIALIZATION] Batches partitioned ({len(workspace.batches)} total):",
+        batches_summary,
+    )
+
     return {
         "success": True,
         "stage": "batching",
@@ -161,6 +193,36 @@ def submit_ingestion_batch(
     tool_context: ToolContext,
 ) -> dict[str, Any]:
     """Validate and incrementally stage one GraphPatchFragment."""
+    try:
+        raw_dict = (
+            graph_fragment.model_dump(by_alias=True, mode="json")
+            if hasattr(graph_fragment, "model_dump")
+            else dict(graph_fragment)
+        )
+        trace_pprint(
+            f"[TRACE][LLM_RAW_RESPONSE] submit_ingestion_batch invoked for Batch {batch_index}, Ingestion ID: {ingestion_id} (Type: {type(graph_fragment).__name__}):",
+            raw_dict,
+        )
+
+        # Probe raw payload for target entity
+        raw_str = str(raw_dict)
+        if "Online Savings Plus" in raw_str or "OFF-TD-2026-01" in raw_str or "ProductOffer" in raw_str:
+            target_raw_nodes = []
+            for node in raw_dict.get("nodes", []):
+                n_str = str(node)
+                if "Online Savings Plus" in n_str or "OFF-TD-2026-01" in n_str or "ProductOffer" in str(node.get("className", "")):
+                    target_raw_nodes.append(node)
+            trace_pprint(
+                "\n[TRACE][TARGET_ENTITY_PROBING][RAW_RESPONSE] *** Target keywords found in raw LLM response! ***",
+                target_raw_nodes,
+            )
+        else:
+            trace_pprint(
+                f"\n[TRACE][TARGET_ENTITY_PROBING][RAW_RESPONSE] Target keywords ('Online Savings Plus', 'OFF-TD-2026-01', 'ProductOffer') NOT found in raw LLM response for Batch {batch_index}."
+            )
+    except Exception as raw_dump_err:
+        trace_pprint(f"[TRACE][LLM_RAW_RESPONSE] Could not dump raw input: {raw_dump_err}")
+
     workspace, error = _workspace_precondition(ingestion_id, tool_context)
     if error is not None or workspace is None:
         logger.error(
@@ -191,7 +253,39 @@ def submit_ingestion_batch(
 
     try:
         fragment = GraphPatchFragment.model_validate(graph_fragment)
+        fragment_summary = {
+            "node_count": len(fragment.nodes),
+            "nodes": [f"{n.temp_id} ({n.class_name})" for n in fragment.nodes],
+            "edge_count": len(fragment.edges),
+            "edges": [f"{e.edge_name} ({e.source_temp_id}->{e.target_temp_id})" for e in fragment.edges],
+            "coverage": [f"chunk {c.chunk_index}: {c.decision}" for c in fragment.coverage],
+            "warnings": list(fragment.warnings),
+        }
+        trace_pprint(
+            f"[TRACE][GRAPH_FRAGMENT] Parsed GraphPatchFragment successfully for Batch {batch_index}:",
+            fragment_summary,
+        )
+
+        for n in fragment.nodes:
+            p_text = " ".join(str(p.value) for p in n.properties)
+            if (
+                n.class_name in {"pskg:ProductOffer", "ProductOffer"}
+                or "Online Savings Plus" in p_text
+                or "OFF-TD-2026-01" in p_text
+                or "OFF-TD-2026-01" in n.temp_id
+            ):
+                trace_pprint(
+                    f"[TRACE][TARGET_ENTITY_PROBING][PARSED_FRAGMENT] Target entity present as node in Batch {batch_index}:",
+                    {
+                        "temp_id": n.temp_id,
+                        "class_name": n.class_name,
+                        "confidence": n.confidence,
+                        "properties": {p.property_name: p.value for p in n.properties},
+                    },
+                )
+
     except Exception as exc:
+        trace_pprint(f"[TRACE][GRAPH_FRAGMENT] Failed to validate GraphPatchFragment for Batch {batch_index}: {exc}")
         return {
             "success": False,
             "stage": "batch_validation",
@@ -207,12 +301,14 @@ def submit_ingestion_batch(
             workspace.batches[batch_index],
             fragment,
         )
+        trace_pprint(f"[TRACE][VALIDATION] Scope validation PASSED for Batch {batch_index}.")
     except (ValueError, WorkspaceConflictError) as exc:
         issue = ValidationIssue(
             code="BATCH_CONFLICT",
             message=str(exc),
             location=f"batches.{batch_index}",
         )
+        trace_pprint(f"[TRACE][VALIDATION] Scope validation FAILED for Batch {batch_index}: {exc}")
         logger.warning(
             "[INGESTION_ERROR] Phase: BATCH_SUBMIT | Func: submit_ingestion_batch | "
             "IngestionID: %s | Batch: %s | Conflict: %s",
@@ -518,6 +614,20 @@ def finalize_ingestion(
 
     stage = "ready_to_fill" if valid_for_persistence else "repair_required"
 
+    finalize_summary = {
+        "ingestion_id": ingestion_id,
+        "stage": stage,
+        "ready_for_persistence": valid_for_persistence,
+        "entity_count": summary.get("entityCount", 0),
+        "edge_count": summary.get("edgeCount", 0),
+        "pending_edge_count": pending_edge_count,
+        "conflict_count": conflict_count,
+        "staged_batches": f"{summary.get('stagedBatchCount', 0)}/{len(workspace.batches)}",
+        "fingerprint": staging_fingerprint,
+        "readiness_issues": readiness_issues,
+    }
+    trace_pprint(f"[TRACE][FINALIZE] Finalize status for Ingestion ID {ingestion_id}:", finalize_summary)
+
     logger.info(
         "[PHASE:FINALIZE_SUCCESS] Func: finalize_ingestion | "
         "IngestionID: %s | Stage: %s | Entities: %s | Edges: %s | "
@@ -561,6 +671,8 @@ async def fill_ingestion(
     tool_context: ToolContext,
 ) -> dict[str, Any]:
     """Promote finalized persistent staging into the domain graph."""
+    trace_pprint(f"[TRACE][FILL] fill_ingestion invoked for Ingestion ID: {ingestion_id}")
+
     workspace, error = _workspace_precondition(ingestion_id, tool_context)
     if error is not None or workspace is None:
         logger.error(
@@ -575,6 +687,10 @@ async def fill_ingestion(
         }
 
     if workspace.validated_fingerprint is None or workspace.status != "READY":
+        trace_pprint(
+            f"[TRACE][FILL] Precondition failed for Ingestion ID {ingestion_id}:",
+            {"status": workspace.status, "fingerprint": workspace.validated_fingerprint},
+        )
         return {
             "success": False,
             "stage": "validation_precondition",

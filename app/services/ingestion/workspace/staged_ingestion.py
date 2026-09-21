@@ -10,7 +10,9 @@ import logging
 import math
 import os
 from collections.abc import Iterable
+from typing import Any
 
+from app.core.trace_logger import pprint, trace_pprint
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import (
     ChunkCoverage,
@@ -402,6 +404,9 @@ class IngestionWorkspaceService:
                 merged[canonical_temp_id] = incoming.model_copy(deep=True)
                 continue
             if existing.class_name != incoming.class_name:
+                trace_pprint(
+                    f"[TRACE][TARGET_ENTITY_PROBING][CLASS_CONFLICT] Node {incoming.temp_id} attempted class change from {existing.class_name} to {incoming.class_name}!"
+                )
                 raise WorkspaceConflictError(
                     f"Node {incoming.temp_id} changed class from "
                     f"{existing.class_name} to {incoming.class_name}"
@@ -459,6 +464,10 @@ class IngestionWorkspaceService:
                 current.evidence = cls._dedupe_models(
                     [*current.evidence, *prop.evidence]
                 )
+        trace_pprint(
+            f"[TRACE][CANONICALIZATION] _merge_nodes result (Merged Nodes count: {len(merged)}):",
+            {"temp_id_aliases": temp_id_aliases},
+        )
         return list(merged.values()), temp_id_aliases
 
     @classmethod
@@ -475,6 +484,8 @@ class IngestionWorkspaceService:
         for fragment in fragments:
             for incoming in fragment.edges:
                 incoming = incoming.model_copy(deep=True)
+                orig_src = incoming.source_temp_id
+                orig_tgt = incoming.target_temp_id
                 incoming.source_temp_id = temp_id_aliases.get(
                     incoming.source_temp_id,
                     incoming.source_temp_id,
@@ -483,6 +494,11 @@ class IngestionWorkspaceService:
                     incoming.target_temp_id,
                     incoming.target_temp_id,
                 )
+                if orig_src != incoming.source_temp_id or orig_tgt != incoming.target_temp_id:
+                    trace_pprint(
+                        f"[TRACE][CANONICALIZATION][EDGE_REMAP] {incoming.edge_name}: ({orig_src} -> {incoming.source_temp_id}) -> ({orig_tgt} -> {incoming.target_temp_id})"
+                    )
+
                 key = (
                     incoming.edge_name,
                     incoming.source_temp_id,
@@ -496,6 +512,7 @@ class IngestionWorkspaceService:
                     [*existing.evidence, *incoming.evidence]
                 )
                 existing.confidence = max(existing.confidence, incoming.confidence)
+        trace_pprint(f"[TRACE][CANONICALIZATION] _merge_edges count: {len(merged)}")
         return list(merged.values())
 
     @classmethod
@@ -514,6 +531,9 @@ class IngestionWorkspaceService:
             if identity_key is not None and identity_key == cls._node_identity_key(
                 existing
             ):
+                trace_pprint(
+                    f"[TRACE][CANONICALIZATION][DEDUP] Node matched existing by identity_key {identity_key}: incoming temp_id {incoming.temp_id} -> canonical {existing.temp_id}"
+                )
                 return existing.temp_id
         return incoming.temp_id
 

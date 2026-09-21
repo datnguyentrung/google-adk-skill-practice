@@ -14,6 +14,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from app.core.trace_logger import pprint, trace_pprint
+
 from pydantic import ValidationError
 
 from app.core.schemas.ingestion.document import DocumentChunk
@@ -118,6 +120,9 @@ class GraphValidation:
             draft = GraphPatchDraft.model_validate(graph_patch)
         except ValidationError as exc:
             issues = self._schema_issues(exc)
+            print(f"\n[TRACE][VALIDATION] GraphPatchDraft schema validation FAILED:")
+            for issue in issues:
+                print(f"  - {issue.code} at {issue.location}: {issue.message}")
             return GraphPatchAssessment(
                 result=GraphPatchValidationResult(
                     valid_for_extraction=False,
@@ -143,6 +148,7 @@ class GraphValidation:
             for index, warning in enumerate(draft.warnings)
         ]
         if compiler_result.compiled_patch is None:
+            print(f"\n[TRACE][VALIDATION] Compiler failed to produce compiled_patch.")
             return GraphPatchAssessment(
                 result=GraphPatchValidationResult(
                     valid_for_extraction=False,
@@ -183,18 +189,35 @@ class GraphValidation:
 
         valid_for_extraction = not extraction_issues
         valid_for_persistence = valid_for_extraction and not readiness_issues
+        
+        fingerprint = self.compiler.fingerprint(patch, artifact_content_digest)
+        assessment_result = GraphPatchValidationResult(
+            valid_for_extraction=valid_for_extraction,
+            valid_for_persistence=valid_for_persistence,
+            errors=extraction_issues,
+            readiness_issues=readiness_issues,
+            warnings=warning_issues,
+            node_count=len(patch.nodes),
+            edge_count=len(patch.edges),
+        )
+
+        print(f"\n[TRACE][VALIDATION] Assessment Result:")
+        print(f"  valid_for_extraction: {valid_for_extraction}")
+        print(f"  valid_for_persistence: {valid_for_persistence}")
+        print(f"  Fingerprint: {fingerprint}")
+        if extraction_issues:
+            print(f"  Extraction errors ({len(extraction_issues)}):")
+            for err in extraction_issues:
+                print(f"    - {err.code} at {err.location}: {err.message}")
+        if readiness_issues:
+            print(f"  Readiness issues ({len(readiness_issues)}):")
+            for r_err in readiness_issues:
+                print(f"    - {r_err.code} at {r_err.location}: {r_err.message}")
+
         return GraphPatchAssessment(
-            result=GraphPatchValidationResult(
-                valid_for_extraction=valid_for_extraction,
-                valid_for_persistence=valid_for_persistence,
-                errors=extraction_issues,
-                readiness_issues=readiness_issues,
-                warnings=warning_issues,
-                node_count=len(patch.nodes),
-                edge_count=len(patch.edges),
-            ),
+            result=assessment_result,
             compiled_patch=patch,
-            fingerprint=self.compiler.fingerprint(patch, artifact_content_digest),
+            fingerprint=fingerprint,
         )
 
     @staticmethod

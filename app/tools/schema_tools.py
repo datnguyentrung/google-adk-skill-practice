@@ -17,6 +17,7 @@ Pattern followed by all loaders
 
 from functools import lru_cache
 from pathlib import Path
+from pprint import pprint
 from typing import Any
 
 from app.core.schemas.ingestion.models import OntologyDefinition
@@ -403,8 +404,9 @@ __all__ = [
 ]
 
 if __name__ == "__main__":
+    result = load_product_catalog_schema()
     # print(load_business_rules_schema())
-    print(load_product_catalog_schema())
+    pprint(result, indent=2, sort_dicts=False)
     # print(load_governance_versioning_schema())
     # print(load_campaign_targeting_schema())
     # print(load_customer_recommendation_schema())

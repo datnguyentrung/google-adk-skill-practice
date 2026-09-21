@@ -122,18 +122,27 @@ def _compact_ingestion_context(
         "nextBatch": response.get("nextBatch"),
     }
 
+    checkpoint_text = (
+        "INGESTION_CHECKPOINT\n"
+        + json.dumps(
+            checkpoint,
+            ensure_ascii=False,
+        )
+    )
+
+    from app.core.trace_logger import trace_pprint
+
+    trace_pprint(
+        f"[TRACE][CONTEXT_COMPACTION] Compacted history from {len(contents)} turns to {len(result) + 1 + len(contents[last_submit_index + 1:])} turns:\n  Checkpoint:",
+        checkpoint,
+    )
+
     result.append(
         types.Content(
             role="user",
             parts=[
                 types.Part(
-                    text=(
-                        "INGESTION_CHECKPOINT\n"
-                        + json.dumps(
-                            checkpoint,
-                            ensure_ascii=False,
-                        )
-                    )
+                    text=checkpoint_text
                 )
             ],
         )
