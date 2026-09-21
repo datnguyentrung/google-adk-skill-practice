@@ -1,11 +1,10 @@
 """Phase 5 — validated Neo4j persistence with verified source-version cutover."""
 
+import json
 import logging
 import re
 from pathlib import Path
 from typing import Any
-
-from app.core.trace_logger import pprint, trace_pprint
 
 from app.config.neo4j import Neo4jClient
 from app.core.schemas.ingestion.document import DocumentChunk
@@ -13,6 +12,7 @@ from app.core.schemas.ingestion.graph_patch import GraphPatchDraft
 from app.core.schemas.ingestion.persistence import CommitStatus, FillResult, FillStatus
 from app.core.schemas.ingestion.source import ExtractionCacheEntry, SourceLifecycle
 from app.core.schemas.ingestion.validation import GraphPatchValidationResult
+from app.core.trace_logger import pprint
 from app.services.ingestion.document.preparation import DEFAULT_ONTOLOGY_PATH
 from app.services.ingestion.identity.resolver import (
     create_product_sales_identity_resolver,
@@ -21,6 +21,7 @@ from app.services.ingestion.identity.semantic_resolution import (
     create_semantic_entity_resolver,
 )
 from app.services.ingestion.incremental.source_store import SourceLifecycleStore
+from app.services.ingestion.incremental.staging_store import IngestionStagingStore
 from app.services.ingestion.ontology.loader import OntologyLoader
 from app.services.ingestion.ontology.registry import OntologyRegistry
 from app.services.ingestion.persistence.mapping import Neo4jMapper
@@ -51,15 +52,26 @@ class GraphPersistence:
 
     def __init__(
         self,
-        client: Neo4jClient,
-        validation: GraphValidation,
-        writer: Neo4jGraphStore,
-        source_store: SourceLifecycleStore,
+        client: Neo4jClient | None = None,
+        validation: GraphValidation | None = None,
+        writer: Neo4jGraphStore | None = None,
+        source_store: SourceLifecycleStore | None = None,
+        staging_store: IngestionStagingStore | None = None,
+        ontology_path: str | Path = DEFAULT_ONTOLOGY_PATH,
     ) -> None:
-        self.client = client
-        self.validation = validation
-        self.writer = writer
-        self.source_store = source_store
+        self.client = client or Neo4jClient()
+        ontology = OntologyLoader.load(ontology_path)
+        registry = OntologyRegistry(ontology)
+        self.validation = validation or GraphValidation(ontology_path)
+        self.writer = writer or Neo4jGraphStore(
+            mapper=Neo4jMapper(registry),
+            identity_resolver=create_product_sales_identity_resolver(registry),
+            semantic_resolver=create_semantic_entity_resolver(),
+        )
+        self.source_store = source_store or SourceLifecycleStore(self.client)
+        self.staging_store = staging_store or IngestionStagingStore(
+            client=self.client, registry=registry
+        )
 
     def fill(
         self,
@@ -76,7 +88,10 @@ class GraphPersistence:
             artifact_content_digest,
             source_chunks,
         )
-        if assessment.compiled_patch is None or not assessment.result.valid_for_extraction:
+        if (
+            assessment.compiled_patch is None
+            or not assessment.result.valid_for_extraction
+        ):
             raise FillValidationError(assessment.result)
         partial_persistence = not assessment.result.valid_for_persistence
         if partial_persistence and not allow_partial_persistence:
@@ -84,7 +99,9 @@ class GraphPersistence:
 
         patch = assessment.compiled_patch
         normalized_chunks = [
-            item if isinstance(item, DocumentChunk) else DocumentChunk.model_validate(item)
+            item
+            if isinstance(item, DocumentChunk)
+            else DocumentChunk.model_validate(item)
             for item in (source_chunks or [])
         ]
         cache_entries = extraction_cache_entries or []
@@ -96,6 +113,7 @@ class GraphPersistence:
         driver = self.client.get_driver()
         try:
             with driver.session(database=self.client.database_name) as session:
+
                 def write_and_verify(tx):
                     write_result = self.writer.write_graph_patch(tx, patch)
                     if source_lifecycle is not None:
@@ -169,7 +187,9 @@ class GraphPersistence:
             raise
 
         return FillResult(
-            status=(FillStatus.SUCCESS if receipt.verified else FillStatus.READBACK_MISMATCH),
+            status=(
+                FillStatus.SUCCESS if receipt.verified else FillStatus.READBACK_MISMATCH
+            ),
             commitStatus=commit_status,
             nodes=len(patch.nodes),
             edges=len(patch.edges),
@@ -189,8 +209,10 @@ class GraphPersistence:
             documentId=(source_lifecycle.document_id if source_lifecycle else None),
             sourceVersionId=(source_lifecycle.version_id if source_lifecycle else None),
             sourceVersionStatus=(
-                "COMMITTED" if source_lifecycle and receipt.verified
-                else "FAILED" if source_lifecycle
+                "COMMITTED"
+                if source_lifecycle and receipt.verified
+                else "FAILED"
+                if source_lifecycle
                 else None
             ),
         ).model_dump(by_alias=True, mode="json", exclude_none=True)
@@ -236,6 +258,7 @@ class GraphPersistence:
 
         driver = self.client.get_driver()
         with driver.session(database=self.client.database_name) as session:
+
             def _promote_tx(tx):
                 # 1. Fetch staged entities and their properties
                 staged_entities = tx.run(
@@ -249,7 +272,9 @@ class GraphPersistence:
                     ingestion_id=ingestion_id,
                 ).data()
 
-                print(f"\n[TRACE][FILL] Starting domain graph promotion for Ingestion ID {ingestion_id}:")
+                print(
+                    f"\n[TRACE][FILL] Starting domain graph promotion for Ingestion ID {ingestion_id}:"
+                )
                 print(f"  Staged entities to promote: {len(staged_entities)}")
 
                 promoted_entities = 0
@@ -273,10 +298,12 @@ class GraphPersistence:
                         or "Online Savings Plus" in str(props_dict)
                     )
                     if is_target:
-                        print(f"[TRACE][TARGET_ENTITY_PROBING][FILL] Promoting target entity to Neo4j domain node:")
+                        print(
+                            "[TRACE][TARGET_ENTITY_PROBING][FILL] Promoting target entity to Neo4j domain node:"
+                        )
                         print(f"  entityKey: {se['entityKey']}")
                         print(f"  className: {se['className']} -> label: `{label}`")
-                        print(f"  props:")
+                        print("  props:")
                         pprint(props_dict, indent=4)
 
                     tx.run(
@@ -297,8 +324,26 @@ class GraphPersistence:
                 staged_edges = tx.run(
                     """
                     MATCH (eg:IngestionStagedEdge {ingestionId: $ingestion_id})
-                    RETURN eg.edgeKey AS edgeKey, eg.edgeName AS edgeName, eg.sourceEntityKey AS sourceEntityKey,
-                           eg.targetEntityKey AS targetEntityKey, eg.confidence AS confidence, eg.sourceVersionId AS sourceVersionId
+
+                    MATCH (src_stage:IngestionStagedEntity {
+                        ingestionId: $ingestion_id,
+                        entityKey: eg.sourceEntityKey
+                    })
+
+                    MATCH (tgt_stage:IngestionStagedEntity {
+                        ingestionId: $ingestion_id,
+                        entityKey: eg.targetEntityKey
+                    })
+
+                    RETURN
+                        eg.edgeKey AS edgeKey,
+                        eg.edgeName AS edgeName,
+                        eg.sourceEntityKey AS sourceEntityKey,
+                        eg.targetEntityKey AS targetEntityKey,
+                        eg.confidence AS confidence,
+                        eg.sourceVersionId AS sourceVersionId,
+                        src_stage.className AS sourceClassName,
+                        tgt_stage.className AS targetClassName
                     """,
                     ingestion_id=ingestion_id,
                 ).data()
@@ -306,20 +351,52 @@ class GraphPersistence:
                 print(f"  Staged edges to promote: {len(staged_edges)}")
 
                 promoted_edges = 0
+
                 for seg in staged_edges:
                     rel_type = _map_rel(seg["edgeName"])
-                    tx.run(
+
+                    src_label = _map_label(seg["sourceClassName"])
+                    tgt_label = _map_label(seg["targetClassName"])
+
+                    result = tx.run(
                         f"""
-                        MATCH (src {{entityKey: $src_key}})
-                        MATCH (tgt {{entityKey: $tgt_key}})
+                        MATCH (src:`{src_label}` {{entityKey: $src_key}})
+                        MATCH (tgt:`{tgt_label}` {{entityKey: $tgt_key}})
+
                         MERGE (src)-[r:`{rel_type}`]->(tgt)
-                        ON CREATE SET r.confidence = $confidence, r.sourceVersionId = $version_id
+
+                        ON CREATE SET
+                            r.confidence = $confidence,
+                            r.sourceVersionId = $version_id
+
+                        ON MATCH SET
+                            r.confidence =
+                                CASE
+                                    WHEN $confidence > coalesce(r.confidence, 0)
+                                    THEN $confidence
+                                    ELSE r.confidence
+                                END,
+                            r.sourceVersionId = $version_id
+
+                        RETURN count(r) AS matched
                         """,
                         src_key=seg["sourceEntityKey"],
                         tgt_key=seg["targetEntityKey"],
                         confidence=seg["confidence"],
                         version_id=seg["sourceVersionId"],
-                    )
+                    ).single()
+
+                    matched = result["matched"] if result else 0
+
+                    if matched != 1:
+                        raise RuntimeError(
+                            "Domain edge promotion endpoint mismatch: "
+                            f"edge={seg['edgeName']} "
+                            f"source={seg['sourceEntityKey']} ({src_label}) "
+                            f"target={seg['targetEntityKey']} ({tgt_label}) "
+                            f"matched={matched}"
+                        )
+
                     promoted_edges += 1
 
                 return promoted_entities, promoted_edges
@@ -337,15 +414,22 @@ class GraphPersistence:
                         mapper=self.writer.mapper,
                     )
                 )
+            session.execute_write(
+                lambda tx: self.staging_store.purge_staging_tx(tx, ingestion_id)
+            )
 
-        print(f"[TRACE][FILL] Promotion completed: Promoted Nodes={entity_count} | Promoted Relationships={edge_count}")
+        print(
+            f"[TRACE][FILL] Promotion completed: Promoted Nodes={entity_count} | Promoted Relationships={edge_count}"
+        )
         return {
             "success": True,
             "status": "SUCCESS",
             "commitStatus": "COMMITTED",
             "nodes": entity_count,
             "edges": edge_count,
-            "sourceVersionId": source_lifecycle.version_id if source_lifecycle else None,
+            "sourceVersionId": source_lifecycle.version_id
+            if source_lifecycle
+            else None,
             "sourceVersionStatus": "COMMITTED",
         }
 
@@ -370,4 +454,5 @@ def create_graph_persistence(
             semantic_resolver=create_semantic_entity_resolver(),
         ),
         source_store=SourceLifecycleStore(client),
+        staging_store=IngestionStagingStore(client=client, registry=registry),
     )

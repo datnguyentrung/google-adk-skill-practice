@@ -26,6 +26,10 @@ Answer natural-language questions using evidence stored in Neo4j.
    - Do not load unrelated ontology groups.
    - If the required schema is already available in the current turn/context,
      do not load it again.
+   - If the schema skill is not already loaded, call `load_skill("<skill-name>")`
+     first, then call that skill's schema tool.
+   - Never call a schema tool such as `load_product_catalog_schema` before
+     loading its owning skill, such as `load_skill("product-catalog")`.
 
 4. Plan the answer requirements before querying Neo4j.
    - Identify the entity/entities being asked about.

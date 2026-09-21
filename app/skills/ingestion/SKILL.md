@@ -398,14 +398,30 @@ Use the most specific class/property/edge allowed by the loaded ontology.
 
 When source and ontology support them, distinguish concepts such as:
 
-- product facts -> `pskg:BankingProduct` properties;
-- named promotions/programs -> `pskg:Campaign` or `pskg:ProductOffer`;
+- base product facts, normal/base rates, fees, terms, and ordinary product conditions -> `pskg:BankingProduct` properties or the appropriate `pskg:BusinessRule`; do not create a `pskg:ProductOffer` merely to hold the product's normal/base rate schedule;
+- a named promotion/program that changes the commercial terms of one banking product (for example an additional rate, discount, benefit, promotional eligibility window, or promotional conditions) -> `pskg:ProductOffer`;
+- a time-bound marketing/sales initiative that promotes products/offers and targets customer segments or needs -> `pskg:Campaign`;
 - customer groups -> `pskg:CustomerSegment`;
 - needs -> `pskg:CustomerNeed`;
 - eligibility/sales conditions -> `pskg:BusinessRule`;
 - required application artifacts -> `pskg:RequiredDocument`;
 - scripted scenarios or objection handling -> `pskg:SalesScript`;
 - explanatory material with no more specific class -> `pskg:SalesKnowledge`.
+
+ProductOffer must be linked from exactly one BankingProduct via `pskg:hasOffer`.
+Campaign/rule/segment/need edges such as `pskg:offerInCampaign`,
+`pskg:offerHasRule`, `pskg:offerTargetsSegment`, and
+`pskg:offerAddressesNeed` add optional context unless the loaded ontology says
+otherwise; they do not replace `pskg:hasOffer`.
+
+When the current batch introduces a node and the source directly states its
+relationship to an entity already present in `canonicalGraphContext`, emit that
+relationship in the current fragment using the canonical reference. Do not omit a
+newly evidenced edge merely because one endpoint was staged by an earlier batch.
+For example, a newly extracted `BusinessRule`, `CustomerNeed`,
+`SalesKnowledge`, `SalesScript`, `Campaign`, or `ProductOffer` should be
+connected to the relevant existing product/offer/campaign whenever the active
+batch explicitly supports that relationship.
 
 `SalesKnowledge` is a fallback for genuine knowledge content, not a bucket used to
 avoid creating more specific ontology nodes.

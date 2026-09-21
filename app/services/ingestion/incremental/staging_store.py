@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from app.config.neo4j import Neo4jClient
-from app.core.trace_logger import pprint, trace_pprint
+from app.core.trace_logger import trace_pprint
 from app.services.ingestion.ontology import OntologyLoader, OntologyRegistry
 
 logger = logging.getLogger(__name__)
@@ -73,7 +73,8 @@ class IngestionStagingStore:
 
         # Check target entity
         target_entities = [
-            e for e in entities
+            e
+            for e in entities
             if e.get("className") in {"pskg:ProductOffer", "ProductOffer"}
             or "OFF-TD-2026-01" in str(e.get("entityKey", ""))
             or "OFF-TD-2026-01" in str(e.get("tempId", ""))
@@ -172,7 +173,9 @@ class IngestionStagingStore:
                                         ex_val = [ex_val] if ex_val is not None else []
 
                                     if not isinstance(inc_val, list):
-                                        inc_val = [inc_val] if inc_val is not None else []
+                                        inc_val = (
+                                            [inc_val] if inc_val is not None else []
+                                        )
 
                                     combined = []
 
@@ -531,15 +534,151 @@ class IngestionStagingStore:
             )
             return [r["chunkIndex"] for r in records if r["chunkIndex"] is not None]
 
+    def validate_product_offer_has_offer(self, ingestion_id: str) -> list[dict[str, Any]]:
+        """Validate BR-03 across the full staged canonical graph."""
+        driver = self.client.get_driver()
+        with driver.session(database=self.client.database_name) as session:
+            records = session.execute_read(
+                lambda tx: tx.run(
+                    """
+                    MATCH (offer:IngestionStagedEntity {ingestionId: $ingestion_id})
+                    WHERE offer.className IN ['pskg:ProductOffer', 'ProductOffer']
+                    OPTIONAL MATCH (edge:IngestionStagedEdge {
+                        ingestionId: $ingestion_id,
+                        edgeName: 'pskg:hasOffer',
+                        targetEntityKey: offer.entityKey
+                    })
+                    OPTIONAL MATCH (product:IngestionStagedEntity {
+                        ingestionId: $ingestion_id,
+                        entityKey: edge.sourceEntityKey
+                    })
+                    WITH offer,
+                         count(
+                            CASE
+                                WHEN product.className IN ['pskg:BankingProduct', 'BankingProduct']
+                                THEN edge
+                            END
+                         ) AS incomingHasOfferCount
+                    WHERE incomingHasOfferCount <> 1
+                    RETURN offer.entityKey AS entityKey,
+                           offer.tempId AS tempId,
+                           offer.firstBatchIndex AS batchIndex,
+                           incomingHasOfferCount
+                    ORDER BY offer.entityKey
+                    """,
+                    ingestion_id=ingestion_id,
+                ).data()
+            )
+
+        return [
+            {
+                "code": "ONTOLOGY_CARDINALITY_VIOLATION",
+                "message": (
+                    "ProductOffer must be linked from exactly one BankingProduct "
+                    f"via pskg:hasOffer; found {record['incomingHasOfferCount']}"
+                ),
+                "location": "stagedGraph.ProductOffer.pskg:hasOffer",
+                "nodeTempId": record.get("tempId"),
+                "edgeName": "pskg:hasOffer",
+                "entityKey": record["entityKey"],
+                "batchIndex": record.get("batchIndex"),
+                "actualCount": record["incomingHasOfferCount"],
+                "expectedCount": 1,
+            }
+            for record in records
+        ]
+
+    def validate_edge_derived_property_relationships(
+        self,
+        ingestion_id: str,
+        *,
+        class_name: str,
+        property_name: str,
+        deriving_edge_names: list[str],
+    ) -> list[dict[str, Any]]:
+        """Validate staged nodes whose property semantics require an incoming edge."""
+        if not deriving_edge_names:
+            return []
+
+        driver = self.client.get_driver()
+        with driver.session(database=self.client.database_name) as session:
+            records = session.execute_read(
+                lambda tx: tx.run(
+                    """
+                    MATCH (n:IngestionStagedEntity {
+                        ingestionId: $ingestion_id,
+                        className: $class_name
+                    })
+                    OPTIONAL MATCH (edge:IngestionStagedEdge {
+                        ingestionId: $ingestion_id,
+                        targetEntityKey: n.entityKey
+                    })
+                    WHERE edge.edgeName IN $edge_names
+                    WITH n, count(edge) AS derivingEdgeCount
+                    WHERE derivingEdgeCount = 0
+                    RETURN n.entityKey AS entityKey,
+                           n.tempId AS tempId,
+                           n.firstBatchIndex AS batchIndex
+                    ORDER BY n.firstBatchIndex, n.entityKey
+                    """,
+                    ingestion_id=ingestion_id,
+                    class_name=class_name,
+                    edge_names=deriving_edge_names,
+                ).data()
+            )
+
+        return [
+            {
+                "code": "DERIVED_PROPERTY_REQUIRES_EDGE_EVIDENCE",
+                "message": (
+                    f"{class_name} node requires an incoming relationship "
+                    f"that derives {property_name}"
+                ),
+                "location": f"stagedGraph.{class_name}.{property_name}",
+                "nodeTempId": record.get("tempId"),
+                "entityKey": record["entityKey"],
+                "propertyName": property_name,
+                "batchIndex": record.get("batchIndex"),
+            }
+            for record in records
+        ]
+
+    @staticmethod
+    def purge_staging_tx(tx, ingestion_id: str) -> None:
+        """Detach delete all staged nodes for an ingestion session within an active transaction."""
+        tx.run(
+            """
+            MATCH (n)
+            WHERE n.ingestionId = $ingestion_id AND (
+                n:IngestionStagedEntity OR
+                n:IngestionStagedProperty OR
+                n:IngestionStagedEdge OR
+                n:IngestionStagedEvidence OR
+                n:IngestionChunkCoverage OR
+                n:IngestionPendingEdge OR
+                n:IngestionConflict OR
+                n:IngestionBatchState
+            )
+            DETACH DELETE n
+            """,
+            ingestion_id=ingestion_id,
+        )
+
     def purge_staging(self, ingestion_id: str) -> None:
         """Detach delete all staged nodes for an ingestion session."""
+        driver = self.client.get_driver()
+        with driver.session(database=self.client.database_name) as session:
+            session.execute_write(lambda tx: self.purge_staging_tx(tx, ingestion_id))
+
+    def purge_all_staging(self) -> None:
+        """Detach delete all staging nodes across all ingestion sessions."""
         driver = self.client.get_driver()
         with driver.session(database=self.client.database_name) as session:
             session.execute_write(
                 lambda tx: tx.run(
                     """
                     MATCH (n)
-                    WHERE n.ingestionId = $ingestion_id AND (
+                    WHERE (
                         n:IngestionStagedEntity OR
                         n:IngestionStagedProperty OR
                         n:IngestionStagedEdge OR
@@ -550,7 +689,6 @@ class IngestionStagingStore:
                         n:IngestionBatchState
                     )
                     DETACH DELETE n
-                    """,
-                    ingestion_id=ingestion_id,
+                    """
                 )
             )

@@ -27,4 +27,5 @@ Use this skill when the current ingestion batch contains facts about:
 2. Use the returned ontology schema as the source of truth.
 3. Keep extracted script and knowledge content grounded in the source text.
 4. Load `product-catalog`, `campaign-targeting`, or another relevant skill when cross-domain relationships are present.
-5. Do not invent scripts, advice, knowledge content, or relationships not supported by the source.
+5. When the source explicitly associates newly extracted knowledge, scripts, or skills with a product, offer, or campaign, emit that relationship even if the related entity comes from `canonicalGraphContext`.
+6. Do not invent scripts, advice, knowledge content, or relationships not supported by the source.

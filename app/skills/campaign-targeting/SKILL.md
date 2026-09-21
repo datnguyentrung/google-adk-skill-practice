@@ -27,4 +27,5 @@ Use this skill when the current ingestion batch contains facts about:
 2. Use only ontology elements returned by the tool.
 3. Extract only facts explicitly supported by the current source batch.
 4. If product, business-rule, or sales-script facts are also present, load the corresponding skill as needed.
-5. Do not infer unsupported campaign membership, targeting, or relationships.
+5. Use `pskg:Campaign` for the marketing/sales initiative itself. Do not classify a product-specific commercial promotion as a Campaign merely because it has dates or a benefit; model that promotion as `pskg:ProductOffer` when it changes one product's commercial terms, and link it to a Campaign only when the source explicitly states that relationship.
+6. Do not infer unsupported campaign membership, targeting, or relationships.

@@ -27,4 +27,6 @@ Use this skill when the current ingestion batch contains facts about:
 2. Use the returned ontology classes, properties, edges, and rules as the source of truth.
 3. Extract only facts supported by both the source batch and the loaded schema.
 4. If the batch also contains facts from another ontology domain, load the corresponding skill as well.
-5. Do not invent classes, properties, edges, rules, or enum-like values that are not present in the loaded schema.
+5. Keep ordinary/base product rates, fees, terms, and attributes on `pskg:BankingProduct` (or the appropriate rule); do not create `pskg:ProductOffer` merely to hold normal/base product terms.
+6. Use `pskg:ProductOffer` for a distinct commercial promotion/offer that changes the terms of a banking product, such as an additional rate, discount, benefit, promotional period, or promotional conditions.
+7. Do not invent classes, properties, edges, rules, or enum-like values that are not present in the loaded schema.

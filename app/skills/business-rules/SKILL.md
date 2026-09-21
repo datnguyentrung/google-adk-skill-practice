@@ -29,4 +29,5 @@ Use this skill when the current ingestion batch contains facts about:
 2. Use only classes, properties, edges, and rules returned by the tool.
 3. Preserve the source meaning of conditions and constraints; do not strengthen or weaken them.
 4. Load another schema skill if the rule connects to product, campaign, customer, or sales content outside this domain.
-5. Do not create rule relationships unless both the source evidence and ontology schema support them.
+5. When a newly extracted rule is explicitly stated to govern a product, offer, or campaign, emit the corresponding supported relationship even if that subject already exists in `canonicalGraphContext`; do not leave the rule orphan solely because its subject was staged in an earlier batch.
+6. Do not create rule relationships unless both the source evidence and ontology schema support them.

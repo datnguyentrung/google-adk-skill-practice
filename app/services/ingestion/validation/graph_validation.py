@@ -19,7 +19,7 @@ from app.core.trace_logger import pprint, trace_pprint
 from pydantic import ValidationError
 
 from app.core.schemas.ingestion.document import DocumentChunk
-from app.core.schemas.ingestion.graph_patch import GraphPatchDraft
+from app.core.schemas.ingestion.graph_patch import GraphPatchDraft, GraphPatchFragment
 from app.core.schemas.ingestion.validation import (
     GraphPatchValidationResult,
     ValidationIssue,
@@ -219,6 +219,89 @@ class GraphValidation:
             compiled_patch=patch,
             fingerprint=fingerprint,
         )
+
+    def validate_fragment_terms(
+        self,
+        fragment: GraphPatchFragment,
+    ) -> list[ValidationIssue]:
+        """Validate ontology terms that are knowable within one batch fragment.
+
+        Cross-batch endpoint references are intentionally allowed here; their
+        existence is resolved by persistent staging.
+        """
+        issues: list[ValidationIssue] = []
+        local_classes: dict[str, str] = {}
+
+        for node_index, node in enumerate(fragment.nodes):
+            ontology_class = self.registry.get_class(node.class_name)
+            if ontology_class is None:
+                issues.append(
+                    ValidationIssue(
+                        code="UNKNOWN_CLASS",
+                        message=f"Unknown ontology class: {node.class_name}",
+                        location=f"nodes.{node_index}.className",
+                        node_temp_id=node.temp_id,
+                    )
+                )
+                continue
+            local_classes[node.temp_id] = ontology_class.name
+            for property_index, prop in enumerate(node.properties):
+                attribute = self.registry.get_attribute(prop.property_name)
+                if attribute is None:
+                    issues.append(
+                        ValidationIssue(
+                            code="UNKNOWN_PROPERTY",
+                            message=f"Unknown ontology property: {prop.property_name}",
+                            location=f"nodes.{node_index}.properties.{property_index}.propertyName",
+                            node_temp_id=node.temp_id,
+                            property_name=prop.property_name,
+                        )
+                    )
+                elif ontology_class.name not in attribute.domain:
+                    issues.append(
+                        ValidationIssue(
+                            code="PROPERTY_DOMAIN_MISMATCH",
+                            message=f"Property {prop.property_name} does not belong to class {node.class_name}",
+                            location=f"nodes.{node_index}.properties.{property_index}.propertyName",
+                            node_temp_id=node.temp_id,
+                            property_name=prop.property_name,
+                        )
+                    )
+
+        for edge_index, edge in enumerate(fragment.edges):
+            ontology_edge = self.registry.get_edge(edge.edge_name)
+            if ontology_edge is None:
+                issues.append(
+                    ValidationIssue(
+                        code="UNKNOWN_EDGE",
+                        message=f"Unknown ontology edge: {edge.edge_name}",
+                        location=f"edges.{edge_index}.edgeName",
+                        edge_name=edge.edge_name,
+                    )
+                )
+                continue
+            source_class = local_classes.get(edge.source_temp_id)
+            target_class = local_classes.get(edge.target_temp_id)
+            if source_class is not None and source_class not in ontology_edge.domain:
+                issues.append(
+                    ValidationIssue(
+                        code="EDGE_DOMAIN_MISMATCH",
+                        message=f"Invalid edge domain for {edge.edge_name}",
+                        location=f"edges.{edge_index}.sourceTempId",
+                        edge_name=edge.edge_name,
+                    )
+                )
+            if target_class is not None and target_class not in ontology_edge.range:
+                issues.append(
+                    ValidationIssue(
+                        code="EDGE_RANGE_MISMATCH",
+                        message=f"Invalid edge range for {edge.edge_name}",
+                        location=f"edges.{edge_index}.targetTempId",
+                        edge_name=edge.edge_name,
+                    )
+                )
+
+        return issues
 
     @staticmethod
     def _source_chunks(
