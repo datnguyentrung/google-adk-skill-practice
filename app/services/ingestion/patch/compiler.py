@@ -10,17 +10,17 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+
 from pydantic import BaseModel, ConfigDict, Field
+
 from app.core.schemas.ingestion.graph_patch import (
     ChunkCoverage,
     Evidence,
     GraphPatchDraft,
 )
 from app.core.schemas.ingestion.validation import ValidationIssue
-
 from app.services.ingestion.ontology.loader import OntologyLoader
 from app.services.ingestion.ontology.registry import OntologyRegistry
-
 
 DEFAULT_ONTOLOGY_PATH = Path(
     "app/data/ontology/product_sales_knowledge_graph_base_v3_1.ontology.json"
@@ -37,6 +37,7 @@ class _CompiledModel(BaseModel):
     """
     Base model bất biến (frozen, forbid extra) cho các kiểu đã compile.
     """
+
     model_config = ConfigDict(extra="forbid", frozen=True)
 
 
@@ -44,6 +45,7 @@ class CompiledNode(_CompiledModel):
     """
     Node đã compile: tempId, class, thuộc tính và evidence.
     """
+
     temp_id: str
     class_name: str
     properties: dict[str, Any]
@@ -56,6 +58,7 @@ class CompiledEdge(_CompiledModel):
     """
     Edge đã compile: tempId hai đầu, tên edge và evidence.
     """
+
     edge_name: str
     source_temp_id: str
     target_temp_id: str
@@ -67,6 +70,7 @@ class CompiledGraphPatch(_CompiledModel):
     """
     Graph patch đã compile gồm node, edge và coverage.
     """
+
     nodes: tuple[CompiledNode, ...]
     edges: tuple[CompiledEdge, ...]
     coverage: tuple[ChunkCoverage, ...]
@@ -78,6 +82,7 @@ class CompilerResult:
     """
     Kết quả compile: patch (nếu thành công) kèm danh sách lỗi.
     """
+
     compiled_patch: CompiledGraphPatch | None
     errors: tuple[ValidationIssue, ...]
 
@@ -87,6 +92,7 @@ class _NodeBuilder:
     """
     Bộ gom node theo tempId trong quá trình compile (gộp thuộc tính, evidence).
     """
+
     temp_id: str
     class_name: str
     properties: dict[str, Any]
@@ -99,6 +105,7 @@ class GraphPatchCompiler:
     """
     Biên dịch draft thành patch đã chuẩn hoá và tính fingerprint cho patch đó.
     """
+
     def __init__(
         self,
         ontology_path: str | Path = DEFAULT_ONTOLOGY_PATH,
@@ -150,6 +157,26 @@ class GraphPatchCompiler:
                 if entry.property_name not in properties:
                     properties[entry.property_name] = entry.value
                     property_evidence[entry.property_name] = tuple(entry.evidence)
+                    continue
+
+                allows_multiple = self.registry.property_allows_multiple_values(
+                    node.class_name, entry.property_name
+                )
+
+                if allows_multiple:
+                    ex_v = properties[entry.property_name]
+                    inc_v = entry.value
+                    ex_list = ex_v if isinstance(ex_v, list) else ([ex_v] if ex_v is not None else [])
+                    inc_list = inc_v if isinstance(inc_v, list) else ([inc_v] if inc_v is not None else [])
+                    combined = []
+                    for v in ex_list + inc_list:
+                        if v not in combined:
+                            combined.append(v)
+                    properties[entry.property_name] = combined
+                    property_evidence[entry.property_name] = self._merge_evidence(
+                        property_evidence[entry.property_name],
+                        tuple(entry.evidence),
+                    )
                     continue
 
                 if not self._values_identical(
@@ -222,13 +249,16 @@ class GraphPatchCompiler:
                 )
 
             if target is not None:
-                for attribute, expected_value in self.registry.derived_target_properties_for_edge(
-                    edge.edge_name
-                ):
+                for (
+                    attribute,
+                    expected_value,
+                ) in self.registry.derived_target_properties_for_edge(edge.edge_name):
                     actual_value = target.properties.get(attribute.technical_name)
                     if actual_value is None:
                         target.properties[attribute.technical_name] = expected_value
-                        target.property_evidence[attribute.technical_name] = tuple(edge.evidence)
+                        target.property_evidence[attribute.technical_name] = tuple(
+                            edge.evidence
+                        )
                     elif not self._values_identical(actual_value, expected_value):
                         errors.append(
                             ValidationIssue(
@@ -348,6 +378,7 @@ class GraphPatchCompiler:
         """
         Chuyển patch thành dict đã sắp xếp để băm fingerprint ổn định.
         """
+
         def canonical_evidence(items: tuple[Evidence, ...]) -> list[dict[str, Any]]:
             ordered = sorted(
                 items,

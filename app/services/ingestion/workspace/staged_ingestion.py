@@ -40,10 +40,14 @@ TRUE_CHUNK_CACHE_MODE = os.getenv(
 MAX_BATCH_CHARS = max(1_000, int(os.getenv("INGESTION_MAX_BATCH_CHARS", "15000")))
 
 
-ESTIMATED_CHARS_PER_TOKEN = max(1.0, float(os.getenv("INGESTION_ESTIMATED_CHARS_PER_TOKEN", "2.0")))
+ESTIMATED_CHARS_PER_TOKEN = max(
+    1.0, float(os.getenv("INGESTION_ESTIMATED_CHARS_PER_TOKEN", "2.0"))
+)
 
 
-MAX_BATCH_ESTIMATED_TOKENS = max(1_000, int(os.getenv("INGESTION_MAX_BATCH_ESTIMATED_TOKENS", "15000")))
+MAX_BATCH_ESTIMATED_TOKENS = max(
+    1_000, int(os.getenv("INGESTION_MAX_BATCH_ESTIMATED_TOKENS", "15000"))
+)
 
 
 class WorkspaceConflictError(ValueError):
@@ -102,7 +106,9 @@ class IngestionWorkspaceService:
         )
         chunk_by_index = {chunk.index: chunk for chunk in chunks}
         for batch in batches:
-            estimated_tokens = max(1, math.ceil(batch.content_chars / ESTIMATED_CHARS_PER_TOKEN))
+            estimated_tokens = max(
+                1, math.ceil(batch.content_chars / ESTIMATED_CHARS_PER_TOKEN)
+            )
             logger.info(
                 "[INGESTION_BATCH_CREATED] ingestion_id=%s batch=%s chunk_ids=%s input_chars=%s estimated_tokens=%s",
                 ingestion_id,
@@ -160,9 +166,7 @@ class IngestionWorkspaceService:
         candidate = workspace.model_copy(deep=True)
         candidate.batches[batch_index].fragment = fragment
         fragments = [
-            item.fragment
-            for item in candidate.batches
-            if item.fragment is not None
+            item.fragment for item in candidate.batches if item.fragment is not None
         ]
         self.merge_fragments(fragments)
         candidate.validated_fingerprint = None
@@ -173,9 +177,7 @@ class IngestionWorkspaceService:
         Gộp toàn bộ fragment đã nhận thành một `GraphPatchDraft` duy nhất.
         """
         fragments = [
-            batch.fragment
-            for batch in workspace.batches
-            if batch.fragment is not None
+            batch.fragment for batch in workspace.batches if batch.fragment is not None
         ]
         merged = self.merge_fragments(fragments)
         return GraphPatchDraft.model_validate(
@@ -196,9 +198,7 @@ class IngestionWorkspaceService:
         coverage = cls._merge_coverage(fragments)
         warnings = list(
             dict.fromkeys(
-                warning
-                for fragment in fragments
-                for warning in fragment.warnings
+                warning for fragment in fragments for warning in fragment.warnings
             )
         )
         return GraphPatchFragment(
@@ -244,7 +244,10 @@ class IngestionWorkspaceService:
         for chunk in chunks:
             chunk_chars = len(chunk.content)
             chunk_tokens = max(1, math.ceil(chunk_chars / ESTIMATED_CHARS_PER_TOKEN))
-            if chunk_chars > MAX_BATCH_CHARS or chunk_tokens > MAX_BATCH_ESTIMATED_TOKENS:
+            if (
+                chunk_chars > MAX_BATCH_CHARS
+                or chunk_tokens > MAX_BATCH_ESTIMATED_TOKENS
+            ):
                 raise ValueError(
                     f"Chunk {chunk.index} exceeds configured batch budget "
                     f"({chunk_chars} chars, ~{chunk_tokens} tokens)"
@@ -328,14 +331,24 @@ class IngestionWorkspaceService:
                 continue
 
             if isinstance(current.value, list) or isinstance(prop.value, list):
-                current_values = current.value if isinstance(current.value, list) else [current.value]
-                incoming_values = prop.value if isinstance(prop.value, list) else [prop.value]
+                current_values = (
+                    current.value
+                    if isinstance(current.value, list)
+                    else [current.value]
+                )
+                incoming_values = (
+                    prop.value if isinstance(prop.value, list) else [prop.value]
+                )
                 current.value = cls._merge_list_values(current_values, incoming_values)
-                current.evidence = cls._dedupe_models([*current.evidence, *prop.evidence])
+                current.evidence = cls._dedupe_models(
+                    [*current.evidence, *prop.evidence]
+                )
                 continue
 
             if cls._stable_value(current.value) == cls._stable_value(prop.value):
-                current.evidence = cls._dedupe_models([*current.evidence, *prop.evidence])
+                current.evidence = cls._dedupe_models(
+                    [*current.evidence, *prop.evidence]
+                )
                 continue
 
             raise WorkspaceConflictError(
@@ -393,7 +406,9 @@ class IngestionWorkspaceService:
                     f"Node {incoming.temp_id} changed class from "
                     f"{existing.class_name} to {incoming.class_name}"
                 )
-            existing.evidence = cls._dedupe_models([*existing.evidence, *incoming.evidence])
+            existing.evidence = cls._dedupe_models(
+                [*existing.evidence, *incoming.evidence]
+            )
             existing.confidence = max(existing.confidence, incoming.confidence)
             properties = {item.property_name: item for item in existing.properties}
             for prop in incoming.properties:
@@ -404,10 +419,20 @@ class IngestionWorkspaceService:
                     properties[prop.property_name] = copied
                     continue
                 if isinstance(current.value, list) or isinstance(prop.value, list):
-                    current_values = current.value if isinstance(current.value, list) else [current.value]
-                    incoming_values = prop.value if isinstance(prop.value, list) else [prop.value]
-                    current.value = cls._merge_list_values(current_values, incoming_values)
-                    current.evidence = cls._dedupe_models([*current.evidence, *prop.evidence])
+                    current_values = (
+                        current.value
+                        if isinstance(current.value, list)
+                        else [current.value]
+                    )
+                    incoming_values = (
+                        prop.value if isinstance(prop.value, list) else [prop.value]
+                    )
+                    current.value = cls._merge_list_values(
+                        current_values, incoming_values
+                    )
+                    current.evidence = cls._dedupe_models(
+                        [*current.evidence, *prop.evidence]
+                    )
                     continue
                 if cls._stable_value(current.value) != cls._stable_value(prop.value):
                     raise WorkspaceConflictError(
@@ -418,16 +443,22 @@ class IngestionWorkspaceService:
                             "existingValue": current.value,
                             "incomingValue": prop.value,
                             "existingEvidence": [
-                                item.model_dump(by_alias=True, mode="json", exclude_none=True)
+                                item.model_dump(
+                                    by_alias=True, mode="json", exclude_none=True
+                                )
                                 for item in current.evidence
                             ],
                             "incomingEvidence": [
-                                item.model_dump(by_alias=True, mode="json", exclude_none=True)
+                                item.model_dump(
+                                    by_alias=True, mode="json", exclude_none=True
+                                )
                                 for item in prop.evidence
                             ],
                         },
                     )
-                current.evidence = cls._dedupe_models([*current.evidence, *prop.evidence])
+                current.evidence = cls._dedupe_models(
+                    [*current.evidence, *prop.evidence]
+                )
         return list(merged.values()), temp_id_aliases
 
     @classmethod
@@ -480,7 +511,9 @@ class IngestionWorkspaceService:
         for existing in merged.values():
             if existing.class_name != incoming.class_name:
                 continue
-            if identity_key is not None and identity_key == cls._node_identity_key(existing):
+            if identity_key is not None and identity_key == cls._node_identity_key(
+                existing
+            ):
                 return existing.temp_id
         return incoming.temp_id
 
@@ -515,7 +548,6 @@ class IngestionWorkspaceService:
                     )
                 merged[incoming.chunk_index] = incoming.model_copy(deep=True)
         return [merged[index] for index in sorted(merged)]
-
 
     @staticmethod
     def _stable_value(value) -> str:

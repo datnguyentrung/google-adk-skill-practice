@@ -92,6 +92,7 @@ def decompose_fragment(
             properties.append(
                 {
                     "entityKey": entity_key,
+                    "className": node.class_name,
                     "propertyName": prop.property_name,
                     "valueJson": val_json,
                     "valueHash": val_hash,

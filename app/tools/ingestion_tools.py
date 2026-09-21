@@ -239,15 +239,72 @@ def submit_ingestion_batch(
         from app.services.ingestion.incremental.staging_store import (
             IngestionStagingStore,
         )
-
-        decomposed = decompose_fragment(
-            fragment,
-            ingestion_id=ingestion_id,
-            batch_index=batch_index,
+        from app.core.schemas.ingestion.graph_patch import (
+            Evidence,
+            ExtractedNode,
+            ExtractedProperty,
+        )
+        from app.services.ingestion.workspace.staged_ingestion import (
+            IngestionWorkspaceService,
         )
 
         staging_store = IngestionStagingStore()
         try:
+            # 1. Fetch existing staged entities using legacy find_relevant_entities
+            staged_candidates = staging_store.find_relevant_entities(
+                ingestion_id=ingestion_id,
+                keywords=None,
+                limit=500,
+            )
+
+            # 2. Build merged_nodes map and initialize temp_id_aliases
+            merged_nodes: dict[str, ExtractedNode] = {}
+            temp_id_aliases: dict[str, str] = {}
+            dummy_ev = [Evidence(source="staged", chunk_index=0, text="staged")]
+            for cand in staged_candidates:
+                canonical_ref = f"entity:{cand['entityKey']}"
+                if cand.get("tempId"):
+                    temp_id_aliases[cand["tempId"]] = canonical_ref
+                temp_id_aliases[cand["entityKey"]] = canonical_ref
+                temp_id_aliases[canonical_ref] = canonical_ref
+
+                props = [
+                    ExtractedProperty(
+                        property_name=p_name,
+                        value=p_val,
+                        evidence=dummy_ev,
+                    )
+                    for p_name, p_val in cand["properties"].items()
+                    if p_val is not None
+                ]
+                merged_nodes[cand["entityKey"]] = ExtractedNode(
+                    temp_id=canonical_ref,
+                    class_name=cand["className"],
+                    properties=props,
+                    evidence=dummy_ev,
+                    confidence=1.0,
+                )
+
+            # 3. Canonicalize incoming batch nodes via _canonical_temp_id
+            for node in fragment.nodes:
+                canonical_id = IngestionWorkspaceService._canonical_temp_id(
+                    node, merged_nodes
+                )
+                temp_id_aliases[node.temp_id] = canonical_id
+
+            # 4. Canonicalize fragment edges via _merge_edges
+            fragment.edges = IngestionWorkspaceService._merge_edges(
+                [fragment], temp_id_aliases
+            )
+
+            # 5. Decompose canonicalized fragment into batch facts
+            decomposed = decompose_fragment(
+                fragment,
+                ingestion_id=ingestion_id,
+                batch_index=batch_index,
+            )
+
+            # 6. Stage facts and resolve pending edges
             staging_store.stage_batch_facts(
                 ingestion_id=ingestion_id,
                 source_version_id=workspace.provenance.source_version_id,

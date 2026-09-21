@@ -7,18 +7,30 @@ under dedicated Neo4j labels per ingestion session and source version.
 import hashlib
 import json
 import logging
+from pathlib import Path
 from typing import Any
 
 from app.config.neo4j import Neo4jClient
+from app.services.ingestion.ontology import OntologyLoader, OntologyRegistry
 
 logger = logging.getLogger(__name__)
+
+DEFAULT_ONTOLOGY_PATH = Path(
+    "app/data/ontology/product_sales_knowledge_graph_base_v3_1.ontology.json"
+)
 
 
 class IngestionStagingStore:
     """Manages persistent staging data in Neo4j without polluting domain nodes."""
 
-    def __init__(self, client: Neo4jClient | None = None) -> None:
+    def __init__(
+        self,
+        client: Neo4jClient | None = None,
+        registry: OntologyRegistry | None = None,
+        ontology_path: str | Path = DEFAULT_ONTOLOGY_PATH,
+    ) -> None:
         self.client = client or Neo4jClient()
+        self.registry = registry or OntologyRegistry(OntologyLoader.load(ontology_path))
 
     def close(self) -> None:
         self.client.close_driver()
@@ -58,6 +70,7 @@ class IngestionStagingStore:
                         })
                         ON CREATE SET
                             e.sourceVersionId = $version_id,
+                            e.tempId = entity.tempId,
                             e.className = entity.className,
                             e.confidence = entity.confidence,
                             e.firstBatchIndex = $batch_index,
@@ -88,37 +101,85 @@ class IngestionStagingStore:
                     processed_properties = []
                     for prop in properties:
                         key = (prop["entityKey"], prop["propertyName"])
+                        class_name = prop.get("className")
+                        if not class_name:
+                            entity_key = prop.get("entityKey", "")
+                            if "|" in entity_key:
+                                class_name = entity_key.split("|")[0]
+                            elif entity_key.startswith("entity:"):
+                                parts = entity_key.split(":")
+                                if len(parts) >= 2:
+                                    class_name = parts[1]
+
                         if key in existing_map:
                             existing = existing_map[key]
-                            if prop.get("isList") or existing.get("isList"):
+
+                            allows_multiple = (
+                                self.registry.property_allows_multiple_values(
+                                    class_name or "",
+                                    prop["propertyName"],
+                                )
+                            )
+
+                            if allows_multiple:
                                 try:
                                     ex_val = (
                                         json.loads(existing["valueJson"])
                                         if existing.get("valueJson")
                                         else []
                                     )
+
                                     inc_val = (
                                         json.loads(prop["valueJson"])
                                         if prop.get("valueJson")
                                         else []
                                     )
+
                                     if not isinstance(ex_val, list):
-                                        ex_val = [ex_val]
+                                        ex_val = [ex_val] if ex_val is not None else []
+
                                     if not isinstance(inc_val, list):
-                                        inc_val = [inc_val]
-                                    combined = list(dict.fromkeys(ex_val + inc_val))
+                                        inc_val = [inc_val] if inc_val is not None else []
+
+                                    combined = []
+
+                                    for value in ex_val + inc_val:
+                                        if value not in combined:
+                                            combined.append(value)
+
                                     prop["valueJson"] = json.dumps(
-                                        combined, ensure_ascii=False, sort_keys=True
+                                        combined,
+                                        ensure_ascii=False,
+                                        sort_keys=True,
                                     )
+
                                     prop["valueHash"] = hashlib.sha256(
                                         prop["valueJson"].encode("utf-8")
                                     ).hexdigest()[:12]
+
+                                    # Quan trọng
+                                    prop["isList"] = True
+
                                 except Exception:
-                                    pass
+                                    logger.exception(
+                                        "Failed to merge multi-valued property "
+                                        "entityKey=%s propertyName=%s",
+                                        prop["entityKey"],
+                                        prop["propertyName"],
+                                    )
+                                    raise
+
                                 processed_properties.append(prop)
+                                existing_map[key] = prop
+
                             else:
                                 if prop["valueHash"] != existing["valueHash"]:
-                                    conflict_key = f"{prop['entityKey']}|{prop['propertyName']}|{batch_index}"
+                                    conflict_key = (
+                                        f"{prop['entityKey']}|"
+                                        f"{prop['propertyName']}|"
+                                        f"{batch_index}"
+                                    )
+
                                     conflicts.append(
                                         {
                                             "conflictKey": conflict_key,
@@ -128,12 +189,17 @@ class IngestionStagingStore:
                                             "incomingValueJson": prop["valueJson"],
                                         }
                                     )
+
                                     prop_copy = dict(prop)
                                     prop_copy["valueJson"] = existing["valueJson"]
                                     prop_copy["valueHash"] = existing["valueHash"]
+
                                     processed_properties.append(prop_copy)
+                                    existing_map[key] = prop_copy
+
                                 else:
                                     processed_properties.append(prop)
+                                    existing_map[key] = prop
                         else:
                             processed_properties.append(prop)
                             existing_map[key] = prop
@@ -154,7 +220,8 @@ class IngestionStagingStore:
                             p.batchIndex = $batch_index
                         ON MATCH SET
                             p.valueJson = prop.valueJson,
-                            p.valueHash = prop.valueHash
+                            p.valueHash = prop.valueHash,
+                            p.isList = prop.isList
 
                         WITH p, prop
                         MATCH (e:IngestionStagedEntity {ingestionId: $ingestion_id, entityKey: prop.entityKey})
@@ -321,13 +388,10 @@ class IngestionStagingStore:
     def find_relevant_entities(
         self,
         ingestion_id: str,
-        keywords: list[str],
+        keywords: list[str] | None = None,
         limit: int = 20,
     ) -> list[dict[str, Any]]:
-        """Find candidates in staging matching keywords for LLM context retrieval."""
-        if not keywords:
-            return []
-
+        """Find candidates in staging matching keywords, or all staged entities if keywords is None/empty."""
         driver = self.client.get_driver()
         with driver.session(database=self.client.database_name) as session:
             records = session.execute_read(
@@ -336,18 +400,19 @@ class IngestionStagingStore:
                     MATCH (e:IngestionStagedEntity {ingestionId: $ingestion_id})
                     OPTIONAL MATCH (e)-[:HAS_STAGED_PROPERTY]->(p:IngestionStagedProperty)
                     WITH e, collect({name: p.propertyName, val: p.valueJson}) AS props
-                    WHERE any(kw IN $keywords WHERE
+                    WHERE ($keywords IS NULL OR size($keywords) = 0 OR any(kw IN $keywords WHERE
                         toLower(e.entityKey) CONTAINS toLower(kw) OR
                         toLower(e.className) CONTAINS toLower(kw) OR
                         any(p IN props WHERE toLower(coalesce(p.val, '')) CONTAINS toLower(kw))
-                    )
+                    ))
                     RETURN e.entityKey AS entity_key,
+                           e.tempId AS temp_id,
                            e.className AS class_name,
                            props AS properties
                     LIMIT $limit
                     """,
                     ingestion_id=ingestion_id,
-                    keywords=keywords,
+                    keywords=keywords or [],
                     limit=limit,
                 ).data()
             )
@@ -366,6 +431,7 @@ class IngestionStagingStore:
                 result.append(
                     {
                         "entityKey": r["entity_key"],
+                        "tempId": r.get("temp_id"),
                         "className": r["class_name"],
                         "properties": props_dict,
                     }

@@ -401,3 +401,11 @@ __all__ = [
     "load_product_catalog_schema",
     "load_sales_enablement_schema",
 ]
+
+if __name__ == "__main__":
+    # print(load_business_rules_schema())
+    print(load_product_catalog_schema())
+    # print(load_governance_versioning_schema())
+    # print(load_campaign_targeting_schema())
+    # print(load_customer_recommendation_schema())
+    # print(load_sales_enablement_schema())

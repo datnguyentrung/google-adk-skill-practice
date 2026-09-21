@@ -231,3 +231,54 @@ class OntologyRegistry:
         return [
             edge for edge in self.ontology.edges if ontology_class.name in edge.domain
         ]
+
+    def property_max_occurrences(
+        self,
+        class_technical_name: str,
+        property_technical_name: str,
+    ) -> int | None:
+        """
+        Xác định số lần xuất hiện tối đa (upper-bound/cardinality) của một property trên một class.
+        """
+        ontology_class = self.get_class(class_technical_name)
+        attribute = self.get_attribute(property_technical_name)
+
+        if ontology_class is None or attribute is None:
+            return None
+
+        upper_bounds: list[int] = []
+
+        prop_tech = attribute.technical_name
+        prop_local = attribute.local_name
+
+        for rule in ontology_class.rules:
+            rule_prop = rule.property
+            rule_prop_tech = rule_prop if ":" in rule_prop else f"pskg:{rule_prop}"
+            rule_prop_local = rule_prop.split(":")[-1]
+
+            if (
+                prop_tech == rule_prop_tech
+                or prop_local == rule_prop_local
+                or rule_prop == property_technical_name
+            ):
+                if rule.operator in {"exactlyQualified", "maxQualified"}:
+                    try:
+                        upper_bounds.append(int(rule.value))
+                    except (TypeError, ValueError):
+                        pass
+
+        return min(upper_bounds) if upper_bounds else None
+
+    def property_allows_multiple_values(
+        self,
+        class_technical_name: str,
+        property_technical_name: str,
+    ) -> bool:
+        """
+        Cho biết property trên class này có cho phép nhiều giá trị (multi-value) hay không.
+        """
+        max_occurrences = self.property_max_occurrences(
+            class_technical_name,
+            property_technical_name,
+        )
+        return max_occurrences is None or max_occurrences > 1

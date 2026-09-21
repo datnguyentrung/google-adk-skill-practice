@@ -8,12 +8,12 @@ from collections import Counter
 from datetime import date, datetime
 from decimal import Decimal
 from typing import Any
+
 from app.core.schemas.ingestion.persistence import (
     GraphWriteResult,
     PersistedGraphReadback,
     PersistedGraphReceipt,
 )
-
 from app.services.ingestion.persistence.mapping import Neo4jMapper
 
 
@@ -40,8 +40,7 @@ def verify_persisted_graph(
     relationships = snapshot.relationships
     node_by_id = {node.node_id: node for node in nodes}
     relationship_by_id = {
-        relationship.relationship_id: relationship
-        for relationship in relationships
+        relationship.relationship_id: relationship for relationship in relationships
     }
     mismatches: list[str] = []
 
@@ -114,9 +113,7 @@ def verify_persisted_graph(
             mismatches.append(f"relationship {key} target endpoint mismatch")
         written_relationship = write_result.expected_relationships.get(key)
         expected_relationship_properties = (
-            written_relationship.properties
-            if written_relationship is not None
-            else {}
+            written_relationship.properties if written_relationship is not None else {}
         )
         if not _values_equal(expected_relationship_properties, actual.properties):
             mismatches.append(
@@ -125,9 +122,7 @@ def verify_persisted_graph(
                 f"read back {actual.properties!r}"
             )
 
-    label_distribution = Counter(
-        label for node in nodes for label in node.labels
-    )
+    label_distribution = Counter(label for node in nodes for label in node.labels)
     type_distribution = Counter(item.type for item in relationships)
     return PersistedGraphReceipt(
         verified=not mismatches,
@@ -147,10 +142,7 @@ def relationship_key(index: int, edge) -> str:
     """
     Tạo khoá ổn định cho một relationship (dùng khi đối chiếu readback).
     """
-    return (
-        f"{index}:{edge.edge_name}:"
-        f"{edge.source_temp_id}->{edge.target_temp_id}"
-    )
+    return f"{index}:{edge.edge_name}:{edge.source_temp_id}->{edge.target_temp_id}"
 
 
 def _values_equal(expected: Any, actual: Any) -> bool:
@@ -174,8 +166,5 @@ def _canonical_value(value: Any) -> Any:
     if isinstance(value, list):
         return [_canonical_value(item) for item in value]
     if isinstance(value, dict):
-        return {
-            key: _canonical_value(item)
-            for key, item in sorted(value.items())
-        }
+        return {key: _canonical_value(item) for key, item in sorted(value.items())}
     return value
