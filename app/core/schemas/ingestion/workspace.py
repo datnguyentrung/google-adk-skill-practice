@@ -88,6 +88,27 @@ class IngestionWorkspace(_WorkspaceModel):
     ingestion_warnings: list[dict[str, Any]] = Field(
         default_factory=list, alias="ingestionWarnings"
     )
+    staging_schema_version: int = Field(default=2, alias="stagingSchemaVersion", ge=1)
+    staging_revision: int = Field(default=0, alias="stagingRevision", ge=0)
+    last_finalized_revision: int = Field(
+        default=-1, alias="lastFinalizedRevision", ge=-1
+    )
+    last_readiness_fingerprint: str | None = Field(
+        default=None, alias="lastReadinessFingerprint"
+    )
+    last_readiness_issues: list[dict[str, Any]] = Field(
+        default_factory=list, alias="lastReadinessIssues"
+    )
+    repair_batch_indexes: list[int] = Field(
+        default_factory=list, alias="repairBatchIndexes"
+    )
+    repair_attempts_by_batch: dict[int, int] = Field(
+        default_factory=dict, alias="repairAttemptsByBatch"
+    )
+    validation_attempts_by_batch: dict[int, int] = Field(
+        default_factory=dict, alias="validationAttemptsByBatch"
+    )
+    terminal_error_code: str | None = Field(default=None, alias="terminalErrorCode")
 
     @property
     def artifact_digest(self) -> str:

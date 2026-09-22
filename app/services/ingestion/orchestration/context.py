@@ -39,6 +39,20 @@ def _batch_payload(workspace: IngestionWorkspace, batch) -> dict[str, Any]:
     }
 
 
+def _batch_summary(batch) -> dict[str, Any]:
+    """
+    Dựng mô tả gọn của batch để trả trong workflow/status mà không nhét full chunk
+    content vào history. Payload đầy đủ được lấy qua `get_ingestion_batch`.
+    """
+    estimated_input_tokens = max(1, math.ceil(batch.content_chars / 2.0))
+    return {
+        "batchIndex": batch.index,
+        "chunkIndexes": batch.chunk_indexes,
+        "contentChars": batch.content_chars,
+        "estimatedInputTokens": estimated_input_tokens,
+    }
+
+
 def _canonical_graph_context(
     workspace: IngestionWorkspace,
     before_batch_index: int,

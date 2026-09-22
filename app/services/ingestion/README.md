@@ -18,11 +18,11 @@ flowchart TD
     T5["fill_ingestion"]
 
     Agent -->|"1. Start run"| T1
-    T1 -->|"returns first batch + ingestionId"| Agent
+    T1 -->|"returns compact nextBatch + ingestionId"| Agent
     Agent -->|"2. Inspect batch & load schemas"| T2
     Agent -->|"3. Extract fragment & submit"| T3
     T3 -->|"validates, identity & stages to DuckDB"| Staging["DuckDB Incremental Staging"]
-    T3 -->|"returns nextBatch + canonicalGraphContext"| Agent
+    T3 -->|"returns compact nextBatch"| Agent
     Agent -->|"4. All batches staged -> finalize"| T4
     T4 -->|"validates coverage & staging readiness"| Agent
     Agent -->|"5. Optional persistence"| T5
@@ -48,6 +48,6 @@ flowchart TD
 ### Architectural Invariants
 
 1. **`GraphPatchFragment` chỉ là batch-local payload**: Fragment chỉ tồn tại trong 1 lượt submit batch. Sau khi `submit_ingestion_batch` phân rã và lưu vào DuckDB persistent staging, fragment sẽ được giải phóng khỏi model reasoning.
-2. **`canonicalGraphContext` cung cấp ngữ cảnh entity đã stage**: Mỗi `nextBatch` trả về `canonicalGraphContext` chứa các entity liên quan đã được stage từ các batch trước để Agent chủ động reuse.
+2. **`canonicalGraphContext` cung cấp ngữ cảnh entity đã stage**: `get_ingestion_batch` trả về `canonicalGraphContext` chứa các entity liên quan đã được stage từ các batch trước để Agent chủ động reuse. Các response workflow chỉ trả `nextBatch` dạng compact để tránh nhồi full chunk content vào history.
 3. **Deterministic Identity & Staging**: Việc gộp node, resolve alias, pending edge và kiểm tra conflict được xử lý deterministic tại tầng Python Staging Store (DuckDB).
 

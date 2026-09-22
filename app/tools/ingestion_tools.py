@@ -5,7 +5,9 @@ This module only exposes deterministic ingestion capabilities.
 """
 
 import hashlib
+import json
 import logging
+import os
 from typing import Any, Literal
 
 from google.adk.tools import ToolContext
@@ -13,13 +15,14 @@ from google.adk.tools import ToolContext
 from app.core.schemas.ingestion.document import DocumentChunk
 from app.core.schemas.ingestion.graph_patch import GraphPatchDraft, GraphPatchFragment
 from app.core.schemas.ingestion.validation import ValidationIssue
+from app.core.schemas.ingestion.workspace import IngestionWorkspace
 from app.core.trace_logger import trace_pprint
 from app.services.ingestion.document.strategies import stable_document_id
 from app.services.ingestion.incremental.runtime import lifecycle_from_workspace
 from app.services.ingestion.orchestration.artifact import (
     load_and_prepare_artifact_context,
 )
-from app.services.ingestion.orchestration.context import _batch_payload
+from app.services.ingestion.orchestration.context import _batch_payload, _batch_summary
 from app.services.ingestion.orchestration.receipts import (
     _persist_with_receipt,
     _public_assessment,
@@ -28,6 +31,7 @@ from app.services.ingestion.orchestration.state import (
     ARTIFACT_DIGEST_STATE_KEY,
     SOURCE_CHUNKS_STATE_KEY,
     VALIDATED_FINGERPRINT_STATE_KEY,
+    WORKSPACE_STATE_KEY,
     _clear_validation_gate,
     _current_provenance,
     _get_validation_service,
@@ -45,6 +49,113 @@ from app.services.ingestion.persistence.service import create_graph_persistence
 from app.services.ingestion.workspace.staged_ingestion import WorkspaceConflictError
 
 logger = logging.getLogger(__name__)
+MAX_REPAIR_ATTEMPTS = 2
+MAX_BATCH_VALIDATION_ATTEMPTS = max(
+    1, int(os.getenv("INGESTION_MAX_BATCH_VALIDATION_ATTEMPTS", "2"))
+)
+
+
+def _handle_validation_failure(
+    workspace: IngestionWorkspace,
+    batch_index: int,
+    tool_context: ToolContext,
+    errors: list[dict[str, Any]],
+    stage: str = "batch_validation",
+    extra: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    current_attempt = workspace.validation_attempts_by_batch.get(batch_index, 0) + 1
+    workspace.validation_attempts_by_batch[batch_index] = current_attempt
+
+    if current_attempt > MAX_BATCH_VALIDATION_ATTEMPTS:
+        workspace.status = "FAILED"
+        workspace.terminal_error_code = "BATCH_VALIDATION_RETRY_LIMIT_EXCEEDED"
+        if batch_index not in workspace.repair_batch_indexes:
+            workspace.repair_batch_indexes = sorted(
+                [*workspace.repair_batch_indexes, batch_index]
+            )
+        _store_workspace(tool_context, workspace)
+        response = {
+            "success": False,
+            "stage": "explicit_extraction_failure",
+            "terminal": True,
+            "nextAction": "explicit_extraction_failure",
+            "ingestionId": workspace.ingestion_id,
+            "batchIndex": batch_index,
+            "attempt": current_attempt,
+            "maxAttempts": MAX_BATCH_VALIDATION_ATTEMPTS,
+            "affectedBatchIndexes": [batch_index],
+            "affectedChunkIndexes": (
+                workspace.batches[batch_index].chunk_indexes
+                if 0 <= batch_index < len(workspace.batches)
+                else []
+            ),
+            "repairBatchIndexes": workspace.repair_batch_indexes,
+            "repairAttemptsByBatch": workspace.repair_attempts_by_batch,
+            "validationAttemptsByBatch": workspace.validation_attempts_by_batch,
+            "maxRepairAttempts": MAX_REPAIR_ATTEMPTS,
+            "maxBatchValidationAttempts": MAX_BATCH_VALIDATION_ATTEMPTS,
+            "errors": [
+                {
+                    "code": "BATCH_VALIDATION_RETRY_LIMIT_EXCEEDED",
+                    "message": (
+                        f"Batch {batch_index} exceeded maximum validation retry attempts "
+                        f"({MAX_BATCH_VALIDATION_ATTEMPTS})"
+                    ),
+                },
+                *errors,
+            ],
+        }
+        if extra:
+            response.update(extra)
+        logger.warning(
+            "[INGESTION_ERROR] Phase: BATCH_SUBMIT | Func: submit_ingestion_batch | "
+            "IngestionID: %s | Batch: %s | Terminal validation failure: %s",
+            workspace.ingestion_id,
+            batch_index,
+            response["errors"][0]["message"],
+        )
+        return response
+
+    _store_workspace(tool_context, workspace)
+    response = {
+        "success": False,
+        "ingestionId": workspace.ingestion_id,
+        "stage": stage,
+        "terminal": False,
+        "batchIndex": batch_index,
+        "retryRequired": True,
+        "nextAction": "remap_same_batch",
+        "attempt": current_attempt,
+        "maxAttempts": MAX_BATCH_VALIDATION_ATTEMPTS,
+        "affectedBatchIndexes": [batch_index],
+        "repairBatchIndexes": workspace.repair_batch_indexes,
+        "repairAttemptsByBatch": workspace.repair_attempts_by_batch,
+        "validationAttemptsByBatch": workspace.validation_attempts_by_batch,
+        "maxRepairAttempts": MAX_REPAIR_ATTEMPTS,
+        "maxBatchValidationAttempts": MAX_BATCH_VALIDATION_ATTEMPTS,
+        "errors": errors,
+    }
+    if extra:
+        response.update(extra)
+    return response
+
+
+def _repair_terminal_error(
+    workspace, readiness_fingerprint: str, repair_batch_indexes: list[int]
+) -> str | None:
+    if not repair_batch_indexes:
+        return "UNREPAIRABLE_READINESS_ISSUE"
+    if (
+        workspace.last_finalized_revision == workspace.staging_revision
+        or workspace.last_readiness_fingerprint == readiness_fingerprint
+    ):
+        return "UNCHANGED_RETRY"
+    if any(
+        workspace.repair_attempts_by_batch.get(index, 0) >= MAX_REPAIR_ATTEMPTS
+        for index in repair_batch_indexes
+    ):
+        return "REPAIR_LIMIT_EXCEEDED"
+    return None
 
 
 async def prepare_extraction_context(
@@ -58,17 +169,64 @@ async def prepare_extraction_context(
 async def begin_ingestion(
     artifact_name: str,
     tool_context: ToolContext,
+    reset: bool = False,
 ) -> dict[str, Any]:
     """Prepare the source and create the staged batch-ingestion workspace."""
     logger.info(
-        "[PHASE:BEGIN_INGESTION_START] Func: begin_ingestion | Document: '%s'",
+        "[PHASE:BEGIN_INGESTION_START] Func: begin_ingestion | Document: '%s' | Reset: %s",
         artifact_name,
+        reset,
     )
 
     # Resume Guard: Return active workspace status if ingestion is already in progress for this document
+    raw_workspace = tool_context.state.get(WORKSPACE_STATE_KEY)
     existing_workspace = _load_workspace(tool_context)
-    if (
+    restart_reason = None
+    if reset and existing_workspace is not None:
+        from app.services.ingestion.incremental.staging_store import (
+            IngestionStagingStore,
+        )
+
+        reset_store = IngestionStagingStore()
+        try:
+            reset_store.purge_staging(existing_workspace.ingestion_id)
+        finally:
+            reset_store.close()
+        existing_workspace = None
+        restart_reason = "EXPLICIT_USER_RESET"
+    elif existing_workspace is not None and existing_workspace.status == "FAILED":
+        from app.services.ingestion.incremental.staging_store import (
+            IngestionStagingStore,
+        )
+
+        failed_store = IngestionStagingStore()
+        try:
+            failed_store.purge_staging(existing_workspace.ingestion_id)
+        finally:
+            failed_store.close()
+        existing_workspace = None
+        restart_reason = "TERMINAL_REPAIR_RESTART"
+    elif (
         existing_workspace is not None
+        and isinstance(raw_workspace, dict)
+        and int(raw_workspace.get("stagingSchemaVersion", 1)) < 2
+        and existing_workspace.status != "COMMITTED"
+    ):
+        from app.services.ingestion.incremental.staging_store import (
+            IngestionStagingStore,
+        )
+
+        legacy_store = IngestionStagingStore()
+        try:
+            legacy_store.purge_staging(existing_workspace.ingestion_id)
+        finally:
+            legacy_store.close()
+        existing_workspace = None
+        restart_reason = "STAGING_SCHEMA_MIGRATION"
+
+    if (
+        not reset
+        and existing_workspace is not None
         and existing_workspace.artifact_name == artifact_name
         and existing_workspace.status != "COMMITTED"
     ):
@@ -78,9 +236,10 @@ async def begin_ingestion(
         )
         if current:
             logger.info(
-                "[PHASE:BEGIN_INGESTION_RESUMED] Active workspace found for artifact '%s' (ingestionId=%s). Resuming session.",
+                "[PHASE:BEGIN_INGESTION_RESUMED] Active workspace found for artifact '%s' (ingestionId=%s, status=%s). Returning status.",
                 artifact_name,
                 existing_workspace.ingestion_id,
+                existing_workspace.status,
             )
             status = get_ingestion_status(existing_workspace.ingestion_id, tool_context)
             status["resumed"] = True
@@ -141,7 +300,7 @@ async def begin_ingestion(
 
     first_batch = _get_workspace_service().next_batch(workspace)
     if first_batch is None:
-        return {
+        response = {
             "success": True,
             "stage": "ready_to_finalize",
             "terminal": False,
@@ -157,6 +316,9 @@ async def begin_ingestion(
             "ingestionSignature": workspace.provenance.ingestion_signature,
             "sourceVersionId": workspace.provenance.source_version_id,
         }
+        if restart_reason:
+            response["restartReason"] = restart_reason
+        return response
 
     logger.info(
         "[PHASE:BEGIN_INGESTION_SUCCESS] Func: begin_ingestion | Document: '%s' | "
@@ -180,7 +342,7 @@ async def begin_ingestion(
         batches_summary,
     )
 
-    return {
+    response = {
         "success": True,
         "stage": "batching",
         "terminal": False,
@@ -197,7 +359,11 @@ async def begin_ingestion(
         "ingestionSignature": workspace.provenance.ingestion_signature,
         "sourceVersionId": workspace.provenance.source_version_id,
         "nextBatch": _batch_payload(workspace, first_batch),
+        "nextBatch": _batch_summary(first_batch),
     }
+    if restart_reason:
+        response["restartReason"] = restart_reason
+    return response
 
 
 def submit_ingestion_batch(
@@ -261,11 +427,15 @@ def submit_ingestion_batch(
             "terminal": False,
         }
 
+    if workspace.status in ("FAILED", "COMMITTED"):
+        return get_ingestion_status(ingestion_id, tool_context)
+
     if batch_index < 0 or batch_index >= len(workspace.batches):
         return {
             "success": False,
             "stage": "batch_validation",
             "terminal": True,
+            "ingestionId": ingestion_id,
             "batchIndex": batch_index,
             "errors": [
                 {
@@ -274,6 +444,9 @@ def submit_ingestion_batch(
                 }
             ],
         }
+
+    stored_batch = workspace.batches[batch_index]
+    is_repair = stored_batch.status == "STAGED"
 
     try:
         fragment = GraphPatchFragment.model_validate(graph_fragment)
@@ -317,15 +490,12 @@ def submit_ingestion_batch(
         trace_pprint(
             f"[TRACE][GRAPH_FRAGMENT] Failed to validate GraphPatchFragment for Batch {batch_index}: {exc}"
         )
-        return {
-            "success": False,
-            "stage": "batch_validation",
-            "terminal": False,
-            "batchIndex": batch_index,
-            "retryRequired": True,
-            "nextAction": "remap_same_batch",
-            "errors": [{"code": "FRAGMENT_PARSE_ERROR", "message": str(exc)}],
-        }
+        return _handle_validation_failure(
+            workspace=workspace,
+            batch_index=batch_index,
+            tool_context=tool_context,
+            errors=[{"code": "FRAGMENT_PARSE_ERROR", "message": str(exc)}],
+        )
 
     try:
         _get_workspace_service()._validate_fragment_scope(
@@ -351,16 +521,13 @@ def submit_ingestion_batch(
             batch_index,
             exc,
         )
-        return {
-            "success": False,
-            "stage": "batch_validation",
-            "terminal": False,
-            "batchIndex": batch_index,
-            "retryRequired": True,
-            "nextAction": "remap_same_batch",
-            "errors": [issue.model_dump(by_alias=True, exclude_none=True)],
-            "conflict": getattr(exc, "conflict", {}),
-        }
+        return _handle_validation_failure(
+            workspace=workspace,
+            batch_index=batch_index,
+            tool_context=tool_context,
+            errors=[issue.model_dump(by_alias=True, exclude_none=True)],
+            extra={"conflict": getattr(exc, "conflict", {})},
+        )
 
     term_issues = _get_validation_service().validate_fragment_terms(fragment)
     if term_issues:
@@ -371,18 +538,15 @@ def submit_ingestion_batch(
                 for issue in term_issues
             ],
         )
-        return {
-            "success": False,
-            "stage": "batch_validation",
-            "terminal": False,
-            "batchIndex": batch_index,
-            "retryRequired": True,
-            "nextAction": "remap_same_batch",
-            "errors": [
+        return _handle_validation_failure(
+            workspace=workspace,
+            batch_index=batch_index,
+            tool_context=tool_context,
+            errors=[
                 issue.model_dump(by_alias=True, exclude_none=True)
                 for issue in term_issues
             ],
-        }
+        )
 
     try:
         from app.core.schemas.ingestion.graph_patch import (
@@ -481,16 +645,19 @@ def submit_ingestion_batch(
             batch_index,
             exc,
         )
-        return {
-            "success": False,
-            "stage": "staging_failure",
-            "terminal": False,
-            "batchIndex": batch_index,
-            "retryRequired": True,
-            "nextAction": "remap_same_batch",
-            "errors": [{"code": "STAGING_FAILED", "message": str(exc)}],
-        }
+        return _handle_validation_failure(
+            workspace=workspace,
+            batch_index=batch_index,
+            tool_context=tool_context,
+            stage="staging_failure",
+            errors=[{"code": "STAGING_FAILED", "message": str(exc)}],
+        )
 
+    workspace.validation_attempts_by_batch.pop(batch_index, None)
+    if is_repair:
+        stored_batch.retry_count += 1
+        workspace.repair_attempts_by_batch[batch_index] = stored_batch.retry_count
+    workspace.staging_revision += 1
     stored_batch = workspace.batches[batch_index]
     stored_batch.status = "STAGED"
     stored_batch.node_count = len(fragment.nodes)
@@ -525,8 +692,14 @@ def submit_ingestion_batch(
         "workspaceStats": _workspace_stats(workspace),
     }
 
+    if workspace.repair_batch_indexes:
+        response["repairBatchIndexes"] = workspace.repair_batch_indexes
+        response["repairAttemptsByBatch"] = workspace.repair_attempts_by_batch
+        response["maxRepairAttempts"] = MAX_REPAIR_ATTEMPTS
+
     if next_batch is not None:
         response["nextBatch"] = _batch_payload(workspace, next_batch)
+        response["nextBatch"] = _batch_summary(next_batch)
 
     return response
 
@@ -554,6 +727,9 @@ def finalize_ingestion(
             "terminal": False,
         }
 
+    if workspace.status in ("FAILED", "COMMITTED"):
+        return get_ingestion_status(ingestion_id, tool_context)
+
     pending = [batch.index for batch in workspace.batches if batch.status != "STAGED"]
     if pending:
         issue = ValidationIssue(
@@ -578,6 +754,7 @@ def finalize_ingestion(
         try:
             summary = store.get_staging_summary(ingestion_id)
             staged_chunks = set(store.get_staged_coverage_indexes(ingestion_id))
+            issue_batch_indexes = store.get_issue_batch_indexes(ingestion_id)
             readiness_issues = store.validate_product_offer_has_offer(ingestion_id)
 
             validation_service = _get_validation_service()
@@ -641,6 +818,7 @@ def finalize_ingestion(
             {
                 "code": "PENDING_EDGES",
                 "message": (f"{pending_edge_count} edge(s) have unresolved endpoints"),
+                "batchIndexes": issue_batch_indexes["pendingEdges"],
             }
         )
 
@@ -650,6 +828,7 @@ def finalize_ingestion(
             {
                 "code": "UNRESOLVED_CONFLICTS",
                 "message": (f"{conflict_count} property conflict(s) remain"),
+                "batchIndexes": issue_batch_indexes["conflicts"],
             }
         )
 
@@ -665,7 +844,26 @@ def finalize_ingestion(
             for issue in readiness_issues
             if issue.get("batchIndex") is not None
         }
+        | {
+            int(batch_index)
+            for issue in readiness_issues
+            for batch_index in issue.get("batchIndexes", [])
+            if batch_index is not None
+        }
     )
+
+    affected_chunk_indexes = sorted(
+        {
+            chunk_index
+            for batch in workspace.batches
+            if batch.index in repair_batch_indexes
+            for chunk_index in batch.chunk_indexes
+        }
+        | set(missing_chunks)
+    )
+    readiness_fingerprint = hashlib.sha256(
+        json.dumps(readiness_issues, ensure_ascii=False, sort_keys=True).encode("utf-8")
+    ).hexdigest()[:16]
 
     fingerprint_input = (
         f"{ingestion_id}|"
@@ -674,6 +872,8 @@ def finalize_ingestion(
         f"coverage={summary.get('coverageCount', 0)}|"
         f"pendingEdges={pending_edge_count}|"
         f"conflicts={conflict_count}|"
+        f"batches={len(workspace.batches)}|"
+        f"revision={workspace.staging_revision}"
         f"batches={len(workspace.batches)}"
     )
     staging_fingerprint = hashlib.sha256(fingerprint_input.encode("utf-8")).hexdigest()[
@@ -682,9 +882,57 @@ def finalize_ingestion(
 
     valid_for_persistence = not readiness_issues
 
+    terminal_error_code = (
+        None
+        if valid_for_persistence
+        else _repair_terminal_error(
+            workspace, readiness_fingerprint, repair_batch_indexes
+        )
+    )
+
+    workspace.last_finalized_revision = workspace.staging_revision
+    workspace.last_readiness_fingerprint = (
+        readiness_fingerprint if readiness_issues else None
+    )
+    workspace.repair_batch_indexes = repair_batch_indexes
+    workspace.last_readiness_issues = readiness_issues
+
+    if terminal_error_code is not None:
+        workspace.validated_fingerprint = None
+        workspace.status = "FAILED"
+        workspace.terminal_error_code = terminal_error_code
+        _store_workspace(tool_context, workspace)
+        terminal_result = {
+            "success": False,
+            "stage": "explicit_extraction_failure",
+            "terminal": True,
+            "nextAction": "explicit_extraction_failure",
+            "ingestionId": ingestion_id,
+            "errors": [
+                {
+                    "code": terminal_error_code,
+                    "message": "Ingestion repair did not make bounded progress",
+                }
+            ],
+            "readinessIssues": readiness_issues,
+            "readinessFingerprint": readiness_fingerprint,
+            "affectedBatchIndexes": repair_batch_indexes,
+            "affectedChunkIndexes": affected_chunk_indexes,
+            "repairAttemptsByBatch": workspace.repair_attempts_by_batch,
+            "maxRepairAttempts": MAX_REPAIR_ATTEMPTS,
+            "validationAttemptsByBatch": workspace.validation_attempts_by_batch,
+            "maxBatchValidationAttempts": MAX_BATCH_VALIDATION_ATTEMPTS,
+        }
+        trace_pprint(
+            f"[TRACE][REPAIR_TERMINATED] Ingestion ID {ingestion_id}:",
+            terminal_result,
+        )
+        return terminal_result
+
     workspace.validated_fingerprint = (
         staging_fingerprint if valid_for_persistence else None
     )
+    workspace.terminal_error_code = None
     workspace.status = "READY" if valid_for_persistence else "PROCESSING"
     _store_workspace(tool_context, workspace)
 
@@ -726,10 +974,19 @@ def finalize_ingestion(
         "stage": stage,
         "ready": valid_for_persistence,
         "terminal": False,
+        "terminal": not valid_for_persistence,
         "ingestionId": ingestion_id,
         "validForExtraction": True,
         "validForPersistence": valid_for_persistence,
         "repairBatchIndexes": repair_batch_indexes,
+        "affectedBatchIndexes": repair_batch_indexes,
+        "affectedChunkIndexes": affected_chunk_indexes,
+        "nextAction": "fill" if valid_for_persistence else "repair_batches",
+        "readinessFingerprint": readiness_fingerprint,
+        "repairAttemptsByBatch": workspace.repair_attempts_by_batch,
+        "maxRepairAttempts": MAX_REPAIR_ATTEMPTS,
+        "validationAttemptsByBatch": workspace.validation_attempts_by_batch,
+        "maxBatchValidationAttempts": MAX_BATCH_VALIDATION_ATTEMPTS,
         "nodeCount": summary.get("entityCount", 0),
         "edgeCount": summary.get("edgeCount", 0),
         "pendingEdgeCount": pending_edge_count,
@@ -872,12 +1129,52 @@ def get_ingestion_status(
             "workspaceStats": _workspace_stats(workspace),
         }
 
+    if workspace.status == "FAILED":
+        return {
+            "success": False,
+            "stage": "explicit_extraction_failure",
+            "terminal": True,
+            "nextAction": "explicit_extraction_failure",
+            "ingestionId": ingestion_id,
+            "errors": [
+                {
+                    "code": workspace.terminal_error_code,
+                    "message": "Ingestion repair terminated without progress",
+                    "message": (
+                        "Batch validation retry limit exceeded"
+                        if workspace.terminal_error_code == "BATCH_VALIDATION_RETRY_LIMIT_EXCEEDED"
+                        else "Ingestion repair terminated without progress"
+                    ),
+                }
+            ],
+            "readinessFingerprint": workspace.last_readiness_fingerprint,
+            "repairBatchIndexes": workspace.repair_batch_indexes,
+            "affectedBatchIndexes": workspace.repair_batch_indexes,
+            "affectedChunkIndexes": sorted(
+                chunk_index
+                for batch in workspace.batches
+                if batch.index in workspace.repair_batch_indexes
+                for chunk_index in batch.chunk_indexes
+            ),
+            "readinessIssues": workspace.last_readiness_issues,
+            "repairAttemptsByBatch": workspace.repair_attempts_by_batch,
+            "maxRepairAttempts": MAX_REPAIR_ATTEMPTS,
+            "validationAttemptsByBatch": workspace.validation_attempts_by_batch,
+            "maxBatchValidationAttempts": MAX_BATCH_VALIDATION_ATTEMPTS,
+            "workspaceStats": _workspace_stats(workspace),
+        }
+
     if workspace.status == "READY":
         return {
             "success": True,
             "stage": "ready_to_fill",
             "terminal": False,
+            "nextAction": "fill",
             "ingestionId": ingestion_id,
+            "repairAttemptsByBatch": workspace.repair_attempts_by_batch,
+            "maxRepairAttempts": MAX_REPAIR_ATTEMPTS,
+            "validationAttemptsByBatch": workspace.validation_attempts_by_batch,
+            "maxBatchValidationAttempts": MAX_BATCH_VALIDATION_ATTEMPTS,
             "workspaceStats": _workspace_stats(workspace),
         }
 
@@ -885,17 +1182,42 @@ def get_ingestion_status(
 
     status: dict[str, Any] = {
         "success": True,
+        "stage": (
+            "repair_required"
+            if next_batch is None and workspace.last_readiness_fingerprint
+            else ("ready_to_finalize" if next_batch is None else "batching")
+        ),
         "stage": "ready_to_finalize" if next_batch is None else "batching",
         "terminal": False,
+        "nextAction": (
+            "repair_batches"
+            if next_batch is None and workspace.last_readiness_fingerprint
+            else ("finalize" if next_batch is None else "process_batch")
+        ),
         "ingestionId": ingestion_id,
         "workspaceStats": _workspace_stats(workspace),
         "partial": bool(workspace.skipped_chunk_indexes),
         "skippedChunks": workspace.skipped_chunk_indexes,
         "ingestionWarnings": workspace.ingestion_warnings,
+        "readinessFingerprint": workspace.last_readiness_fingerprint,
+        "repairBatchIndexes": workspace.repair_batch_indexes,
+        "affectedBatchIndexes": workspace.repair_batch_indexes,
+        "affectedChunkIndexes": sorted(
+            chunk_index
+            for batch in workspace.batches
+            if batch.index in workspace.repair_batch_indexes
+            for chunk_index in batch.chunk_indexes
+        ),
+        "readinessIssues": workspace.last_readiness_issues,
+        "repairAttemptsByBatch": workspace.repair_attempts_by_batch,
+        "maxRepairAttempts": MAX_REPAIR_ATTEMPTS,
+        "validationAttemptsByBatch": workspace.validation_attempts_by_batch,
+        "maxBatchValidationAttempts": MAX_BATCH_VALIDATION_ATTEMPTS,
     }
 
     if next_batch is not None:
         status["nextBatch"] = _batch_payload(workspace, next_batch)
+        status["nextBatch"] = _batch_summary(next_batch)
 
     return status
 
@@ -913,6 +1235,9 @@ def get_ingestion_batch(
             "stage": "workspace_precondition",
             "terminal": True,
         }
+
+    if workspace.status in ("FAILED", "COMMITTED"):
+        return get_ingestion_status(ingestion_id, tool_context)
 
     if batch_index < 0 or batch_index >= len(workspace.batches):
         return {
@@ -933,8 +1258,23 @@ def get_ingestion_batch(
         "success": True,
         "stage": "batch_retrieved",
         "terminal": False,
+        "nextAction": "submit_batch",
         "ingestionId": ingestion_id,
         "batch": _batch_payload(workspace, target_batch),
+        "repairBatchIndexes": workspace.repair_batch_indexes,
+        "affectedBatchIndexes": workspace.repair_batch_indexes,
+        "affectedChunkIndexes": sorted(
+            chunk_index
+            for batch in workspace.batches
+            if batch.index in workspace.repair_batch_indexes
+            for chunk_index in batch.chunk_indexes
+        ),
+        "readinessIssues": workspace.last_readiness_issues,
+        "readinessFingerprint": workspace.last_readiness_fingerprint,
+        "repairAttemptsByBatch": workspace.repair_attempts_by_batch,
+        "maxRepairAttempts": MAX_REPAIR_ATTEMPTS,
+        "validationAttemptsByBatch": workspace.validation_attempts_by_batch,
+        "maxBatchValidationAttempts": MAX_BATCH_VALIDATION_ATTEMPTS,
     }
 
 

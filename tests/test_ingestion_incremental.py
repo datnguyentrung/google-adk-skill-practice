@@ -13,7 +13,11 @@ from app.core.schemas.ingestion.persistence import (
     PersistedGraphReceipt,
 )
 from app.core.schemas.ingestion.source import SourceLifecycle
-from app.core.schemas.ingestion.workspace import IngestionProvenance
+from app.core.schemas.ingestion.workspace import (
+    IngestionBatch,
+    IngestionProvenance,
+    IngestionWorkspace,
+)
 from app.services.ingestion.document import DocumentReader
 from app.services.ingestion.identity.semantic_resolution import SemanticEntityResolver
 from app.services.ingestion.incremental import DocumentNotFoundError
@@ -21,7 +25,7 @@ from app.services.ingestion.incremental.cleanup import cleanup_stale_assertions
 from app.services.ingestion.incremental.identity import build_batch_cache_key
 import app.tools.ingestion_tools as ingestion_tools
 from app.services.ingestion.orchestration import state as ingestion_state
-from app.services.ingestion.orchestration.context import _batch_payload
+from app.services.ingestion.orchestration.context import _batch_payload, _batch_summary
 from app.services.ingestion.persistence.service import GraphPersistence
 from app.services.ingestion.persistence.writer import Neo4jGraphStore
 from app.services.ingestion.workspace import IngestionWorkspaceService, staged_ingestion
@@ -67,6 +71,41 @@ def _workspace():
         chunks=[chunk],
     )
     return workspace
+
+
+def _two_batch_workspace():
+    chunks = [
+        DocumentChunk(
+            index=0,
+            source=SOURCE,
+            section="A",
+            content="No graph fact.",
+            documentId="doc_test",
+            chunkId="chk_0",
+            contentHash="hash_0",
+            structuralPath="A#0",
+        ),
+        DocumentChunk(
+            index=1,
+            source=SOURCE,
+            section="B",
+            content="Next batch fact.",
+            documentId="doc_test",
+            chunkId="chk_1",
+            contentHash="hash_1",
+            structuralPath="B#0",
+        ),
+    ]
+    return IngestionWorkspace(
+        ingestionId="ing_two_batch",
+        artifactName=SOURCE,
+        provenance=_provenance(),
+        chunks=chunks,
+        batches=[
+            IngestionBatch(index=0, chunkIndexes=[0], contentChars=len(chunks[0].content)),
+            IngestionBatch(index=1, chunkIndexes=[1], contentChars=len(chunks[1].content)),
+        ],
+    )
 
 
 def _lifecycle() -> SourceLifecycle:
@@ -135,6 +174,85 @@ def test_batch_cache_key_depends_on_graph_context():
     assert (first_key, first_context) == (same_key, same_context)
     assert first_key != changed_key
     assert first_context != changed_context
+
+
+def test_batch_summary_omits_full_payload():
+    workspace = _workspace()
+    batch = workspace.batches[0]
+
+    full_payload = _batch_payload(workspace, batch)
+    summary = _batch_summary(batch)
+
+    assert "chunks" in full_payload
+    assert "canonicalGraphContext" in full_payload
+    assert summary == {
+        "batchIndex": batch.index,
+        "chunkIndexes": batch.chunk_indexes,
+        "contentChars": batch.content_chars,
+        "estimatedInputTokens": 7,
+    }
+    assert "chunks" not in summary
+    assert "canonicalGraphContext" not in summary
+
+
+def test_get_ingestion_batch_returns_full_payload(monkeypatch):
+    workspace = _workspace()
+    context = FakeToolContext()
+    monkeypatch.setattr(
+        ingestion_tools, "_workspace_precondition", lambda *_: (workspace, None)
+    )
+
+    result = ingestion_tools.get_ingestion_batch(workspace.ingestion_id, 0, context)
+
+    assert result["success"] is True
+    assert result["batch"]["batchIndex"] == 0
+    assert result["batch"]["chunks"][0]["content"] == "No graph fact."
+    assert "canonicalGraphContext" in result["batch"]
+
+
+def test_submit_next_batch_response_is_compact(monkeypatch):
+    workspace = _two_batch_workspace()
+    context = FakeToolContext()
+
+    class Store:
+        def find_relevant_entities(self, *args, **kwargs):
+            return []
+
+        def stage_batch_facts(self, **kwargs):
+            return {}
+
+        def close(self):
+            pass
+
+    monkeypatch.setattr(
+        ingestion_tools, "_workspace_precondition", lambda *_: (workspace, None)
+    )
+    monkeypatch.setattr(
+        "app.services.ingestion.incremental.staging_store.IngestionStagingStore",
+        Store,
+    )
+    monkeypatch.setattr(
+        "app.services.ingestion.incremental.pending_edges.resolve_pending_edges",
+        lambda ingestion_id: None,
+    )
+
+    result = ingestion_tools.submit_ingestion_batch(
+        workspace.ingestion_id,
+        0,
+        _empty_fragment().model_dump(by_alias=True, mode="json"),
+        context,
+    )
+
+    assert result["success"] is True
+    assert result["stage"] == "batching"
+    assert result["nextBatch"] == {
+        "batchIndex": 1,
+        "chunkIndexes": [1],
+        "contentChars": len("Next batch fact."),
+        "estimatedInputTokens": 8,
+    }
+    assert "chunks" not in result["nextBatch"]
+    assert "canonicalGraphContext" not in result["nextBatch"]
 
 
 class _FakeValidation:
@@ -467,6 +585,116 @@ def test_stale_cleanup_keeps_facts_owned_by_another_current_source():
     )
 
     assert result == {"properties": 0, "edges": 0, "nodes": 0}
+
+
+def test_finalize_repair_required_is_terminal(monkeypatch):
+    workspace = _workspace()
+    workspace.batches[0].status = "STAGED"
+    context = FakeToolContext()
+
+    class Store:
+        def get_staging_summary(self, ingestion_id):
+            return {
+                "entityCount": 1,
+                "propertyCount": 1,
+                "edgeCount": 0,
+                "pendingEdgeCount": 0,
+                "coverageCount": 1,
+                "conflictCount": 0,
+                "stagedBatchCount": 1,
+            }
+
+        def get_staged_coverage_indexes(self, ingestion_id):
+            return [0]
+
+        def validate_product_offer_has_offer(self, ingestion_id):
+            return []
+
+        def validate_edge_derived_property_relationships(self, *args, **kwargs):
+            return [
+                {
+                    "code": "DERIVED_PROPERTY_REQUIRES_EDGE_EVIDENCE",
+                    "batchIndex": 0,
+                    "propertyName": "pskg:ruleType",
+                }
+            ]
+
+        def close(self):
+            pass
+
+    validation = SimpleNamespace(
+        registry=SimpleNamespace(
+            edge_names_deriving_property=lambda property_name: {"pskg:hasEligibilityRule"}
+        )
+    )
+
+    monkeypatch.setattr(
+        ingestion_tools, "_workspace_precondition", lambda *_: (workspace, None)
+    )
+    monkeypatch.setattr(ingestion_tools, "_get_validation_service", lambda: validation)
+    monkeypatch.setattr(
+        "app.services.ingestion.incremental.staging_store.IngestionStagingStore",
+        Store,
+    )
+
+    result = ingestion_tools.finalize_ingestion(workspace.ingestion_id, context)
+
+    assert result["stage"] == "repair_required"
+    assert result["ready"] is False
+    assert result["terminal"] is True
+    assert result["repairBatchIndexes"] == [0]
+    assert result["readinessIssues"][0]["code"] == "DERIVED_PROPERTY_REQUIRES_EDGE_EVIDENCE"
+
+
+def test_finalize_ready_to_fill_remains_non_terminal(monkeypatch):
+    workspace = _workspace()
+    workspace.batches[0].status = "STAGED"
+    context = FakeToolContext()
+
+    class Store:
+        def get_staging_summary(self, ingestion_id):
+            return {
+                "entityCount": 1,
+                "propertyCount": 1,
+                "edgeCount": 1,
+                "pendingEdgeCount": 0,
+                "coverageCount": 1,
+                "conflictCount": 0,
+                "stagedBatchCount": 1,
+            }
+
+        def get_staged_coverage_indexes(self, ingestion_id):
+            return [0]
+
+        def validate_product_offer_has_offer(self, ingestion_id):
+            return []
+
+        def validate_edge_derived_property_relationships(self, *args, **kwargs):
+            return []
+
+        def close(self):
+            pass
+
+    validation = SimpleNamespace(
+        registry=SimpleNamespace(
+            edge_names_deriving_property=lambda property_name: {"pskg:hasEligibilityRule"}
+        )
+    )
+
+    monkeypatch.setattr(
+        ingestion_tools, "_workspace_precondition", lambda *_: (workspace, None)
+    )
+    monkeypatch.setattr(ingestion_tools, "_get_validation_service", lambda: validation)
+    monkeypatch.setattr(
+        "app.services.ingestion.incremental.staging_store.IngestionStagingStore",
+        Store,
+    )
+
+    result = ingestion_tools.finalize_ingestion(workspace.ingestion_id, context)
+
+    assert result["stage"] == "ready_to_fill"
+    assert result["ready"] is True
+    assert result["terminal"] is False
 
 
 def test_delete_document_calls_reference_counted_source_store(monkeypatch):

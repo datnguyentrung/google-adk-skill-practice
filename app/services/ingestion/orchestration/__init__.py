@@ -3,7 +3,7 @@
 from app.services.ingestion.orchestration.artifact import (
     load_and_prepare_artifact_context,
 )
-from app.services.ingestion.orchestration.context import _batch_payload
+from app.services.ingestion.orchestration.context import _batch_payload, _batch_summary
 from app.services.ingestion.orchestration.receipts import (
     _persist_with_receipt,
     _public_assessment,
@@ -39,6 +39,7 @@ __all__ = [
     "VALIDATED_FINGERPRINT_STATE_KEY",
     "WORKSPACE_STATE_KEY",
     "_batch_payload",
+    "_batch_summary",
     "_batch_stats",
     "_clear_validation_gate",
     "_current_provenance",

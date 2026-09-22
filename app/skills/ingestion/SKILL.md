@@ -117,7 +117,7 @@ Call:
 `begin_ingestion(artifact_name)`
 
 This prepares the source, creates chunks and batches, initializes the ingestion
-workspace, and returns the first `nextBatch`.
+workspace, and returns a compact first `nextBatch` summary.
 
 If an active uncommitted ingestion workspace already exists for the same document,
 `begin_ingestion` will return the existing workspace status with `"resumed": true`
@@ -128,15 +128,22 @@ Keep the returned `ingestionId` for the entire ingestion run.
 If begin fails, stop and report the returned error.
 
 
-### 2. Process the active batch
-Read all chunks contained in `nextBatch`.
+### 2. Retrieve and process the active batch
+
+`nextBatch` returned by `begin_ingestion`, `submit_ingestion_batch`, or
+`get_ingestion_status` is a compact summary only. Before extracting a batch,
+call:
+
+`get_ingestion_batch(ingestion_id, nextBatch.batchIndex)`
+
+Read all chunks contained in the returned `batch`.
 
 Treat the entire batch as one semantic extraction unit.
 
 Do not inspect only the first chunk and assume the remaining chunks belong to the
 same schema domain.
 
-If `nextBatch` contains `canonicalGraphContext`, use it as context about relevant
+If the returned `batch` contains `canonicalGraphContext`, use it as context about relevant
 entities already staged by previous batches.
 
 Canonical graph context is advisory semantic context. It does not replace
@@ -249,7 +256,7 @@ If submission succeeds:
 - treat the batch as staged;
 - discard the completed fragment from working reasoning;
 - inspect the returned state;
-- if another `nextBatch` is returned, repeat steps 2 through 5 for that batch.
+- if another compact `nextBatch` is returned, repeat steps 2 through 5 for that batch.
 
 Never move to the next batch while the current batch remains unresolved.
 
