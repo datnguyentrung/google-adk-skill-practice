@@ -292,19 +292,7 @@ class GraphPersistence:
                                     props_dict[key] = val_json
 
                     # Check target entity
-                    is_target = (
-                        se["className"] in {"pskg:ProductOffer", "ProductOffer"}
-                        or "OFF-TD-2026-01" in str(se["entityKey"])
-                        or "Online Savings Plus" in str(props_dict)
-                    )
-                    if is_target:
-                        print(
-                            "[TRACE][TARGET_ENTITY_PROBING][FILL] Promoting target entity to Neo4j domain node:"
-                        )
-                        print(f"  entityKey: {se['entityKey']}")
-                        print(f"  className: {se['className']} -> label: `{label}`")
-                        print("  props:")
-                        pprint(props_dict, indent=4)
+
 
                     tx.run(
                         f"""

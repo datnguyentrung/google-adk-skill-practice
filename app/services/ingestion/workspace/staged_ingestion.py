@@ -404,9 +404,6 @@ class IngestionWorkspaceService:
                 merged[canonical_temp_id] = incoming.model_copy(deep=True)
                 continue
             if existing.class_name != incoming.class_name:
-                trace_pprint(
-                    f"[TRACE][TARGET_ENTITY_PROBING][CLASS_CONFLICT] Node {incoming.temp_id} attempted class change from {existing.class_name} to {incoming.class_name}!"
-                )
                 raise WorkspaceConflictError(
                     f"Node {incoming.temp_id} changed class from "
                     f"{existing.class_name} to {incoming.class_name}"

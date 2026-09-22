@@ -720,3 +720,69 @@ def test_delete_document_calls_reference_counted_source_store(monkeypatch):
     assert result["operation"] == "delete"
     assert captured["document_id"].startswith("doc_")
     assert captured["if_missing"] == "error"
+
+
+def test_decompose_fragment_anonymous_entities_scoped_to_batch():
+    from app.core.schemas.ingestion.graph_patch import (
+        ChunkCoverage,
+        Evidence,
+        ExtractedNode,
+        ExtractedProperty,
+        GraphPatchFragment,
+    )
+    from app.services.ingestion.incremental.accumulator import decompose_fragment
+
+    frag_batch_0 = GraphPatchFragment(
+        coverage=[ChunkCoverage(chunk_index=0, decision="MAPPED", reason="Mapped rule")],
+        nodes=[
+            ExtractedNode(
+                temp_id="rule-1",
+                class_name="pskg:BusinessRule",
+                confidence=0.9,
+                evidence=[Evidence(source="test.md", chunk_index=0, text="General Policy Rule")],
+                properties=[
+                    ExtractedProperty(
+                        property_name="pskg:ruleType",
+                        value="POLICY",
+                        evidence=[
+                            Evidence(source="test.md", chunk_index=0, text="General Policy Rule")
+                        ],
+                    )
+                ],
+            )
+        ],
+        edges=[],
+    )
+
+    frag_batch_1 = GraphPatchFragment(
+        coverage=[ChunkCoverage(chunk_index=1, decision="MAPPED", reason="Mapped rule")],
+        nodes=[
+            ExtractedNode(
+                temp_id="rule-1",
+                class_name="pskg:BusinessRule",
+                confidence=0.9,
+                evidence=[Evidence(source="test.md", chunk_index=1, text="Eligibility Rule")],
+                properties=[
+                    ExtractedProperty(
+                        property_name="pskg:ruleType",
+                        value="ELIGIBILITY",
+                        evidence=[
+                            Evidence(source="test.md", chunk_index=1, text="Eligibility Rule")
+                        ],
+                    )
+                ],
+            )
+        ],
+        edges=[],
+    )
+
+    ingestion_id = "test_ingestion_id_123"
+    res_0 = decompose_fragment(frag_batch_0, ingestion_id=ingestion_id, batch_index=0)
+    res_1 = decompose_fragment(frag_batch_1, ingestion_id=ingestion_id, batch_index=1)
+
+    key_0 = res_0["entities"][0]["entityKey"]
+    key_1 = res_1["entities"][0]["entityKey"]
+
+    assert key_0 != key_1, "Anonymous entities with same temp_id in different batches must get distinct keys"
+    assert key_0.startswith("entity:pskg:BusinessRule:")
+    assert key_1.startswith("entity:pskg:BusinessRule:")

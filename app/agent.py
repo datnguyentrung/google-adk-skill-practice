@@ -130,12 +130,16 @@ def _compact_ingestion_context(
         )
     )
 
-    from app.core.trace_logger import trace_pprint
+    trailing_turns = len(contents[last_submit_index + 1 :])
+    if trailing_turns == 0:
+        from app.core.trace_logger import trace_pprint
 
-    trace_pprint(
-        f"[TRACE][CONTEXT_COMPACTION] Compacted history from {len(contents)} turns to {len(result) + 1 + len(contents[last_submit_index + 1:])} turns:\n  Checkpoint:",
-        checkpoint,
-    )
+        processed = checkpoint.get("processedBatches", 0)
+        remaining = checkpoint.get("remainingBatches", 0)
+        total = processed + (remaining or 0)
+        trace_pprint(
+            f"[TRACE][CONTEXT_COMPACTION] Compacted history from {len(contents)} turns to {len(result) + 1} turns | IngestionID: {checkpoint.get('ingestionId')} | Progress: {processed}/{total} batches staged"
+        )
 
     result.append(
         types.Content(

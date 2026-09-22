@@ -95,8 +95,8 @@ def test_v2_canonical_reuse_across_batches(clean_staging):
                         evidence=[Evidence(source="banking_product.md", chunk_index=0, text="Mã SP: TD-ONLINE-001")],
                     ),
                     ExtractedProperty(
-                        property_name="pskg:productName",
-                        value="Tiền gửi An Tâm",
+                        property_name="pskg:bankingProductStatus",
+                        value="ACTIVE",
                         evidence=[Evidence(source="banking_product.md", chunk_index=0, text="Sản phẩm Tiền gửi An Tâm")],
                     ),
                 ],
@@ -116,33 +116,38 @@ def test_v2_canonical_reuse_across_batches(clean_staging):
     )
     assert resp_b0["success"] is True
 
-    # Batch 1: Stages Policy node & edge referencing 'prod_an_tam' as source without re-declaring product node
+    # Batch 1: Stages Rule node & edge referencing 'prod_an_tam' as source without re-declaring product node
     fragment_b1 = GraphPatchFragment(
         nodes=[
             ExtractedNode(
-                temp_id="policy_01",
-                class_name="pskg:InterestRatePolicy",
+                temp_id="rule_01",
+                class_name="pskg:BusinessRule",
                 properties=[
                     ExtractedProperty(
-                        property_name="pskg:interestRate",
-                        value="6.5%",
-                        evidence=[Evidence(source="banking_product.md", chunk_index=1, text="Lãi suất 6.5%/năm")],
-                    )
+                        property_name="pskg:ruleType",
+                        value="ELIGIBILITY",
+                        evidence=[Evidence(source="banking_product.md", chunk_index=1, text="Điều kiện mở tài khoản")],
+                    ),
+                    ExtractedProperty(
+                        property_name="pskg:businessRuleCondition",
+                        value="Đủ 18 tuổi",
+                        evidence=[Evidence(source="banking_product.md", chunk_index=1, text="Đủ 18 tuổi")],
+                    ),
                 ],
-                evidence=[Evidence(source="banking_product.md", chunk_index=1, text="Lãi suất 6.5%/năm")],
+                evidence=[Evidence(source="banking_product.md", chunk_index=1, text="Điều kiện mở tài khoản")],
                 confidence=1.0,
             )
         ],
         edges=[
             ExtractedEdge(
                 source_temp_id="prod_an_tam",
-                edge_name="pskg:hasInterestRatePolicy",
-                target_temp_id="policy_01",
+                edge_name="pskg:hasEligibilityRule",
+                target_temp_id="rule_01",
                 evidence=[Evidence(source="banking_product.md", chunk_index=1, text="Áp dụng cho An Tâm")],
                 confidence=1.0,
             )
         ],
-        coverage=[ChunkCoverage(chunk_index=1, decision="MAPPED", reason="Interest policy")],
+        coverage=[ChunkCoverage(chunk_index=1, decision="MAPPED", reason="Eligibility rule")],
     )
 
     resp_b1 = submit_ingestion_batch(
@@ -171,5 +176,5 @@ def test_v2_canonical_reuse_across_batches(clean_staging):
             ingestion_id=ingestion_id,
         ).single()
         assert record is not None
-        assert record["edgeName"] == "pskg:hasInterestRatePolicy"
+        assert record["edgeName"] == "pskg:hasEligibilityRule"
         assert record["sourceEntityKey"] == "pskg:BankingProduct|pskg:productCode|td-online-001"

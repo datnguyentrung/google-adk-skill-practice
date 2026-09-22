@@ -5,6 +5,7 @@ khử trùng node/edge, gộp evidence, điền giá trị do ontology/runtime q
 tính fingerprint để bảo đảm patch không đổi giữa bước validate và bước ghi. Đây là
 bước duy nhất được phép "sửa" dữ liệu LLM trước khi kiểm định."""
 
+import json
 import hashlib
 from dataclasses import dataclass
 from pathlib import Path
@@ -137,20 +138,8 @@ class GraphPatchCompiler:
             `CompilerResult` với `compiled_patch=None` nếu dữ liệu không hợp lệ.
         """
         print(f"\n[TRACE][COMPILER] Input GraphPatchDraft: Nodes={len(draft.nodes)} | Edges={len(draft.edges)} | Coverage={len(draft.coverage)}")
-        
-        # Probe target entity in draft
-        for n in draft.nodes:
-            p_text = " ".join(str(p.value) for p in n.properties)
-            if (
-                n.class_name in {"pskg:ProductOffer", "ProductOffer"}
-                or "Online Savings Plus" in p_text
-                or "OFF-TD-2026-01" in p_text
-                or "OFF-TD-2026-01" in n.temp_id
-            ):
-                print(f"[TRACE][TARGET_ENTITY_PROBING][COMPILER_INPUT] Found target entity in draft:")
-                print(f"  temp_id={n.temp_id}, class_name={n.class_name}")
-                for p in n.properties:
-                    print(f"    - {p.property_name}: {p.value}")
+
+
 
         errors: list[ValidationIssue] = []
         node_builders: list[_NodeBuilder] = []
@@ -328,16 +317,6 @@ class GraphPatchCompiler:
             coverage=tuple(draft.coverage),
             warnings=tuple(draft.warnings),
         )
-        print(f"[TRACE][COMPILER] Compilation SUCCEEDED: Compiled Nodes={len(compiled.nodes)} | Compiled Edges={len(compiled.edges)}")
-        for cn in compiled.nodes:
-            if (
-                cn.class_name in {"pskg:ProductOffer", "ProductOffer"}
-                or "OFF-TD-2026-01" in str(cn.properties)
-                or "Online Savings Plus" in str(cn.properties)
-            ):
-                print(f"[TRACE][TARGET_ENTITY_PROBING][COMPILED_NODE] Target entity in compiled patch: temp_id={cn.temp_id}, class_name={cn.class_name}")
-                print(f"  Properties: {cn.properties}")
-
         return CompilerResult(
             compiled_patch=compiled,
             errors=(),

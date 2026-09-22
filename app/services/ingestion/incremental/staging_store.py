@@ -71,23 +71,7 @@ class IngestionStagingStore:
             staging_payload_summary,
         )
 
-        # Check target entity
-        target_entities = [
-            e
-            for e in entities
-            if e.get("className") in {"pskg:ProductOffer", "ProductOffer"}
-            or "OFF-TD-2026-01" in str(e.get("entityKey", ""))
-            or "OFF-TD-2026-01" in str(e.get("tempId", ""))
-        ]
-        if target_entities:
-            trace_pprint(
-                f"[TRACE][TARGET_ENTITY_PROBING][STAGING] Found target entity in staging payload for Batch {batch_index}:",
-                target_entities,
-            )
-        else:
-            trace_pprint(
-                f"[TRACE][TARGET_ENTITY_PROBING][STAGING] Target entity (ProductOffer / OFF-TD-2026-01) NOT present in entities list for Batch {batch_index}."
-            )
+
 
         driver = self.client.get_driver()
         with driver.session(database=self.client.database_name) as session:
@@ -533,6 +517,28 @@ class IngestionStagingStore:
                 ).data()
             )
             return [r["chunkIndex"] for r in records if r["chunkIndex"] is not None]
+
+    def get_issue_batch_indexes(self, ingestion_id: str) -> dict[str, list[int]]:
+        """Get distinct batch indexes associated with pending edges and conflicts."""
+        driver = self.client.get_driver()
+        with driver.session(database=self.client.database_name) as session:
+            res = session.execute_read(
+                lambda tx: tx.run(
+                    """
+                    OPTIONAL MATCH (p:IngestionPendingEdge {ingestionId: $ingestion_id})
+                    WITH collect(DISTINCT p.batchIndex) AS pendingBatches
+                    OPTIONAL MATCH (c:IngestionConflict {ingestionId: $ingestion_id})
+                    RETURN pendingBatches, collect(DISTINCT c.batchIndex) AS conflictBatches
+                    """,
+                    ingestion_id=ingestion_id,
+                ).single()
+            )
+            if not res:
+                return {"pendingEdges": [], "conflicts": []}
+            return {
+                "pendingEdges": [b for b in (res["pendingBatches"] or []) if b is not None],
+                "conflicts": [b for b in (res["conflictBatches"] or []) if b is not None],
+            }
 
     def validate_product_offer_has_offer(self, ingestion_id: str) -> list[dict[str, Any]]:
         """Validate BR-03 across the full staged canonical graph."""
